@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,5 +25,8 @@ public class Role implements Serializable {
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
+
+    @OneToMany(mappedBy = "role")
+    private Set<Authority> authorities = new LinkedHashSet<>();
 
 }

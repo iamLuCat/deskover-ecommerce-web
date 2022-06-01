@@ -27,4 +27,7 @@ public class Category implements Serializable {
     @Column(name = "slug", nullable = false, length = 50)
     private String slug;
 
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled = false;
+
 }

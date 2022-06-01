@@ -52,4 +52,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled = false;
+
 }

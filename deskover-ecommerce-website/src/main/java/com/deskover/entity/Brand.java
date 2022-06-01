@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +28,11 @@ public class Brand implements Serializable {
 
     @Column(name = "slug", nullable = false, length = 50)
     private String slug;
+
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled = false;
+
+    @OneToMany(mappedBy = "brand")
+    private Set<Product> products = new LinkedHashSet<>();
 
 }
