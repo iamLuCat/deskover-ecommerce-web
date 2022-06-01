@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -48,5 +50,17 @@ public class User implements Serializable {
 
     @Column(name = "enabled", nullable = false)
     private Boolean enabled = false;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<VerificationToken> verificationTokens = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<ShoppingCart> shoppingCarts = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Authority> authorities = new LinkedHashSet<>();
 
 }

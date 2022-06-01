@@ -1,5 +1,6 @@
 package com.deskover.entity;
 
+import com.deskover.dto.CategoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,15 @@ public class Category implements Serializable {
 
     @Column(name = "slug", nullable = false, length = 50)
     private String slug;
+
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled = false;
+
+    public void toDTO (CategoryDTO categoryDTO) {
+        categoryDTO.setId(this.id);
+        categoryDTO.setName(this.name);
+        categoryDTO.setSlug(this.slug);
+        categoryDTO.setEnabled(this.enabled);
+    }
 
 }
