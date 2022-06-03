@@ -16,8 +16,11 @@ import java.io.Serializable;
 @Entity
 @Table(name = "category")
 public class Category implements Serializable {
-    private static final long serialVersionUID = 6741406216094324329L;
-    @Id
+	
+   
+	private static final long serialVersionUID = -6093906572760460870L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -31,11 +34,11 @@ public class Category implements Serializable {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled = false;
 
-    public void toDTO (CategoryDTO categoryDTO) {
-        categoryDTO.setId(this.id);
-        categoryDTO.setName(this.name);
-        categoryDTO.setSlug(this.slug);
-        categoryDTO.setEnabled(this.enabled);
-    }
+//    public void toDTO (CategoryDTO categoryDTO) {
+//        categoryDTO.setId(this.id);
+//        categoryDTO.setName(this.name);
+//        categoryDTO.setSlug(this.slug);
+//        categoryDTO.setEnabled(this.enabled);
+//    }
 
 }

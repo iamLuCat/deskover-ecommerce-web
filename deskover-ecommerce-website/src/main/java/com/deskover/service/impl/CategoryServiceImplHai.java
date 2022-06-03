@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.deskover.entity.Category;
-import com.deskover.repository.CategoryRepositoryHai;
+import com.deskover.repository.CategoryRepository;
 import com.deskover.service.CategoryServiceHai;
 
 @Service
 public class CategoryServiceImplHai implements CategoryServiceHai {
 	
 	@Autowired
-	CategoryRepositoryHai repo;
+	CategoryRepository repo;
 
 	@Override
 	public List<Category> findAll() {
