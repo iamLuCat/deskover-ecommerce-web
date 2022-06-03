@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deskover.entity.Category;
-import com.deskover.service.CategoryService;
+import com.deskover.service.CategoryServiceHai;
 
 @RestController
 @RequestMapping("api/categories/")
 public class CategoryAPI {
 	
 	@Autowired
-	CategoryService categoryService;
+	CategoryServiceHai categoryService;
 	
 	@GetMapping("all")
 	public List<Category> doGetAll(){
