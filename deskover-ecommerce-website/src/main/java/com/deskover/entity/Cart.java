@@ -14,33 +14,29 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "brand")
-public class Brand implements Serializable {
-    private static final long serialVersionUID = -8905123348492179096L;
+@Table(name = "cart")
+public class Cart implements Serializable {
+    private static final long serialVersionUID = 2439601891292335625L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 50)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "description", length = 150)
-    private String description;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
-    @Column(name = "slug", nullable = false, length = 50)
-    private String slug;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
     @Column(name = "modified_at", nullable = false)
     private Instant modifiedAt;
-
-    @Column(name = "deleted_at")
-    private Instant deletedAt;
-
-    @Column(name = "active", nullable = false)
-    private Boolean active = false;
 
 }

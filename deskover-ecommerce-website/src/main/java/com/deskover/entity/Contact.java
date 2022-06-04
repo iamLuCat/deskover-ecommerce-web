@@ -13,19 +13,19 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "order_detail")
-public class OrderDetail implements Serializable {
-    private static final long serialVersionUID = 3544939440474585363L;
+@Table(name = "contact")
+public class Contact implements Serializable {
+    private static final long serialVersionUID = 568706130123470738L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "address", nullable = false)
+    @Column(name = "address", length = 128)
     private String address;
 
     @Column(name = "province", length = 128)
@@ -37,7 +37,10 @@ public class OrderDetail implements Serializable {
     @Column(name = "ward", length = 128)
     private String ward;
 
-    @Column(name = "tel", nullable = false, length = 10)
+    @Column(name = "tel", length = 10)
     private String tel;
+
+    @Column(name = "email", nullable = false, length = 50)
+    private String email;
 
 }

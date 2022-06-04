@@ -14,9 +14,9 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "shopping_cart")
-public class ShoppingCart implements Serializable {
-    private static final long serialVersionUID = 3706773416944008745L;
+@Table(name = "user_password")
+public class UserPassword implements Serializable {
+    private static final long serialVersionUID = -2608379020658112654L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -26,14 +26,10 @@ public class ShoppingCart implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
-    @Column(name = "quantity")
-    private Integer quantity;
-
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
+
+    @Column(name = "modified_date", nullable = false)
+    private Instant modifiedDate;
 
 }

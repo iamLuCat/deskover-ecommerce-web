@@ -8,17 +8,15 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements Serializable {
-    private static final long serialVersionUID = -5012026737421199525L;
+    private static final long serialVersionUID = -5628742024795007956L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -27,40 +25,25 @@ public class User implements Serializable {
     @Column(name = "username", nullable = false, length = 50)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 128)
-    private String password;
-
     @Column(name = "fullname", nullable = false, length = 128)
     private String fullname;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "avatar", length = 128)
+    private String avatar;
 
-    @Column(name = "phone", length = 10)
-    private String phone;
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
 
-    @Column(name = "photo", length = 128)
-    private String photo;
+    @Column(name = "modified_at", nullable = false)
+    private Instant modifiedAt;
 
-    @Column(name = "created_date", nullable = false)
-    private Instant createdDate;
+    @Column(name = "last_login", nullable = false)
+    private Instant lastLogin;
 
-    @Column(name = "update_date")
-    private Instant updateDate;
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = false;
 
-    @Column(name = "enabled", nullable = false)
-    private Boolean enabled = false;
-
-    @OneToMany(mappedBy = "user")
-    private Set<Order> orders = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private Set<VerificationToken> verificationTokens = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private Set<ShoppingCart> shoppingCarts = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private Set<Authority> authorities = new LinkedHashSet<>();
+    @Column(name = "is_verify", nullable = false)
+    private Boolean isVerify = false;
 
 }

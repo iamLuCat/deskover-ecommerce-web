@@ -14,22 +14,22 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "brand")
-public class Brand implements Serializable {
-    private static final long serialVersionUID = -8905123348492179096L;
+@Table(name = "administrator")
+public class Administrator implements Serializable {
+    private static final long serialVersionUID = -7121113521163029495L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 50)
-    private String name;
+    @Column(name = "username", nullable = false, length = 50)
+    private String username;
 
-    @Column(name = "description", length = 150)
-    private String description;
+    @Column(name = "fullname", nullable = false, length = 128)
+    private String fullname;
 
-    @Column(name = "slug", nullable = false, length = 50)
-    private String slug;
+    @Column(name = "last_login")
+    private Instant lastLogin;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
@@ -37,8 +37,9 @@ public class Brand implements Serializable {
     @Column(name = "modified_at", nullable = false)
     private Instant modifiedAt;
 
-    @Column(name = "deleted_at")
-    private Instant deletedAt;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "role_id", nullable = false)
+    private AdminRole role;
 
     @Column(name = "active", nullable = false)
     private Boolean active = false;

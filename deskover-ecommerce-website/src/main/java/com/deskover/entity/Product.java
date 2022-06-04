@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "product")
 public class Product implements Serializable {
-    private static final long serialVersionUID = 4061050020476867672L;
+    private static final long serialVersionUID = -2912277272447941174L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -32,27 +32,39 @@ public class Product implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "quantity")
-    private Integer quantity;
-
     @Column(name = "price")
     private Double price;
 
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
 
-    @Column(name = "status", nullable = false)
-    private Integer status;
+    @Column(name = "modified_date", nullable = false)
+    private Instant modifiedDate;
+
+    @Column(name = "deleted_date")
+    private Instant deletedDate;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active = false;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "sub_category_id", nullable = false)
+    private Subcategory subCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    @Column(name = "enabled", nullable = false)
-    private Boolean enabled = false;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "inventory_id", nullable = false)
+    private Inventory inventory;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "discount_id", nullable = false)
+    private Discount discount;
 
 }

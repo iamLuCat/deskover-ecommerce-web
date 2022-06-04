@@ -14,13 +14,17 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "brand")
-public class Brand implements Serializable {
-    private static final long serialVersionUID = -8905123348492179096L;
+@Table(name = "subcategory")
+public class Subcategory implements Serializable {
+    private static final long serialVersionUID = -5487964078887161995L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
