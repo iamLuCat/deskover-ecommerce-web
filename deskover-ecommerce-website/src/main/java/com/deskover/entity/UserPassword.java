@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "user_password")
 public class UserPassword implements Serializable {
-    private static final long serialVersionUID = 1590855115287113130L;
+    private static final long serialVersionUID = -2608379020658112654L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

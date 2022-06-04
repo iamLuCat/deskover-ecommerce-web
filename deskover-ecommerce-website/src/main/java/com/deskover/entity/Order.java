@@ -8,17 +8,15 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "`order`")
+@Table(name = "orders")
 public class Order implements Serializable {
-    private static final long serialVersionUID = -6589753132530202456L;
+    private static final long serialVersionUID = 3887345717822508619L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -31,25 +29,22 @@ public class Order implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "create_date", nullable = false)
-    private Instant createDate;
-
-    @Column(name = "status", nullable = false)
-    private Integer status;
-
     @Column(name = "full_name", nullable = false, length = 128)
     private String fullName;
 
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "email", length = 128)
+    @Column(name = "tel", nullable = false, length = 10)
+    private String tel;
+
+    @Column(name = "email", length = 50)
     private String email;
 
-    @Column(name = "phone", nullable = false, length = 10)
-    private String phone;
+    @Column(name = "created_date", nullable = false)
+    private Instant createdDate;
 
-    @OneToMany(mappedBy = "order")
-    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+    @Column(name = "status", nullable = false)
+    private Integer status;
 
 }

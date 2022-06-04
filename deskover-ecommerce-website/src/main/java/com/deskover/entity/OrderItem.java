@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "order_item")
 public class OrderItem implements Serializable {
-    private static final long serialVersionUID = 980983697666892563L;
+    private static final long serialVersionUID = 7394337779621874003L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "order_detail")
 public class OrderDetail implements Serializable {
-    private static final long serialVersionUID = 2671945669716176625L;
+    private static final long serialVersionUID = 3544939440474585363L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,14 +25,19 @@ public class OrderDetail implements Serializable {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @Column(name = "address", nullable = false)
+    private String address;
 
-    @Column(name = "quantity", nullable = false)
-    private Integer quantity;
+    @Column(name = "province", length = 128)
+    private String province;
 
-    @Column(name = "price", nullable = false)
-    private Double price;
+    @Column(name = "district", length = 128)
+    private String district;
+
+    @Column(name = "ward", length = 128)
+    private String ward;
+
+    @Column(name = "tel", nullable = false, length = 10)
+    private String tel;
 
 }

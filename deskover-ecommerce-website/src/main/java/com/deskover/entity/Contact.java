@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "contact")
 public class Contact implements Serializable {
-    private static final long serialVersionUID = 8370284658916753558L;
+    private static final long serialVersionUID = 568706130123470738L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

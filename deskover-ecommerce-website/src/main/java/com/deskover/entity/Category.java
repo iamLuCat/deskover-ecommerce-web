@@ -1,6 +1,5 @@
 package com.deskover.entity;
 
-import com.deskover.dto.CategoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "category")
 public class Category implements Serializable {
-    private static final long serialVersionUID = 6741406216094324329L;
+    private static final long serialVersionUID = -1662656431917624660L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,17 +25,22 @@ public class Category implements Serializable {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
+    @Column(name = "description", length = 150)
+    private String description;
+
     @Column(name = "slug", nullable = false, length = 50)
     private String slug;
 
-    @Column(name = "enabled", nullable = false)
-    private Boolean enabled = false;
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
 
-    public void toDTO (CategoryDTO categoryDTO) {
-        categoryDTO.setId(this.id);
-        categoryDTO.setName(this.name);
-        categoryDTO.setSlug(this.slug);
-        categoryDTO.setEnabled(this.enabled);
-    }
+    @Column(name = "modified_at", nullable = false)
+    private Instant modifiedAt;
+
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active = false;
 
 }
