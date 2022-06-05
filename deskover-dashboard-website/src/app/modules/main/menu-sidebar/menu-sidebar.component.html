@@ -1,0 +1,45 @@
+<!-- Brand Logo -->
+<a [routerLink]="['/']" class="brand-link">
+    <img
+        src="assets/img/logo/logo-icon.jpg"
+        alt="Deskover"
+        class="brand-image img-circle elevation-3"
+        style="opacity: 0.8"
+    />
+    <span class="brand-text font-weight-bolder text-primary text-uppercase">Deskover</span>
+</a>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+            <img
+                [src]="user.picture || 'assets/img/default-profile.png'"
+                class="img-circle elevation-2"
+                alt="User Image"
+            />
+        </div>
+        <div class="info">
+            <!-- [routerLink]="['/profile']" -->
+            <a class="d-block">
+                {{ user.email }}
+            </a>
+        </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2" style="overflow-y: hidden">
+        <ul
+            class="nav nav-pills nav-sidebar flex-column"
+            data-widget="treeview"
+            role="menu"
+            data-accordion="false"
+        >
+            <app-menu-item
+                *ngFor="let item of menu"
+                [menuItem]="item"
+            ></app-menu-item>
+        </ul>
+    </nav>
+</div>

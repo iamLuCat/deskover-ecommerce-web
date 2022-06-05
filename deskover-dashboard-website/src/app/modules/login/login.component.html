@@ -1,0 +1,66 @@
+<div class="card card-outline card-danger">
+    <div class="card-header text-center">
+        <a [routerLink]="['/']" class="h1">Cellphone<b>S</b></a>
+    </div>
+    <div class="card-body">
+        <h5 class="login-box-msg font-weight-bold text-uppercase">Đăng nhập</h5>
+
+        <form [formGroup]="loginForm" (ngSubmit)="loginByAuth()">
+            <div class="input-group mb-3">
+                <input formControlName="email" type="email" class="form-control" placeholder="Email" />
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="icon fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input formControlName="password" type="password" class="form-control" placeholder="Mật khẩu" />
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="icon fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-7">
+                    <div class="icheck-danger">
+                        <input type="checkbox" id="remember" />
+                        <label for="remember"> Nhớ tài khoản </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-5">
+                    <app-button [type]="'submit'" [color]="'danger'" [block]="true" [loading]="isAuthLoading"
+                        [disabled]="isFacebookLoading || isGoogleLoading">
+                        Đăng nhập
+                    </app-button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+        <!-- <div class="social-auth-links text-center mb-3">
+            <app-button class="mb-2" [block]="true" [loading]="isFacebookLoading"
+                [disabled]="isAuthLoading || isGoogleLoading" [icon]="'facebook'" (click)="loginByFacebook()">
+                Sign in using Facebook
+            </app-button>
+            <app-button [block]="true" [loading]="isGoogleLoading" [disabled]="isAuthLoading || isFacebookLoading"
+                [icon]="'google'" [color]="'danger'" (click)="loginByGoogle()">
+                Sign in using Google+
+            </app-button>
+        </div> -->
+
+        <div class="d-flex justify-content-between mt-3">
+            <p class="mb-1">
+                <a [routerLink]="['/forgot-password']" class="text-danger">Quên mật khẩu?</a>
+            </p>
+            <p class="mb-0">
+                <a [routerLink]="['/register']" class="text-center text-danger">
+                    Đăng ký thành viên
+                </a>
+            </p>
+        </div>
+    </div>
+    <!-- /.login-card-body -->
+</div>
