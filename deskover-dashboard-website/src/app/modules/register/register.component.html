@@ -1,0 +1,69 @@
+<div class="card card-outline card-danger">
+    <div class="card-header text-center">
+        <a [routerLink]="['/']" class="h1">Cellphone<b>S</b></a>
+    </div>
+    <div class="card-body">
+        <h5 class="login-box-msg text-uppercase font-weight-bold">Đăng ký</h5>
+
+        <form [formGroup]="registerForm" (ngSubmit)="registerByAuth()">
+            <div class="input-group mb-3">
+                <input formControlName="email" type="email" class="form-control" placeholder="Email" />
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="icon fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input formControlName="password" type="password" class="form-control" placeholder="Mật khẩu" />
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="icon fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input formControlName="retypePassword" type="password" class="form-control"
+                    placeholder="Xác nhận mật khẩu" />
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="icon fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-7">
+                    <div class="icheck-primary">
+                        <!-- <input type="checkbox" id="agreeTerms" name="terms" value="agree" />
+                        <label for="agreeTerms">
+                            Tôi đồng ý với <a href="#">các điều khoản</a>
+                        </label> -->
+                        <a [routerLink]="['/login']" class="text-center text-danger">
+                            Tôi đã có tài khoản</a> 
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-5">
+                    <app-button [type]="'submit'" [color]="'danger'" [block]="true" [loading]="isAuthLoading"
+                        [disabled]="isFacebookLoading || isGoogleLoading">
+                        Đăng ký
+                    </app-button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+        <!-- <div class="social-auth-links text-center">
+            <app-button class="mb-2" [block]="true" [loading]="isFacebookLoading"
+                [disabled]="isAuthLoading || isGoogleLoading" [icon]="'facebook'" (click)="registerByFacebook()">
+                Sign up using Facebook
+            </app-button>
+            <app-button [block]="true" [loading]="isGoogleLoading" [disabled]="isAuthLoading || isFacebookLoading"
+                [icon]="'google'" [color]="'danger'" (click)="registerByGoogle()">
+                Sign up using Google+
+            </app-button>
+        </div> -->
+
+        
+    </div>
+</div>
