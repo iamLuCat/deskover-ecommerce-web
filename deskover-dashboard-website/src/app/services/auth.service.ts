@@ -1,33 +1,53 @@
-import { HttpClient } from '@angular/common/http';
-import { IUser } from '@/entites/IUser';
-import { environment } from '../../environments/environment';
-import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {IUser} from '@/entites/IUser';
+import {environment} from '../../environments/environment';
+import {Injectable} from '@angular/core';
+import {ToastrService} from 'ngx-toastr';
+import {Router} from "@angular/router";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  url = `${environment.apiURL}/auth/login`;
-  user: IUser;
-  token: any;
+  public user: any = null;
 
-  constructor(private httpClient: HttpClient, private toastr: ToastrService) { }
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }),
+  };
 
-  // Đăng nhập với email và password, lấy token khi đăng nhập thành công
+  constructor(private httpClient: HttpClient, private router: Router, private toastr: ToastrService) {
+  }
+
+  // Đăng nhập bằng email và mật khẩu, lưu token vào localStorage
   async login(email: string, password: string) {
-    const data = await this.httpClient.post<IUser>(this.url, { email, password }).toPromise();
-    if (data) {
-      return data.token;
-    }
+    await this.httpClient.post(`${environment.apiURL}/auth/login`, {email, password}).pipe(
+      map((data: any) => {
+        localStorage.setItem('token', data.token);
+        this.getProfile();
+        this.router.navigate(['/']);
+      })
+    ).subscribe();
   }
 
   // Lấy thông tin người dùng
   async getProfile() {
-    const data = await this.httpClient.get<IUser>('/api/auth/profile').toPromise();
+    const data = await this.httpClient.get<IUser>(`${environment.apiURL}/auth/profile`).toPromise();
     if (data) {
-      this.user = data;
       return data;
+    } else {
+
     }
+  }
+
+  // Đăng xuất
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('gatekeeper_token');
+    this.user = null;
+    this.router.navigate(['/login']);
   }
 }

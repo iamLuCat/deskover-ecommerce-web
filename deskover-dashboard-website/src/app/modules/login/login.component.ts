@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             await this.appService.loginByAuth(this.loginForm.value);
             this.isAuthLoading = false;
         } else {
-            this.toastr.error('Form is not valid!');
+            this.toastr.error('Biểu mẫu không hợp lệ!');
         }
     }
 
