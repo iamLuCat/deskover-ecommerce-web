@@ -7,7 +7,7 @@ import {ToastrService} from 'ngx-toastr';
   providedIn: 'root'
 })
 export class ApiService {
-  authToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NTQzMjA5ODcsImV4cCI6MTY1NDQwNzM4N30.HGa3oxFBtBSN6vXHjk2FIQMxKBd26eoHl5TOq27R5m5rChaY1cQJlv3H0GUeG38s-pFvOiZakvSdLWDSIXiOwA';
+  authToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NTQ0MTg5MzksImV4cCI6MTY1NDUwNTMzOX0.EOMOTX11zJ9vksPmntTjGB5ZD8XgN82iR5orW5nAm0IALBNVPny7k3wJkv1QPXi2St66vXg6ZSLX4jGViwoq2A';
 
   // Tuỳ chỉnh Http Headers
   httpOptions = {

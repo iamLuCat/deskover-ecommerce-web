@@ -1,7 +1,7 @@
 export default <UiState>{
     darkMode: false,
     navbarVariant: 'navbar-light',
-    sidebarSkin: 'sidebar-light-danger',
+    sidebarSkin: 'sidebar-light-primary',
     menuSidebarCollapsed: false,
     controlSidebarCollapsed: true
     // screenSize: calculateWindowSize(window.innerWidth)
