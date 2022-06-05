@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from "@angular/router";
 import {map} from "rxjs/operators";
+import {RestApiService} from "@services/rest-api.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,41 +13,36 @@ import {map} from "rxjs/operators";
 export class AuthService {
   public user: any = null;
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    }),
-  };
-
-  constructor(private httpClient: HttpClient, private router: Router, private toastr: ToastrService) {
+  constructor(private restApiService: RestApiService, private router: Router, private toastr: ToastrService) {
   }
 
   // Đăng nhập bằng email và mật khẩu, lưu token vào localStorage
   async login(email: string, password: string) {
-    await this.httpClient.post(`${environment.apiURL}/auth/login`, {email, password}).pipe(
-      map((data: any) => {
+    await this.restApiService.post(`${environment.apiURL}/auth/login`, {email, password}).subscribe(
+      (data: any) => {
         localStorage.setItem('token', data.token);
         this.getProfile();
         this.router.navigate(['/']);
-      })
-    ).subscribe();
+      }
+    );
   }
 
   // Lấy thông tin người dùng
   async getProfile() {
-    const data = await this.httpClient.get<IUser>(`${environment.apiURL}/auth/profile`).toPromise();
-    if (data) {
-      return data;
-    } else {
-
-    }
+    const data = await this.restApiService.get(`${environment.apiURL}/auth/profile`).subscribe(
+      (data: any) => {
+        this.user = data;
+      },
+      (error: any) => {
+        this.logout();
+        console.error(error);
+      }
+    );
   }
 
   // Đăng xuất
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('gatekeeper_token');
     this.user = null;
     this.router.navigate(['/login']);
   }
