@@ -228,31 +228,29 @@ CREATE TABLE product (
   modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   deleted_date TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
-  category_id BIGINT NOT NULL,
   sub_category_id BIGINT DEFAULT NULL,
   brand_id BIGINT NOT NULL,
   discount_id BIGINT DEFAULT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT FK_Product_Category FOREIGN KEY (category_id) REFERENCES category (id),
   CONSTRAINT FK_Product_SubCategory FOREIGN KEY (sub_category_id) REFERENCES subcategory (id),
   CONSTRAINT FK_Product_Brand FOREIGN KEY (brand_id) REFERENCES brand (id),
   CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id)
 );
 
-insert product (name,slug,image,price,category_id,sub_category_id,brand_id)
+insert product (name,slug,image,price,sub_category_id,brand_id)
 values 	
 		-- asus
-		('Laptop Asus VivoBook A415EA EB1750W','asus-vivobook-a415ea-eb1750w','asus-vivobook-a415ea-eb1750w',14990000,1,1,1),
-		('Laptop ASUS Vivobook Flip TP470EA EC346W','asus-vivobook-flip-tp470ea-ec346w','asus-vivobook-flip-tp470ea-ec346w',15890000,1,1,1),
-        ('Laptop Asus Vivobook OLED A515EA L12033W','asus-vivobook-a515ea-l12033w','asus-vivobook-a515ea-l12033w',19990000,1,1,1),
-		('Laptop ASUS VivoBook Pro 16X OLED M7600QC L2077W','asus-vivobook-pro-16x-oled-m7600qc-l2077w','asus-vivobook-pro-16x-oled-m7600qc-l2077w',32990000,1,1,1),
-        ('Laptop Asus ZenBook 13 UX325EA KG599W','asus-zenbook-13-ux325ea-kg599w','asus-zenbook-13-ux325ea-kg599w',30890000,1,1,1),
+		('Laptop Asus VivoBook A415EA EB1750W','asus-vivobook-a415ea-eb1750w','asus-vivobook-a415ea-eb1750w',14990000,1,1),
+		('Laptop ASUS Vivobook Flip TP470EA EC346W','asus-vivobook-flip-tp470ea-ec346w','asus-vivobook-flip-tp470ea-ec346w',15890000,1,1),
+        ('Laptop Asus Vivobook OLED A515EA L12033W','asus-vivobook-a515ea-l12033w','asus-vivobook-a515ea-l12033w',19990000,1,1),
+		('Laptop ASUS VivoBook Pro 16X OLED M7600QC L2077W','asus-vivobook-pro-16x-oled-m7600qc-l2077w','asus-vivobook-pro-16x-oled-m7600qc-l2077w',32990000,1,1),
+        ('Laptop Asus ZenBook 13 UX325EA KG599W','asus-zenbook-13-ux325ea-kg599w','asus-zenbook-13-ux325ea-kg599w',30890000,1,1),
 		-- acer
-        ('Laptop Acer Swift X SFX16 51G 50GS','acer-swift-x-sfx16-51g-50gs','acer-swift-x-sfx16-51g-50gs',29990000,1,1,2),
-        ('Laptop Acer Swift 3 SF314 43 R52K','acer-swift-3-sf314-43-r52k','acer-swift-3-sf314-43-r52k',24490000,1,1,2),
-        ('Laptop Acer Swift 3 SF314 43 R4X3','acer-swift-3-sf314-43-r4x3','acer-swift-3-sf314-43-r4x3',20990000,1,1,2),
-		('Laptop Acer Aspire 3 A315 56 37DV','acer-aspire-3-a315-56-37dv','acer-aspire-3-a315-56-37dv',12490000,1,1,2),
-		('Laptop Acer Aspire 5 A515 57 52Y2','acer-aspire-5-a515-57-52y2','acer-aspire-5-a515-57-52y2',18950000,1,1,2)
+        ('Laptop Acer Swift X SFX16 51G 50GS','acer-swift-x-sfx16-51g-50gs','acer-swift-x-sfx16-51g-50gs',29990000,1,2),
+        ('Laptop Acer Swift 3 SF314 43 R52K','acer-swift-3-sf314-43-r52k','acer-swift-3-sf314-43-r52k',24490000,1,2),
+        ('Laptop Acer Swift 3 SF314 43 R4X3','acer-swift-3-sf314-43-r4x3','acer-swift-3-sf314-43-r4x3',20990000,1,2),
+		('Laptop Acer Aspire 3 A315 56 37DV','acer-aspire-3-a315-56-37dv','acer-aspire-3-a315-56-37dv',12490000,1,2),
+		('Laptop Acer Aspire 5 A515 57 52Y2','acer-aspire-5-a515-57-52y2','acer-aspire-5-a515-57-52y2',18950000,1,2)
 ;
 
 -- Lưu trữ
