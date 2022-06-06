@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AppService} from '@services/app.service';
 import {DateTime} from 'luxon';
 import {AuthService} from "@services/auth.service";
 import { environment } from 'environments/environment';

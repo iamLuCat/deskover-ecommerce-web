@@ -17,7 +17,6 @@ export class AuthService {
     try {
       const data = await this.restApiService.post(`${environment.apiURL}/auth/login`, {email, password}).toPromise();
       localStorage.setItem('token', data.accessToken);
-      console.log(data.accessToken);
       await this.getProfile();
       this.router.navigate(['/']);
     } catch (e) {

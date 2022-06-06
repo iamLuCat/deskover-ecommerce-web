@@ -4,7 +4,6 @@ import {UiState} from '@/store/ui/state';
 import {Component, HostBinding, OnInit} from '@angular/core';
 import {FormGroup, FormControl} from '@angular/forms';
 import {Store} from '@ngrx/store';
-import {AppService} from '@services/app.service';
 import {Observable} from 'rxjs';
 import {AuthService} from "@services/auth.service";
 
@@ -20,7 +19,6 @@ export class HeaderComponent implements OnInit {
     public searchForm: FormGroup;
 
     constructor(
-        private appService: AppService,
         private authService: AuthService,
         private store: Store<AppState>
     ) {}

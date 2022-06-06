@@ -2,7 +2,6 @@ import {AppState} from '@/store/state';
 import {UiState} from '@/store/ui/state';
 import {Component, HostBinding, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {AppService} from '@services/app.service';
 import {Observable} from 'rxjs';
 import {AuthService} from "@services/auth.service";
 import {environment} from "../../../../environments/environment";

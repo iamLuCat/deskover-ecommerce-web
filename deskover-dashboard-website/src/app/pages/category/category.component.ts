@@ -3,7 +3,6 @@ import { ICategory } from '@/entites/ICategory';
 import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'environments/environment';
-import { AppService } from '@services/app.service';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import {UrlUtils} from "@/utils/url-utils";
@@ -28,7 +27,7 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('categoryModal') categoryModal: any;
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
-  constructor(private modalService: NgbModal, private apiService: RestApiService, public appService: AppService) {
+  constructor(private modalService: NgbModal, private apiService: RestApiService) {
     this.category = <ICategory>{};
     this.getCategories();
   }

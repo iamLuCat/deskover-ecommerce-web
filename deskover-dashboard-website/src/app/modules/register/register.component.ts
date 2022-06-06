@@ -6,7 +6,6 @@ import {
     HostBinding
 } from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {AppService} from '@services/app.service';
 import {ToastrService} from 'ngx-toastr';
 import {AuthService} from "@services/auth.service";
 
