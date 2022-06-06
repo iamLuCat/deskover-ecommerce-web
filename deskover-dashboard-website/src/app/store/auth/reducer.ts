@@ -1,4 +1,3 @@
-import {Action} from '@ngrx/store';
 import * as AuthActions from './actions';
 
 const initialState = {
@@ -10,7 +9,6 @@ export function authReducer(
   state = initialState,
   action: AuthActions.LoginUser
 ) {
-
   switch (action.type) {
     case AuthActions.LOGIN_USER:
       localStorage.setItem('token', action.payload);
