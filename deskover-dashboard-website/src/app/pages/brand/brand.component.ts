@@ -101,7 +101,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop'; 
+      return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
     }

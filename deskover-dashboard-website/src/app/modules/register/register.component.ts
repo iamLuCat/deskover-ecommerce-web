@@ -8,6 +8,7 @@ import {
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {AppService} from '@services/app.service';
 import {ToastrService} from 'ngx-toastr';
+import {AuthService} from "@services/auth.service";
 
 @Component({
     selector: 'app-register',
@@ -25,7 +26,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     constructor(
         private renderer: Renderer2,
         private toastr: ToastrService,
-        private appService: AppService
+        private authService: AuthService
     ) {}
 
     ngOnInit() {
@@ -43,23 +44,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
     async registerByAuth() {
         if (this.registerForm.valid) {
             this.isAuthLoading = true;
-            await this.appService.registerByAuth(this.registerForm.value);
+            await this.authService.register(this.registerForm.value);
             this.isAuthLoading = false;
         } else {
             this.toastr.error('Form is not valid!');
         }
-    }
-
-    async registerByGoogle() {
-        this.isGoogleLoading = true;
-        await this.appService.registerByGoogle();
-        this.isGoogleLoading = false;
-    }
-
-    async registerByFacebook() {
-        this.isFacebookLoading = true;
-        await this.appService.registerByFacebook();
-        this.isFacebookLoading = false;
     }
 
     ngOnDestroy() {

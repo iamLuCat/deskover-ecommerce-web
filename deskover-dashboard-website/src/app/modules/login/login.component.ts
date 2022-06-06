@@ -8,6 +8,7 @@ import {
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {AppService} from '@services/app.service';
+import {AuthService} from "@services/auth.service";
 
 @Component({
     selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     constructor(
         private renderer: Renderer2,
         private toastr: ToastrService,
-        private appService: AppService
+        private appService: AppService,
+        private authService: AuthService
     ) {}
 
     ngOnInit() {
@@ -33,31 +35,19 @@ export class LoginComponent implements OnInit, OnDestroy {
             'login-page'
         );
         this.loginForm = new FormGroup({
-            email: new FormControl('admin@example.com', Validators.required),
-            password: new FormControl('admin', Validators.required)
+            email: new FormControl('admin@gmail.com', Validators.required),
+            password: new FormControl('123456', Validators.required)
         });
     }
 
     async loginByAuth() {
         if (this.loginForm.valid) {
             this.isAuthLoading = true;
-            await this.appService.loginByAuth(this.loginForm.value);
+            await this.authService.login(this.loginForm.value);
             this.isAuthLoading = false;
         } else {
             this.toastr.error('Form is not valid!');
         }
-    }
-
-    async loginByGoogle() {
-        this.isGoogleLoading = true;
-        await this.appService.loginByGoogle();
-        this.isGoogleLoading = false;
-    }
-
-    async loginByFacebook() {
-        this.isFacebookLoading = true;
-        await this.appService.loginByFacebook();
-        this.isFacebookLoading = false;
     }
 
     ngOnDestroy() {

@@ -1,4 +1,4 @@
-import { ApiService } from './../../services/api.service';
+import { RestApiService } from '@services/rest-api.service';
 import { ICategory } from '@/entites/ICategory';
 import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +27,7 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('categoryModal') categoryModal: any;
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
-  constructor(private modalService: NgbModal, private apiService: ApiService, public appService: AppService) {
+  constructor(private modalService: NgbModal, private apiService: RestApiService, public appService: AppService) {
     this.category = <ICategory>{};
     this.getCategories();
   }
@@ -67,7 +67,7 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getCategories() {
-    this.apiService.getAll(this.url).subscribe(data => {
+    this.apiService.get(this.url).subscribe(data => {
       this.categories = data;
       this.rerender();
     });

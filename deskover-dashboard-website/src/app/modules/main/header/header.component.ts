@@ -6,6 +6,7 @@ import {FormGroup, FormControl} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {AppService} from '@services/app.service';
 import {Observable} from 'rxjs';
+import {AuthService} from "@services/auth.service";
 
 const BASE_CLASSES = 'main-header navbar navbar-expand';
 @Component({
@@ -20,6 +21,7 @@ export class HeaderComponent implements OnInit {
 
     constructor(
         private appService: AppService,
+        private authService: AuthService,
         private store: Store<AppState>
     ) {}
 
@@ -34,7 +36,7 @@ export class HeaderComponent implements OnInit {
     }
 
     logout() {
-        this.appService.logout();
+        this.authService.logout();
     }
 
     onToggleMenuSidebar() {
