@@ -1,4 +1,4 @@
-package com.deskover.dto.GHTKDto;
+package com.deskover.dto.GHTKDto.entity;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressGhtkDto implements Serializable {
+public class AddressGhtk implements Serializable {
 	
 	 /**
 	 * 

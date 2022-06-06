@@ -1,7 +1,10 @@
-package com.deskover.dto.GHTKDto;
+package com.deskover.dto.GHTKDto.reponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import com.deskover.dto.GHTKDto.entity.OrderGhtk;
+import com.deskover.dto.GHTKDto.entity.ProductsGhtk;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DataGhtk implements Serializable {
+public class OrderReponseData implements Serializable {
 	
 	/**
 	 * 
@@ -20,8 +23,8 @@ public class DataGhtk implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private ArrayList<Products> products;
-	private Order order;
+	private ArrayList<ProductsGhtk> products;
+	private OrderGhtk order;
 	
 
 }

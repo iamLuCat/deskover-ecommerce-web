@@ -1,4 +1,4 @@
-package com.deskover.dto.GHTKDto;
+package com.deskover.dto.GHTKDto.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Fee implements Serializable{
+public class FeeGhtk implements Serializable{
     /**
 	 * 
 	 */

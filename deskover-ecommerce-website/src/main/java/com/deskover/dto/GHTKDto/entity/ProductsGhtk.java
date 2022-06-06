@@ -1,4 +1,4 @@
-package com.deskover.dto.GHTKDto;
+package com.deskover.dto.GHTKDto.entity;
 
 import javax.persistence.Id;
 
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Products {
+public class ProductsGhtk {
 	
 	@Id
 	String name;

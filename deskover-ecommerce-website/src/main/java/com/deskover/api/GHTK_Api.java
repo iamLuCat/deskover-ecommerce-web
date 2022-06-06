@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.deskover.constans.UrlConstant;
-import com.deskover.dto.GHTKDto.DataAddressGhtkDto;
-import com.deskover.dto.GHTKDto.Fee;
-import com.deskover.dto.GHTKDto.FeeReponseData;
+import com.deskover.dto.GHTKDto.entity.FeeGhtk;
+import com.deskover.dto.GHTKDto.reponse.AddressReponseData;
+import com.deskover.dto.GHTKDto.reponse.FeeReponseData;
 
 @RestController
 @RequestMapping("v1/api/ghtk")
@@ -32,7 +32,7 @@ public class GHTK_Api {
 	 * @throws Exception
 	 */
 	@PostMapping(path = "/fee", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> Fee(@RequestBody Fee fee) throws Exception {
+	public ResponseEntity<?> Fee(@RequestBody FeeGhtk fee) throws Exception {
 
 		String url = UrlConstant.GHTK_FEE;
 		String token = "2C925D6789957674DcC9121bf419Df1a2F7b0BC3";
@@ -42,7 +42,7 @@ public class GHTK_Api {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Token", token);
 		try {
-			HttpEntity<Fee> request = new HttpEntity<>(fee, headers);
+			HttpEntity<FeeGhtk> request = new HttpEntity<>(fee, headers);
 			FeeReponseData response = restTemplate.postForObject(url, request, FeeReponseData.class);
 			if(response.getFee() == null) {
 				ResponseEntity<String> errorRequest = restTemplate.postForEntity(url, request, String.class);
@@ -56,7 +56,7 @@ public class GHTK_Api {
 	}
 	
 	@GetMapping(path = "/shipment/list_address", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetListAddress(@RequestBody DataAddressGhtkDto  addressGhtkDto) throws Exception {
+	public ResponseEntity<?> doGetListAddress(@RequestBody AddressReponseData  addressGhtkDto) throws Exception {
 
 		String url = UrlConstant.GHTK_LIST_ADDRESS;
 		String token = "2C925D6789957674DcC9121bf419Df1a2F7b0BC3";
@@ -68,9 +68,9 @@ public class GHTK_Api {
 		
 		System.out.println(headers);
 		
-		HttpEntity<DataAddressGhtkDto> request = new HttpEntity<>(addressGhtkDto, headers);
+		HttpEntity<AddressReponseData> request = new HttpEntity<>(addressGhtkDto, headers);
 //		HttpEntity<Fee> request = new HttpEntity<>(headers);
-		DataAddressGhtkDto response = restTemplate.postForObject(url, request, DataAddressGhtkDto.class);
+		AddressReponseData response = restTemplate.postForObject(url, request, AddressReponseData.class);
 
 		return ResponseEntity.ok(response);
 	}

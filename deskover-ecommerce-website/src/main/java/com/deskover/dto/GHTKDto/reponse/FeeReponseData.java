@@ -1,6 +1,8 @@
-package com.deskover.dto.GHTKDto;
+package com.deskover.dto.GHTKDto.reponse;
 
 import java.io.Serializable;
+
+import com.deskover.dto.GHTKDto.entity.FeeReponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
