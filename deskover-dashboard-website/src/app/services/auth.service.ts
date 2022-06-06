@@ -1,10 +1,7 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {IUser} from '@/entites/IUser';
 import {environment} from '../../environments/environment';
 import {Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from "@angular/router";
-import {map} from "rxjs/operators";
 import {RestApiService} from "@services/rest-api.service";
 
 @Injectable({
@@ -13,12 +10,24 @@ import {RestApiService} from "@services/rest-api.service";
 export class AuthService {
   public user: any = null;
 
-  constructor(private restApiService: RestApiService, private router: Router, private toastr: ToastrService) {
-  }
+  constructor(private restApiService: RestApiService, private router: Router, private toastr: ToastrService) {}
 
   // Đăng nhập bằng email và mật khẩu, lưu token vào localStorage
-  async login(email: string, password: string) {
-    await this.restApiService.post(`${environment.apiURL}/auth/login`, {email, password}).subscribe(
+  async login({email, password}) {
+    try {
+      const data = await this.restApiService.post(`${environment.apiURL}/auth/login`, {email, password}).toPromise();
+      localStorage.setItem('token', data.accessToken);
+      console.log(data.accessToken);
+      await this.getProfile();
+      this.router.navigate(['/']);
+    } catch (e) {
+      this.toastr.error(e);
+    }
+  }
+
+  // Đăng ký
+  async register({email, password}) {
+    await this.restApiService.post(`${environment.apiURL}/auth/register`, {email, password}).subscribe(
       (data: any) => {
         localStorage.setItem('token', data.token);
         this.getProfile();
@@ -29,15 +38,12 @@ export class AuthService {
 
   // Lấy thông tin người dùng
   async getProfile() {
-    const data = await this.restApiService.get(`${environment.apiURL}/auth/profile`).subscribe(
-      (data: any) => {
-        this.user = data;
-      },
-      (error: any) => {
-        this.logout();
-        console.error(error);
-      }
-    );
+    try {
+      this.user = await this.restApiService.get(`${environment.apiURL}/auth/profile`).toPromise();
+    } catch (e) {
+      this.logout();
+      throw e;
+    }
   }
 
   // Đăng xuất

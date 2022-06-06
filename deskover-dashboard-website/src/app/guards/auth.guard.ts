@@ -9,12 +9,13 @@ import {
 } from '@angular/router';
 import {Observable} from 'rxjs';
 import {AppService} from '@services/app.service';
+import {AuthService} from "@services/auth.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-    constructor(private router: Router, private appService: AppService) {}
+    constructor(private router: Router, private authService: AuthService) {}
 
     canActivate(
         next: ActivatedRouteSnapshot,
@@ -39,12 +40,12 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
 
     async getProfile() {
-        if (this.appService.user) {
+        if (this.authService.user) {
             return true;
         }
 
         try {
-            await this.appService.getProfile();
+            await this.authService.getProfile();
             return true;
         } catch (error) {
             return false;

@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {RestApiService} from './rest-api.service';
 
-describe('ApiService', () => {
+describe('RestApiService', () => {
     let service: RestApiService;
 
     beforeEach(() => {
