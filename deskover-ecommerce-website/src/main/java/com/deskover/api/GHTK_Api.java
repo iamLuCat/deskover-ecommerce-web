@@ -35,12 +35,11 @@ public class GHTK_Api {
 	public ResponseEntity<?> Fee(@RequestBody FeeGhtk fee) throws Exception {
 
 		String url = UrlConstant.GHTK_FEE;
-		String token = "2C925D6789957674DcC9121bf419Df1a2F7b0BC3";
 
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Token", token);
+		headers.set("Token", UrlConstant.GHTK_TOKEN);
 		try {
 			HttpEntity<FeeGhtk> request = new HttpEntity<>(fee, headers);
 			FeeReponseData response = restTemplate.postForObject(url, request, FeeReponseData.class);
@@ -55,21 +54,25 @@ public class GHTK_Api {
 		}
 	}
 	
+	/**
+	 * @param addressReponse
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping(path = "/shipment/list_address", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetListAddress(@RequestBody AddressReponseData  addressGhtkDto) throws Exception {
+	public ResponseEntity<?> doGetListAddress(@RequestBody AddressReponseData  addressReponse) throws Exception {
 
-		String url = UrlConstant.GHTK_LIST_ADDRESS;
-		String token = "2C925D6789957674DcC9121bf419Df1a2F7b0BC3";
+		String url = UrlConstant.GHTK_LIST_ADDRESS; 
 
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Token", token);
+		headers.set("Token", UrlConstant.GHTK_TOKEN);
 		
 		System.out.println(headers);
 		
-		HttpEntity<AddressReponseData> request = new HttpEntity<>(addressGhtkDto, headers);
-//		HttpEntity<Fee> request = new HttpEntity<>(headers);
+		HttpEntity<AddressReponseData> request = new HttpEntity<>(addressReponse, headers);
+		
 		AddressReponseData response = restTemplate.postForObject(url, request, AddressReponseData.class);
 
 		return ResponseEntity.ok(response);
