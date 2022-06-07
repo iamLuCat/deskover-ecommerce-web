@@ -1,6 +1,8 @@
-<div class="card card-outline card-danger">
+<div class="card card-outline card-primary">
     <div class="card-header text-center">
-        <a [routerLink]="['/']" class="h1">Cellphone<b>S</b></a>
+        <a [routerLink]="['/']" class="h1">
+          <img width="872" class="img-fluid" src="assets/img/logo/logo.jpg">
+        </a>
     </div>
     <div class="card-body">
         <h5 class="login-box-msg font-weight-bold text-uppercase">Đăng nhập</h5>
@@ -31,7 +33,7 @@
                 </div>-->
                 <!-- /.col -->
                 <div class="col-12">
-                    <app-button [type]="'submit'" [color]="'danger'" [block]="true" [loading]="isAuthLoading">
+                    <app-button [type]="'submit'" [color]="'primary'" [block]="true" [loading]="isAuthLoading">
                         Đăng nhập
                     </app-button>
                 </div>
@@ -41,10 +43,10 @@
 
         <div class="d-flex justify-content-between mt-3">
             <p class="mb-1">
-                <a [routerLink]="['/forgot-password']" class="text-danger">Quên mật khẩu?</a>
+                <a [routerLink]="['/forgot-password']" class="text-primary">Quên mật khẩu?</a>
             </p>
             <p class="mb-0">
-                <a [routerLink]="['/register']" class="text-center text-danger">
+                <a [routerLink]="['/register']" class="text-center text-primary">
                     Đăng ký thành viên
                 </a>
             </p>
