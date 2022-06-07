@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
-    private static final long serialVersionUID = -5628742024795007956L;
+    private static final long serialVersionUID = 7633240970764489447L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -40,10 +40,10 @@ public class User implements Serializable {
     @Column(name = "last_login", nullable = false)
     private Instant lastLogin;
 
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive = false;
+    @Column(name = "actived", nullable = false)
+    private Boolean actived = false;
 
-    @Column(name = "is_verify", nullable = false)
-    private Boolean isVerify = false;
+    @Column(name = "verify", nullable = false)
+    private Boolean verify = false;
 
 }

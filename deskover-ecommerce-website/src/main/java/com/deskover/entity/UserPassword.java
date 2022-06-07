@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "user_password")
 public class UserPassword implements Serializable {
-    private static final long serialVersionUID = -2608379020658112654L;
+    private static final long serialVersionUID = 6963216591099619304L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,6 +25,9 @@ public class UserPassword implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column(name = "password", nullable = false, length = 60)
+    private String password;
 
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
