@@ -21,7 +21,7 @@ import java.time.Instant;
 public class AdminRole implements Serializable {
     private static final long serialVersionUID = -6196304595113010812L;
     @Id
-    @Column(name = "id", nullable = false, length = 10)
+    @Column(name = "id", nullable = false, length = 20)
     private String id;
 
     @Column(name = "name", nullable = false, length = 50)

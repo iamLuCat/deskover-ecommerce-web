@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "product")
 public class Product implements Serializable {
-    private static final long serialVersionUID = -2912277272447941174L;
+    private static final long serialVersionUID = 3923053989141861733L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,11 +25,14 @@ public class Product implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "slug", nullable = false, length = 150)
+    private String slug;
+
     @Column(name = "image", nullable = false, length = 150)
     private String image;
 
     @Lob
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "price")
@@ -44,27 +47,19 @@ public class Product implements Serializable {
     @Column(name = "deleted_date")
     private Instant deletedDate;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active = false;
+    @Column(name = "actived", nullable = false)
+    private Boolean actived = false;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "sub_category_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_category_id")
     private Subcategory subCategory;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "inventory_id", nullable = false)
-    private Inventory inventory;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "discount_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "discount_id")
     private Discount discount;
 
 }

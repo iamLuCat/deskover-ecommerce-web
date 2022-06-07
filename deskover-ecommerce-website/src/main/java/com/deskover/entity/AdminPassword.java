@@ -16,16 +16,15 @@ import java.time.Instant;
 @Entity
 @Table(name = "admin_password")
 public class AdminPassword implements Serializable {
-    private static final long serialVersionUID = -828903656955029000L;
+    private static final long serialVersionUID = -2576114564567147443L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "admin_id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "admin_id", nullable = false)
-    private Administrator administrator;
+    private Administrator admin;
 
     @Column(name = "password", nullable = false, length = 60)
     private String password;

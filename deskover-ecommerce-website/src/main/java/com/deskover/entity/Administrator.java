@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "administrator")
 public class Administrator implements Serializable {
-    private static final long serialVersionUID = -7121113521163029495L;
+    private static final long serialVersionUID = -9036502519709796374L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -41,7 +41,7 @@ public class Administrator implements Serializable {
     @JoinColumn(name = "role_id", nullable = false)
     private AdminRole role;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active = false;
+    @Column(name = "actived", nullable = false)
+    private Boolean actived = false;
 
 }

@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "category")
 public class Category implements Serializable {
-    private static final long serialVersionUID = -1662656431917624660L;
+    private static final long serialVersionUID = -8404411530640628703L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -40,7 +40,7 @@ public class Category implements Serializable {
     @Column(name = "deleted_at")
     private Instant deletedAt;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active = false;
+    @Column(name = "actived", nullable = false)
+    private Boolean actived = false;
 
 }
