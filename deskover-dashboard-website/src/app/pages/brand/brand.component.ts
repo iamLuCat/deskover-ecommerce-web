@@ -4,9 +4,8 @@ import { DataTableDirective } from 'angular-datatables';
 import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { AppService } from '@services/app.service';
-import { FirebaseApiService } from '@services/firebase-api.service';
 import Swal from 'sweetalert2';
+import {AuthService} from "@services/auth.service";
 
 @Component({
   selector: 'app-brand',
@@ -27,7 +26,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('brandModal') brandModal: any;
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
-  constructor(private modalService: NgbModal, private apiService: FirebaseApiService, public appService: AppService) {
+  constructor(private modalService: NgbModal, public authService: AuthService) {
     this.brand = <IBrand>{};
   }
 
@@ -59,49 +58,19 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  // Slugify
-  slugify(text: string) {
-    if (text) {
-      return text.toString().toLowerCase().trim()
-        .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, "a")
-        .replace(/[èéẹẻẽêềếệểễ]/g, "e")
-        .replace(/[ìíịỉĩ]/g, "i")
-        .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, "o")
-        .replace(/[ùúụủũưừứựửữ]/g, "u")
-        .replace(/[ỳýỵỷỹ]/g, "y")
-        .replace(/[đ]/g, "d")
-        .replace(/\s+/g, '-')
-        .replace(/[^\w\-]+/g, '')
-        .replace(/\-\-+/g, '-')
-        .replace(/^-+/, '')
-        .replace(/-+$/, '');
-    }
-  }
-
-  // Xác thực URL
-  validateURL(url: string) {
-    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-    return !!pattern.test(url);
-  }
-
   // Modal bootstrap
   openModal(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.closeResult = `Dismissed ${BrandComponent.getDismissReason(reason)}`;
     });
   }
-  private getDismissReason(reason: any): string {
+  private static getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop'; 
+      return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
     }

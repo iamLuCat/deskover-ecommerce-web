@@ -1,0 +1,11 @@
+# ADMIN PROJECT
+
+-- Cài đặt NodeJS và các modules cần thiết --
+
+1. Mở Terminal/CMD với quyền admin và nhập lệnh: winget install OpenJS.NodeJS.LTS
+2. Kiểm tra phiên bản NodeJS: node -v
+3. Mở Terminal/CMD trong thư mục deskover-dashboard-website và nhập lệnh: npm install
+
+-- Khởi chạy Admin Project (Angular 13) --
+
+3. Mở Terminal/CMD trong thư mục deskover-dashboard-website và nhập lệnh: ng serve --open
