@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "verify")
 public class Verify implements Serializable {
-    private static final long serialVersionUID = -4320949608970037578L;
+    private static final long serialVersionUID = -4543099599427129359L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -24,7 +24,7 @@ public class Verify implements Serializable {
     @Column(name = "token", nullable = false)
     private String token;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active = false;
+    @Column(name = "actived", nullable = false)
+    private Boolean actived = false;
 
 }

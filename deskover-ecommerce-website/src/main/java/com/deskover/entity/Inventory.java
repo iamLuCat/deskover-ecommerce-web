@@ -16,11 +16,15 @@ import java.time.Instant;
 @Entity
 @Table(name = "inventory")
 public class Inventory implements Serializable {
-    private static final long serialVersionUID = -2245287539625127882L;
+    private static final long serialVersionUID = -5182783377892454337L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     @Column(name = "quantity", nullable = false)
     private Long quantity;

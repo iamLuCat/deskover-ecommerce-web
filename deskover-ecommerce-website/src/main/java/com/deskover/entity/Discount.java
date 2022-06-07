@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "discount")
 public class Discount implements Serializable {
-    private static final long serialVersionUID = 7838644028913917801L;
+    private static final long serialVersionUID = 7245682534343526382L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -28,11 +28,11 @@ public class Discount implements Serializable {
     @Column(name = "description", nullable = false, length = 50)
     private String description;
 
-    @Column(name = "start", nullable = false)
-    private Instant start;
+    @Column(name = "start_date", nullable = false)
+    private Instant startDate;
 
-    @Column(name = "end")
-    private Instant end;
+    @Column(name = "end_date")
+    private Instant endDate;
 
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;

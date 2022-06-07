@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "order_item")
 public class OrderItem implements Serializable {
-    private static final long serialVersionUID = 7394337779621874003L;
+    private static final long serialVersionUID = 3478508379166085178L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -36,7 +36,7 @@ public class OrderItem implements Serializable {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "create_date", nullable = false)
-    private Instant createDate;
+    @Column(name = "created_date", nullable = false)
+    private Instant createdDate;
 
 }
