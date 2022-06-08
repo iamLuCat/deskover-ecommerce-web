@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.deskover.constans.UrlConstant;
+import com.deskover.constants.UrlConstant;
 import com.deskover.dto.GHTKDto.entity.FeeGhtk;
 import com.deskover.dto.GHTKDto.reponse.AddressReponseData;
 import com.deskover.dto.GHTKDto.reponse.FeeReponseData;
