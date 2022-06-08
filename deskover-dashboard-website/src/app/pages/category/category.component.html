@@ -130,7 +130,7 @@
                             id="name"
                             name="name"
                             [(ngModel)]="category.nameVI"
-                            (keyup)="category.slug = slugify(category.nameVI)"
+                            (keyup)="category.slug = toSlug(category.nameVI)"
                             #name="ngModel"
                             required
                         />

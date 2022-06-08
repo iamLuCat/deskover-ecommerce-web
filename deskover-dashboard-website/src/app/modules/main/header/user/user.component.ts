@@ -1,26 +1,30 @@
 import {Component, OnInit} from '@angular/core';
-import {AppService} from '@services/app.service';
 import {DateTime} from 'luxon';
+import {AuthService} from "@services/auth.service";
+import { environment } from 'environments/environment';
 
 @Component({
-    selector: 'app-user',
-    templateUrl: './user.component.html',
-    styleUrls: ['./user.component.scss']
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-    public user;
+  user: any;
+  avatarURL: string;
 
-    constructor(private appService: AppService) {}
+  constructor(private authService: AuthService) {
+  }
 
-    ngOnInit(): void {
-        this.user = this.appService.user;
-    }
+  ngOnInit(): void {
+    this.user = this.authService.user;
+    this.avatarURL = environment.imageURL + '/avatar/' + this.user.user.photo;
+  }
 
-    logout() {
-        this.appService.logout();
-    }
+  logout() {
+    this.authService.logout();
+  }
 
-    formatDate(date) {
-        return DateTime.fromISO(date).toFormat('dd/MM/yyyy');
-    }
+  formatDate(date) {
+    return DateTime.fromISO(date).toFormat('dd/MM/yyyy');
+  }
 }
