@@ -1,4 +1,4 @@
-package com.deskover.constans;
+package com.deskover.constants;
 
 public class UrlConstant {
 	

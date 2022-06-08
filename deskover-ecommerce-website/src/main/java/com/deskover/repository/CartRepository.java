@@ -1,4 +1,4 @@
-npackage com.deskover.repository;
+package com.deskover.repository;
 
 import com.deskover.entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
