@@ -17,12 +17,13 @@ import java.time.Instant;
 @Table(name = "category")
 public class Category implements Serializable {
     private static final long serialVersionUID = -8404411530640628703L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "description", length = 150)
@@ -40,7 +41,7 @@ public class Category implements Serializable {
     @Column(name = "deleted_at")
     private Instant deletedAt;
 
-    @Column(name = "actived", nullable = false)
-    private Boolean actived = false;
+    @Column(name = "actived")
+    private Boolean actived;
 
 }
