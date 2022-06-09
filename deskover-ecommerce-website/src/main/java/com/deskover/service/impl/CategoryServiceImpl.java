@@ -18,17 +18,32 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	CategoryRepository categoryRepository;
 
+	/**
+	 * Find categories by activated
+	 * @param isActivated - true or false
+	 * @return list of categories by activated
+	 */
 	@Override
-	public List<Category> findAll(Boolean active) {
-		return categoryRepository.findByActived(active);
+	public List<Category> findByActivated(Boolean isActivated) {
+		return categoryRepository.findByActived(isActivated);
 	}
 
+	/**
+	 * Find category by id
+	 * @param id - category id
+	 * @return	category by id
+	 */
 	@Override
 	public Category findById(Long id) {
-		Optional<Category> optional = categoryRepository.findById(id);
-		return optional.isPresent() ? optional.get() : null;
+		return categoryRepository.findById(id).orElse(null);
 	}
 
+	/**
+	 * Update category
+	 * @param category - category to update
+	 * @return category updated
+	 * @throws SQLException - if error occurs
+	 */
 	@Override
 	@Transactional
 	public Category update(Category category) throws SQLException {

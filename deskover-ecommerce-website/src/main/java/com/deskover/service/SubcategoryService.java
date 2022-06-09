@@ -7,7 +7,7 @@ import com.deskover.entity.Subcategory;
 
 public interface SubcategoryService {
 	
-	List<Subcategory> findAllActived(Boolean active);
+	List<Subcategory> findByActivated(Boolean isActivated);
 
 	Subcategory findById(Long id);
 

@@ -7,7 +7,7 @@ import com.deskover.entity.Category;
 
 public interface CategoryService {
 
-	List<Category> findAll(Boolean active);
+	List<Category> findByActivated(Boolean isActivated);
 
 	Category findById(Long id);
 

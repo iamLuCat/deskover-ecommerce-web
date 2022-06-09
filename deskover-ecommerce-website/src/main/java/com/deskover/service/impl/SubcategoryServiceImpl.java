@@ -20,8 +20,8 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 	SubcategoryRepository subcategoryRepository;
 
 	@Override
-	public List<Subcategory> findAllActived(Boolean active) {
-		return subcategoryRepository.findByActived(active);
+	public List<Subcategory> findByActivated(Boolean isActivated) {
+		return subcategoryRepository.findByActived(isActivated);
 	}
 
 	@Override

@@ -27,38 +27,38 @@ public class CategoryApi {
 	
 	@Autowired
 	private CategoryRepository repository;
-	
+
 	/**
-	 * @return Trả về categories đã được kích hoạt
+	 * Get categories is activated
+	 * @return List<Category>
 	 */
-	
-	@GetMapping("/categories/actived")
-	public ResponseEntity<?> doGetAllActived(){
-		List<Category> categories = categoryService.findAll(Boolean.TRUE);
+	@GetMapping("/categories/activated")
+	public ResponseEntity<?> doGetIsActivated(){
+		List<Category> categories = categoryService.findByActivated(Boolean.TRUE);
 		if (categories.isEmpty()) {
-			return ResponseEntity.ok(new MessageResponse("Not Found Category Actived"));
+			return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
 		}
 		return ResponseEntity.ok(categories)  ;
 	}
-	
+
 	/**
-	 * @return Trả về categories chưa được kích hoạt
+	 * Get category is unactivated
+	 * @return Category
 	 */
-	
-	@GetMapping("/categories/unactived")
-	public ResponseEntity<?> doGetAllUnActived(){
-		List<Category> categories = categoryService.findAll(Boolean.FALSE);
+	@GetMapping("/categories/unactivated")
+	public ResponseEntity<?> doGetIsUnactivated(){
+		List<Category> categories = categoryService.findByActivated(Boolean.FALSE);
 		if (categories.isEmpty()) {
 			return ResponseEntity.ok(new MessageResponse("Not Found Category UnActived"));
 		}
 		return ResponseEntity.ok(categories)  ;
 	}
-	
+
 	/**
-	 * @param id:truyền vào Id của category
-	 * @return category cần tìm.
+	 * Get category by id
+	 * @param id category id
+	 * @return Category
 	 */
-	
 	@GetMapping("/categories/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
 		Category category = categoryService.findById(id);
@@ -67,12 +67,12 @@ public class CategoryApi {
 		}
 		return ResponseEntity.ok(category);
 	}
-	
+
 	/**
-	 * @param category 
-	 * @return 
+	 * Create category
+	 * @param category to create
+	 * @return Category created
 	 */
-	
 	@PostMapping("/categories")
 	public ResponseEntity<?> doPostCreate(@RequestBody Category category){
 		try {
@@ -82,12 +82,12 @@ public class CategoryApi {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
-	
+
 	/**
-	 * @param category
-	 * @return
+	 * Update category
+	 * @param category to update
+	 * @return Category updated
 	 */
-	
 	@PutMapping("/categories")
 	public ResponseEntity<?> updateCategory(@RequestBody Category category){
 		try {
