@@ -8,6 +8,12 @@ import org.springframework.validation.BindingResult;
 
 
 public class ValidationUtil {
+
+    /**
+     * Convert BindingResult to List<ValidationError>
+     * @param bindingResult BindingResult to convert
+     * @return List<ValidationError>
+     */
     public static List<ValidationError> ConvertValidationErrors(BindingResult bindingResult) {
         List<ValidationError> errors = new ArrayList<>();
         if (bindingResult != null) {
