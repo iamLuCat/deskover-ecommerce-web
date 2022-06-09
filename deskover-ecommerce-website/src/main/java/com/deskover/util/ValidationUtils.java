@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 
 
 
-public class ValidationUtil {
+public class ValidationUtils {
 
     /**
      * Convert BindingResult to List<ValidationError>
