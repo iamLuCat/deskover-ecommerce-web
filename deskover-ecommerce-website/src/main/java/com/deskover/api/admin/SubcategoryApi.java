@@ -23,36 +23,39 @@ public class SubcategoryApi {
 	
 	@Autowired
 	SubcategoryService subcategoryService;
-	
+
 	/**
-	 * @return Trả về subcategories đã được kích hoạt
+	 * Get subcategories is activated
+	 * @return List<Subcategory>
 	 */
 	
-	@GetMapping("/subcategories/actived")
-	public ResponseEntity<?> doGetAllActived(){
-		List<Subcategory> subcategories = subcategoryService.findAllActived(Boolean.TRUE);
+	@GetMapping("/subcategories/activated")
+	public ResponseEntity<?> doGetIsActivated(){
+		List<Subcategory> subcategories = subcategoryService.findByActivated(Boolean.TRUE);
 		if (subcategories.isEmpty()) {
 			return ResponseEntity.ok(new MessageResponse("Not Found SubCategory Actived"));
 		}
 		return ResponseEntity.ok(subcategories)  ;
 	}
-	
+
 	/**
-	 * @return Trả về subcategories chưa được kích hoạt
+	 * Get subcategory is unactivated
+	 * @return Subcategory
 	 */
 	
-	@GetMapping("/subcategories/unactived")
-	public ResponseEntity<?> doGetAllUnActived(){
-		List<Subcategory> subcategories = subcategoryService.findAllActived(Boolean.FALSE);
+	@GetMapping("/subcategories/unactivated")
+	public ResponseEntity<?> doGetIsUnactivated(){
+		List<Subcategory> subcategories = subcategoryService.findByActivated(Boolean.FALSE);
 		if (subcategories.isEmpty()) {
-			return ResponseEntity.ok(new MessageResponse("Not Found SubCategory UnActived"));
+			return ResponseEntity.ok(new MessageResponse("Not found Subcategory not activated"));
 		}
 		return ResponseEntity.ok(subcategories)  ;
 	}
-	
+
 	/**
-	 * @param id:truyền vào Id của subcategory
-	 * @return category cần tìm.
+	 * Get subcategory by id
+	 * @param id subcategory id
+	 * @return Subcategory
 	 */
 	
 	@GetMapping("/subcategories/{id}")
@@ -63,10 +66,11 @@ public class SubcategoryApi {
 		}
 		return ResponseEntity.ok(subcategory);
 	}
-	
+
 	/**
-	 * @param subcategory 
-	 * @return 
+	 * Create subcategory
+	 * @param subcategory can be created
+	 * @return	Subcategory created
 	 */
 	
 	@PostMapping("/subcategories")
@@ -78,12 +82,13 @@ public class SubcategoryApi {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
-	
+
 	/**
-	 * @param category
-	 * @return
+	 * Update subcategory
+	 * @param subcategory can be updated
+	 * @return Subcategory updated
 	 */
-	
+
 	@PutMapping("/subcategories")
 	public ResponseEntity<?> updateCategory(@RequestBody Subcategory subcategory){
 		try {
