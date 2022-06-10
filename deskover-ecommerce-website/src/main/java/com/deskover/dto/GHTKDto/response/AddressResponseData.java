@@ -1,4 +1,4 @@
-package com.deskover.dto.GHTKDto.reponse;
+package com.deskover.dto.GHTKDto.response;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressReponseData implements Serializable {
+public class AddressResponseData implements Serializable {
 	
 	 /**
 	 * 

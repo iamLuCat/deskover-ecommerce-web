@@ -1,4 +1,4 @@
-package com.deskover.dto.GHTKDto.reponse;
+package com.deskover.dto.GHTKDto.response;
 
 import java.io.Serializable;
 
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeeReponseData implements Serializable {
+public class FeeResponseData implements Serializable {
 	/**
 	 * 
 	 */
