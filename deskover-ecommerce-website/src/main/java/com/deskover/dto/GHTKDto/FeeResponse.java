@@ -1,4 +1,4 @@
-package com.deskover.dto.GHTKDto.entity;
+package com.deskover.dto.GHTKDto;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeeReponse implements Serializable {
+public class FeeResponse implements Serializable {
 	/**
 	 * 
 	 */

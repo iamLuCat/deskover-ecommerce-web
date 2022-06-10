@@ -3,7 +3,7 @@ package com.deskover.dto.GHTKDto.response;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.deskover.dto.GHTKDto.entity.AddressGhtk;
+import com.deskover.dto.GHTKDto.AddressGhtk;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

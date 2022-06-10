@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.deskover.constant.UrlConstant;
-import com.deskover.dto.GHTKDto.entity.FeeGhtk;
+import com.deskover.dto.GHTKDto.FeeGhtk;
 import com.deskover.dto.GHTKDto.response.AddressResponseData;
 import com.deskover.dto.GHTKDto.response.FeeResponseData;
 
