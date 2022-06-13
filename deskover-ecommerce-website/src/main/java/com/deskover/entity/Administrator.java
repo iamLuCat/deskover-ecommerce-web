@@ -17,6 +17,7 @@ import java.time.Instant;
 @Table(name = "administrator")
 public class Administrator implements Serializable {
     private static final long serialVersionUID = -9036502519709796374L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
