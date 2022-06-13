@@ -1,4 +1,4 @@
-package com.deskover.dto.GHTKDto.entity;
+package com.deskover.dto.GHTKDto;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.deskover.constants.UrlConstant;
-import com.deskover.dto.GHTKDto.entity.FeeGhtk;
-import com.deskover.dto.GHTKDto.reponse.AddressReponseData;
-import com.deskover.dto.GHTKDto.reponse.FeeReponseData;
+import com.deskover.constant.UrlConstant;
+import com.deskover.dto.GHTKDto.FeeGhtk;
+import com.deskover.dto.GHTKDto.response.AddressResponseData;
+import com.deskover.dto.GHTKDto.response.FeeResponseData;
 
 import java.util.Objects;
 
@@ -44,7 +44,7 @@ public class GHTK_Api {
 		headers.set("Token", UrlConstant.GHTK_TOKEN);
 		try {
 			HttpEntity<FeeGhtk> request = new HttpEntity<>(fee, headers);
-			FeeReponseData response = restTemplate.postForObject(url, request, FeeReponseData.class);
+			FeeResponseData response = restTemplate.postForObject(url, request, FeeResponseData.class);
 			if(Objects.requireNonNull(response).getFee() == null) {
 				ResponseEntity<String> errorRequest = restTemplate.postForEntity(url, request, String.class);
 				return ResponseEntity.ok(errorRequest.getBody());
@@ -62,7 +62,7 @@ public class GHTK_Api {
 	 * @throws Exception if an error occurs
 	 */
 	@GetMapping(path = "/shipment/list_address", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetListAddress(@RequestBody AddressReponseData  addressResponse) throws Exception {
+	public ResponseEntity<?> doGetListAddress(@RequestBody AddressResponseData addressResponse) throws Exception {
 
 		String url = UrlConstant.GHTK_LIST_ADDRESS; 
 
@@ -73,9 +73,9 @@ public class GHTK_Api {
 		
 		System.out.println(headers);
 		
-		HttpEntity<AddressReponseData> request = new HttpEntity<>(addressResponse, headers);
+		HttpEntity<AddressResponseData> request = new HttpEntity<>(addressResponse, headers);
 		
-		AddressReponseData response = restTemplate.postForObject(url, request, AddressReponseData.class);
+		AddressResponseData response = restTemplate.postForObject(url, request, AddressResponseData.class);
 
 		return ResponseEntity.ok(response);
 	}
