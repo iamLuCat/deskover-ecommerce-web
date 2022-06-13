@@ -49,7 +49,7 @@ public class SubcategoryApi {
 		if (subcategories.isEmpty()) {
 			return ResponseEntity.ok(new MessageResponse("Not found Subcategory not activated"));
 		}
-		return ResponseEntity.ok(subcategories)  ;
+		return ResponseEntity.ok(subcategories);
 	}
 
 	/**
