@@ -1,8 +1,8 @@
-package com.deskover.dto.GHTKDto.reponse;
+package com.deskover.dto.GHTKDto.response;
 
 import java.io.Serializable;
 
-import com.deskover.dto.GHTKDto.entity.FeeReponse;
+import com.deskover.dto.GHTKDto.FeeResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,12 +13,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeeReponseData implements Serializable {
+public class FeeResponseData implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8215042262200510345L;
 	
-	private FeeReponse fee;
+	private FeeResponse fee;
 }
 
