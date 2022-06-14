@@ -1,4 +1,4 @@
-package com.deskover.security.payload;
+package com.deskover.configuration.security.payload;
 
 public class MessageResponse {
 	private String message;

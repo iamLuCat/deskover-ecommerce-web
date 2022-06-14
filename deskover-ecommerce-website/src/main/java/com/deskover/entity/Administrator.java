@@ -45,4 +45,7 @@ public class Administrator implements Serializable {
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "admin")
+    private AdminPassword adminPasswords;
+
 }
