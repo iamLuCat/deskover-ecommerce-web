@@ -54,10 +54,10 @@ public class BrandServiceImpl implements BrandService {
 		if (repo.existsBySlug(brand.getSlug())) {
 			return null;
 		}
-//		brand.setCreatedAt(new Date());
-//		brand.setModifiedAt(null);
-//		brand.setDeletedAt(null);
-//		brand.setActived(Boolean.TRUE);
+		brand.setCreatedAt(new Date());
+		brand.setModifiedAt(null);
+		brand.setDeletedAt(null);
+		brand.setActived(Boolean.TRUE);
 		return repo.save(brand);
 	}
 
@@ -68,16 +68,16 @@ public class BrandServiceImpl implements BrandService {
 		Brand updateBrand = repo.getById(id);
 		updateBrand.setName(brand.getName());
 		updateBrand.setDescription(brand.getDescription());
-		updateBrand.setSlug(brand.getSlug());
-		updateBrand.setCreatedAt(brand.getCreatedAt());
-		updateBrand.setModifiedAt(brand.getModifiedAt());
-		updateBrand.setDeletedAt(null);
-		updateBrand.setActived(brand.getActived());
 		if (brand.getSlug() != null && repo.getById(id).getSlug() != brand.getSlug()) {
 			if (repo.existsBySlug(brand.getSlug())) {
 				return null;
 			}
 		}
+		updateBrand.setSlug(brand.getSlug());
+		updateBrand.setCreatedAt(brand.getCreatedAt());
+		updateBrand.setModifiedAt(brand.getModifiedAt());
+		updateBrand.setDeletedAt(null);
+		updateBrand.setActived(brand.getActived());
 		return repo.saveAndFlush(updateBrand);
 	}
 
