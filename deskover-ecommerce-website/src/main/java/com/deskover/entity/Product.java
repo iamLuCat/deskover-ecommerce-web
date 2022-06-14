@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -64,12 +67,15 @@ public class Product implements Serializable {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<Inventory> inventories = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<Cart> carts = new LinkedHashSet<>();
 

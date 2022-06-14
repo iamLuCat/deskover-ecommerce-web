@@ -1,18 +1,27 @@
 package com.deskover.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,14 +30,19 @@ import java.util.Set;
 @Entity
 @Table(name = "subcategory")
 public class Subcategory implements Serializable {
-    private static final long serialVersionUID = -6798249517976702456L;
-    @Id
+	
+    
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4126721295388601521L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
@@ -53,6 +67,7 @@ public class Subcategory implements Serializable {
     @Column(name = "actived")
     private Boolean actived;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "subCategory")
     private Set<Product> products = new LinkedHashSet<>();
 

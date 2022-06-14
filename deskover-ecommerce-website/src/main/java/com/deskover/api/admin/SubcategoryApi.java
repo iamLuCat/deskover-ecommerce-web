@@ -33,9 +33,9 @@ public class SubcategoryApi {
 	public ResponseEntity<?> doGetIsActivated(){
 		List<Subcategory> subcategories = subcategoryService.findByActivated(Boolean.TRUE);
 		if (subcategories.isEmpty()) {
-			return ResponseEntity.ok(new MessageResponse("Not Found SubCategory Actived"));
+			return ResponseEntity.badRequest().body(new MessageResponse("Not Found SubCategory Actived"));
 		}
-		return ResponseEntity.ok(subcategories)  ;
+		return ResponseEntity.ok(subcategories);
 	}
 
 	/**
