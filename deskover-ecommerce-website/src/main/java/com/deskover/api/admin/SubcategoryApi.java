@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deskover.entity.Subcategory;
-import com.deskover.security.payload.MessageResponse;
+import com.deskover.configuration.security.payload.MessageResponse;
 import com.deskover.service.SubcategoryService;
 
 @RestController
@@ -49,7 +49,7 @@ public class SubcategoryApi {
 		if (subcategories.isEmpty()) {
 			return ResponseEntity.ok(new MessageResponse("Not found Subcategory not activated"));
 		}
-		return ResponseEntity.ok(subcategories)  ;
+		return ResponseEntity.ok(subcategories);
 	}
 
 	/**
