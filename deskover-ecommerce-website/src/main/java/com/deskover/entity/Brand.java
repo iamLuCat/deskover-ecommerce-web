@@ -1,15 +1,22 @@
 package com.deskover.entity;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,13 +41,13 @@ public class Brand implements Serializable {
     private String slug;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private Date createdAt;
 
     @Column(name = "modified_at", nullable = false)
-    private Instant modifiedAt;
+    private Date modifiedAt;
 
     @Column(name = "deleted_at")
-    private Instant deletedAt;
+    private Date deletedAt;
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
