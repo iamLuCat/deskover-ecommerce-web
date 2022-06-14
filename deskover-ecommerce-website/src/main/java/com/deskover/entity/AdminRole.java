@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,5 +33,8 @@ public class AdminRole implements Serializable {
 
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
+
+    @OneToMany(mappedBy = "role")
+    private Set<Administrator> administrators = new LinkedHashSet<>();
 
 }

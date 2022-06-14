@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -50,5 +52,8 @@ public class Subcategory implements Serializable {
 
     @Column(name = "actived")
     private Boolean actived;
+
+    @OneToMany(mappedBy = "subCategory")
+    private Set<Product> products = new LinkedHashSet<>();
 
 }
