@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,5 +44,8 @@ public class Discount implements Serializable {
 
     @Column(name = "deleted_date")
     private Instant deletedDate;
+
+    @OneToMany(mappedBy = "discount")
+    private Set<Product> products = new LinkedHashSet<>();
 
 }

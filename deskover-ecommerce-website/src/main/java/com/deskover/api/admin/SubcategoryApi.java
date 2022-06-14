@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deskover.entity.Subcategory;
-import com.deskover.configuration.security.payload.MessageResponse;
+import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.service.SubcategoryService;
 
 @RestController
