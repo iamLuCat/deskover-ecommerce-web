@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -34,6 +37,7 @@ public class AdminRole implements Serializable {
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "role")
     private Set<Administrator> administrators = new LinkedHashSet<>();
 

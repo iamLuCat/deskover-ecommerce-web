@@ -38,7 +38,7 @@ public class Administrator implements Serializable {
     @Column(name = "modified_at", nullable = false)
     private Instant modifiedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private AdminRole role;
 

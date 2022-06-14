@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -46,6 +49,7 @@ public class Category implements Serializable {
     @Column(name = "actived")
     private Boolean actived;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private Set<Subcategory> subcategories = new LinkedHashSet<>();
 
