@@ -22,10 +22,6 @@ public class AdminPassword implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "admin_id", nullable = false)
-    private Administrator admin;
-
     @Column(name = "password", nullable = false, length = 60)
     private String password;
 
@@ -34,5 +30,9 @@ public class AdminPassword implements Serializable {
 
     @Column(name = "modified_date", nullable = false)
     private Instant modifiedDate;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "admin_id", nullable = false)
+    private Administrator admin;
 
 }

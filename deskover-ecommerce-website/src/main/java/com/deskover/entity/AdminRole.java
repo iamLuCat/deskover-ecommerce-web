@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,14 +19,22 @@ import java.time.Instant;
 @Table(name = "admin_role")
 public class AdminRole implements Serializable {
     private static final long serialVersionUID = -6196304595113010812L;
-    @Id
-    @Column(name = "id", nullable = false, length = 20)
-    private String id;
 
-    @Column(name = "name", nullable = false, length = 50)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Column(name = "name", nullable = false, length = 20)
     private String name;
+
+    @Column(name = "description", nullable = false, length = 50)
+    private String description;
 
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
+
+    @OneToMany(mappedBy = "role")
+    private Set<Administrator> administrators = new LinkedHashSet<>();
 
 }

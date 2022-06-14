@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,5 +48,11 @@ public class Order implements Serializable {
 
     @Column(name = "status", nullable = false)
     private Integer status;
+
+    @OneToMany(mappedBy = "order")
+    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "order")
+    private Set<OrderItem> orderItems = new LinkedHashSet<>();
 
 }

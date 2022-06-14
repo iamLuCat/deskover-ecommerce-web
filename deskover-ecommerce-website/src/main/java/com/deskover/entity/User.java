@@ -8,13 +8,15 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User implements Serializable {
     private static final long serialVersionUID = 7633240970764489447L;
     @Id
@@ -45,5 +47,17 @@ public class User implements Serializable {
 
     @Column(name = "verify", nullable = false)
     private Boolean verify = false;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Contact> contacts = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserPassword> userPasswords = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Cart> carts = new LinkedHashSet<>();
 
 }

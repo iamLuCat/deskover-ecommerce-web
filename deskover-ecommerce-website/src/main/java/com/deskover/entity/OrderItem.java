@@ -39,4 +39,7 @@ public class OrderItem implements Serializable {
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
 
+    @Column(name = "create_date", nullable = false)
+    private Instant createDate;
+
 }
