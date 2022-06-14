@@ -8,16 +8,10 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.swing.*;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication()
 public class DeskoverEcommerceWebsiteApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(DeskoverEcommerceWebsiteApplication.class, args);
 	}
-	
-	@Bean
-	public RestTemplate getRestTemplate() {
-	      return new RestTemplate();
-	 }
 
 }
