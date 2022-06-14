@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
@@ -7,8 +7,7 @@ import {catchError} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
-export class RestApiService {
-  // Tuỳ chỉnh Http Headers
+export class RestApiService{
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -40,15 +39,15 @@ export class RestApiService {
   }
 
   handleError(error: any) {
-    /*let errorMessage = '';
+    let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Nhận lỗi phía máy khách
       errorMessage = error.error.message;
     } else {
       // Nhận lỗi phía máy chủ
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Error Code: ${error.status} - Message: ${error.message}`;
     }
-    return throwError(errorMessage);*/
-    return throwError(error.error.message);
+    return throwError(errorMessage);
+    // return throwError(error.error.message);
   }
 }
