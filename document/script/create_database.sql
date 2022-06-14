@@ -16,18 +16,19 @@ USE deskover;
 --------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE admin_role (
-    id VARCHAR(20) NOT NULL,
-    name VARCHAR(50) NOT NULL,
+	id BIGINT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(20) NOT NULL,
+    `description` VARCHAR(50) NOT NULL,
 	created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
 
-insert admin_role (id,name)
-values 	('ROLE_ADMIN','Quản trị viên'),
-		('ROLE_MANAGER','Nhân viên quản lý'),
-        ('ROLE_STAFF','Nhân viên'),
-		('ROLE_WAREHOUSE','Nhân viên kho'),
-        ('ROLE_SHIPPER','Nhân viên giao hàng')
+insert admin_role (id, `name`, `description`)
+values 	(1, 'ROLE_ADMIN','Quản trị viên'),
+		(2, 'ROLE_MANAGER','Nhân viên quản lý'),
+        (3, 'ROLE_STAFF','Nhân viên'),
+		(4, 'ROLE_WAREHOUSE','Nhân viên kho'),
+        (5, 'ROLE_SHIPPER','Nhân viên giao hàng')
 ;
 
 CREATE TABLE administrator (
@@ -37,7 +38,7 @@ CREATE TABLE administrator (
     last_login TIMESTAMP NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	role_id VARCHAR(20) NOT NULL,
+	role_id BIGINT NOT NULL,
     actived BIT NOT NULL DEFAULT 1,
     PRIMARY KEY (id),
     UNIQUE KEY UQ_Admin_Username (username),
@@ -45,13 +46,13 @@ CREATE TABLE administrator (
 );
 
 insert administrator (username,fullname,role_id)
-values 	('minhnh','Nguyễn Hoài Minh','ROLE_ADMIN'),
-		('vupq','Phạm Quang Vũ','ROLE_ADMIN'),
-		('haipv','Phạm Văn Hải','ROLE_ADMIN'),
-        ('manager1','Nguyễn Thị Lài','ROLE_MANAGER'),
-		('staff1','Nguyễn Tuyết Vân','ROLE_STAFF'),
-        ('staffwarehouse1','Phạm Văn Mạnh','ROLE_WAREHOUSE'),
-        ('shipper1','Nguyễn Mạnh Hùng','ROLE_SHIPPER')
+values 	('minhnh','Nguyễn Hoài Minh',1),
+		('vupq','Phạm Quang Vũ',1),
+		('haipv','Phạm Văn Hải',1),
+        ('manager1','Nguyễn Thị Lài',2),
+		('staff1','Nguyễn Tuyết Vân',3),
+        ('staffwarehouse1','Phạm Văn Mạnh',4),
+        ('shipper1','Nguyễn Mạnh Hùng',5)
 ;
 
 CREATE TABLE admin_password (
@@ -65,19 +66,19 @@ CREATE TABLE admin_password (
 );
 
 insert admin_password (admin_id,password)
-values 	('1','12345678'),
-		('2','12345678'),
-		('3','12345678'),
-        ('4','12345678'),
-		('5','12345678'),
-        ('6','12345678'),
-        ('7','12345678')
+values 	('1','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+		('2','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+		('3','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+        ('4','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+		('5','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+        ('6','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+        ('7','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i')
 ;
 
 --------------------------------------------------------------------------------------------------------------
 -- Người dùng
 
-CREATE TABLE users (
+CREATE TABLE `user` (
   id BIGINT NOT NULL AUTO_INCREMENT,
   username VARCHAR(50) NOT NULL,
   fullname VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
@@ -91,7 +92,7 @@ CREATE TABLE users (
   UNIQUE KEY UQ_User_Username (username)
 );
 
-insert users (username,fullname,verify)
+insert `user` (username,fullname,verify)
 values 	('huynq','Nguyễn Quang Huy',1),
 		('minhbd','Bùi Đức Minh',1)
 ;
@@ -108,7 +109,7 @@ CREATE TABLE contact (
   PRIMARY KEY (`id`),
   UNIQUE KEY UQ_Contact_Tel (tel),
   UNIQUE KEY UQ_Contact_Email (email),
-  CONSTRAINT FK_Contact_User FOREIGN KEY (user_id) REFERENCES users(id)
+  CONSTRAINT FK_Contact_User FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
 
 insert contact (user_id,email)
@@ -123,7 +124,7 @@ CREATE TABLE user_password (
   created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  CONSTRAINT FK_Password_User FOREIGN KEY (user_id) REFERENCES users (id)
+  CONSTRAINT FK_Password_User FOREIGN KEY (user_id) REFERENCES `user` (id)
 );
 
 insert user_password (user_id,password)
@@ -292,7 +293,7 @@ CREATE TABLE orders (
   status INT NOT NULL DEFAULT '0',
   PRIMARY KEY (id),
   UNIQUE KEY UQ_Order_OrderCode (order_code),
-  CONSTRAINT FK_Order_User FOREIGN KEY (user_id) REFERENCES users (id)
+  CONSTRAINT FK_Order_User FOREIGN KEY (user_id) REFERENCES `user` (id)
 );
 
 -- Chi tiết đơn đặt hàng
@@ -335,7 +336,7 @@ CREATE TABLE cart (
   PRIMARY KEY (id),
   KEY FK_Cart_User (user_id),
   CONSTRAINT FK_Cart_Product FOREIGN KEY (product_id) REFERENCES product (id),
-  CONSTRAINT FK_Cart_User FOREIGN KEY (user_id) REFERENCES users (id)
+  CONSTRAINT FK_Cart_User FOREIGN KEY (user_id) REFERENCES `user` (id)
 );
 
 --------------------------------------------------------------------------------------------------------------
