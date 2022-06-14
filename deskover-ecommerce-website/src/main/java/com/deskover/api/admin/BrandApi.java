@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deskover.entity.Brand;
+import com.deskover.repository.BrandRepository;
 import com.deskover.security.payload.MessageResponse;
 import com.deskover.service.BrandService;
 
@@ -24,6 +25,8 @@ public class BrandApi {
 	@Autowired
 	BrandService service;
 
+	@Autowired
+	BrandRepository repo;
 	/**
 	 * Get All brand
 	 * @return List<Brand>
@@ -83,6 +86,9 @@ public class BrandApi {
 	@PostMapping("/brand/create")
 	public ResponseEntity<?> doCreate(@RequestBody Brand brand){
 		try {
+			if(repo.existsBySlug(brand.getSlug())) {
+				return ResponseEntity.ok(new MessageResponse("Slug này đã tồn tại"));
+			}
 			service.create(brand);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -99,6 +105,21 @@ public class BrandApi {
 	public ResponseEntity<?> doDelete(@PathVariable("id") Long id){
 		try {
 			service.delete(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+	}
+	
+	@PutMapping("/brand/update/{id}")
+	public ResponseEntity<?> doUpdate(@PathVariable("id") Long id,@RequestBody Brand brand){
+		try {
+			if (brand.getSlug() != null && service.get(id).getSlug().equals(brand.getSlug())) {
+				service.update(id,brand);
+			}else if(brand.getSlug() != null && service.existsBySlug(brand.getSlug())){
+				return ResponseEntity.ok(new MessageResponse("Slug này đã tồn tại"));
+			}
+			service.update(id,brand);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
