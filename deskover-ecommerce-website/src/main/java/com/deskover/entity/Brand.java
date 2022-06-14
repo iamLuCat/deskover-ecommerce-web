@@ -2,12 +2,15 @@ package com.deskover.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -48,5 +51,8 @@ public class Brand implements Serializable {
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
+
+    @OneToMany(mappedBy = "brand")
+    private Set<Product> products = new LinkedHashSet<>();
 
 }

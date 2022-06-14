@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -61,5 +63,14 @@ public class Product implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discount_id")
     private Discount discount;
+
+    @OneToMany(mappedBy = "product")
+    private Set<Inventory> inventories = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "product")
+    private Set<OrderItem> orderItems = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "product")
+    private Set<Cart> carts = new LinkedHashSet<>();
 
 }

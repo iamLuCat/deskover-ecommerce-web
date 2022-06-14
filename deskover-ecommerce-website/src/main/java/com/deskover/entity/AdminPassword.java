@@ -22,8 +22,6 @@ public class AdminPassword implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
-
     @Column(name = "password", nullable = false, length = 60)
     private String password;
 
