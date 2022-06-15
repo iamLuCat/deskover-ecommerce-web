@@ -41,7 +41,7 @@ public class AdminRole implements Serializable {
     private Timestamp createdDate;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "role")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
     private Set<AdminAuthority> adminAuthorities = new LinkedHashSet<>();
 
 }
