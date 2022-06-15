@@ -1,27 +1,18 @@
 package com.deskover.entity;
 
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,19 +21,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "subcategory")
 public class Subcategory implements Serializable {
-	
-    
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4126721295388601521L;
-
-	@Id
+    private static final long serialVersionUID = -6798249517976702456L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
@@ -56,13 +42,16 @@ public class Subcategory implements Serializable {
     private String slug;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     @Column(name = "modified_at", nullable = false)
-    private Instant modifiedAt;
+    @CreationTimestamp
+    private Timestamp modifiedAt;
 
     @Column(name = "deleted_at")
-    private Instant deletedAt;
+    @CreationTimestamp
+    private Timestamp deletedAt;
 
     @Column(name = "actived")
     private Boolean actived;
