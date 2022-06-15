@@ -1,5 +1,6 @@
 package com.deskover.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,6 +50,7 @@ public class Brand implements Serializable {
     @CreationTimestamp
     private Timestamp deletedAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "brand")
     private Set<Product> products = new LinkedHashSet<>();
 

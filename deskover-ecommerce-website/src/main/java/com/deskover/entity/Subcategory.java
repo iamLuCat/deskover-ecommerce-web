@@ -1,5 +1,6 @@
 package com.deskover.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,6 +56,7 @@ public class Subcategory implements Serializable {
     @Column(name = "actived")
     private Boolean actived;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "subCategory")
     private Set<Product> products = new LinkedHashSet<>();
 
