@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -33,17 +34,20 @@ public class Brand implements Serializable {
     @Column(name = "slug", nullable = false, length = 50)
     private String slug;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @Column(name = "modified_at", nullable = false)
-    private Instant modifiedAt;
-
-    @Column(name = "deleted_at")
-    private Instant deletedAt;
-
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
+
+    @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @Column(name = "modified_at", nullable = false)
+    @CreationTimestamp
+    private Timestamp modifiedAt;
+
+    @Column(name = "deleted_at")
+    @CreationTimestamp
+    private Timestamp deletedAt;
 
     @OneToMany(mappedBy = "brand")
     private Set<Product> products = new LinkedHashSet<>();

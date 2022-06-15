@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -30,9 +31,6 @@ public class Product implements Serializable {
     @Column(name = "slug", nullable = false, length = 150)
     private String slug;
 
-    @Column(name = "image", nullable = false, length = 150)
-    private String image;
-
     @Lob
     @Column(name = "description")
     private String description;
@@ -40,14 +38,20 @@ public class Product implements Serializable {
     @Column(name = "price")
     private Double price;
 
+    @Column(name = "image", length = 150)
+    private String image;
+
     @Column(name = "created_date", nullable = false)
-    private Instant createdDate;
+    @CreationTimestamp
+    private Timestamp createdDate;
 
     @Column(name = "modified_date", nullable = false)
-    private Instant modifiedDate;
+    @CreationTimestamp
+    private Timestamp modifiedDate;
 
     @Column(name = "deleted_date")
-    private Instant deletedDate;
+    @CreationTimestamp
+    private Timestamp deletedDate;
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;

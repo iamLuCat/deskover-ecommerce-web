@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -34,13 +35,16 @@ public class User implements Serializable {
     private String avatar;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     @Column(name = "modified_at", nullable = false)
-    private Instant modifiedAt;
+    @CreationTimestamp
+    private Timestamp modifiedAt;
 
     @Column(name = "last_login", nullable = false)
-    private Instant lastLogin;
+    @CreationTimestamp
+    private Timestamp lastLogin;
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;

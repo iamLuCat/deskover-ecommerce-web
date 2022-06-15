@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,9 +35,11 @@ public class Cart implements Serializable {
     private Integer quantity;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     @Column(name = "modified_at", nullable = false)
-    private Instant modifiedAt;
+    @CreationTimestamp
+    private Timestamp modifiedAt;
 
 }

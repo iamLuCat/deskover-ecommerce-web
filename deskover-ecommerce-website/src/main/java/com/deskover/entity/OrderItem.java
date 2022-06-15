@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,9 +38,7 @@ public class OrderItem implements Serializable {
     private Double price;
 
     @Column(name = "created_date", nullable = false)
-    private Instant createdDate;
-
-    @Column(name = "create_date", nullable = false)
-    private Instant createDate;
+    @CreationTimestamp
+    private Timestamp createdDate;
 
 }

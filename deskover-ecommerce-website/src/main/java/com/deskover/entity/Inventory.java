@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,6 +31,7 @@ public class Inventory implements Serializable {
     private Long quantity;
 
     @Column(name = "modified_date", nullable = false)
-    private Instant modifiedDate;
+    @CreationTimestamp
+    private Timestamp modifiedDate;
 
 }

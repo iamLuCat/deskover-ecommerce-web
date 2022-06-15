@@ -1,13 +1,15 @@
 package com.deskover.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -32,9 +34,11 @@ public class AdminRole implements Serializable {
     private String description;
 
     @Column(name = "created_date", nullable = false)
-    private Instant createdDate;
+    @CreationTimestamp
+    private Timestamp createdDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "role")
-    private Set<Administrator> administrators = new LinkedHashSet<>();
+    private Set<AdminAuthority> adminAuthorities = new LinkedHashSet<>();
 
 }

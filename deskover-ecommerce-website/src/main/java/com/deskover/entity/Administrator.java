@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,22 +31,23 @@ public class Administrator implements Serializable {
     private String fullname;
 
     @Column(name = "last_login")
-    private Instant lastLogin;
+    private Timestamp lastLogin;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     @Column(name = "modified_at", nullable = false)
-    private Instant modifiedAt;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "role_id", nullable = false)
-    private AdminRole role;
+    @CreationTimestamp
+    private Timestamp modifiedAt;
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "admin")
     private AdminPassword adminPasswords;
+
+    @Column(name = "avatar", length = 128)
+    private String avatar;
 
 }

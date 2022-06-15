@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -44,10 +45,12 @@ public class Order implements Serializable {
     private String email;
 
     @Column(name = "created_date", nullable = false)
-    private Instant createdDate;
+    @CreationTimestamp
+    private Timestamp createdDate;
 
     @Column(name = "status", nullable = false)
-    private Integer status;
+    @CreationTimestamp
+    private Timestamp status;
 
     @OneToMany(mappedBy = "order")
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
