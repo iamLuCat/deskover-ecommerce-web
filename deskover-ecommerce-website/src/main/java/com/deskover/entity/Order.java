@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -52,9 +55,11 @@ public class Order implements Serializable {
     @CreationTimestamp
     private Timestamp status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "order")
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 

@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -52,15 +55,19 @@ public class User implements Serializable {
     @Column(name = "verify", nullable = false)
     private Boolean verify = false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Contact> contacts = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<UserPassword> userPasswords = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Cart> carts = new LinkedHashSet<>();
 

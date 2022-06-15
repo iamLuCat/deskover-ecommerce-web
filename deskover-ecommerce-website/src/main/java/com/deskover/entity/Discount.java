@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -51,6 +54,7 @@ public class Discount implements Serializable {
     @CreationTimestamp
     private Timestamp deletedDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "discount")
     private Set<Product> products = new LinkedHashSet<>();
 
