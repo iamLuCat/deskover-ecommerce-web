@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {AppRoutingModule} from '@/app-routing.module';
 import {AppComponent} from './app.component';
@@ -42,6 +42,7 @@ import {CategoryComponent} from '@pages/category/category.component';
 import {BrandComponent} from '@pages/brand/brand.component';
 import {DataTablesModule} from 'angular-datatables';
 import {RestApiService} from "@services/rest-api.service";
+import {AuthInterceptor} from "@/interceptor/auth-interceptor";
 
 registerLocaleData(localeEn, 'en-EN');
 
@@ -91,7 +92,9 @@ registerLocaleData(localeEn, 'en-EN');
         NgbModule,
         DataTablesModule
     ],
-    providers: [],
+    providers: [
+      { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
