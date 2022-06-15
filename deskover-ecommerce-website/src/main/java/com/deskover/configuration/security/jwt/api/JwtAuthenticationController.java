@@ -22,7 +22,7 @@ import com.deskover.configuration.security.jwt.JwtUserDetailsService;
 import com.deskover.util.JwtTokenUtil;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class JwtAuthenticationController {
 	@Autowired
 	private AuthenticationManager authenticationManager;

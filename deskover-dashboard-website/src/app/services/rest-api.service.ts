@@ -1,5 +1,5 @@
-import {Injectable, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {catchError} from "rxjs/operators";
@@ -8,34 +8,28 @@ import {catchError} from "rxjs/operators";
   providedIn: 'root'
 })
 export class RestApiService{
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    })
-  };
 
   constructor(private httpClient: HttpClient, private toastr: ToastrService) {
   }
 
   get(link: string): Observable<any> {
-    return this.httpClient.get(link, this.httpOptions).pipe(catchError(this.handleError));
+    return this.httpClient.get(link).pipe(catchError(this.handleError));
   }
 
   getOne(link: string, id: any): Observable<any> {
-    return this.httpClient.get(link + '/' + id, this.httpOptions).pipe(catchError(this.handleError));
+    return this.httpClient.get(link + '/' + id).pipe(catchError(this.handleError));
   }
 
   post(link: string, body: any): Observable<any> {
-    return this.httpClient.post(link, body, this.httpOptions).pipe(catchError(this.handleError));
+    return this.httpClient.post(link, body).pipe(catchError(this.handleError));
   }
 
   put(link: string, id: number, body: any): Observable<any> {
-    return this.httpClient.put(link + '/' + id, body, this.httpOptions).pipe(catchError(this.handleError));
+    return this.httpClient.put(link + '/' + id, body).pipe(catchError(this.handleError));
   }
 
   delete(link: string, id: number) {
-    return this.httpClient.delete(link + '/' + id, this.httpOptions).pipe(catchError(this.handleError));
+    return this.httpClient.delete(link + '/' + id).pipe(catchError(this.handleError));
   }
 
   handleError(error: any) {

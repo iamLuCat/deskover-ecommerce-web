@@ -1,7 +1,7 @@
 <app-dropdown class="user-menu">
   <ng-container dropdown-button>
     <img
-      [src]="avatarURL || 'assets/img/default-profile.png'"
+      [src]="'assets/img/avatar/default-profile.png'"
       class="user-image img-circle elevation-2"
       alt="User Image"
     />
@@ -9,17 +9,17 @@
   <ng-container dropdown-menu>
     <li class="user-header bg-primary">
       <img
-        [src]="avatarURL || 'assets/img/default-profile.png'"
+        [src]="'assets/img/avatar/default-profile.png'"
         class="img-circle elevation-2"
         alt="User Image"
       />
 
       <p>
         <span>{{ user.username }}</span>
-        <small>
+        <!--<small>
           <span>Ngày đăng ký: &nbsp;</span>
           <span>{{ formatDate(user.user.createdDate) }}</span>
-        </small>
+        </small>-->
       </p>
     </li>
     <!-- Menu Body -->

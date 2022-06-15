@@ -1,11 +1,8 @@
 import {environment} from '../../environments/environment';
 import {Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
-import {Router} from "@angular/router";
-import {RestApiService} from "@services/rest-api.service";
-import {HttpClient} from "@angular/common/http";
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import {Router} from '@angular/router';
+import {RestApiService} from '@services/rest-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +10,24 @@ import { catchError } from 'rxjs/operators';
 export class AuthService {
   public user: any = null;
 
-  constructor(private httpClient: HttpClient, private restApiService: RestApiService, private router: Router, private toastr: ToastrService) {
+  constructor(
+    private restApiService: RestApiService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
   }
 
   // Đăng nhập bằng email và mật khẩu, lưu token vào localStorage
-  async login({email, password}) {
+  async login({username, password}) {
     try {
-      const data = await this.httpClient.post<any>(`${environment.apiURL}/auth/login`, {email, password}).pipe(catchError(this.handleError)).toPromise();
-      localStorage.setItem('token', data.accessToken);
+      const data = await this.restApiService
+        .post(`${environment.globalUrl.login}`, {
+          username,
+          password
+        })
+        .toPromise();
+      console.log(data.token);
+      localStorage.setItem('token', data.token);
       await this.getProfile();
       this.router.navigate(['/']);
     } catch (e) {
@@ -31,7 +38,15 @@ export class AuthService {
   // Đăng ký
   async register({email, password}) {
     try {
-      const data = await this.httpClient.post<any>(`${environment.apiURL}/auth/register`, {email, password}).pipe(catchError(this.handleError)).toPromise();
+      const data = await this.restApiService
+        .post(
+          `${environment.globalUrl.baseApi}`,
+          {
+            email,
+            password
+          }
+        )
+        .toPromise();
       localStorage.setItem('token', data.accessToken);
       await this.getProfile();
       this.router.navigate(['/']);
@@ -43,11 +58,9 @@ export class AuthService {
   // Lấy thông tin người dùng
   async getProfile() {
     try {
-      this.user = await this.httpClient.get<any>(`${environment.apiURL}/auth/profile`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      }).pipe(catchError(this.handleError)).toPromise();
+      this.user = await this.restApiService
+        .get(`${environment.globalUrl.profile}`)
+        .toPromise();
     } catch (e) {
       this.logout();
       throw e;
@@ -59,15 +72,5 @@ export class AuthService {
     localStorage.removeItem('token');
     this.user = null;
     this.router.navigate(['/login']);
-  }
-
-  handleError(error: any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = `Error Code: ${error.status}\n - Message: ${error.message}`;
-    }
-    return throwError(errorMessage);
   }
 }
