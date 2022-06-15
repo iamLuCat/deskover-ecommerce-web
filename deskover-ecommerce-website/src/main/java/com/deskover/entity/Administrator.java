@@ -54,7 +54,7 @@ public class Administrator implements Serializable {
     private AdminPassword adminPasswords;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "admin")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
     private Set<AdminAuthority> adminAuthorities = new LinkedHashSet<>();
 
 }
