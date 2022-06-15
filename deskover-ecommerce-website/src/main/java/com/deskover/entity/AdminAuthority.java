@@ -16,6 +16,7 @@ import java.io.Serializable;
 @Table(name = "admin_authority")
 public class AdminAuthority implements Serializable {
     private static final long serialVersionUID = 8233794620734552409L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

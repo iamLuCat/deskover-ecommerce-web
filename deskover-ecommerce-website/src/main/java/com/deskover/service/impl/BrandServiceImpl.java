@@ -1,5 +1,6 @@
 package com.deskover.service.impl;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class BrandServiceImpl implements BrandService {
 		if (repo.existsBySlug(brand.getSlug())) {
 			return null;
 		}
-		brand.setCreatedAt(new Date());
+		brand.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		brand.setModifiedAt(null);
 		brand.setDeletedAt(null);
 		brand.setActived(Boolean.TRUE);
@@ -86,7 +87,7 @@ public class BrandServiceImpl implements BrandService {
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		Brand deleteBrand = repo.getById(id);
-		deleteBrand.setDeletedAt(new Date());
+		deleteBrand.setDeletedAt(new Timestamp((System.currentTimeMillis())));
 		deleteBrand.setActived(Boolean.FALSE);
 		repo.saveAndFlush(deleteBrand);
 	}

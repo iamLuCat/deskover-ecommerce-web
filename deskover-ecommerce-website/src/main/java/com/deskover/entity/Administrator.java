@@ -1,5 +1,6 @@
 package com.deskover.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,10 +47,14 @@ public class Administrator implements Serializable {
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 
+    @Column(name = "avatar", length = 128)
+    private String avatar;
+
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "admin")
     private AdminPassword adminPasswords;
 
-    @Column(name = "avatar", length = 128)
-    private String avatar;
+    @JsonIgnore
+    @OneToMany(mappedBy = "admin")
+    private Set<AdminAuthority> adminAuthorities = new LinkedHashSet<>();
 
 }
