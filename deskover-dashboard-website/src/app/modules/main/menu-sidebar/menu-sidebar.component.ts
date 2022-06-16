@@ -19,8 +19,6 @@ export class MenuSidebarComponent implements OnInit {
   public user: any;
   public menu = MENU;
 
-  avatarURL: string;
-
   constructor(
     public authService: AuthService,
     private store: Store<AppState>
@@ -33,7 +31,6 @@ export class MenuSidebarComponent implements OnInit {
       this.classes = `${BASE_CLASSES} ${state.sidebarSkin}`;
     });
     this.user = this.authService.user;
-    this.avatarURL = environment.imageURL + '/avatar/' + this.user.user.photo;
   }
 }
 

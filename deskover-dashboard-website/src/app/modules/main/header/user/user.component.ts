@@ -10,14 +10,12 @@ import { environment } from 'environments/environment';
 })
 export class UserComponent implements OnInit {
   user: any;
-  avatarURL: string;
 
   constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.user = this.authService.user;
-    this.avatarURL = environment.imageURL + '/avatar/' + this.user.user.photo;
   }
 
   logout() {

@@ -12,6 +12,11 @@ public class AdminServiceImpl implements AdminService {
     private AdministratorRepository repo;
 
     @Override
+    public Administrator getById(Long id) {
+        return repo.getById(id);
+    }
+
+    @Override
     public Administrator getByUsername(String username) {
         return repo.findByUsername(username);
     }

@@ -18,7 +18,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
   closeResult: string;
   key!: string;
 
-  url = environment.apiURL + "/brands";
+  url = environment.globalUrl + "/brands";
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();

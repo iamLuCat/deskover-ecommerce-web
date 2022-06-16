@@ -19,7 +19,7 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
   closeResult: string;
   isEdit: boolean = false;
 
-  url = environment.apiURL + "/categories";
+  url = environment.globalUrl.baseApi + "/categories";
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();

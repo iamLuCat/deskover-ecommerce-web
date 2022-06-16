@@ -9,7 +9,7 @@
 
         <form [formGroup]="loginForm" (ngSubmit)="loginByAuth()">
             <div class="input-group mb-3">
-                <input formControlName="email" type="email" class="form-control" placeholder="Email" />
+                <input formControlName="username" type="text" class="form-control" placeholder="Username" />
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="icon fas fa-envelope"></span>
@@ -37,7 +37,6 @@
                         Đăng nhập
                     </app-button>
                 </div>
-                <!-- /.col -->
             </div>
         </form>
 
