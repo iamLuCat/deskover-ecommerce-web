@@ -1,5 +1,5 @@
 import { RestApiService } from '@services/rest-api.service';
-import { ICategory } from '@/entites/ICategory';
+import { Category } from '@/entites/category';
 import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'environments/environment';
@@ -14,8 +14,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
-  categories: ICategory[];
-  category: ICategory;
+  categories: Category[];
+  category: Category;
   closeResult: string;
   isEdit: boolean = false;
 
@@ -28,7 +28,7 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
   constructor(private modalService: NgbModal, private apiService: RestApiService) {
-    this.category = <ICategory>{};
+    this.category = <Category>{};
     this.getCategories();
   }
 
@@ -62,7 +62,7 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
   newCategory() {
     this.isEdit = false;
-    this.category = <ICategory>{};
+    this.category = <Category>{};
     this.openModal(this.categoryModal);
   }
 
@@ -86,7 +86,7 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  saveCategory(category: ICategory) {
+  saveCategory(category: Category) {
     // if (this.key) {
     //   this.apiService.put(this.url, this.key, category).subscribe(data => {
     //     this.getCategories();

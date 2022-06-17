@@ -1,23 +1,20 @@
 package com.deskover.configuration.security.jwt.api;
 
+import com.deskover.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.jwt.JwtUserDetailsService;
 import com.deskover.configuration.security.jwt.entity.JwtRequest;
@@ -36,6 +33,9 @@ public class JwtAuthenticationController {
 	
 	@Autowired
 	private JwtUserDetailsService jwtUserDetailsService;
+
+	@Autowired
+	private AdminService adminService;
 	
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -61,8 +61,9 @@ public class JwtAuthenticationController {
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 	}
 	
-	@GetMapping("/profile")
+	@GetMapping("/get-principal")
     public ResponseEntity<?> getProfile() {
-        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        // return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		return ResponseEntity.ok(adminService.getPrincipal());
     }
 }

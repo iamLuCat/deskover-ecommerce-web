@@ -1,5 +1,5 @@
 // Tạo interface danh mục sản phẩm
-export interface ICategory {
+export interface Category {
     id: number,
     nameVI: string,
     nameEN: string,

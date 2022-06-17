@@ -3,7 +3,7 @@ import {RestApiService} from '@services/rest-api.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {environment} from "../../environments/environment";
-import {IAdmin} from "@/entites/IAdmin";
+import {Admin} from "@/entites/admin";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class AdminService {
     private toastr: ToastrService
   ) {}
 
-  getAdmin(id: number) {
-    return this.restApiService.getOne(`${environment.globalUrl.adminApi}`, id).toPromise();
+  getProfile() : Promise<Admin> {
+    return this.restApiService.get(`${environment.globalUrl.adminApi}`).toPromise();
   }
 }

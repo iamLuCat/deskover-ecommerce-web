@@ -20,6 +20,6 @@ public class AdministratorDto implements Serializable {
     private Timestamp modifiedAt;
     private Boolean actived;
     private String avatar;
-    private AdminPasswordDto adminPasswords;
-    private Set<AdminAuthorityDto> adminAuthorities;
+    private AdminPasswordDto password;
+    private Set<AdminAuthorityDto> authorities;
 }
