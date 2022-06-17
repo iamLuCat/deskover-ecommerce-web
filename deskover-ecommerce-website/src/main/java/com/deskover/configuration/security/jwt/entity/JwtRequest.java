@@ -1,4 +1,4 @@
-package com.deskover.configuration.security.jwt;
+package com.deskover.configuration.security.jwt.entity;
 
 import java.io.Serializable;
 
