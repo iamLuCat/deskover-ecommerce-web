@@ -34,11 +34,9 @@ export class RestApiService {
 
   handleError(error: any) {
     let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
-      // Nhận lỗi phía máy khách
+    if (error.error.message) {
       errorMessage = error.error.message;
     } else {
-      // Nhận lỗi phía máy chủ
       errorMessage = `Error Code: ${error.status} - Message: ${error.message}`;
     }
     return throwError(errorMessage);

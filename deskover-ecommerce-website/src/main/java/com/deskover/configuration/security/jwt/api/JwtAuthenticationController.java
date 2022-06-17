@@ -40,12 +40,12 @@ public class JwtAuthenticationController {
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		try {
 			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-		} catch (DisabledException e) {
-			throw new ResponseStatusException(HttpStatus.OK,"Tài khoản bị khóa");
-		} catch (BadCredentialsException e) {
-			throw new ResponseStatusException(HttpStatus.OK,"Tên tài khoản hoặc mật khẩu không đúng");
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Lỗi hệ thống",e);
+		} catch (DisabledException ex) {
+			throw new ResponseStatusException(HttpStatus.LOCKED,"Tài khoản đã bị khóa hoặc chưa được kích hoạt", ex);
+		} catch (BadCredentialsException ex) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Tên tài khoản hoặc mật khẩu không đúng", ex);
+		} catch (Exception ex) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Lỗi không xác định",ex);
 		}
 
 		final UserDetails userDetails = jwtUserDetailsService
