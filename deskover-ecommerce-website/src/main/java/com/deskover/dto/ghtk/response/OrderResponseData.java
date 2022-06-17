@@ -1,10 +1,10 @@
-package com.deskover.dto.GHTKDto.response;
+package com.deskover.dto.ghtk.response;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.deskover.dto.GHTKDto.OrderGhtk;
-import com.deskover.dto.GHTKDto.ProductsGhtk;
+import com.deskover.dto.ghtk.entity.OrderGhtk;
+import com.deskover.dto.ghtk.entity.ProductsGhtk;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.deskover.dto.GHTKDto;
+package com.deskover.dto.ghtk.entity;
 
 import javax.persistence.Id;
 

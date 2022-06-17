@@ -1,9 +1,9 @@
-package com.deskover.dto.GHTKDto.response;
+package com.deskover.dto.ghtk.response;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.deskover.dto.GHTKDto.AddressGhtk;
+import com.deskover.dto.ghtk.entity.AddressGhtk;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
