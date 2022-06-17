@@ -30,7 +30,7 @@ export class AuthService {
       await this.getProfile();
       this.router.navigate(['/']);
     } catch (e) {
-      console.log(e)
+      console.error(e);
       this.toastr.error(e);
     }
   }
