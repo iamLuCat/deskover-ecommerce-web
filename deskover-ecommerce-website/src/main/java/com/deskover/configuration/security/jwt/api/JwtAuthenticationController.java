@@ -49,6 +49,13 @@ public class JwtAuthenticationController {
 			return ResponseEntity.badRequest().body(new MessageResponse("Lỗi hệ thống")) ;
 		}
 
+		// } catch (DisabledException ex) {
+		// 	throw new ResponseStatusException(HttpStatus.LOCKED,"Tài khoản đã bị khóa hoặc chưa được kích hoạt", ex);
+		// } catch (BadCredentialsException ex) {
+		// 	throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Tên tài khoản hoặc mật khẩu không đúng", ex);
+		// } catch (Exception ex) {
+		// 	throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Lỗi không xác định",ex);
+
 		final UserDetails userDetails = jwtUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
 
