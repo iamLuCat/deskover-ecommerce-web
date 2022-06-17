@@ -1,17 +1,12 @@
 package com.deskover.api.admin;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.deskover.entity.Category;
 import com.deskover.repository.CategoryRepository;
@@ -33,8 +28,8 @@ public class CategoryApi {
 	 * @return List<Category>
 	 */
 	@GetMapping("/categories/activated")
-	public ResponseEntity<?> doGetIsActivated(){
-		List<Category> categories = categoryService.findByActivated(Boolean.TRUE);
+	public ResponseEntity<?> doGetIsActivated(@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+		List<Category> categories = categoryService.getByActived(Boolean.TRUE, page.orElse(0), size.orElse(5));
 		if (categories.isEmpty()) {
 			return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
 		}
@@ -47,7 +42,7 @@ public class CategoryApi {
 	 */
 	@GetMapping("/categories/unactivated")
 	public ResponseEntity<?> doGetIsUnactivated(){
-		List<Category> categories = categoryService.findByActivated(Boolean.FALSE);
+		List<Category> categories = categoryService.getByActived(Boolean.FALSE);
 		if (categories.isEmpty()) {
 			return ResponseEntity.ok(new MessageResponse("Not Found Category UnActived"));
 		}
@@ -61,7 +56,7 @@ public class CategoryApi {
 	 */
 	@GetMapping("/categories/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
-		Category category = categoryService.findById(id);
+		Category category = categoryService.getById(id);
 		if (category == null) {
 			return ResponseEntity.ok(new MessageResponse("Not Found Category"));
 		}

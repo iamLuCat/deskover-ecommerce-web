@@ -5,5 +5,5 @@ import java.util.List;
 import com.deskover.entity.Product;
 
 public interface ProductService{
-	List<Product> findByActived(Boolean actived,Integer p, Integer page);
+	List<Product> findByActived(Boolean actived,Integer page, Integer size);
 }

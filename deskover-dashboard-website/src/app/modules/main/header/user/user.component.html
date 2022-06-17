@@ -1,10 +1,22 @@
 <app-dropdown class="user-menu">
   <ng-container dropdown-button>
-    <img
+    <!--<img
       [src]="'assets/img/avatar/default-profile.png'"
       class="user-image img-circle elevation-2"
       alt="User Image"
-    />
+    />-->
+    <div class="d-flex">
+      <div class="image mr-2">
+        <img
+          [src]="'assets/img/avatar/default-profile.png'"
+          class="user-image img-circle elevation-2"
+          alt="User Image"
+        />
+      </div>
+      <div class="info">
+          Xin chào, {{ user.username }}
+      </div>
+    </div>
   </ng-container>
   <ng-container dropdown-menu>
     <li class="user-header bg-primary">
@@ -15,7 +27,7 @@
       />
 
       <p>
-        <span>{{ user.username }}</span>
+        <span>{{ user.fullname }}</span>
         <small>
           <span>Ngày đăng ký: &nbsp;</span>
           <span>{{ formatDate(user.createdAt) }}</span>

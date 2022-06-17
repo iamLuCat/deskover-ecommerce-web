@@ -67,7 +67,7 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getCategories() {
-    this.apiService.get(this.url).subscribe(data => {
+    this.apiService.getAll(this.url).subscribe(data => {
       this.categories = data;
       this.rerender();
     });

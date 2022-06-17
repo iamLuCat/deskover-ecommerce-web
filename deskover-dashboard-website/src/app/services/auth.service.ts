@@ -23,7 +23,7 @@ export class AuthService {
   async login({username, password}) {
     try {
       const data = await this.restApiService
-        .post(`${environment.globalUrl.login}`, {
+        .create(`${environment.globalUrl.login}`, {
           username,
           password
         })
@@ -41,7 +41,7 @@ export class AuthService {
   async register({email, password}) {
     try {
       const data = await this.restApiService
-        .post(
+        .create(
           `${environment.globalUrl.baseApi}`,
           {
             email,
@@ -61,7 +61,7 @@ export class AuthService {
   async getProfile() {
     try {
       this.user = await this.restApiService
-        .get(`${environment.globalUrl.profile}`)
+        .getAll(`${environment.globalUrl.profile}`)
         .toPromise();
     } catch (e) {
       this.logout();

@@ -19,12 +19,12 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository productRepository;
 
 	@Override
-	public List<Product> findByActived(Boolean actived, Integer p, Integer page) {
-		if(p>0) {
-			Pageable pageable = PageRequest.of(p, page);
+	public List<Product> findByActived(Boolean actived, Integer page, Integer size) {
+		if(page>0) {
+			Pageable pageable = PageRequest.of(page, size);
 			return productRepository.findByActived(actived, pageable);
 		}else {
-			Pageable pageable = PageRequest.of(0, page);
+			Pageable pageable = PageRequest.of(0, size);
 			return productRepository.findByActived(actived, pageable);
 		}	
 	}

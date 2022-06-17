@@ -16,6 +16,6 @@ export class AdminService {
   ) {}
 
   getProfile() : Promise<Admin> {
-    return this.restApiService.get(`${environment.globalUrl.adminApi}`).toPromise();
+    return this.restApiService.getAll(`${environment.globalUrl.adminApi}`).toPromise();
   }
 }
