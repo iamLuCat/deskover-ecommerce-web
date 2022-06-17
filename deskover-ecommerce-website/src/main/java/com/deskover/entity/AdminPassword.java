@@ -34,7 +34,7 @@ public class AdminPassword implements Serializable {
     @CreationTimestamp
     private Timestamp modifiedDate;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "admin_id", nullable = false)
     private Administrator admin;
 

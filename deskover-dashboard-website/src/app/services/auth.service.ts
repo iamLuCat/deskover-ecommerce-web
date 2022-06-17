@@ -26,11 +26,11 @@ export class AuthService {
           password
         })
         .toPromise();
-      console.log(data.token);
       localStorage.setItem('token', data.token);
       await this.getProfile();
       this.router.navigate(['/']);
     } catch (e) {
+      console.log(e)
       this.toastr.error(e);
     }
   }

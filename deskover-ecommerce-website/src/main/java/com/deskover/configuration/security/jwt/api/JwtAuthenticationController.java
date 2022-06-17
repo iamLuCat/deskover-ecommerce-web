@@ -38,7 +38,7 @@ public class JwtAuthenticationController {
 	private JwtUserDetailsService jwtUserDetailsService;
 	
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {	
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		try {
 			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		} catch (DisabledException e) {
@@ -48,7 +48,6 @@ public class JwtAuthenticationController {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Lỗi hệ thống")) ;
 		}
-		
 
 		final UserDetails userDetails = jwtUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
