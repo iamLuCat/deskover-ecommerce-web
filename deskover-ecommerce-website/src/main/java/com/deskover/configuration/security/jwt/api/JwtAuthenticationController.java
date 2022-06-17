@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.deskover.configuration.security.jwt.JwtUserDetailsService;
 import com.deskover.configuration.security.jwt.entity.JwtRequest;
 import com.deskover.configuration.security.jwt.entity.JwtResponse;
+import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.util.JwtTokenUtil;
 
 @RestController
@@ -41,11 +42,11 @@ public class JwtAuthenticationController {
 		try {
 			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		} catch (DisabledException e) {
-			throw new ResponseStatusException(HttpStatus.OK,"Tài khoản bị khóa");
+			return  ResponseEntity.badRequest().body(new MessageResponse("Tài khoản đã bị khoá")) ;
 		} catch (BadCredentialsException e) {
-			throw new ResponseStatusException(HttpStatus.OK,"Tên tài khoản hoặc mật khẩu không đúng");
+			return ResponseEntity.badRequest().body(new MessageResponse("Tài khoản hoặc mật khẩu không đúng")) ;
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Lỗi hệ thống",e);
+			return ResponseEntity.badRequest().body(new MessageResponse("Lỗi hệ thống")) ;
 		}
 
 		final UserDetails userDetails = jwtUserDetailsService

@@ -14,25 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.deskover.constant.UrlConstant;
-import com.deskover.dto.GHTKDto.FeeGhtk;
-import com.deskover.dto.GHTKDto.response.AddressResponseData;
-import com.deskover.dto.GHTKDto.response.FeeResponseData;
+import com.deskover.dto.ghtk.entity.FeeGhtk;
+import com.deskover.dto.ghtk.response.AddressResponseData;
+import com.deskover.dto.ghtk.response.FeeResponseData;
 
 import java.util.Objects;
 
 @RestController
 @RequestMapping("v1/api/ghtk")
-public class GHTK_Api {
+public class GhtkApi {
 	
 	@Autowired
 	RestTemplate restTemplate;
 	
 	
-	/**
-	 * @param fee the fee of GHTK
-	 * @return the fee
-	 * @throws Exception if an error occurs
-	 */
+	//api tính phí phận chuyển
 	@PostMapping(path = "/fee", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> Fee(@RequestBody FeeGhtk fee) throws Exception {
 
@@ -56,11 +52,7 @@ public class GHTK_Api {
 		}
 	}
 	
-	/**
-	 * @param addressResponse the address of GHTK
-	 * @return the address
-	 * @throws Exception if an error occurs
-	 */
+	//Doanh sách địa chỉ lấy đơn hàng
 	@GetMapping(path = "/shipment/list_address", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> doGetListAddress(@RequestBody AddressResponseData addressResponse) throws Exception {
 
@@ -81,6 +73,8 @@ public class GHTK_Api {
 	}
 
 	//Không test api này nhé.
+	
+	//api đăng đơn hàng
 	
 	/*
 	 * @PostMapping(path= "/shipment/order", consumes = "application/json", produces
