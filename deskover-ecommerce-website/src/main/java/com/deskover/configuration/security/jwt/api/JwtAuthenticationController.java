@@ -37,17 +37,16 @@ public class JwtAuthenticationController {
 	private JwtUserDetailsService jwtUserDetailsService;
 	
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {	
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		try {
 			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		} catch (DisabledException e) {
-			throw new ResponseStatusException(HttpStatus.OK,"Tài khoảng bị khóa");
+			throw new ResponseStatusException(HttpStatus.OK,"Tài khoản bị khóa");
 		} catch (BadCredentialsException e) {
 			throw new ResponseStatusException(HttpStatus.OK,"Tên tài khoản hoặc mật khẩu không đúng");
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Lỗi hệ thống",e);
 		}
-		
 
 		final UserDetails userDetails = jwtUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
