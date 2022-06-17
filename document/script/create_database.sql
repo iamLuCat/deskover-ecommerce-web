@@ -169,13 +169,14 @@ CREATE TABLE category (
   UNIQUE KEY UQ_Category_Slug (slug)
 );
 
-insert category (name,slug)
-values 	('Laptop','laptop'),
-		('Bàn Phím','ban-phim-may-tinh'),
-        ('Chuột + Lót Chuột','chuot-may-tinh'),
-		('Màn Hình','man-hinh-may-tinh'),
-		('Linh Kiện PC','linh-kien-may-tinh'),
-        ('Ghế','ghe-gaming-gia-re')
+insert category (id,name,slug)
+values 	(1,'Laptop','laptop'),
+		(2,'Bàn Phím','ban-phim-may-tinh'),
+        (3,'Chuột + Lót Chuột','chuot-may-tinh'),
+		(4,'Màn Hình','man-hinh-may-tinh'),
+		(5,'Linh Kiện PC','linh-kien-may-tinh'),
+        (6,'Ghế','ghe-gaming-gia-re'),
+        (7,'Apple','apple')
 ;
 
 -- Danh mục con
@@ -199,8 +200,10 @@ values 	(1,'Laptop Văn Phòng','laptop-van-phong'),
 		(1,'Laptop Gaming','laptop-gaming'),
 		(2,'Bàn Phím Gaming','ban-phim-gaming'),
         (2,'Bàn Phím Văn Phòng','ban-phim-van-phong'),
+        (2,'Bàn Phím Bluetooth','ban-phim-bluetooth'),
 		(3,'Chuột Gaming','chuot-gaming'),
-        (3,'Chuột Văn Phòng','chuot-van-phong')
+        (3,'Chuột Văn Phòng','chuot-van-phong'),
+        (3,'Chuột Không dây','chuot-khong-dây')
 ;
 
 -- Thương hiệu
@@ -219,7 +222,13 @@ CREATE TABLE brand (
 
 insert brand (name,slug)
 values 	('ASUS','laptop-asus'),
-		('ACER','laptop-acer')
+		('ACER','laptop-acer'),
+        ('DELL','laptop-dell'),
+        ('MSI','laptop-msi'),
+        ('LENOVO','laptop-lenovo'),
+        ('HP','laptop-hp'),
+        ('HUAWEI','laptop-huawei'),
+        ('LG','laptop-lg')
 ;
 
 -- giảm giá
