@@ -1,12 +1,12 @@
-import { RestApiService } from '@services/rest-api.service';
-import { Category } from '@/entites/category';
-import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from 'environments/environment';
-import { Subject } from 'rxjs';
-import { DataTableDirective } from 'angular-datatables';
+import {Category} from '@/entites/category';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {environment} from 'environments/environment';
+import {Subject} from 'rxjs';
+import {DataTableDirective} from 'angular-datatables';
 import {UrlUtils} from "@/utils/url-utils";
 import Swal from 'sweetalert2';
+import { CategoryService } from '@services/category.service';
 
 @Component({
   selector: 'app-category',
@@ -19,15 +19,13 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
   closeResult: string;
   isEdit: boolean = false;
 
-  url = environment.globalUrl.baseApi + "/categories";
-
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
   @ViewChild('categoryModal') categoryModal: any;
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
-  constructor(private modalService: NgbModal, private apiService: RestApiService) {
+  constructor(private modalService: NgbModal, private categoryService: CategoryService) {
     this.category = <Category>{};
     this.getCategories();
   }
@@ -67,23 +65,22 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getCategories() {
-    this.apiService.getAll(this.url).subscribe(data => {
+    this.categoryService.getAll(1, 5).subscribe(data => {
       this.categories = data;
-      this.rerender();
     });
   }
 
   getCategory(id: number) {
-    return Object.values(this.categories).find(category => category.id == id);
+    // return Object.values(this.categories).find(category => category.id == id);
   }
 
   editCategory(id: number) {
-    this.isEdit = true;
-    this.category = this.getCategory(id);
-
-    if (this.category) {
-      this.openModal(this.categoryModal);
-    }
+    // this.isEdit = true;
+    // this.category = this.getCategory(id);
+    //
+    // if (this.category) {
+    //   this.openModal(this.categoryModal);
+    // }
   }
 
   saveCategory(category: Category) {

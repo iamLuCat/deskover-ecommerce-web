@@ -1,7 +1,7 @@
-// Tạo interface danh mục sản phẩm
-import {Product} from "@/entites/product";
+import { Product } from "./product";
+import {Category} from "@/entites/category";
 
-export interface Brand {
+export interface Subcategory {
   id: number;
   name: string;
   description: string;
@@ -10,4 +10,5 @@ export interface Brand {
   modifiedAt: Date;
   deletedAt: Date;
   actived: boolean;
+  category: Category;
 }

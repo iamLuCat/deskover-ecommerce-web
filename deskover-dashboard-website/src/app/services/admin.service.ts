@@ -15,7 +15,4 @@ export class AdminService {
     private toastr: ToastrService
   ) {}
 
-  getProfile() : Promise<Admin> {
-    return this.restApiService.getAll(`${environment.globalUrl.adminApi}`).toPromise();
-  }
 }

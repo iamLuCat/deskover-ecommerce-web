@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 	
-	List<Category> findByActived(Boolean actived);
-	List<Category> findByActived(Boolean actived, Pageable pageable);
+	List<Category> findByActived(Boolean isActived);
+	List<Category> findByActived(Boolean isActived, Pageable pageable);
 }

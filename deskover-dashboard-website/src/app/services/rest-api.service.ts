@@ -16,13 +16,6 @@ export class RestApiService {
     return this.httpClient.get(link).pipe(catchError(RestApiService.handleError));
   }
 
-  getAllWithPagination(link: string, page: number, size: number): Observable<any> {
-    const params = new HttpParams();
-    params.append('page', page.toString());
-    params.append('size', size.toString());
-    return this.httpClient.get(link, {params}).pipe(catchError(RestApiService.handleError));
-  }
-
   getOne(link: string, id: any): Observable<any> {
     return this.httpClient.get(link + '/' + id).pipe(catchError(RestApiService.handleError));
   }
