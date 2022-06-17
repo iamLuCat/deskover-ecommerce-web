@@ -7,7 +7,7 @@ import {catchError} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
-export class RestApiService{
+export class RestApiService {
 
   constructor(private httpClient: HttpClient, private toastr: ToastrService) {
   }
@@ -33,7 +33,7 @@ export class RestApiService{
   }
 
   handleError(error: any) {
-    let errorMessage = '';
+    let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
       // Nhận lỗi phía máy khách
       errorMessage = error.error.message;
@@ -42,6 +42,5 @@ export class RestApiService{
       errorMessage = `Error Code: ${error.status} - Message: ${error.message}`;
     }
     return throwError(errorMessage);
-    // return throwError(error.error.message);
   }
 }

@@ -1,4 +1,4 @@
-package com.deskover.configuration.security.payload.response;
+package com.deskover.dto.ghtk;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MessageResponse {
+public class UrlGGStrogeResponDto {
 	private String message;
+    private String url;
 }

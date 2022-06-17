@@ -1,8 +1,9 @@
 package com.deskover.configuration.security.jwt;
 
-import com.deskover.entity.Administrator;
-import com.deskover.service.AdminService;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,16 +12,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
+import com.deskover.entity.Administrator;
+import com.deskover.service.AdminService;
 
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private AdminService adminService;
-
-    @Autowired
-    private PasswordEncoder bcryptEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -29,6 +28,10 @@ public class JwtUserDetailsService implements UserDetailsService {
             return new User(
                     admin.getUsername(),
                     admin.getAdminPasswords().getPassword(),
+                    admin.getActived(),
+                    true,
+                    true,
+                    true,
                     admin.getAdminAuthorities().stream().map(authority -> new SimpleGrantedAuthority(authority.getRole().getName()))
                             .collect(Collectors.toList())
             );
