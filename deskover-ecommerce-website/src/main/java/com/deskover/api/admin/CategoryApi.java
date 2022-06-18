@@ -29,9 +29,9 @@ public class CategoryApi {
     public ResponseEntity<?> doGetIsActived(
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size,
-            @RequestParam("isActived") Optional<Boolean> isActived
+            @RequestParam("isActive") Optional<Boolean> isActive
     ) {
-        List<Category> categories = categoryService.getByActived(isActived.orElse(Boolean.TRUE), page.orElse(0), size.orElse(1));
+        List<Category> categories = categoryService.getByActived(isActive.orElse(Boolean.TRUE), page.orElse(0), size.orElse(1));
         if (categories.isEmpty()) {
             return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
         }

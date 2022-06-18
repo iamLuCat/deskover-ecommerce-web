@@ -21,17 +21,17 @@ public class CategoryServiceImpl implements CategoryService {
 
 	/**
 	 * Find categories by activated
-	 * @param isActived - true or false
+	 * @param isActive - true or false
 	 * @return list of categories by activated
 	 */
 	@Override
-	public List<Category> getByActived(Boolean isActived) {
-		return categoryRepository.findByActived(isActived);
+	public List<Category> getByActived(Boolean isActive) {
+		return categoryRepository.findByActived(isActive);
 	}
 
 	@Override
-	public List<Category> getByActived(Boolean isActived, Integer page, Integer size) {
-		return categoryRepository.findByActived(isActived, PageRequest.of(page, size));
+	public List<Category> getByActived(Boolean isActive, Integer page, Integer size) {
+		return categoryRepository.findByActived(isActive, PageRequest.of(page, size));
 	}
 
 	/**

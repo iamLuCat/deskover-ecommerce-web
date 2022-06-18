@@ -7,9 +7,9 @@ import com.deskover.entity.Category;
 
 public interface CategoryService {
 
-	List<Category> getByActived(Boolean isActived);
+	List<Category> getByActived(Boolean isActive);
 
-	List<Category> getByActived(Boolean isActived, Integer page, Integer size);
+	List<Category> getByActived(Boolean isActive, Integer page, Integer size);
 
 	Category getById(Long id);
 

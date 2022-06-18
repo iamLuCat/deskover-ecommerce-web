@@ -12,19 +12,23 @@ export class RestApiService {
   constructor(private httpClient: HttpClient, private toastr: ToastrService) {
   }
 
-  getAll(link: string): Observable<any> {
+  get(link: string): Observable<any> {
     return this.httpClient.get(link).pipe(catchError(RestApiService.handleError));
+  }
+
+  getWithParams(link: string, params: HttpParams): Observable<any> {
+    return this.httpClient.get(link, {params}).pipe(catchError(RestApiService.handleError));
   }
 
   getOne(link: string, id: any): Observable<any> {
     return this.httpClient.get(link + '/' + id).pipe(catchError(RestApiService.handleError));
   }
 
-  create(link: string, body: any): Observable<any> {
+  post(link: string, body: any): Observable<any> {
     return this.httpClient.post(link, body).pipe(catchError(RestApiService.handleError));
   }
 
-  update(link: string, id: number, body: any): Observable<any> {
+  put(link: string, id: number, body: any): Observable<any> {
     return this.httpClient.put(link + '/' + id, body).pipe(catchError(RestApiService.handleError));
   }
 

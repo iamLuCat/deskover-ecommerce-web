@@ -4,12 +4,13 @@ import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {RestApiService} from '@services/rest-api.service';
 import {AdminService} from "@services/admin.service";
+import {Admin} from "@/entites/admin";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public user: any = null;
+  public user: Admin = null;
 
   constructor(
     private restApiService: RestApiService,
@@ -23,7 +24,7 @@ export class AuthService {
   async login({username, password}) {
     try {
       const data = await this.restApiService
-        .create(`${environment.globalUrl.login}`, {
+        .post(`${environment.globalUrl.login}`, {
           username,
           password
         })
@@ -41,7 +42,7 @@ export class AuthService {
   async register({email, password}) {
     try {
       const data = await this.restApiService
-        .create(
+        .post(
           `${environment.globalUrl.baseApi}`,
           {
             email,
@@ -61,7 +62,7 @@ export class AuthService {
   async getProfile() {
     try {
       this.user = await this.restApiService
-        .getAll(`${environment.globalUrl.profile}`)
+        .get(`${environment.globalUrl.profile}`)
         .toPromise();
     } catch (e) {
       this.logout();

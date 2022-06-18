@@ -1,61 +1,29 @@
 import {Category} from '@/entites/category';
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {environment} from 'environments/environment';
-import {Subject} from 'rxjs';
-import {DataTableDirective} from 'angular-datatables';
 import {UrlUtils} from "@/utils/url-utils";
 import Swal from 'sweetalert2';
-import { CategoryService } from '@services/category.service';
+import {CategoryService} from '@services/category.service';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CategoryComponent implements OnInit {
   categories: Category[];
   category: Category;
   closeResult: string;
   isEdit: boolean = false;
 
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
-
   @ViewChild('categoryModal') categoryModal: any;
-  @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
   constructor(private modalService: NgbModal, private categoryService: CategoryService) {
     this.category = <Category>{};
-    this.getCategories();
+    this.getCategories(0, 6, true);
   }
 
   ngOnInit() {
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      paging: true,
-      language: {
-        url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
-      },
-      responsive: true,
-    };
-  }
-
-  ngOnDestroy() {
-    this.dtTrigger.unsubscribe();
-  }
-
-  ngAfterViewInit() {
-    this.dtTrigger.next();
-  }
-
-  rerender(): void {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
-    });
   }
 
   newCategory() {
@@ -64,8 +32,8 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
     this.openModal(this.categoryModal);
   }
 
-  getCategories() {
-    this.categoryService.getAll(1, 5).subscribe(data => {
+  getCategories(page: number, size: number, isActive: Boolean) {
+    this.categoryService.getAll(page, size, isActive).subscribe(data => {
       this.categories = data;
     });
   }
@@ -75,27 +43,11 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   editCategory(id: number) {
-    // this.isEdit = true;
-    // this.category = this.getCategory(id);
-    //
-    // if (this.category) {
-    //   this.openModal(this.categoryModal);
-    // }
+
   }
 
   saveCategory(category: Category) {
-    // if (this.key) {
-    //   this.apiService.put(this.url, this.key, category).subscribe(data => {
-    //     this.getCategories();
-    //   });
-    // } else {
-    //   const categoriesArray = Object.values(this.categories);
-    //   category.id = categoriesArray.length > 0 ? categoriesArray[categoriesArray.length - 1].id + 1 : 0;
 
-    //   this.apiService.post(this.url, category).subscribe(data => {
-    //     this.getCategories();
-    //   });
-    // }
   }
 
   deleteCategory(id: number) {
@@ -109,11 +61,7 @@ export class CategoryComponent implements OnInit, OnDestroy, AfterViewInit {
       confirmButtonColor: '#3085d6',
       confirmButtonText: 'Có',
     }).then((result) => {
-      // if (result.value) {
-      //   this.apiService.delete(this.url, key).subscribe(data => {
-      //     this.getCategories();
-      //   });
-      // }
+
     })
   }
 
