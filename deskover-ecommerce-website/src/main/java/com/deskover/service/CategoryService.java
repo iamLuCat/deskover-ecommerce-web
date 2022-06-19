@@ -1,15 +1,15 @@
 package com.deskover.service;
 
+import com.deskover.entity.Category;
+import org.springframework.data.domain.Page;
+
 import java.sql.SQLException;
 import java.util.List;
 
-import com.deskover.entity.Category;
-
 public interface CategoryService {
-
 	List<Category> getByActived(Boolean isActive);
 
-	List<Category> getByActived(Boolean isActive, Integer page, Integer size);
+	Page<Category> getByActived(Boolean isActive, Integer page, Integer size);
 
 	Category getById(Long id);
 

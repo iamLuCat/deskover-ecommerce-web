@@ -1,17 +1,15 @@
 package com.deskover.api.admin;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.entity.Category;
+import com.deskover.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.deskover.entity.Category;
-import com.deskover.repository.CategoryRepository;
-import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.service.CategoryService;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -21,9 +19,6 @@ public class CategoryApi {
     @Autowired
     CategoryService categoryService;
 
-    @Autowired
-    private CategoryRepository repository;
-
 
     @GetMapping("/categories")
     public ResponseEntity<?> doGetIsActived(
@@ -31,7 +26,7 @@ public class CategoryApi {
             @RequestParam("size") Optional<Integer> size,
             @RequestParam("isActive") Optional<Boolean> isActive
     ) {
-        List<Category> categories = categoryService.getByActived(isActive.orElse(Boolean.TRUE), page.orElse(0), size.orElse(1));
+        Page<Category> categories = categoryService.getByActived(isActive.orElse(Boolean.TRUE), page.orElse(0), size.orElse(1));
         if (categories.isEmpty()) {
             return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
         }

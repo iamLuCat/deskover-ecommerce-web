@@ -27,9 +27,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
-              "node_modules/datatables.net-colreorder-dt/css/colReorder.dataTables.css"
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

@@ -4,6 +4,7 @@ import com.deskover.dto.AdministratorDto;
 import com.deskover.entity.Administrator;
 import com.deskover.repository.AdministratorRepository;
 import com.deskover.service.AdminService;
+import com.deskover.util.MapperUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,9 +14,6 @@ import org.springframework.stereotype.Service;
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdministratorRepository repo;
-
-    @Autowired
-    private ModelMapper mapper;
 
     @Override
     public Administrator getById(Long id) {
@@ -30,6 +28,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public AdministratorDto getPrincipal() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return mapper.map(repo.findByUsername(username), AdministratorDto.class);
+        return MapperUtil.map(repo.findByUsername(username), AdministratorDto.class);
     }
 }

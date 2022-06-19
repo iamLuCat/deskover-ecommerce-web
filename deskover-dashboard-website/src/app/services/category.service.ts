@@ -19,7 +19,7 @@ export class CategoryService {
     private toastr: ToastrService
   ) { }
 
-  getAll(page: number, size: number, isActive: Boolean): Observable<Category[]> {
+  getAll(page: number, size: number, isActive: Boolean): Observable<any> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())

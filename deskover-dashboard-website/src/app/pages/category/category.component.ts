@@ -2,8 +2,10 @@ import {Category} from '@/entites/category';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UrlUtils} from "@/utils/url-utils";
-import Swal from 'sweetalert2';
 import {CategoryService} from '@services/category.service';
+import {ADTSettings} from 'angular-datatables/src/models/settings';
+import Swal from 'sweetalert2';
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-category',
@@ -16,14 +18,82 @@ export class CategoryComponent implements OnInit {
   closeResult: string;
   isEdit: boolean = false;
 
+  dtOptions: any = {};
+
   @ViewChild('categoryModal') categoryModal: any;
 
-  constructor(private modalService: NgbModal, private categoryService: CategoryService) {
+  constructor(
+    private modalService: NgbModal,
+    private categoryService: CategoryService,
+  ) {
     this.category = <Category>{};
-    this.getCategories(0, 6, true);
   }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      paging: true,
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
+      },
+      responsive: false,
+      serverSide: true,
+      processing: true,
+      ajax: (dataTablesParameters: any, callback) => {
+        this.categoryService.getAll(dataTablesParameters.start / dataTablesParameters.length, dataTablesParameters.length, true).subscribe(data => {
+          callback({
+            recordsTotal: data.totalElements,
+            recordsFiltered: data.totalElements,
+            data: data.content
+          });
+        });
+      },
+      columns: [
+        {title: 'Tên', data: 'name'},
+        {title: 'Slug', data: 'slug'},
+        {
+          title: 'Ngày tạo',
+          data: 'createdAt',
+          className: 'text-center',
+          render: (data, type, full, meta) => {
+            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+          }
+        },
+        {
+          title: 'Ngày sửa',
+          data: 'modifiedAt',
+          className: 'text-center',
+          render: (data, type, full, meta) => {
+            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+          }
+        },
+        {
+          title: 'Trạng thái',
+          data: 'actived',
+          className: 'text-center',
+          render: (data, type, full, meta) => {
+            return data ? '<span class="badge badge-success">Hoạt động</span>' : '<span class="badge badge-danger">Không hoạt động</span>';
+          }
+        },
+        {
+          title: 'Tác vụ',
+          data: null,
+          orderable: false,
+          searchable: false,
+          className: 'text-center',
+          render: (data, type, full, meta) => {
+            return `
+                <a href="javascript:void(0)" class="btn btn-sm btn-warning"
+                   data-toggle="tooltip" data-placement="top" title="Sửa"><i
+                  class="fa fa-edit"></i></a>
+                <a href="javascript:void(0)" class="btn btn-sm btn-danger"
+                   data-toggle="tooltip" data-placement="top" title="Xoá"><i
+                  class="fa fa-trash"></i></a>
+            `;
+          }
+        },
+      ]
+    }
   }
 
   newCategory() {
@@ -72,12 +142,13 @@ export class CategoryComponent implements OnInit {
 
   // Modal bootstrap
   openModal(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${CategoryComponent.getDismissReason(reason)}`;
     });
   }
+
   private static getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
