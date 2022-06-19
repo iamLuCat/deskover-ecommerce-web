@@ -7,9 +7,11 @@ import com.deskover.entity.Category;
 
 public interface CategoryService {
 
-	List<Category> findByActivated(Boolean isActivated);
+	List<Category> getByActived(Boolean isActive);
 
-	Category findById(Long id);
+	List<Category> getByActived(Boolean isActive, Integer page, Integer size);
+
+	Category getById(Long id);
 
 	Category update(Category category) throws SQLException;
 }

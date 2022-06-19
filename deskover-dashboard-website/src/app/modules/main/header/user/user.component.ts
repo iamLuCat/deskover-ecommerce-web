@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DateTime} from 'luxon';
 import {AuthService} from "@services/auth.service";
 import { environment } from 'environments/environment';
+import {Admin} from "@/entites/admin";
 
 @Component({
   selector: 'app-user',
@@ -9,7 +10,7 @@ import { environment } from 'environments/environment';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  user: any;
+  public user: Admin;
 
   constructor(private authService: AuthService) {
   }

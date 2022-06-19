@@ -41,11 +41,12 @@ import {CheckboxComponent} from '@components/checkbox/checkbox.component';
 import {CategoryComponent} from '@pages/category/category.component';
 import {BrandComponent} from '@pages/brand/brand.component';
 import {DataTablesModule} from 'angular-datatables';
-import {RestApiService} from "@services/rest-api.service";
 import {AuthInterceptor} from "@/interceptor/auth-interceptor";
+import { NgxPaginationModule } from 'ngx-pagination';
 
 registerLocaleData(localeEn, 'en-EN');
 
+// @ts-ignore
 @NgModule({
     declarations: [
         AppComponent,
@@ -90,6 +91,7 @@ registerLocaleData(localeEn, 'en-EN');
             preventDuplicates: true
         }),
         NgbModule,
+        NgxPaginationModule,
         DataTablesModule
     ],
     providers: [

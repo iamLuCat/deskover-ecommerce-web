@@ -1,4 +1,4 @@
-import { IBrand } from './../../entites/IBrand';
+import { Brand } from '../../entites/brand';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { environment } from 'environments/environment';
@@ -13,8 +13,8 @@ import {AuthService} from "@services/auth.service";
   styleUrls: ['./brand.component.scss']
 })
 export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
-  brands: IBrand[];
-  brand: IBrand;
+  brands: Brand[];
+  brand: Brand;
   closeResult: string;
   key!: string;
 
@@ -27,7 +27,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
   constructor(private modalService: NgbModal, public authService: AuthService) {
-    this.brand = <IBrand>{};
+    this.brand = <Brand>{};
   }
 
   ngOnInit() {

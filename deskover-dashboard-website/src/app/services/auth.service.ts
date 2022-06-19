@@ -3,15 +3,18 @@ import {Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {RestApiService} from '@services/rest-api.service';
+import {AdminService} from "@services/admin.service";
+import {Admin} from "@/entites/admin";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public user: any = null;
+  public user: Admin = null;
 
   constructor(
     private restApiService: RestApiService,
+    private adminService: AdminService,
     private router: Router,
     private toastr: ToastrService
   ) {

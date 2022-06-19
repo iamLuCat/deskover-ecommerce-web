@@ -27,7 +27,6 @@ public class Subcategory implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

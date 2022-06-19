@@ -29,4 +29,5 @@ public class AdministratorApi {
         }
         return ResponseEntity.ok(admin);
     }
+
 }

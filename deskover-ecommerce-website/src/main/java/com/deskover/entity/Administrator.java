@@ -51,10 +51,10 @@ public class Administrator implements Serializable {
     private String avatar;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "admin")
-    private AdminPassword adminPasswords;
+    private AdminPassword password;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
-    private Set<AdminAuthority> adminAuthorities = new LinkedHashSet<>();
+    private Set<AdminAuthority> authorities = new LinkedHashSet<>();
 
 }

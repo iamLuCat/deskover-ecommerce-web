@@ -6,6 +6,7 @@ import {FormGroup, FormControl} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {AuthService} from "@services/auth.service";
+import {Admin} from "@/entites/admin";
 
 const BASE_CLASSES = 'main-header navbar navbar-expand';
 @Component({
@@ -17,6 +18,7 @@ export class HeaderComponent implements OnInit {
     @HostBinding('class') classes: string = BASE_CLASSES;
     public ui: Observable<UiState>;
     public searchForm: FormGroup;
+    public user: Admin;
 
     constructor(
         private authService: AuthService,
@@ -31,6 +33,7 @@ export class HeaderComponent implements OnInit {
         this.searchForm = new FormGroup({
             search: new FormControl(null)
         });
+        this.user = this.authService.user;
     }
 
     logout() {

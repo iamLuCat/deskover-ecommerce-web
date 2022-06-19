@@ -2,9 +2,10 @@ package com.deskover.service.impl;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,12 +21,17 @@ public class CategoryServiceImpl implements CategoryService {
 
 	/**
 	 * Find categories by activated
-	 * @param isActivated - true or false
+	 * @param isActive - true or false
 	 * @return list of categories by activated
 	 */
 	@Override
-	public List<Category> findByActivated(Boolean isActivated) {
-		return categoryRepository.findByActived(isActivated);
+	public List<Category> getByActived(Boolean isActive) {
+		return categoryRepository.findByActived(isActive);
+	}
+
+	@Override
+	public List<Category> getByActived(Boolean isActive, Integer page, Integer size) {
+		return categoryRepository.findByActived(isActive, PageRequest.of(page, size));
 	}
 
 	/**
@@ -34,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
 	 * @return	category by id
 	 */
 	@Override
-	public Category findById(Long id) {
+	public Category getById(Long id) {
 		return categoryRepository.findById(id).orElse(null);
 	}
 
