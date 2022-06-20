@@ -9,7 +9,7 @@
 @import '~ngx-toastr/toastr';
 
 @import '~datatables.net-bs4/css/dataTables.bootstrap4.min.css';
-@import '~datatables.net-colreorder-dt/css/colReorder.dataTables.css';
+@import '~datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 
 body {
     width: 100vw;
@@ -17,7 +17,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 0px;
+    width: 0;
     background: transparent;
 }
 
