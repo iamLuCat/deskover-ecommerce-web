@@ -1,7 +1,5 @@
 package com.deskover.api.admin;
 
-import java.text.SimpleDateFormat;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.entity.Subcategory;
-import com.deskover.repository.SubcategoryRepository;
 import com.deskover.service.SubcategoryService;
 
 @RestController
@@ -28,36 +25,7 @@ public class SubcategoryApi {
 	
 	@Autowired
 	SubcategoryService subcategoryService;
-	
-	@GetMapping("/subcategories/activated")
-	public ResponseEntity<?> doGetIsActivated(){
-		List<Subcategory> subcategories = subcategoryService.getByActive(Boolean.TRUE);
-		if (subcategories.isEmpty()) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Not Found SubCategory Actived"));
-		}
-		return ResponseEntity.ok(subcategories);
-	}
 
-	/**
-	 * Get subcategory is unactivated
-	 * @return Subcategory
-	 */
-	
-	@GetMapping("/subcategories/unactivated")
-	public ResponseEntity<?> doGetIsUnactivated(){
-		List<Subcategory> subcategories = subcategoryService.getByActive(Boolean.FALSE);
-		if (subcategories.isEmpty()) {
-			return ResponseEntity.ok(new MessageResponse("Not found Subcategory not activated"));
-		}
-		return ResponseEntity.ok(subcategories);
-	}
-
-	/**
-	 * Get subcategory by id
-	 * @param id subcategory id
-	 * @return Subcategory
-	 */
-	
 	//Tìm theo id
 	@GetMapping("/subcategories/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
