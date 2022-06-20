@@ -2,6 +2,7 @@ package com.deskover.service.impl;
 
 import com.deskover.entity.Subcategory;
 import com.deskover.repository.SubcategoryRepository;
+import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
 import com.deskover.service.SubcategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -17,6 +18,9 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 	
 	@Autowired
 	SubcategoryRepository repo;
+	
+	@Autowired
+	SubCategoryRepoForDatatables repoForDatatables;
 
 	@Override
 	public List<Subcategory> getByCategory(Long categoryId) {
@@ -67,7 +71,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 	@Override
 	public DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input) {
 		
-		 DataTablesOutput<Subcategory> subcategories = repForDatatable.findAll(input);
+		 DataTablesOutput<Subcategory> subcategories = repoForDatatables.findAll(input);
 	        if (subcategories.getError() != null) {
 	            throw new IllegalArgumentException(subcategories.getError());
 	        }
