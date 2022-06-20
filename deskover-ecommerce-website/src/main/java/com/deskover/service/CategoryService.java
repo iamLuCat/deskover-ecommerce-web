@@ -1,14 +1,13 @@
 package com.deskover.service;
 
-import com.deskover.dto.CategoryDto;
-import com.deskover.entity.Category;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
-import java.util.List;
+import com.deskover.dto.CategoryDto;
+import com.deskover.entity.Category;
 
 public interface CategoryService {
 	List<Category> getByActived(Boolean isActive);

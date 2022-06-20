@@ -2,8 +2,11 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.entity.Subcategory;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.deskover.entity.Subcategory;
 
 public interface SubcategoryService {
 
@@ -12,6 +15,8 @@ public interface SubcategoryService {
 	List<Subcategory> getByActive(Boolean isActive);
 
 	Subcategory getById(Long id);
+	
+	Subcategory create(Subcategory subcategory);
 
 	Subcategory update(Subcategory subcategory);
 
@@ -19,4 +24,6 @@ public interface SubcategoryService {
 	void delete(Long id);
 
 	void deleteMultiple(List<Subcategory> subcategories);
+
+	DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input);
 }

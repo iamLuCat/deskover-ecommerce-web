@@ -1,20 +1,27 @@
 package com.deskover.service.impl;
 
-import com.deskover.entity.Subcategory;
-import com.deskover.repository.SubcategoryRepository;
-import com.deskover.service.SubcategoryService;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.List;
+import com.deskover.entity.Subcategory;
+import com.deskover.repository.SubcategoryRepository;
+import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
+import com.deskover.service.SubcategoryService;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
 	
 	@Autowired
 	SubcategoryRepository repo;
+	
+	@Autowired
+	SubCategoryRepoForDatatables repForDatatable;
 
 	@Override
 	public List<Subcategory> getByCategory(Long categoryId) {
@@ -60,6 +67,23 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 			subcategory.setActived(Boolean.FALSE);
 		});
 		repo.saveAll(subcategories);
+	}
+
+	@Override
+	public DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input) {
+		
+		 DataTablesOutput<Subcategory> subcategories = repForDatatable.findAll(input);
+	        if (subcategories.getError() != null) {
+	            throw new IllegalArgumentException(subcategories.getError());
+	        }
+		 
+		return subcategories;
+	}
+
+	@Override
+	public Subcategory create(Subcategory subcategory) {
+		subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		return repo.saveAndFlush(subcategory);
 	}
 
 }
