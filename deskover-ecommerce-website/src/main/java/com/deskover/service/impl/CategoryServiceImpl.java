@@ -1,12 +1,8 @@
 package com.deskover.service.impl;
 
-import com.deskover.dto.CategoryDto;
-import com.deskover.entity.Category;
-import com.deskover.entity.Subcategory;
-import com.deskover.repository.CategoryRepository;
-import com.deskover.repository.datatables.CategoryRepoForDatatables;
-import com.deskover.service.CategoryService;
-import com.deskover.service.SubcategoryService;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,8 +11,12 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.List;
+import com.deskover.entity.Category;
+import com.deskover.entity.Subcategory;
+import com.deskover.repository.CategoryRepository;
+import com.deskover.repository.datatables.CategoryRepoForDatatables;
+import com.deskover.service.CategoryService;
+import com.deskover.service.SubcategoryService;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
