@@ -34,6 +34,9 @@ public class Discount implements Serializable {
     @Column(name = "description", nullable = false, length = 50)
     private String description;
 
+    @Column(name = "percent", nullable = false)
+    private Integer percent;
+
     @Column(name = "start_date", nullable = false)
     @CreationTimestamp
     private Timestamp startDate;

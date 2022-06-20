@@ -37,13 +37,7 @@ public class Order implements Serializable {
 
     @Column(name = "full_name", nullable = false, length = 128)
     private String fullName;
-
-    @Column(name = "address", nullable = false)
-    private String address;
-
-    @Column(name = "tel", nullable = false, length = 10)
-    private String tel;
-
+    
     @Column(name = "email", length = 50)
     private String email;
 
