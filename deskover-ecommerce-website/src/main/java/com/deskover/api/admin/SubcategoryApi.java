@@ -29,14 +29,34 @@ public class SubcategoryApi {
 	@Autowired
 	SubcategoryService subcategoryService;
 	
-	@Autowired
-	SubcategoryRepository repository;
-	
-	@GetMapping("/subcategories")
-	public ResponseEntity<?> doGetAll(){
-
-		return ResponseEntity.ok(repository.findAll());
+	@GetMapping("/subcategories/activated")
+	public ResponseEntity<?> doGetIsActivated(){
+		List<Subcategory> subcategories = subcategoryService.getByActive(Boolean.TRUE);
+		if (subcategories.isEmpty()) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Not Found SubCategory Actived"));
+		}
+		return ResponseEntity.ok(subcategories);
 	}
+
+	/**
+	 * Get subcategory is unactivated
+	 * @return Subcategory
+	 */
+	
+	@GetMapping("/subcategories/unactivated")
+	public ResponseEntity<?> doGetIsUnactivated(){
+		List<Subcategory> subcategories = subcategoryService.getByActive(Boolean.FALSE);
+		if (subcategories.isEmpty()) {
+			return ResponseEntity.ok(new MessageResponse("Not found Subcategory not activated"));
+		}
+		return ResponseEntity.ok(subcategories);
+	}
+
+	/**
+	 * Get subcategory by id
+	 * @param id subcategory id
+	 * @return Subcategory
+	 */
 	
 	//Tìm theo id
 	@GetMapping("/subcategories/{id}")

@@ -1,27 +1,22 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-
+import com.deskover.entity.Subcategory;
+import com.deskover.repository.SubcategoryRepository;
+import com.deskover.service.SubcategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.Subcategory;
-import com.deskover.repository.SubcategoryRepository;
-import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
-import com.deskover.service.SubcategoryService;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
 	
 	@Autowired
 	SubcategoryRepository repo;
-	
-	@Autowired
-	SubCategoryRepoForDatatables repForDatatable;
 
 	@Override
 	public List<Subcategory> getByCategory(Long categoryId) {

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.deskover.entity.Subcategory;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface SubcategoryService {
 
