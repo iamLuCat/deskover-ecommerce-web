@@ -31,7 +31,7 @@ public class SubcategoryApi {
 	
 	@GetMapping("/subcategories/activated")
 	public ResponseEntity<?> doGetIsActivated(){
-		List<Subcategory> subcategories = subcategoryService.findByActivated(Boolean.TRUE);
+		List<Subcategory> subcategories = subcategoryService.getByActive(Boolean.TRUE);
 		if (subcategories.isEmpty()) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Not Found SubCategory Actived"));
 		}
@@ -45,7 +45,7 @@ public class SubcategoryApi {
 	
 	@GetMapping("/subcategories/unactivated")
 	public ResponseEntity<?> doGetIsUnactivated(){
-		List<Subcategory> subcategories = subcategoryService.findByActivated(Boolean.FALSE);
+		List<Subcategory> subcategories = subcategoryService.getByActive(Boolean.FALSE);
 		if (subcategories.isEmpty()) {
 			return ResponseEntity.ok(new MessageResponse("Not found Subcategory not activated"));
 		}
@@ -60,7 +60,7 @@ public class SubcategoryApi {
 	
 	@GetMapping("/subcategories/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
-		Subcategory subcategory = subcategoryService.findById(id);
+		Subcategory subcategory = subcategoryService.getById(id);
 		if (subcategory == null) {
 			return ResponseEntity.ok(new MessageResponse("Not Found SubCategory"));
 		}

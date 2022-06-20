@@ -6,6 +6,8 @@ import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
 import {Category} from "@/entites/category";
 import {HttpParams} from "@angular/common/http";
+import {DataTablesResponse} from "@/entites/data-tables-response";
+import {retry} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,14 @@ export class CategoryService {
       .set('size', size.toString())
       .set('isActive', isActive.toString());
     return this.restApiService.getWithParams(this.url, params);
+  }
+
+  getAllForDatatables(tableQuery: any): Promise<DataTablesResponse> {
+    return this.restApiService.post(this.url + '/datatables', tableQuery).pipe(retry(1)).toPromise();
+  }
+
+  deleteById(id: number) {
+    return null;
   }
 
 }

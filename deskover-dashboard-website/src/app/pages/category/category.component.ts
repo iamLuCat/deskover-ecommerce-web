@@ -1,9 +1,8 @@
 import {Category} from '@/entites/category';
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UrlUtils} from "@/utils/url-utils";
 import {CategoryService} from '@services/category.service';
-import {ADTSettings} from 'angular-datatables/src/models/settings';
 import Swal from 'sweetalert2';
 import {DatePipe} from "@angular/common";
 
@@ -12,7 +11,7 @@ import {DatePipe} from "@angular/common";
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, AfterViewInit {
   categories: Category[];
   category: Category;
   closeResult: string;
@@ -26,69 +25,72 @@ export class CategoryComponent implements OnInit {
     private modalService: NgbModal,
     private categoryService: CategoryService,
   ) {
-    this.category = <Category>{};
+  }
+
+
+
+  ngAfterViewInit() {
+    const self = this;
+
+    // delete category
+    $('body').on('click', '.btn-delete', function () {
+      const id = $(this).data('id');
+      self.deleteCategory(id);
+    });
   }
 
   ngOnInit() {
+    const self = this;
+
     this.dtOptions = {
       pagingType: 'full_numbers',
-      paging: true,
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      responsive: false,
+      responsive: true,
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.categoryService.getAll(dataTablesParameters.start / dataTablesParameters.length, dataTablesParameters.length, true).subscribe(data => {
+        this.categoryService.getAllForDatatables(dataTablesParameters).then(resp => {
+          self.categories = resp.data;
           callback({
-            recordsTotal: data.totalElements,
-            recordsFiltered: data.totalElements,
-            data: data.content
+            recordsTotal: resp.recordsTotal,
+            recordsFiltered: resp.recordsFiltered,
+            data: self.categories
           });
         });
       },
       columns: [
-        {title: 'Tên', data: 'name'},
-        {title: 'Slug', data: 'slug'},
+        {title: 'Tên danh mục', data: 'name', className: 'align-middle'},
+        {title: 'Slug danh mục', data: 'slug', className: 'align-middle'},
         {
-          title: 'Ngày tạo',
-          data: 'createdAt',
-          className: 'text-center',
+          title: 'Ngày tạo', data: 'createdAt', className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
         {
-          title: 'Ngày sửa',
-          data: 'modifiedAt',
-          className: 'text-center',
+          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
-        {
-          title: 'Trạng thái',
-          data: 'actived',
-          className: 'text-center',
+        /*{
+          title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
-            return data ? '<span class="badge badge-success">Hoạt động</span>' : '<span class="badge badge-danger">Không hoạt động</span>';
+            return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Đã kích hoạt' : 'Chưa kích hoạt'}</span>`;
           }
-        },
+        },*/
         {
-          title: 'Tác vụ',
-          data: null,
-          orderable: false,
-          searchable: false,
-          className: 'text-center',
+          title: 'Tác vụ', data: null, orderable: false, searchable: false, className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
             return `
-                <a href="javascript:void(0)" class="btn btn-sm btn-warning"
-                   data-toggle="tooltip" data-placement="top" title="Sửa"><i
-                  class="fa fa-edit"></i></a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-danger"
-                   data-toggle="tooltip" data-placement="top" title="Xoá"><i
-                  class="fa fa-trash"></i></a>
+                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info"
+                   data-id="${data.id}"><i
+                  class="fa fa-pen-square text-info"></i></a>
+                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger"
+                   data-id="${data.id}"><i
+                  class="fa fa-trash text-danger"></i></a>
             `;
           }
         },
@@ -109,15 +111,12 @@ export class CategoryComponent implements OnInit {
   }
 
   getCategory(id: number) {
-    // return Object.values(this.categories).find(category => category.id == id);
   }
 
   editCategory(id: number) {
-
   }
 
   saveCategory(category: Category) {
-
   }
 
   deleteCategory(id: number) {
@@ -131,7 +130,16 @@ export class CategoryComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       confirmButtonText: 'Có',
     }).then((result) => {
-
+      if (result.value) {
+        // this.categoryService.delete(id).subscribe(data => {
+        //   Swal.fire(
+        //     'Xoá thành công!',
+        //     'Danh mục đã được xoá.',
+        //     'success'
+        //   );
+        //   this.getCategories(1, 10, true);
+        // });
+      }
     })
   }
 

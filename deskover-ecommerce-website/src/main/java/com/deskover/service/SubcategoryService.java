@@ -1,15 +1,22 @@
 package com.deskover.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.deskover.entity.Subcategory;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface SubcategoryService {
+
+	List<Subcategory> getByCategory(Long categoryId);
 	
-	List<Subcategory> findByActivated(Boolean isActivated);
+	List<Subcategory> getByActive(Boolean isActive);
 
-	Subcategory findById(Long id);
+	Subcategory getById(Long id);
 
-	Subcategory update(Subcategory subcategory) throws SQLException;
+	Subcategory update(Subcategory subcategory);
+
+	@Transactional
+	void delete(Long id);
+
+	void deleteMultiple(List<Subcategory> subcategories);
 }
