@@ -1,13 +1,11 @@
 package com.deskover.service.impl;
 
-import com.deskover.dto.CategoryDto;
 import com.deskover.entity.Category;
 import com.deskover.entity.Subcategory;
 import com.deskover.repository.CategoryRepository;
 import com.deskover.repository.datatables.CategoryRepoForDatatables;
 import com.deskover.service.CategoryService;
 import com.deskover.service.SubcategoryService;
-import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,20 +35,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public DataTablesOutput<CategoryDto> getAllForDatatables(DataTablesInput input) {
+    public DataTablesOutput<Category> getAllForDatatables(DataTablesInput input) {
         DataTablesOutput<Category> categories = repoForDatatables.findAll(input);
-
         if (categories.getError() != null) {
             throw new IllegalArgumentException(categories.getError());
         }
-
-        DataTablesOutput<CategoryDto> result = new DataTablesOutput<>();
-        result.setData(MapperUtil.mapAll(categories.getData(), CategoryDto.class));
-        result.setDraw(categories.getDraw());
-        result.setError(categories.getError());
-        result.setRecordsFiltered(categories.getRecordsFiltered());
-        result.setRecordsTotal(categories.getRecordsTotal());
-        return result;
+        return categories;
     }
 
     @Override
