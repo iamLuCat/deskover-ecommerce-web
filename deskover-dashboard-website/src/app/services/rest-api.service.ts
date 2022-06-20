@@ -28,8 +28,8 @@ export class RestApiService {
     return this.httpClient.post(link, body).pipe(catchError(RestApiService.handleError));
   }
 
-  put(link: string, id: number, body: any): Observable<any> {
-    return this.httpClient.put(link + '/' + id, body).pipe(catchError(RestApiService.handleError));
+  put(link: string, body: any): Observable<any> {
+    return this.httpClient.put(link, body).pipe(catchError(RestApiService.handleError));
   }
 
   delete(link: string, id: number) {
@@ -38,7 +38,7 @@ export class RestApiService {
 
   private static handleError(error: any) {
     let errorMessage = 'Unknown error!';
-    if (error.error.message) {
+    if (error.error) {
       errorMessage = error.error.message;
     } else {
       errorMessage = `Error Code: ${error.status} - Message: ${error.message}`;

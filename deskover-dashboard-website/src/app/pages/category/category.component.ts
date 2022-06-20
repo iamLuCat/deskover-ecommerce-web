@@ -2,12 +2,13 @@ import {Category} from '@/entites/category';
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UrlUtils} from "@/utils/url-utils";
-import {CategoryService} from '@services/category.service';
 import {DatePipe} from "@angular/common";
 import {DataTableDirective} from "angular-datatables";
 import {Subject} from "rxjs";
 import Swal from 'sweetalert2';
 import {ToastrService} from "ngx-toastr";
+import {environment} from "../../../environments/environment";
+import {RestApiService} from "@services/rest-api.service";
 
 
 @Component({
@@ -16,20 +17,22 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
+  url = environment.globalUrl.categoryApi;
+
   categories: Category[];
   category: Category;
   closeResult: string;
   isEdit: boolean = false;
 
-  @ViewChild('categoryModal') categoryModal: any;
-  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
-
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
+  @ViewChild('categoryModal') categoryModal: any;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+
   constructor(
     private modalService: NgbModal,
-    private categoryService: CategoryService,
+    private restApiService: RestApiService,
     private toastr: ToastrService,
   ) {
   }
@@ -46,7 +49,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.categoryService.getAllForDatatables(dataTablesParameters).then(resp => {
+        this.restApiService.post(this.url + '/datatables', dataTablesParameters).toPromise().then(resp => {
           self.categories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -70,14 +73,18 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
-        /*{
-          title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
-          render: (data, type, full, meta) => {
-            return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Đã kích hoạt' : 'Chưa kích hoạt'}</span>`;
-          }
-        },*/
+        // {
+        //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
+        //   render: (data, type, full, meta) => {
+        //     return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Đã kích hoạt' : 'Chưa kích hoạt'}</span>`;
+        //   }
+        // },
         {
-          title: 'Tác vụ', data: null, orderable: false, searchable: false, className: 'align-middle text-left text-md-center',
+          title: 'Tác vụ',
+          data: null,
+          orderable: false,
+          searchable: false,
+          className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
             return `
                 <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info"
@@ -95,10 +102,15 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const self = this;
+
     this.dtTrigger.next();
 
-    // Delete category
-    $('body').on('click', '.btn-delete', function () {
+    let body = $('body');
+    body.on('click', '.btn-edit', function () {
+      const id = $(this).data('id');
+      self.getCategory(id);
+    });
+    body.on('click', '.btn-delete', function () {
       const id = $(this).data('id');
       self.deleteCategory(id);
     });
@@ -123,19 +135,30 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openModal(this.categoryModal);
   }
 
-  getCategories(page: number, size: number, isActive: Boolean) {
-    this.categoryService.getAll(page, size, isActive).subscribe(data => {
-      this.categories = data;
+  getCategory(id: number) {
+    this.restApiService.getOne(this.url, id).subscribe(data => {
+      this.category = data;
+      this.isEdit = true;
+      this.openModal(this.categoryModal);
     });
   }
 
-  getCategory(id: number) {
-  }
-
-  editCategory(id: number) {
-  }
-
   saveCategory(category: Category) {
+    if (this.isEdit) {
+      this.restApiService.put(this.url, category).subscribe(data => {
+        this.toastr.success('Cập nhật thành công');
+        this.rerender();
+      }, error => {
+        this.toastr.error(error);
+      });
+    } else {
+      this.restApiService.post(this.url, category).subscribe(data => {
+        this.toastr.success('Thêm mới thành công');
+        this.rerender();
+      }, error => {
+        this.toastr.error(error);
+      });
+    }
   }
 
   deleteCategory(id: number) {
@@ -150,11 +173,12 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       confirmButtonText: 'Có',
     }).then((result) => {
       if (result.value) {
-        this.categoryService.deleteById(id);
-        this.rerender();
-        this.toastr.success('Xoá danh mục thành công');
+        this.restApiService.delete(this.url, id).subscribe(data => {
+          this.toastr.success('Xoá danh mục thành công');
+          this.rerender();
+        });
       }
-    })
+    });
   }
 
   // Slugify

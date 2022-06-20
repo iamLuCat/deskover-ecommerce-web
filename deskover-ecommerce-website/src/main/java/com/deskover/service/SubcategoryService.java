@@ -27,4 +27,6 @@ public interface SubcategoryService {
 	void deleteMultiple(List<Subcategory> subcategories);
 
 	DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input);
+
+	Boolean existsBySlug(String slug);
 }

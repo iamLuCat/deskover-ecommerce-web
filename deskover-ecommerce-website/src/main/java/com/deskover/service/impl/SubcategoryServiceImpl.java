@@ -80,6 +80,11 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 	}
 
 	@Override
+	public Boolean existsBySlug(String slug) {
+		return repo.existsBySlug(slug);
+	}
+
+	@Override
 	public Subcategory create(Subcategory subcategory) {
 		subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		return repo.saveAndFlush(subcategory);
