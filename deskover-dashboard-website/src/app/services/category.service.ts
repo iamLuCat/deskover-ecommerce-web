@@ -30,11 +30,11 @@ export class CategoryService {
   }
 
   getAllForDatatables(tableQuery: any): Promise<DataTablesResponse> {
-    return this.restApiService.post(this.url + '/datatables', tableQuery).pipe(retry(1)).toPromise();
+    return this.restApiService.post(this.url + '/datatables', tableQuery).toPromise();
   }
 
   deleteById(id: number) {
-    return null;
+    return this.restApiService.delete(this.url, id).toPromise();
   }
 
 }

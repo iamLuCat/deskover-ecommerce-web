@@ -1,42 +1,37 @@
 import {Category} from '@/entites/category';
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UrlUtils} from "@/utils/url-utils";
 import {CategoryService} from '@services/category.service';
-import Swal from 'sweetalert2';
 import {DatePipe} from "@angular/common";
+import {DataTableDirective} from "angular-datatables";
+import {Subject} from "rxjs";
+import Swal from 'sweetalert2';
+import {ToastrService} from "ngx-toastr";
+
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit, AfterViewInit {
+export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   categories: Category[];
   category: Category;
   closeResult: string;
   isEdit: boolean = false;
 
-  dtOptions: any = {};
-
   @ViewChild('categoryModal') categoryModal: any;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+
+  dtOptions: any = {};
+  dtTrigger: Subject<any> = new Subject();
 
   constructor(
     private modalService: NgbModal,
     private categoryService: CategoryService,
+    private toastr: ToastrService,
   ) {
-  }
-
-
-
-  ngAfterViewInit() {
-    const self = this;
-
-    // delete category
-    $('body').on('click', '.btn-delete', function () {
-      const id = $(this).data('id');
-      self.deleteCategory(id);
-    });
   }
 
   ngOnInit() {
@@ -56,7 +51,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: self.categories
+            data: self.categories.filter(category => category.actived)
           });
         });
       },
@@ -98,6 +93,30 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     }
   }
 
+  ngAfterViewInit() {
+    const self = this;
+    this.dtTrigger.next();
+
+    // Delete category
+    $('body').on('click', '.btn-delete', function () {
+      const id = $(this).data('id');
+      self.deleteCategory(id);
+    });
+  }
+
+  ngOnDestroy() {
+    this.dtTrigger.unsubscribe();
+  }
+
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next();
+    });
+  }
+
   newCategory() {
     this.isEdit = false;
     this.category = <Category>{};
@@ -131,14 +150,9 @@ export class CategoryComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'Có',
     }).then((result) => {
       if (result.value) {
-        // this.categoryService.delete(id).subscribe(data => {
-        //   Swal.fire(
-        //     'Xoá thành công!',
-        //     'Danh mục đã được xoá.',
-        //     'success'
-        //   );
-        //   this.getCategories(1, 10, true);
-        // });
+        this.categoryService.deleteById(id);
+        this.rerender();
+        this.toastr.success('Xoá danh mục thành công');
       }
     })
   }
@@ -166,5 +180,4 @@ export class CategoryComponent implements OnInit, AfterViewInit {
       return `with: ${reason}`;
     }
   }
-
 }
