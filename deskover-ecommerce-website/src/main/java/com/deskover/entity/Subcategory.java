@@ -54,6 +54,8 @@ public class Subcategory implements Serializable {
 
     @Column(name = "actived")
     private Boolean actived;
+    
+//    private String date_at;
 
     @JsonIgnore
     @OneToMany(mappedBy = "subCategory")

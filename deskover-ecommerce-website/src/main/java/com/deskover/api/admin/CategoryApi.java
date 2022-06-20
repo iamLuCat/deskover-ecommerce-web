@@ -5,10 +5,12 @@ import com.deskover.entity.Category;
 import com.deskover.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -33,12 +35,11 @@ public class CategoryApi {
         return ResponseEntity.ok(categories);
     }
 
-    /**
-     * Get category by id
-     *
-     * @param id category id
-     * @return Category
-     */
+    @PostMapping("/categories/datatables")
+    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
+        return ResponseEntity.ok(categoryService.getAllForDatatables(input));
+    }
+
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
         Category category = categoryService.getById(id);
@@ -48,12 +49,6 @@ public class CategoryApi {
         return ResponseEntity.ok(category);
     }
 
-    /**
-     * Create category
-     *
-     * @param category to create
-     * @return Category created
-     */
     @PostMapping("/categories")
     public ResponseEntity<?> doPostCreate(@RequestBody Category category) {
         try {
@@ -64,16 +59,20 @@ public class CategoryApi {
         }
     }
 
-    /**
-     * Update category
-     *
-     * @param category to update
-     * @return Category updated
-     */
     @PutMapping("/categories")
     public ResponseEntity<?> updateCategory(@RequestBody Category category) {
         try {
             categoryService.update(category);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
+        try {
+            categoryService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

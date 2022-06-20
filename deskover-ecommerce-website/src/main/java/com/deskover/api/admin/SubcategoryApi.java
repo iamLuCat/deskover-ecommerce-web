@@ -1,10 +1,12 @@
 package com.deskover.api.admin;
 
-import java.util.List;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.deskover.entity.Subcategory;
 import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.entity.Subcategory;
 import com.deskover.service.SubcategoryService;
 
 @RestController
@@ -24,77 +26,49 @@ public class SubcategoryApi {
 	@Autowired
 	SubcategoryService subcategoryService;
 
-	/**
-	 * Get subcategories is activated
-	 * @return List<Subcategory>
-	 */
-	
-	@GetMapping("/subcategories/activated")
-	public ResponseEntity<?> doGetIsActivated(){
-		List<Subcategory> subcategories = subcategoryService.findByActivated(Boolean.TRUE);
-		if (subcategories.isEmpty()) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Not Found SubCategory Actived"));
-		}
-		return ResponseEntity.ok(subcategories);
-	}
-
-	/**
-	 * Get subcategory is unactivated
-	 * @return Subcategory
-	 */
-	
-	@GetMapping("/subcategories/unactivated")
-	public ResponseEntity<?> doGetIsUnactivated(){
-		List<Subcategory> subcategories = subcategoryService.findByActivated(Boolean.FALSE);
-		if (subcategories.isEmpty()) {
-			return ResponseEntity.ok(new MessageResponse("Not found Subcategory not activated"));
-		}
-		return ResponseEntity.ok(subcategories);
-	}
-
-	/**
-	 * Get subcategory by id
-	 * @param id subcategory id
-	 * @return Subcategory
-	 */
-	
+	//Tìm theo id
 	@GetMapping("/subcategories/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
-		Subcategory subcategory = subcategoryService.findById(id);
+		Subcategory subcategory = subcategoryService.getById(id);
 		if (subcategory == null) {
 			return ResponseEntity.ok(new MessageResponse("Not Found SubCategory"));
-		}
-		return ResponseEntity.ok(subcategory);
+		}else {
+			return ResponseEntity.ok(subcategory);
+		}		
 	}
-
-	/**
-	 * Create subcategory
-	 * @param subcategory can be created
-	 * @return	Subcategory created
-	 */
+	
+	//datatable
+	@PostMapping("/subcategories/datatables")
+    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
+        return ResponseEntity.ok(subcategoryService.getAllForDatatables(input));
+    }
 	
 	@PostMapping("/subcategories")
 	public ResponseEntity<?> doPostCreate(@RequestBody Subcategory subcategory){
 		try {
-			subcategoryService.update(subcategory);
+			subcategoryService.create(subcategory);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
 
-	/**
-	 * Update subcategory
-	 * @param subcategory can be updated
-	 * @return Subcategory updated
-	 */
-
 	@PutMapping("/subcategories")
-	public ResponseEntity<?> updateCategory(@RequestBody Subcategory subcategory){
+	public ResponseEntity<?> updateSubcategory(@RequestBody Subcategory subcategory){
 		try {
 			subcategoryService.update(subcategory);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+	}
+	
+	@DeleteMapping("/subcategories/{id}")
+	public ResponseEntity<?> doDeleteSubcategory(@PathVariable("id") Long id){
+		try {
+			subcategoryService.delete(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
