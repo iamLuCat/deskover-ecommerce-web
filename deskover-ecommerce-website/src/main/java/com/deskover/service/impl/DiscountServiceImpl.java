@@ -1,16 +1,18 @@
 package com.deskover.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.deskover.entity.Discount;
-import com.deskover.entity.Subcategory;
 import com.deskover.repository.DiscountRepository;
+import com.deskover.repository.datatables.DiscountRepoForDatatables;
 import com.deskover.service.DiscountService;
 
 @Service
@@ -18,6 +20,9 @@ public class DiscountServiceImpl implements DiscountService {
 	
 	@Autowired
 	private DiscountRepository repository;
+	
+	@Autowired
+	private DiscountRepoForDatatables repoForDatatables;
 
 	@Override
 	public List<Discount> findAll() {
@@ -26,8 +31,24 @@ public class DiscountServiceImpl implements DiscountService {
 
 	@Override
 	@Transactional
-	public Discount save(Discount discount) {
-		// TODO Auto-generated method stub
+	public Discount create(Discount discount) {
+		discount.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+		return repository.saveAndFlush(discount);
+	}
+	
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		Discount discount = this.getById(id);
+		discount.setDeletedDate(new Timestamp(System.currentTimeMillis()));
+		discount.setActived(Boolean.FALSE);
+		repository.saveAndFlush(discount);
+	}
+
+	@Override
+	@Transactional
+	public Discount update(Discount discount) {
+		discount.setModifiedDate(new Timestamp(System.currentTimeMillis()));
 		return repository.saveAndFlush(discount);
 	}
 
@@ -37,6 +58,20 @@ public class DiscountServiceImpl implements DiscountService {
 		Optional<Discount> optional = repository.findById(id);
 		return optional.isPresent() ? optional.get() : null;
 	}
+
+	@Override
+	public DataTablesOutput<Discount> getAllForDatatables(DataTablesInput input) {
+        DataTablesOutput<Discount> Discount = repoForDatatables.findAll(input);
+        if (Discount.getError() != null) {
+            throw new IllegalArgumentException(Discount.getError());
+        }
+        return Discount;
+	}
+	public Discount getById(Long id) { 
+		return repository.findById(id).orElse(null);
+	}
+
+
 	
 
 }

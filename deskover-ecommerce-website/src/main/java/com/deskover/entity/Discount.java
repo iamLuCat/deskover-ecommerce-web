@@ -56,6 +56,9 @@ public class Discount implements Serializable {
     @Column(name = "deleted_date")
     @CreationTimestamp
     private Timestamp deletedDate;
+    
+    @Column(name = "actived")
+    private Boolean actived;
 
     @JsonIgnore
     @OneToMany(mappedBy = "discount")
