@@ -103,7 +103,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 	@Override
 	public Boolean existsBySlug(Subcategory subcategory) {
 		Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
-		Boolean isExits =(subcategoryExists!=null && !subcategory.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
+		Boolean isExits =(subcategoryExists!=null && !subcategoryExists.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
 				|| categoryService.existsBySlug(subcategory.getSlug());
 		System.out.println(isExits);
 
