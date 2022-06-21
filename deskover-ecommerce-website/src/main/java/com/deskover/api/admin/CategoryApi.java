@@ -1,5 +1,7 @@
 package com.deskover.api.admin;
 
+import com.deskover.configuration.security.payload.response.MessageErrorResponse;
+import com.deskover.configuration.security.payload.response.MessageErrorUtil;
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.entity.Category;
 import com.deskover.service.CategoryService;
@@ -69,7 +71,8 @@ public class CategoryApi {
             categoryService.update(category);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			MessageErrorResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
+			return ResponseEntity.badRequest().body(error);
         }
     }
 
