@@ -76,7 +76,7 @@
               required
             />
             <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-              <span *ngIf="name.errors?.['required']">Vui lòng nhập slug danh mục</span>
+              <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
             </div>
           </div>
         </div>
@@ -93,7 +93,7 @@
               required
             />
             <div  class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
-              <span *ngIf="slug.errors?.['required']">Vui lòng nhập tên danh mục</span>
+              <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@
   <div class="modal-footer">
     <button type="button"
       class="btn btn-outline-danger"
-      (click)="saveCategory(category); modal.close('Save click')"
+      (click)="saveCategory(category);"
       [disabled]="categoryForm.invalid">
       Lưu
     </button>
