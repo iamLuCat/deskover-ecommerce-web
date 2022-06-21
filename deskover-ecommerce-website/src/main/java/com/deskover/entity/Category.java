@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,13 +29,15 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
+    
+    @NotBlank(message="Không bỏ trống tên")
     @Column(name = "name")
     private String name;
 
     @Column(name = "description", length = 150)
     private String description;
 
+    @NotBlank(message="Không bỏ trống slug")
     @Column(name = "slug", nullable = false, length = 50)
     private String slug;
 

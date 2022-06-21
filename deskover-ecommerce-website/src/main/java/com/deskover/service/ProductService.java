@@ -24,4 +24,6 @@ public interface ProductService{
 	DataTablesOutput<Product> getAllForDatatables(DataTablesInput input);
 
 	Boolean existsBySlug(String slug);
+
+	Boolean existsBySlug(Product product);
 }

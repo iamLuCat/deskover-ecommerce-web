@@ -9,6 +9,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.deskover.entity.Category;
 import com.deskover.entity.Subcategory;
 import com.deskover.repository.SubcategoryRepository;
 import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
@@ -108,6 +109,38 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 		System.out.println(isExits);
 
 		return isExits;
+	}
+
+	@Override
+	@Transactional
+	public void deleteAll(List<Subcategory> subcategories) {
+		subcategories.forEach(subcategory -> {
+			repo.delete(subcategory);
+		});
+		
+		
+	}
+
+	@Override
+	public Subcategory changeAvtive(Long id) {
+		Subcategory subcategory = this.getById(id);
+		if (subcategory == null) {
+			throw new IllegalArgumentException("Category not found");
+		}
+		if(subcategory.getCategory().getActived()) {
+			if(subcategory.getActived()) {
+				subcategory.setActived(Boolean.FALSE);
+				subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+				return subcategory;
+			}else {
+				subcategory.setActived(Boolean.TRUE);
+				subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+				repo.saveAndFlush(subcategory);
+				return subcategory;
+			}
+		}else {
+			return null;
+		}
 	}
 
 }
