@@ -80,8 +80,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Boolean existsBySlug(String slug) {
+		Product product = repository.findBySlug(slug);
+		return product!=null;
+	}
+
+	@Override
+	public Product findBySlug(String slug) {
 		// TODO Auto-generated method stub
-		return repository.existsBySlug(slug);
+		return repository.findBySlug(slug);
 	}
 
 }
