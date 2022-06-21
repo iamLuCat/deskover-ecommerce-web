@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 	List<Product> findByActived(Boolean actived, Pageable Page);
+	Boolean existsBySlug(String slug);
 }
