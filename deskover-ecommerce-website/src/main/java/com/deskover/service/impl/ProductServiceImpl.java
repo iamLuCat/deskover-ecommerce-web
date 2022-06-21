@@ -15,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.deskover.entity.Product;
 import com.deskover.repository.ProductRepository;
 import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.CategoryService;
 import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -25,6 +27,12 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	private ProductRepoForDatatables repoForDatatables;
+	
+	@Autowired
+	private SubcategoryService subcategoryService;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	@Override
 	public List<Product> findByActived(Boolean actived, Integer page, Integer size) {
@@ -86,8 +94,17 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product findBySlug(String slug) {
-		// TODO Auto-generated method stub
 		return repository.findBySlug(slug);
+	}
+
+	@Override
+	public Boolean existsBySlug(Product product) {
+		Product productExits = repository.findBySlug(product.getSlug());
+		Boolean isExits =(productExits!=null && !productExits.getId().equals(product.getId())) || subcategoryService.existsBySlug(product.getSlug())
+				|| categoryService.existsBySlug(product.getSlug());
+		System.out.println(isExits);
+
+		return isExits;
 	}
 
 }
