@@ -43,12 +43,23 @@ export const MENU = [
   {
     header: 'QUẢN LÝ',
     name: 'Danh mục',
-    path: ['/category'],
-    icon: 'fas fa-layer-group'
+    icon: 'fas fa-layer-group',
+    children: [
+      {
+        name: 'Danh mục chính',
+        path: ['/category']
+      },
+
+      {
+        name: 'Danh mục con',
+        path: ['/sub-category']
+      }
+    ]
   },
   {
     name: 'Thương hiệu',
     path: ['/brand'],
     icon: 'fas fa-copyright'
-  }
+  },
+
 ];

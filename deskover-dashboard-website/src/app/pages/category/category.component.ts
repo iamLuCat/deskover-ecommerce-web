@@ -148,6 +148,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.restApiService.put(this.url, category).subscribe(data => {
         this.toastr.success('Cập nhật thành công');
         this.rerender();
+        this.closeModal();
       }, error => {
         this.toastr.error(error);
       });
@@ -155,6 +156,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.restApiService.post(this.url, category).subscribe(data => {
         this.toastr.success('Thêm mới thành công');
         this.rerender();
+        this.closeModal();
       }, error => {
         this.toastr.error(error);
       });
@@ -193,6 +195,10 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     }, (reason) => {
       this.closeResult = `Dismissed ${CategoryComponent.getDismissReason(reason)}`;
     });
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
   }
 
   private static getDismissReason(reason: any): string {
