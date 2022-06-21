@@ -103,4 +103,10 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 	}
 
+	@Override
+	public Boolean existsBySlug(String slug) {
+		Category category = repo.findBySlug(slug);
+		return category!=null;
+	}
+
 }

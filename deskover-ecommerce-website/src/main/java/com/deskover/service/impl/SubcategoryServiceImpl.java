@@ -1,17 +1,20 @@
 package com.deskover.service.impl;
 
-import com.deskover.entity.Subcategory;
-import com.deskover.repository.SubcategoryRepository;
-import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
-import com.deskover.service.SubcategoryService;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.List;
+import com.deskover.entity.Subcategory;
+import com.deskover.repository.SubcategoryRepository;
+import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
+import com.deskover.service.CategoryService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
@@ -21,6 +24,12 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 	
 	@Autowired
 	SubCategoryRepoForDatatables repoForDatatables;
+	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	@Override
 	public List<Subcategory> getByCategory(Long categoryId) {
@@ -89,6 +98,16 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 	public Subcategory create(Subcategory subcategory) {
 		subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		return repo.saveAndFlush(subcategory);
+	}
+
+	@Override
+	public Boolean existsBySlug(Subcategory subcategory) {
+		Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
+		Boolean isExits =(subcategoryExists!=null && !subcategory.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
+				|| categoryService.existsBySlug(subcategory.getSlug());
+		System.out.println(isExits);
+
+		return isExits;
 	}
 
 }
