@@ -10,7 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ValidationError {
-	String field;
-	String defaultMessage;
-	String bindingFailure;
+	String message;
 }

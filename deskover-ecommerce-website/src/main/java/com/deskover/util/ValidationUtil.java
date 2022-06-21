@@ -14,21 +14,24 @@ public class ValidationUtil {
      * @param bindingResult BindingResult to convert
      * @return List<ValidationError>
      */
-    public static List<ValidationError> ConvertValidationErrors(BindingResult bindingResult) {
+	
+    public static ValidationError ConvertValidationErrors(BindingResult bindingResult) {
         List<ValidationError> errors = new ArrayList<>();
+        String result = "";
         if (bindingResult != null) {
             bindingResult.getFieldErrors().forEach(results -> {
                 String message = results.getDefaultMessage();
-                String field = results.getField();
-                
+      
                 ValidationError error = new ValidationError();
-                //error.setCode(field);
-                error.setDefaultMessage(message);
-                error.setField(field);
-                
+                error.setMessage(message);
                 errors.add(error);
             });
-        }  
-        return errors;
+        }
+        for (ValidationError validationError : errors) {
+        	result+=validationError.getMessage()+", ";
+		}
+        ValidationError error = new ValidationError();
+        error.setMessage(result);
+        return error;
     }
 }

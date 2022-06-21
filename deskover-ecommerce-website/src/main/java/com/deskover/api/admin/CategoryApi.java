@@ -1,20 +1,35 @@
 package com.deskover.api.admin;
 
-import com.deskover.configuration.security.payload.response.MessageErrorResponse;
-import com.deskover.configuration.security.payload.response.MessageErrorUtil;
-import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.entity.Category;
-import com.deskover.service.CategoryService;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.Objects;
-import java.util.Optional;
+import com.deskover.configuration.security.payload.response.MessageErrorResponse;
+import com.deskover.configuration.security.payload.response.MessageErrorUtil;
+import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.entity.Category;
+import com.deskover.service.CategoryService;
+import com.deskover.util.ValidationError;
+import com.deskover.util.ValidationUtil;
 
 @RestController
 @CrossOrigin("*")
@@ -63,11 +78,16 @@ public class CategoryApi {
     }
 
     @PutMapping("/categories")
-    public ResponseEntity<?> updateCategory(@RequestBody Category category) {
+    public ResponseEntity<?> updateCategory(@Valid @RequestBody Category category,BindingResult result) {
+		if (result.hasErrors()) {
+			ValidationError errors = ValidationUtil.ConvertValidationErrors(result);
+			return ResponseEntity.ok(errors);
+		}
         if (categoryService.existsBySlug(category)) {
             return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
         }
         try {
+    		
             categoryService.update(category);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
