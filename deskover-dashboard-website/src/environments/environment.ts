@@ -12,6 +12,7 @@ export const environment = {
     baseApi: 'http://localhost:8080/v1/api',
     adminApi: 'http://localhost:8080/v1/api/admin',
     categoryApi: 'http://localhost:8080/v1/api/admin/categories',
+    subcategoryApi: 'http://localhost:8080/v1/api/admin/subcategories',
   },
 };
 

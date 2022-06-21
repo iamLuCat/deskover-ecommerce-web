@@ -12,6 +12,7 @@ import {NonAuthGuard} from '@guards/non-auth.guard';
 import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.component';
 import {RecoverPasswordComponent} from '@modules/recover-password/recover-password.component';
 import {PrivacyPolicyComponent} from '@modules/privacy-policy/privacy-policy.component';
+import {SubcategoryComponent} from "@pages/category/subcategory/subcategory.component";
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'category',
         component: CategoryComponent,
+      },
+      {
+        path: 'sub-category',
+        component: SubcategoryComponent,
       },
       {
         path: 'brand',

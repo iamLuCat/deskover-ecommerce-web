@@ -2,18 +2,14 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-uppercase">Danh mục sản phẩm</h1>
+        <h1 class="m-0 text-uppercase">Danh mục chính</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item">
-            <a
-              [routerLink]="['/']"
-              routerLinkActive="router-link-active"
-            >Trang chủ</a
-            >
+            <a [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
           </li>
-          <li class="breadcrumb-item active">Danh mục</li>
+          <li class="breadcrumb-item active">Danh mục chính</li>
         </ol>
       </div>
     </div>
@@ -28,8 +24,7 @@
           <button
             type="button"
             class="btn btn-sm bg-faded-accent"
-            (click)="newCategory()"
-          >
+            (click)="newCategory()">
             <i class="fas fa-plus text-accent"></i>
           </button>
         </div>
@@ -45,7 +40,7 @@
   </div>
 </section>
 <!-- Modal -->
-<ng-template #categoryModal let-modal>
+<ng-template #categoryModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-danger" id="modal-basic-title">
       {{ isEdit ? 'Sửa' : 'Thêm' }} danh mục
@@ -54,8 +49,7 @@
       type="button"
       class="close"
       aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
+      (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>

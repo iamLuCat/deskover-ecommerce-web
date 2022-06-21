@@ -43,6 +43,7 @@ import {BrandComponent} from '@pages/brand/brand.component';
 import {DataTablesModule} from 'angular-datatables';
 import {AuthInterceptor} from "@/interceptor/auth-interceptor";
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SubcategoryComponent } from './pages/category/subcategory/subcategory.component';
 
 registerLocaleData(localeEn, 'en-EN');
 
@@ -76,6 +77,7 @@ registerLocaleData(localeEn, 'en-EN');
         CheckboxComponent,
         CategoryComponent,
         BrandComponent,
+        SubcategoryComponent,
     ],
     imports: [
         BrowserModule,
