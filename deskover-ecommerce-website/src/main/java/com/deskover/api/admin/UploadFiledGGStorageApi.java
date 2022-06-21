@@ -10,6 +10,7 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import com.deskover.dto.ghtk.UrlGGStrogeResponDto;
 import com.deskover.service.FileService;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("v1/api/admin")
 public class UploadFiledGGStorageApi {
 	@Autowired
@@ -29,7 +31,9 @@ public class UploadFiledGGStorageApi {
 	public ResponseEntity<?> upload(@PathParam("files") MultipartFile files) {
 		try {
 			String fileName = files.getOriginalFilename();
-			fileName = UUID.randomUUID().toString().concat(fileService.getExtension(fileName));
+//			fileName = UUID.randomUUID().toString().concat(fileService.getExtension(fileName));
+			
+			fileName = fileService.getExtension(fileName);
 
 			File file = fileService.convertToFile(files, fileName);
 			String TEMP_URL = fileService.uploadFile(file, fileName);

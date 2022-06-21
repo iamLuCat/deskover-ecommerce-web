@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,13 +64,14 @@ public class CategoryApi {
     public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
         return ResponseEntity.ok(categoryService.getAllForDatatables(input));
     }
-
+    // find by id
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
         Category category = categoryService.getById(id);
         return ResponseEntity.ok(Objects.requireNonNullElseGet(category, () -> new MessageResponse("Not Found Category")));
     }
 
+    //create
     @PostMapping("/categories")
     public ResponseEntity<?> doPostCreate(@Valid @RequestBody Category category ,BindingResult result) {
     	if (result.hasErrors()) {
@@ -89,6 +89,7 @@ public class CategoryApi {
         }
     }
 
+    //update category
     @PutMapping("/categories")
     public ResponseEntity<?> updateCategory(@Valid @RequestBody Category category,BindingResult result) {
     	if (result.hasErrors()) {
@@ -107,7 +108,8 @@ public class CategoryApi {
 			return ResponseEntity.badRequest().body(error);
         }
     }
-
+    
+    //change active
     @PutMapping("/categories/{id}")
     public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
         try {
