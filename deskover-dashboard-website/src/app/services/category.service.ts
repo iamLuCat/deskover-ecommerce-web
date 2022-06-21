@@ -30,7 +30,7 @@ export class CategoryService {
     return this.restApi.put(this.url, category);
   }
 
-  delete(id: number) {
+  changeActive(id: number) {
     return this.restApi.delete(this.url, id);
   }
 

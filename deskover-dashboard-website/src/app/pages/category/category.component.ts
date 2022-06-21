@@ -19,7 +19,9 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   categories: Category[];
   category: Category;
-  isEdit: boolean = false;
+
+  isEdit: Boolean = false;
+  isActive: Boolean = true;
 
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
@@ -51,11 +53,11 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.categoryService.getAllForDatatable(dataTablesParameters).then(resp => {
-          self.categories = resp.data;
+          self.categories = resp.data.filter(category => category.actived === this.isActive);
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: self.categories
+            data: []
           });
         });
       },
@@ -63,21 +65,9 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         {title: 'Tên', data: 'name', className: 'align-middle'},
         {title: 'Slug', data: 'slug', className: 'align-middle'},
         {
-          title: 'Ngày tạo', data: 'createdAt', className: 'align-middle text-left text-md-center',
-          render: (data, type, full, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
-        },
-        {
           title: 'Ngày sửa', data: 'modifiedAt', className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
-        },
-        {
-          title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
-          render: (data, type, full, meta) => {
-            return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Đã kích hoạt' : 'Chưa kích hoạt'}</span>`;
           }
         },
         {
@@ -176,11 +166,18 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       confirmButtonText: 'Có',
     }).then((result) => {
       if (result.value) {
-        this.categoryService.delete(id).subscribe(data => {
+        this.categoryService.changeActive(id).subscribe(data => {
           this.toastr.success('Xoá danh mục thành công');
           this.rerender();
         });
       }
+    });
+  }
+
+  activeCategory(id: number) {
+    this.categoryService.changeActive(id).subscribe(data => {
+      this.toastr.success('Kích hoạt danh mục thành công');
+      this.rerender();
     });
   }
 
@@ -197,4 +194,5 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   closeModal() {
     this.modalService.dismissAll();
   }
+
 }
