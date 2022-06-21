@@ -31,4 +31,6 @@ public interface SubcategoryService {
 	Boolean existsBySlug(String slug);
 	
 	Boolean existsBySlug(Subcategory subcategory);
+
+	void deleteAll(List<Subcategory> subcategories);
 }

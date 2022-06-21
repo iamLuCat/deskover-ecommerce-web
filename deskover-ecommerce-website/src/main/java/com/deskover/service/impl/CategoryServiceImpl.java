@@ -32,6 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private ProductService productService;
+	
 
 	// Check if the slug is already in use by another category
 	@Override
@@ -84,29 +85,33 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	public Boolean existsBySlug(String slug) {
+		Category category = repo.findBySlug(slug);
+		return category!=null;
+	}
+
+	@Override
 	@Transactional
-	public void delete(Long id) {
+	public void changeActived(Long id) {
 		Category category = this.getById(id);
 		if (category == null) {
 			throw new IllegalArgumentException("Category not found");
 		}
-		category.setActived(false);
-		category.setDeletedAt(new Timestamp(System.currentTimeMillis()));
-		if (repo.save(category).getActived() == Boolean.TRUE) {
-			throw new IllegalArgumentException("Category not deleted");
+		if(category.getActived()) {
+			category.setActived(Boolean.FALSE);
+			category.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+			repo.saveAndFlush(category);
+		}else {
+			category.setActived(Boolean.TRUE);
+			category.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+			repo.saveAndFlush(category);
 		}
-
 		// Delete all subcategories of this category
 		List<Subcategory> subcategories = subcategoryService.getByCategory(id);
 		if (subcategories != null) {
 			subcategoryService.deleteMultiple(subcategories);
 		}
-	}
-
-	@Override
-	public Boolean existsBySlug(String slug) {
-		Category category = repo.findBySlug(slug);
-		return category!=null;
+		
 	}
 
 }

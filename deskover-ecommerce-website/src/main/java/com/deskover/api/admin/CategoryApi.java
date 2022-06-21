@@ -28,7 +28,6 @@ import com.deskover.configuration.security.payload.response.MessageErrorUtil;
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.entity.Category;
 import com.deskover.service.CategoryService;
-import com.deskover.util.ValidationError;
 import com.deskover.util.ValidationUtil;
 
 @RestController
@@ -52,6 +51,15 @@ public class CategoryApi {
         }
         return ResponseEntity.ok(categories);
     }
+    
+    @GetMapping("/categories/actived")
+    public ResponseEntity<?> doGetAllActive() { 
+        List<Category> categories = categoryService.getByActived(Boolean.TRUE);
+        if (categories.isEmpty()) {
+            return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
+        }
+        return ResponseEntity.ok(categories);
+    }
 
     @PostMapping("/categories/datatables")
     public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
@@ -65,7 +73,11 @@ public class CategoryApi {
     }
 
     @PostMapping("/categories")
-    public ResponseEntity<?> doPostCreate(@RequestBody Category category) {
+    public ResponseEntity<?> doPostCreate(@Valid @RequestBody Category category ,BindingResult result) {
+    	if (result.hasErrors()) {
+			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+			return ResponseEntity.badRequest().body(errors);
+		}
         if (categoryService.existsBySlug(category)) {
             return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
         }
@@ -79,9 +91,9 @@ public class CategoryApi {
 
     @PutMapping("/categories")
     public ResponseEntity<?> updateCategory(@Valid @RequestBody Category category,BindingResult result) {
-		if (result.hasErrors()) {
-			ValidationError errors = ValidationUtil.ConvertValidationErrors(result);
-			return ResponseEntity.ok(errors);
+    	if (result.hasErrors()) {
+			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+			return ResponseEntity.badRequest().body(errors);
 		}
         if (categoryService.existsBySlug(category)) {
             return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
@@ -96,14 +108,14 @@ public class CategoryApi {
         }
     }
 
-    @DeleteMapping("/categories/{id}")
-    public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
         try {
-            categoryService.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+        	categoryService.changeActived(id);
+   		 return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
-
+    
 }

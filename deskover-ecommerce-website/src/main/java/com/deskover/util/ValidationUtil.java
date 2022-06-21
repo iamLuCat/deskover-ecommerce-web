@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.validation.BindingResult;
 
+import com.deskover.configuration.security.payload.response.MessageResponse;
+
 
 
 public class ValidationUtil {
@@ -15,22 +17,24 @@ public class ValidationUtil {
      * @return List<ValidationError>
      */
 	
-    public static ValidationError ConvertValidationErrors(BindingResult bindingResult) {
-        List<ValidationError> errors = new ArrayList<>();
+    public static MessageResponse ConvertValidationErrors(BindingResult bindingResult) {
+        List<MessageResponse> errors = new ArrayList<>();
         String result = "";
+        Integer i=0;
         if (bindingResult != null) {
             bindingResult.getFieldErrors().forEach(results -> {
                 String message = results.getDefaultMessage();
       
-                ValidationError error = new ValidationError();
+                MessageResponse error = new MessageResponse();
                 error.setMessage(message);
                 errors.add(error);
             });
         }
-        for (ValidationError validationError : errors) {
-        	result+=validationError.getMessage()+", ";
+        for (MessageResponse validationError : errors) {
+        	i+=1;
+        	result+=" "+i+"."+validationError.getMessage();
 		}
-        ValidationError error = new ValidationError();
+        MessageResponse error = new MessageResponse();
         error.setMessage(result);
         return error;
     }

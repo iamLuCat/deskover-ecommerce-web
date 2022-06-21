@@ -110,4 +110,14 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 		return isExits;
 	}
 
+	@Override
+	@Transactional
+	public void deleteAll(List<Subcategory> subcategories) {
+		subcategories.forEach(subcategory -> {
+			repo.delete(subcategory);
+		});
+		
+		
+	}
+
 }

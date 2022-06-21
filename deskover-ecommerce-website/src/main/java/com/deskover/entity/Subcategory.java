@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -31,12 +33,14 @@ public class Subcategory implements Serializable {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+	@NotBlank(message="Không bỏ trống tên")
     @Column(name = "name")
     private String name;
 
     @Column(name = "description", length = 150)
     private String description;
 
+    @NotBlank(message="Không bỏ trống slug" )
     @Column(name = "slug", nullable = false, length = 50)
     private String slug;
 
