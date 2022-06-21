@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -43,16 +44,16 @@ public class CategoryApi {
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
         Category category = categoryService.getById(id);
-        if (category == null) {
-            return ResponseEntity.ok(new MessageResponse("Not Found Category"));
-        }
-        return ResponseEntity.ok(category);
+        return ResponseEntity.ok(Objects.requireNonNullElseGet(category, () -> new MessageResponse("Not Found Category")));
     }
 
     @PostMapping("/categories")
     public ResponseEntity<?> doPostCreate(@RequestBody Category category) {
+        if (categoryService.existsBySlug(category)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
+        }
         try {
-            categoryService.update(category);
+            categoryService.create(category);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -61,6 +62,9 @@ public class CategoryApi {
 
     @PutMapping("/categories")
     public ResponseEntity<?> updateCategory(@RequestBody Category category) {
+        if (categoryService.existsBySlug(category)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
+        }
         try {
             categoryService.update(category);
             return new ResponseEntity<>(HttpStatus.OK);

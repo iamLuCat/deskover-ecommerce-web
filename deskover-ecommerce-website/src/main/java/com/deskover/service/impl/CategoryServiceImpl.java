@@ -1,8 +1,11 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-
+import com.deskover.entity.Category;
+import com.deskover.entity.Subcategory;
+import com.deskover.repository.CategoryRepository;
+import com.deskover.repository.datatables.CategoryRepoForDatatables;
+import com.deskover.service.CategoryService;
+import com.deskover.service.SubcategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,12 +14,8 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.Category;
-import com.deskover.entity.Subcategory;
-import com.deskover.repository.CategoryRepository;
-import com.deskover.repository.datatables.CategoryRepoForDatatables;
-import com.deskover.service.CategoryService;
-import com.deskover.service.SubcategoryService;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -29,6 +28,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     SubcategoryService subcategoryService;
+
+    // Check if the slug is already in use by another category
+    @Override
+    public Boolean existsBySlug(Category category) {
+        Category categoryExists = repo.findBySlug(category.getSlug());
+        return categoryExists != null && !categoryExists.getId().equals(category.getId());
+    }
 
     @Override
     public List<Category> getByActived(Boolean isActive) {
@@ -56,9 +62,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
+    public Category create(Category category) {
+        category.setActived(Boolean.TRUE);
+        category.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        return repo.save(category);
+    }
+
+    @Override
+    @Transactional
     public Category update(Category category) {
         category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        return repo.saveAndFlush(category);
+        return repo.save(category);
     }
 
     @Override
