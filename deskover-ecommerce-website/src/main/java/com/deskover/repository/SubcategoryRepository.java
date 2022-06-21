@@ -10,6 +10,8 @@ public interface SubcategoryRepository extends JpaRepository<Subcategory, Long> 
 	List<Subcategory> findByActived(Boolean actived);
 
 	List<Subcategory> findByCategoryId(Long categoryId);
+	
+	Subcategory findBySlug(String slug);
 
 	Boolean existsBySlug(String slug);
 }

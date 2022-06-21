@@ -45,6 +45,9 @@ public class SubcategoryApi {
 	
 	@PostMapping("/subcategories")
 	public ResponseEntity<?> doPostCreate(@RequestBody Subcategory subcategory){
+        if (subcategoryService.existsBySlug(subcategory)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
+        }
 		try {
 			subcategoryService.create(subcategory);
 			return new ResponseEntity<>(HttpStatus.CREATED);
@@ -55,6 +58,9 @@ public class SubcategoryApi {
 
 	@PutMapping("/subcategories")
 	public ResponseEntity<?> updateSubcategory(@RequestBody Subcategory subcategory){
+        if (subcategoryService.existsBySlug(subcategory)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
+        }
 		try {
 			subcategoryService.update(subcategory);
 			return new ResponseEntity<>(HttpStatus.OK);

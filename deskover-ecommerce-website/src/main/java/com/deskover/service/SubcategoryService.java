@@ -29,4 +29,6 @@ public interface SubcategoryService {
 	DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input);
 
 	Boolean existsBySlug(String slug);
+	
+	Boolean existsBySlug(Subcategory subcategory);
 }
