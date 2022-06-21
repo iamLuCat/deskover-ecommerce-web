@@ -19,22 +19,75 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <div class="d-flex justify-content-between align-items-center">
-          <h3 class="card-title">Danh sách danh mục</h3>
-          <button
-            type="button"
-            class="btn btn-sm bg-faded-accent"
-            (click)="newCategory()">
-            <i class="fas fa-plus text-accent"></i>
-          </button>
+        <div class="row">
+          <div class="col-lg-3 col-md-5">
+            <div class="row mb-3 mb-md-0">
+              <label for="filter-category" class="col-lg-auto col-md-4 col-form-label">Trạng thái</label>
+              <select id="filter-category" class="custom-select col-lg-7 col-md-8" [(ngModel)]="isActive"
+                      (change)="rerender()">
+                <option [ngValue]="true">Kích hoạt</option>
+                <option [ngValue]="false">Vô hiệu hoá</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-9 col-md-7 d-flex justify-content-center justify-content-md-end ">
+            <button
+              type="button"
+              class="btn rounded-circle bg-faded-accent"
+              (click)="newCategory()">
+              <i class="fas fa-plus text-accent"></i>
+            </button>
+          </div>
         </div>
       </div>
-
       <div class="card-body p-3">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-sm">
-          <thead class="thead-light"></thead>
-          <tbody></tbody>
-        </table>
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-sm">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col" class="align-middle">Tên</th>
+              <th scope="col" class="align-middle">Slug</th>
+              <th scope="col" class="align-middle text-center">Ngày cập nhật</th>
+              <th scope="col" class="align-middle text-center" style="width: 125px">Tác vụ</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="categories?.length !== 0">
+            <tr *ngFor="let item of categories; let i = index">
+              <td class="align-middle">
+                {{ item.name }}
+              </td>
+              <td class="align-middle">
+                {{ item.slug }}
+              </td>
+              <td class="align-middle text-center">
+                {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-center">
+                <div *ngIf="isActive">
+                  <button type="button" class="btn btn-sm bg-faded-info mr-md-2 mb-md-0 mb-2"
+                          (click)="getCategory(item.id)">
+                    <i class="fas fa-pen-square text-info"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteCategory(item.id)">
+                    <i class="fas fa-trash text-danger"></i>
+                  </button>
+                </div>
+                <div *ngIf="!isActive">
+                  <button type="button" class="btn btn-sm bg-success mr-md-2 mb-md-0 mb-2"
+                          (click)="activeCategory(item.id)">
+                    Kích hoạt
+                  </button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="categories?.length === 0">
+            <tr>
+              <td colspan="5" class="text-center">Không có dữ liệu!</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -86,7 +139,7 @@
               #slug="ngModel"
               required
             />
-            <div  class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
+            <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
               <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
             </div>
           </div>
@@ -96,9 +149,9 @@
   </div>
   <div class="modal-footer">
     <button type="button"
-      class="btn btn-outline-danger"
-      (click)="saveCategory(category);"
-      [disabled]="categoryForm.invalid">
+            class="btn btn-outline-danger"
+            (click)="saveCategory(category);"
+            [disabled]="categoryForm.invalid">
       Lưu
     </button>
   </div>

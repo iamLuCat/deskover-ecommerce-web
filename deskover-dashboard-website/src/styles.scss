@@ -65,6 +65,9 @@ body {
 }
 
 // CSS Custom - End
+.dataTables_empty{
+  display: none;
+}
 
 .user-menu>.nav-link {
     cursor: pointer;
