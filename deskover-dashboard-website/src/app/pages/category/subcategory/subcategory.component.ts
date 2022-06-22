@@ -57,11 +57,11 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.subcategoryService.getAllForDatatable(dataTablesParameters).then(resp => {
-          self.subcategories = resp.data;
+          self.subcategories = resp.data.filter(category => category.actived === this.isActive);
           callback({
             recordsTotal: resp.recordsTotal,
-            recordsFiltered: resp.recordsFiltered,
-            data: self.subcategories.filter(category => category.actived === this.isActive)
+            recordsFiltered: self.subcategories.length,
+            data: self.subcategories
           });
         });
       },

@@ -22,34 +22,10 @@ body {
 }
 
 // CSS Custom - Start
-[data-c-tooltip]:after {
-  z-index: 1000;
-  padding: 8px;
-  width: 160px;
-  background-color: #000;
-  background-color: rgba(51, 51, 51, 0.9);
-  color: #fff;
-  content: attr(data-c-tooltip);
-  font-size: 14px;
-  line-height: 1.2;
-}
-
-[data-c-tooltip]:before {
-  z-index: 1001;
-  border: 6px solid transparent;
-  background: transparent;
-  content: "";
-  margin-left: -6px;
-  margin-bottom: -12px;
-  border-top-color: rgba(51, 51, 51, 0.9)
-}
-
-.dataTables_empty {
-  display: none;
-}
-
-@media screen {
-
+.table-responsive {
+  .dataTables_empty {
+    display: none;
+  }
 }
 
 .invalid-feedback {
