@@ -38,11 +38,21 @@ public class DiscountServiceImpl implements DiscountService {
 	
 	@Override
 	@Transactional
-	public void delete(Long id) {
+	public Discount changeActive(Long id) {
 		Discount discount = this.getById(id);
-		discount.setDeletedDate(new Timestamp(System.currentTimeMillis()));
-		discount.setActived(Boolean.FALSE);
-		repository.saveAndFlush(discount);
+		if (discount!=null) {
+			if(discount.getActived()) {
+				discount.setDeletedDate(new Timestamp(System.currentTimeMillis()));
+				discount.setActived(Boolean.FALSE);
+				return repository.saveAndFlush(discount);
+			}else {
+				discount.setDeletedDate(new Timestamp(System.currentTimeMillis()));
+				discount.setActived(Boolean.TRUE);
+				return repository.saveAndFlush(discount);
+			}
+		}else {
+			return null;
+		}
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class ProductApi {
 	@Autowired
 	RestTemplate restTemplate;
 
-	@GetMapping("/products/actived")
+	@GetMapping("/product/actived")
 	public ResponseEntity<?> doGetAll(@RequestParam("page") Integer page, @RequestParam("items") Integer items) {
 		List<Product> products = productService.findByActived(Boolean.TRUE, page, items);
 		if (products.isEmpty()) {
