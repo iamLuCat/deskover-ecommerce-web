@@ -32,7 +32,7 @@ export class CategoryService {
     return this.restApi.get(this.url + "/actived");
   }
 
-  getOne(id: number): Observable<Category> {
+  getById(id: number): Observable<Category> {
     return this.restApi.getOne(this.url, id);
   }
 

@@ -9,6 +9,7 @@ import {SubcategoryService} from "@services/subcategory.service";
 import {CategoryService} from "@services/category.service";
 import {Category} from "@/entites/category";
 import {AlertUtils} from '@/utils/alert-utils';
+import {SubcategoryDto} from "@/dtos/subcategory-dto";
 
 @Component({
   selector: 'app-subcategory',
@@ -19,6 +20,7 @@ import {AlertUtils} from '@/utils/alert-utils';
 export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   subcategories: Subcategory[];
   subcategory: Subcategory;
+  subcategoryDto: SubcategoryDto;
 
   categories: Category[];
 
@@ -151,21 +153,22 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   newSubcategory() {
     this.isEdit = false;
-    this.subcategory = <Subcategory>{};
+    this.subcategoryDto = <SubcategoryDto>{};
     this.openModal(this.subcategoryModal);
   }
 
   getSubcategory(id: number) {
     this.subcategoryService.getOne(id).subscribe(data => {
-      this.subcategory = data;
+      this.subcategoryDto = this.subcategoryService.convertToDto(data);
       this.isEdit = true;
       this.openModal(this.subcategoryModal);
     });
   }
 
-  saveSubcategory(category: Subcategory) {
-    if (this.isEdit) {
-      this.subcategoryService.create(category).subscribe(data => {
+  saveSubcategory(subcategoryDto: SubcategoryDto) {
+    // console.log(this.subcategoryService.convertToEntity(subcategoryDto));
+    /*if (this.isEdit) {
+      this.subcategoryService.create(subcategory).subscribe(data => {
         AlertUtils.toastSuccess('Cập nhật thành công');
         this.rerender();
         this.closeModal();
@@ -173,14 +176,14 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         AlertUtils.toastError(error);
       });
     } else {
-      this.subcategoryService.update(category).subscribe(data => {
+      this.subcategoryService.update(subcategory).subscribe(data => {
         AlertUtils.toastSuccess('Thêm mới thành công');
         this.rerender();
         this.closeModal();
       }, error => {
         AlertUtils.toastError(error);
       });
-    }
+    }*/
   }
 
   deleteSubcategory(id: number) {

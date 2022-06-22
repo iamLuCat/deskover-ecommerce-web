@@ -1,8 +1,6 @@
-// Tạo interface danh mục sản phẩm
 import {Subcategory} from "@/entites/subcategory";
-import {SubcategoryDto} from "@/dtos/subcategory-dto";
 
-export interface Category {
+export interface SubcategoryDto {
   id: number;
   name: string;
   description: string;
@@ -11,6 +9,5 @@ export interface Category {
   modifiedAt: Date;
   deletedAt: Date;
   actived: boolean;
-  subcategory: Subcategory;
-
+  categoryId: number;
 }

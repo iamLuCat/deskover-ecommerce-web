@@ -93,7 +93,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCategory(id: number) {
-    this.categoryService.getOne(id).subscribe(data => {
+    this.categoryService.getById(id).subscribe(data => {
       this.category = data;
       this.isEdit = true;
       this.openModal(this.categoryModal);
