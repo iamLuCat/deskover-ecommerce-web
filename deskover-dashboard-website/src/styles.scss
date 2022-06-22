@@ -22,6 +22,14 @@ body {
 }
 
 // CSS Custom - Start
+.dataTables_empty{
+  display: none;
+}
+
+@media screen {
+
+}
+
 .invalid-feedback {
     display: block;
 }
@@ -125,13 +133,6 @@ body {
     content: '';
 }
 
-@media (min-width: 576px) {
-    .user-menu>.dropdown-menu>.user-body a {
-        background: #ffffff !important;
-        color: #495057 !important;
-    }
-}
-
 .user-menu>.dropdown-menu>.user-footer {
     background-color: #f8f9fa;
     padding: 10px;
@@ -147,12 +148,6 @@ body {
     color: #6c757d;
 }
 
-@media (min-width: 576px) {
-    .user-menu>.dropdown-menu>.user-footer .btn-default:hover {
-        background-color: #f8f9fa;
-    }
-}
-
 .user-menu .user-image {
     border-radius: 50%;
     float: left;
@@ -160,15 +155,6 @@ body {
     margin-right: 10px;
     margin-top: -2px;
     width: 2.1rem;
-}
-
-@media (min-width: 576px) {
-    .user-menu .user-image {
-        float: none;
-        line-height: 10px;
-        margin-right: 0.4rem;
-        margin-top: -8px;
-    }
 }
 
 .user-menu .user-image {
@@ -180,4 +166,28 @@ body {
 
 .content {
     padding: 0 0.5rem;
+}
+
+@media (min-width: 576px) {
+  .user-menu>.dropdown-menu>.user-footer .btn-default:hover {
+    background-color: #f8f9fa;
+  }
+
+  .user-menu .user-image {
+    float: none;
+    line-height: 10px;
+    margin-right: 0.4rem;
+    margin-top: -8px;
+  }
+
+  .user-menu>.dropdown-menu>.user-body a {
+    background: #ffffff !important;
+    color: #495057 !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .w-sm-100 {
+    width: 100% !important;
+  }
 }

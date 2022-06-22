@@ -12,15 +12,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.deskover.configuration.security.payload.response.MessageErrorResponse;
 import com.deskover.configuration.security.payload.response.MessageErrorUtil;
@@ -61,7 +53,7 @@ public class CategoryApi {
     }
 
     @PostMapping("/categories/datatables")
-    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
+    public ResponseEntity<  ?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
         return ResponseEntity.ok(categoryService.getAllForDatatables(input));
     }
     // find by id
@@ -110,7 +102,7 @@ public class CategoryApi {
     }
     
     //change active
-    @PutMapping("/categories/{id}")
+    @DeleteMapping("/categories/{id}")
     public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
         try {
         	categoryService.changeActived(id);

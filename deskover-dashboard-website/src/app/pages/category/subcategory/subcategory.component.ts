@@ -1,37 +1,40 @@
-import {Category} from '@/entites/category';
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
-import {UrlUtils} from "@/utils/url-utils";
-import {DatePipe} from "@angular/common";
-import {DataTableDirective} from "angular-datatables";
-import {Subject} from "rxjs";
-import {ToastrService} from "ngx-toastr";
 import Swal from 'sweetalert2';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Subject} from "rxjs";
+import {DataTableDirective} from "angular-datatables";
+import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
+import {ToastrService} from "ngx-toastr";
+import {DatePipe} from "@angular/common";
+import {UrlUtils} from "@/utils/url-utils";
+import {Subcategory} from "@/entites/subcategory";
+import {SubcategoryService} from "@services/subcategory.service";
 import {CategoryService} from "@services/category.service";
+import {Category} from "@/entites/category";
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss'],
+  selector: 'app-subcategory',
+  templateUrl: './subcategory.component.html',
+  styleUrls: ['./subcategory.component.scss'],
   providers: [NgbModalConfig, NgbModal]
 })
-export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
+  subcategories: Subcategory[];
+  subcategory: Subcategory;
 
   categories: Category[];
-  category: Category;
 
-  isEdit: Boolean = false;
-  isActive: Boolean = true;
+  isEdit: boolean = false;
 
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
-  @ViewChild('categoryModal') categoryModal: any;
+  @ViewChild('subcategoryModal') subcategoryModal: any;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
     private modalConfig: NgbModalConfig,
     private modalService: NgbModal,
+    private subcategoryService: SubcategoryService,
     private categoryService: CategoryService,
     private toastr: ToastrService,
   ) {
@@ -52,18 +55,25 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.categoryService.getAllForDatatable(dataTablesParameters).then(resp => {
-          self.categories = resp.data.filter(category => category.actived === this.isActive);
+        this.subcategoryService.getAllForDatatable(dataTablesParameters).then(resp => {
+          self.subcategories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: []
+            data: self.subcategories.filter(category => category.actived)
           });
         });
       },
       columns: [
         {title: 'Tên', data: 'name', className: 'align-middle'},
         {title: 'Slug', data: 'slug', className: 'align-middle'},
+        {title: 'Danh mục cha', data: 'category.name', className: 'align-middle'},
+        {
+          title: 'Ngày tạo', data: 'createdAt', className: 'align-middle text-left text-md-center',
+          render: (data, type, full, meta) => {
+            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+          }
+        },
         {
           title: 'Ngày sửa', data: 'modifiedAt', className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
@@ -75,10 +85,10 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-left',
+          className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
             return `
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info"
+                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info" placement="top" ngbTooltip="Tooltip on top"
                    data-id="${data.id}"><i
                   class="fa fa-pen-square text-info"></i></a>
                 <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger"
@@ -93,17 +103,18 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const self = this;
+
     this.dtTrigger.next();
 
-    /*let body = $('body');
+    let body = $('body');
     body.on('click', '.btn-edit', function () {
       const id = $(this).data('id');
-      self.getCategory(id);
+      self.getSubcategory(id);
     });
     body.on('click', '.btn-delete', function () {
       const id = $(this).data('id');
-      self.deleteCategory(id);
-    });*/
+      self.deleteSubcategory(id);
+    });
   }
 
   ngOnDestroy() {
@@ -119,23 +130,27 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  newCategory() {
-    this.isEdit = false;
-    this.category = <Category>{};
-    this.openModal(this.categoryModal);
+  getCategories() {
+
   }
 
-  getCategory(id: number) {
-    this.categoryService.getOne(id).subscribe(data => {
-      this.category = data;
+  newSubcategory() {
+    this.isEdit = false;
+    this.subcategory = <Subcategory>{};
+    this.openModal(this.subcategoryModal);
+  }
+
+  getSubcategory(id: number) {
+    this.subcategoryService.getOne(id).subscribe(data => {
+      this.subcategory = data;
       this.isEdit = true;
-      this.openModal(this.categoryModal);
+      this.openModal(this.subcategoryModal);
     });
   }
 
-  saveCategory(category: Category) {
+  saveSubcategory(category: Subcategory) {
     if (this.isEdit) {
-      this.categoryService.update(category).subscribe(data => {
+      this.subcategoryService.create(category).subscribe(data => {
         this.toastr.success('Cập nhật thành công');
         this.rerender();
         this.closeModal();
@@ -143,7 +158,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.toastr.error(error);
       });
     } else {
-      this.categoryService.create(category).subscribe(data => {
+      this.subcategoryService.update(category).subscribe(data => {
         this.toastr.success('Thêm mới thành công');
         this.rerender();
         this.closeModal();
@@ -153,7 +168,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  deleteCategory(id: number) {
+  deleteSubcategory(id: number) {
     Swal.fire({
       title: 'Xác nhận',
       text: "Bạn có chắc chắn muốn xoá danh mục này không?",
@@ -165,18 +180,11 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       confirmButtonText: 'Có',
     }).then((result) => {
       if (result.value) {
-        this.categoryService.changeActive(id).subscribe(data => {
+        this.subcategoryService.delete(id).subscribe(data => {
           this.toastr.success('Xoá danh mục thành công');
           this.rerender();
         });
       }
-    });
-  }
-
-  activeCategory(id: number) {
-    this.categoryService.changeActive(id).subscribe(data => {
-      this.toastr.success('Kích hoạt danh mục thành công');
-      this.rerender();
     });
   }
 
@@ -185,7 +193,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     return UrlUtils.slugify(text);
   }
 
-  // Modal
+  // Modal bootstrap
   openModal(content) {
     this.modalService.open(content);
   }
