@@ -13,7 +13,7 @@ public interface DiscountService {
 	
 	Discount create(Discount discount);
 	
-	void delete(Long id);
+	Discount changeActive(Long id);
 	
 	Discount update(Discount discount);
 

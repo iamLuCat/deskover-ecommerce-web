@@ -87,12 +87,14 @@ public class DiscountApi {
 	@DeleteMapping("/discount/{id}")
     public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
         try {
-        	discountService.delete(id);
-        	return ResponseEntity.ok(new MessageResponse("Xoá thành công"));
+        	Discount discount = discountService.changeActive(id);
+        	if (discount ==null) {
+        		ResponseEntity.ok(new MessageResponse("Không tìm thất Discount id: " +id));
+			}
+        	return ResponseEntity.ok(discount);
         } catch (Exception e) {
         	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-	
 
 }

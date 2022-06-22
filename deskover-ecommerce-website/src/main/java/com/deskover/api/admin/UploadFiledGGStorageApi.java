@@ -27,13 +27,11 @@ public class UploadFiledGGStorageApi {
 	@Autowired
 	FileService fileService;
 
-	@PostMapping("/upload")
-	public ResponseEntity<?> upload(@PathParam("files") MultipartFile files) {
+	@PostMapping("/upload-file")
+	public ResponseEntity<?> upload(@PathParam("file") MultipartFile files) {
 		try {
 			String fileName = files.getOriginalFilename();
-//			fileName = UUID.randomUUID().toString().concat(fileService.getExtension(fileName));
-			
-			fileName = fileService.getExtension(fileName);
+			fileName = UUID.randomUUID().toString().concat(fileService.getExtension(fileName));
 
 			File file = fileService.convertToFile(files, fileName);
 			String TEMP_URL = fileService.uploadFile(file, fileName);
@@ -54,7 +52,7 @@ public class UploadFiledGGStorageApi {
 
 	}
 
-	@PostMapping("/upload-test")
+	@PostMapping("/upload-files")
 	public ResponseEntity<?> uploadd(@PathParam("files") MultipartFile[] files) {
 		try {
 			List<UrlGGStrogeResponDto> response = new ArrayList<>();
