@@ -2,12 +2,10 @@ import {Category} from '@/entites/category';
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {UrlUtils} from "@/utils/url-utils";
-import {DatePipe} from "@angular/common";
 import {DataTableDirective} from "angular-datatables";
 import {Subject} from "rxjs";
-import {ToastrService} from "ngx-toastr";
-import Swal from 'sweetalert2';
 import {CategoryService} from "@services/category.service";
+import {AlertUtils} from "@/utils/alert-utils";
 
 @Component({
   selector: 'app-category',
@@ -32,8 +30,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private modalConfig: NgbModalConfig,
     private modalService: NgbModal,
-    private categoryService: CategoryService,
-    private toastr: ToastrService,
+    private categoryService: CategoryService
   ) {
     modalConfig.backdrop = 'static';
     modalConfig.keyboard = false;
@@ -65,6 +62,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         { data: 'name' },
         { data: 'slug' },
         { data: 'modifiedAt' },
+        // { data: 'actived' },
         { data: null, orderable: false, searchable: false },
       ]
     }
@@ -105,37 +103,28 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   saveCategory(category: Category) {
     if (this.isEdit) {
       this.categoryService.update(category).subscribe(data => {
-        this.toastr.success('Cập nhật thành công');
+        AlertUtils.toastSuccess('Cập nhật thành công');
         this.rerender();
         this.closeModal();
       }, error => {
-        this.toastr.error(error);
+        AlertUtils.toastError(error);
       });
     } else {
       this.categoryService.create(category).subscribe(data => {
-        this.toastr.success('Thêm mới thành công');
+        AlertUtils.toastSuccess('Thêm mới thành công');
         this.rerender();
         this.closeModal();
       }, error => {
-        this.toastr.error(error);
+        AlertUtils.toastError(error);
       });
     }
   }
 
   deleteCategory(id: number) {
-    Swal.fire({
-      title: 'Xác nhận',
-      text: "Bạn có chắc chắn muốn xoá danh mục này không?",
-      icon: 'warning',
-      showCancelButton: true,
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Không',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Có',
-    }).then((result) => {
+    AlertUtils.warning('Xác nhận', 'Các danh mục con liên quan cũng sẽ bị xoá').then((result) => {
       if (result.value) {
         this.categoryService.changeActive(id).subscribe(data => {
-          this.toastr.success('Xoá danh mục thành công');
+          AlertUtils.toastSuccess('Xoá danh mục thành công');
           this.rerender();
         });
       }
@@ -144,7 +133,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   activeCategory(id: number) {
     this.categoryService.changeActive(id).subscribe(data => {
-      this.toastr.success('Kích hoạt danh mục thành công');
+      AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
       this.rerender();
     });
   }

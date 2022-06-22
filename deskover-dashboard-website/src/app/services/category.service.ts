@@ -28,6 +28,10 @@ export class CategoryService {
     return this.restApi.getWithParams(this.url, params);
   }
 
+  getAllByActived(): Observable<Category[]> {
+    return this.restApi.get(this.url + "/actived");
+  }
+
   getOne(id: number): Observable<Category> {
     return this.restApi.getOne(this.url, id);
   }

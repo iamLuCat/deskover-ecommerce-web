@@ -21,6 +21,9 @@ import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.entity.Subcategory;
 import com.deskover.service.SubcategoryService;
 import com.deskover.util.ValidationUtil;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -77,28 +80,13 @@ public class SubcategoryApi {
 		}
 	}
 	
-	@PutMapping("/subcategories/{id}")
-	public ResponseEntity<?> doChangeAvtive(@PathVariable("id") Long id){
+	@DeleteMapping("/subcategories/{id}")
+	public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id){
 		try {
-			Subcategory subcategory= subcategoryService.changeAvtive(id);
-			if (subcategory != null) {
-				return ResponseEntity.ok(subcategory);
-			}
-			return ResponseEntity.badRequest().body(new MessageResponse("Category không tồn tại"));
-			
+			return ResponseEntity.ok(subcategoryService.changeActive(id));
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
 		}
 	}
-	
-//	@DeleteMapping("/subcategories/{id}")
-//	public ResponseEntity<?> doDeleteSubcategory(@PathVariable("id") Long id){
-//		try {
-//			subcategoryService.delete(id);
-//			return new ResponseEntity<>(HttpStatus.OK);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//		}
-//	}
 	
 }

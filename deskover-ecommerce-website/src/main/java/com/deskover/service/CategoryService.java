@@ -22,11 +22,9 @@ public interface CategoryService {
 
 	Category getById(Long id);
 
-	@Transactional
 	Category create(Category category);
 
 	Category update(Category category);
-
 
 	void changeActived(Long id);
 }

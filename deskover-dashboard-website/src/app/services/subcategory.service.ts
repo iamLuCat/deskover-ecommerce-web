@@ -29,7 +29,7 @@ export class SubcategoryService {
     return this.restApi.put(this.url, subcategory);
   }
 
-  delete(id: number) {
+  changeActive(id: number) {
     return this.restApi.delete(this.url, id);
   }
 }

@@ -1,13 +1,7 @@
-import {
-    Component,
-    OnInit,
-    OnDestroy,
-    Renderer2,
-    HostBinding
-} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
+import {Component, HostBinding, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from "@services/auth.service";
+import {AlertUtils} from "@/utils/alert-utils";
 
 @Component({
     selector: 'app-login',
@@ -21,7 +15,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     constructor(
         private renderer: Renderer2,
-        private toastr: ToastrService,
         private authService: AuthService
     ) {}
 
@@ -42,7 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             await this.authService.login(this.loginForm.value);
             this.isAuthLoading = false;
         } else {
-            this.toastr.error('Biểu mẫu không hợp lệ!');
+            AlertUtils.toastError('Biểu mẫu không hợp lệ!');
         }
     }
 

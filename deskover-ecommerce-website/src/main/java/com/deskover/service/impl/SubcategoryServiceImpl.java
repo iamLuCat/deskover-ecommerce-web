@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,131 +17,129 @@ import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
 import com.deskover.service.CategoryService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
-	
-	@Autowired
-	SubcategoryRepository repo;
-	
-	@Autowired
-	SubCategoryRepoForDatatables repoForDatatables;
-	
-	@Autowired
-	private ProductService productService;
-	
-	@Autowired
-	private CategoryService categoryService;
 
-	@Override
-	public List<Subcategory> getByCategory(Long categoryId) {
-		return repo.findByCategoryId(categoryId);
-	}
+    @Autowired
+    SubcategoryRepository repo;
 
-	public List<Subcategory> getByActive(Boolean isActive) {
-		return repo.findByActived(isActive);
-	}
+    @Autowired
+    SubCategoryRepoForDatatables repoForDatatables;
 
-	public Subcategory getById(Long id) {
-		return repo.findById(id).orElse(null);
-	}
+    @Autowired
+    private ProductService productService;
 
-	@Override
-	@Transactional
-	public Subcategory update(Subcategory subcategory) {
-		subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-		return repo.saveAndFlush(subcategory);
-	}
+    @Autowired
+    private CategoryService categoryService;
 
-	@Override
-	@Transactional
-	public void delete(Long id) {
-		Subcategory subcategory = this.getById(id);
-		if (subcategory == null) {
-			throw new IllegalArgumentException("Subcategory not found");
-		}
+    @Override
+    public List<Subcategory> getByCategory(Long categoryId) {
+        return repo.findByCategoryId(categoryId);
+    }
 
-		subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
-		subcategory.setActived(Boolean.FALSE);
+    public List<Subcategory> getByActive(Boolean isActive) {
+        return repo.findByActived(isActive);
+    }
 
-		Subcategory result = repo.save(subcategory);
-		if (result.getActived() == Boolean.TRUE) {
-			throw new IllegalArgumentException("Subcategory not deleted");
-		}
-	}
+    public Subcategory getById(Long id) {
+        return repo.findById(id).orElse(null);
+    }
 
-	@Override
-	public void deleteMultiple(List<Subcategory> subcategories) {
-		subcategories.forEach(subcategory -> {
-			subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
-			subcategory.setActived(Boolean.FALSE);
-		});
-		repo.saveAll(subcategories);
-	}
+    @Override
+    @Transactional
+    public Subcategory update(Subcategory subcategory) {
+        subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        return repo.saveAndFlush(subcategory);
+    }
 
-	@Override
-	public DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input) {
-		
-		 DataTablesOutput<Subcategory> subcategories = repoForDatatables.findAll(input);
-	        if (subcategories.getError() != null) {
-	            throw new IllegalArgumentException(subcategories.getError());
-	        }
-		 
-		return subcategories;
-	}
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Subcategory subcategory = this.getById(id);
+        if (subcategory == null) {
+            throw new IllegalArgumentException("Subcategory not found");
+        }
 
-	@Override
-	public Boolean existsBySlug(String slug) {
-		Subcategory subcategory = repo.findBySlug(slug);
-		return subcategory!=null;
-	}
+        subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+        subcategory.setActived(Boolean.FALSE);
 
-	@Override
-	public Subcategory create(Subcategory subcategory) {
-		subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		return repo.saveAndFlush(subcategory);
-	}
+        Subcategory result = repo.save(subcategory);
+        if (result.getActived() == Boolean.TRUE) {
+            throw new IllegalArgumentException("Subcategory not deleted");
+        }
+    }
 
-	@Override
-	public Boolean existsBySlug(Subcategory subcategory) {
-		Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
-		Boolean isExits =(subcategoryExists!=null && !subcategoryExists.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
-				|| categoryService.existsBySlug(subcategory.getSlug());
-		System.out.println(isExits);
+    @Override
+    public void deleteMultiple(List<Subcategory> subcategories) {
+        subcategories.forEach(subcategory -> {
+            subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+            subcategory.setActived(Boolean.FALSE);
+        });
+        repo.saveAll(subcategories);
+    }
 
-		return isExits;
-	}
+    @Override
+    public DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input) {
 
-	@Override
-	@Transactional
-	public void deleteAll(List<Subcategory> subcategories) {
-		subcategories.forEach(subcategory -> {
-			repo.delete(subcategory);
-		});
-		
-		
-	}
+        DataTablesOutput<Subcategory> subcategories = repoForDatatables.findAll(input);
+        if (subcategories.getError() != null) {
+            throw new IllegalArgumentException(subcategories.getError());
+        }
 
-	@Override
-	public Subcategory changeAvtive(Long id) {
-		Subcategory subcategory = this.getById(id);
-		if (subcategory == null) {
-			throw new IllegalArgumentException("Category not found");
-		}
-		if(subcategory.getCategory().getActived()) {
-			if(subcategory.getActived()) {
-				subcategory.setActived(Boolean.FALSE);
-				subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
-				return subcategory;
-			}else {
-				subcategory.setActived(Boolean.TRUE);
-				subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
-				repo.saveAndFlush(subcategory);
-				return subcategory;
-			}
-		}else {
-			return null;
-		}
-	}
+        return subcategories;
+    }
+
+    @Override
+    public Boolean existsBySlug(String slug) {
+        Subcategory subcategory = repo.findBySlug(slug);
+        return subcategory != null;
+    }
+
+    @Override
+    public Subcategory create(Subcategory subcategory) {
+        subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        return repo.saveAndFlush(subcategory);
+    }
+
+    @Override
+    public Boolean existsBySlug(Subcategory subcategory) {
+        Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
+        Boolean isExits = (subcategoryExists != null && !subcategoryExists.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
+                || categoryService.existsBySlug(subcategory.getSlug());
+        System.out.println(isExits);
+
+        return isExits;
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll(List<Subcategory> subcategories) {
+        repo.deleteAll(subcategories);
+    }
+
+    @Override
+    public Subcategory changeActive(Long id) {
+        Subcategory subcategory = this.getById(id);
+        if (subcategory == null) {
+            throw new IllegalArgumentException("Không tìm thấy danh mục");
+        }
+        if (subcategory.getCategory().getActived()) {
+            if (subcategory.getActived()) {
+                subcategory.setActived(Boolean.FALSE);
+                subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+            } else {
+                subcategory.setActived(Boolean.TRUE);
+                subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+                repo.save(subcategory);
+
+            }
+            repo.save(subcategory);
+            return subcategory;
+        } else {
+            throw new IllegalArgumentException("Danh mục cha đã bị vô hiệu hóa");
+        }
+    }
 
 }

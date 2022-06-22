@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {ToastrService} from 'ngx-toastr';
 import {catchError} from "rxjs/operators";
+import {AlertUtils} from "@/utils/alert-utils";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestApiService {
 
-  constructor(private httpClient: HttpClient, private toastr: ToastrService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   get(link: string): Observable<any> {
@@ -43,6 +43,7 @@ export class RestApiService {
     } else {
       errorMessage = `Error Code: ${error.status} - Message: ${error.message}`;
     }
+    AlertUtils.toastError(errorMessage);
     return throwError(errorMessage);
   }
 }

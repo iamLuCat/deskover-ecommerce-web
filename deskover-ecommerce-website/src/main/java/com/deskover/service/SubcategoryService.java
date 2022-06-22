@@ -33,5 +33,5 @@ public interface SubcategoryService {
 
 	void deleteAll(List<Subcategory> subcategories);
 
-	Subcategory changeAvtive(Long id);
+	Subcategory changeActive(Long id);
 }

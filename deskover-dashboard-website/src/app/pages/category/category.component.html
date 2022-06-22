@@ -43,6 +43,7 @@
               <th scope="col" class="align-middle">Tên</th>
               <th scope="col" class="align-middle">Slug</th>
               <th scope="col" class="align-middle text-center">Ngày cập nhật</th>
+              <!--<th scope="col" class="align-middle text-center">Trạng thái</th>-->
               <th scope="col" class="align-middle text-center">Công cụ</th>
             </tr>
             </thead>
@@ -57,6 +58,10 @@
               <td class="align-middle text-center">
                 {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>
+              <!--<td class="align-middle text-center">
+                <span *ngIf="item.actived" class="badge badge-success">Kích hoạt</span>
+                <span *ngIf="!item.actived" class="badge badge-danger">Vô hiệu hoá</span>
+              </td>-->
               <td class="align-middle text-center">
                 <div *ngIf="isActive">
                   <button type="button" class="btn btn-sm bg-faded-info mr-md-2" placement="top" ngbTooltip="Sửa"

@@ -1,15 +1,14 @@
-import Swal from 'sweetalert2';
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject} from "rxjs";
 import {DataTableDirective} from "angular-datatables";
 import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
-import {ToastrService} from "ngx-toastr";
 import {DatePipe} from "@angular/common";
 import {UrlUtils} from "@/utils/url-utils";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
 import {CategoryService} from "@services/category.service";
 import {Category} from "@/entites/category";
+import {AlertUtils} from '@/utils/alert-utils';
 
 @Component({
   selector: 'app-subcategory',
@@ -36,12 +35,13 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     private modalConfig: NgbModalConfig,
     private modalService: NgbModal,
     private subcategoryService: SubcategoryService,
-    private categoryService: CategoryService,
-    private toastr: ToastrService,
+    private categoryService: CategoryService
   ) {
     modalConfig.backdrop = 'static';
     modalConfig.keyboard = false;
     modalConfig.centered = true;
+
+    this.getCategories();
   }
 
   ngOnInit() {
@@ -57,7 +57,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.subcategoryService.getAllForDatatable(dataTablesParameters).then(resp => {
-          self.subcategories = resp.data.filter(category => category.actived === this.isActive);
+          self.subcategories = resp.data.filter(category => category.actived == this.isActive);
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: self.subcategories.length,
@@ -75,6 +75,12 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
+        // {
+        //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
+        //   render: (data, type, full, meta) => {
+        //     return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Hoạt động' : 'Ngừng hoạt động'}</span>`;
+        //   }
+        // },
         {
           title: 'Công cụ',
           data: null,
@@ -95,7 +101,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
             `;
             } else {
               return `
-               <button type="button" class="btn btn-active btn-sm bg-success"
+               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}"
                 (click)="activeCategory(item.id)"> Kích hoạt </button>`
             }
           }
@@ -118,6 +124,10 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       const id = $(this).data('id');
       self.deleteSubcategory(id);
     });
+    body.on('click', '.btn-active', function () {
+      const id = $(this).data('id');
+      self.activeSubcategory(id);
+    });
   }
 
   ngOnDestroy() {
@@ -130,6 +140,12 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
       this.dtTrigger.next();
+    });
+  }
+
+  getCategories() {
+    this.categoryService.getAllByActived().subscribe(data => {
+      this.categories = data;
     });
   }
 
@@ -150,40 +166,57 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   saveSubcategory(category: Subcategory) {
     if (this.isEdit) {
       this.subcategoryService.create(category).subscribe(data => {
-        this.toastr.success('Cập nhật thành công');
+        AlertUtils.toastSuccess('Cập nhật thành công');
         this.rerender();
         this.closeModal();
       }, error => {
-        this.toastr.error(error);
+        AlertUtils.toastError(error);
       });
     } else {
       this.subcategoryService.update(category).subscribe(data => {
-        this.toastr.success('Thêm mới thành công');
+        AlertUtils.toastSuccess('Thêm mới thành công');
         this.rerender();
         this.closeModal();
       }, error => {
-        this.toastr.error(error);
+        AlertUtils.toastError(error);
       });
     }
   }
 
   deleteSubcategory(id: number) {
-    Swal.fire({
-      title: 'Xác nhận',
-      text: "Bạn có chắc chắn muốn xoá danh mục này không?",
-      icon: 'warning',
-      showCancelButton: true,
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Không',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Có',
-    }).then((result) => {
+    AlertUtils.warning('Xác nhận', 'Danh mục này sẽ bị khoá').then((result) => {
       if (result.value) {
-        this.subcategoryService.delete(id).subscribe(data => {
-          this.toastr.success('Xoá danh mục thành công');
+        this.subcategoryService.changeActive(id).subscribe(data => {
+          AlertUtils.toastSuccess('Xoá danh mục thành công');
           this.rerender();
+        }, error => {
+          AlertUtils.toastError(error);
         });
       }
+    });
+  }
+
+  activeSubcategory(id: number) {
+    this.subcategory = this.subcategories.find(item => item.id === id);
+    if (!this.subcategory.category.actived) {
+      AlertUtils.info('Danh mục cha đã bị khoá', 'Kích hoạt lại danh mục cha?').then((result) => {
+        if (result.value) {
+          this.categoryService.changeActive(this.subcategory.category.id).subscribe(data => {
+            this.changeActive(id);
+          });
+        }
+      });
+    } else {
+      this.changeActive(id);
+    }
+  }
+
+  private changeActive(id: number) {
+    this.subcategoryService.changeActive(id).subscribe(data => {
+      AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
+      this.rerender();
+    }, error => {
+      AlertUtils.toastError(error);
     });
   }
 

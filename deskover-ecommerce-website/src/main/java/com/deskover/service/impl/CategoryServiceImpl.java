@@ -38,11 +38,9 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Boolean existsBySlug(Category category) {
 		Category categoryExists = repo.findBySlug(category.getSlug());
-		Boolean isExits =(categoryExists!=null && !categoryExists.getId().equals(category.getId())) || productService.existsBySlug(category.getSlug())
+		return (categoryExists != null && !categoryExists.getId().equals(category.getId()))
+				|| productService.existsBySlug(category.getSlug())
 				|| subcategoryService.existsBySlug(category.getSlug());
-		System.out.println(isExits);
-
-		return  isExits;
 	}
 	
 	@Override
@@ -72,9 +70,21 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public Category create(Category category) {
-		category.setActived(Boolean.TRUE);
-		category.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		return repo.save(category);
+		if (this.existsBySlug(category)) {
+			Category categoryExists = repo.findBySlug(category.getSlug());
+			if (categoryExists.getActived()) {
+				throw new IllegalArgumentException("Slug đã tồn tại");
+			} else {
+				categoryExists.setActived(Boolean.TRUE);
+				categoryExists.setName(category.getName());
+				categoryExists.setDescription(category.getDescription());
+				return this.update(categoryExists);
+			}
+		} else {
+			category.setActived(Boolean.TRUE);
+			category.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+			return repo.save(category);
+		}
 	}
 
 	@Override
