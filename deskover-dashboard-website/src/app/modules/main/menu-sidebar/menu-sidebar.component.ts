@@ -52,7 +52,7 @@ export const MENU = [
 
       {
         name: 'Danh mục con',
-        path: ['/sub-category']
+        path: ['/subcategory']
       }
     ]
   },

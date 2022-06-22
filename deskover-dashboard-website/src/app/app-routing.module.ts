@@ -34,7 +34,7 @@ const routes: Routes = [
         component: CategoryComponent,
       },
       {
-        path: 'sub-category',
+        path: 'subcategory',
         component: SubcategoryComponent,
       },
       {

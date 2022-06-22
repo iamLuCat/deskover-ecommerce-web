@@ -23,7 +23,8 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   categories: Category[];
 
-  isEdit: boolean = false;
+  isEdit: Boolean = false;
+  isActive: Boolean = true;
 
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
@@ -60,7 +61,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: self.subcategories.filter(category => category.actived)
+            data: self.subcategories.filter(category => category.actived === this.isActive)
           });
         });
       },
@@ -69,32 +70,34 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         {title: 'Slug', data: 'slug', className: 'align-middle'},
         {title: 'Danh mục cha', data: 'category.name', className: 'align-middle'},
         {
-          title: 'Ngày tạo', data: 'createdAt', className: 'align-middle text-left text-md-center',
+          title: 'Ngày sửa', data: 'modifiedAt', className: 'align-middle text-left',
           render: (data, type, full, meta) => {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
         {
-          title: 'Ngày sửa', data: 'modifiedAt', className: 'align-middle text-left text-md-center',
-          render: (data, type, full, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
-        },
-        {
-          title: 'Tác vụ',
+          title: 'Công cụ',
           data: null,
           orderable: false,
           searchable: false,
           className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
-            return `
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info" placement="top" ngbTooltip="Tooltip on top"
-                   data-id="${data.id}"><i
-                  class="fa fa-pen-square text-info"></i></a>
-                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger"
-                   data-id="${data.id}"><i
-                  class="fa fa-trash text-danger"></i></a>
+            if (self.isActive) {
+              return `
+                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info" data-id="${data.id}"
+                    title="Sửa" data-toggle="tooltip">
+                    <i class="fa fa-pen-square text-info"></i>
+                </a>
+                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
+                    title="Xoá" data-toggle="tooltip">
+                    <i class="fa fa-trash text-danger"></i>
+                </a>
             `;
+            } else {
+              return `
+               <button type="button" class="btn btn-active btn-sm bg-success"
+                (click)="activeCategory(item.id)"> Kích hoạt </button>`
+            }
           }
         },
       ]
@@ -128,10 +131,6 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       // Call the dtTrigger to rerender again
       this.dtTrigger.next();
     });
-  }
-
-  getCategories() {
-
   }
 
   newSubcategory() {

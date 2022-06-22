@@ -19,11 +19,20 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <div class="d-flex justify-content-between align-items-center">
-          <h3 class="card-title">Danh sách danh mục</h3>
-          <button type="button" class="btn btn-sm bg-faded-accent" (click)="newSubcategory()">
-            <i class="fas fa-plus text-accent"></i>
-          </button>
+        <div class="row">
+          <label for="filter-subcategory" class="col-auto col-form-label">Trạng thái</label>
+          <select id="filter-subcategory" class="custom-select col-6 col-md-2" [(ngModel)]="isActive"
+                  (change)="rerender()">
+            <option [ngValue]="true">Kích hoạt</option>
+            <option [ngValue]="false">Vô hiệu hoá</option>
+          </select>
+          <div class="col"></div>
+          <div class="col-auto d-flex align-items-center">
+            <button type="button" class="btn btn-sm bg-faded-accent" (click)="newSubcategory()" placement="left"
+                    tooltip="Thêm">
+              <i class="fas fa-plus text-accent"></i>
+            </button>
+          </div>
         </div>
       </div>
 

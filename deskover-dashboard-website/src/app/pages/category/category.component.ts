@@ -56,37 +56,16 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           self.categories = resp.data.filter(category => category.actived === this.isActive);
           callback({
             recordsTotal: resp.recordsTotal,
-            recordsFiltered: resp.recordsFiltered,
+            recordsFiltered: self.categories.length,
             data: []
           });
         });
       },
       columns: [
-        {title: 'Tên', data: 'name', className: 'align-middle'},
-        {title: 'Slug', data: 'slug', className: 'align-middle'},
-        {
-          title: 'Ngày sửa', data: 'modifiedAt', className: 'align-middle text-left text-md-center',
-          render: (data, type, full, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
-        },
-        {
-          title: 'Tác vụ',
-          data: null,
-          orderable: false,
-          searchable: false,
-          className: 'align-middle text-left',
-          render: (data, type, full, meta) => {
-            return `
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info"
-                   data-id="${data.id}"><i
-                  class="fa fa-pen-square text-info"></i></a>
-                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger"
-                   data-id="${data.id}"><i
-                  class="fa fa-trash text-danger"></i></a>
-            `;
-          }
-        },
+        { data: 'name' },
+        { data: 'slug' },
+        { data: 'modifiedAt' },
+        { data: null, orderable: false, searchable: false },
       ]
     }
   }
@@ -94,16 +73,6 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     const self = this;
     this.dtTrigger.next();
-
-    /*let body = $('body');
-    body.on('click', '.btn-edit', function () {
-      const id = $(this).data('id');
-      self.getCategory(id);
-    });
-    body.on('click', '.btn-delete', function () {
-      const id = $(this).data('id');
-      self.deleteCategory(id);
-    });*/
   }
 
   ngOnDestroy() {

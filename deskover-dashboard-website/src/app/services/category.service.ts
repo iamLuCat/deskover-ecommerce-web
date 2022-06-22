@@ -18,6 +18,8 @@ export class CategoryService {
     return this.restApi.post(this.url + "/datatables", tableQuery).toPromise();
   }
 
+
+
   getOne(id: number): Observable<Category> {
     return this.restApi.getOne(this.url, id);
   }
