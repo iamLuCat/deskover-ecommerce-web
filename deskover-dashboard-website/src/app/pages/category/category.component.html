@@ -33,7 +33,7 @@
           <div class="col-lg-9 col-md-7 d-flex justify-content-center justify-content-md-end ">
             <button
               type="button"
-              class="btn rounded-circle bg-faded-accent"
+              class="btn bg-faded-accent w-sm-100"
               (click)="newCategory()">
               <i class="fas fa-plus text-accent"></i>
             </button>
@@ -48,7 +48,7 @@
               <th scope="col" class="align-middle">Tên</th>
               <th scope="col" class="align-middle">Slug</th>
               <th scope="col" class="align-middle text-center">Ngày cập nhật</th>
-              <th scope="col" class="align-middle text-center" style="width: 125px">Tác vụ</th>
+              <th scope="col" class="align-middle">Tác vụ</th>
             </tr>
             </thead>
             <tbody *ngIf="categories?.length !== 0">
@@ -62,9 +62,9 @@
               <td class="align-middle text-center">
                 {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>
-              <td class="align-middle text-center">
+              <td class="align-middle text-right">
                 <div *ngIf="isActive">
-                  <button type="button" class="btn btn-sm bg-faded-info mr-md-2 mb-md-0 mb-2"
+                  <button type="button" class="btn btn-sm bg-faded-info mr-md-2"
                           (click)="getCategory(item.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
@@ -73,7 +73,7 @@
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm bg-success mr-md-2 mb-md-0 mb-2"
+                  <button type="button" class="btn btn-sm bg-success"
                           (click)="activeCategory(item.id)">
                     Kích hoạt
                   </button>
