@@ -75,7 +75,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-left text-md-center',
+          className: 'align-middle text-left',
           render: (data, type, full, meta) => {
             return `
                 <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info"
@@ -93,10 +93,9 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const self = this;
-
     this.dtTrigger.next();
 
-    let body = $('body');
+    /*let body = $('body');
     body.on('click', '.btn-edit', function () {
       const id = $(this).data('id');
       self.getCategory(id);
@@ -104,7 +103,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     body.on('click', '.btn-delete', function () {
       const id = $(this).data('id');
       self.deleteCategory(id);
-    });
+    });*/
   }
 
   ngOnDestroy() {
