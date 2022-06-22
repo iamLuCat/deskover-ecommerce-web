@@ -28,7 +28,7 @@ export class AuthService {
         .toPromise();
       localStorage.setItem('token', data.token);
       await this.getProfile();
-      this.router.navigate(['/']);
+      await this.router.navigate(['/']);
     } catch (e) {
       AlertUtils.toastError(e);
     }

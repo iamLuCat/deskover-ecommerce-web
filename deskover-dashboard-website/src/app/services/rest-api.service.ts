@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from "rxjs/operators";
 import {AlertUtils} from "@/utils/alert-utils";
@@ -38,12 +38,14 @@ export class RestApiService {
 
   private static handleError(error: any) {
     let errorMessage = 'Unknown error!';
-    if (error.error) {
+    if (error instanceof HttpErrorResponse) {
       errorMessage = error.error.message;
+      if (error.status === 0) {
+        errorMessage = 'Máy chủ không phản hồi!';
+      }
     } else {
       errorMessage = `Error Code: ${error.status} - Message: ${error.message}`;
     }
-    AlertUtils.toastError(errorMessage);
     return throwError(errorMessage);
   }
 }

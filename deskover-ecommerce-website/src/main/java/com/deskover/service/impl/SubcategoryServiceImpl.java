@@ -3,21 +3,20 @@ package com.deskover.service.impl;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.deskover.dto.SubcategoryDto;
+import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.Category;
 import com.deskover.entity.Subcategory;
 import com.deskover.repository.SubcategoryRepository;
 import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
 import com.deskover.service.CategoryService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
@@ -47,11 +46,47 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         return repo.findById(id).orElse(null);
     }
 
+
+    @Override
+    public Subcategory create(SubcategoryDto subcategoryDto) {
+        Subcategory subcategory = MapperUtil.map(subcategoryDto, Subcategory.class);
+        if (this.existsBySlug(subcategory)) {
+            Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
+            if (subcategoryExists != null && !subcategoryExists.getActived()) {
+                subcategoryExists.setActived(true);
+                subcategoryExists.setName(subcategory.getName());
+                subcategoryExists.setDescription(subcategory.getDescription());
+                subcategoryExists.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
+                return this.update(subcategoryExists);
+            }
+            throw new IllegalArgumentException("Slug đã tồn tại");
+        } else {
+            subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
+            subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            return repo.save(subcategory);
+        }
+    }
+
+    @Override
+    @Transactional
+    public Subcategory update(SubcategoryDto subcategoryDto) {
+        Subcategory subcategory = MapperUtil.map(subcategoryDto, Subcategory.class);
+        if (this.existsBySlug(subcategory)) {
+            throw new IllegalArgumentException("Slug đã tồn tại");
+        }
+        subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
+        subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        return repo.save(subcategory);
+    }
+
     @Override
     @Transactional
     public Subcategory update(Subcategory subcategory) {
+        if (this.existsBySlug(subcategory)) {
+            throw new IllegalArgumentException("Slug đã tồn tại");
+        }
         subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        return repo.saveAndFlush(subcategory);
+        return repo.save(subcategory);
     }
 
     @Override
@@ -98,19 +133,10 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    public Subcategory create(Subcategory subcategory) {
-        subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        return repo.saveAndFlush(subcategory);
-    }
-
-    @Override
     public Boolean existsBySlug(Subcategory subcategory) {
         Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
-        Boolean isExits = (subcategoryExists != null && !subcategoryExists.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
+        return (subcategoryExists != null && !subcategoryExists.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
                 || categoryService.existsBySlug(subcategory.getSlug());
-        System.out.println(isExits);
-
-        return isExits;
     }
 
     @Override

@@ -24,12 +24,12 @@ export class SubcategoryService {
     return this.restApi.getOne(this.url, id);
   }
 
-  create(subcategory: Subcategory): Observable<Subcategory> {
-    return this.restApi.post(this.url, subcategory);
+  create(subcategoryDto: SubcategoryDto): Observable<Subcategory> {
+    return this.restApi.post(this.url, subcategoryDto);
   }
 
-  update(subcategory: Subcategory): Observable<Subcategory> {
-    return this.restApi.put(this.url, subcategory);
+  update(subcategoryDto: SubcategoryDto): Observable<Subcategory> {
+    return this.restApi.put(this.url, subcategoryDto);
   }
 
   changeActive(id: number) {
@@ -47,20 +47,6 @@ export class SubcategoryService {
       deletedAt: subcategory.deletedAt,
       actived: subcategory.actived,
       categoryId: subcategory.category.id
-    };
-  }
-
-  convertToEntity(subcategoryDto: SubcategoryDto, category: Category): Subcategory {
-    return {
-      id: subcategoryDto.id,
-      name: subcategoryDto.name,
-      description: subcategoryDto.description,
-      slug: subcategoryDto.slug,
-      createdAt: subcategoryDto.createdAt,
-      modifiedAt: subcategoryDto.modifiedAt,
-      deletedAt: subcategoryDto.deletedAt,
-      actived: subcategoryDto.actived,
-      category: category
     };
   }
 }

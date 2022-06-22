@@ -2,6 +2,7 @@ package com.deskover.api.admin;
 
 import javax.validation.Valid;
 
+import com.deskover.dto.SubcategoryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import com.deskover.util.ValidationUtil;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin("*")
@@ -37,11 +39,7 @@ public class SubcategoryApi {
 	@GetMapping("/subcategories/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
 		Subcategory subcategory = subcategoryService.getById(id);
-		if (subcategory == null) {
-			return ResponseEntity.ok(new MessageResponse("Not Found SubCategory"));
-		}else {
-			return ResponseEntity.ok(subcategory);
-		}		
+		return ResponseEntity.ok(Objects.requireNonNullElseGet(subcategory, () -> new MessageResponse("Not Found SubCategory")));
 	}
 	
 	//datatable
@@ -51,32 +49,26 @@ public class SubcategoryApi {
     }
 	
 	@PostMapping("/subcategories")
-	public ResponseEntity<?> doPostCreate(@Valid @RequestBody Subcategory subcategory, BindingResult result){
+	public ResponseEntity<?> doPostCreate(@Valid @RequestBody SubcategoryDto subcategoryDto, BindingResult result){
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
 			return ResponseEntity.badRequest().body(errors);
 		}
-        if (subcategoryService.existsBySlug(subcategory)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
-        }
 		try {
-			subcategoryService.create(subcategory);
+			subcategoryService.create(subcategoryDto);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/subcategories")
-	public ResponseEntity<?> updateSubcategory(@RequestBody Subcategory subcategory){
-        if (subcategoryService.existsBySlug(subcategory)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
-        }
-		try {
-			subcategoryService.update(subcategory);
+	public ResponseEntity<?> updateSubcategory(@RequestBody SubcategoryDto subcategoryDto){
+        try {
+			subcategoryService.update(subcategoryDto);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
 	

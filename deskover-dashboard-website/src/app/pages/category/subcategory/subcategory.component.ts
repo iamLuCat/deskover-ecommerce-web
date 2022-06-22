@@ -166,9 +166,8 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveSubcategory(subcategoryDto: SubcategoryDto) {
-    // console.log(this.subcategoryService.convertToEntity(subcategoryDto));
-    /*if (this.isEdit) {
-      this.subcategoryService.create(subcategory).subscribe(data => {
+    if (!this.isEdit) {
+      this.subcategoryService.create(subcategoryDto).subscribe(data => {
         AlertUtils.toastSuccess('Cập nhật thành công');
         this.rerender();
         this.closeModal();
@@ -176,14 +175,14 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         AlertUtils.toastError(error);
       });
     } else {
-      this.subcategoryService.update(subcategory).subscribe(data => {
+      this.subcategoryService.update(subcategoryDto).subscribe(data => {
         AlertUtils.toastSuccess('Thêm mới thành công');
         this.rerender();
         this.closeModal();
       }, error => {
         AlertUtils.toastError(error);
       });
-    }*/
+    }
   }
 
   deleteSubcategory(id: number) {
