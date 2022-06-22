@@ -9,7 +9,6 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.Category;
 import com.deskover.entity.Subcategory;
 import com.deskover.repository.SubcategoryRepository;
 import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
@@ -117,8 +116,6 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 		subcategories.forEach(subcategory -> {
 			repo.delete(subcategory);
 		});
-		
-		
 	}
 
 	@Override
