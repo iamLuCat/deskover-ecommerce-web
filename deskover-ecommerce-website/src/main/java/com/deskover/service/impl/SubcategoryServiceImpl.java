@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.Category;
 import com.deskover.entity.Subcategory;
 import com.deskover.repository.SubcategoryRepository;
 import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
