@@ -7,8 +7,8 @@ import {UrlUtils} from "@/utils/url-utils";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
 import {CategoryService} from "@services/category.service";
-import {Category} from "@/entites/category";
 import {AlertUtils} from '@/utils/alert-utils';
+import {Category} from "@/entites/category";
 import {SubcategoryDto} from "@/dtos/subcategory-dto";
 
 @Component({
@@ -59,10 +59,11 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.subcategoryService.getAllForDatatable(dataTablesParameters).then(resp => {
+          console.log(resp);
           self.subcategories = resp.data.filter(category => category.actived == this.isActive);
           callback({
             recordsTotal: resp.recordsTotal,
-            recordsFiltered: self.subcategories.length,
+            recordsFiltered: resp.recordsFiltered,
             data: self.subcategories
           });
         });

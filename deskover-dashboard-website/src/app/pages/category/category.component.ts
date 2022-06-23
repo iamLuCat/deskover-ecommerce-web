@@ -50,10 +50,11 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.categoryService.getAllForDatatable(dataTablesParameters).then(resp => {
+          console.log(resp);
           self.categories = resp.data.filter(category => category.actived === this.isActive);
           callback({
             recordsTotal: resp.recordsTotal,
-            recordsFiltered: self.categories.length,
+            recordsFiltered: resp.recordsFiltered,
             data: []
           });
         });

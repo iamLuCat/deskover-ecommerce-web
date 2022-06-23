@@ -61,6 +61,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             }
             throw new IllegalArgumentException("Slug đã tồn tại");
         } else {
+            subcategory.setActived(true);
             subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
             subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             return repo.save(subcategory);
