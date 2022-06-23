@@ -19,6 +19,11 @@ export class CategoryService {
     return this.restApi.post(this.url + "/datatables", tableQuery).toPromise();
   }
 
+  getByActiveForDatatable(tableQuery: any, isActive: boolean): Promise<DataTablesResponse> {
+    const params = new HttpParams().set("isActive", isActive.toString());
+    return this.restApi.postWithParams(this.url + "/datatables-by-active", tableQuery, params).toPromise();
+  }
+
   getAll(page: number, size: number, active: Boolean): Observable<any> {
     const params = new HttpParams()
       .set('page', page.toString())
@@ -28,7 +33,7 @@ export class CategoryService {
     return this.restApi.getWithParams(this.url, params);
   }
 
-  getAllByActived(): Observable<Category[]> {
+  getByActive(): Observable<Category[]> {
     return this.restApi.get(this.url + "/actived");
   }
 

@@ -5,7 +5,7 @@ import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
 import {Subject} from "rxjs";
 import {CategoryService} from "@services/category.service";
-import {AlertUtils} from "@/utils/alert-utils";
+import { AlertUtils } from '@/utils/alert-utils';
 
 @Component({
   selector: 'app-category',
@@ -18,8 +18,8 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   categories: Category[];
   category: Category;
 
-  isEdit: Boolean = false;
-  isActive: Boolean = true;
+  isEdit: boolean = false;
+  isActive: boolean = true;
 
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
@@ -49,9 +49,8 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.categoryService.getAllForDatatable(dataTablesParameters).then(resp => {
-          console.log(resp);
-          self.categories = resp.data.filter(category => category.actived === this.isActive);
+        this.categoryService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
+          self.categories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,

@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -24,19 +25,22 @@ public class SubcategoryApi {
 	@Autowired
 	SubcategoryService subcategoryService;
 
-	//Tìm theo id
 	@GetMapping("/subcategories/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
 		Subcategory subcategory = subcategoryService.getById(id);
 		return ResponseEntity.ok(Objects.requireNonNullElseGet(subcategory, () -> new MessageResponse("Not Found SubCategory")));
 	}
 	
-	//datatable
 	@PostMapping("/subcategories/datatables")
     public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
         return ResponseEntity.ok(subcategoryService.getAllForDatatables(input));
     }
-	
+
+	@PostMapping("/subcategories/datatables-by-active")
+	public ResponseEntity<?> doGetByActiveForDatatables(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
+		return ResponseEntity.ok(subcategoryService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
+	}
+
 	@PostMapping("/subcategories")
 	public ResponseEntity<?> doPostCreate(@Valid @RequestBody SubcategoryDto subcategoryDto, BindingResult result){
 		if (result.hasErrors()) {
