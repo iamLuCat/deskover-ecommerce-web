@@ -46,6 +46,26 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         return repo.findById(id).orElse(null);
     }
 
+    @Override
+    public DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input) {
+        DataTablesOutput<Subcategory> subcategories = repoForDatatables.findAll(input);
+        if (subcategories.getError() != null) {
+            throw new IllegalArgumentException(subcategories.getError());
+        }
+
+        return subcategories;
+    }
+
+    @Override
+    public DataTablesOutput<Subcategory> getByActiveForDatatables(DataTablesInput input, Boolean isActive) {
+        DataTablesOutput<Subcategory> subcategories = repoForDatatables.findAll(input,
+                (root, query, cb) -> cb.equal(root.get("actived"), isActive));
+        if (subcategories.getError() != null) {
+            throw new IllegalArgumentException(subcategories.getError());
+        }
+        return subcategories;
+    }
+
 
     @Override
     public Subcategory create(SubcategoryDto subcategoryDto) {
@@ -61,6 +81,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             }
             throw new IllegalArgumentException("Slug đã tồn tại");
         } else {
+            subcategory.setActived(true);
             subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
             subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             return repo.save(subcategory);
@@ -113,17 +134,6 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             subcategory.setActived(Boolean.FALSE);
         });
         repo.saveAll(subcategories);
-    }
-
-    @Override
-    public DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input) {
-
-        DataTablesOutput<Subcategory> subcategories = repoForDatatables.findAll(input);
-        if (subcategories.getError() != null) {
-            throw new IllegalArgumentException(subcategories.getError());
-        }
-
-        return subcategories;
     }
 
     @Override

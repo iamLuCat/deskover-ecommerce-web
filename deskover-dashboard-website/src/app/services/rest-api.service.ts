@@ -28,6 +28,10 @@ export class RestApiService {
     return this.httpClient.post(link, body).pipe(catchError(RestApiService.handleError));
   }
 
+  postWithParams(link: string, body: any, params: HttpParams): Observable<any> {
+    return this.httpClient.post(link, body, {params}).pipe(catchError(RestApiService.handleError));
+  }
+
   put(link: string, body: any): Observable<any> {
     return this.httpClient.put(link, body).pipe(catchError(RestApiService.handleError));
   }
