@@ -1,5 +1,6 @@
 package com.deskover.dto;
 
+import com.deskover.entity.Subcategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,17 @@ public class SubcategoryDto implements Serializable {
     private Timestamp modifiedAt;
     private Timestamp deletedAt;
     private Boolean actived;
+    private Long categoryId;
+
+    public SubcategoryDto(Subcategory subcategory) {
+        this.id = subcategory.getId();
+        this.name = subcategory.getName();
+        this.description = subcategory.getDescription();
+        this.slug = subcategory.getSlug();
+        this.createdAt = subcategory.getCreatedAt();
+        this.modifiedAt = subcategory.getModifiedAt();
+        this.deletedAt = subcategory.getDeletedAt();
+        this.actived = subcategory.getActived();
+        this.categoryId = subcategory.getCategory().getId();
+    }
 }

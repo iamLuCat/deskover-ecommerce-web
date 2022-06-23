@@ -44,6 +44,7 @@ import {DataTablesModule} from 'angular-datatables';
 import {AuthInterceptor} from "@/interceptor/auth-interceptor";
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SubcategoryComponent } from './pages/category/subcategory/subcategory.component';
+import {TooltipModule} from "ngx-bootstrap/tooltip";
 
 registerLocaleData(localeEn, 'en-EN');
 
@@ -82,7 +83,7 @@ registerLocaleData(localeEn, 'en-EN');
     imports: [
         BrowserModule,
         FormsModule,
-        StoreModule.forRoot({ auth: authReducer, ui: uiReducer }),
+        StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
         HttpClientModule,
         AppRoutingModule,
         ReactiveFormsModule,
@@ -94,7 +95,8 @@ registerLocaleData(localeEn, 'en-EN');
         }),
         NgbModule,
         NgxPaginationModule,
-        DataTablesModule
+        DataTablesModule,
+        TooltipModule
     ],
     providers: [
       { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

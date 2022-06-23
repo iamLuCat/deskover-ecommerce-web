@@ -19,11 +19,20 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <div class="d-flex justify-content-between align-items-center">
-          <h3 class="card-title">Danh sách danh mục</h3>
-          <button type="button" class="btn btn-sm bg-faded-accent" (click)="newSubcategory()">
-            <i class="fas fa-plus text-accent"></i>
-          </button>
+        <div class="row">
+          <label for="filter-subcategory" class="col-auto col-form-label">Trạng thái</label>
+          <select id="filter-subcategory" class="custom-select col-6 col-md-2" [(ngModel)]="isActive"
+                  (change)="rerender()">
+            <option [ngValue]="true">Kích hoạt</option>
+            <option [ngValue]="false">Vô hiệu hoá</option>
+          </select>
+          <div class="col"></div>
+          <div class="col-auto d-flex align-items-center">
+            <button type="button" class="btn btn-sm bg-faded-accent" (click)="newSubcategory()" placement="left"
+                    tooltip="Thêm">
+              <i class="fas fa-plus text-accent"></i>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -59,8 +68,8 @@
           class="form-control"
           id="name"
           name="name"
-          [(ngModel)]="subcategory.name"
-          (keyup)="subcategory.slug = toSlug(subcategory.name)"
+          [(ngModel)]="subcategoryDto.name"
+          (keyup)="subcategoryDto.slug = toSlug(subcategoryDto.name)"
           #name="ngModel"
           required
         />
@@ -75,7 +84,7 @@
           class="form-control"
           id="slug"
           name="slug"
-          [(ngModel)]="subcategory.slug"
+          [(ngModel)]="subcategoryDto.slug"
           #slug="ngModel"
           required/>
         <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
@@ -83,16 +92,19 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="category-parent">Danh mục cha</label>
-        <select id="category-parent" class="custom-select">
-          <option>Open this select menu</option>
-          <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+        <label for="category">Danh mục cha</label>
+        <select id="category" class="custom-select" name="category" [(ngModel)]="subcategoryDto.categoryId"
+                #category="ngModel" required>
+          <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
         </select>
+        <div class="invalid-feedback" *ngIf="category.invalid && (category.dirty || category.touched)">
+          <span *ngIf="category.errors?.['required']">Vui lòng chọn một danh mục</span>
+        </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger" (click)="saveSubcategory(subcategory);"
+    <button type="button" class="btn btn-outline-danger" (click)="saveSubcategory(subcategoryDto);"
             [disabled]="subcategoryForm.invalid">Lưu
     </button>
   </div>

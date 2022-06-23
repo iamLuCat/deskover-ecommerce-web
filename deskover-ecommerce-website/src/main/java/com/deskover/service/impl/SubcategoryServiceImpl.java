@@ -3,13 +3,14 @@ package com.deskover.service.impl;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.deskover.dto.SubcategoryDto;
+import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.Category;
 import com.deskover.entity.Subcategory;
 import com.deskover.repository.SubcategoryRepository;
 import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
@@ -19,128 +20,152 @@ import com.deskover.service.SubcategoryService;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
-	
-	@Autowired
-	SubcategoryRepository repo;
-	
-	@Autowired
-	SubCategoryRepoForDatatables repoForDatatables;
-	
-	@Autowired
-	private ProductService productService;
-	
-	@Autowired
-	private CategoryService categoryService;
 
-	@Override
-	public List<Subcategory> getByCategory(Long categoryId) {
-		return repo.findByCategoryId(categoryId);
-	}
+    @Autowired
+    SubcategoryRepository repo;
 
-	public List<Subcategory> getByActive(Boolean isActive) {
-		return repo.findByActived(isActive);
-	}
+    @Autowired
+    SubCategoryRepoForDatatables repoForDatatables;
 
-	public Subcategory getById(Long id) {
-		return repo.findById(id).orElse(null);
-	}
+    @Autowired
+    private ProductService productService;
 
-	@Override
-	@Transactional
-	public Subcategory update(Subcategory subcategory) {
-		subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-		return repo.saveAndFlush(subcategory);
-	}
+    @Autowired
+    private CategoryService categoryService;
 
-	@Override
-	@Transactional
-	public void delete(Long id) {
-		Subcategory subcategory = this.getById(id);
-		if (subcategory == null) {
-			throw new IllegalArgumentException("Subcategory not found");
-		}
+    @Override
+    public List<Subcategory> getByCategory(Long categoryId) {
+        return repo.findByCategoryId(categoryId);
+    }
 
-		subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
-		subcategory.setActived(Boolean.FALSE);
+    public List<Subcategory> getByActive(Boolean isActive) {
+        return repo.findByActived(isActive);
+    }
 
-		Subcategory result = repo.save(subcategory);
-		if (result.getActived() == Boolean.TRUE) {
-			throw new IllegalArgumentException("Subcategory not deleted");
-		}
-	}
+    public Subcategory getById(Long id) {
+        return repo.findById(id).orElse(null);
+    }
 
-	@Override
-	public void deleteMultiple(List<Subcategory> subcategories) {
-		subcategories.forEach(subcategory -> {
-			subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
-			subcategory.setActived(Boolean.FALSE);
-		});
-		repo.saveAll(subcategories);
-	}
 
-	@Override
-	public DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input) {
-		
-		 DataTablesOutput<Subcategory> subcategories = repoForDatatables.findAll(input);
-	        if (subcategories.getError() != null) {
-	            throw new IllegalArgumentException(subcategories.getError());
-	        }
-		 
-		return subcategories;
-	}
+    @Override
+    public Subcategory create(SubcategoryDto subcategoryDto) {
+        Subcategory subcategory = MapperUtil.map(subcategoryDto, Subcategory.class);
+        if (this.existsBySlug(subcategory)) {
+            Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
+            if (subcategoryExists != null && !subcategoryExists.getActived()) {
+                subcategoryExists.setActived(true);
+                subcategoryExists.setName(subcategory.getName());
+                subcategoryExists.setDescription(subcategory.getDescription());
+                subcategoryExists.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
+                return this.update(subcategoryExists);
+            }
+            throw new IllegalArgumentException("Slug đã tồn tại");
+        } else {
+            subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
+            subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            return repo.save(subcategory);
+        }
+    }
 
-	@Override
-	public Boolean existsBySlug(String slug) {
-		Subcategory subcategory = repo.findBySlug(slug);
-		return subcategory!=null;
-	}
+    @Override
+    @Transactional
+    public Subcategory update(SubcategoryDto subcategoryDto) {
+        Subcategory subcategory = MapperUtil.map(subcategoryDto, Subcategory.class);
+        if (this.existsBySlug(subcategory)) {
+            throw new IllegalArgumentException("Slug đã tồn tại");
+        }
+        subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
+        subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        return repo.save(subcategory);
+    }
 
-	@Override
-	public Subcategory create(Subcategory subcategory) {
-		subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		return repo.saveAndFlush(subcategory);
-	}
+    @Override
+    @Transactional
+    public Subcategory update(Subcategory subcategory) {
+        if (this.existsBySlug(subcategory)) {
+            throw new IllegalArgumentException("Slug đã tồn tại");
+        }
+        subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        return repo.save(subcategory);
+    }
 
-	@Override
-	public Boolean existsBySlug(Subcategory subcategory) {
-		Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
-		Boolean isExits =(subcategoryExists!=null && !subcategoryExists.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
-				|| categoryService.existsBySlug(subcategory.getSlug());
-		System.out.println(isExits);
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Subcategory subcategory = this.getById(id);
+        if (subcategory == null) {
+            throw new IllegalArgumentException("Subcategory not found");
+        }
 
-		return isExits;
-	}
+        subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+        subcategory.setActived(Boolean.FALSE);
 
-	@Override
-	@Transactional
-	public void deleteAll(List<Subcategory> subcategories) {
-		subcategories.forEach(subcategory -> {
-			repo.delete(subcategory);
-		});
-		
-		
-	}
+        Subcategory result = repo.save(subcategory);
+        if (result.getActived() == Boolean.TRUE) {
+            throw new IllegalArgumentException("Subcategory not deleted");
+        }
+    }
 
-	@Override
-	public Subcategory changeAvtive(Long id) {
-		Subcategory subcategory = this.getById(id);
-		if (subcategory == null) {
-			throw new IllegalArgumentException("Category not found");
-		}
-		if(subcategory.getCategory().getActived()) {
-			if(subcategory.getActived()) {
-				subcategory.setActived(Boolean.FALSE);
-				subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
-				return subcategory;
-			}else {
-				subcategory.setActived(Boolean.TRUE);
-				subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
-				repo.saveAndFlush(subcategory);
-				return subcategory;
-			}
-		}else {
-			return null;
-		}
-	}
+    @Override
+    public void deleteMultiple(List<Subcategory> subcategories) {
+        subcategories.forEach(subcategory -> {
+            subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+            subcategory.setActived(Boolean.FALSE);
+        });
+        repo.saveAll(subcategories);
+    }
+
+    @Override
+    public DataTablesOutput<Subcategory> getAllForDatatables(DataTablesInput input) {
+
+        DataTablesOutput<Subcategory> subcategories = repoForDatatables.findAll(input);
+        if (subcategories.getError() != null) {
+            throw new IllegalArgumentException(subcategories.getError());
+        }
+
+        return subcategories;
+    }
+
+    @Override
+    public Boolean existsBySlug(String slug) {
+        Subcategory subcategory = repo.findBySlug(slug);
+        return subcategory != null;
+    }
+
+    @Override
+    public Boolean existsBySlug(Subcategory subcategory) {
+        Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
+        return (subcategoryExists != null && !subcategoryExists.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
+                || categoryService.existsBySlug(subcategory.getSlug());
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll(List<Subcategory> subcategories) {
+        repo.deleteAll(subcategories);
+    }
+
+    @Override
+    public Subcategory changeActive(Long id) {
+        Subcategory subcategory = this.getById(id);
+        if (subcategory == null) {
+            throw new IllegalArgumentException("Không tìm thấy danh mục");
+        }
+        if (subcategory.getCategory().getActived()) {
+            if (subcategory.getActived()) {
+                subcategory.setActived(Boolean.FALSE);
+                subcategory.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+            } else {
+                subcategory.setActived(Boolean.TRUE);
+                subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+                repo.save(subcategory);
+
+            }
+            repo.save(subcategory);
+            return subcategory;
+        } else {
+            throw new IllegalArgumentException("Danh mục cha đã bị vô hiệu hóa");
+        }
+    }
 
 }

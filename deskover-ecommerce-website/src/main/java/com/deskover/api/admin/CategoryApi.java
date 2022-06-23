@@ -65,19 +65,16 @@ public class CategoryApi {
 
     //create
     @PostMapping("/categories")
-    public ResponseEntity<?> doPostCreate(@Valid @RequestBody Category category ,BindingResult result) {
-    	if (result.hasErrors()) {
-			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
-			return ResponseEntity.badRequest().body(errors);
-		}
-        if (categoryService.existsBySlug(category)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
+    public ResponseEntity<?> doPostCreate(@Valid @RequestBody Category category, BindingResult result) {
+        if (result.hasErrors()) {
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
         }
         try {
             categoryService.create(category);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new MessageErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -92,7 +89,6 @@ public class CategoryApi {
             return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
         }
         try {
-    		
             categoryService.update(category);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {

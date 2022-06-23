@@ -1,10 +1,9 @@
-import { Brand } from '../../entites/brand';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
-import { DataTableDirective } from 'angular-datatables';
-import { environment } from 'environments/environment';
-import { Subject } from 'rxjs';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import Swal from 'sweetalert2';
+import {Brand} from '../../entites/brand';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {DataTableDirective} from 'angular-datatables';
+import {environment} from 'environments/environment';
+import {Subject} from 'rxjs';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService} from "@services/auth.service";
 
 @Component({

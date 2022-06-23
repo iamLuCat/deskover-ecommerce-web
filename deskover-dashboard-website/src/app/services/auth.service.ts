@@ -1,9 +1,9 @@
 import {environment} from '../../environments/environment';
 import {Injectable} from '@angular/core';
-import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {RestApiService} from '@services/rest-api.service';
 import {Admin} from "@/entites/admin";
+import {AlertUtils} from "@/utils/alert-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,7 @@ export class AuthService {
 
   constructor(
     private restApiService: RestApiService,
-    private router: Router,
-    private toastr: ToastrService
+    private router: Router
   ) {
   }
 
@@ -29,10 +28,9 @@ export class AuthService {
         .toPromise();
       localStorage.setItem('token', data.token);
       await this.getProfile();
-      this.router.navigate(['/']);
+      await this.router.navigate(['/']);
     } catch (e) {
-      console.error(e);
-      this.toastr.error(e);
+      AlertUtils.toastError(e);
     }
   }
 
@@ -52,7 +50,7 @@ export class AuthService {
       await this.getProfile();
       this.router.navigate(['/']);
     } catch (e) {
-      this.toastr.error(e);
+      AlertUtils.toastError(e);
     }
   }
 

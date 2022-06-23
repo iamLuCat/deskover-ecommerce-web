@@ -4,6 +4,7 @@ import {DataTablesResponse} from "@/entites/data-tables-response";
 import {environment} from "../../environments/environment";
 import {Category} from "@/entites/category";
 import {Observable} from "rxjs";
+import {HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,20 @@ export class CategoryService {
     return this.restApi.post(this.url + "/datatables", tableQuery).toPromise();
   }
 
-  getOne(id: number): Observable<Category> {
+  getAll(page: number, size: number, active: Boolean): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('active', active.toString());
+
+    return this.restApi.getWithParams(this.url, params);
+  }
+
+  getAllByActived(): Observable<Category[]> {
+    return this.restApi.get(this.url + "/actived");
+  }
+
+  getById(id: number): Observable<Category> {
     return this.restApi.getOne(this.url, id);
   }
 
