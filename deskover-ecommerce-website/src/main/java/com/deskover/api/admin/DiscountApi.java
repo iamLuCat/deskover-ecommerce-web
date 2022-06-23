@@ -1,6 +1,5 @@
 package com.deskover.api.admin;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -59,7 +58,7 @@ public class DiscountApi {
 	}
 	
 	@PostMapping("/discount")
-	public ResponseEntity<?> doCreate(@Valid @RequestBody Discount discount,BindingResult result) throws SQLException{
+	public ResponseEntity<?> doCreate(@Valid @RequestBody Discount discount,BindingResult result){
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
 			return ResponseEntity.badRequest().body(errors);

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import com.deskover.entity.Discount;
 import com.deskover.entity.Product;
 
 public interface ProductService{

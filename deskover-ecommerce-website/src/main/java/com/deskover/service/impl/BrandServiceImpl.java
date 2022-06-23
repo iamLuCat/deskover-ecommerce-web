@@ -1,7 +1,6 @@
 package com.deskover.service.impl;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -20,38 +19,32 @@ public class BrandServiceImpl implements BrandService {
 
 	@Override
 	public List<Brand> getAll() {
-		// TODO Auto-generated method stub
 		return repo.findAll();
 	}
 
 	@Override
 	public List<Brand> getAllBrandIsActived() {
-		// TODO Auto-generated method stub
 		return repo.findByActived(Boolean.TRUE);
 	}
 
 	@Override
 	public Brand get(Long id) {
-		// TODO Auto-generated method stub
 		return repo.findById(id).orElse(null);
 	}
 
 	@Override
 	public Brand get(String slug) {
-		// TODO Auto-generated method stub
 		return repo.findBySlug(slug);
 	}
 
 	@Override
 	public Boolean existsBySlug(String slug) {
-		// TODO Auto-generated method stub
 		return repo.existsBySlug(slug);
 	}
 
 	@Override
 	@Transactional
 	public Brand create(Brand brand) {
-		// TODO Auto-generated method stub
 		if (repo.existsBySlug(brand.getSlug())) {
 			return null;
 		}
@@ -65,7 +58,6 @@ public class BrandServiceImpl implements BrandService {
 	@Override
 	@Transactional
 	public Brand update(Long id, Brand brand) {
-		// TODO Auto-generated method stub
 		Brand updateBrand = repo.getById(id);
 		updateBrand.setName(brand.getName());
 		updateBrand.setDescription(brand.getDescription());
@@ -85,7 +77,6 @@ public class BrandServiceImpl implements BrandService {
 	@Override
 	@Transactional
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
 		Brand deleteBrand = repo.getById(id);
 		deleteBrand.setDeletedAt(new Timestamp((System.currentTimeMillis())));
 		deleteBrand.setActived(Boolean.FALSE);
