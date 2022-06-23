@@ -3,6 +3,7 @@ package com.deskover.configuration.security.jwt;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,8 +14,8 @@ import org.springframework.stereotype.Service;
 import com.deskover.entity.Administrator;
 import com.deskover.service.AdminService;
 
-
 @Service
+@Configurable
 public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private AdminService adminService;

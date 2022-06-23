@@ -64,7 +64,6 @@ public class DiscountServiceImpl implements DiscountService {
 
 	@Override
 	public Discount findById(Long id) {
-		// TODO Auto-generated method stub
 		Optional<Discount> optional = repository.findById(id);
 		return optional.isPresent() ? optional.get() : null;
 	}
