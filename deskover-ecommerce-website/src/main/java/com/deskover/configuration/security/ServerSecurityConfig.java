@@ -20,6 +20,7 @@ import com.deskover.configuration.security.jwt.JwtAuthenticationEntryPoint;
 import com.deskover.configuration.security.jwt.JwtRequestFilter;
 import com.deskover.configuration.security.jwt.JwtUserDetailsService;
 import com.deskover.util.JwtTokenUtil;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -82,9 +83,9 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
             	.antMatchers("/authenticate")
             		.permitAll()
                 .and()
-            .antMatcher("/v1/api/admin/***")
+            .antMatcher("/v1/api/admin/**")
             .authorizeRequests()
-            	.antMatchers("/v1/api/admin/*","/get-principal")
+            	.antMatchers("/v1/api/admin/**","/get-principal")
             		.authenticated()
             		.and()
             	.exceptionHandling()
@@ -94,6 +95,8 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
              .and()
              	.authorizeRequests().anyRequest().permitAll();
+
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 }
