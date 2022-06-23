@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-DeskoverEcommerceWebsiteApplication<deskover-ecommerce-website>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.deskover.DeskoverEcommerceWebsiteApplication",
+            "projectName": "deskover-ecommerce-website",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

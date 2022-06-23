@@ -1,12 +1,12 @@
 package com.deskover.service;
 
-import com.deskover.entity.Category;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.deskover.entity.Category;
 
 public interface CategoryService {
 	// Check if the slug is already in use by another category
