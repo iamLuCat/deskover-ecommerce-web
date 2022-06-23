@@ -77,12 +77,12 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
-        {
-          title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
-          render: (data, type, full, meta) => {
-            return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Hoạt động' : 'Ngừng hoạt động'}</span>`;
-          }
-        },
+        // {
+        //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
+        //   render: (data, type, full, meta) => {
+        //     return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Hoạt động' : 'Vô hiệu hoá'}</span>`;
+        //   }
+        // },
         {
           title: 'Công cụ',
           data: null,
