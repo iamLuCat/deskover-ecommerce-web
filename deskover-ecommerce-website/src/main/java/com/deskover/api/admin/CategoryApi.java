@@ -1,11 +1,11 @@
 package com.deskover.api.admin;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
+import com.deskover.configuration.security.payload.response.MessageErrorResponse;
+import com.deskover.configuration.security.payload.response.MessageErrorUtil;
+import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.entity.Category;
+import com.deskover.service.CategoryService;
+import com.deskover.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -14,12 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.deskover.configuration.security.payload.response.MessageErrorResponse;
-import com.deskover.configuration.security.payload.response.MessageErrorUtil;
-import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.entity.Category;
-import com.deskover.service.CategoryService;
-import com.deskover.util.ValidationUtil;
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
