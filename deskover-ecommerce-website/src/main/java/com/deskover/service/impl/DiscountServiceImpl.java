@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,7 @@ public class DiscountServiceImpl implements DiscountService {
 	@Transactional
 	public Discount create(Discount discount) {
 		discount.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+		discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repository.saveAndFlush(discount);
 	}
 	
@@ -44,10 +46,12 @@ public class DiscountServiceImpl implements DiscountService {
 			if(discount.getActived()) {
 				discount.setDeletedDate(new Timestamp(System.currentTimeMillis()));
 				discount.setActived(Boolean.FALSE);
+				discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 				return repository.saveAndFlush(discount);
 			}else {
 				discount.setDeletedDate(new Timestamp(System.currentTimeMillis()));
 				discount.setActived(Boolean.TRUE);
+				discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 				return repository.saveAndFlush(discount);
 			}
 		}else {
@@ -59,6 +63,7 @@ public class DiscountServiceImpl implements DiscountService {
 	@Transactional
 	public Discount update(Discount discount) {
 		discount.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+		discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repository.saveAndFlush(discount);
 	}
 

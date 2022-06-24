@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public Product create(Product product) {
 		product.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+		product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repository.saveAndFlush(product);
 	}
 	
@@ -56,8 +58,9 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public void delete(Long id) {
 		Product product = this.getById(id);
-		product.setDeletedDate(new Timestamp(System.currentTimeMillis()));
+		product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
 		product.setActived(Boolean.FALSE);
+		product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 		repository.saveAndFlush(product);
 	}
 
@@ -65,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public Product update(Product product) {
 		product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+		product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repository.saveAndFlush(product);
 	}
 

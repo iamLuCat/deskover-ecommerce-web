@@ -21,7 +21,6 @@ public class SubcategoryDto implements Serializable {
     private String slug;
     private Timestamp createdAt;
     private Timestamp modifiedAt;
-    private Timestamp deletedAt;
     private Boolean actived;
     private Long categoryId;
 
@@ -32,7 +31,6 @@ public class SubcategoryDto implements Serializable {
         this.slug = subcategory.getSlug();
         this.createdAt = subcategory.getCreatedAt();
         this.modifiedAt = subcategory.getModifiedAt();
-        this.deletedAt = subcategory.getDeletedAt();
         this.actived = subcategory.getActived();
         this.categoryId = subcategory.getCategory().getId();
     }
