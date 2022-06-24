@@ -58,6 +58,16 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	public DataTablesOutput<Category> getByActiveForDatatables(DataTablesInput input, Boolean isActive) {
+		DataTablesOutput<Category> categories = repoForDatatables.findAll(input, (root, query, criteriaBuilder) ->
+				criteriaBuilder.equal(root.get("actived"), isActive));
+		if (categories.getError() != null) {
+			throw new IllegalArgumentException(categories.getError());
+		}
+		return categories;
+	}
+
+	@Override
 	public Page<Category> getByActived(Boolean isActive, Integer page, Integer size) {
 		return repo.findByActived(isActive, PageRequest.of(page, size));
 	}
