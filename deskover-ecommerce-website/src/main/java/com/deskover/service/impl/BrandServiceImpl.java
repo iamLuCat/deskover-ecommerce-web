@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.deskover.entity.Brand;
@@ -56,8 +57,8 @@ public class BrandServiceImpl implements BrandService {
         }
         brand.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         brand.setModifiedAt(null);
-        brand.setDeletedAt(null);
         brand.setActived(Boolean.TRUE);
+        brand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(brand);
     }
 
@@ -78,7 +79,7 @@ public class BrandServiceImpl implements BrandService {
         updateBrand.setSlug(brand.getSlug());
         updateBrand.setCreatedAt(brand.getCreatedAt());
         updateBrand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        updateBrand.setDeletedAt(null);
+        updateBrand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
         updateBrand.setActived(brand.getActived());
         return repo.saveAndFlush(updateBrand);
     }
@@ -90,8 +91,9 @@ public class BrandServiceImpl implements BrandService {
         if(deleteBrand == null){
             throw new IllegalArgumentException("Brand này không tồn tại");
         }
-        deleteBrand.setDeletedAt(new Timestamp((System.currentTimeMillis())));
+        deleteBrand.setModifiedAt(new Timestamp((System.currentTimeMillis())));
         deleteBrand.setActived(Boolean.FALSE);
+        deleteBrand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
         repo.saveAndFlush(deleteBrand);
     }
 
@@ -103,12 +105,13 @@ public class BrandServiceImpl implements BrandService {
         }
         if(currentBrand.getActived()){
             currentBrand.setActived(Boolean.FALSE);
-            currentBrand.setDeletedAt(new Timestamp(System.currentTimeMillis()));
             currentBrand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+            currentBrand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
             repo.saveAndFlush(currentBrand);
         }else{
             currentBrand.setActived(Boolean.TRUE);
             currentBrand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+            currentBrand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
             repo.saveAndFlush(currentBrand);
         }
     }

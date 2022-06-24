@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,12 +87,14 @@ public class CategoryServiceImpl implements CategoryService {
 				categoryExists.setActived(Boolean.TRUE);
 				categoryExists.setName(category.getName());
 				categoryExists.setDescription(category.getDescription());
+				categoryExists.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 				return this.update(categoryExists);
 			}
 			throw new IllegalArgumentException("Slug đã tồn tại");
 		} else {
 			category.setActived(Boolean.TRUE);
 			category.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+			category.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 			return repo.save(category);
 		}
 	}
@@ -100,6 +103,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Transactional
 	public Category update(Category category) {
 		category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+		category.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repo.save(category);
 	}
 
@@ -119,10 +123,12 @@ public class CategoryServiceImpl implements CategoryService {
 		if(category.getActived()) {
 			category.setActived(Boolean.FALSE);
 			category.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+			category.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 			repo.saveAndFlush(category);
 		}else {
 			category.setActived(Boolean.TRUE);
 			category.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+			category.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 			repo.saveAndFlush(category);
 		}
 		// Delete all subcategories of this category
