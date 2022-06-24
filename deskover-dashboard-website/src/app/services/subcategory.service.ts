@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {RestApiService} from "@services/rest-api.service";
 import {DataTablesResponse} from "@/entites/data-tables-response";
 import {Observable} from "rxjs";
 import {Subcategory} from "@/entites/subcategory";
-import {Category} from "@/entites/category";
 import {SubcategoryDto} from "@/dtos/subcategory-dto";
 import {CategoryService} from "@services/category.service";
+import {HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,11 @@ export class SubcategoryService {
 
   getAllForDatatable(tableQuery: any): Promise<DataTablesResponse> {
     return this.restApi.post(this.url + "/datatables", tableQuery).toPromise();
+  }
+
+  getByActiveForDatatable(tableQuery: any, isActive: boolean): Promise<DataTablesResponse> {
+    const params = new HttpParams().set("isActive", isActive.toString());
+    return this.restApi.postWithParams(this.url + "/datatables-by-active", tableQuery, params).toPromise();
   }
 
   getOne(id: number): Observable<Subcategory> {

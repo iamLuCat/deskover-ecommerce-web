@@ -7,8 +7,8 @@ import {UrlUtils} from "@/utils/url-utils";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
 import {CategoryService} from "@services/category.service";
-import {Category} from "@/entites/category";
 import {AlertUtils} from '@/utils/alert-utils';
+import {Category} from "@/entites/category";
 import {SubcategoryDto} from "@/dtos/subcategory-dto";
 
 @Component({
@@ -24,8 +24,8 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   categories: Category[];
 
-  isEdit: Boolean = false;
-  isActive: Boolean = true;
+  isEdit: boolean = false;
+  isActive: boolean = true;
 
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
@@ -58,11 +58,11 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.subcategoryService.getAllForDatatable(dataTablesParameters).then(resp => {
-          self.subcategories = resp.data.filter(category => category.actived == this.isActive);
+        this.subcategoryService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
+          self.subcategories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
-            recordsFiltered: self.subcategories.length,
+            recordsFiltered: resp.recordsFiltered,
             data: self.subcategories
           });
         });
@@ -80,7 +80,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         // {
         //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
         //   render: (data, type, full, meta) => {
-        //     return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Hoạt động' : 'Ngừng hoạt động'}</span>`;
+        //     return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Hoạt động' : 'Vô hiệu hoá'}</span>`;
         //   }
         // },
         {
@@ -146,7 +146,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCategories() {
-    this.categoryService.getAllByActived().subscribe(data => {
+    this.categoryService.getByActive().subscribe(data => {
       this.categories = data;
     });
   }

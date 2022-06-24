@@ -23,8 +23,8 @@
           <label for="filter-category" class="col-lg-auto col-form-label">Trạng thái</label>
           <select id="filter-category" class="custom-select col-6 col-md-2" [(ngModel)]="isActive"
                   (change)="rerender()">
-            <option [ngValue]="true">Kích hoạt</option>
-            <option [ngValue]="false">Vô hiệu hoá</option>
+            <option [ngValue]="true">Hoạt động</option>
+            <option [ngValue]="false">Chưa kích hoạt</option>
           </select>
           <div class="col"></div>
           <div class="col-auto d-flex align-items-center">

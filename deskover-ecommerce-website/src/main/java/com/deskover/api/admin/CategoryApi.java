@@ -1,11 +1,11 @@
 package com.deskover.api.admin;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
+import com.deskover.configuration.security.payload.response.MessageErrorResponse;
+import com.deskover.configuration.security.payload.response.MessageErrorUtil;
+import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.entity.Category;
+import com.deskover.service.CategoryService;
+import com.deskover.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -14,12 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.deskover.configuration.security.payload.response.MessageErrorResponse;
-import com.deskover.configuration.security.payload.response.MessageErrorUtil;
-import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.entity.Category;
-import com.deskover.service.CategoryService;
-import com.deskover.util.ValidationUtil;
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -42,9 +40,9 @@ public class CategoryApi {
         }
         return ResponseEntity.ok(categories);
     }
-    
+
     @GetMapping("/categories/actived")
-    public ResponseEntity<?> doGetAllActive() { 
+    public ResponseEntity<?> doGetAllActive() {
         List<Category> categories = categoryService.getByActived(Boolean.TRUE);
         if (categories.isEmpty()) {
             return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
@@ -53,17 +51,21 @@ public class CategoryApi {
     }
 
     @PostMapping("/categories/datatables")
-    public ResponseEntity<  ?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
+    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
         return ResponseEntity.ok(categoryService.getAllForDatatables(input));
     }
-    // find by id
+
+    @PostMapping("/categories/datatables-by-active")
+    public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
+        return ResponseEntity.ok(categoryService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
+    }
+
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
         Category category = categoryService.getById(id);
         return ResponseEntity.ok(Objects.requireNonNullElseGet(category, () -> new MessageResponse("Not Found Category")));
     }
 
-    //create
     @PostMapping("/categories")
     public ResponseEntity<?> doPostCreate(@Valid @RequestBody Category category, BindingResult result) {
         if (result.hasErrors()) {
@@ -78,13 +80,12 @@ public class CategoryApi {
         }
     }
 
-    //update category
     @PutMapping("/categories")
-    public ResponseEntity<?> updateCategory(@Valid @RequestBody Category category,BindingResult result) {
-    	if (result.hasErrors()) {
-			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
-			return ResponseEntity.badRequest().body(errors);
-		}
+    public ResponseEntity<?> updateCategory(@Valid @RequestBody Category category, BindingResult result) {
+        if (result.hasErrors()) {
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
         if (categoryService.existsBySlug(category)) {
             return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
         }
@@ -92,20 +93,19 @@ public class CategoryApi {
             categoryService.update(category);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-			MessageErrorResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
-			return ResponseEntity.badRequest().body(error);
+            MessageErrorResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
+            return ResponseEntity.badRequest().body(error);
         }
     }
-    
-    //change active
+
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
         try {
-        	categoryService.changeActived(id);
-   		 return new ResponseEntity<>(HttpStatus.OK);
+            categoryService.changeActived(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
-    
+
 }

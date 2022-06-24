@@ -1,8 +1,10 @@
 package com.deskover.configuration.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,11 +19,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.deskover.configuration.security.jwt.JwtAuthenticationEntryPoint;
 import com.deskover.configuration.security.jwt.JwtRequestFilter;
+import com.deskover.configuration.security.jwt.JwtUserDetailsService;
+import com.deskover.util.JwtTokenUtil;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableSpringConfigured
 public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -29,7 +35,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService jwtUserDetailsService;
-
+    
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
@@ -51,21 +57,38 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    
+    @Bean
+    JwtTokenUtil JwtTokenUtil() {
+        return new JwtTokenUtil();
+    }
+    
+    @Bean
+    JwtUserDetailsService JwtUserDetailsService() {
+        return new JwtUserDetailsService();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
+        	.antMatcher("/authenticate")
             .authorizeRequests()
-                .antMatchers("/authenticate")
-                    .permitAll()
-                .anyRequest()
-                    .authenticated()
-                    .and() // <- security the api and web in here
-                .exceptionHandling()
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                        .and()
+            	.antMatchers("/authenticate")
+            		.permitAll()
+                .and()
+            .antMatcher("/v1/api/admin/*")
+            .authorizeRequests()
+            	.antMatchers("/v1/api/admin/*","/get-principal")
+            		.authenticated()
+            		.and()
+            	.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+            	.exceptionHandling()
+                	.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                	.and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+             .and()
+             	.authorizeRequests().anyRequest().permitAll();
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

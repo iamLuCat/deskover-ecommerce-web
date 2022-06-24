@@ -18,6 +18,8 @@ public interface CategoryService {
 
     DataTablesOutput<Category> getAllForDatatables(DataTablesInput input);
 
+    DataTablesOutput<Category> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
+
     Page<Category> getByActived(Boolean isActive, Integer page, Integer size);
 
 	Category getById(Long id);

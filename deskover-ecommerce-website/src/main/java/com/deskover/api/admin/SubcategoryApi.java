@@ -1,9 +1,10 @@
 package com.deskover.api.admin;
 
-import java.util.Objects;
-
-import javax.validation.Valid;
-
+import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.dto.SubcategoryDto;
+import com.deskover.entity.Subcategory;
+import com.deskover.service.SubcategoryService;
+import com.deskover.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,12 @@ import com.deskover.dto.SubcategoryDto;
 import com.deskover.entity.Subcategory;
 import com.deskover.service.SubcategoryService;
 import com.deskover.util.ValidationUtil;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -34,19 +41,22 @@ public class SubcategoryApi {
 	@Autowired
 	SubcategoryService subcategoryService;
 
-	//Tìm theo id
 	@GetMapping("/subcategories/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
 		Subcategory subcategory = subcategoryService.getById(id);
 		return ResponseEntity.ok(Objects.requireNonNullElseGet(subcategory, () -> new MessageResponse("Not Found SubCategory")));
 	}
 	
-	//datatable
 	@PostMapping("/subcategories/datatables")
     public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
         return ResponseEntity.ok(subcategoryService.getAllForDatatables(input));
     }
-	
+
+	@PostMapping("/subcategories/datatables-by-active")
+	public ResponseEntity<?> doGetByActiveForDatatables(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
+		return ResponseEntity.ok(subcategoryService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
+	}
+
 	@PostMapping("/subcategories")
 	public ResponseEntity<?> doPostCreate(@Valid @RequestBody SubcategoryDto subcategoryDto, BindingResult result){
 		if (result.hasErrors()) {
