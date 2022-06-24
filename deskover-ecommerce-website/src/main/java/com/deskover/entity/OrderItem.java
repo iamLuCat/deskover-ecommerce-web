@@ -37,7 +37,7 @@ public class OrderItem implements Serializable {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private Timestamp createdDate;
 
