@@ -26,23 +26,13 @@ public class BrandApi {
     @Autowired
     BrandRepository repo;
 
-    /**
-     * Get All brand
-     *
-     * @return List<Brand>
-     */
-    @GetMapping("/brand/get-all")
+    @GetMapping("/brand")
     public ResponseEntity<?> doGetAll() {
         List<Brand> listBrand = service.getAll();
         return ResponseEntity.ok(listBrand);
     }
 
-    /**
-     * Get All brand Actived
-     *
-     * @return List<Brand>
-     */
-    @GetMapping("/brand/get-all-brand-actived")
+    @GetMapping("/brand/actived")
     public ResponseEntity<?> doGetAllBrandIsActived() {
         List<Brand> listBrand = service.getAllBrandIsActived();
         if (listBrand == null) {
@@ -51,12 +41,6 @@ public class BrandApi {
         return ResponseEntity.ok(listBrand);
     }
 
-    /**
-     * Get brand By Id
-     *
-     * @param Long id
-     * @return Brand
-     */
     @GetMapping("/brand/{id}")
     public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
         Brand brand = service.getById(id);
@@ -66,11 +50,6 @@ public class BrandApi {
         return ResponseEntity.ok(brand);
     }
 
-    /**
-     * Get brand By Slug
-     * @param String slug
-     * @return Brand
-     */
 //	@GetMapping("/brand")
 //	public ResponseEntity<?> doGetBySlug(@RequestParam(name = "slug") String slug) {
 //		Brand brand = service.getBySlug(slug);
@@ -80,13 +59,7 @@ public class BrandApi {
 //		return ResponseEntity.ok(brand);
 //	}
 
-    /**
-     * Create brand
-     *
-     * @param Brand brand
-     * @return Brand
-     */
-    @PostMapping("/brand/create")
+    @PostMapping("/brand")
     public ResponseEntity<?> doCreate(@Valid @RequestBody Brand brand, BindingResult result) {
         if(result.hasErrors()){
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -103,23 +76,17 @@ public class BrandApi {
         }
     }
 
-    /**
-     * Create brand
-     *
-     * @param Long id
-     * @return brand
-     */
-    @PutMapping("/brand/delete/{id}")
-    public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
-        try {
-            service.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-    }
+//    @PutMapping("/brand/{id}")
+//    public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
+//        try {
+//            service.delete(id);
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
+//    }
 
-    @PutMapping("/brand/update/{id}")
+    @PutMapping("/brand/{id}")
     public ResponseEntity<?> doUpdate(@PathVariable("id") Long id, @RequestBody Brand brand) {
         try {
             if (brand.getSlug() != null && service.getById(id).getSlug().equals(brand.getSlug())) {
