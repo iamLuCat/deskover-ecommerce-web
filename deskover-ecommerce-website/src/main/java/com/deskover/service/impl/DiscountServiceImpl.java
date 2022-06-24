@@ -44,12 +44,12 @@ public class DiscountServiceImpl implements DiscountService {
 		Discount discount = this.getById(id);
 		if (discount!=null) {
 			if(discount.getActived()) {
-				discount.setDeletedDate(new Timestamp(System.currentTimeMillis()));
+				discount.setModifiedDate(new Timestamp(System.currentTimeMillis()));
 				discount.setActived(Boolean.FALSE);
 				discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 				return repository.saveAndFlush(discount);
 			}else {
-				discount.setDeletedDate(new Timestamp(System.currentTimeMillis()));
+				discount.setModifiedDate(new Timestamp(System.currentTimeMillis()));
 				discount.setActived(Boolean.TRUE);
 				discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 				return repository.saveAndFlush(discount);

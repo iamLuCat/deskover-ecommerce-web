@@ -43,14 +43,14 @@ public class Administrator implements Serializable {
     @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
+
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 
     @Column(name = "avatar", length = 128)
     private String avatar;
-
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "admin")
     private AdminPassword password;

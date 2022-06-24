@@ -50,9 +50,6 @@ public class Discount implements Serializable {
 
     @Column(name = "modified_date")
     private Timestamp modifiedDate;
-
-    @Column(name = "deleted_date")
-    private Timestamp deletedDate;
     
     @Column(name = "actived")
     private Boolean actived;

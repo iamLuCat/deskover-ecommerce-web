@@ -48,9 +48,6 @@ public class Category implements Serializable {
     @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
-    @Column(name = "deleted_at")
-    private Timestamp deletedAt;
-
     @Column(name = "actived")
     private Boolean actived;
 
