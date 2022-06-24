@@ -17,14 +17,15 @@ USE deskover;
 
 CREATE TABLE admin_role (
 	id BIGINT NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(20) NOT NULL,
-    `description` VARCHAR(50) NOT NULL,
+    role_id VARCHAR(20) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
 	created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_user VARCHAR(50) DEFAULT NULL,
     UNIQUE KEY UQ_AdminRole_Name (`name`),
     PRIMARY KEY (id)
 );
 
-INSERT admin_role (id, `name`, `description`)
+INSERT admin_role (id, role_id, `name`)
 VALUES 	(1, 'ROLE_ADMIN','Quản trị viên'),
 		(2, 'ROLE_MANAGER','Nhân viên quản lý'),
         (3, 'ROLE_STAFF','Nhân viên'),
@@ -40,6 +41,7 @@ CREATE TABLE administrator (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     actived BIT NOT NULL DEFAULT 1,
+    modified_user VARCHAR(50) DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY UQ_Admin_Username (username)
 );
@@ -59,7 +61,8 @@ CREATE TABLE admin_password (
     admin_id BIGINT NOT NULL,
     `password` VARCHAR(60) NOT NULL,
 	created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP DEFAULT NULL,
+    modified_user VARCHAR(50) DEFAULT NULL,
     PRIMARY KEY (id),
 	CONSTRAINT FK_Password_Admin FOREIGN KEY (admin_id) REFERENCES administrator (id)
 );
@@ -78,6 +81,7 @@ CREATE TABLE admin_authority (
 	id BIGINT NOT NULL AUTO_INCREMENT,
     role_id BIGINT NOT NULL,
     admin_id BIGINT NOT NULL,
+    modified_user VARCHAR(50) DEFAULT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_Authority_Admin FOREIGN KEY (admin_id) REFERENCES administrator (id),
     CONSTRAINT FK_Authority_Role FOREIGN KEY (role_id) REFERENCES admin_role (id)
@@ -101,10 +105,11 @@ CREATE TABLE `user` (
   fullname VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   avatar VARCHAR(128) DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified_at TIMESTAMP DEFAULT NULL,
   last_login TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   actived BIT NOT NULL DEFAULT 1,
   verify BIT NOT NULL DEFAULT 0, 
+  modified_user VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_User_Username (username)
 );
@@ -139,7 +144,7 @@ CREATE TABLE user_password (
   user_id BIGINT NOT NULL,
   `password` VARCHAR(60) NOT NULL,
   created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified_date TIMESTAMP DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_Password_User FOREIGN KEY (user_id) REFERENCES `user` (id)
 );
@@ -160,20 +165,20 @@ CREATE TABLE category (
   `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_at TIMESTAMP DEFAULT NULL,
+  modified_at TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
+  modified_user VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_Category_Slug (slug)
 );
 
 insert category (id,name,slug)
 values 	(1,'Laptop','laptop'),
-		(2,'Bàn Phím','ban-phim-may-tinh'),
-        (3,'Chuột + Lót Chuột','chuot-may-tinh'),
-		(4,'Màn Hình','man-hinh-may-tinh'),
-		(5,'Linh Kiện PC','linh-kien-may-tinh'),
-        (6,'Ghế','ghe-gaming-gia-re'),
+		(2,'Bàn Phím','ban-phim'),
+        (3,'Chuột + Lót Chuột','chuot-lot-chuot'),
+		(4,'Màn Hình','man-hinh'),
+		(5,'Linh Kiện PC','linh-kien-pc'),
+        (6,'Ghế','ghe'),
         (7,'Apple','apple')
 ;
 
@@ -185,9 +190,9 @@ CREATE TABLE subcategory (
   `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_at TIMESTAMP DEFAULT NULL,
+  modified_at TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
+  modified_user VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_SubCategory_Slug (slug),
   CONSTRAINT FK_SubCategory_Category FOREIGN KEY (category_id) REFERENCES category (id)
@@ -201,10 +206,12 @@ values 	(1,1,'Laptop Văn Phòng','laptop-van-phong'),
         (5,2,'Bàn Phím Bluetooth','ban-phim-bluetooth'),
 		(6,3,'Chuột Gaming','chuot-gaming'),
         (7,3,'Chuột Văn Phòng','chuot-van-phong'),
-        (8,3,'Chuột Không dây','chuot-khong-dây'),
-        (9,7,'MacBook','macbook'),
-        (10,7,'IMac','imac'),
-        (11,7,'Mac mini','mac-mini')
+        (8,3,'Chuột Không dây','chuot-khong-day'),
+        (9,3,'Ghế Gaming','ghe-gaming'),
+        (10,3,'Ghế Công Thái Học','ghe-cong-thai-hoc'),
+        (11,7,'MacBook','macbook'),
+        (12,7,'IMac','imac'),
+        (13,7,'Mac mini','mac-mini')
 ;
 
 -- Thương hiệu
@@ -214,22 +221,22 @@ CREATE TABLE brand (
   `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   slug VARCHAR(50) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_at TIMESTAMP DEFAULT NULL,
+  modified_at TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
+  modified_user VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_Brand_Slug (slug)
 );
 
 insert brand (id,`name`,slug)
-values 	(1,'ASUS','laptop-asus'),
-		(2,'ACER','laptop-acer'),
-        (3,'DELL','laptop-dell'),
-        (4,'MSI','laptop-msi'),
-        (5,'LENOVO','laptop-lenovo'),
-        (6,'HP','laptop-hp'),
-        (7,'LG','laptop-lg'),
-        (8,'APPLE','apple')
+values 	(1,'Asus','asus'),
+		(2,'Acer','acer'),
+        (3,'Dell','dell'),
+        (4,'Msi','msi'),
+        (5,'Lenovo','lenovo'),
+        (6,'Hp','hp'),
+        (7,'Lg','lg'),
+        (8,'Apple','apple')
 ;
 
 -- giảm giá
@@ -241,9 +248,9 @@ CREATE TABLE discount (
   start_date DATE NOT NULL,
   end_date DATE DEFAULT NULL,
   created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_date TIMESTAMP DEFAULT NULL,
+  modified_date TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
+  modified_user VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id)
 );
 
@@ -263,12 +270,12 @@ CREATE TABLE product (
   `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
   price DOUBLE DEFAULT NULL,
   created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_date TIMESTAMP DEFAULT NULL,
+  modified_date TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
   sub_category_id BIGINT DEFAULT NULL,
   brand_id BIGINT NOT NULL,
   discount_id BIGINT DEFAULT NULL,
+  modified_user VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_Product_SubCategory FOREIGN KEY (sub_category_id) REFERENCES subcategory (id),
   CONSTRAINT FK_Product_Brand FOREIGN KEY (brand_id) REFERENCES brand (id),
@@ -343,7 +350,9 @@ CREATE TABLE inventory (
   id BIGINT NOT NULL AUTO_INCREMENT,
   product_id BIGINT NOT NULL,
   quantity BIGINT NOT NULL,
-  modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified_date TIMESTAMP DEFAULT NULL,
+  modified_user VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_Inventory_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
@@ -400,11 +409,12 @@ values 	(1,100),
 CREATE TABLE orders (
   id BIGINT NOT NULL AUTO_INCREMENT,
   order_code VARCHAR(11) NOT NULL,
-  user_id BIGINT NOT NULL,
+  user_id BIGINT DEFAULT NULL,
   full_name VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI NOT NULL,
-  email VARCHAR(50) NULL,
+  email VARCHAR(50) DEFAULT NULL,
   created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  status INT NOT NULL DEFAULT '0',
+  `status` INT NOT NULL DEFAULT '0',
+  modified_user VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_Order_OrderCode (order_code),
   CONSTRAINT FK_Order_User FOREIGN KEY (user_id) REFERENCES `user` (id)
@@ -430,7 +440,6 @@ CREATE TABLE order_item (
   product_id BIGINT NOT NULL,
   quantity INT NOT NULL,
   price DOUBLE NOT NULL,
-  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   CONSTRAINT FK_OrderItems_Product FOREIGN KEY (product_id) REFERENCES product (id),
   CONSTRAINT FK_OrderItems_Order FOREIGN KEY (order_id) REFERENCES orders (id)
@@ -490,11 +499,11 @@ values 	(1,1,'121 Tô ký, Phường 9, Quận 12, TP HCM','0987654321'),
 
 CREATE TABLE cart (
   id BIGINT NOT NULL AUTO_INCREMENT,
-  user_id BIGINT NULL,
+  user_id BIGINT DEFAULT NULL,
   product_id BIGINT NOT NULL,
   quantity INT NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified_at TIMESTAMP DEFAULT NULL,
   PRIMARY KEY (id),
   KEY FK_Cart_User (user_id),
   CONSTRAINT FK_Cart_Product FOREIGN KEY (product_id) REFERENCES product (id),

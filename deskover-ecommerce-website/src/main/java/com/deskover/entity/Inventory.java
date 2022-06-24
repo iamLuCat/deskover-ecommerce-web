@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,8 +31,14 @@ public class Inventory implements Serializable {
     @Column(name = "quantity", nullable = false)
     private Long quantity;
 
-    @Column(name = "modified_date", nullable = false)
-    @CreationTimestamp
+    @Column(name = "modified_date")
     private Timestamp modifiedDate;
+
+    @Column(name = "created_date", nullable = false)
+    @CreationTimestamp
+    private Timestamp createdDate;
+
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
 
 }

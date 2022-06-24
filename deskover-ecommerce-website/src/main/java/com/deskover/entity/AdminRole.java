@@ -40,15 +40,20 @@ public class AdminRole implements Serializable {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Column(name = "description", nullable = false, length = 50)
-    private String description;
-
     @Column(name = "created_date", nullable = false)
     @CreationTimestamp
     private Timestamp createdDate;
 
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
+
+    @Column(name = "role_id", nullable = false, length = 20)
+    private String roleId;
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
     private Set<AdminAuthority> adminAuthorities = new LinkedHashSet<>();
+
+
 
 }

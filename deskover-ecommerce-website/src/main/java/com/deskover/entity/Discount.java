@@ -42,23 +42,23 @@ public class Discount implements Serializable {
     private Timestamp startDate;
 
     @Column(name = "end_date")
-    @CreationTimestamp
     private Timestamp endDate;
 
     @Column(name = "created_date", nullable = false)
     @CreationTimestamp
     private Timestamp createdDate;
 
-    @Column(name = "modified_date", nullable = false)
-    @CreationTimestamp
+    @Column(name = "modified_date")
     private Timestamp modifiedDate;
 
     @Column(name = "deleted_date")
-    @CreationTimestamp
     private Timestamp deletedDate;
     
     @Column(name = "actived")
     private Boolean actived;
+
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
 
     @JsonIgnore
     @OneToMany(mappedBy = "discount")

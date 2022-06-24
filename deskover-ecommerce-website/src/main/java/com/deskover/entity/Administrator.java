@@ -40,8 +40,7 @@ public class Administrator implements Serializable {
     @CreationTimestamp
     private Timestamp createdAt;
 
-    @Column(name = "modified_at", nullable = false)
-    @CreationTimestamp
+    @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
     @Column(name = "actived", nullable = false)
@@ -49,6 +48,9 @@ public class Administrator implements Serializable {
 
     @Column(name = "avatar", length = 128)
     private String avatar;
+
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "admin")
     private AdminPassword password;

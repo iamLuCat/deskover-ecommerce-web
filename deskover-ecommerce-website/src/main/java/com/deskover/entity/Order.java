@@ -49,6 +49,9 @@ public class Order implements Serializable {
     @CreationTimestamp
     private Timestamp status;
 
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
+
     @JsonIgnore
     @OneToMany(mappedBy = "order")
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
