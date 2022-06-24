@@ -34,8 +34,7 @@ public class UserPassword implements Serializable {
     @CreationTimestamp
     private Timestamp createdDate;
 
-    @Column(name = "modified_date", nullable = false)
-    @CreationTimestamp
+    @Column(name = "modified_date")
     private Timestamp modifiedDate;
 
 }

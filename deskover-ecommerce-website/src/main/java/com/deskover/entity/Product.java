@@ -48,13 +48,8 @@ public class Product implements Serializable {
     @CreationTimestamp
     private Timestamp createdDate;
 
-    @Column(name = "modified_date", nullable = false)
-    @CreationTimestamp
+    @Column(name = "modified_date")
     private Timestamp modifiedDate;
-
-    @Column(name = "deleted_date")
-    @CreationTimestamp
-    private Timestamp deletedDate;
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
@@ -70,6 +65,9 @@ public class Product implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "discount_id")
     private Discount discount;
+
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
 
     @JsonIgnore
     @OneToMany(mappedBy = "product")

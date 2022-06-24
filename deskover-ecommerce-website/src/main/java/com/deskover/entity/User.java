@@ -41,12 +41,10 @@ public class User implements Serializable {
     @CreationTimestamp
     private Timestamp createdAt;
 
-    @Column(name = "modified_at", nullable = false)
-    @CreationTimestamp
+    @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
-    @Column(name = "last_login", nullable = false)
-    @CreationTimestamp
+    @Column(name = "last_login")
     private Timestamp lastLogin;
 
     @Column(name = "actived", nullable = false)
@@ -70,5 +68,8 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Cart> carts = new LinkedHashSet<>();
+
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
 
 }

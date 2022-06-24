@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.dto.SubcategoryDto;
 import com.deskover.entity.Subcategory;
 import com.deskover.service.SubcategoryService;
 import com.deskover.util.ValidationUtil;

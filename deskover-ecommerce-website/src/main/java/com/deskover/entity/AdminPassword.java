@@ -30,9 +30,11 @@ public class AdminPassword implements Serializable {
     @CreationTimestamp
     private Timestamp createdDate;
 
-    @Column(name = "modified_date", nullable = false)
-    @CreationTimestamp
+    @Column(name = "modified_date")
     private Timestamp modifiedDate;
+
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "admin_id", nullable = false)

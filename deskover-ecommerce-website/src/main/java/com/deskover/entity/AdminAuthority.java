@@ -22,6 +22,9 @@ public class AdminAuthority implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private AdminRole role;

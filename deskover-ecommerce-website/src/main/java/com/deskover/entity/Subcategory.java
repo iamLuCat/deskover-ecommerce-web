@@ -59,21 +59,17 @@ public class Subcategory implements Serializable {
     @CreationTimestamp
     private Timestamp createdAt;
 
-    @Column(name = "modified_at", nullable = false)
-    @CreationTimestamp
+    @Column(name = "modified_at")
     private Timestamp modifiedAt;
-
-    @Column(name = "deleted_at")
-    @CreationTimestamp
-    private Timestamp deletedAt;
 
     @Column(name = "actived")
     private Boolean actived;
-    
-//    private String date_at;
 
     @JsonIgnore
     @OneToMany(mappedBy = "subCategory")
     private Set<Product> products = new LinkedHashSet<>();
+
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
 
 }

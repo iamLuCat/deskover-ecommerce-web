@@ -45,16 +45,17 @@ public class Category implements Serializable {
     @CreationTimestamp
     private Timestamp createdAt;
 
-    @Column(name = "modified_at", nullable = false)
-    @CreationTimestamp
+    @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
     @Column(name = "deleted_at")
-    @CreationTimestamp
     private Timestamp deletedAt;
 
     @Column(name = "actived")
     private Boolean actived;
+
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
 
     @JsonIgnore
     @OneToMany(mappedBy = "category")
