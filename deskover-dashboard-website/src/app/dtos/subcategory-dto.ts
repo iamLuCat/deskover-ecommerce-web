@@ -7,7 +7,6 @@ export interface SubcategoryDto {
   slug: string;
   createdAt: Date;
   modifiedAt: Date;
-  deletedAt: Date;
   actived: boolean;
   categoryId: number;
 }

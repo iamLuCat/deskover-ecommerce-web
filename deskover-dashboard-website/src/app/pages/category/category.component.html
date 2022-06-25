@@ -43,6 +43,7 @@
               <th scope="col" class="align-middle">Tên</th>
               <th scope="col" class="align-middle">Slug</th>
               <th scope="col" class="align-middle text-center">Ngày cập nhật</th>
+              <th scope="col" class="align-middle text-center">Người cập nhật</th>
               <!--<th scope="col" class="align-middle text-center">Trạng thái</th>-->
               <th scope="col" class="align-middle text-center">Công cụ</th>
             </tr>
@@ -57,6 +58,9 @@
               </td>
               <td class="align-middle text-center">
                 {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ item.modifiedUser }}
               </td>
               <!--<td class="align-middle text-center">
                 <span *ngIf="item.actived" class="badge badge-success">Kích hoạt</span>

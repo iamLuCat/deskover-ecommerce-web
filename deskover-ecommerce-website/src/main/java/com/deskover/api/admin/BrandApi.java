@@ -27,13 +27,13 @@ public class BrandApi {
     @Autowired
     BrandRepository repo;
 
-    @GetMapping("/brand")
+    @GetMapping("/brands")
     public ResponseEntity<?> doGetAll() {
         List<Brand> listBrand = service.getAll();
         return ResponseEntity.ok(listBrand);
     }
 
-    @GetMapping("/brand/actived")
+    @GetMapping("/brands/actived")
     public ResponseEntity<?> doGetAllBrandIsActived() {
         List<Brand> listBrand = service.getAllBrandIsActived();
         if (listBrand == null) {
@@ -42,7 +42,7 @@ public class BrandApi {
         return ResponseEntity.ok(listBrand);
     }
 
-    @GetMapping("/brand/{id}")
+    @GetMapping("/brands/{id}")
     public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
         Brand brand = service.getById(id);
         if (brand == null) {
@@ -88,7 +88,7 @@ public class BrandApi {
         return ResponseEntity.ok(service.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }
 
-    @DeleteMapping("/brand/{id}")
+    @DeleteMapping("/brands/{id}")
     public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
         try {
             service.changeActived(id);

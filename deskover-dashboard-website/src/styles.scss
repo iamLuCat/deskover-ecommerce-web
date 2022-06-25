@@ -1,3 +1,6 @@
+$primary: #1c519d;
+@import "bootstrap";
+
 @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css');
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700');
@@ -14,6 +17,7 @@
 body {
   width: 100vw;
   height: 100vh;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -22,6 +26,12 @@ body {
 }
 
 // CSS Custom - Start
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+  background-color: #1c519d;
+  color: #fff;
+}
+
 .table-responsive {
   .dataTables_empty {
     display: none;

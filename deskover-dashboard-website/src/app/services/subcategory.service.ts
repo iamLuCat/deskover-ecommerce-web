@@ -16,13 +16,9 @@ export class SubcategoryService {
 
   constructor(private restApi: RestApiService, private categoryService: CategoryService) { }
 
-  getAllForDatatable(tableQuery: any): Promise<DataTablesResponse> {
-    return this.restApi.post(this.url + "/datatables", tableQuery).toPromise();
-  }
-
   getByActiveForDatatable(tableQuery: any, isActive: boolean): Promise<DataTablesResponse> {
     const params = new HttpParams().set("isActive", isActive.toString());
-    return this.restApi.postWithParams(this.url + "/datatables-by-active", tableQuery, params).toPromise();
+    return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params).toPromise();
   }
 
   getOne(id: number): Observable<Subcategory> {
@@ -49,7 +45,6 @@ export class SubcategoryService {
       slug: subcategory.slug,
       createdAt: subcategory.createdAt,
       modifiedAt: subcategory.modifiedAt,
-      deletedAt: subcategory.deletedAt,
       actived: subcategory.actived,
       categoryId: subcategory.category.id
     };
