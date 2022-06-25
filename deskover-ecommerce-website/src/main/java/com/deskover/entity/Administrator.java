@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -27,9 +29,11 @@ public class Administrator implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotBlank(message = "Không được bỏ trống username")
     @Column(name = "username", nullable = false, length = 50)
     private String username;
 
+    @NotBlank(message = "Không được bỏ trống fullname")
     @Column(name = "fullname", nullable = false, length = 128)
     private String fullname;
 
@@ -43,14 +47,14 @@ public class Administrator implements Serializable {
     @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
+    @Column(name = "modified_user", length = 50)
+    private String modifiedUser;
+
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 
     @Column(name = "avatar", length = 128)
     private String avatar;
-
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "admin")
     private AdminPassword password;

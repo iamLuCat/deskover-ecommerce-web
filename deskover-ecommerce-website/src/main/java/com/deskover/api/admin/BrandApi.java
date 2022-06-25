@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -50,15 +51,6 @@ public class BrandApi {
         return ResponseEntity.ok(brand);
     }
 
-//	@GetMapping("/brand")
-//	public ResponseEntity<?> doGetBySlug(@RequestParam(name = "slug") String slug) {
-//		Brand brand = service.getBySlug(slug);
-//		if (brand == null) {
-//			return ResponseEntity.ok(new MessageResponse("Không tìm thấy brand có slug: " + slug));
-//		}
-//		return ResponseEntity.ok(brand);
-//	}
-
     @PostMapping("/brand")
     public ResponseEntity<?> doCreate(@Valid @RequestBody Brand brand, BindingResult result) {
         if(result.hasErrors()){
@@ -76,16 +68,6 @@ public class BrandApi {
         }
     }
 
-//    @PutMapping("/brand/{id}")
-//    public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
-//        try {
-//            service.delete(id);
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        }
-//    }
-
     @PutMapping("/brand/{id}")
     public ResponseEntity<?> doUpdate(@PathVariable("id") Long id, @RequestBody Brand brand) {
         try {
@@ -101,9 +83,9 @@ public class BrandApi {
         }
     }
 
-    @PostMapping("/brand/datatables")
-    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
-        return ResponseEntity.ok(service.getAllForDatatables(input));
+    @PostMapping("/brand/datatables-by-active")
+    public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
+        return ResponseEntity.ok(service.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }
 
     @DeleteMapping("/brand/{id}")

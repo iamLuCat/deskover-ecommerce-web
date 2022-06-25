@@ -122,12 +122,12 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		if(category.getActived()) {
 			category.setActived(Boolean.FALSE);
-			category.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+			category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 			category.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 			repo.saveAndFlush(category);
 		}else {
 			category.setActived(Boolean.TRUE);
-			category.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+			category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 			category.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 			repo.saveAndFlush(category);
 		}

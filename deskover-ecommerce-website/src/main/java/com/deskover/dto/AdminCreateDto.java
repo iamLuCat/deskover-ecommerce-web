@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
 @Setter
@@ -15,6 +16,7 @@ import java.util.List;
 public class AdminCreateDto implements Serializable {
     private String username;
     private String fullname;
+    @NotBlank(message = "Không để trống password")
     private String password;
-    private List<AdminRole> listRole;
+    private List<Long> listRoleId;
 }
