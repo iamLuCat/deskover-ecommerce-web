@@ -21,7 +21,6 @@ import com.deskover.configuration.security.jwt.JwtAuthenticationEntryPoint;
 import com.deskover.configuration.security.jwt.JwtRequestFilter;
 import com.deskover.configuration.security.jwt.JwtUserDetailsService;
 import com.deskover.util.JwtTokenUtil;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -67,6 +66,15 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
     JwtUserDetailsService JwtUserDetailsService() {
         return new JwtUserDetailsService();
     }
+    
+    @Bean
+    public FilterRegistrationBean<JwtRequestFilter> jwtRequestFilterBean() {
+        FilterRegistrationBean<JwtRequestFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(jwtRequestFilter);
+        registrationBean.addUrlPatterns("/v1/api/admin/*");
+        registrationBean.addUrlPatterns("/get-principal");
+        return registrationBean;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -89,8 +97,6 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
              .and()
              	.authorizeRequests().anyRequest().permitAll();
-
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 }
