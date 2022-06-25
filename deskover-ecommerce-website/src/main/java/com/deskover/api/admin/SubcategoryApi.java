@@ -41,13 +41,8 @@ public class SubcategoryApi {
 		Subcategory subcategory = subcategoryService.getById(id);
 		return ResponseEntity.ok(Objects.requireNonNullElseGet(subcategory, () -> new MessageResponse("Not Found SubCategory")));
 	}
-	
-	@PostMapping("/subcategories/datatables")
-    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
-        return ResponseEntity.ok(subcategoryService.getAllForDatatables(input));
-    }
 
-	@PostMapping("/subcategories/datatables-by-active")
+	@PostMapping("/subcategories/datatables")
 	public ResponseEntity<?> doGetByActiveForDatatables(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
 		return ResponseEntity.ok(subcategoryService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
 	}

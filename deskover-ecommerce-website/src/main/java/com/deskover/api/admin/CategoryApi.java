@@ -49,13 +49,7 @@ public class CategoryApi {
         }
         return ResponseEntity.ok(categories);
     }
-
     @PostMapping("/categories/datatables")
-    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
-        return ResponseEntity.ok(categoryService.getAllForDatatables(input));
-    }
-
-    @PostMapping("/categories/datatables-by-active")
     public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
         return ResponseEntity.ok(categoryService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }

@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product findById(Long id) {
 		Optional<Product> optional = repository.findById(id);
-		return optional.isPresent() ? optional.get() : null;
+		return optional.orElse(null);
 	}
 
 	@Override
@@ -92,8 +92,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Boolean existsBySlug(String slug) {
-		Product product = repository.findBySlug(slug);
-		return product!=null;
+		return repository.existsBySlug(slug);
 	}
 
 	@Override

@@ -54,6 +54,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
+      lengthMenu: [5, 10, 20, 50, 100],
       responsive: true,
       serverSide: true,
       processing: true,
@@ -72,11 +73,12 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         {title: 'Slug', data: 'slug', className: 'align-middle'},
         {title: 'Danh mục cha', data: 'category.name', className: 'align-middle'},
         {
-          title: 'Ngày sửa', data: 'modifiedAt', className: 'align-middle text-left',
+          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-left text-md-center',
           render: (data, type, full, meta) => {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
+        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-left text-md-center'},
         // {
         //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
         //   render: (data, type, full, meta) => {

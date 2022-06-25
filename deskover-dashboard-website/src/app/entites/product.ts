@@ -10,9 +10,8 @@ export interface Product {
   image: string;
   createdDate: Date;
   modifiedDate: Date;
-  deletedDate: Date;
+  modifiedUser: string;
   actived: boolean;
   subcategory: Subcategory;
   brand: Brand;
-
 }

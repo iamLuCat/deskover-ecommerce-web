@@ -8,7 +8,7 @@ export interface Subcategory {
   slug: string;
   createdAt: Date;
   modifiedAt: Date;
-  deletedAt: Date;
+  modifiedUser: string;
   actived: boolean;
   category: Category;
 }
