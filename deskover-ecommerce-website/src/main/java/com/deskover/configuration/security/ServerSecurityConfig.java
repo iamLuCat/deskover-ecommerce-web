@@ -21,7 +21,6 @@ import com.deskover.configuration.security.jwt.JwtAuthenticationEntryPoint;
 import com.deskover.configuration.security.jwt.JwtRequestFilter;
 import com.deskover.configuration.security.jwt.JwtUserDetailsService;
 import com.deskover.util.JwtTokenUtil;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
