@@ -51,7 +51,7 @@ public class BrandApi {
         return ResponseEntity.ok(brand);
     }
 
-    @PostMapping("/brand")
+    @PostMapping("/brands")
     public ResponseEntity<?> doCreate(@Valid @RequestBody Brand brand, BindingResult result) {
         if(result.hasErrors()){
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -68,7 +68,7 @@ public class BrandApi {
         }
     }
 
-    @PutMapping("/brand/{id}")
+    @PutMapping("/brands/{id}")
     public ResponseEntity<?> doUpdate(@PathVariable("id") Long id, @RequestBody Brand brand) {
         try {
             if (brand.getSlug() != null && service.getById(id).getSlug().equals(brand.getSlug())) {
@@ -83,7 +83,7 @@ public class BrandApi {
         }
     }
 
-    @PostMapping("/brand/datatables-by-active")
+    @PostMapping("/brands/datatables")
     public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
         return ResponseEntity.ok(service.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }
