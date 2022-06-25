@@ -5,6 +5,7 @@ import {DataTableDirective} from "angular-datatables";
 import {Subject} from "rxjs";
 import {AlertUtils} from '@/utils/alert-utils';
 import {Brand} from "@/entites/brand";
+import {DatePipe} from "@angular/common";
 import {BrandService} from "@services/brand.service";
 
 @Component({
@@ -53,27 +54,71 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: []
+            data: self.brands
           });
         });
       },
       columns: [
-        { data: 'name' },
-        { data: 'slug' },
-        { data: 'modifiedAt' },
-        // { data: 'actived' },
-        { data: null, orderable: false, searchable: false },
+        {title: 'Tên', data: 'name', className: 'align-middle'},
+        {title: 'Slug', data: 'slug', className: 'align-middle'},
+        {
+          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-left text-md-center',
+          render: (data, type, full, meta) => {
+            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+          }
+        },
+        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-left text-md-center'},
+        {
+          title: 'Công cụ',
+          data: null,
+          orderable: false,
+          searchable: false,
+          className: 'align-middle text-left text-md-center',
+          render: (data, type, full, meta) => {
+            if (self.isActive) {
+              return `
+                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info" data-id="${data.id}"
+                    title="Sửa" data-toggle="tooltip">
+                    <i class="fa fa-pen-square text-info"></i>
+                </a>
+                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
+                    title="Xoá" data-toggle="tooltip">
+                    <i class="fa fa-trash text-danger"></i>
+                </a>
+            `;
+            } else {
+              return `
+               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}"
+                (click)="activeCategory(item.id)"> Kích hoạt </button>`
+            }
+          }
+        },
       ]
     }
   }
 
-  ngAfterViewInit() {
-    const self = this;
-    this.dtTrigger.next();
-  }
-
   ngOnDestroy() {
     this.dtTrigger.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    const self = this;
+
+    this.dtTrigger.next();
+
+    let body = $('body');
+    body.on('click', '.btn-edit', function () {
+      const id = $(this).data('id');
+      self.getBrand(id);
+    });
+    body.on('click', '.btn-delete', function () {
+      const id = $(this).data('id');
+      self.deleteBrand(id);
+    });
+    body.on('click', '.btn-active', function () {
+      const id = $(this).data('id');
+      self.activeBrand(id);
+    });
   }
 
   rerender(): void {
