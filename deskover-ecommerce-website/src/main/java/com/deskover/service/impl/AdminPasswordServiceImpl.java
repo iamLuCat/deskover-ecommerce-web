@@ -4,6 +4,7 @@ import com.deskover.entity.AdminPassword;
 import com.deskover.repository.AdminPasswordRepository;
 import com.deskover.service.AdminPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +28,13 @@ public class AdminPasswordServiceImpl implements AdminPasswordService{
 	@Transactional
 	public AdminPassword create(AdminPassword adminPassword) {
 		if(adminPassword == null){
-			return null;
+			throw new IllegalArgumentException("Thêm mới password không thành công");
 		}
 		String hashPassword = bcrypt.encode(adminPassword.getPassword());
 		adminPassword.setPassword(hashPassword);
 		adminPassword.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 		adminPassword.setModifiedDate(null);
+		adminPassword.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repo.save(adminPassword);
 	}
 }

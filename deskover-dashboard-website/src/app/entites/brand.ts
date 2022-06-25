@@ -1,6 +1,3 @@
-// Tạo interface danh mục sản phẩm
-import {Product} from "@/entites/product";
-
 export interface Brand {
   id: number;
   name: string;
@@ -8,6 +5,6 @@ export interface Brand {
   slug: string;
   createdAt: Date;
   modifiedAt: Date;
-  deletedAt: Date;
+  modifiedUser: string;
   actived: boolean;
 }

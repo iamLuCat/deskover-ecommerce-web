@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -26,13 +27,13 @@ public class BrandApi {
     @Autowired
     BrandRepository repo;
 
-    @GetMapping("/brand")
+    @GetMapping("/brands")
     public ResponseEntity<?> doGetAll() {
         List<Brand> listBrand = service.getAll();
         return ResponseEntity.ok(listBrand);
     }
 
-    @GetMapping("/brand/actived")
+    @GetMapping("/brands/actived")
     public ResponseEntity<?> doGetAllBrandIsActived() {
         List<Brand> listBrand = service.getAllBrandIsActived();
         if (listBrand == null) {
@@ -41,7 +42,7 @@ public class BrandApi {
         return ResponseEntity.ok(listBrand);
     }
 
-    @GetMapping("/brand/{id}")
+    @GetMapping("/brands/{id}")
     public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
         Brand brand = service.getById(id);
         if (brand == null) {
@@ -50,16 +51,7 @@ public class BrandApi {
         return ResponseEntity.ok(brand);
     }
 
-//	@GetMapping("/brand")
-//	public ResponseEntity<?> doGetBySlug(@RequestParam(name = "slug") String slug) {
-//		Brand brand = service.getBySlug(slug);
-//		if (brand == null) {
-//			return ResponseEntity.ok(new MessageResponse("Không tìm thấy brand có slug: " + slug));
-//		}
-//		return ResponseEntity.ok(brand);
-//	}
-
-    @PostMapping("/brand")
+    @PostMapping("/brands")
     public ResponseEntity<?> doCreate(@Valid @RequestBody Brand brand, BindingResult result) {
         if(result.hasErrors()){
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -76,17 +68,7 @@ public class BrandApi {
         }
     }
 
-//    @PutMapping("/brand/{id}")
-//    public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
-//        try {
-//            service.delete(id);
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        }
-//    }
-
-    @PutMapping("/brand/{id}")
+    @PutMapping("/brands/{id}")
     public ResponseEntity<?> doUpdate(@PathVariable("id") Long id, @RequestBody Brand brand) {
         try {
             if (brand.getSlug() != null && service.getById(id).getSlug().equals(brand.getSlug())) {
@@ -101,12 +83,12 @@ public class BrandApi {
         }
     }
 
-    @PostMapping("/brand/datatables")
-    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
-        return ResponseEntity.ok(service.getAllForDatatables(input));
+    @PostMapping("/brands/datatables")
+    public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
+        return ResponseEntity.ok(service.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }
 
-    @DeleteMapping("/brand/{id}")
+    @DeleteMapping("/brands/{id}")
     public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
         try {
             service.changeActived(id);

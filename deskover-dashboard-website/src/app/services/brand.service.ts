@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {RestApiService} from "@services/rest-api.service";
-import {DataTablesResponse} from "@/entites/data-tables-response";
 import {environment} from "../../environments/environment";
-import {Category} from "@/entites/category";
-import {Observable} from "rxjs";
+import {DataTablesResponse} from "@/entites/data-tables-response";
 import {HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {Brand} from "@/entites/brand";
+import {RestApiService} from "@services/rest-api.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
-  private url = environment.globalUrl.categoryApi;
+export class BrandService {
+  private url = environment.globalUrl.brandApi;
 
   constructor(private restApi: RestApiService) {
   }
@@ -29,24 +29,23 @@ export class CategoryService {
     return this.restApi.getWithParams(this.url, params);
   }
 
-  getByActive(): Observable<Category[]> {
+  getByActive(): Observable<Brand[]> {
     return this.restApi.get(this.url + "/actived");
   }
 
-  getById(id: number): Observable<Category> {
+  getById(id: number): Observable<Brand> {
     return this.restApi.getOne(this.url, id);
   }
 
-  create(category: Category): Observable<Category> {
-    return this.restApi.post(this.url, category);
+  create(brand: Brand): Observable<Brand> {
+    return this.restApi.post(this.url, brand);
   }
 
-  update(category: Category): Observable<Category> {
-    return this.restApi.put(this.url, category);
+  update(brand: Brand): Observable<Brand> {
+    return this.restApi.put(this.url + '/' + brand.id, brand);
   }
 
   changeActive(id: number) {
     return this.restApi.delete(this.url, id);
   }
-
 }

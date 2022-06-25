@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.deskover.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -53,7 +54,7 @@ public class BrandServiceImpl implements BrandService {
     @Transactional
     public Brand create(Brand brand) {
         if (repo.existsBySlug(brand.getSlug())) {
-            return null;
+            throw new IllegalArgumentException("Slug này đã tồn tại");
         }
         brand.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         brand.setModifiedAt(null);
@@ -67,13 +68,13 @@ public class BrandServiceImpl implements BrandService {
     public Brand update(Long id, Brand brand) {
         Brand updateBrand = repo.findById(id).orElse(null);
         if(updateBrand == null){
-            return null;
+            throw new IllegalArgumentException("Cập nhật không thành công");
         }
         updateBrand.setName(brand.getName());
         updateBrand.setDescription(brand.getDescription());
         if (brand.getSlug() != null && repo.getById(id).getSlug() != brand.getSlug()) {
             if (repo.existsBySlug(brand.getSlug())) {
-                return null;
+                throw new IllegalArgumentException("");
             }
         }
         updateBrand.setSlug(brand.getSlug());
@@ -117,12 +118,13 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public DataTablesOutput<Brand> getAllForDatatables(DataTablesInput input) {
-        DataTablesOutput<Brand> brand = repoForDatatables.findAll(input);
-        if (brand.getError() != null) {
-            throw new IllegalArgumentException(brand.getError());
+    public DataTablesOutput<Brand> getByActiveForDatatables(DataTablesInput input, Boolean isActive) {
+        DataTablesOutput<Brand> brands = repoForDatatables.findAll(input, (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("actived"), isActive));
+        if (brands.getError() != null) {
+            throw new IllegalArgumentException(brands.getError());
         }
-        return brand;
+        return brands;
     }
 
 }

@@ -16,5 +16,5 @@ public interface BrandService {
 	Brand update(Long id,Brand brand);
 	void delete(Long id);
 	void changeActived(Long id);
-	DataTablesOutput<Brand> getAllForDatatables(DataTablesInput input);
+	DataTablesOutput<Brand> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
 }

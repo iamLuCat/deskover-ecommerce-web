@@ -6,6 +6,7 @@ import com.deskover.repository.AdminAuthorityReponsitory;
 import com.deskover.service.AdminAuthorityService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +37,9 @@ public class AdminAuthorityServiceImpl implements AdminAuthorityService {
     @Transactional
     public AdminAuthority create(AdminAuthority adminAuthority) {
         if(adminAuthority == null){
-            return null;
+            throw new IllegalArgumentException("Thêm mới authority không thành công");
         }
+        adminAuthority.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(adminAuthority);
     }
 

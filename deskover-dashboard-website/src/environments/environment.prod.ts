@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   globalUrl: {
     login: 'http://localhost:8080/authenticate',
     profile: 'http://localhost:8080/get-principal',
@@ -9,5 +9,6 @@ export const environment = {
     adminApi: 'http://localhost:8080/v1/api/admin',
     categoryApi: 'http://localhost:8080/v1/api/admin/categories',
     subcategoryApi: 'http://localhost:8080/v1/api/admin/subcategories',
+    brandApi: 'http://localhost:8080/v1/api/admin/brands',
   },
 };
