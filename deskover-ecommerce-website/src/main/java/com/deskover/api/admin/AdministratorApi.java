@@ -32,27 +32,32 @@ public class AdministratorApi {
     private ModelMapper mapper;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id){
-        AdministratorDto admin = mapper.map(adminService.getById(id),AdministratorDto.class);
-        if(admin == null){
+    public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
+        AdministratorDto admin = mapper.map(adminService.getById(id), AdministratorDto.class);
+        if (admin == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Administrator not found"));
         }
         return ResponseEntity.ok(admin);
     }
 
     @PostMapping("")
-    public ResponseEntity<?> doCreate(@Valid @RequestBody AdminCreateDto admin, BindingResult result){
-        if(result.hasErrors()){
+    public ResponseEntity<?> doCreate(@Valid @RequestBody AdminCreateDto admin, BindingResult result) {
+        if (result.hasErrors()) {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         try {
             adminService.create(admin);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PutMapping("")
+    public ResponseEntity<?> doUpdate() {
+        return null;
     }
 //    @GetMapping("/{id}")
 //    public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
