@@ -13,7 +13,7 @@ public interface BrandService {
 	Brand getBySlug(String slug);
 	Boolean existsBySlug(String slug);
 	Brand create(Brand brand);
-	Brand update(Long id,Brand brand);
+	Brand update(Brand brand);
 	void delete(Long id);
 	void changeActived(Long id);
 	DataTablesOutput<Brand> getByActiveForDatatables(DataTablesInput input, Boolean isActive);

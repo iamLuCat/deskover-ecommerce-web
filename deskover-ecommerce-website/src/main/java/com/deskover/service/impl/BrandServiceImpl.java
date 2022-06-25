@@ -65,24 +65,21 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional
-    public Brand update(Long id, Brand brand) {
-        Brand updateBrand = repo.findById(id).orElse(null);
-        if(updateBrand == null){
-            throw new IllegalArgumentException("Cập nhật không thành công");
-        }
-        updateBrand.setName(brand.getName());
-        updateBrand.setDescription(brand.getDescription());
-        if (brand.getSlug() != null && repo.getById(id).getSlug() != brand.getSlug()) {
-            if (repo.existsBySlug(brand.getSlug())) {
-                throw new IllegalArgumentException("");
+    public Brand update(Brand brand) {
+        if (brand.getSlug() != null) {
+            if(repo.getById(brand.getId()).getSlug().equals(brand.getSlug())){
+                brand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+                brand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+                return repo.saveAndFlush(brand);
+            }else{
+                if(repo.existsBySlug(brand.getSlug())){
+                    throw new IllegalArgumentException("Slug này đã tồn tại");
+                }
             }
         }
-        updateBrand.setSlug(brand.getSlug());
-        updateBrand.setCreatedAt(brand.getCreatedAt());
-        updateBrand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        updateBrand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
-        updateBrand.setActived(brand.getActived());
-        return repo.saveAndFlush(updateBrand);
+        brand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        brand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        return repo.saveAndFlush(brand);
     }
 
     @Override

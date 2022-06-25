@@ -1,5 +1,7 @@
 package com.deskover.api.admin;
 
+import com.deskover.configuration.security.payload.response.MessageErrorResponse;
+import com.deskover.configuration.security.payload.response.MessageErrorUtil;
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.entity.Brand;
 import com.deskover.repository.BrandRepository;
@@ -68,18 +70,17 @@ public class BrandApi {
         }
     }
 
-    @PutMapping("/brands/{id}")
-    public ResponseEntity<?> doUpdate(@PathVariable("id") Long id, @RequestBody Brand brand) {
+    @PutMapping("/brands")
+    public ResponseEntity<?> doUpdate(@Valid @RequestBody Brand brand, BindingResult result) {
+        if(result.hasErrors()){
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
         try {
-            if (brand.getSlug() != null && service.getById(id).getSlug().equals(brand.getSlug())) {
-                service.update(id, brand);
-            } else if (brand.getSlug() != null && service.existsBySlug(brand.getSlug())) {
-                return ResponseEntity.ok(new MessageResponse("Slug này đã tồn tại"));
-            }
-            service.update(id, brand);
-            return new ResponseEntity<>(HttpStatus.OK);
+            service.update(brand);
+            return new ResponseEntity<>(new MessageResponse("Cập nhật thành công"),HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
 
