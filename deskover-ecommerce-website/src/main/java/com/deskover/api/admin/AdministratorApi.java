@@ -6,11 +6,15 @@ import com.deskover.dto.AdministratorDto;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminPasswordService;
 import com.deskover.service.AdminService;
+import com.deskover.util.ValidationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("v1/api/admin/administrator")
@@ -37,12 +41,17 @@ public class AdministratorApi {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> doCreate(@RequestBody AdminCreateDto admin){
+    public ResponseEntity<?> doCreate(@Valid @RequestBody AdminCreateDto admin, BindingResult result){
+        if(result.hasErrors()){
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
         try {
             adminService.create(admin);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(Exception e) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 //    @GetMapping("/{id}")

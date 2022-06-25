@@ -8,6 +8,7 @@ import com.deskover.entity.Administrator;
 import com.deskover.repository.AdministratorRepository;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminPasswordService;
+import com.deskover.service.AdminRoleService;
 import com.deskover.service.AdminService;
 import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminAuthorityService adminAuthorityService;
+
+    @Autowired
+    private AdminRoleService adminRoleService;
 
     @Override
     public Administrator getById(Long id) {
@@ -48,28 +52,30 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public Administrator create(AdminCreateDto admin) {
         if (repo.existsAdministratorByUsername(admin.getUsername())) {
-            return null;
+            throw new IllegalArgumentException("Username này đã tồn tại");
         }
-        String password = admin.getPassword();
         Administrator entityAdmin = MapperUtil.map(admin, Administrator.class);
         entityAdmin.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         entityAdmin.setActived(Boolean.TRUE);
         entityAdmin.setAvatar(null);
         entityAdmin.setModifiedAt(null);
-        entityAdmin.setModifiedAt(null);
-        entityAdmin.setPassword(null);
+        entityAdmin.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
         Administrator adminCreated = repo.save(entityAdmin);
+
         AdminPassword createPassword = new AdminPassword();
         createPassword.setAdmin(adminCreated);
-//        createPassword.setPassword(password);
+        createPassword.setPassword(admin.getPassword());
         AdminPassword passwordCreated = adminPasswordService.create(createPassword);
         adminCreated.setPassword(passwordCreated);
-        admin.getListRole().forEach(item -> {
+
+        admin.getListRoleId().forEach(item -> {
+            System.out.println(item);
             AdminAuthority authority = new AdminAuthority();
             authority.setAdmin(adminCreated);
-            authority.setRole(item);
+            authority.setRole(adminRoleService.getById(item));
             adminAuthorityService.create(authority);
         });
+
         return entityAdmin;
     }
 
