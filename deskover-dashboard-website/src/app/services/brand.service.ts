@@ -42,7 +42,7 @@ export class BrandService {
   }
 
   update(brand: Brand): Observable<Brand> {
-    return this.restApi.put(this.url + '/' + brand.id, brand);
+    return this.restApi.put(this.url, brand);
   }
 
   changeActive(id: number) {

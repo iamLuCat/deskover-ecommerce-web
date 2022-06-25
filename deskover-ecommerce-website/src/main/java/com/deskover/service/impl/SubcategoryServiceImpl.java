@@ -144,8 +144,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     @Override
     public Boolean existsBySlug(String slug) {
-        Subcategory subcategory = repo.findBySlug(slug);
-        return subcategory != null;
+        return repo.existsBySlug(slug);
     }
 
     @Override

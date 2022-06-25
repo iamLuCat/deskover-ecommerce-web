@@ -58,28 +58,20 @@ public class BrandApi {
             return ResponseEntity.badRequest().body(errors);
         }
         try {
-            if (repo.existsBySlug(brand.getSlug())) {
-                return ResponseEntity.ok(new MessageResponse("Slug này đã tồn tại"));
-            }
-            service.create(brand);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            Brand brandCreated = service.create(brand);
+            return ResponseEntity.ok().body(brandCreated);
         } catch (Exception e) {
-            return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
 
-    @PutMapping("/brands/{id}")
-    public ResponseEntity<?> doUpdate(@PathVariable("id") Long id, @RequestBody Brand brand) {
+    @PutMapping("/brands")
+    public ResponseEntity<?> doUpdate(@RequestBody Brand brand) {
         try {
-            if (brand.getSlug() != null && service.getById(id).getSlug().equals(brand.getSlug())) {
-                service.update(id, brand);
-            } else if (brand.getSlug() != null && service.existsBySlug(brand.getSlug())) {
-                return ResponseEntity.ok(new MessageResponse("Slug này đã tồn tại"));
-            }
-            service.update(id, brand);
-            return new ResponseEntity<>(HttpStatus.OK);
+            Brand brandUpdated = service.update(brand);
+            return ResponseEntity.ok(brandUpdated);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
 
