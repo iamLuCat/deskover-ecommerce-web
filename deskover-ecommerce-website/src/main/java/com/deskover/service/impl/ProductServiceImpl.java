@@ -15,12 +15,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.deskover.dto.ProductDto;
 import com.deskover.entity.Product;
 import com.deskover.repository.ProductRepository;
 import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.BrandService;
 import com.deskover.service.CategoryService;
+import com.deskover.service.DiscountService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
+import com.deskover.util.MapperUtil;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -36,6 +40,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private BrandService brandService;
+	
+	@Autowired
+	private DiscountService discountService;
 
 	@Override
 	public List<Product> findByActived(Boolean actived, Integer page, Integer size) {
@@ -50,20 +60,60 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional
-	public Product create(Product product) {
-		product.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-		product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
-		return repository.saveAndFlush(product);
+	public Product create(ProductDto productDto) {
+		Product product = MapperUtil.map(productDto, Product.class);
+		if(this.existsBySlug(product)) {
+			Product productExists = repository.findBySlug(product.getSlug());
+			if(productExists != null && !productExists.getActived()) {
+				productExists.setActived(Boolean.TRUE);
+				productExists.setName(product.getName());
+				productExists.setDescription(product.getDescription());
+				productExists.setPrice(product.getPrice());
+				productExists.setImage(product.getImage());
+				productExists.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+				productExists.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+				productExists.setSubCategory(subcategoryService.getById(productDto.getSubcategogyId()));
+				productExists.setBrand(brandService.getById(productDto.getBrandId()));
+				if(productDto.getDiscountId() != null && !productDto.getDiscountId().equals("")) {
+					productExists.setDiscount(discountService.findById(productDto.getDiscountId()));
+				}
+				productExists.setDiscount(null);
+				return this.update(productExists);
+			}else {
+	            throw new IllegalArgumentException("Slug đã tồn tại");
+			}
+		}else {
+			product.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+			product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+			product.setSubCategory(subcategoryService.getById(productDto.getSubcategogyId()));
+			product.setBrand(brandService.getById(productDto.getBrandId()));
+			if(productDto.getDiscountId() != null && !productDto.getDiscountId().equals("")) {
+				product.setDiscount(discountService.findById(productDto.getDiscountId()));
+			}
+			product.setDiscount(null);
+			return repository.saveAndFlush(product);
+		}
 	}
-
+	
 	@Override
 	@Transactional
-	public void delete(Long id) {
+	public Product changeActive(Long id) {
 		Product product = this.getById(id);
-		product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
-		product.setActived(Boolean.FALSE);
-		product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
-		repository.saveAndFlush(product);
+		if(product == null ) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+		}
+		if(product.getActived()) {
+			product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+			product.setActived(Boolean.FALSE);
+			product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+			return repository.saveAndFlush(product);
+		}else {
+			product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+			product.setActived(Boolean.FALSE);
+			product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+			return repository.saveAndFlush(product);
+		}
+
 	}
 
 	@Override
@@ -123,5 +173,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return products;
 	}
+
+
 
 }

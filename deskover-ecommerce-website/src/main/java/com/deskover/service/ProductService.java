@@ -7,14 +7,15 @@ import javax.validation.Valid;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
+import com.deskover.dto.ProductDto;
 import com.deskover.entity.Product;
 
 public interface ProductService{
 	List<Product> findByActived(Boolean actived,Integer page, Integer size);
 	
-	Product create(Product product);
+	Product create(ProductDto productDto);
 	
-	void delete(Long id);
+	Product changeActive(Long id);
 	
 	Product update(Product product);
 
@@ -29,4 +30,8 @@ public interface ProductService{
 	Boolean existsBySlug(Product product);
 
 	DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive);
+
+
+
+
 }
