@@ -39,7 +39,6 @@ import {CategoryComponent} from '@pages/category/category.component';
 import {BrandComponent} from '@pages/brand/brand.component';
 import {DataTablesModule} from 'angular-datatables';
 import {AuthInterceptor} from "@/interceptor/auth-interceptor";
-import {NgxPaginationModule} from 'ngx-pagination';
 import {SubcategoryComponent} from '@pages/category/subcategory/subcategory.component';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {PromotionComponent} from '@pages/promotion/promotion.component';
@@ -90,7 +89,6 @@ registerLocaleData(localeEn, 'en-EN');
       preventDuplicates: true
     }),
     NgbModule,
-    NgxPaginationModule,
     DataTablesModule,
     TooltipModule
   ],

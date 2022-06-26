@@ -83,7 +83,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         // {
         //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
         //   render: (data, type, full, meta) => {
-        //     return `<span class="badge badge-${data ? 'success' : 'danger'}">${data ? 'Hoạt động' : 'Vô hiệu hoá'}</span>`;
+        //     return `<span class="badge bg-${data ? 'success' : 'danger'}">${data ? 'Hoạt động' : 'Vô hiệu hoá'}</span>`;
         //   }
         // },
         {
@@ -238,6 +238,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Modal bootstrap
   openModal(content) {
+    this.modalService.dismissAll();
     this.modalService.open(content);
   }
 

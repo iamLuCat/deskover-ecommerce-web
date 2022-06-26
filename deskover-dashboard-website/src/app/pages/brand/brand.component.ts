@@ -196,6 +196,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Modal
   openModal(content) {
+    this.modalService.dismissAll();
     this.modalService.open(content);
   }
 

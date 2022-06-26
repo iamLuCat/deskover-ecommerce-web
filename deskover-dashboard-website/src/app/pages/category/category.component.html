@@ -7,7 +7,7 @@
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item">
-            <a [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
+            <a class="text-decoration-none" [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
           </li>
           <li class="breadcrumb-item active">Danh mục chính</li>
         </ol>
@@ -38,7 +38,7 @@
       <div class="card-body p-0">
         <div class="table-responsive p-3">
           <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm">
-            <thead class="thead-light">
+            <thead class="table-light">
             <tr>
               <th scope="col" class="align-middle">Tên</th>
               <th scope="col" class="align-middle">Slug</th>
@@ -63,8 +63,8 @@
                 {{ item.modifiedUser }}
               </td>
               <!--<td class="align-middle text-center">
-                <span *ngIf="item.actived" class="badge badge-success">Kích hoạt</span>
-                <span *ngIf="!item.actived" class="badge badge-danger">Vô hiệu hoá</span>
+                <span *ngIf="item.actived" class="badge bg-success">Kích hoạt</span>
+                <span *ngIf="!item.actived" class="badge bg-danger">Vô hiệu hoá</span>
               </td>-->
               <td class="align-middle text-center">
                 <div *ngIf="isActive">
@@ -107,7 +107,7 @@
       type="button"
       class="close"
       aria-label="Close"
-      (click)="closeModal()">
+      (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -116,7 +116,7 @@
       <div class="row">
         <div class="col-6">
           <div class="form-group">
-            <label for="name">Tên</label>
+            <label class="form-label" for="name">Tên</label>
             <input
               type="text"
               class="form-control"
@@ -134,7 +134,7 @@
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="slug">Slug</label>
+            <label class="form-label" for="slug">Slug</label>
             <input
               type="text"
               class="form-control"
@@ -155,7 +155,7 @@
   <div class="modal-footer">
     <button type="button"
             class="btn btn-outline-danger"
-            (click)="saveCategory(category);"
+            (click)="saveCategory(category); c('Save click')"
             [disabled]="categoryForm.invalid">
       Lưu
     </button>
