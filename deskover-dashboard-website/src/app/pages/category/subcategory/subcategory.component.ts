@@ -74,14 +74,14 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         {title: 'Slug', data: 'slug', className: 'align-middle'},
         {title: 'Danh mục cha', data: 'category.name', className: 'align-middle'},
         {
-          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-left text-md-center',
+          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
           render: (data, type, full, meta) => {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
-        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-left text-md-center'},
+        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-start text-md-center'},
         // {
-        //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-left text-md-center',
+        //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-start text-md-center',
         //   render: (data, type, full, meta) => {
         //     return `<span class="badge bg-${data ? 'success' : 'danger'}">${data ? 'Hoạt động' : 'Vô hiệu hoá'}</span>`;
         //   }
@@ -91,7 +91,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-left text-md-center',
+          className: 'align-middle text-start text-md-center',
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
