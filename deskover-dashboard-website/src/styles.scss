@@ -1,4 +1,4 @@
-$primary: #1c519d;
+$blue: #1c519d;
 @import "bootstrap";
 
 @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
@@ -29,6 +29,11 @@ body {
 .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
   background-color: #1c519d;
   color: #fff;
+}
+
+.page-item.active .page-link {
+  background-color: #1c519d;
+  border-color: #1c519d;
 }
 
 .table-responsive {
