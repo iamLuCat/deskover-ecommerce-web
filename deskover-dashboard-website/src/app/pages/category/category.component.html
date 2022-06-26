@@ -28,23 +28,22 @@
           </select>
           <div class="col d-flex align-items-center justify-content-end">
             <button type="button" class="btn btn-sm bg-faded-accent" (click)="newCategory()" placement="left"
-                    tooltip="Thêm"> <!-- or ngbTooltip="Thêm" -->
+                    ngbTooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
           </div>
         </div>
       </div>
       <div class="card-body p-0">
-        <div class="table-responsive">
-          <div class="p-3">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm">
+        <div class="table-responsive p-3">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm">
               <thead class="table-primary">
               <tr>
-                <th scope="col" class="align-middle">Tên</th>
-                <th scope="col" class="align-middle">Slug</th>
-                <th scope="col" class="align-middle text-center">Ngày cập nhật</th>
-                <th scope="col" class="align-middle text-center">Người cập nhật</th>
-                <th scope="col" class="align-middle text-center">Công cụ</th>
+                <th class="align-middle">Tên</th>
+                <th class="align-middle">Slug</th>
+                <th class="align-middle text-center">Ngày cập nhật</th>
+                <th class="align-middle text-center">Người cập nhật</th>
+                <th class="align-middle text-center">Công cụ</th>
               </tr>
               </thead>
               <tbody *ngIf="categories?.length !== 0">
@@ -64,11 +63,11 @@
                 <td class="align-middle text-center">
                   <div *ngIf="isActive">
                     <button type="button" class="btn btn-sm bg-faded-info me-0 me-md-2 mb-2 mb-md-0" placement="top"
-                            tooltip="Sửa" (click)="getCategory(item.id)">
+                            ngbTooltip="Sửa" (click)="getCategory(item.id)">
                       <i class="fas fa-pen-square text-info"></i>
                     </button>
                     <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteCategory(item.id)"
-                            placement="top" tooltip="Xoá" container="body">
+                            placement="top" ngbTooltip="Xoá" container="body">
                       <i class="fas fa-trash text-danger"></i>
                     </button>
                   </div>
@@ -87,7 +86,6 @@
               </tr>
               </tbody>
             </table>
-          </div>
         </div>
       </div>
     </div>
