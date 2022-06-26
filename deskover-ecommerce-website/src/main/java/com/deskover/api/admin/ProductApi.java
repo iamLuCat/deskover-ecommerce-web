@@ -1,6 +1,7 @@
 package com.deskover.api.admin;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -38,7 +39,7 @@ public class ProductApi {
 	@Autowired
 	RestTemplate restTemplate;
 
-	@GetMapping("/product/actived")
+	@GetMapping("/product/active")
 	public ResponseEntity<?> doGetAll(@RequestParam("page") Integer page, @RequestParam("items") Integer items) {
 		List<Product> products = productService.findByActived(Boolean.TRUE, page, items);
 		if (products.isEmpty()) {
@@ -56,9 +57,10 @@ public class ProductApi {
 		return ResponseEntity.ok(product);
 	}
 	
-    @PostMapping("/product/datatables")
-    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
-        return ResponseEntity.ok(productService.getAllForDatatables(input));
+    
+    @PostMapping("/product/datatables-by-active")
+    public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
+        return ResponseEntity.ok(productService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }
     
 //    @PostMapping("/product")

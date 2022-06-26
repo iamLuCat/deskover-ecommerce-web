@@ -60,7 +60,8 @@ public class SubcategoryApi {
 			return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
-
+	
+	
 	@PutMapping("/subcategories")
 	public ResponseEntity<?> updateSubcategory(@RequestBody SubcategoryDto subcategoryDto){
         try {

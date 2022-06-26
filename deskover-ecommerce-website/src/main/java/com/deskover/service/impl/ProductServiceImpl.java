@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,28 +24,28 @@ import com.deskover.service.SubcategoryService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	
+
 	@Autowired
 	private ProductRepository repository;
-	
+
 	@Autowired
 	private ProductRepoForDatatables repoForDatatables;
-	
+
 	@Autowired
 	private SubcategoryService subcategoryService;
-	
+
 	@Autowired
 	private CategoryService categoryService;
 
 	@Override
 	public List<Product> findByActived(Boolean actived, Integer page, Integer size) {
-		if(page>0) {
+		if (page > 0) {
 			Pageable pageable = PageRequest.of(page, size);
 			return repository.findByActived(actived, pageable);
-		}else {
+		} else {
 			Pageable pageable = PageRequest.of(0, size);
 			return repository.findByActived(actived, pageable);
-		}	
+		}
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 		product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repository.saveAndFlush(product);
 	}
-	
+
 	@Override
 	@Transactional
 	public void delete(Long id) {
@@ -80,19 +82,21 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public DataTablesOutput<Product> getAllForDatatables(DataTablesInput input) {
-        DataTablesOutput<Product> Product = repoForDatatables.findAll(input);
-        if (Product.getError() != null) {
-            throw new IllegalArgumentException(Product.getError());
-        }
-        return Product;
+		DataTablesOutput<Product> Product = repoForDatatables.findAll(input);
+		if (Product.getError() != null) {
+			throw new IllegalArgumentException(Product.getError());
+		}
+		return Product;
 	}
-	public Product getById(Long id) { 
+
+	public Product getById(Long id) {
 		return repository.findById(id).orElse(null);
 	}
 
 	@Override
 	public Boolean existsBySlug(String slug) {
-		return repository.existsBySlug(slug);
+		Product product = repository.findBySlug(slug);
+		return product != null;
 	}
 
 	@Override
@@ -103,11 +107,21 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Boolean existsBySlug(Product product) {
 		Product productExits = repository.findBySlug(product.getSlug());
-		Boolean isExits =(productExits!=null && !productExits.getId().equals(product.getId())) || subcategoryService.existsBySlug(product.getSlug())
+		Boolean isExits = (productExits != null && !productExits.getId().equals(product.getId()))
+				|| subcategoryService.existsBySlug(product.getSlug())
 				|| categoryService.existsBySlug(product.getSlug());
 		System.out.println(isExits);
 
 		return isExits;
+	}
+
+	@Override
+	public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive) {
+		DataTablesOutput<Product> products = repoForDatatables.findAll(input,(root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("actived"), isActive));
+		if (products.getError() != null) {
+			throw new IllegalArgumentException(products.getError());
+		}
+		return products;
 	}
 
 }

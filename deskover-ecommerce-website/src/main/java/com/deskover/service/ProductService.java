@@ -2,6 +2,8 @@ package com.deskover.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
@@ -25,4 +27,6 @@ public interface ProductService{
 	Boolean existsBySlug(String slug);
 
 	Boolean existsBySlug(Product product);
+
+	DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive);
 }
