@@ -2,6 +2,8 @@ package com.deskover.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
@@ -20,5 +22,7 @@ public interface DiscountService {
 	Discount findById(Long id);
 	
 	DataTablesOutput<Discount> getAllForDatatables(DataTablesInput input);
+
+	DataTablesOutput<Discount> getByActiveForDatatables(@Valid DataTablesInput input, Boolean orElse);
 
 }
