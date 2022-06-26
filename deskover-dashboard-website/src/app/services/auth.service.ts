@@ -34,26 +34,6 @@ export class AuthService {
     }
   }
 
-  // Đăng ký
-  async register({email, password}) {
-    try {
-      const data = await this.restApiService
-        .post(
-          `${environment.globalUrl.baseApi}`,
-          {
-            email,
-            password
-          }
-        )
-        .toPromise();
-      localStorage.setItem('token', data.accessToken);
-      await this.getProfile();
-      this.router.navigate(['/']);
-    } catch (e) {
-      AlertUtils.toastError(e);
-    }
-  }
-
   // Lấy thông tin người dùng
   async getProfile() {
     try {

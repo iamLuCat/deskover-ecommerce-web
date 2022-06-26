@@ -1,7 +1,7 @@
 <div class="card card-outline card-primary">
-    <div class="card-header text-center">
+    <div class="card-header text-center" style="background-color: fff;">
         <a [routerLink]="['/']" class="h1">
-          <img width="872" class="img-fluid" src="assets/img/logo/logo.jpg">
+          <img width="872" class="img-fluid" src="assets/img/logo/logo.png">
         </a>
     </div>
     <div class="card-body">
@@ -25,13 +25,6 @@
                 </div>
             </div>
             <div class="row">
-                <!--<div class="col-7">
-                    <div class="icheck-danger">
-                        <input type="checkbox" id="remember" />
-                        <label for="remember"> Nhớ tài khoản </label>
-                    </div>
-                </div>-->
-                <!-- /.col -->
                 <div class="col-12">
                     <app-button [type]="'submit'" [color]="'primary'" [block]="true" [loading]="isAuthLoading">
                         Đăng nhập
@@ -40,16 +33,11 @@
             </div>
         </form>
 
-        <div class="d-flex justify-content-between mt-3">
+        <!-- <div class="d-flex justify-content-between mt-3">
             <p class="mb-1">
                 <a [routerLink]="['/forgot-password']" class="text-primary">Quên mật khẩu?</a>
             </p>
-            <p class="mb-0">
-                <a [routerLink]="['/register']" class="text-center text-primary">
-                    Đăng ký thành viên
-                </a>
-            </p>
-        </div>
+        </div> -->
     </div>
     <!-- /.login-card-body -->
 </div>
