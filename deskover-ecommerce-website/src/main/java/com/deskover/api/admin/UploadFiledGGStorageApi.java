@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,11 +29,10 @@ public class UploadFiledGGStorageApi {
 	FileService fileService;
 
 	@PostMapping("/upload-file")
-	public ResponseEntity<?> upload(@PathParam("file") MultipartFile files) {
+	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile files) {
 		try {
 			String fileName = files.getOriginalFilename();
-			fileName = UUID.randomUUID().toString().concat(fileService.getExtension(fileName));
-
+			
 			File file = fileService.convertToFile(files, fileName);
 			String TEMP_URL = fileService.uploadFile(file, fileName);
 			UrlGGStrogeResponDto url = new UrlGGStrogeResponDto();
@@ -53,12 +53,11 @@ public class UploadFiledGGStorageApi {
 	}
 
 	@PostMapping("/upload-files")
-	public ResponseEntity<?> uploadd(@PathParam("files") MultipartFile[] files) {
+	public ResponseEntity<?> uploadd(@RequestParam("files") MultipartFile[] files) {
 		try {
 			List<UrlGGStrogeResponDto> response = new ArrayList<>();
 			for (MultipartFile multipartFile : files) {
 				String fileName = multipartFile.getOriginalFilename();
-				fileName = UUID.randomUUID().toString().concat(fileService.getExtension(fileName));
 				File file = fileService.convertToFile(multipartFile, fileName);
 				String TEMP_URL = fileService.uploadFile(file, fileName);
 				UrlGGStrogeResponDto url = new UrlGGStrogeResponDto();

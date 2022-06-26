@@ -1,6 +1,7 @@
 package com.deskover.api.admin;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deskover.configuration.security.payload.response.MessageErrorResponse;
@@ -44,8 +46,8 @@ public class DiscountApi {
 	}
 	
     @PostMapping("/discount/datatables")
-    public ResponseEntity<?> doGetForDatatables(@Valid @RequestBody DataTablesInput input) {
-        return ResponseEntity.ok(discountService.getAllForDatatables(input));
+    public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
+        return ResponseEntity.ok(discountService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }
 	
 	@GetMapping("/discount/{id}")
