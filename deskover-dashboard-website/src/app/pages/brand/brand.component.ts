@@ -49,6 +49,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
       responsive: true,
       serverSide: true,
       processing: true,
+      stateSave: true, // sau khi refresh sẽ giữ lại dữ liệu đã filter, sort và paginate
       ajax: (dataTablesParameters: any, callback) => {
         this.brandService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
           self.brands = resp.data;
@@ -104,7 +105,6 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     const self = this;
-
     this.dtTrigger.next();
 
     let body = $('body');
@@ -128,6 +128,12 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
       this.dtTrigger.next();
+    });
+  }
+
+  filter() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.ajax.reload();
     });
   }
 

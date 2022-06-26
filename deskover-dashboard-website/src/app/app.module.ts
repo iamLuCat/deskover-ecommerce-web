@@ -12,7 +12,6 @@ import {MenuSidebarComponent} from '@modules/main/menu-sidebar/menu-sidebar.comp
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProfileComponent} from '@pages/profile/profile.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {RegisterComponent} from '@modules/register/register.component';
 import {DashboardComponent} from '@pages/dashboard/dashboard.component';
 import {ToastrModule} from 'ngx-toastr';
 import {MessagesComponent} from '@modules/main/header/messages/messages.component';
@@ -58,7 +57,6 @@ registerLocaleData(localeEn, 'en-EN');
         FooterComponent,
         MenuSidebarComponent,
         ProfileComponent,
-        RegisterComponent,
         DashboardComponent,
         MessagesComponent,
         NotificationsComponent,

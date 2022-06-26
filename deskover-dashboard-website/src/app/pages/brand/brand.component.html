@@ -22,7 +22,7 @@
         <div class="row">
           <label for="filter-brand" class="col-lg-auto col-form-label">Trạng thái</label>
           <select id="filter-brand" class="custom-select col-6 col-md-2" [(ngModel)]="isActive"
-                  (change)="rerender()">
+                  (change)="filter()">
             <option [ngValue]="true">Hoạt động</option>
             <option [ngValue]="false">Chưa kích hoạt</option>
           </select>

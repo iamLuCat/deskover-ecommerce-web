@@ -49,6 +49,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       responsive: true,
       serverSide: true,
       processing: true,
+      stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.categoryService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
           self.categories = resp.data;
@@ -85,6 +86,12 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
       this.dtTrigger.next();
+    });
+  }
+
+  filter() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.ajax.reload();
     });
   }
 
