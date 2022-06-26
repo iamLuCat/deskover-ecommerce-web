@@ -146,9 +146,9 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
   getBrand(id: number) {
     this.brandService.getById(id).subscribe(data => {
       this.brand = data;
-      this.isEdit = true;
-      this.openModal(this.brandModal);
     });
+    this.isEdit = true;
+    this.openModal(this.brandModal);
   }
 
   saveBrand(brand: Brand) {
@@ -196,7 +196,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Modal
   openModal(content) {
-    this.modalService.dismissAll();
+    this.closeModal();
     this.modalService.open(content);
   }
 

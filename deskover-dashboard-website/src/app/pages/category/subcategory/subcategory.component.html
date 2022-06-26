@@ -26,8 +26,7 @@
             <option [ngValue]="true">Hoạt động</option>
             <option [ngValue]="false">Chưa kích hoạt</option>
           </select>
-          <div class="col"></div>
-          <div class="col-auto d-flex align-items-center">
+          <div class="col d-flex align-items-center justify-content-end">
             <button type="button" class="btn btn-sm bg-faded-accent" (click)="newSubcategory()" placement="left"
                     tooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
@@ -61,7 +60,7 @@
   </div>
   <div class="modal-body">
     <form #subcategoryForm="ngForm">
-      <div class="form-group">
+      <div class=" mb-3">
         <label class="form-label" for="name">Tên</label>
         <input
           type="text"
@@ -77,7 +76,7 @@
           <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
         </div>
       </div>
-      <div class="form-group">
+      <div class=" mb-3">
         <label class="form-label" for="slug">Slug</label>
         <input
           type="text"
@@ -91,7 +90,7 @@
           <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
         </div>
       </div>
-      <div class="form-group">
+      <div class=" mb-3">
         <label class="form-label" for="category">Danh mục cha</label>
         <select id="category" class="custom-select" name="category" [(ngModel)]="subcategoryDto.categoryId"
                 #category="ngModel" required>

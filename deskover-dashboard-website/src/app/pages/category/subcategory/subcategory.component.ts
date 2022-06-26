@@ -169,9 +169,9 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   getSubcategory(id: number) {
     this.subcategoryService.getOne(id).subscribe(data => {
       this.subcategoryDto = this.subcategoryService.convertToDto(data);
-      this.isEdit = true;
-      this.openModal(this.subcategoryModal);
     });
+    this.isEdit = true;
+    this.openModal(this.subcategoryModal);
   }
 
   saveSubcategory(subcategoryDto: SubcategoryDto) {

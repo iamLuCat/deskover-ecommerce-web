@@ -65,7 +65,6 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         { data: 'slug' },
         { data: 'modifiedAt' },
         { data: 'modifiedUser' },
-        // { data: 'actived' },
         { data: null, orderable: false, searchable: false },
       ]
     }
@@ -104,9 +103,9 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   getCategory(id: number) {
     this.categoryService.getById(id).subscribe(data => {
       this.category = data;
-      this.isEdit = true;
-      this.openModal(this.categoryModal);
     });
+    this.isEdit = true;
+    this.openModal(this.categoryModal);
   }
 
   saveCategory(category: Category) {

@@ -20,15 +20,14 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <label for="filter-brand" class="col-lg-auto col-form-label">Trạng thái</label>
+          <label for="filter-brand" class="col-auto col-form-label">Trạng thái</label>
           <select id="filter-brand" class="custom-select col-6 col-md-2" [(ngModel)]="isActive"
                   (change)="filter()">
             <option [ngValue]="true">Hoạt động</option>
             <option [ngValue]="false">Chưa kích hoạt</option>
           </select>
-          <div class="col"></div>
-          <div class="col-auto d-flex align-items-center">
-            <button type="button" class="btn btn-sm bg-faded-accent w-sm-100" (click)="newBrand()" placement="left"
+          <div class="col d-flex align-items-center justify-content-end">
+            <button type="button" class="btn btn-sm bg-faded-accent" (click)="newBrand()" placement="left"
                     ngbTooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
@@ -62,7 +61,7 @@
     <form #brandForm="ngForm">
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
+          <div class=" mb-3">
             <label class="form-label" for="name">Tên</label>
             <input
               type="text"
@@ -80,7 +79,7 @@
           </div>
         </div>
         <div class="col-6">
-          <div class="form-group">
+          <div class=" mb-3">
             <label class="form-label" for="slug">Slug</label>
             <input
               type="text"
