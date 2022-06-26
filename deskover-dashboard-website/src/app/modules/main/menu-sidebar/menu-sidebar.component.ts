@@ -61,5 +61,10 @@ export const MENU = [
     path: ['/brand'],
     icon: 'fas fa-copyright'
   },
+  {
+    name: 'Khuyến mãi',
+    path: ['/promotion'],
+    icon: 'fa-solid fa-badge-percent'
+  },
 
 ];

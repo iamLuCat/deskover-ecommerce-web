@@ -1,7 +1,7 @@
-import {BrandComponent} from './pages/brand/brand.component';
-import {CategoryComponent} from './pages/category/category.component';
+import {BrandComponent} from '@pages/brand/brand.component';
+import {CategoryComponent} from '@pages/category/category.component';
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from '@modules/main/main.component';
 import {LoginComponent} from '@modules/login/login.component';
 import {ProfileComponent} from '@pages/profile/profile.component';
@@ -12,6 +12,7 @@ import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.
 import {RecoverPasswordComponent} from '@modules/recover-password/recover-password.component';
 import {PrivacyPolicyComponent} from '@modules/privacy-policy/privacy-policy.component';
 import {SubcategoryComponent} from "@pages/category/subcategory/subcategory.component";
+import {PromotionComponent} from "@pages/promotion/promotion.component";
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
       {
         path: 'brand',
         component: BrandComponent,
+      },
+      {
+        path: 'promotion',
+        component: PromotionComponent ,
       },
       {
         path: '',
