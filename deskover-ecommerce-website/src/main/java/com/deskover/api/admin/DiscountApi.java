@@ -45,7 +45,7 @@ public class DiscountApi {
 		return ResponseEntity.ok(discounts);
 	}
 	
-    @PostMapping("/product/datatables")
+    @PostMapping("/discount/datatables")
     public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
         return ResponseEntity.ok(discountService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }

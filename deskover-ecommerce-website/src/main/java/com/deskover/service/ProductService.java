@@ -22,8 +22,6 @@ public interface ProductService{
 	Product findById(Long id);
 	
 	Product findBySlug(String slug);
-	
-	DataTablesOutput<Product> getAllForDatatables(DataTablesInput input);
 
 	Boolean existsBySlug(String slug);
 

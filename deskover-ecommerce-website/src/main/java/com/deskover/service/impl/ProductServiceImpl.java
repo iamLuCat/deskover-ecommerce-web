@@ -130,15 +130,6 @@ public class ProductServiceImpl implements ProductService {
 		return optional.orElse(null);
 	}
 
-	@Override
-	public DataTablesOutput<Product> getAllForDatatables(DataTablesInput input) {
-		DataTablesOutput<Product> Product = repoForDatatables.findAll(input);
-		if (Product.getError() != null) {
-			throw new IllegalArgumentException(Product.getError());
-		}
-		return Product;
-	}
-
 	public Product getById(Long id) {
 		return repository.findById(id).orElse(null);
 	}
