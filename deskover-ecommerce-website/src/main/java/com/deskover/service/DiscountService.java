@@ -20,8 +20,6 @@ public interface DiscountService {
 	Discount update(Discount discount);
 
 	Discount findById(Long id);
-	
-	DataTablesOutput<Discount> getAllForDatatables(DataTablesInput input);
 
 	DataTablesOutput<Discount> getByActiveForDatatables(@Valid DataTablesInput input, Boolean orElse);
 

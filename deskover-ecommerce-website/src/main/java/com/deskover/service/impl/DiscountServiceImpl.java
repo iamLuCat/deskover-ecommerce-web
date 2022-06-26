@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.deskover.entity.Discount;
-import com.deskover.entity.Product;
 import com.deskover.repository.DiscountRepository;
 import com.deskover.repository.datatables.DiscountRepoForDatatables;
 import com.deskover.service.DiscountService;
