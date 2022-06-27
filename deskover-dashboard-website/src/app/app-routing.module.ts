@@ -5,7 +5,6 @@ import {Routes, RouterModule} from '@angular/router';
 import {MainComponent} from '@modules/main/main.component';
 import {LoginComponent} from '@modules/login/login.component';
 import {ProfileComponent} from '@pages/profile/profile.component';
-import {RegisterComponent} from '@modules/register/register.component';
 import {DashboardComponent} from '@pages/dashboard/dashboard.component';
 import {AuthGuard} from '@guards/auth.guard';
 import {NonAuthGuard} from '@guards/non-auth.guard';
@@ -51,11 +50,6 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [NonAuthGuard]
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
     canActivate: [NonAuthGuard]
   },
   {

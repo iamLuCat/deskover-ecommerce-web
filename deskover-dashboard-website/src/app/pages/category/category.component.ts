@@ -45,9 +45,11 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
+      lengthMenu: [5, 10, 20, 50, 100],
       responsive: true,
       serverSide: true,
       processing: true,
+      stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.categoryService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
           self.categories = resp.data;
@@ -84,6 +86,12 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
       this.dtTrigger.next();
+    });
+  }
+
+  filter() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.ajax.reload();
     });
   }
 

@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -24,6 +26,10 @@ public class DiscountServiceImpl implements DiscountService {
 	
 	@Autowired
 	private DiscountRepoForDatatables repoForDatatables;
+	
+	public Discount getById(Long id) { 
+		return repository.findById(id).orElse(null);
+	}
 
 	@Override
 	public List<Discount> findAll() {
@@ -74,15 +80,12 @@ public class DiscountServiceImpl implements DiscountService {
 	}
 
 	@Override
-	public DataTablesOutput<Discount> getAllForDatatables(DataTablesInput input) {
-        DataTablesOutput<Discount> Discount = repoForDatatables.findAll(input);
-        if (Discount.getError() != null) {
-            throw new IllegalArgumentException(Discount.getError());
-        }
-        return Discount;
-	}
-	public Discount getById(Long id) { 
-		return repository.findById(id).orElse(null);
+	public DataTablesOutput<Discount> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive) {
+		DataTablesOutput<Discount> discount = repoForDatatables.findAll(input,(root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("actived"), isActive));
+		if (discount.getError() != null) {
+			throw new IllegalArgumentException(discount.getError());
+		}
+		return discount;
 	}
 
 

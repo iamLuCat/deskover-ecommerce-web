@@ -144,8 +144,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     @Override
     public Boolean existsBySlug(String slug) {
-        Subcategory subcategory = repo.findBySlug(slug);
-        return subcategory != null;
+        return repo.existsBySlug(slug);
     }
 
     @Override
@@ -185,5 +184,11 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             throw new IllegalArgumentException("Danh mục cha đã bị vô hiệu hóa");
         }
     }
+
+//	@Override
+//	public Subcategory create(Subcategory subcategory) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }
