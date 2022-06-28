@@ -46,6 +46,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
       responsive: true,
+      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true, // sau khi refresh sẽ giữ lại dữ liệu đã filter, sort và paginate
@@ -74,7 +75,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-start text-md-center',
+          className: 'align-middle text-start text-md-end',
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `

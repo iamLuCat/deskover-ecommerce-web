@@ -10,5 +10,6 @@ export const environment = {
     categoryApi: 'http://localhost:8080/v1/api/admin/categories',
     subcategoryApi: 'http://localhost:8080/v1/api/admin/subcategories',
     brandApi: 'http://localhost:8080/v1/api/admin/brands',
+    discountApi: 'http://localhost:8080/v1/api/admin/discounts',
   },
 };

@@ -19,13 +19,18 @@
   <div class="container-fluid">
     <div class="card border-primary">
       <div class="card-header">
-        <div class="row">
-          <label for="filter-brand" class="col-auto col-form-label">Trạng thái</label>
-          <select id="filter-brand" class="custom-select col-6 col-md-2" [(ngModel)]="isActive"
-                  (change)="filter()">
-            <option [ngValue]="true">Hoạt động</option>
-            <option [ngValue]="false">Chưa kích hoạt</option>
-          </select>
+        <div class="row g-2">
+          <div class="col-auto">
+            <label for="filter-brand" class="col-form-label">Trạng thái:</label>
+          </div>
+          <div class="col-auto">
+            <select id="filter-brand" class="form-select" [(ngModel)]="isActive"
+                    (change)="filter()">
+              <option [ngValue]="true">Hoạt động</option>
+              <option [ngValue]="false">Chưa kích hoạt</option>
+            </select>
+
+          </div>
           <div class="col d-flex align-items-center justify-content-end">
             <button type="button" class="btn btn-sm bg-faded-accent" (click)="newBrand()" placement="left"
                     ngbTooltip="Thêm">

@@ -54,6 +54,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
+      lengthMenu: [5, 10, 25, 50, 100],
       responsive: true,
       serverSide: true,
       processing: true,
@@ -90,7 +91,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-start text-md-center',
+          className: 'align-middle text-start text-md-end',
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `

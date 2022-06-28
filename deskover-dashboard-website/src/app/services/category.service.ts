@@ -10,7 +10,7 @@ import {HttpParams} from "@angular/common/http";
   providedIn: 'root'
 })
 export class CategoryService {
-  private url = environment.globalUrl.categoryApi;
+  url = environment.globalUrl.categoryApi;
 
   constructor(private restApi: RestApiService) {
   }

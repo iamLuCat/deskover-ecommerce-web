@@ -19,13 +19,17 @@
   <div class="container-fluid">
     <div class="card border-primary">
       <div class="card-header">
-        <div class="row">
-          <label for="filter-category" class="col-auto col-form-label">Trạng thái</label>
-          <select id="filter-category" class="custom-select col-6 col-md-2" [(ngModel)]="isActive"
-                  (change)="filter()">
-            <option [ngValue]="true">Hoạt động</option>
-            <option [ngValue]="false">Chưa kích hoạt</option>
-          </select>
+        <div class="row g-2">
+          <div class="col-auto">
+            <label for="filter-category" class="col-form-label">Trạng thái:</label>
+          </div>
+          <div class="col-auto">
+            <select id="filter-category" class="form-select" [(ngModel)]="isActive"
+                    (change)="filter()">
+              <option [ngValue]="true">Hoạt động</option>
+              <option [ngValue]="false">Chưa kích hoạt</option>
+            </select>
+          </div>
           <div class="col d-flex align-items-center justify-content-end">
             <button type="button" class="btn btn-sm bg-faded-accent" (click)="newCategory()" placement="left"
                     ngbTooltip="Thêm">
@@ -36,14 +40,14 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-sm">
               <thead class="table-primary">
               <tr>
                 <th class="align-middle">Tên</th>
                 <th class="align-middle">Slug</th>
                 <th class="align-middle text-center">Ngày cập nhật</th>
                 <th class="align-middle text-center">Người cập nhật</th>
-                <th class="align-middle text-center">Công cụ</th>
+                <th class="align-middle text-end">Công cụ</th>
               </tr>
               </thead>
               <tbody *ngIf="categories?.length !== 0">
@@ -60,7 +64,7 @@
                 <td class="align-middle text-center">
                   {{ item.modifiedUser }}
                 </td>
-                <td class="align-middle text-center">
+                <td class="align-middle text-end">
                   <div *ngIf="isActive">
                     <button type="button" class="btn btn-sm bg-faded-info me-0 me-md-2 mb-2 mb-md-0" placement="top"
                             ngbTooltip="Sửa" (click)="getCategory(item.id)">

@@ -42,6 +42,7 @@ import {AuthInterceptor} from "@/interceptor/auth-interceptor";
 import {SubcategoryComponent} from '@pages/category/subcategory/subcategory.component';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {PromotionComponent} from '@pages/promotion/promotion.component';
+import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 
 registerLocaleData(localeEn, 'en-EN');
 
@@ -75,23 +76,24 @@ registerLocaleData(localeEn, 'en-EN');
     SubcategoryComponent,
     PromotionComponent,
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
-    HttpClientModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true
-    }),
-    NgbModule,
-    DataTablesModule,
-    TooltipModule
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
+        HttpClientModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot({
+            timeOut: 3000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true
+        }),
+        NgbModule,
+        DataTablesModule,
+        TooltipModule,
+        BsDatepickerModule
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
