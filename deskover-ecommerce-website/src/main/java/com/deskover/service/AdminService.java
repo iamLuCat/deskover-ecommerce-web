@@ -8,8 +8,8 @@ public interface AdminService {
     Administrator getById(Long id);
     Administrator getByUsername(String username);
     AdministratorDto getPrincipal();
-    Administrator create(AdminCreateDto admin);
-    AdministratorDto update(AdministratorDto admin);
+    AdministratorDto create(AdminCreateDto adminRequest);
+    AdministratorDto update(AdministratorDto adminUpdate);
     void delete(Long id);
     Boolean existsUsername(String username);
 }

@@ -1,9 +1,12 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-
 import com.deskover.dto.SubcategoryDto;
+import com.deskover.entity.Subcategory;
+import com.deskover.repository.SubcategoryRepository;
+import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
+import com.deskover.service.CategoryService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
 import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -12,12 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.Subcategory;
-import com.deskover.repository.SubcategoryRepository;
-import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
-import com.deskover.service.CategoryService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
@@ -78,7 +77,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
                 subcategoryExists.setName(subcategory.getName());
                 subcategoryExists.setDescription(subcategory.getDescription());
                 subcategoryExists.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-                subcategory.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+                subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
                 return this.update(subcategoryExists);
             }
             throw new IllegalArgumentException("Slug đã tồn tại");
@@ -86,7 +85,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             subcategory.setActived(true);
             subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
             subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-            subcategory.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+            subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             return repo.save(subcategory);
         }
     }
@@ -100,7 +99,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         }
         subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
         subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        subcategory.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(subcategory);
     }
 
@@ -111,7 +110,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             throw new IllegalArgumentException("Slug đã tồn tại");
         }
         subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        subcategory.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(subcategory);
     }
 
@@ -125,7 +124,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
         subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         subcategory.setActived(Boolean.FALSE);
-        subcategory.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         Subcategory result = repo.save(subcategory);
         if (result.getActived() == Boolean.TRUE) {
             throw new IllegalArgumentException("Subcategory not deleted");
@@ -137,7 +136,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         subcategories.forEach(subcategory -> {
             subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             subcategory.setActived(Boolean.FALSE);
-            subcategory.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+            subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         });
         repo.saveAll(subcategories);
     }
@@ -170,11 +169,11 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             if (subcategory.getActived()) {
                 subcategory.setActived(Boolean.FALSE);
                 subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-                subcategory.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+                subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             } else {
                 subcategory.setActived(Boolean.TRUE);
                 subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-                subcategory.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+                subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
                 repo.save(subcategory);
 
             }

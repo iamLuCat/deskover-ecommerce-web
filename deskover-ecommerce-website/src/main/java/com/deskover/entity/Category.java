@@ -51,11 +51,11 @@ public class Category implements Serializable {
     @Column(name = "actived")
     private Boolean actived;
 
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
-
     @JsonIgnore
     @OneToMany(mappedBy = "category")
     private Set<Subcategory> subcategories = new LinkedHashSet<>();
+
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }

@@ -69,7 +69,7 @@ public class Subcategory implements Serializable {
     @OneToMany(mappedBy = "subCategory")
     private Set<Product> products = new LinkedHashSet<>();
 
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }

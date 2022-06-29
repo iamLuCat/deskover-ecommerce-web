@@ -69,7 +69,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private Set<Cart> carts = new LinkedHashSet<>();
 
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }

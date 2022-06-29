@@ -47,9 +47,6 @@ public class Administrator implements Serializable {
     @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
-
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 
@@ -62,5 +59,8 @@ public class Administrator implements Serializable {
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
     private Set<AdminAuthority> authorities = new LinkedHashSet<>();
+
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }

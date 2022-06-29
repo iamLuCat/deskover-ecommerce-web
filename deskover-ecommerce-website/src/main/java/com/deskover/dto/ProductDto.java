@@ -52,9 +52,9 @@ public class ProductDto implements Serializable{/**
     	this.description = product.getDescription();
     	this.price = product.getPrice();
     	this.image = product.getImage();
-    	this.createdDate = product.getCreatedDate();
-    	this.modifiedDate = product.getModifiedDate();
-    	this.modifiedUser = product.getModifiedUser();
+    	this.createdDate = product.getCreatedAt();
+    	this.modifiedDate = product.getModifiedAt();
+    	this.modifiedUser = product.getModifiedBy();
     	this.actived = product.getActived();
     	this.subcategogyId = product.getSubCategory().getId();
     	this.brandId = product.getBrand().getId();

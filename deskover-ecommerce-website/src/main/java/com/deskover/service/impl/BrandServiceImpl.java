@@ -72,7 +72,7 @@ public class BrandServiceImpl implements BrandService {
         }
         brand.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         brand.setActived(Boolean.TRUE);
-        brand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        brand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(brand);
     }
 
@@ -83,7 +83,7 @@ public class BrandServiceImpl implements BrandService {
             throw new IllegalArgumentException("Slug đã tồn tại");
         }
         brand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        brand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        brand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(brand);
     }
 
@@ -96,7 +96,7 @@ public class BrandServiceImpl implements BrandService {
         }
         deleteBrand.setModifiedAt(new Timestamp((System.currentTimeMillis())));
         deleteBrand.setActived(Boolean.FALSE);
-        deleteBrand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        deleteBrand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         repo.save(deleteBrand);
     }
 
@@ -109,12 +109,12 @@ public class BrandServiceImpl implements BrandService {
         if(currentBrand.getActived()){
             currentBrand.setActived(Boolean.FALSE);
             currentBrand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-            currentBrand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+            currentBrand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             repo.save(currentBrand);
         }else{
             currentBrand.setActived(Boolean.TRUE);
             currentBrand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-            currentBrand.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+            currentBrand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             repo.save(currentBrand);
         }
     }

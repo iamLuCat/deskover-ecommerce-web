@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,11 +31,7 @@ public class UserPassword implements Serializable {
     @Column(name = "password", nullable = false, length = 60)
     private String password;
 
-    @Column(name = "created_date", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdDate;
-
-    @Column(name = "modified_date")
-    private Timestamp modifiedDate;
+    @Column(name = "modified_at", nullable = false)
+    private Instant modifiedAt;
 
 }

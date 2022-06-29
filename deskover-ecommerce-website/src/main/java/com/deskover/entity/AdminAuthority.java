@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,10 +22,6 @@ public class AdminAuthority implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
-
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private AdminRole role;
@@ -32,5 +29,11 @@ public class AdminAuthority implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "admin_id", nullable = false)
     private Administrator admin;
+
+    @Column(name = "modified_at", nullable = false)
+    private Timestamp modifiedAt;
+
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }

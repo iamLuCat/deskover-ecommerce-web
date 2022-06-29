@@ -44,13 +44,6 @@ public class Product implements Serializable {
     @Column(name = "image", length = 150)
     private String image;
 
-    @Column(name = "created_date", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdDate;
-
-    @Column(name = "modified_date")
-    private Timestamp modifiedDate;
-
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 
@@ -66,9 +59,6 @@ public class Product implements Serializable {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
-
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<Inventory> inventories = new LinkedHashSet<>();
@@ -80,5 +70,14 @@ public class Product implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<Cart> carts = new LinkedHashSet<>();
+
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
+
+    @Column(name = "modified_at")
+    private Timestamp modifiedAt;
+
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }
