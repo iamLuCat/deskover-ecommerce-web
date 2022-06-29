@@ -2,12 +2,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-uppercase">Danh mục sản phẩm</h1>
+        <h1 class="m-0 text-uppercase text-primary">Danh mục sản phẩm</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item">
-            <a [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
+            <a class="text-decoration-none link-primary" [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
           </li>
           <li class="breadcrumb-item active">Danh mục sản phẩm</li>
         </ol>
@@ -17,17 +17,20 @@
 </section>
 <section class="content">
   <div class="container-fluid">
-    <div class="card">
+    <div class="card border-primary">
       <div class="card-header">
-        <div class="row">
-          <label for="filter-subcategory" class="col-auto col-form-label">Trạng thái</label>
-          <select id="filter-subcategory" class="custom-select col-6 col-md-2" [(ngModel)]="isActive"
-                  (change)="filter()">
-            <option [ngValue]="true">Hoạt động</option>
-            <option [ngValue]="false">Chưa kích hoạt</option>
-          </select>
-          <div class="col"></div>
-          <div class="col-auto d-flex align-items-center">
+        <div class="row g-2">
+          <div class="col-auto">
+            <label for="filter-subcategory" class="col-form-label">Trạng thái:</label>
+          </div>
+          <div class="col-auto">
+            <select id="filter-subcategory" class="form-select" [(ngModel)]="isActive"
+                    (change)="filter()">
+              <option [ngValue]="true">Hoạt động</option>
+              <option [ngValue]="false">Chưa kích hoạt</option>
+            </select>
+          </div>
+          <div class="col d-flex align-items-center justify-content-end">
             <button type="button" class="btn btn-sm bg-faded-accent" (click)="newSubcategory()" placement="left"
                     tooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
@@ -37,8 +40,8 @@
       </div>
 
       <div class="card-body p-3">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm">
-          <thead class="thead-light"></thead>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-sm">
+          <thead class="table-primary"></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -55,14 +58,14 @@
       type="button"
       class="close"
       aria-label="Close"
-      (click)="closeModal()">
+      (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <form #subcategoryForm="ngForm">
-      <div class="form-group">
-        <label for="name">Tên</label>
+      <div class=" mb-3">
+        <label class="form-label" for="name">Tên</label>
         <input
           type="text"
           class="form-control"
@@ -77,8 +80,8 @@
           <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
         </div>
       </div>
-      <div class="form-group">
-        <label for="slug">Slug</label>
+      <div class=" mb-3">
+        <label class="form-label" for="slug">Slug</label>
         <input
           type="text"
           class="form-control"
@@ -91,8 +94,8 @@
           <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
         </div>
       </div>
-      <div class="form-group">
-        <label for="category">Danh mục cha</label>
+      <div class=" mb-3">
+        <label class="form-label" for="category">Danh mục cha</label>
         <select id="category" class="custom-select" name="category" [(ngModel)]="subcategoryDto.categoryId"
                 #category="ngModel" required>
           <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
@@ -104,7 +107,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger" (click)="saveSubcategory(subcategoryDto);"
+    <button type="button" class="btn btn-outline-danger" (click)="saveSubcategory(subcategoryDto); c('Save click')"
             [disabled]="subcategoryForm.invalid">Lưu
     </button>
   </div>

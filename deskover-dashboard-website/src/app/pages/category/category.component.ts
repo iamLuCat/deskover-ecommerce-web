@@ -45,8 +45,7 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 20, 50, 100],
-      responsive: true,
+      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -65,7 +64,6 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         { data: 'slug' },
         { data: 'modifiedAt' },
         { data: 'modifiedUser' },
-        // { data: 'actived' },
         { data: null, orderable: false, searchable: false },
       ]
     }
@@ -104,9 +102,9 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   getCategory(id: number) {
     this.categoryService.getById(id).subscribe(data => {
       this.category = data;
-      this.isEdit = true;
-      this.openModal(this.categoryModal);
     });
+    this.isEdit = true;
+    this.openModal(this.categoryModal);
   }
 
   saveCategory(category: Category) {

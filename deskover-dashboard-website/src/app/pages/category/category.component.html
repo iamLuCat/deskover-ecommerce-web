@@ -2,12 +2,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-uppercase">Danh mục chính</h1>
+        <h1 class="m-0 text-uppercase text-primary">Danh mục chính</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item">
-            <a [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
+            <a class="text-decoration-none" [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
           </li>
           <li class="breadcrumb-item active">Danh mục chính</li>
         </ol>
@@ -17,18 +17,21 @@
 </section>
 <section class="content">
   <div class="container-fluid">
-    <div class="card">
+    <div class="card border-primary">
       <div class="card-header">
-        <div class="row">
-          <label for="filter-category" class="col-lg-auto col-form-label">Trạng thái</label>
-          <select id="filter-category" class="custom-select col-6 col-md-2" [(ngModel)]="isActive"
-                  (change)="filter()">
-            <option [ngValue]="true">Hoạt động</option>
-            <option [ngValue]="false">Chưa kích hoạt</option>
-          </select>
-          <div class="col"></div>
-          <div class="col-auto d-flex align-items-center">
-            <button type="button" class="btn btn-sm bg-faded-accent w-sm-100" (click)="newCategory()" placement="left"
+        <div class="row g-2">
+          <div class="col-auto">
+            <label for="filter-category" class="col-form-label">Trạng thái:</label>
+          </div>
+          <div class="col-auto">
+            <select id="filter-category" class="form-select" [(ngModel)]="isActive"
+                    (change)="filter()">
+              <option [ngValue]="true">Hoạt động</option>
+              <option [ngValue]="false">Chưa kích hoạt</option>
+            </select>
+          </div>
+          <div class="col d-flex align-items-center justify-content-end">
+            <button type="button" class="btn btn-sm bg-faded-accent" (click)="newCategory()" placement="left"
                     ngbTooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
@@ -37,61 +40,56 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm">
-            <thead class="thead-light">
-            <tr>
-              <th scope="col" class="align-middle">Tên</th>
-              <th scope="col" class="align-middle">Slug</th>
-              <th scope="col" class="align-middle text-center">Ngày cập nhật</th>
-              <th scope="col" class="align-middle text-center">Người cập nhật</th>
-              <!--<th scope="col" class="align-middle text-center">Trạng thái</th>-->
-              <th scope="col" class="align-middle text-center">Công cụ</th>
-            </tr>
-            </thead>
-            <tbody *ngIf="categories?.length !== 0">
-            <tr *ngFor="let item of categories; let i = index">
-              <td class="align-middle">
-                {{ item.name }}
-              </td>
-              <td class="align-middle">
-                {{ item.slug }}
-              </td>
-              <td class="align-middle text-center">
-                {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
-              </td>
-              <td class="align-middle text-center">
-                {{ item.modifiedUser }}
-              </td>
-              <!--<td class="align-middle text-center">
-                <span *ngIf="item.actived" class="badge badge-success">Kích hoạt</span>
-                <span *ngIf="!item.actived" class="badge badge-danger">Vô hiệu hoá</span>
-              </td>-->
-              <td class="align-middle text-center">
-                <div *ngIf="isActive">
-                  <button type="button" class="btn btn-sm bg-faded-info mr-md-2" placement="top" ngbTooltip="Sửa"
-                          (click)="getCategory(item.id)">
-                    <i class="fas fa-pen-square text-info"></i>
-                  </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteCategory(item.id)"
-                          placement="top" ngbTooltip="Xoá" container="body">
-                    <i class="fas fa-trash text-danger"></i>
-                  </button>
-                </div>
-                <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm bg-success"
-                          (click)="activeCategory(item.id)">
-                    Kích hoạt
-                  </button>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-            <tbody *ngIf="categories?.length === 0">
-            <tr>
-              <td colspan="5" class="text-center">Không tìm thấy kết quá</td>
-            </tr>
-            </tbody>
-          </table>
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-sm">
+              <thead class="table-primary">
+              <tr>
+                <th class="align-middle">Tên</th>
+                <th class="align-middle">Slug</th>
+                <th class="align-middle text-center">Ngày cập nhật</th>
+                <th class="align-middle text-center">Người cập nhật</th>
+                <th class="align-middle text-end">Công cụ</th>
+              </tr>
+              </thead>
+              <tbody *ngIf="categories?.length !== 0">
+              <tr *ngFor="let item of categories; let i = index">
+                <td class="align-middle">
+                  {{ item.name }}
+                </td>
+                <td class="align-middle">
+                  {{ item.slug }}
+                </td>
+                <td class="align-middle text-center">
+                  {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
+                </td>
+                <td class="align-middle text-center">
+                  {{ item.modifiedUser }}
+                </td>
+                <td class="align-middle text-end">
+                  <div *ngIf="isActive">
+                    <button type="button" class="btn btn-sm bg-faded-info me-0 me-md-2 mb-2 mb-md-0" placement="top"
+                            ngbTooltip="Sửa" (click)="getCategory(item.id)">
+                      <i class="fas fa-pen-square text-info"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteCategory(item.id)"
+                            placement="top" ngbTooltip="Xoá" container="body">
+                      <i class="fas fa-trash text-danger"></i>
+                    </button>
+                  </div>
+                  <div *ngIf="!isActive">
+                    <button type="button" class="btn btn-sm bg-success"
+                            (click)="activeCategory(item.id)">
+                      Kích hoạt
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+              <tbody *ngIf="categories?.length === 0">
+              <tr>
+                <td colspan="5" class="text-center">Không tìm thấy kết quá</td>
+              </tr>
+              </tbody>
+            </table>
         </div>
       </div>
     </div>
@@ -107,7 +105,7 @@
       type="button"
       class="close"
       aria-label="Close"
-      (click)="closeModal()">
+      (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -115,8 +113,8 @@
     <form #categoryForm="ngForm">
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <label for="name">Tên</label>
+          <div class=" mb-3">
+            <label class="form-label" for="name">Tên</label>
             <input
               type="text"
               class="form-control"
@@ -133,8 +131,8 @@
           </div>
         </div>
         <div class="col-6">
-          <div class="form-group">
-            <label for="slug">Slug</label>
+          <div class=" mb-3">
+            <label class="form-label" for="slug">Slug</label>
             <input
               type="text"
               class="form-control"
@@ -155,7 +153,7 @@
   <div class="modal-footer">
     <button type="button"
             class="btn btn-outline-danger"
-            (click)="saveCategory(category);"
+            (click)="saveCategory(category); c('Save click')"
             [disabled]="categoryForm.invalid">
       Lưu
     </button>

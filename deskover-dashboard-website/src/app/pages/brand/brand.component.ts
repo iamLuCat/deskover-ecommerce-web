@@ -45,8 +45,8 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 20, 50, 100],
       responsive: true,
+      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true, // sau khi refresh sẽ giữ lại dữ liệu đã filter, sort và paginate
@@ -64,18 +64,18 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
         {title: 'Tên', data: 'name', className: 'align-middle'},
         {title: 'Slug', data: 'slug', className: 'align-middle'},
         {
-          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-left text-md-center',
+          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
           render: (data, type, full, meta) => {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
-        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-left text-md-center'},
+        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-start text-md-center'},
         {
           title: 'Công cụ',
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-left text-md-center',
+          className: 'align-middle text-start text-md-end',
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
@@ -146,9 +146,9 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
   getBrand(id: number) {
     this.brandService.getById(id).subscribe(data => {
       this.brand = data;
-      this.isEdit = true;
-      this.openModal(this.brandModal);
     });
+    this.isEdit = true;
+    this.openModal(this.brandModal);
   }
 
   saveBrand(brand: Brand) {
@@ -196,6 +196,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Modal
   openModal(content) {
+    this.closeModal();
     this.modalService.open(content);
   }
 

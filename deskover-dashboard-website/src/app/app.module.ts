@@ -25,8 +25,6 @@ import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.
 import {RecoverPasswordComponent} from '@modules/recover-password/recover-password.component';
 import {LanguageComponent} from '@modules/main/header/language/language.component';
 import {PrivacyPolicyComponent} from '@modules/privacy-policy/privacy-policy.component';
-import {MainMenuComponent} from '@pages/main-menu/main-menu.component';
-import {SubMenuComponent} from '@pages/main-menu/sub-menu/sub-menu.component';
 import {MenuItemComponent} from '@components/menu-item/menu-item.component';
 import {DropdownComponent} from '@components/dropdown/dropdown.component';
 import {DropdownMenuComponent} from '@components/dropdown/dropdown-menu/dropdown-menu.component';
@@ -41,43 +39,43 @@ import {CategoryComponent} from '@pages/category/category.component';
 import {BrandComponent} from '@pages/brand/brand.component';
 import {DataTablesModule} from 'angular-datatables';
 import {AuthInterceptor} from "@/interceptor/auth-interceptor";
-import { NgxPaginationModule } from 'ngx-pagination';
-import { SubcategoryComponent } from './pages/category/subcategory/subcategory.component';
+import {SubcategoryComponent} from '@pages/category/subcategory/subcategory.component';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
+import {PromotionComponent} from '@pages/promotion/promotion.component';
+import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 
 registerLocaleData(localeEn, 'en-EN');
 
 // @ts-ignore
 @NgModule({
-    declarations: [
-        AppComponent,
-        MainComponent,
-        LoginComponent,
-        HeaderComponent,
-        FooterComponent,
-        MenuSidebarComponent,
-        ProfileComponent,
-        DashboardComponent,
-        MessagesComponent,
-        NotificationsComponent,
-        ButtonComponent,
-        UserComponent,
-        ForgotPasswordComponent,
-        RecoverPasswordComponent,
-        LanguageComponent,
-        PrivacyPolicyComponent,
-        MainMenuComponent,
-        SubMenuComponent,
-        MenuItemComponent,
-        DropdownComponent,
-        DropdownMenuComponent,
-        ControlSidebarComponent,
-        SelectComponent,
-        CheckboxComponent,
-        CategoryComponent,
-        BrandComponent,
-        SubcategoryComponent,
-    ],
+  declarations: [
+    AppComponent,
+    MainComponent,
+    LoginComponent,
+    HeaderComponent,
+    FooterComponent,
+    MenuSidebarComponent,
+    ProfileComponent,
+    DashboardComponent,
+    MessagesComponent,
+    NotificationsComponent,
+    ButtonComponent,
+    UserComponent,
+    ForgotPasswordComponent,
+    RecoverPasswordComponent,
+    LanguageComponent,
+    PrivacyPolicyComponent,
+    MenuItemComponent,
+    DropdownComponent,
+    DropdownMenuComponent,
+    ControlSidebarComponent,
+    SelectComponent,
+    CheckboxComponent,
+    CategoryComponent,
+    BrandComponent,
+    SubcategoryComponent,
+    PromotionComponent,
+  ],
     imports: [
         BrowserModule,
         FormsModule,
@@ -92,13 +90,13 @@ registerLocaleData(localeEn, 'en-EN');
             preventDuplicates: true
         }),
         NgbModule,
-        NgxPaginationModule,
         DataTablesModule,
-        TooltipModule
+        TooltipModule,
+        BsDatepickerModule
     ],
-    providers: [
-      { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-    ],
-    bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

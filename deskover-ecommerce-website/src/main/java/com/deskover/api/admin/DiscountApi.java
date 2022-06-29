@@ -36,7 +36,7 @@ public class DiscountApi {
 	@Autowired
 	private DiscountService discountService;
 	
-	@GetMapping("/discount")
+	@GetMapping("/discounts")
 	public ResponseEntity<?> doGetAll(){
 		List<Discount> discounts = discountService.findAll();
 		if(discounts.isEmpty()) {
@@ -45,12 +45,12 @@ public class DiscountApi {
 		return ResponseEntity.ok(discounts);
 	}
 	
-    @PostMapping("/discount/datatables")
+    @PostMapping("/discounts/datatables")
     public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
         return ResponseEntity.ok(discountService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }
 	
-	@GetMapping("/discount/{id}")
+	@GetMapping("/discounts/{id}")
 	public ResponseEntity<?> doGetDiscountId(@PathVariable("id") Long id){
 		Discount discounts = discountService.findById(id);
 		if(discounts == null) {
@@ -59,7 +59,7 @@ public class DiscountApi {
 		return ResponseEntity.ok(discounts);
 	}
 	
-	@PostMapping("/discount")
+	@PostMapping("/discounts")
 	public ResponseEntity<?> doCreate(@Valid @RequestBody Discount discount,BindingResult result){
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -74,7 +74,7 @@ public class DiscountApi {
 		}
 	}
 	
-	@PutMapping("/discount")
+	@PutMapping("/discounts")
 	public ResponseEntity<?> doUpdate(@RequestBody Discount discount){
 		try {
 			discountService.update(discount);
@@ -85,7 +85,7 @@ public class DiscountApi {
 		}
 	}
 	
-	@DeleteMapping("/discount/{id}")
+	@DeleteMapping("/discounts/{id}")
     public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
         try {
         	Discount discount = discountService.changeActive(id);

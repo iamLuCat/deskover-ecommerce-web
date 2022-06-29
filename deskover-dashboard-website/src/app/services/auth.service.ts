@@ -38,7 +38,7 @@ export class AuthService {
   async getProfile() {
     try {
       this.user = await this.restApiService
-        .get(`${environment.globalUrl.profile}`)
+        .get(`${environment.globalUrl.getPrincipal}`)
         .toPromise();
     } catch (e) {
       this.logout();

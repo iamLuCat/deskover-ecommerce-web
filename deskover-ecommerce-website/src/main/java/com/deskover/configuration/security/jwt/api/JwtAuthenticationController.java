@@ -24,6 +24,7 @@ import com.deskover.util.JwtTokenUtil;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("/v1/api/admin/auth")
 public class JwtAuthenticationController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -37,7 +38,7 @@ public class JwtAuthenticationController {
 	@Autowired
 	private AdminService adminService;
 	
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		try {
 			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
