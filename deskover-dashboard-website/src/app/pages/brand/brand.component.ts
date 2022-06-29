@@ -13,7 +13,7 @@ import {BrandService} from "@services/brand.service";
   templateUrl: './brand.component.html',
   styleUrls: ['./brand.component.scss']
 })
-export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BrandComponent implements OnInit, AfterViewInit {
 
   brands: Brand[];
   brand: Brand;
@@ -22,7 +22,6 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
   isActive: boolean = true;
 
   dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   @ViewChild('brandModal') brandModal: any;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
@@ -99,13 +98,8 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngOnDestroy() {
-    this.dtTrigger.unsubscribe();
-  }
-
   ngAfterViewInit() {
     const self = this;
-    this.dtTrigger.next();
 
     let body = $('body');
     body.on('click', '.btn-edit', function () {
@@ -122,18 +116,15 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  rerender(): void {
+  rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
+      dtInstance.ajax.reload(null, false);
     });
   }
 
   filter() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.ajax.reload();
+      dtInstance.draw();
     });
   }
 

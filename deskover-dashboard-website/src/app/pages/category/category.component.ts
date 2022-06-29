@@ -13,7 +13,7 @@ import { AlertUtils } from '@/utils/alert-utils';
   styleUrls: ['./category.component.scss'],
   providers: [NgbModalConfig, NgbModal]
 })
-export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CategoryComponent implements OnInit {
 
   categories: Category[];
   category: Category;
@@ -69,22 +69,9 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       ]
     }
   }
-
-  ngAfterViewInit() {
-    const self = this;
-    this.dtTrigger.next();
-  }
-
-  ngOnDestroy() {
-    this.dtTrigger.unsubscribe();
-  }
-
-  rerender(): void {
+  rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
+      dtInstance.ajax.reload(null, false);
     });
   }
 

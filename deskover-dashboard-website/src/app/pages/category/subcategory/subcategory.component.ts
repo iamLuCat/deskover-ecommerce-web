@@ -138,18 +138,17 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dtTrigger.unsubscribe();
   }
 
-  rerender(): void {
+  rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
+      // dtInstance.destroy();
+      // this.dtTrigger.next();
+      dtInstance.ajax.reload(null, false);
     });
   }
 
   filter() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.ajax.reload();
+      dtInstance.draw();
     });
   }
 
