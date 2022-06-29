@@ -72,21 +72,20 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
         FilterRegistrationBean<JwtRequestFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(jwtRequestFilter);
         registrationBean.addUrlPatterns("/v1/api/admin/*");
-        registrationBean.addUrlPatterns("/get-principal");
         return registrationBean;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-        	.antMatcher("/authenticate")
+        	.antMatcher("/v1/api/admin/auth/login")
             .authorizeRequests()
-            	.antMatchers("/authenticate")
+            	.antMatchers("/v1/api/admin/auth/login")
             		.permitAll()
                 .and()
             .antMatcher("/v1/api/admin/*")
             .authorizeRequests()
-            	.antMatchers("/v1/api/admin/*","/get-principal")
+            	.antMatchers("/v1/api/admin/*")
             		.authenticated()
             		.and()
             	.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
