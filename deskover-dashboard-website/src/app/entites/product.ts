@@ -8,9 +8,9 @@ export interface Product {
   description: string;
   price: number;
   image: string;
-  createdDate: Date;
-  modifiedDate: Date;
-  modifiedUser: string;
+  createdAt: Date;
+  modifiedAt: Date;
+  modifiedBy: string;
   actived: boolean;
   subcategory: Subcategory;
   brand: Brand;

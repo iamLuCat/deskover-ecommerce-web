@@ -79,7 +79,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
-        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-start text-md-center'},
+        {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
         // {
         //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-start text-md-center',
         //   render: (data, type, full, meta) => {

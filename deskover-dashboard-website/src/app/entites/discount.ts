@@ -6,8 +6,8 @@ export interface Discount {
   startDate: Date;
   endDate: Date;
   discountTime: Date[];
-  createdDate: Date;
-  modifiedDate: Date;
-  modifiedUser: string;
+  createdAt: Date;
+  modifiedAt: Date;
+  modifiedBy: string;
   actived: boolean;
 }

@@ -69,7 +69,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
-        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-start text-md-center'},
+        {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
         {
           title: 'Công cụ',
           data: null,

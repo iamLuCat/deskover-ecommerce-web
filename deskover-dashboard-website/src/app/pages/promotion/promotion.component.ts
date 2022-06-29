@@ -93,12 +93,12 @@ export class PromotionComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         },
         {
-          title: 'Ngày cập nhật', data: 'modifiedDate', className: 'align-middle text-start text-md-center',
+          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
           render: (data, type, full, meta) => {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
           }
         },
-        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-start text-md-center'},
+        {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
         {
           title: 'Công cụ',
           data: null,
