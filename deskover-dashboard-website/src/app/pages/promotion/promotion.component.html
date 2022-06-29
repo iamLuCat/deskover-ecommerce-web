@@ -52,7 +52,7 @@
 <ng-template #discountModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-danger" id="modal-basic-title">
-      {{ isEdit ? 'Sửa' : 'Thêm' }} khuyến mãi
+      {{ isEdit ? 'Cập nhật' : 'Thêm' }} khuyến mãi
     </h4>
     <button
       type="button"
@@ -64,49 +64,42 @@
   </div>
   <div class="modal-body">
     <form #discountForm="ngForm">
-      <div class="row mb-3">
-        <div class="col-6">
+      <div class="row">
+        <div class="col-12 mb-3">
           <label class="form-label" for="name">Tên</label>
-          <input
-            type="text"
-            class="form-control"
-            id="name"
-            name="name"
-            [(ngModel)]="discount.name"
-            #name="ngModel"
-            required
+          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="discount.name"
+            #name="ngModel" required
           /><!--oninput="this.value = Math.abs(this.value)"-->
           <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
             <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 mb-3">
           <label class="form-label" for="percent">Mức giảm giá</label>
           <!--oninput="this.value = Math.abs(this.value)"-->
-          <input
-            type="number"
-            min="0"
-            max="100"
-            class="form-control"
-            id="percent"
-            name="percent"
-            [(ngModel)]="discount.percent"
-            #percent="ngModel"
-            required
+          <input type="number" min="0" max="100" class="form-control" id="percent" name="percent"
+            [(ngModel)]="discount.percent" #percent="ngModel" required
           />
           <div class="invalid-feedback" *ngIf="percent.invalid && (percent.dirty || percent.touched)">
             <span *ngIf="percent.errors?.required">Vui lòng nhập mức giảm giá</span>
             <span *ngIf="percent.errors?.min || percent.errors?.max">Mức giảm giá không hợp lệ (0-100)</span>
           </div>
         </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-xs-12 col-12 col-md-4 form-group">
-          <input type="text"
-                 placeholder="Chọn khoảng thời gian"
-                 class="form-control"
-                 [bsConfig]="{withTimepicker: true, rangeInputFormat : 'MMMM Do YYYY, h:mm:ss a', dateInputFormat: 'MMMM Do YYYY, h:mm:ss a'}"
-                 bsDaterangepicker>
+        <div class="col-12 mb-3">
+          <label for="description" class="form-label">Mô tả</label>
+          <textarea class="form-control" id="description" rows="4" name="description"
+            [(ngModel)]="discount.description" #description="ngModel"></textarea>
+
+        </div>
+        <div class="col-12 mb-3">
+          <label class="form-label" for="discountTime">Thời gian khuyến mãi</label>
+          <input type="text" id="discountTime" name="discountTime" placeholder="Ngày bắt đầu - Ngày kết thúc" class="form-control"
+            placement="top" [bsConfig]="bsConfig" #discountTime="bsDaterangepicker" bsDaterangepicker [(ngModel)]="discount.discountTime">
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-12">
+            <pre class="code-preview">{{discount.description}}</pre>
+          </div>
         </div>
       </div>
     </form>

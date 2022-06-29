@@ -6,7 +6,7 @@ import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 import {DiscountService} from "@services/discount.service";
 import {DatePipe} from "@angular/common";
 import {AlertUtils} from "@/utils/alert-utils";
-import {UrlUtils} from "@/utils/url-utils";
+import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 
 @Component({
   selector: 'app-promotion',
@@ -23,23 +23,35 @@ export class PromotionComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
+  bsConfig?: Partial<BsDatepickerConfig>;
+
   @ViewChild('discountModal') discountModal: any;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
     private modalConfig: NgbModalConfig,
     private modalService: NgbModal,
-    private discountService: DiscountService
+    private discountService: DiscountService,
   ) {
     modalConfig.backdrop = 'static';
     modalConfig.keyboard = false;
     modalConfig.centered = true;
+
+    // Config datepicker ngx-bootstrap
+    this.bsConfig = Object.assign({}, {
+      containerClass: 'theme-dark-blue',
+      withTimepicker: true,
+      locale: 'vi',
+      rangeInputFormat : 'DD/MM/YYYY HH:mm:ss',
+      dateInputFormat: 'DD/MM/YYYY HH:mm:ss',
+      minDate: new Date()
+    });
   }
 
   ngOnInit() {
     const self = this;
 
-    this.dtOptions = {
+    self.dtOptions = {
       pagingType: 'full_numbers',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
@@ -107,8 +119,7 @@ export class PromotionComponent implements OnInit, OnDestroy, AfterViewInit {
             `;
             } else {
               return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}"
-                (click)="activeCategory(item.id)"> Kích hoạt </button>`
+               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
             }
           }
         },
@@ -156,19 +167,25 @@ export class PromotionComponent implements OnInit, OnDestroy, AfterViewInit {
 
   newDiscount() {
     this.isEdit = false;
-    this.discount = <Discount>{};
+    this.discount = <Discount>{
+      discountTime: [new Date(), new Date()],
+    };
     this.openModal(this.discountModal);
   }
 
   getDiscount(id: number) {
     this.discountService.getById(id).subscribe(data => {
       this.discount = data;
+      this.discount.discountTime = [new Date(this.discount.startDate), new Date(this.discount.endDate)];
     });
     this.isEdit = true;
     this.openModal(this.discountModal);
   }
 
   saveDiscount(discount: Discount) {
+    this.discount.startDate = this.discount.discountTime[0];
+    this.discount.endDate = this.discount.discountTime[1];
+
     if (this.isEdit) {
       this.discountService.update(discount).subscribe(data => {
         AlertUtils.toastSuccess('Cập nhật thành công');

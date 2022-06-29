@@ -43,8 +43,11 @@ import {SubcategoryComponent} from '@pages/category/subcategory/subcategory.comp
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {PromotionComponent} from '@pages/promotion/promotion.component';
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {defineLocale} from 'ngx-bootstrap/chronos';
+import {viLocale} from 'ngx-bootstrap/locale';
 
-registerLocaleData(localeEn, 'en-EN');
+registerLocaleData(localeEn, 'vi-VN');
+defineLocale('vi', viLocale);
 
 // @ts-ignore
 @NgModule({

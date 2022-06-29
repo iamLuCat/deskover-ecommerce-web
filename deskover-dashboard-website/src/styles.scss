@@ -13,6 +13,8 @@ $blue: #1c519d;
 @import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 
+@import '~ngx-bootstrap/datepicker/bs-datepicker.css';
+
 body {
   width: 100vw;
   height: 100vh;
@@ -27,13 +29,28 @@ body {
 // CSS Custom - Start
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
 .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
-  background-color: #1c519d;
+  background-color: $primary !important;
   color: #fff;
 }
 
 .page-item.active .page-link {
-  background-color: #1c519d;
-  border-color: #1c519d;
+  background-color: $primary !important;
+  border-color: $primary !important;
+}
+
+.bs-datepicker-head,
+.bs-datepicker-head, .bs-datepicker button:active,
+.bs-datepicker-body table td span.selected,
+.bs-datepicker-body table td.selected span,
+.bs-datepicker-body table td span[class*="select-"]:after,
+.bs-datepicker-body table td[class*="select-"] span:after,
+.bs-datepicker-body table td.active-week span:hover
+{
+  background-color: $primary !important;
+}
+.bs-datepicker-body table td.week span
+{
+  color: $primary !important;
 }
 
 .table-responsive {

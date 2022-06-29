@@ -106,8 +106,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
             `;
             } else {
               return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}"
-                (click)="activeCategory(item.id)"> Kích hoạt </button>`
+               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
             }
           }
         },

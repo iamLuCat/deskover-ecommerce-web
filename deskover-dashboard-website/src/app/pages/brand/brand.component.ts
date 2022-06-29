@@ -90,8 +90,7 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
             `;
             } else {
               return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}"
-                (click)="activeCategory(item.id)"> Kích hoạt </button>`
+               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
             }
           }
         },
