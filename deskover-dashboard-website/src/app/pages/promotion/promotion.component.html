@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="card-body p-3">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-sm">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-sm w-100">
           <thead class="table-primary"></thead>
           <tbody></tbody>
         </table>
@@ -68,7 +68,7 @@
         <div class="col-12 mb-3">
           <label class="form-label" for="name">Tên</label>
           <input type="text" class="form-control" id="name" name="name" [(ngModel)]="discount.name"
-            #name="ngModel" required
+                 #name="ngModel" required
           /><!--oninput="this.value = Math.abs(this.value)"-->
           <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
             <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
@@ -78,7 +78,7 @@
           <label class="form-label" for="percent">Mức giảm giá</label>
           <!--oninput="this.value = Math.abs(this.value)"-->
           <input type="number" min="0" max="100" class="form-control" id="percent" name="percent"
-            [(ngModel)]="discount.percent" #percent="ngModel" required
+                 [(ngModel)]="discount.percent" #percent="ngModel" required
           />
           <div class="invalid-feedback" *ngIf="percent.invalid && (percent.dirty || percent.touched)">
             <span *ngIf="percent.errors?.required">Vui lòng nhập mức giảm giá</span>
@@ -88,13 +88,15 @@
         <div class="col-12 mb-3">
           <label for="description" class="form-label">Mô tả</label>
           <textarea class="form-control" id="description" rows="4" name="description"
-            [(ngModel)]="discount.description" #description="ngModel"></textarea>
+                    [(ngModel)]="discount.description" #description="ngModel"></textarea>
 
         </div>
         <div class="col-12 mb-3">
           <label class="form-label" for="discountTime">Thời gian khuyến mãi</label>
-          <input type="text" id="discountTime" name="discountTime" placeholder="Ngày bắt đầu - Ngày kết thúc" class="form-control"
-            placement="top" [bsConfig]="bsConfig" #discountTime="bsDaterangepicker" bsDaterangepicker [(ngModel)]="discount.discountTime">
+          <input type="text" id="discountTime" name="discountTime" placeholder="Ngày bắt đầu - Ngày kết thúc"
+                 class="form-control"
+                 placement="top" [bsConfig]="bsConfig" #discountTime="bsDaterangepicker" bsDaterangepicker
+                 [(ngModel)]="discount.discountTime">
         </div>
         <div class="row">
           <div class="col-xs-12 col-md-12">

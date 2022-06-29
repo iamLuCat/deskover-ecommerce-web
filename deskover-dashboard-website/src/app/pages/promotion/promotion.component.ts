@@ -43,7 +43,6 @@ export class PromotionComponent implements OnInit, OnDestroy, AfterViewInit {
       withTimepicker: true,
       locale: 'vi',
       rangeInputFormat : 'DD/MM/YYYY HH:mm:ss',
-      dateInputFormat: 'DD/MM/YYYY HH:mm:ss',
       minDate: new Date()
     });
   }
@@ -73,7 +72,7 @@ export class PromotionComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       columns: [
         {title: 'Tên', data: 'name', className: 'align-middle'},
-        {title: 'Mô tả', data: 'description', className: 'align-middle'},
+        // {title: 'Mô tả', data: 'description', className: 'align-middle'},
         {
           title: 'Mức giảm giá (%)', data: 'percent', className: 'align-middle text-start text-md-center',
           render(data, type, row, meta) {
@@ -83,13 +82,13 @@ export class PromotionComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           title: 'Ngày bắt đầu', data: 'startDate', className: 'align-middle text-start text-md-center',
           render: function (data, type, row) {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy HH:mm:ss');
           }
         },
         {
           title: 'Ngày kết thúc', data: 'endDate', className: 'align-middle text-start text-md-center',
           render: function (data, type, row) {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy HH:mm:ss');
           }
         },
         {
