@@ -39,7 +39,7 @@ public class AdminAuthorityServiceImpl implements AdminAuthorityService {
         if(adminAuthority == null){
             throw new IllegalArgumentException("Thêm mới authority không thành công");
         }
-        adminAuthority.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        adminAuthority.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(adminAuthority);
     }
 

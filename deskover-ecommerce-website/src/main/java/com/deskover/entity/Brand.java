@@ -57,11 +57,11 @@ public class Brand implements Serializable {
 	@Column(name = "modified_at")
 	private Timestamp modifiedAt;
 
-	@Column(name = "modified_user", length = 50)
-	private String modifiedUser;
-
 	@JsonIgnore
 	@OneToMany(mappedBy = "brand")
 	private Set<Product> products = new LinkedHashSet<>();
+
+	@Column(name = "modified_by", length = 50)
+	private String modifiedBy;
 
 }

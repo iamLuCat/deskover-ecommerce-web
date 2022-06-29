@@ -32,9 +32,8 @@ public class AdminPasswordServiceImpl implements AdminPasswordService{
 		}
 		String hashPassword = bcrypt.encode(adminPassword.getPassword());
 		adminPassword.setPassword(hashPassword);
-		adminPassword.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-		adminPassword.setModifiedDate(null);
-		adminPassword.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+		adminPassword.setModifiedAt(null);
+		adminPassword.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repo.save(adminPassword);
 	}
 }

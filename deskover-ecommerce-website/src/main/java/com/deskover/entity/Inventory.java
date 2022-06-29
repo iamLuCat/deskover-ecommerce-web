@@ -40,14 +40,13 @@ public class Inventory implements Serializable {
     @Column(name = "quantity", nullable = false)
     private Long quantity;
 
-    @Column(name = "modified_date")
-    private Timestamp modifiedDate;
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
 
-    @Column(name = "created_date", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdDate;
+    @Column(name = "modified_at")
+    private Timestamp modifiedAt;
 
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }

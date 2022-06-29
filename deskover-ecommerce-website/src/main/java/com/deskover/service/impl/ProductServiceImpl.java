@@ -1,11 +1,11 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
+import com.deskover.dto.ProductDto;
+import com.deskover.entity.Product;
+import com.deskover.repository.ProductRepository;
+import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.*;
+import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,16 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.dto.ProductDto;
-import com.deskover.entity.Product;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.BrandService;
-import com.deskover.service.CategoryService;
-import com.deskover.service.DiscountService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
-import com.deskover.util.MapperUtil;
+import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -70,11 +64,11 @@ public class ProductServiceImpl implements ProductService {
 				productExists.setDescription(product.getDescription());
 				productExists.setPrice(product.getPrice());
 				productExists.setImage(product.getImage());
-				productExists.setModifiedDate(new Timestamp(System.currentTimeMillis()));
-				productExists.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+				productExists.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+				productExists.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 				productExists.setSubCategory(subcategoryService.getById(productDto.getSubcategogyId()));
 				productExists.setBrand(brandService.getById(productDto.getBrandId()));
-				if(productDto.getDiscountId() != null && !productDto.getDiscountId().equals("")) {
+				if(productDto.getDiscountId() != null) {
 					productExists.setDiscount(discountService.findById(productDto.getDiscountId()));
 				}
 				productExists.setDiscount(null);
@@ -83,11 +77,11 @@ public class ProductServiceImpl implements ProductService {
 	            throw new IllegalArgumentException("Slug đã tồn tại");
 			}
 		}else {
-			product.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-			product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+			product.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 			product.setSubCategory(subcategoryService.getById(productDto.getSubcategogyId()));
 			product.setBrand(brandService.getById(productDto.getBrandId()));
-			if(productDto.getDiscountId() != null && !productDto.getDiscountId().equals("")) {
+			if(productDto.getDiscountId() != null) {
 				product.setDiscount(discountService.findById(productDto.getDiscountId()));
 			}
 			product.setDiscount(null);
@@ -103,14 +97,14 @@ public class ProductServiceImpl implements ProductService {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 		}
 		if(product.getActived()) {
-			product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+			product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 			product.setActived(Boolean.FALSE);
-			product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 			return repository.saveAndFlush(product);
 		}else {
-			product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+			product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 			product.setActived(Boolean.FALSE);
-			product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 			return repository.saveAndFlush(product);
 		}
 
@@ -119,8 +113,8 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional
 	public Product update(Product product) {
-		product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
-		product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+		product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+		product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repository.saveAndFlush(product);
 	}
 

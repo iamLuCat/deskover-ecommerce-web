@@ -1,11 +1,9 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
+import com.deskover.entity.Discount;
+import com.deskover.repository.DiscountRepository;
+import com.deskover.repository.datatables.DiscountRepoForDatatables;
+import com.deskover.service.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -13,10 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.Discount;
-import com.deskover.repository.DiscountRepository;
-import com.deskover.repository.datatables.DiscountRepoForDatatables;
-import com.deskover.service.DiscountService;
+import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DiscountServiceImpl implements DiscountService {
@@ -39,8 +37,8 @@ public class DiscountServiceImpl implements DiscountService {
 	@Override
 	@Transactional
 	public Discount create(Discount discount) {
-		discount.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-		discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+		discount.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repository.saveAndFlush(discount);
 	}
 	
@@ -50,14 +48,14 @@ public class DiscountServiceImpl implements DiscountService {
 		Discount discount = this.getById(id);
 		if (discount!=null) {
 			if(discount.getActived()) {
-				discount.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+				discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 				discount.setActived(Boolean.FALSE);
-				discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+				discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 				return repository.saveAndFlush(discount);
 			}else {
-				discount.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+				discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 				discount.setActived(Boolean.TRUE);
-				discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+				discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 				return repository.saveAndFlush(discount);
 			}
 		}else {
@@ -68,15 +66,15 @@ public class DiscountServiceImpl implements DiscountService {
 	@Override
 	@Transactional
 	public Discount update(Discount discount) {
-		discount.setModifiedDate(new Timestamp(System.currentTimeMillis()));
-		discount.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+		discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+		discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repository.saveAndFlush(discount);
 	}
 
 	@Override
 	public Discount findById(Long id) {
 		Optional<Discount> optional = repository.findById(id);
-		return optional.isPresent() ? optional.get() : null;
+		return optional.orElse(null);
 	}
 
 	@Override

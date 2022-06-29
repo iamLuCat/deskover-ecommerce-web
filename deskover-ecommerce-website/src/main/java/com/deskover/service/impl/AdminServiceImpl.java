@@ -2,7 +2,6 @@ package com.deskover.service.impl;
 
 import com.deskover.dto.AdminCreateDto;
 import com.deskover.dto.AdministratorDto;
-import com.deskover.entity.AdminAuthority;
 import com.deskover.entity.AdminPassword;
 import com.deskover.entity.Administrator;
 import com.deskover.repository.AdminPasswordRepository;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Map;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -65,7 +63,7 @@ public class AdminServiceImpl implements AdminService {
         entityAdmin.setActived(Boolean.TRUE);
         entityAdmin.setAvatar(null);
         entityAdmin.setModifiedAt(null);
-        entityAdmin.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        entityAdmin.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         Administrator adminCreated = repo.save(entityAdmin);
 
         AdminPassword createPassword = new AdminPassword();

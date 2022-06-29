@@ -43,22 +43,21 @@ public class Discount implements Serializable {
 
     @Column(name = "end_date")
     private Timestamp endDate;
-
-    @Column(name = "created_date", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdDate;
-
-    @Column(name = "modified_date")
-    private Timestamp modifiedDate;
     
     @Column(name = "actived")
     private Boolean actived;
 
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
-
     @JsonIgnore
     @OneToMany(mappedBy = "discount")
     private Set<Product> products = new LinkedHashSet<>();
+
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
+
+    @Column(name = "modified_at")
+    private Timestamp modifiedAt;
+
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }

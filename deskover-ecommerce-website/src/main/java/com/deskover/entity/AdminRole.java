@@ -40,13 +40,6 @@ public class AdminRole implements Serializable {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Column(name = "created_date", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdDate;
-
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
-
     @Column(name = "role_id", nullable = false, length = 20)
     private String roleId;
 
@@ -55,5 +48,13 @@ public class AdminRole implements Serializable {
     private Set<AdminAuthority> adminAuthorities = new LinkedHashSet<>();
 
 
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
+
+    @Column(name = "modified_at")
+    private Timestamp modifiedAt;
+
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }

@@ -41,16 +41,9 @@ public class Order implements Serializable {
     @Column(name = "email", length = 50)
     private String email;
 
-    @Column(name = "created_date", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdDate;
-
     @Column(name = "status", nullable = false)
     @CreationTimestamp
     private Timestamp status;
-
-    @Column(name = "modified_user", length = 50)
-    private String modifiedUser;
 
     @JsonIgnore
     @OneToMany(mappedBy = "order")
@@ -59,5 +52,11 @@ public class Order implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
+
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
+
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
 
 }
