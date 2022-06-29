@@ -64,7 +64,7 @@
   </div>
   <div class="modal-body">
     <form #subcategoryForm="ngForm">
-      <div class=" mb-3">
+      <div class="mb-3">
         <label class="form-label" for="name">Tên</label>
         <input
           type="text"
@@ -80,7 +80,7 @@
           <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
         </div>
       </div>
-      <div class=" mb-3">
+      <div class="mb-3">
         <label class="form-label" for="slug">Slug</label>
         <input
           type="text"
@@ -94,7 +94,7 @@
           <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
         </div>
       </div>
-      <div class=" mb-3">
+      <div class="mb-3">
         <label class="form-label" for="category">Danh mục cha</label>
         <select id="category" class="custom-select" name="category" [(ngModel)]="subcategoryDto.categoryId"
                 #category="ngModel" required>
@@ -103,6 +103,12 @@
         <div class="invalid-feedback" *ngIf="category.invalid && (category.dirty || category.touched)">
           <span *ngIf="category.errors?.['required']">Vui lòng chọn một danh mục</span>
         </div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Mô tả</label>
+        <textarea class="form-control" id="description" rows="4" name="description"
+                  [(ngModel)]="subcategoryDto.description" #description="ngModel"></textarea>
+
       </div>
     </form>
   </div>

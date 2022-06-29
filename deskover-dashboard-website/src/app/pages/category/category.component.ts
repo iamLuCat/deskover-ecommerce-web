@@ -62,8 +62,9 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       columns: [
         { data: 'name' },
         { data: 'slug' },
-        { data: 'modifiedAt' },
-        { data: 'modifiedBy' },
+        { data: 'description' },
+        // { data: 'modifiedAt' },
+        // { data: 'modifiedBy' },
         { data: null, orderable: false, searchable: false },
       ]
     }

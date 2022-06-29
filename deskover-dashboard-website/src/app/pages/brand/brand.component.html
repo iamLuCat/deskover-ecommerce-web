@@ -65,40 +65,42 @@
   <div class="modal-body">
     <form #brandForm="ngForm">
       <div class="row">
-        <div class="col-6">
-          <div class=" mb-3">
-            <label class="form-label" for="name">Tên</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              name="name"
-              [(ngModel)]="brand.name"
-              (keyup)="brand.slug = toSlug(brand.name)"
-              #name="ngModel"
-              required
-            />
-            <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-              <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
-            </div>
+        <div class="col-6 mb-3">
+          <label class="form-label" for="name">Tên</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            [(ngModel)]="brand.name"
+            (keyup)="brand.slug = toSlug(brand.name)"
+            #name="ngModel"
+            required
+          />
+          <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+            <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
           </div>
         </div>
-        <div class="col-6">
-          <div class=" mb-3">
-            <label class="form-label" for="slug">Slug</label>
-            <input
-              type="text"
-              class="form-control"
-              id="slug"
-              name="slug"
-              [(ngModel)]="brand.slug"
-              #slug="ngModel"
-              required
-            />
-            <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
-              <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
-            </div>
+        <div class="col-6 mb-3">
+          <label class="form-label" for="slug">Slug</label>
+          <input
+            type="text"
+            class="form-control"
+            id="slug"
+            name="slug"
+            [(ngModel)]="brand.slug"
+            #slug="ngModel"
+            required
+          />
+          <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
+            <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
           </div>
+        </div>
+        <div class="col-12 mb-3">
+          <label for="description" class="form-label">Mô tả</label>
+          <textarea class="form-control" id="description" rows="4" name="description"
+                    [(ngModel)]="brand.description" #description="ngModel"></textarea>
+
         </div>
       </div>
     </form>

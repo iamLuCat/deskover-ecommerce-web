@@ -2,7 +2,6 @@ import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/c
 import {Subject} from "rxjs";
 import {DataTableDirective} from "angular-datatables";
 import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
-import {DatePipe} from "@angular/common";
 import {UrlUtils} from "@/utils/url-utils";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
@@ -72,14 +71,15 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       columns: [
         {title: 'Tên', data: 'name', className: 'align-middle'},
         {title: 'Slug', data: 'slug', className: 'align-middle'},
+        {title: 'Mô tả', data: 'description', className: 'align-middle'},
         {title: 'Danh mục cha', data: 'category.name', className: 'align-middle'},
-        {
-          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
-          render: (data, type, full, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
-        },
-        {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
+        // {
+        //   title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
+        //   render: (data, type, full, meta) => {
+        //     return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+        //   }
+        // },
+        // {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
         // {
         //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-start text-md-center',
         //   render: (data, type, full, meta) => {

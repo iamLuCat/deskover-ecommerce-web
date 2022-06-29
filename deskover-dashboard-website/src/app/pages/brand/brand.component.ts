@@ -63,13 +63,14 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
       columns: [
         {title: 'Tên', data: 'name', className: 'align-middle'},
         {title: 'Slug', data: 'slug', className: 'align-middle'},
-        {
-          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
-          render: (data, type, full, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
-        },
-        {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
+        {title: 'Mô tả', data: 'description', className: 'align-middle'},
+        // {
+        //   title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
+        //   render: (data, type, full, meta) => {
+        //     return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+        //   }
+        // },
+        // {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
         {
           title: 'Công cụ',
           data: null,

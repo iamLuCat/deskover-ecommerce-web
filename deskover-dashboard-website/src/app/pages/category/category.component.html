@@ -45,8 +45,9 @@
               <tr>
                 <th class="align-middle">Tên</th>
                 <th class="align-middle">Slug</th>
-                <th class="align-middle text-center">Ngày cập nhật</th>
-                <th class="align-middle text-center">Người cập nhật</th>
+                <th class="align-middle">Mô tả</th>
+                <!--<th class="align-middle text-center">Ngày cập nhật</th>
+                <th class="align-middle text-center">Người cập nhật</th>-->
                 <th class="align-middle text-end">Công cụ</th>
               </tr>
               </thead>
@@ -58,12 +59,15 @@
                 <td class="align-middle">
                   {{ item.slug }}
                 </td>
-                <td class="align-middle text-center">
+                <td class="align-middle">
+                  {{ item.description }}
+                </td>
+                <!--<td class="align-middle text-center">
                   {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
                 </td>
                 <td class="align-middle text-center">
                   {{ item.modifiedBy }}
-                </td>
+                </td>-->
                 <td class="align-middle text-end">
                   <div *ngIf="isActive">
                     <button type="button" class="btn btn-sm bg-faded-info me-0 me-md-2 mb-2 mb-md-0" placement="top"
@@ -112,8 +116,7 @@
   <div class="modal-body">
     <form #categoryForm="ngForm">
       <div class="row">
-        <div class="col-6">
-          <div class=" mb-3">
+        <div class="col-6 mb-3">
             <label class="form-label" for="name">Tên</label>
             <input
               type="text"
@@ -128,10 +131,8 @@
             <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
               <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
             </div>
-          </div>
         </div>
-        <div class="col-6">
-          <div class=" mb-3">
+        <div class="col-6 mb-3">
             <label class="form-label" for="slug">Slug</label>
             <input
               type="text"
@@ -145,7 +146,12 @@
             <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
               <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
             </div>
-          </div>
+        </div>
+        <div class="col-12 mb-3">
+          <label for="description" class="form-label">Mô tả</label>
+          <textarea class="form-control" id="description" rows="4" name="description"
+                    [(ngModel)]="category.description" #description="ngModel"></textarea>
+
         </div>
       </div>
     </form>

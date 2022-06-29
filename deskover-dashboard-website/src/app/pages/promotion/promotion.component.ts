@@ -72,7 +72,7 @@ export class PromotionComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       columns: [
         {title: 'Tên', data: 'name', className: 'align-middle'},
-        // {title: 'Mô tả', data: 'description', className: 'align-middle'},
+        {title: 'Mô tả', data: 'description', className: 'align-middle'},
         {
           title: 'Mức giảm giá (%)', data: 'percent', className: 'align-middle text-start text-md-center',
           render(data, type, row, meta) {
@@ -91,13 +91,13 @@ export class PromotionComponent implements OnInit, OnDestroy, AfterViewInit {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy HH:mm:ss');
           }
         },
-        {
-          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
-          render: (data, type, full, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
-        },
-        {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
+        // {
+        //   title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
+        //   render: (data, type, full, meta) => {
+        //     return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+        //   }
+        // },
+        // {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
         {
           title: 'Công cụ',
           data: null,
