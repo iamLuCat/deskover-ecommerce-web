@@ -18,5 +18,5 @@ public class AdminCreateDto implements Serializable {
     private String fullname;
     @NotBlank(message = "Không để trống password")
     private String password;
-    private List<Long> listRoleId;
+    private String avatar;
 }

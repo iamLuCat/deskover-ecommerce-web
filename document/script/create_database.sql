@@ -19,8 +19,9 @@ CREATE TABLE admin_role (
 	id BIGINT NOT NULL AUTO_INCREMENT,
     role_id VARCHAR(20) NOT NULL,
     `name` VARCHAR(50) NOT NULL,
-	created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_user VARCHAR(50) DEFAULT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_at TIMESTAMP DEFAULT NULL,
+    modified_by VARCHAR(50) DEFAULT NULL,
     UNIQUE KEY UQ_AdminRole_Name (`name`),
     PRIMARY KEY (id)
 );
@@ -37,11 +38,11 @@ CREATE TABLE administrator (
     username VARCHAR(50) NOT NULL,
     fullname VARCHAR(128)CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
 	avatar VARCHAR(128) DEFAULT NULL,
-    last_login TIMESTAMP NULL,
+    last_login TIMESTAMP DEFAULT NULL,
+    actived BIT NOT NULL DEFAULT 1,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP DEFAULT NULL,
-    actived BIT NOT NULL DEFAULT 1,
-    modified_user VARCHAR(50) DEFAULT NULL,
+    modified_by VARCHAR(50) DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY UQ_Admin_Username (username)
 );
@@ -60,9 +61,8 @@ CREATE TABLE admin_password (
 	id BIGINT NOT NULL AUTO_INCREMENT,
     admin_id BIGINT NOT NULL,
     `password` VARCHAR(60) NOT NULL,
-	created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP DEFAULT NULL,
-    modified_user VARCHAR(50) DEFAULT NULL,
+	modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by VARCHAR(50) DEFAULT NULL,
     PRIMARY KEY (id),
 	CONSTRAINT FK_Password_Admin FOREIGN KEY (admin_id) REFERENCES administrator (id)
 );
@@ -81,7 +81,8 @@ CREATE TABLE admin_authority (
 	id BIGINT NOT NULL AUTO_INCREMENT,
     role_id BIGINT NOT NULL,
     admin_id BIGINT NOT NULL,
-    modified_user VARCHAR(50) DEFAULT NULL,
+    modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by VARCHAR(50) DEFAULT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_Authority_Admin FOREIGN KEY (admin_id) REFERENCES administrator (id),
     CONSTRAINT FK_Authority_Role FOREIGN KEY (role_id) REFERENCES admin_role (id)
@@ -104,12 +105,12 @@ CREATE TABLE `user` (
   username VARCHAR(50) NOT NULL,
   fullname VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   avatar VARCHAR(128) DEFAULT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_at TIMESTAMP DEFAULT NULL,
-  last_login TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_login TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
   verify BIT NOT NULL DEFAULT 0, 
-  modified_user VARCHAR(50) DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified_at TIMESTAMP DEFAULT NULL,
+  modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_User_Username (username)
 );
@@ -143,8 +144,7 @@ CREATE TABLE user_password (
   id BIGINT NOT NULL AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
   `password` VARCHAR(60) NOT NULL,
-  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_date TIMESTAMP DEFAULT NULL,
+  modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   CONSTRAINT FK_Password_User FOREIGN KEY (user_id) REFERENCES `user` (id)
 );
@@ -164,10 +164,10 @@ CREATE TABLE category (
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
+  actived BIT NOT NULL DEFAULT 1,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_at TIMESTAMP DEFAULT NULL,
-  actived BIT NOT NULL DEFAULT 1,
-  modified_user VARCHAR(50) DEFAULT NULL,
+  modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_Category_Slug (slug)
 );
@@ -179,7 +179,7 @@ values 	(1,'Laptop','laptop'),
 		(4,'Màn Hình','man-hinh'),
 		(5,'Linh Kiện PC','linh-kien-pc'),
         (6,'Ghế','ghe'),
-        (7,'Apple','apple')
+        (7,'Sản phẩm Apple','san-pham-apple')
 ;
 
 -- Danh mục con
@@ -189,10 +189,10 @@ CREATE TABLE subcategory (
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
+  actived BIT NOT NULL DEFAULT 1,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_at TIMESTAMP DEFAULT NULL,
-  actived BIT NOT NULL DEFAULT 1,
-  modified_user VARCHAR(50) DEFAULT NULL,
+  modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_SubCategory_Slug (slug),
   CONSTRAINT FK_SubCategory_Category FOREIGN KEY (category_id) REFERENCES category (id)
@@ -220,10 +220,10 @@ CREATE TABLE brand (
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   slug VARCHAR(50) NOT NULL,
+  actived BIT NOT NULL DEFAULT 1,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_at TIMESTAMP DEFAULT NULL,
-  actived BIT NOT NULL DEFAULT 1,
-  modified_user VARCHAR(50) DEFAULT NULL,
+  modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_Brand_Slug (slug)
 );
@@ -245,20 +245,20 @@ CREATE TABLE discount (
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   `description` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   percent INT NOT NULL,
-  start_date DATE NOT NULL,
-  end_date DATE DEFAULT NULL,
-  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_date TIMESTAMP DEFAULT NULL,
+  start_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  end_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified_at TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
-  modified_user VARCHAR(50) DEFAULT NULL,
+  modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id)
 );
 
-insert discount (id,`name`,percent,start_date)
-values 	(1,'Black Friday',50,'2022-11-25'),
-		(2,'Valentine','10','2022-02-14'),
-        (3,'Lễ giáng sinh',20,'2022-12-24'),
-        (4,'Test',20,'2022-01-01')
+insert discount (id,`name`,percent,start_date,end_date,actived)
+values 	(1,'Black Friday',50,'2022-11-25 00:00:01','2022-11-25 23:59:59',0),
+		(2,'Valentine','10','2022-02-14 00:00:01','2022-02-14 23:59:59',0),
+        (3,'Lễ giáng sinh',20,'2022-12-24 00:00:01','2022-12-24 23:59:59',0),
+        (4,'Test',20,'2022-01-01 00:00:01','2022-12-30 23:59:59',1)
 ;
 
 -- Sản phẩm
@@ -269,13 +269,13 @@ CREATE TABLE product (
   image VARCHAR(150) DEFAULT NULL,
   `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
   price DOUBLE DEFAULT NULL,
-  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_date TIMESTAMP DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified_at TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
   sub_category_id BIGINT DEFAULT NULL,
   brand_id BIGINT NOT NULL,
   discount_id BIGINT DEFAULT NULL,
-  modified_user VARCHAR(50) DEFAULT NULL,
+  modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_Product_SubCategory FOREIGN KEY (sub_category_id) REFERENCES subcategory (id),
   CONSTRAINT FK_Product_Brand FOREIGN KEY (brand_id) REFERENCES brand (id),
@@ -350,9 +350,9 @@ CREATE TABLE inventory (
   id BIGINT NOT NULL AUTO_INCREMENT,
   product_id BIGINT NOT NULL,
   quantity BIGINT NOT NULL,
-  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_date TIMESTAMP DEFAULT NULL,
-  modified_user VARCHAR(50) DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified_at TIMESTAMP DEFAULT NULL,
+  modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_Inventory_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
@@ -412,9 +412,9 @@ CREATE TABLE orders (
   user_id BIGINT DEFAULT NULL,
   full_name VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI NOT NULL,
   email VARCHAR(50) DEFAULT NULL,
-  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` INT NOT NULL DEFAULT '0',
-  modified_user VARCHAR(50) DEFAULT NULL,
+  modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_Order_OrderCode (order_code),
   CONSTRAINT FK_Order_User FOREIGN KEY (user_id) REFERENCES `user` (id)

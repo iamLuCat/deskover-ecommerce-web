@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("v1/api/admin/administrator")
+@RequestMapping("v1/api/admin")
 public class AdministratorApi {
     @Autowired
     AdminService adminService;
@@ -31,7 +31,7 @@ public class AdministratorApi {
     @Autowired
     private ModelMapper mapper;
 
-    @GetMapping("/{id}")
+    @GetMapping("/administrator/{id}")
     public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
         AdministratorDto admin = mapper.map(adminService.getById(id), AdministratorDto.class);
         if (admin == null) {
@@ -40,24 +40,32 @@ public class AdministratorApi {
         return ResponseEntity.ok(admin);
     }
 
-    @PostMapping("")
+    @PostMapping("/administrator")
     public ResponseEntity<?> doCreate(@Valid @RequestBody AdminCreateDto admin, BindingResult result) {
         if (result.hasErrors()) {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         try {
-            adminService.create(admin);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            AdministratorDto adminCreated = mapper.map(adminService.create(admin),AdministratorDto.class);
+            return ResponseEntity.ok().body(adminCreated);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PutMapping("")
-    public ResponseEntity<?> doUpdate() {
-        return null;
+    @PutMapping("/administrator")
+    public ResponseEntity<?> doUpdate(@Valid @RequestBody AdministratorDto admin, BindingResult result) {
+    	if (result.hasErrors()) {
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
+    	try {
+			AdministratorDto adminUpdated = adminService.update(admin);
+			return ResponseEntity.ok().body(adminUpdated);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
     }
 //    @GetMapping("/{id}")
 //    public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {

@@ -5,6 +5,7 @@ import com.deskover.dto.AdministratorDto;
 import com.deskover.entity.AdminAuthority;
 import com.deskover.entity.AdminPassword;
 import com.deskover.entity.Administrator;
+import com.deskover.repository.AdminPasswordRepository;
 import com.deskover.repository.AdministratorRepository;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminPasswordService;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -26,6 +28,9 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminPasswordService adminPasswordService;
 
+    @Autowired
+    private AdminPasswordRepository repoPass;
+    
     @Autowired
     private AdminAuthorityService adminAuthorityService;
 
@@ -50,11 +55,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public Administrator create(AdminCreateDto admin) {
-        if (repo.existsAdministratorByUsername(admin.getUsername())) {
+    public AdministratorDto create(AdminCreateDto adminRequest) {
+        if (repo.existsAdministratorByUsername(adminRequest.getUsername())) {
             throw new IllegalArgumentException("Username này đã tồn tại");
         }
-        Administrator entityAdmin = MapperUtil.map(admin, Administrator.class);
+        
+        Administrator entityAdmin = MapperUtil.map(adminRequest, Administrator.class);
         entityAdmin.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         entityAdmin.setActived(Boolean.TRUE);
         entityAdmin.setAvatar(null);
@@ -64,25 +70,41 @@ public class AdminServiceImpl implements AdminService {
 
         AdminPassword createPassword = new AdminPassword();
         createPassword.setAdmin(adminCreated);
-        createPassword.setPassword(admin.getPassword());
+        createPassword.setPassword(adminRequest.getPassword());
         AdminPassword passwordCreated = adminPasswordService.create(createPassword);
         adminCreated.setPassword(passwordCreated);
+        adminCreated.setAuthorities(null);
+        
+//        admin.getListRoleId().forEach(item -> {
+//            System.out.println(item);
+//            AdminAuthority authority = new AdminAuthority();
+//            authority.setAdmin(adminCreated);
+//            authority.setRole(adminRoleService.getById(item));
+//            adminAuthorityService.create(authority);
+//        });
 
-        admin.getListRoleId().forEach(item -> {
-            System.out.println(item);
-            AdminAuthority authority = new AdminAuthority();
-            authority.setAdmin(adminCreated);
-            authority.setRole(adminRoleService.getById(item));
-            adminAuthorityService.create(authority);
-        });
-
-        return entityAdmin;
+        return MapperUtil.map(entityAdmin, AdministratorDto.class);
     }
 
     @Override
     @Transactional
-    public AdministratorDto update(AdministratorDto admin) {
-        return null;
+    public AdministratorDto update(AdministratorDto adminUpdate) {
+    	if (repo.existsAdministratorByUsername(adminUpdate.getUsername())) {
+            throw new IllegalArgumentException("Username này đã tồn tại");
+        }
+    	
+    	adminUpdate.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+    	adminUpdate.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+    	
+    	Administrator entityAdmin = MapperUtil.map(adminUpdate, Administrator.class);
+//    	entityAdmin.setPassword(MapperUtil.map(adminUpdate.getPassword(), AdminPassword.class));
+    	entityAdmin.getPassword().setAdmin(entityAdmin);
+    	
+    	repoPass.saveAndFlush(entityAdmin.getPassword());
+    	
+    	Administrator adminUpdated = repo.saveAndFlush(entityAdmin);
+ 
+        return MapperUtil.map(adminUpdated, AdministratorDto.class);
     }
 
     @Override
