@@ -77,8 +77,9 @@ public class ProductServiceImpl implements ProductService {
 	            throw new IllegalArgumentException("Slug đã tồn tại");
 			}
 		}else {
-			product.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+			product.setActived(Boolean.TRUE);
+			product.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+			product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
 			product.setSubCategory(subcategoryService.getById(productDto.getSubcategogyId()));
 			product.setBrand(brandService.getById(productDto.getBrandId()));
 			if(productDto.getDiscountId() != null) {
