@@ -1,5 +1,6 @@
 import {Subcategory} from "@/entites/subcategory";
 import {Brand} from "@/entites/brand";
+import {Discount} from "@/entites/discount";
 
 export interface Product {
   id: number;
@@ -14,4 +15,5 @@ export interface Product {
   actived: boolean;
   subcategory: Subcategory;
   brand: Brand;
+  discount: Discount;
 }

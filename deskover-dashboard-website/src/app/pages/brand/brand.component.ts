@@ -60,7 +60,7 @@ export class BrandComponent implements OnInit, AfterViewInit {
         });
       },
       columns: [
-        {title: 'Tên', data: 'name', className: 'align-middle'},
+        {title: 'Tên', data: 'name', className: 'align-middle', responsivePriority: 1},
         {title: 'Slug', data: 'slug', className: 'align-middle'},
         {title: 'Mô tả', data: 'description', className: 'align-middle'},
         // {
@@ -75,18 +75,21 @@ export class BrandComponent implements OnInit, AfterViewInit {
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-start text-md-end',
+          className: 'align-middle text-end',
+          responsivePriority: 3,
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info" data-id="${data.id}"
-                    title="Sửa" data-toggle="tooltip">
-                    <i class="fa fa-pen-square text-info"></i>
-                </a>
-                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
-                    title="Xoá" data-toggle="tooltip">
-                    <i class="fa fa-trash text-danger"></i>
-                </a>
+                <div class="d-flex justify-content-end align-items-center">
+                  <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-1" data-id="${data.id}"
+                      title="Sửa" data-toggle="tooltip">
+                      <i class="fa fa-pen-square text-info"></i>
+                  </a>
+                  <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
+                      title="Xoá" data-toggle="tooltip">
+                      <i class="fa fa-trash text-danger"></i>
+                  </a>
+                </div>
             `;
             } else {
               return `

@@ -69,8 +69,8 @@
                   {{ item.modifiedBy }}
                 </td>-->
                 <td class="align-middle text-end">
-                  <div *ngIf="isActive">
-                    <button type="button" class="btn btn-sm bg-faded-info me-0 me-md-2 mb-2 mb-md-0" placement="top"
+                  <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top"
                             ngbTooltip="Sửa" (click)="getCategory(item.id)">
                       <i class="fas fa-pen-square text-info"></i>
                     </button>

@@ -21,10 +21,10 @@
       <div class="card-header">
         <div class="row g-2">
           <div class="col-auto">
-            <label for="filter-discount" class="col-form-label">Trạng thái:</label>
+            <label for="filter-product" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-auto">
-            <select id="filter-discount" class="form-select" [(ngModel)]="isActive"
+            <select id="filter-product" class="form-select" [(ngModel)]="isActive"
                     (change)="filter()">
               <option [ngValue]="true">Hoạt động</option>
               <option [ngValue]="false">Chưa kích hoạt</option>
@@ -32,7 +32,7 @@
 
           </div>
           <div class="col d-flex align-items-center justify-content-end">
-            <button type="button" class="btn btn-sm bg-faded-accent" (click)="newDiscount()" placement="left"
+            <button type="button" class="btn btn-sm bg-faded-accent" (click)="newProduct()" placement="left"
                     ngbTooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="card-body p-3">
-        <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm w-100">
+        <table datatable [dtOptions]="dtOptions" class="table table-hover w-100">
           <thead class="table-primary"></thead>
           <tbody></tbody>
         </table>
@@ -49,7 +49,7 @@
   </div>
 </section>
 <!-- Modal -->
-<ng-template #discountModal let-c="close" let-d="dismiss">
+<ng-template #productModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-danger" id="modal-basic-title">
       {{ isEdit ? 'Cập nhật' : 'Thêm' }} sản phẩm
@@ -63,13 +63,12 @@
     </button>
   </div>
   <div class="modal-body">
-    <form #discountForm="ngForm">
+    <form #productForm="ngForm">
       <div class="row">
         <div class="col-12 mb-3">
           <label class="form-label" for="name">Tên</label>
-          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="discount.name"
-                 #name="ngModel" required
-          /><!--oninput="this.value = Math.abs(this.value)"-->
+          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
+                 #name="ngModel" required/><!--oninput="this.value = Math.abs(this.value)"-->
           <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
             <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
           </div>
@@ -77,7 +76,7 @@
         <div class="col-12 mb-3">
           <label for="description" class="form-label">Mô tả</label>
           <textarea class="form-control" id="description" rows="4" name="description"
-                    [(ngModel)]="discount.description" #description="ngModel"></textarea>
+                    [(ngModel)]="product.description" #description="ngModel"></textarea>
 
         </div>
       </div>
@@ -86,8 +85,8 @@
   <div class="modal-footer">
     <button type="button"
             class="btn btn-outline-danger"
-            (click)="saveDiscount(discount); c('Save click')"
-            [disabled]="discountForm.invalid">
+            (click)="saveProduct(product); c('Save click')"
+            [disabled]="productForm.invalid">
       Lưu
     </button>
   </div>

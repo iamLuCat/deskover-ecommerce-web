@@ -23,6 +23,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   dtOptions: any = {};
 
   bsConfig?: Partial<BsDatepickerConfig>;
+  bsRangeValue: Date[];
 
   @ViewChild('discountModal') discountModal: any;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
@@ -70,10 +71,11 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         });
       },
       columns: [
-        {title: 'Tên', data: 'name', className: 'align-middle'},
+        {title: 'Tên', data: 'name', className: 'align-middle', responsivePriority: 1},
         {title: 'Mô tả', data: 'description', className: 'align-middle'},
         {
           title: 'Mức giảm giá (%)', data: 'percent', className: 'align-middle text-start text-md-center',
+          responsivePriority: 3,
           render(data, type, row, meta) {
             return `<span class="badge bg-danger">${data}</span>`;
           }
@@ -102,11 +104,13 @@ export class PromotionComponent implements OnInit, AfterViewInit {
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-start text-md-end',
+          className: 'align-middle text-end',
+          responsivePriority: 2,
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info" data-id="${data.id}"
+              <div class="d-flex justify-content-end align-items-center">
+                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-2" data-id="${data.id}"
                     title="Sửa" data-toggle="tooltip">
                     <i class="fa fa-pen-square text-info"></i>
                 </a>
@@ -114,6 +118,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
                     title="Xoá" data-toggle="tooltip">
                     <i class="fa fa-trash text-danger"></i>
                 </a>
+              </div>
             `;
             } else {
               return `
@@ -157,24 +162,23 @@ export class PromotionComponent implements OnInit, AfterViewInit {
 
   newDiscount() {
     this.isEdit = false;
-    this.discount = <Discount>{
-      discountTime: [new Date(), new Date()],
-    };
+    this.discount = <Discount>{};
+    this.bsRangeValue = [new Date(), new Date()];
     this.openModal(this.discountModal);
   }
 
   getDiscount(id: number) {
     this.discountService.getById(id).subscribe(data => {
       this.discount = data;
-      this.discount.discountTime = [new Date(this.discount.startDate), new Date(this.discount.endDate)];
+      this.bsRangeValue = [new Date(this.discount.startDate), new Date(this.discount.endDate)];
     });
     this.isEdit = true;
     this.openModal(this.discountModal);
   }
 
   saveDiscount(discount: Discount) {
-    this.discount.startDate = this.discount.discountTime[0];
-    this.discount.endDate = this.discount.discountTime[1];
+    this.discount.startDate = this.bsRangeValue[0];
+    this.discount.endDate = this.bsRangeValue[1];
 
     if (this.isEdit) {
       this.discountService.update(discount).subscribe(data => {
