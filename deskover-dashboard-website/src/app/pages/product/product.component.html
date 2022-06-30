@@ -2,14 +2,14 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-uppercase text-primary">Quản lý khuyến mãi</h1>
+        <h1 class="m-0 text-uppercase text-primary">Quản lý sản phẩm</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item">
             <a class="text-decoration-none" [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
           </li>
-          <li class="breadcrumb-item active">Khuyến mãi</li>
+          <li class="breadcrumb-item active">Sản phẩm</li>
         </ol>
       </div>
     </div>
@@ -52,7 +52,7 @@
 <ng-template #discountModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-danger" id="modal-basic-title">
-      {{ isEdit ? 'Cập nhật' : 'Thêm' }} khuyến mãi
+      {{ isEdit ? 'Cập nhật' : 'Thêm' }} sản phẩm
     </h4>
     <button
       type="button"
@@ -75,28 +75,10 @@
           </div>
         </div>
         <div class="col-12 mb-3">
-          <label class="form-label" for="percent">Mức giảm giá</label>
-          <!--oninput="this.value = Math.abs(this.value)"-->
-          <input type="number" min="0" max="100" class="form-control" id="percent" name="percent"
-                 [(ngModel)]="discount.percent" #percent="ngModel" required
-          />
-          <div class="invalid-feedback" *ngIf="percent.invalid && (percent.dirty || percent.touched)">
-            <span *ngIf="percent.errors?.required">Vui lòng nhập mức giảm giá</span>
-            <span *ngIf="percent.errors?.min || percent.errors?.max">Mức giảm giá không hợp lệ (0-100)</span>
-          </div>
-        </div>
-        <div class="col-12 mb-3">
           <label for="description" class="form-label">Mô tả</label>
           <textarea class="form-control" id="description" rows="4" name="description"
                     [(ngModel)]="discount.description" #description="ngModel"></textarea>
 
-        </div>
-        <div class="col-12 mb-3">
-          <label class="form-label" for="discountTime">Thời gian khuyến mãi</label>
-          <input type="text" id="discountTime" name="discountTime" placeholder="Ngày bắt đầu - Ngày kết thúc"
-                 class="form-control"
-                 placement="top" [bsConfig]="bsConfig" #discountTime="bsDaterangepicker" bsDaterangepicker
-                 [(ngModel)]="discount.discountTime">
         </div>
       </div>
     </form>

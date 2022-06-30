@@ -45,6 +45,7 @@ import {PromotionComponent} from '@pages/promotion/promotion.component';
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {defineLocale} from 'ngx-bootstrap/chronos';
 import {viLocale} from 'ngx-bootstrap/locale';
+import { ProductComponent } from './pages/product/product.component';
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -78,6 +79,7 @@ defineLocale('vi', viLocale);
     BrandComponent,
     SubcategoryComponent,
     PromotionComponent,
+    ProductComponent,
   ],
     imports: [
         BrowserModule,
