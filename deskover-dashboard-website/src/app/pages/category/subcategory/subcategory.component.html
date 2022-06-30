@@ -21,13 +21,21 @@
       <div class="card-header">
         <div class="row g-2">
           <div class="col-auto">
-            <label for="filter-subcategory" class="col-form-label">Trạng thái:</label>
+            <label for="filter-active" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-auto">
-            <select id="filter-subcategory" class="form-select" [(ngModel)]="isActive"
-                    (change)="filter()">
+            <select id="filter-active" class="form-select" [(ngModel)]="isActive" (change)="filter()">
               <option [ngValue]="true">Hoạt động</option>
               <option [ngValue]="false">Chưa kích hoạt</option>
+            </select>
+          </div>
+          <div class="col-auto">
+            <label for="filter-category" class="col-form-label">Danh mục cha:</label>
+          </div>
+          <div class="col-auto">
+            <select id="filter-category" class="form-select" [(ngModel)]="categoryId" (change)="filter()">
+              <option [ngValue]="null">Tất cả</option>
+              <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
             </select>
           </div>
           <div class="col d-flex align-items-center justify-content-end">

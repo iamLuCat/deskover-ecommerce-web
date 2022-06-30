@@ -25,6 +25,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isEdit: boolean = false;
   isActive: boolean = true;
+  categoryId: number = null;
 
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
@@ -59,7 +60,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       processing: true,
       stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.subcategoryService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
+        this.subcategoryService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.categoryId).then(resp => {
           self.subcategories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,

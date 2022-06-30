@@ -93,6 +93,11 @@ export class ProductComponent implements OnInit {
           }
         },
         {
+          title: 'Danh mục',
+          data: 'subCategory.name',
+          className: 'align-middle',
+        },
+        {
           title: 'Công cụ',
           data: null,
           orderable: false,

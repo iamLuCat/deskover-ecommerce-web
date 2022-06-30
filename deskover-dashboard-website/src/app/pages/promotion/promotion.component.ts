@@ -42,8 +42,11 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       containerClass: 'theme-dark-blue',
       withTimepicker: true,
       locale: 'vi',
-      rangeInputFormat : 'DD/MM/YYYY HH:mm:ss',
-      minDate: new Date()
+      rangeInputFormat: 'DD/MM/YYYY HH:mm:ss',
+      dateInputFormat: 'DD/MM/YYYY',
+      timeInputFormat: 'HH:mm:ss',
+      adaptivePosition: true,
+      minDate: new Date(),
     });
   }
 

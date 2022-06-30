@@ -94,8 +94,7 @@
         <div class="col-12 mb-3">
           <label class="form-label" for="discountTime">Thời gian khuyến mãi</label>
           <input type="text" id="discountTime" name="discountTime" placeholder="Ngày bắt đầu - Ngày kết thúc"
-                 class="form-control"
-                 placement="top" [bsConfig]="bsConfig" #discountTime="bsDaterangepicker" bsDaterangepicker
+                 class="form-control" [bsConfig]="bsConfig" #discountTime="bsDaterangepicker" bsDaterangepicker
                  [(ngModel)]="bsRangeValue">
         </div>
       </div>

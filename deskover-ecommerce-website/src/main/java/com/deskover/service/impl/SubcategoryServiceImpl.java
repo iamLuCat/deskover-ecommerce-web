@@ -69,6 +69,24 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         return subcategories;
     }
 
+    @Override
+    public DataTablesOutput<Subcategory> getByActiveForDatatables(DataTablesInput input, Boolean isActive, Long categoryId) {
+        DataTablesOutput<Subcategory> subcategories = null;
+        if (categoryId == null) {
+            subcategories = repoForDatatables.findAll(input,
+                    (root, query, cb) -> cb.equal(root.get("actived"), isActive));
+        } else {
+            subcategories = repoForDatatables.findAll(input,
+                    (root, query, cb) ->
+                            cb.and(cb.equal(root.get("actived"), isActive),
+                            cb.equal(root.get("category").get("id"), categoryId)));
+        }
+        if (subcategories.getError() != null) {
+            throw new IllegalArgumentException(subcategories.getError());
+        }
+        return subcategories;
+    }
+
 
     @Override
     public Subcategory create(SubcategoryDto subcategoryDto) {
