@@ -101,6 +101,13 @@ body {
   width: 150px;
 }
 
+.login-page {
+  background-image: url('/assets/images/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 // CSS Custom - End
 
 .user-menu > .nav-link {

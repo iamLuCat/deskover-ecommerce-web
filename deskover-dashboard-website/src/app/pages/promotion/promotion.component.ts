@@ -43,8 +43,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       withTimepicker: true,
       locale: 'vi',
       rangeInputFormat: 'DD/MM/YYYY HH:mm:ss',
-      dateInputFormat: 'DD/MM/YYYY',
-      timeInputFormat: 'HH:mm:ss',
+      rangeOutputFormat: 'DD/MM/YYYY HH:mm:ss',
       adaptivePosition: true,
       minDate: new Date(),
     });

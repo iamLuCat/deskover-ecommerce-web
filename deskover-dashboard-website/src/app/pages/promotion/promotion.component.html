@@ -96,6 +96,7 @@
           <input type="text" id="discountTime" name="discountTime" placeholder="Ngày bắt đầu - Ngày kết thúc"
                  class="form-control" [bsConfig]="bsConfig" #discountTime="bsDaterangepicker" bsDaterangepicker
                  [(ngModel)]="bsRangeValue">
+          <pre>{{ bsRangeValue }}</pre>
         </div>
       </div>
     </form>

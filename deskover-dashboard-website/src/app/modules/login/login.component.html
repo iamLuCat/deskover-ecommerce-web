@@ -1,15 +1,15 @@
-<div class="card card-outline card-primary">
-  <div class="card-header text-center" style="background-color: fff;">
+<div class="card text-bg-light" style="--bs-bg-opacity: .8;">
+  <div class="card-header text-center">
     <a [routerLink]="['/']" class="h1">
       <img width="872" class="img-fluid" src="assets/images/logo/logo.png">
     </a>
   </div>
   <div class="card-body">
-    <h5 class="login-box-msg fw-bold text-uppercase">Đăng nhập</h5>
+    <h5 class="login-box-msg fw-bold text-uppercase text-primary">Đăng nhập</h5>
 
     <form [formGroup]="loginForm" (ngSubmit)="loginByAuth()">
       <div class="input-group mb-3">
-        <input formControlName="username" type="text" class="form-control" placeholder="Username"/>
+        <input formControlName="username" type="text" class="form-control" placeholder="Mã quản trị viên"/>
         <div class="input-group-text">
           <span class="icon fas fa-envelope"></span>
         </div>
@@ -29,11 +29,10 @@
       </div>
     </form>
 
-    <!-- <div class="d-flex justify-content-between mt-3">
+    <!--<div class="d-flex justify-content-between mt-3">
         <p class="mb-1">
-            <a [routerLink]="['/forgot-password']" class="text-primary">Quên mật khẩu?</a>
+            <a class="text-decoration-none link-primary" [routerLink]="['/forgot-password']" class="text-primary">Quên mật khẩu?</a>
         </p>
-    </div> -->
+    </div>-->
   </div>
-  <!-- /.login-card-body -->
 </div>
