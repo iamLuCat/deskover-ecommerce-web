@@ -68,18 +68,6 @@ public class Product implements Serializable {
     @JoinColumn(name = "discount_id")
     private Discount discount;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "payment_id")
-    private PaymentMethods payment;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "shipping_id")
-    private ShippingMethods shipping;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id")
-    private StatusOrder status;
-
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<Inventory> inventories = new LinkedHashSet<>();
