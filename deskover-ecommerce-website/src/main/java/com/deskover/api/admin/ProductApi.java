@@ -52,6 +52,12 @@ public class ProductApi {
 		return ResponseEntity.ok(products);
 	}
 	
+	@GetMapping("/product/subcategory")
+	public ResponseEntity<?> doGetBySubcategory() {
+		List<Product> products = productService.findBySubcategoryId((long) 1);
+		return ResponseEntity.ok(products);
+	}
+	
 	@GetMapping("/product/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
 		Product product = productService.findById(id);
@@ -100,6 +106,17 @@ public class ProductApi {
 		}
     }
     
+    @PutMapping("product/{id}")
+    public ResponseEntity<?> changeActiveSubcategoty(@PathVariable("id") Long id){
+    	try {
+    		productService.changeActiveSubcategoty(id);
+    		return ResponseEntity.ok(new MessageResponse("Cập nhập thành công"));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+		}
+    	
+    }
+    
     @DeleteMapping("product/{id}")
     public ResponseEntity<?> doDeleteById(@PathVariable("id") Long id){
     	try {
@@ -108,6 +125,8 @@ public class ProductApi {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
 		}
     }
+    
+    
 
 
 

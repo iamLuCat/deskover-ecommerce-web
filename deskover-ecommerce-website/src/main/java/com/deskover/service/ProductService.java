@@ -11,7 +11,10 @@ import com.deskover.dto.ProductDto;
 import com.deskover.entity.Product;
 
 public interface ProductService{
+	
 	List<Product> findByActived(Boolean actived,Integer page, Integer size);
+	
+	List<Product> findBySubcategoryId(Long id);
 	
 	Product create(ProductDto productDto);
 	
@@ -28,6 +31,10 @@ public interface ProductService{
 	Boolean existsBySlug(Product product);
 
 	DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive);
+	
+	void changeDelete(List<Product> products,Boolean isActive);
+	
+	void changeActiveSubcategoty(Long id);
 
 
 

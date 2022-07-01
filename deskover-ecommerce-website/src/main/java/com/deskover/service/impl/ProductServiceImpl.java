@@ -78,8 +78,8 @@ public class ProductServiceImpl implements ProductService {
 			}
 		}else {
 			product.setActived(Boolean.TRUE);
-			product.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-			product.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+			product.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());;
 			product.setSubCategory(subcategoryService.getById(productDto.getSubcategogyId()));
 			product.setBrand(brandService.getById(productDto.getBrandId()));
 			if(productDto.getDiscountId() != null) {
@@ -97,18 +97,21 @@ public class ProductServiceImpl implements ProductService {
 		if(product == null ) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 		}
-		if(product.getActived()) {
-			product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			product.setActived(Boolean.FALSE);
-			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			return repository.saveAndFlush(product);
+		if(product.getSubCategory().getActived()) {
+			if(product.getActived()) {
+				product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+				product.setActived(Boolean.FALSE);
+				product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+				return repository.saveAndFlush(product);
+			}else {
+				product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+				product.setActived(Boolean.FALSE);
+				product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+				return repository.saveAndFlush(product);
+			}
 		}else {
-			product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			product.setActived(Boolean.FALSE);
-			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			return repository.saveAndFlush(product);
+			throw new IllegalArgumentException("Danh mục đã bị vô hiệu hoá");
 		}
-
 	}
 
 	@Override
@@ -158,6 +161,34 @@ public class ProductServiceImpl implements ProductService {
 			throw new IllegalArgumentException(products.getError());
 		}
 		return products;
+	}
+
+	@Override
+	public void changeDelete(List<Product> products, Boolean isActive) {
+		
+		products.forEach(product -> {
+						product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+						product.setActived(isActive);
+						product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+	        });
+		repository.saveAll(products);
+		
+	}
+
+	@Override
+	public List<Product> findBySubcategoryId(Long id) {
+		
+		return repository.findBySubCategoryId(id);
+	}
+
+	@Override
+	public void changeActiveSubcategoty(Long id) {
+		Product product = this.getById(id);
+		if(product == null ) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+		}
+		subcategoryService.changeActive(product.getSubCategory().getId());
+		
 	}
 
 
