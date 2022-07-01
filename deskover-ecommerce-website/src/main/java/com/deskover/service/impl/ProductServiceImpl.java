@@ -19,6 +19,11 @@ import com.deskover.dto.ProductDto;
 import com.deskover.entity.Product;
 import com.deskover.repository.ProductRepository;
 import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.BrandService;
+import com.deskover.service.CategoryService;
+import com.deskover.service.DiscountService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
 import com.deskover.util.MapperUtil;
 
 @Service
