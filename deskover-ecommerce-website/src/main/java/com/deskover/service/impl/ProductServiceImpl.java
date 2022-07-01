@@ -1,11 +1,11 @@
 package com.deskover.service.impl;
 
-import com.deskover.dto.ProductDto;
-import com.deskover.entity.Product;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.*;
-import com.deskover.util.MapperUtil;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +15,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
+import com.deskover.dto.ProductDto;
+import com.deskover.entity.Product;
+import com.deskover.repository.ProductRepository;
+import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.util.MapperUtil;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -77,8 +78,9 @@ public class ProductServiceImpl implements ProductService {
 	            throw new IllegalArgumentException("Slug đã tồn tại");
 			}
 		}else {
+			product.setActived(Boolean.TRUE);
 			product.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());;
 			product.setSubCategory(subcategoryService.getById(productDto.getSubcategogyId()));
 			product.setBrand(brandService.getById(productDto.getBrandId()));
 			if(productDto.getDiscountId() != null) {
@@ -96,18 +98,21 @@ public class ProductServiceImpl implements ProductService {
 		if(product == null ) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 		}
-		if(product.getActived()) {
-			product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			product.setActived(Boolean.FALSE);
-			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			return repository.saveAndFlush(product);
+		if(product.getSubCategory().getActived()) {
+			if(product.getActived()) {
+				product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+				product.setActived(Boolean.FALSE);
+				product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+				return repository.saveAndFlush(product);
+			}else {
+				product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+				product.setActived(Boolean.FALSE);
+				product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+				return repository.saveAndFlush(product);
+			}
 		}else {
-			product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			product.setActived(Boolean.FALSE);
-			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			return repository.saveAndFlush(product);
+			throw new IllegalArgumentException("Danh mục đã bị vô hiệu hoá");
 		}
-
 	}
 
 	@Override
@@ -157,6 +162,34 @@ public class ProductServiceImpl implements ProductService {
 			throw new IllegalArgumentException(products.getError());
 		}
 		return products;
+	}
+
+	@Override
+	public void changeDelete(List<Product> products, Boolean isActive) {
+		
+		products.forEach(product -> {
+						product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+						product.setActived(isActive);
+						product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+	        });
+		repository.saveAll(products);
+		
+	}
+
+	@Override
+	public List<Product> findBySubcategoryId(Long id) {
+		
+		return repository.findBySubCategoryId(id);
+	}
+
+	@Override
+	public void changeActiveSubcategoty(Long id) {
+		Product product = this.getById(id);
+		if(product == null ) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+		}
+		subcategoryService.changeActive(product.getSubCategory().getId());
+		
 	}
 
 

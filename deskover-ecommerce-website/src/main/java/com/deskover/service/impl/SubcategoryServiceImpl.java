@@ -1,13 +1,8 @@
 package com.deskover.service.impl;
 
-import com.deskover.dto.SubcategoryDto;
-import com.deskover.entity.Subcategory;
-import com.deskover.repository.SubcategoryRepository;
-import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
-import com.deskover.service.CategoryService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
-import com.deskover.util.MapperUtil;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -15,8 +10,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.List;
+import com.deskover.dto.SubcategoryDto;
+import com.deskover.entity.Product;
+import com.deskover.entity.Subcategory;
+import com.deskover.repository.SubcategoryRepository;
+import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
+import com.deskover.service.CategoryService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
+import com.deskover.util.MapperUtil;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
@@ -32,6 +34,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     @Autowired
     private CategoryService categoryService;
+    
 
     @Override
     public List<Subcategory> getByCategory(Long categoryId) {
@@ -137,6 +140,8 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             subcategory.setActived(Boolean.FALSE);
             subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        	List<Product> products = productService.findBySubcategoryId(subcategory.getId());
+        	productService.changeDelete(products, Boolean.FALSE);
         });
         repo.saveAll(subcategories);
     }
@@ -170,10 +175,14 @@ public class SubcategoryServiceImpl implements SubcategoryService {
                 subcategory.setActived(Boolean.FALSE);
                 subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
                 subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+                List<Product> products = productService.findBySubcategoryId(subcategory.getId());
+                productService.changeDelete(products, Boolean.FALSE);
             } else {
                 subcategory.setActived(Boolean.TRUE);
                 subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
                 subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+                List<Product> products = productService.findBySubcategoryId(subcategory.getId());
+                productService.changeDelete(products, Boolean.TRUE);
                 repo.save(subcategory);
 
             }
