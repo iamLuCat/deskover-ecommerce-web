@@ -64,7 +64,7 @@
   </div>
   <div class="modal-body">
     <form #discountForm="ngForm">
-      <div class="row">
+      <div class="row" *ngIf="discount">
         <div class="col-12 mb-3">
           <label class="form-label" for="name">Tên</label>
           <input type="text" class="form-control" id="name" name="name" [(ngModel)]="discount.name"
@@ -74,7 +74,7 @@
             <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
           </div>
         </div>
-        <div class="col-12 mb-3">
+        <div class="col-6 mb-3">
           <label class="form-label" for="percent">Mức giảm giá</label>
           <!--oninput="this.value = Math.abs(this.value)"-->
           <input type="number" min="0" max="100" class="form-control" id="percent" name="percent"
@@ -85,18 +85,27 @@
             <span *ngIf="percent.errors?.min || percent.errors?.max">Mức giảm giá không hợp lệ (0-100)</span>
           </div>
         </div>
-        <div class="col-12 mb-3">
-          <label for="description" class="form-label">Mô tả</label>
-          <textarea class="form-control" id="description" rows="4" name="description"
-                    [(ngModel)]="discount.description" #description="ngModel"></textarea>
-
+        <div class="col-6 mb-3">
+          <label class="form-label" for="discountRangeDate">Thời gian giảm giá</label>
+          <input type="text" id="discountRangeDate" name="discountRangeDate" placeholder="Ngày bắt đầu - Ngày kết thúc"
+                 class="form-control" [bsConfig]="bsConfig" #discountRangeDate="bsDaterangepicker" bsDaterangepicker
+                 [(ngModel)]="discountDateRange">
+        </div>
+        <div class="col-6 mb-3">
+          <label class="form-label" for="discountStartTime">Giờ bắt đầu</label>
+          <timepicker id="discountStartTime" name="discountStartTime" [(ngModel)]="discountStartTime"
+            [showMinutes]="true" [showSeconds]="true"></timepicker>
+        </div>
+        <div class="col-6 mb-3">
+          <label class="form-label" for="discountEndTime">Giờ kết thúc</label>
+          <timepicker id="discountEndTime" name="discountEndTime" [(ngModel)]="discountEndTime"
+            [showMinutes]="true" [showSeconds]="true"></timepicker>
         </div>
         <div class="col-12 mb-3">
-          <label class="form-label" for="discountTime">Thời gian khuyến mãi</label>
-          <input type="text" id="discountTime" name="discountTime" placeholder="Ngày bắt đầu - Ngày kết thúc"
-                 class="form-control" [bsConfig]="bsConfig" #discountTime="bsDaterangepicker" bsDaterangepicker
-                 [(ngModel)]="bsRangeValue">
-          <pre>{{ bsRangeValue }}</pre>
+          <label for="description" class="form-label">Mô tả</label>
+          <textarea class="form-control" id="description" rows="3" name="description"
+                    [(ngModel)]="discount.description" #description="ngModel"></textarea>
+
         </div>
       </div>
     </form>

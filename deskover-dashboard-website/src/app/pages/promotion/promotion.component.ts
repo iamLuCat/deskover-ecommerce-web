@@ -23,7 +23,9 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   dtOptions: any = {};
 
   bsConfig?: Partial<BsDatepickerConfig>;
-  bsRangeValue: Date[];
+  discountDateRange: Date[] = [new Date(), new Date()];
+  discountStartTime: Date = new Date();
+  discountEndTime: Date = new Date();
 
   @ViewChild('discountModal') discountModal: any;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
@@ -33,6 +35,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal,
     private discountService: DiscountService,
   ) {
+    modalConfig.size = 'lg';
     modalConfig.backdrop = 'static';
     modalConfig.keyboard = false;
     modalConfig.centered = true;
@@ -40,10 +43,10 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     // Config datepicker ngx-bootstrap
     this.bsConfig = Object.assign({}, {
       containerClass: 'theme-dark-blue',
-      withTimepicker: true,
+      withTimepicker: false,
       locale: 'vi',
-      rangeInputFormat: 'DD/MM/YYYY HH:mm:ss',
-      rangeOutputFormat: 'DD/MM/YYYY HH:mm:ss',
+      rangeInputFormat: 'DD/MM/YYYY',
+      dateInputFormat: 'DD/MM/YYYY',
       adaptivePosition: true,
       minDate: new Date(),
     });
@@ -83,24 +86,17 @@ export class PromotionComponent implements OnInit, AfterViewInit {
           }
         },
         {
-          title: 'Ngày bắt đầu', data: 'startDate', className: 'align-middle text-start text-md-center',
+          title: 'Thời gian bắt đầu', data: 'startDate', className: 'align-middle text-start text-md-center',
           render: function (data, type, row) {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy HH:mm:ss');
           }
         },
         {
-          title: 'Ngày kết thúc', data: 'endDate', className: 'align-middle text-start text-md-center',
+          title: 'Thời gian kết thúc', data: 'endDate', className: 'align-middle text-start text-md-center',
           render: function (data, type, row) {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy HH:mm:ss');
           }
         },
-        // {
-        //   title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
-        //   render: (data, type, full, meta) => {
-        //     return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-        //   }
-        // },
-        // {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
         {
           title: 'Công cụ',
           data: null,
@@ -165,23 +161,28 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   newDiscount() {
     this.isEdit = false;
     this.discount = <Discount>{};
-    this.bsRangeValue = [new Date(), new Date()];
+
+    this.discountDateRange = [new Date(), new Date()];
+    this.discountStartTime = new Date();
+    this.discountEndTime = new Date();
+
     this.openModal(this.discountModal);
   }
 
   getDiscount(id: number) {
     this.discountService.getById(id).subscribe(data => {
       this.discount = data;
-      this.bsRangeValue = [new Date(this.discount.startDate), new Date(this.discount.endDate)];
+      this.discountDateRange = [new Date(this.discount.startDate), new Date(this.discount.endDate)];
+      this.discountStartTime = new Date(this.discount.startDate);
+      this.discountEndTime = new Date(this.discount.endDate);
     });
     this.isEdit = true;
     this.openModal(this.discountModal);
   }
 
   saveDiscount(discount: Discount) {
-    this.discount.startDate = this.bsRangeValue[0];
-    this.discount.endDate = this.bsRangeValue[1];
-
+    this.discount.startDate = this.discountDateRange[0].setTime(this.discountStartTime.getTime());
+    this.discount.endDate = this.discountDateRange[1].setTime(this.discountEndTime.getTime());
     if (this.isEdit) {
       this.discountService.update(discount).subscribe(data => {
         AlertUtils.toastSuccess('Cập nhật thành công');
