@@ -2,7 +2,6 @@ import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/c
 import {Subject} from "rxjs";
 import {DataTableDirective} from "angular-datatables";
 import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
-import {DatePipe} from "@angular/common";
 import {UrlUtils} from "@/utils/url-utils";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
@@ -26,6 +25,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isEdit: boolean = false;
   isActive: boolean = true;
+  categoryId: number = null;
 
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
@@ -60,7 +60,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       processing: true,
       stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.subcategoryService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
+        this.subcategoryService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.categoryId).then(resp => {
           self.subcategories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -70,16 +70,17 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       },
       columns: [
-        {title: 'Tên', data: 'name', className: 'align-middle'},
+        {title: 'Tên', data: 'name', className: 'align-middle', responsivePriority: 1},
         {title: 'Slug', data: 'slug', className: 'align-middle'},
-        {title: 'Danh mục cha', data: 'category.name', className: 'align-middle'},
-        {
-          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
-          render: (data, type, full, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
-        },
-        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-start text-md-center'},
+        {title: 'Mô tả', data: 'description', className: 'align-middle'},
+        {title: 'Danh mục cha', data: 'category.name', className: 'align-middle', responsivePriority: 3},
+        // {
+        //   title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
+        //   render: (data, type, full, meta) => {
+        //     return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+        //   }
+        // },
+        // {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
         // {
         //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-start text-md-center',
         //   render: (data, type, full, meta) => {
@@ -91,11 +92,13 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-start text-md-end',
+          className: 'align-middle text-end',
+          responsivePriority: 2,
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info" data-id="${data.id}"
+              <div class="d-flex justify-content-end align-items-center">
+                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-1" data-id="${data.id}"
                     title="Sửa" data-toggle="tooltip">
                     <i class="fa fa-pen-square text-info"></i>
                 </a>
@@ -103,11 +106,11 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
                     title="Xoá" data-toggle="tooltip">
                     <i class="fa fa-trash text-danger"></i>
                 </a>
-            `;
+              </div>
+              `;
             } else {
               return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}"
-                (click)="activeCategory(item.id)"> Kích hoạt </button>`
+               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
             }
           }
         },
@@ -139,18 +142,17 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dtTrigger.unsubscribe();
   }
 
-  rerender(): void {
+  rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
+      // dtInstance.destroy();
+      // this.dtTrigger.next();
+      dtInstance.ajax.reload(null, false);
     });
   }
 
   filter() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.ajax.reload();
+      dtInstance.draw();
     });
   }
 

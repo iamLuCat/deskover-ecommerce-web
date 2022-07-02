@@ -13,7 +13,7 @@ import {BrandService} from "@services/brand.service";
   templateUrl: './brand.component.html',
   styleUrls: ['./brand.component.scss']
 })
-export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BrandComponent implements OnInit, AfterViewInit {
 
   brands: Brand[];
   brand: Brand;
@@ -22,7 +22,6 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
   isActive: boolean = true;
 
   dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   @ViewChild('brandModal') brandModal: any;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
@@ -61,37 +60,40 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       },
       columns: [
-        {title: 'Tên', data: 'name', className: 'align-middle'},
+        {title: 'Tên', data: 'name', className: 'align-middle', responsivePriority: 1},
         {title: 'Slug', data: 'slug', className: 'align-middle'},
-        {
-          title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
-          render: (data, type, full, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
-        },
-        {title: 'Người cập nhật', data: 'modifiedUser', className: 'align-middle text-start text-md-center'},
+        {title: 'Mô tả', data: 'description', className: 'align-middle'},
+        // {
+        //   title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
+        //   render: (data, type, full, meta) => {
+        //     return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+        //   }
+        // },
+        // {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
         {
           title: 'Công cụ',
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-start text-md-end',
+          className: 'align-middle text-end',
+          responsivePriority: 3,
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info" data-id="${data.id}"
-                    title="Sửa" data-toggle="tooltip">
-                    <i class="fa fa-pen-square text-info"></i>
-                </a>
-                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
-                    title="Xoá" data-toggle="tooltip">
-                    <i class="fa fa-trash text-danger"></i>
-                </a>
+                <div class="d-flex justify-content-end align-items-center">
+                  <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-1" data-id="${data.id}"
+                      title="Sửa" data-toggle="tooltip">
+                      <i class="fa fa-pen-square text-info"></i>
+                  </a>
+                  <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
+                      title="Xoá" data-toggle="tooltip">
+                      <i class="fa fa-trash text-danger"></i>
+                  </a>
+                </div>
             `;
             } else {
               return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}"
-                (click)="activeCategory(item.id)"> Kích hoạt </button>`
+               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
             }
           }
         },
@@ -99,13 +101,8 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngOnDestroy() {
-    this.dtTrigger.unsubscribe();
-  }
-
   ngAfterViewInit() {
     const self = this;
-    this.dtTrigger.next();
 
     let body = $('body');
     body.on('click', '.btn-edit', function () {
@@ -122,18 +119,15 @@ export class BrandComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  rerender(): void {
+  rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
+      dtInstance.ajax.reload(null, false);
     });
   }
 
   filter() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.ajax.reload();
+      dtInstance.draw();
     });
   }
 

@@ -66,5 +66,10 @@ export const MENU = [
     path: ['/promotion'],
     icon: 'fa-solid fa-badge-percent'
   },
+  {
+    name: 'Sản phẩm',
+    path: ['/product'],
+    icon: 'fa-brands fa-product-hunt'
+  }
 
 ];

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   globalUrl: {
-    avatar: 'http://localhost:8080/assets/user/img/avatar',
+    avatar: 'http://localhost:8080/assets/user/images/avatar',
 
     login: 'http://localhost:8080/v1/api/admin/auth/login',
     getPrincipal: 'http://localhost:8080/v1/api/admin/auth/get-principal',
@@ -14,6 +14,7 @@ export const environment = {
     subcategoryApi: 'http://localhost:8080/v1/api/admin/subcategories',
     brandApi: 'http://localhost:8080/v1/api/admin/brands',
     discountApi: 'http://localhost:8080/v1/api/admin/discounts',
+    productApi: 'http://localhost:8080/v1/api/admin/products',
   },
 };
 

@@ -43,8 +43,13 @@ import {SubcategoryComponent} from '@pages/category/subcategory/subcategory.comp
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {PromotionComponent} from '@pages/promotion/promotion.component';
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {defineLocale} from 'ngx-bootstrap/chronos';
+import {viLocale} from 'ngx-bootstrap/locale';
+import { ProductComponent } from './pages/product/product.component';
+import {TimepickerModule} from "ngx-bootstrap/timepicker";
 
-registerLocaleData(localeEn, 'en-EN');
+registerLocaleData(localeEn, 'vi-VN');
+defineLocale('vi', viLocale);
 
 // @ts-ignore
 @NgModule({
@@ -75,25 +80,27 @@ registerLocaleData(localeEn, 'en-EN');
     BrandComponent,
     SubcategoryComponent,
     PromotionComponent,
+    ProductComponent,
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
-        HttpClientModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        ToastrModule.forRoot({
-            timeOut: 3000,
-            positionClass: 'toast-top-right',
-            preventDuplicates: true
-        }),
-        NgbModule,
-        DataTablesModule,
-        TooltipModule,
-        BsDatepickerModule
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
+    HttpClientModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true
+    }),
+    NgbModule,
+    DataTablesModule,
+    TooltipModule,
+    BsDatepickerModule,
+    TimepickerModule
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],

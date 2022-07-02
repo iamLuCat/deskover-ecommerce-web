@@ -13,6 +13,7 @@ import {RecoverPasswordComponent} from '@modules/recover-password/recover-passwo
 import {PrivacyPolicyComponent} from '@modules/privacy-policy/privacy-policy.component';
 import {SubcategoryComponent} from "@pages/category/subcategory/subcategory.component";
 import {PromotionComponent} from "@pages/promotion/promotion.component";
+import {ProductComponent} from "@pages/product/product.component";
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
       {
         path: 'promotion',
         component: PromotionComponent ,
+      },
+      {
+        path: 'product',
+        component: ProductComponent,
       },
       {
         path: '',

@@ -19,7 +19,9 @@ public interface SubcategoryService {
 
     DataTablesOutput<Subcategory> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
 
-    Subcategory create(SubcategoryDto subcategoryDto);
+	DataTablesOutput<Subcategory> getByActiveForDatatables(DataTablesInput input, Boolean isActive, Long categoryId);
+
+	Subcategory create(SubcategoryDto subcategoryDto);
     
 //    Subcategory create(Subcategory subcategory);
 
