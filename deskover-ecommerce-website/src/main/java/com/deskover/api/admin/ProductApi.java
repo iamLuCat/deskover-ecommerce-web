@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.deskover.configuration.security.payload.response.MessageErrorResponse;
 import com.deskover.configuration.security.payload.response.MessageErrorUtil;
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.ProductDto;
@@ -101,7 +100,7 @@ public class ProductApi {
         	productService.update(product);
              return ResponseEntity.ok(new MessageResponse("Cập nhập sản phẩm thành công"));
 		} catch (Exception e) {
-			MessageErrorResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
+			MessageResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
 			return ResponseEntity.badRequest().body(error);
 		}
     }

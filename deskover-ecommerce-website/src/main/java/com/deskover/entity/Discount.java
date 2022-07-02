@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -44,6 +45,7 @@ public class Discount implements Serializable {
     @Column(name = "end_date")
     private Timestamp endDate;
     
+//    @NotBlank(message = "Không bỏ trống kích hoạt")
     @Column(name = "actived")
     private Boolean actived;
 
