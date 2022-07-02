@@ -34,6 +34,18 @@ public class Order implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_id")
+    private PaymentMethods payment;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "shipping_id")
+    private ShippingMethods shipping;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id")
+    private StatusOrder status_order;
 
     @Column(name = "full_name", nullable = false, length = 128)
     private String fullName;
