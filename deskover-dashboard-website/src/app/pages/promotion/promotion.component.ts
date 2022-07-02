@@ -186,20 +186,18 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     if (this.isEdit) {
       this.discountService.update(discount).subscribe(data => {
         AlertUtils.toastSuccess('Cập nhật thành công');
-        this.rerender();
-        this.closeModal();
       }, error => {
         AlertUtils.toastError(error);
       });
     } else {
       this.discountService.create(discount).subscribe(data => {
         AlertUtils.toastSuccess('Thêm mới thành công');
-        this.rerender();
-        this.closeModal();
       }, error => {
         AlertUtils.toastError(error);
       });
     }
+    this.rerender();
+    this.closeModal();
   }
 
   deleteDiscount(id: number) {

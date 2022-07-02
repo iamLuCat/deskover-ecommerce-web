@@ -21,29 +21,31 @@
       <div class="card-header">
         <div class="row g-2">
           <div class="col-auto">
-            <label for="filter-product" class="col-form-label">Trạng thái:</label>
+            <label for="filter-active" class="col-form-label">Trạng thái:</label>
           </div>
-          <div class="col-auto">
-            <select id="filter-product" class="form-select" [(ngModel)]="isActive"
-                    (change)="filter()">
+          <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
+            <select id="filter-active" class="form-select" [(ngModel)]="isActive" (change)="filter()">
               <option [ngValue]="true">Hoạt động</option>
               <option [ngValue]="false">Chưa kích hoạt</option>
             </select>
-
           </div>
-          <div class="col d-flex align-items-center justify-content-end">
-            <button type="button" class="btn btn-sm bg-faded-accent" (click)="newProduct()" placement="left"
-                    ngbTooltip="Thêm">
-              <i class="fas fa-plus text-accent"></i>
+          <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
+            <button type="button" class="btn bg-faded-accent w-sm-100 rounded-pill" (click)="newProduct()"
+                    placement="left"
+                    tooltip="Thêm">
+              <i class="fas fa-plus text-accent d-none d-md-inline-block"></i>
+              <span class="d-block text-accent d-inline-block d-md-none">Thêm danh mục</span>
             </button>
           </div>
         </div>
       </div>
       <div class="card-body p-3">
-        <table datatable [dtOptions]="dtOptions" class="table table-hover w-100">
-          <thead class="table-primary"></thead>
-          <tbody></tbody>
-        </table>
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
+            <thead class="table-primary"></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

@@ -31,7 +31,7 @@
             </select>
           </div>
           <div class="col d-flex align-items-center justify-content-end">
-            <button type="button" class="btn btn-sm bg-faded-accent" (click)="newCategory()" placement="left"
+            <button type="button" class="btn bg-faded-accent rounded-pill" (click)="newCategory()" placement="left"
                     ngbTooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
@@ -40,7 +40,7 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm dt-responsive nowrap w-100">
               <thead class="table-primary">
               <tr>
                 <th class="align-middle">Tên</th>

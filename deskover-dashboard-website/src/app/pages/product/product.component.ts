@@ -4,7 +4,6 @@ import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {DataTableDirective} from "angular-datatables";
 import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 import {ProductService} from "@services/product.service";
-import {DatePipe} from "@angular/common";
 import {AlertUtils} from "@/utils/alert-utils";
 
 @Component({
@@ -41,7 +40,7 @@ export class ProductComponent implements OnInit {
       containerClass: 'theme-dark-blue',
       withTimepicker: true,
       locale: 'vi',
-      rangeInputFormat : 'DD/MM/YYYY HH:mm:ss',
+      rangeInputFormat: 'DD/MM/YYYY HH:mm:ss',
       minDate: new Date()
     });
   }
@@ -58,7 +57,7 @@ export class ProductComponent implements OnInit {
       lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
-      stateSave: true, // sau khi refresh sẽ giữ lại dữ liệu đã filter, sort và paginate
+      stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.productService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
           self.products = resp.data;
@@ -79,31 +78,37 @@ export class ProductComponent implements OnInit {
           responsivePriority: 1,
           render: (data, type, row, meta) => {
             let srcImg = data ? data : 'assets/images/no-image.png';
-            return '<img src="' + srcImg + '" width="60" height="60" class="img-thumbnail" alt="thumbnail">';
+            return `<img src="${srcImg}" class="img-fluid" style="max-width: 70px;">`;
           }
         },
-        {title: 'Tên', data: 'name', className: 'align-middle', responsivePriority: 2},
+        {title: 'Tên', data: 'name', className: 'align-middle'},
         {
           title: 'Giá',
           data: 'price',
-          className: 'align-middle text-start text-md-center',
+          className: 'align-middle text-start',
           render: (data, type, row, meta) => {
             return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data);
           }
         },
-        { title: 'Danh mục', data: 'subCategory.name', className: 'align-middle text-center' },
-        { title: 'Thương hiệu', data: 'brand.name', className: 'align-middle text-start text-md-center' },
+        {
+          title: 'Danh mục',
+          data: 'subCategory',
+          className: 'align-middle',
+          render: (data, type, row, meta) => {
+            return data ? data.category.name + ' / ' + data.name : '';
+          }
+        },
+        {title: 'Thương hiệu', data: 'brand.name', className: 'align-middle', responsivePriority: 2,},
         {
           title: 'Công cụ',
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-end',
+          className: 'align-middle text-start text-md-end',
           responsivePriority: 3,
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
-              <div class="d-flex justify-content-end align-items-center">
                 <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-1" data-id="${data.id}"
                     title="Sửa" data-toggle="tooltip">
                     <i class="fa fa-pen-square text-info"></i>
@@ -112,7 +117,6 @@ export class ProductComponent implements OnInit {
                     title="Xoá" data-toggle="tooltip">
                     <i class="fa fa-trash text-danger"></i>
                 </a>
-              </div>
             `;
             } else {
               return `
@@ -124,7 +128,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-    ngAfterViewInit() {
+  ngAfterViewInit() {
     const self = this;
 
     let body = $('body');
