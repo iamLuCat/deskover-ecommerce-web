@@ -86,17 +86,13 @@ export class ProductComponent implements OnInit {
         {
           title: 'Giá',
           data: 'price',
-          className: 'align-middle text-center',
-          responsivePriority: 4,
+          className: 'align-middle text-start text-md-center',
           render: (data, type, row, meta) => {
             return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data);
           }
         },
-        {
-          title: 'Danh mục',
-          data: 'subCategory.name',
-          className: 'align-middle',
-        },
+        { title: 'Danh mục', data: 'subCategory.name', className: 'align-middle text-center' },
+        { title: 'Thương hiệu', data: 'brand.name', className: 'align-middle text-start text-md-center' },
         {
           title: 'Công cụ',
           data: null,

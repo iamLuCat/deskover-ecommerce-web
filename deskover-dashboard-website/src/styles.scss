@@ -8,12 +8,13 @@ $blue: #1c519d;
 @import '~admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css';
 @import '~admin-lte/dist/css/adminlte.min.css';
 
+@import '~ngx-bootstrap/datepicker/bs-datepicker.css';
 @import '~ngx-toastr/toastr';
 
 @import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 
-@import '~ngx-bootstrap/datepicker/bs-datepicker.css';
+@import "~animate.css/animate.min.css";
 
 body {
   width: 100vw;
@@ -27,6 +28,31 @@ body {
 }
 
 // CSS Custom - Start
+.brand-link {
+  text-align: left;
+}
+
+.brand-image {
+  display: none;
+  animation: fadeOut 0.5s ease;
+}
+
+@media (min-width: 992px) {
+  .brand-link {
+    text-align: center;
+  }
+
+  .sidebar-mini.sidebar-collapse .brand-image {
+    display: block;
+
+    animation: fadeIn 0.5s ease;
+  }
+
+  .sidebar-mini.sidebar-collapse .main-sidebar:hover .brand-image {
+    display: none;
+  }
+}
+
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
 .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
   background-color: $primary !important;
