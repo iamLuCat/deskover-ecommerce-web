@@ -32,7 +32,7 @@
 
           </div>
           <div class="col d-flex align-items-center justify-content-end">
-            <button type="button" class="btn btn-sm bg-faded-accent" (click)="newBrand()" placement="left"
+            <button type="button" class="btn bg-faded-accent rounded-pill" (click)="newBrand()" placement="left"
                     ngbTooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
@@ -40,10 +40,12 @@
         </div>
       </div>
       <div class="card-body p-3">
-        <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm w-100">
-          <thead class="table-primary"></thead>
-          <tbody></tbody>
-        </table>
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
+            <thead class="table-primary"></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

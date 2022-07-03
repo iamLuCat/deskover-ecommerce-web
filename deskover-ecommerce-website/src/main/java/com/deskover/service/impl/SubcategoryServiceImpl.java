@@ -93,20 +93,19 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         Subcategory subcategory = MapperUtil.map(subcategoryDto, Subcategory.class);
         if (this.existsBySlug(subcategory)) {
             Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
+            subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+            subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             if (subcategoryExists != null && !subcategoryExists.getActived()) {
                 subcategoryExists.setActived(true);
                 subcategoryExists.setName(subcategory.getName());
                 subcategoryExists.setDescription(subcategory.getDescription());
                 subcategoryExists.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-                subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
                 return this.update(subcategoryExists);
             }
             throw new IllegalArgumentException("Slug đã tồn tại");
         } else {
             subcategory.setActived(true);
             subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-            subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-            subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             return repo.save(subcategory);
         }
     }

@@ -31,8 +31,10 @@ public interface ProductService{
 	Boolean existsBySlug(Product product);
 
 	DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive);
-	
-	void changeDelete(List<Product> products,Boolean isActive);
+
+    DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive, Long categoryId);
+
+    void changeDelete(List<Product> products, Boolean isActive);
 	
 	void changeActiveSubcategoty(Long id);
 

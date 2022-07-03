@@ -1,49 +1,44 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Product} from "@/entites/product";
-import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
-import {DataTableDirective} from "angular-datatables";
-import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
-import {ProductService} from "@services/product.service";
-import {DatePipe} from "@angular/common";
-import {AlertUtils} from "@/utils/alert-utils";
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Product } from "@/entites/product";
+import { DataTableDirective } from "angular-datatables";
+import { NgbModal, NgbModalConfig } from "@ng-bootstrap/ng-bootstrap";
+import { ProductService } from "@services/product.service";
+import { AlertUtils } from "@/utils/alert-utils";
+import { Category } from "@/entites/category";
+import { CategoryService } from '@services/category.service';
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, AfterViewInit {
 
   products: Product[];
   product: Product;
+  categories: Category[];
+  categoryId: number = null;
 
   isEdit: boolean = false;
   isActive: boolean = true;
 
   dtOptions: any = {};
 
-  bsConfig?: Partial<BsDatepickerConfig>;
-
   @ViewChild('productModal') productModal: any;
-  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+  @ViewChild(DataTableDirective, { static: false }) dtElement: DataTableDirective;
 
   constructor(
     private modalConfig: NgbModalConfig,
     private modalService: NgbModal,
     private productService: ProductService,
+    private categoryService: CategoryService
   ) {
     modalConfig.backdrop = 'static';
     modalConfig.keyboard = false;
     modalConfig.centered = true;
 
-    // Config datepicker ngx-bootstrap
-    this.bsConfig = Object.assign({}, {
-      containerClass: 'theme-dark-blue',
-      withTimepicker: true,
-      locale: 'vi',
-      rangeInputFormat : 'DD/MM/YYYY HH:mm:ss',
-      minDate: new Date()
-    });
+    this.getCategories();
   }
 
   ngOnInit() {
@@ -58,9 +53,9 @@ export class ProductComponent implements OnInit {
       lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
-      stateSave: true, // sau khi refresh sẽ giữ lại dữ liệu đã filter, sort và paginate
+      stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
+        this.productService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.categoryId).then(resp => {
           self.products = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -69,6 +64,12 @@ export class ProductComponent implements OnInit {
           });
         });
       },
+      columnDefs: [
+        { responsivePriority: 1, targets: 0 },
+        { responsivePriority: 10001, targets: 2 },
+        { responsivePriority: 10002, targets: 6 },
+        { responsivePriority: 2, targets: 7 }
+      ],
       columns: [
         {
           title: 'Ảnh',
@@ -76,34 +77,44 @@ export class ProductComponent implements OnInit {
           orderable: false,
           searchable: false,
           className: 'align-middle',
-          responsivePriority: 1,
           render: (data, type, row, meta) => {
             let srcImg = data ? data : 'assets/images/no-image.png';
-            return '<img src="' + srcImg + '" width="60" height="60" class="img-thumbnail" alt="thumbnail">';
+            return `<img src="${srcImg}" class="img-fluid" style="max-width: 70px;">`;
           }
         },
-        {title: 'Tên', data: 'name', className: 'align-middle', responsivePriority: 2},
+        { title: 'Tên', data: 'name', className: 'align-middle' },
+        { title: 'Slug', data: 'slug', className: 'align-middle' },
+        {
+          title: 'Thương hiệu',
+          data: 'brand.name',
+          className: 'align-middle text-md-center text-start',
+        },
+        { title: 'Danh mục', data: 'subCategory.name', className: 'align-middle' },
         {
           title: 'Giá',
           data: 'price',
-          className: 'align-middle text-start text-md-center',
+          className: 'align-middle',
           render: (data, type, row, meta) => {
-            return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data);
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
           }
         },
-        { title: 'Danh mục', data: 'subCategory.name', className: 'align-middle text-center' },
-        { title: 'Thương hiệu', data: 'brand.name', className: 'align-middle text-start text-md-center' },
+        {
+          title: 'Ngày tạo',
+          data: 'createdAt',
+          className: 'align-middle',
+          render: (data, type, row, meta) => {
+            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
+          }
+        },
         {
           title: 'Công cụ',
           data: null,
           orderable: false,
           searchable: false,
-          className: 'align-middle text-end',
-          responsivePriority: 3,
+          className: 'align-middle text-start text-md-end',
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
-              <div class="d-flex justify-content-end align-items-center">
                 <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-1" data-id="${data.id}"
                     title="Sửa" data-toggle="tooltip">
                     <i class="fa fa-pen-square text-info"></i>
@@ -112,7 +123,6 @@ export class ProductComponent implements OnInit {
                     title="Xoá" data-toggle="tooltip">
                     <i class="fa fa-trash text-danger"></i>
                 </a>
-              </div>
             `;
             } else {
               return `
@@ -124,7 +134,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-    ngAfterViewInit() {
+  ngAfterViewInit() {
     const self = this;
 
     let body = $('body');
@@ -154,6 +164,14 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  /* Category */
+  getCategories() {
+    this.categoryService.getByActive().subscribe(data => {
+      this.categories = data;
+    });
+  }
+
+  /* Product */
   newProduct() {
     this.isEdit = false;
     this.product = <Product>{};
@@ -206,7 +224,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  // Modal
+  /* Modal */
   openModal(content) {
     this.closeModal();
     this.modalService.open(content);

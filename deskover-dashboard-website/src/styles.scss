@@ -29,7 +29,7 @@ body {
 
 // CSS Custom - Start
 .brand-link {
-  text-align: left;
+  text-align: center;
 }
 
 .brand-image {
@@ -38,13 +38,8 @@ body {
 }
 
 @media (min-width: 992px) {
-  .brand-link {
-    text-align: center;
-  }
-
   .sidebar-mini.sidebar-collapse .brand-image {
     display: block;
-
     animation: fadeIn 0.5s ease;
   }
 

@@ -1,11 +1,11 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
+import com.deskover.dto.ProductDto;
+import com.deskover.entity.Product;
+import com.deskover.repository.ProductRepository;
+import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.*;
+import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,187 +15,193 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.dto.ProductDto;
-import com.deskover.entity.Product;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.BrandService;
-import com.deskover.service.CategoryService;
-import com.deskover.service.DiscountService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
-import com.deskover.util.MapperUtil;
+import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-	@Autowired
-	private ProductRepository repository;
+    @Autowired
+    private ProductRepository repository;
 
-	@Autowired
-	private ProductRepoForDatatables repoForDatatables;
+    @Autowired
+    private ProductRepoForDatatables repoForDatatables;
 
-	@Autowired
-	private SubcategoryService subcategoryService;
+    @Autowired
+    private SubcategoryService subcategoryService;
 
-	@Autowired
-	private CategoryService categoryService;
+    @Autowired
+    private CategoryService categoryService;
 
-	@Autowired
-	private BrandService brandService;
+    @Autowired
+    private BrandService brandService;
 
-	@Autowired
-	private DiscountService discountService;
+    @Autowired
+    private DiscountService discountService;
 
-	@Override
-	public List<Product> findByActived(Boolean actived, Integer page, Integer size) {
-		if (page > 0) {
-			Pageable pageable = PageRequest.of(page, size);
-			return repository.findByActived(actived, pageable);
-		} else {
-			Pageable pageable = PageRequest.of(0, size);
-			return repository.findByActived(actived, pageable);
-		}
-	}
+    @Override
+    public List<Product> findByActived(Boolean actived, Integer page, Integer size) {
+        if (page > 0) {
+            Pageable pageable = PageRequest.of(page, size);
+            return repository.findByActived(actived, pageable);
+        } else {
+            Pageable pageable = PageRequest.of(0, size);
+            return repository.findByActived(actived, pageable);
+        }
+    }
 
-	@Override
-	@Transactional
-	public Product create(ProductDto productDto) {
-		Product product = MapperUtil.map(productDto, Product.class);
-		if (this.existsBySlug(product)) {
-			Product productExists = repository.findBySlug(product.getSlug());
-			if (productExists != null && !productExists.getActived()) {
-				productExists.setActived(Boolean.TRUE);
-				productExists.setName(product.getName());
-				productExists.setDescription(product.getDescription());
-				productExists.setPrice(product.getPrice());
-				productExists.setImage(product.getImage());
-				productExists.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-				productExists.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				productExists.setSubCategory(subcategoryService.getById(productDto.getSubcategoryId()));
-				productExists.setBrand(brandService.getById(productDto.getBrandId()));
-				if (productDto.getDiscountId() != null) {
-					productExists.setDiscount(discountService.findById(productDto.getDiscountId()));
-				}
-				productExists.setDiscount(null);
-				return this.update(productExists);
-			} else {
-				throw new IllegalArgumentException("Slug đã tồn tại");
-			}
-		} else {
-			product.setActived(Boolean.TRUE);
-			product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());;
-			product.setSubCategory(subcategoryService.getById(productDto.getSubcategoryId()));
-			product.setBrand(brandService.getById(productDto.getBrandId()));
-			if (productDto.getDiscountId() != null) {
-				product.setDiscount(discountService.findById(productDto.getDiscountId()));
-			}
-			product.setDiscount(null);
-			return repository.saveAndFlush(product);
-		}
-	}
+    @Override
+    @Transactional
+    public Product create(ProductDto productDto) {
+        Product product = MapperUtil.map(productDto, Product.class);
+        if (this.existsBySlug(product)) {
+            Product productExists = repository.findBySlug(product.getSlug());
+            if (productExists != null && !productExists.getActived()) {
+                productExists.setActived(Boolean.TRUE);
+                productExists.setName(product.getName());
+                productExists.setDescription(product.getDescription());
+                productExists.setPrice(product.getPrice());
+                productExists.setImage(product.getImage());
+                productExists.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+                productExists.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+                productExists.setSubCategory(subcategoryService.getById(productDto.getSubcategoryId()));
+                productExists.setBrand(brandService.getById(productDto.getBrandId()));
+                if (productDto.getDiscountId() != null) {
+                    productExists.setDiscount(discountService.findById(productDto.getDiscountId()));
+                }
+                productExists.setDiscount(null);
+                return this.update(productExists);
+            } else {
+                throw new IllegalArgumentException("Slug đã tồn tại");
+            }
+        } else {
+            product.setActived(Boolean.TRUE);
+            product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+            product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+            ;
+            product.setSubCategory(subcategoryService.getById(productDto.getSubcategoryId()));
+            product.setBrand(brandService.getById(productDto.getBrandId()));
+            if (productDto.getDiscountId() != null) {
+                product.setDiscount(discountService.findById(productDto.getDiscountId()));
+            }
+            product.setDiscount(null);
+            return repository.saveAndFlush(product);
+        }
+    }
 
-	@Override
-	@Transactional
-	public Product changeActive(Long id) {
-		Product product = this.getById(id);
-		if (product == null) {
-			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
-		}
-		if (product.getSubCategory().getActived()) {
-			if (product.getActived()) {
-				product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-				product.setActived(Boolean.FALSE);
-				product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return repository.saveAndFlush(product);
-			} else {
-				product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-				product.setActived(Boolean.FALSE);
-				product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return repository.saveAndFlush(product);
-			}
-		} else {
-			throw new IllegalArgumentException("Danh mục đã bị vô hiệu hoá");
-		}
-	}
+    @Override
+    @Transactional
+    public Product changeActive(Long id) {
+        Product product = this.getById(id);
+        if (product == null) {
+            throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+        }
+        if (product.getSubCategory().getActived()) {
+            product.setActived(!product.getActived());
+            product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+            product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+            return repository.saveAndFlush(product);
+        } else {
+            throw new IllegalArgumentException("Danh mục đã bị vô hiệu hoá");
+        }
+    }
 
-	@Override
-	@Transactional
-	public Product update(Product product) {
-		product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-		product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-		return repository.saveAndFlush(product);
-	}
+    @Override
+    @Transactional
+    public Product update(Product product) {
+        product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        return repository.saveAndFlush(product);
+    }
 
-	@Override
-	public Product findById(Long id) {
-		Optional<Product> optional = repository.findById(id);
-		return optional.orElse(null);
-	}
+    @Override
+    public Product findById(Long id) {
+        Optional<Product> optional = repository.findById(id);
+        return optional.orElse(null);
+    }
 
-	public Product getById(Long id) {
-		return repository.findById(id).orElse(null);
-	}
+    public Product getById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 
-	@Override
-	public Boolean existsBySlug(String slug) {
-		Product product = repository.findBySlug(slug);
-		return product != null;
-	}
+    @Override
+    public Boolean existsBySlug(String slug) {
+        Product product = repository.findBySlug(slug);
+        return product != null;
+    }
 
-	@Override
-	public Product findBySlug(String slug) {
-		return repository.findBySlug(slug);
-	}
+    @Override
+    public Product findBySlug(String slug) {
+        return repository.findBySlug(slug);
+    }
 
-	@Override
-	public Boolean existsBySlug(Product product) {
-		Product productExits = repository.findBySlug(product.getSlug());
-		Boolean isExits = (productExits != null && !productExits.getId().equals(product.getId()))
-				|| subcategoryService.existsBySlug(product.getSlug())
-				|| categoryService.existsBySlug(product.getSlug());
-		System.out.println(isExits);
+    @Override
+    public Boolean existsBySlug(Product product) {
+        Product productExits = repository.findBySlug(product.getSlug());
+        Boolean isExits = (productExits != null && !productExits.getId().equals(product.getId()))
+                || subcategoryService.existsBySlug(product.getSlug())
+                || categoryService.existsBySlug(product.getSlug());
+        System.out.println(isExits);
 
-		return isExits;
-	}
+        return isExits;
+    }
 
-	@Override
-	public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive) {
-		DataTablesOutput<Product> products = repoForDatatables.findAll(input,
-				(root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("actived"), isActive));
-		if (products.getError() != null) {
-			throw new IllegalArgumentException(products.getError());
-		}
-		return products;
-	}
+    @Override
+    public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive) {
+        DataTablesOutput<Product> products = repoForDatatables.findAll(input,
+                (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("actived"), isActive));
+        if (products.getError() != null) {
+            throw new IllegalArgumentException(products.getError());
+        }
+        return products;
+    }
 
-	@Override
-	public void changeDelete(List<Product> products, Boolean isActive) {
+    @Override
+    public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive,
+            Long categoryId) {
+        DataTablesOutput<Product> products = null;
+        if (categoryId != null) {
+            products = repoForDatatables.findAll(input, (root, query, cb) -> cb.and(
+                    cb.equal(root.get("actived"), isActive),
+                    cb.equal(root.get("subCategory").get("category").get("id"), categoryId)));
+        } else {
+            products = repoForDatatables.findAll(input,
+                    (root, query, cb) -> cb.equal(root.get("actived"), isActive));
+        }
+        if (products.getError() != null) {
+            throw new IllegalArgumentException(products.getError());
+        }
+        return products;
+    }
 
-		products.forEach(product -> {
-			product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			product.setActived(isActive);
-			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-		});
-		repository.saveAll(products);
+    @Override
+    public void changeDelete(List<Product> products, Boolean isActive) {
 
-	}
+        products.forEach(product -> {
+            product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+            product.setActived(isActive);
+            product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        });
+        repository.saveAll(products);
 
-	@Override
-	public List<Product> findBySubcategoryId(Long id) {
+    }
 
-		return repository.findBySubCategoryId(id);
-	}
+    @Override
+    public List<Product> findBySubcategoryId(Long id) {
 
-	@Override
-	public void changeActiveSubcategoty(Long id) {
-		Product product = this.getById(id);
-		if (product == null) {
-			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
-		}
-		subcategoryService.changeActive(product.getSubCategory().getId());
+        return repository.findBySubCategoryId(id);
+    }
 
-	}
+    @Override
+    public void changeActiveSubcategoty(Long id) {
+        Product product = this.getById(id);
+        if (product == null) {
+            throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+        }
+        subcategoryService.changeActive(product.getSubCategory().getId());
+
+    }
 
 }

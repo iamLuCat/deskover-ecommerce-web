@@ -1,11 +1,9 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
-import {Subject} from "rxjs";
 import {AlertUtils} from '@/utils/alert-utils';
 import {Brand} from "@/entites/brand";
-import {DatePipe} from "@angular/common";
 import {BrandService} from "@services/brand.service";
 
 @Component({
@@ -48,7 +46,7 @@ export class BrandComponent implements OnInit, AfterViewInit {
       lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
-      stateSave: true, // sau khi refresh sẽ giữ lại dữ liệu đã filter, sort và paginate
+      stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.brandService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
           self.brands = resp.data;
