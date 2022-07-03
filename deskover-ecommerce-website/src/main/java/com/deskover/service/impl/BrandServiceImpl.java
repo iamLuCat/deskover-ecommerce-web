@@ -70,7 +70,7 @@ public class BrandServiceImpl implements BrandService {
         if(this.existsBySlug(brand)) {
             throw new IllegalArgumentException("Slug đã tồn tại");
         }
-        brand.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        brand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         brand.setActived(Boolean.TRUE);
         brand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(brand);

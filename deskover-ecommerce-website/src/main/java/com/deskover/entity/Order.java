@@ -66,6 +66,7 @@ public class Order implements Serializable {
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 
     @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
 
     @Column(name = "modified_by", length = 50)

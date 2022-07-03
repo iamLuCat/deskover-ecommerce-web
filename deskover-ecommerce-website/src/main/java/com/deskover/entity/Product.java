@@ -23,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -80,10 +81,8 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product")
     private Set<Cart> carts = new LinkedHashSet<>();
 
-    @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
-
-    @Column(name = "modified_at")
+    @Column(name = "modified_at", nullable = false)
+    @CreationTimestamp
     private Timestamp modifiedAt;
 
     @Column(name = "modified_by", length = 50)

@@ -33,12 +33,4 @@ public class Cart implements Serializable {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
-
-    @Column(name = "created_at", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdAt;
-
-    @Column(name = "modified_at")
-    private Timestamp modifiedAt;
-
 }

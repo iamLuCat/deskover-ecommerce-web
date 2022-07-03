@@ -105,7 +105,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         } else {
             subcategory.setActived(true);
             subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-            subcategory.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             return repo.save(subcategory);
         }

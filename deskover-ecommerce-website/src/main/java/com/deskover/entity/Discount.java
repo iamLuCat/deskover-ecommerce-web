@@ -53,10 +53,8 @@ public class Discount implements Serializable {
     @OneToMany(mappedBy = "discount")
     private Set<Product> products = new LinkedHashSet<>();
 
-    @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
-
-    @Column(name = "modified_at")
+    @Column(name = "modified_at", nullable = false)
+    @CreationTimestamp
     private Timestamp modifiedAt;
 
     @Column(name = "modified_by", length = 50)

@@ -37,11 +37,8 @@ public class User implements Serializable {
     @Column(name = "avatar", length = 128)
     private String avatar;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "modified_at", nullable = false)
     @CreationTimestamp
-    private Timestamp createdAt;
-
-    @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
     @Column(name = "last_login")
