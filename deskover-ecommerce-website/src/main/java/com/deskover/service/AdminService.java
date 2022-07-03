@@ -12,4 +12,5 @@ public interface AdminService {
     AdministratorDto update(AdministratorDto adminUpdate);
     void delete(Long id);
     Boolean existsUsername(String username);
+    Boolean existsUsername(AdministratorDto adminUpdate);
 }
