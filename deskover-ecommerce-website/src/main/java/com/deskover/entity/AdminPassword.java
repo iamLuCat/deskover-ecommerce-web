@@ -31,6 +31,7 @@ public class AdminPassword implements Serializable {
     private Administrator admin;
 
     @Column(name = "modified_at", nullable = false)
+    @CreationTimestamp
     private Timestamp modifiedAt;
 
     @Column(name = "modified_by", length = 50)

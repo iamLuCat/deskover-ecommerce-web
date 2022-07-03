@@ -59,10 +59,9 @@ public class AdminServiceImpl implements AdminService {
         }
         
         Administrator entityAdmin = MapperUtil.map(adminRequest, Administrator.class);
-        entityAdmin.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         entityAdmin.setActived(Boolean.TRUE);
         entityAdmin.setAvatar(null);
-        entityAdmin.setModifiedAt(null);
+        entityAdmin.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         entityAdmin.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         Administrator adminCreated = repo.save(entityAdmin);
 

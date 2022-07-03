@@ -41,11 +41,8 @@ public class Category implements Serializable {
     @Column(name = "slug", nullable = false, length = 50)
     private String slug;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "modified_at", nullable = false)
     @CreationTimestamp
-    private Timestamp createdAt;
-
-    @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
     @Column(name = "actived")

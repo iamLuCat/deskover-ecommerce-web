@@ -93,7 +93,7 @@ public class CategoryServiceImpl implements CategoryService {
 			throw new IllegalArgumentException("Slug đã tồn tại");
 		} else {
 			category.setActived(Boolean.TRUE);
-			category.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+			category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 			category.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 			return repo.save(category);
 		}

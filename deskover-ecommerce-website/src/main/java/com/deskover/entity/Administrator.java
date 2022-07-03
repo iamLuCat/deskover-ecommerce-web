@@ -40,11 +40,8 @@ public class Administrator implements Serializable {
     @Column(name = "last_login")
     private Timestamp lastLogin;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "modified_at", nullable = false)
     @CreationTimestamp
-    private Timestamp createdAt;
-
-    @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
     @Column(name = "actived", nullable = false)
@@ -62,5 +59,4 @@ public class Administrator implements Serializable {
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
-
 }

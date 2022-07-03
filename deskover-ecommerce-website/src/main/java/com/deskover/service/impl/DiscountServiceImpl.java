@@ -37,7 +37,7 @@ public class DiscountServiceImpl implements DiscountService {
 	@Override
 	@Transactional
 	public Discount create(Discount discount) {
-		discount.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 		discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repository.saveAndFlush(discount);
 	}

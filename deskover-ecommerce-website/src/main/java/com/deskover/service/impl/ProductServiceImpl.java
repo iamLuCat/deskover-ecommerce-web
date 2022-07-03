@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 			}
 		}else {
 			product.setActived(Boolean.TRUE);
-			product.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+			product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 			product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());;
 			product.setSubCategory(subcategoryService.getById(productDto.getSubcategogyId()));
 			product.setBrand(brandService.getById(productDto.getBrandId()));

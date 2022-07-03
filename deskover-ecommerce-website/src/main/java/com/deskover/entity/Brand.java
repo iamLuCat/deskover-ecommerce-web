@@ -50,11 +50,8 @@ public class Brand implements Serializable {
 	@Column(name = "actived", nullable = false)
 	private Boolean actived = false;
 
-	@Column(name = "created_at", nullable = false)
+	@Column(name = "modified_at", nullable = false)
 	@CreationTimestamp
-	private Timestamp createdAt;
-
-	@Column(name = "modified_at")
 	private Timestamp modifiedAt;
 
 	@JsonIgnore
