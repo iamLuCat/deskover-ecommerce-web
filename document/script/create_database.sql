@@ -170,12 +170,12 @@ CREATE TABLE category (
 
 insert category (id,name,slug)
 values 	(1,'Laptop','laptop'),
-		(2,'Bàn Phím','ban-phim'),
-        (3,'Chuột + Lót Chuột','chuot-lot-chuot'),
-		(4,'Màn Hình','man-hinh'),
-		(5,'Linh Kiện PC','linh-kien-pc'),
+		(2,'Bàn phím','ban-phim'),
+        (3,'Chuột + Lót chuột','chuot-lot-chuot'),
+		(4,'Màn hình','man-hinh'),
+		(5,'Linh kiện pc','linh-kien-pc'),
         (6,'Ghế','ghe'),
-        (7,'Sản phẩm Apple','san-pham-apple')
+        (7,'Sản phẩm apple','san-pham-apple')
 ;
 
 -- Danh mục con
@@ -194,18 +194,18 @@ CREATE TABLE subcategory (
 );
 
 insert subcategory (id,category_id,name,slug)
-values 	(1,1,'Laptop Văn Phòng','laptop-van-phong'),
-		(2,1,'Laptop Gaming','laptop-gaming'),
-		(3,2,'Bàn Phím Gaming','ban-phim-gaming'),
-        (4,2,'Bàn Phím Văn Phòng','ban-phim-van-phong'),
-        (5,2,'Bàn Phím Bluetooth','ban-phim-bluetooth'),
-		(6,3,'Chuột Gaming','chuot-gaming'),
-        (7,3,'Chuột Văn Phòng','chuot-van-phong'),
-        (8,3,'Chuột Không dây','chuot-khong-day'),
-        (9,3,'Ghế Gaming','ghe-gaming'),
-        (10,3,'Ghế Công Thái Học','ghe-cong-thai-hoc'),
-        (11,7,'MacBook','macbook'),
-        (12,7,'IMac','imac'),
+values 	(1,1,'Laptop văn phòng','laptop-van-phong'),
+		(2,1,'Laptop gaming','laptop-gaming'),
+		(3,2,'Bàn phím gaming','ban-phim-gaming'),
+        (4,2,'Bàn phím văn phòng','ban-phim-van-phong'),
+        (5,2,'Bàn phím bluetooth','ban-phim-bluetooth'),
+		(6,3,'Chuột gaming','chuot-gaming'),
+        (7,3,'Chuột văn phòng','chuot-van-phong'),
+        (8,3,'Chuột không dây','chuot-khong-day'),
+        (9,6,'Ghế gaming','ghe-gaming'),
+        (10,6,'Ghế công thái học','ghe-cong-thai-hoc'),
+        (11,7,'Macbook','macbook'),
+        (12,7,'Imac','imac'),
         (13,7,'Mac mini','mac-mini')
 ;
 
@@ -248,10 +248,10 @@ CREATE TABLE discount (
 );
 
 insert discount (id,`name`,percent,start_date,end_date,actived)
-values 	(1,'Black Friday',50,'2022-11-25 00:00:01','2022-11-25 23:59:59',0),
+values 	(1,'Black friday',50,'2022-11-25 00:00:01','2022-11-25 23:59:59',0),
 		(2,'Valentine','10','2022-02-14 00:00:01','2022-02-14 23:59:59',0),
         (3,'Lễ giáng sinh',20,'2022-12-24 00:00:01','2022-12-24 23:59:59',0),
-        (4,'Test',20,'2022-01-01 00:00:01','2022-12-30 23:59:59',1)
+        (4,'Mừng khai trương',20,'2022-01-01 00:00:01','2022-12-30 23:59:59',1)
 ;
 
 -- Sản phẩm

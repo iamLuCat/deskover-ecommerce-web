@@ -54,7 +54,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public AdministratorDto create(AdminCreateDto adminRequest) {
-        if (repo.existsAdministratorByUsername(adminRequest.getUsername())) {
+        if (repo.existsByUsername(adminRequest.getUsername())) {
             throw new IllegalArgumentException("Username này đã tồn tại");
         }
         
@@ -86,7 +86,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public AdministratorDto update(AdministratorDto adminUpdate) {
-    	if (repo.existsAdministratorByUsername(adminUpdate.getUsername())) {
+    	if (this.existsUsername(adminUpdate)) {
             throw new IllegalArgumentException("Username này đã tồn tại");
         }
     	
@@ -111,6 +111,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Boolean existsUsername(String username) {
-        return repo.existsAdministratorByUsername(username);
+        return repo.existsByUsername(username);
+    }
+
+    @Override
+    public Boolean existsUsername(AdministratorDto adminUpdate) {
+        Administrator adminExists = repo.findByUsername(adminUpdate.getUsername());
+        return (adminExists.getUsername() != null && !adminExists.getId().equals(adminUpdate.getId()));
     }
 }
