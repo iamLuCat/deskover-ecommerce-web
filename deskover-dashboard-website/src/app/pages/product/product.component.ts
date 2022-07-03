@@ -7,6 +7,8 @@ import {AlertUtils} from "@/utils/alert-utils";
 import {Category} from "@/entites/category";
 import {CategoryService} from '@services/category.service';
 import {DatePipe} from "@angular/common";
+import {Subcategory} from "@/entites/subcategory";
+import {SubcategoryService} from "@services/subcategory.service";
 
 @Component({
   selector: 'app-product',
@@ -19,6 +21,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
   product: Product;
   categories: Category[];
   categoryId: number = null;
+  subcategories: Subcategory[];
+  subcategoryId: number = null;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -32,13 +36,15 @@ export class ProductComponent implements OnInit, AfterViewInit {
     private modalConfig: NgbModalConfig,
     private modalService: NgbModal,
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private subcategoryService: SubcategoryService,
   ) {
     modalConfig.backdrop = 'static';
     modalConfig.keyboard = false;
     modalConfig.centered = true;
 
     this.getCategories();
+    this.getSubcategories();
   }
 
   ngOnInit() {
@@ -195,10 +201,16 @@ export class ProductComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /* Category */
+  /* Category & Subcategory */
   getCategories() {
     this.categoryService.getByActive().subscribe(data => {
       this.categories = data;
+    });
+  }
+
+  getSubcategories() {
+    this.subcategoryService.getByActive(true, this.categoryId).subscribe(data => {
+      this.subcategories = data;
     });
   }
 
