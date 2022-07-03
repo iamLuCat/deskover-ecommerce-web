@@ -45,8 +45,8 @@ export class SubcategoryService {
       name: subcategory.name,
       description: subcategory.description,
       slug: subcategory.slug,
-      createdAt: subcategory.createdAt,
       modifiedAt: subcategory.modifiedAt,
+      modifiedBy: subcategory.modifiedBy,
       actived: subcategory.actived,
       categoryId: subcategory.category.id
     };

@@ -5,8 +5,8 @@ export interface SubcategoryDto {
   name: string;
   description: string;
   slug: string;
-  createdAt: Date;
   modifiedAt: Date;
+  modifiedBy: string;
   actived: boolean;
   categoryId: number;
 }
