@@ -5,30 +5,30 @@
                         <div class="topbar-text d-md-none">
                                 <a class="topbar-link" href="tel:00331697720"><i class="ci-support text-muted me-2"></i>(00) 33 169 7720</a>
                         </div>
-                        <div class="topbar-text text-nowrap d-none d-md-inline-block"><i class="ci-support"></i><span class="text-muted me-1">Hổ trợ</span><a class="topbar-link" href="tel:00331697720">(00) 33 169 7720</a></div>
+                        <div class="topbar-text text-nowrap d-none d-md-inline-block"><i class="ci-support"></i><span class="text-muted me-1">Help</span><a class="topbar-link" href="tel:00331697720">(00) 33 169 7720</a></div>
                         <div class="d-none d-md-block">
 
                         </div>
-                        <div class="topbar-text dropdown d-md-none ms-auto"><a class="topbar-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Mở rộng</a>
+                        <div class="topbar-text dropdown d-md-none ms-auto"><a class="topbar-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Má»Ÿ rá»™ng</a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" th:href="@{/wishlist}">
-                                                        <i class="ci-heart text-muted me-2"></i>Yêu thích (3)</a></li>
+                                                        <i class="ci-heart text-muted me-2"></i>Wishlist (3)</a></li>
                                         <li><a class="dropdown-item" th:href="@{/comparison}">
-                                                        <i class="ci-compare text-muted me-2"></i>So sánh (3)</a></li>
+                                                        <i class="ci-compare text-muted me-2"></i>Comparison (3)</a></li>
                                         <li><a class="dropdown-item" th:href="@{/tracking}">
-                                                        <i class="ci-truck text-muted me-2"></i>Tra cứu đơn hàng</a>
+                                                        <i class="ci-truck text-muted me-2"></i>Tracking</a>
                                         </li>
                                 </ul>
                         </div>
                         <div class="d-none d-md-block ms-3 text-nowrap">
                                 <a class="topbar-link d-none d-md-inline-block" th:href="@{/wishlist}">
-                                        <i class="ci-heart mt-n1"></i>Yêu thích (3)
+                                        <i class="ci-heart mt-n1"></i>Wishlist (3)
                                 </a>
                                 <a class="topbar-link ms-3 ps-3 border-start border-light d-none d-md-inline-block" th:href="@{/comparison}">
-                                        <i class="ci-compare mt-n1"></i>So sánh (3)
+                                        <i class="ci-compare mt-n1"></i>Comparison (3)
                                 </a>
                                 <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/tracking}">
-                                        <i class="ci-truck mt-n1"></i>Tra cứu đơn hàng
+                                        <i class="ci-truck mt-n1"></i>Tracking
                                 </a>
                         </div>
                 </div>
@@ -39,9 +39,9 @@
                         <div class="container"><a class="navbar-brand d-none d-sm-block me-3 flex-shrink-0" th:href="@{/}"><img th:src="@{/img/logo/full.png}" width="142" alt="Deskover"></a><a class="navbar-brand d-sm-none me-2" href="index.html"><img src="img/logo-icon.png" width="74" alt="Cartzilla"></a>
                                 <!-- Search-->
                                 <div class="input-group d-none d-lg-flex flex-nowrap mx-4"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                                        <input class="form-control rounded-start w-100" type="text" placeholder="Bạn cần tìm gì ?">
+                                        <input class="form-control rounded-start w-100" type="text" placeholder="What do you need to buy ?">
                                         <select class="form-select flex-shrink-0" style="width: 10.5rem;">
-                                                <option>Tất cả</option>
+                                                <option>All</option>
                                                 <option>Computers</option>
                                                 <option>Smartphones</option>
                                                 <option>TV, Video, Audio</option>
@@ -62,11 +62,10 @@
                                         </a>
                                         <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="#signin-modal" data-bs-toggle="modal">
                                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
-                                                <div class="navbar-tool-text ms-n3"><small>Đăng nhập</small>Tài khoản
+                                                <div class="navbar-tool-text ms-n3"><small>Login</small>Account
                                                 </div>
                                         </a>
-                                        <div class="navbar-tool dropdown ms-3"><a class="navbar-tool-icon-box bg-secondary dropdown-toggle" th:href="@{/cart}"><span class="navbar-tool-label">4</span><i class="navbar-tool-icon ci-cart"></i></a><a class="navbar-tool-text" href="shop-cart.html"><small>Giỏ
-                                                                hàng</small>1,000,000,000 VND</a>
+                                        <div class="navbar-tool dropdown ms-3"><a class="navbar-tool-icon-box bg-secondary dropdown-toggle" th:href="@{/cart}"><span class="navbar-tool-label">4</span><i class="navbar-tool-icon ci-cart"></i></a><a class="navbar-tool-text" href="shop-cart.html"><small>Price</small>1,000,000,000 VND</a>
                                                 <!-- Cart dropdown-->
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                         <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;">
@@ -143,12 +142,12 @@
                                                                         </div>
                                                                 </div>
                                                                 <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
-                                                                        <div class="fs-sm me-2 py-2"><span class="text-muted">Tổng giá
-                                                                                        trị:</span><span class="text-accent fs-base ms-1">1,000,000,000
+                                                                        <div class="fs-sm me-2 py-2"><span class="text-muted">Tá»•ng giÃ¡
+                                                                                        trá»‹:</span><span class="text-accent fs-base ms-1">1,000,000,000
                                                                                         <small>VND</small></span></div>
-                                                                        <a class="btn btn-outline-secondary btn-sm w-100" th:href="@{/cart}">Xem giỏ hàng<i class="ci-arrow-right ms-1 me-n1"></i></a>
-                                                                </div><a class="btn btn-primary btn-sm d-block w-100" th:href="@{/checkout}"><i class="ci-card me-2 fs-base align-middle"></i>Đặt
-                                                                        hàng</a>
+                                                                        <a class="btn btn-outline-secondary btn-sm w-100" th:href="@{/cart}">Xem giá»� hÃ ng<i class="ci-arrow-right ms-1 me-n1"></i></a>
+                                                                </div><a class="btn btn-primary btn-sm d-block w-100" th:href="@{/checkout}"><i class="ci-card me-2 fs-base align-middle"></i>Ä�áº·t
+                                                                        hÃ ng</a>
                                                         </div>
                                                 </div>
                                         </div>
@@ -164,8 +163,7 @@
                                         </div>
                                         <!-- Departments menu-->
                                         <ul class="navbar-nav navbar-mega-nav pe-lg-2 me-lg-2">
-                                                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle ps-lg-0" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ci-menu align-middle mt-n1 me-2"></i>Danh
-                                                                mục</a>
+                                                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle ps-lg-0" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ci-menu align-middle mt-n1 me-2"></i>Category</a>
                                                         <ul class="dropdown-menu">
                                                                 <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-laptop opacity-60 fs-lg mt-n1 me-2"></i>Computers
                                                                                 &amp;
@@ -1152,16 +1150,16 @@
                                         <!-- Primary menu-->
                                         <ul class="navbar-nav">
                                                 <li class="nav-item active">
-                                                        <a class="nav-link dropdown-toggle" href="#">Trang chủ</a>
+                                                        <a class="nav-link dropdown-toggle" href="#">Home</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                        <a class="nav-link dropdown-toggle" href="#">Danh sách hàng</a>
+                                                        <a class="nav-link dropdown-toggle" href="#">Items</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                        <a class="nav-link dropdown-toggle" href="#">Về chúng tôi</a>
+                                                        <a class="nav-link dropdown-toggle" href="#">About Us</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                        <a class="nav-link dropdown-toggle" href="#">Liên hệ và hổ trợ</a>
+                                                        <a class="nav-link dropdown-toggle" href="#">Contact Us</a>
                                                 </li>
                                         </ul>
                                 </div>

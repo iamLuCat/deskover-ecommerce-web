@@ -6,7 +6,7 @@
     )}">
 
 <head>
-    <title>Deskover: danh sách đơn hàng</title>
+    <title>Deskover: OrderDetail</title>
 </head>
 
 <body id="content">
@@ -21,15 +21,15 @@
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                            <li class="breadcrumb-item"><a class="text-nowrap" th:href="@{/index}"><i class="ci-home"></i>Trang chủ</a></li>
-                            <li class="breadcrumb-item text-nowrap"><a th:href="@{/account}">Tài khoản</a>
+                            <li class="breadcrumb-item"><a class="text-nowrap" th:href="@{/index}"><i class="ci-home"></i>Home</a></li>
+                            <li class="breadcrumb-item text-nowrap"><a th:href="@{/account}">Account</a>
                             </li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Danh sách đơn đã đặt</li>
+                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Order Detail</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0">Danh sách đơn đã đặt</h1>
+                    <h1 class="h3 text-light mb-0">Order Detail</h1>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
                                 <option>Delayed</option>
                                 <option>Canceled</option>
                             </select>
-                        </div><a class="btn btn-primary btn-sm d-none d-lg-inline-block" href="account-signin.html"><i class="ci-sign-out me-2"></i>Đăng xuất</a>
+                        </div><a class="btn btn-primary btn-sm d-none d-lg-inline-block" href="account-signin.html"><i class="ci-sign-out me-2"></i>Log out</a>
                     </div>
                     <!-- Orders list-->
                     <div class="table-responsive fs-md mb-4">
