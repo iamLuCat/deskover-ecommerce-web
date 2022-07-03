@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -35,93 +36,96 @@ import com.deskover.util.ValidationUtil;
 @RequestMapping("v1/api/admin")
 public class ProductApi {
 
-	@Autowired
-	private ProductService productService;
+    @Autowired
+    private ProductService productService;
 
-	@Autowired
-	RestTemplate restTemplate;
+    @Autowired
+    RestTemplate restTemplate;
 
-	@GetMapping("/products/active")
-	public ResponseEntity<?> doGetAll(@RequestParam("page") Integer page, @RequestParam("items") Integer items) {
-		List<Product> products = productService.findByActived(Boolean.TRUE, page, items);
-		if (products.isEmpty()) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
-		}
-		return ResponseEntity.ok(products);
-	}
+    @GetMapping("/products/active")
+    public ResponseEntity<?> doGetAll(@RequestParam("page") Integer page, @RequestParam("items") Integer items) {
+        List<Product> products = productService.findByActived(Boolean.TRUE, page, items);
+        if (products.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
+        }
+        return ResponseEntity.ok(products);
+    }
 
-	@GetMapping("/products/subcategory")
-	public ResponseEntity<?> doGetBySubcategory() {
-		List<Product> products = productService.findBySubcategoryId((long) 1);
-		return ResponseEntity.ok(products);
-	}
+    @GetMapping("/products/subcategory")
+    public ResponseEntity<?> doGetBySubcategory() {
+        List<Product> products = productService.findBySubcategoryId((long) 1);
+        return ResponseEntity.ok(products);
+    }
 
-	@GetMapping("/products/{id}")
-	public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
-		Product product = productService.findById(id);
-		if (product == null) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm id:" + id));
-		}
-		return ResponseEntity.ok(product);
-	}
+    @GetMapping("/products/{id}")
+    public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
+        Product product = productService.findById(id);
+        if (product == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm id:" + id));
+        }
+        return ResponseEntity.ok(product);
+    }
 
-	@PostMapping("/products/datatables")
-	public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input,
-			@RequestParam("isActive") Optional<Boolean> isActive) {
-		return ResponseEntity.ok(productService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
-	}
+    @PostMapping("/products/datatables")
+    public ResponseEntity<?> doGetForDatatablesByActive(
+            @Valid @RequestBody DataTablesInput input,
+            @RequestParam("isActive") Optional<Boolean> isActive,
+            @RequestParam("categoryId") Optional<Long> categoryId) {
+        DataTablesOutput<Product> output = productService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE), categoryId.orElse(null));
+        return ResponseEntity.ok(output);
+    }
 
-	@PostMapping("/product")
-	public ResponseEntity<?> doPostCreate(@RequestBody ProductDto productDto, BindingResult result) {
-		if (result.hasErrors()) {
-			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
-			return ResponseEntity.badRequest().body(errors);
-		}
-		try {
-			productService.create(productDto);
-			return new ResponseEntity<>(HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-		}
+    @PostMapping("/product")
+    public ResponseEntity<?> doPostCreate(@RequestBody ProductDto productDto, BindingResult result) {
+        if (result.hasErrors()) {
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
+        try {
+            productService.create(productDto);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
 
-	}
+    }
 
-	@PutMapping("/product")
-	public ResponseEntity<?> doPutUpdate(@RequestBody Product product, BindingResult result) {
-		if (result.hasErrors()) {
-			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
-			return ResponseEntity.badRequest().body(errors);
-		}
-		if (productService.existsBySlug(product)) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
-		}
-		try {
-			productService.update(product);
-			return ResponseEntity.ok(new MessageResponse("Cập nhập sản phẩm thành công"));
-		} catch (Exception e) {
-			MessageResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
-			return ResponseEntity.badRequest().body(error);
-		}
-	}
+    @PutMapping("/product")
+    public ResponseEntity<?> doPutUpdate(@RequestBody Product product, BindingResult result) {
+        if (result.hasErrors()) {
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
+        if (productService.existsBySlug(product)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
+        }
+        try {
+            productService.update(product);
+            return ResponseEntity.ok(new MessageResponse("Cập nhập sản phẩm thành công"));
+        } catch (Exception e) {
+            MessageResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
 
-	@PutMapping("product/{id}")
-	public ResponseEntity<?> changeActiveSubcategoty(@PathVariable("id") Long id) {
-		try {
-			productService.changeActiveSubcategoty(id);
-			return ResponseEntity.ok(new MessageResponse("Cập nhập thành công"));
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-		}
+    @PutMapping("product/{id}")
+    public ResponseEntity<?> changeActiveSubcategoty(@PathVariable("id") Long id) {
+        try {
+            productService.changeActiveSubcategoty(id);
+            return ResponseEntity.ok(new MessageResponse("Cập nhập thành công"));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
 
-	}
+    }
 
-	@DeleteMapping("product/{id}")
-	public ResponseEntity<?> doDeleteById(@PathVariable("id") Long id) {
-		try {
-			return ResponseEntity.ok(productService.changeActive(id));
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-		}
-	}
+    @DeleteMapping("product/{id}")
+    public ResponseEntity<?> doDeleteById(@PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok(productService.changeActive(id));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
+    }
 
 }

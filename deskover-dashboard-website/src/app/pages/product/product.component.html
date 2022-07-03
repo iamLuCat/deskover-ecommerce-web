@@ -20,6 +20,7 @@
     <div class="card border-primary">
       <div class="card-header">
         <div class="row g-2">
+          <!-- Filter - Start -->
           <div class="col-auto">
             <label for="filter-active" class="col-form-label">Trạng thái:</label>
           </div>
@@ -29,6 +30,16 @@
               <option [ngValue]="false">Chưa kích hoạt</option>
             </select>
           </div>
+          <div class="col-md-auto col-sm-12">
+            <label for="filter-category" class="col-form-label">Danh mục cha:</label>
+          </div>
+          <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
+            <select id="filter-category" class="form-select" [(ngModel)]="categoryId" (change)="filter()">
+              <option [ngValue]="null">Tất cả</option>
+              <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+            </select>
+          </div>
+          <!-- Filter - End -->
           <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
             <button type="button" class="btn bg-faded-accent w-sm-100 rounded-pill" (click)="newProduct()"
                     placement="left"
