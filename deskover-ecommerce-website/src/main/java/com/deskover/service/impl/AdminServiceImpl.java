@@ -94,7 +94,7 @@ public class AdminServiceImpl implements AdminService {
     	adminUpdate.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
     	
     	Administrator entityAdmin = MapperUtil.map(adminUpdate, Administrator.class);
-//    	entityAdmin.setPassword(MapperUtil.map(adminUpdate.getPassword(), AdminPassword.class));
+    	// entityAdmin.setPassword(MapperUtil.map(adminUpdate.getPassword(), AdminPassword.class));
     	entityAdmin.getPassword().setAdmin(entityAdmin);
     	
     	repoPass.saveAndFlush(entityAdmin.getPassword());

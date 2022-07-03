@@ -1,11 +1,11 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
+import com.deskover.dto.ProductDto;
+import com.deskover.entity.Product;
+import com.deskover.repository.ProductRepository;
+import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.*;
+import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,16 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.dto.ProductDto;
-import com.deskover.entity.Product;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.BrandService;
-import com.deskover.service.CategoryService;
-import com.deskover.service.DiscountService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
-import com.deskover.util.MapperUtil;
+import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -105,17 +99,10 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("Không tìm thấy sản phẩm");
         }
         if (product.getSubCategory().getActived()) {
-            if (product.getActived()) {
-                product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-                product.setActived(Boolean.FALSE);
-                product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                return repository.saveAndFlush(product);
-            } else {
-                product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-                product.setActived(Boolean.FALSE);
-                product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                return repository.saveAndFlush(product);
-            }
+            product.setActived(!product.getActived());
+            product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+            product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+            return repository.saveAndFlush(product);
         } else {
             throw new IllegalArgumentException("Danh mục đã bị vô hiệu hoá");
         }

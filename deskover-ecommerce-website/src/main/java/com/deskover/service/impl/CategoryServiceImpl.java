@@ -120,17 +120,10 @@ public class CategoryServiceImpl implements CategoryService {
 		if (category == null) {
 			throw new IllegalArgumentException("Category not found");
 		}
-		if(category.getActived()) {
-			category.setActived(Boolean.FALSE);
-			category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			category.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			repo.saveAndFlush(category);
-		}else {
-			category.setActived(Boolean.TRUE);
-			category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			category.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			repo.saveAndFlush(category);
-		}
+		category.setActived(!category.getActived());
+		category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+		category.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		repo.saveAndFlush(category);
 		// Delete all subcategories of this category
 		List<Subcategory> subcategories = subcategoryService.getByCategory(id);
 		if (subcategories != null) {

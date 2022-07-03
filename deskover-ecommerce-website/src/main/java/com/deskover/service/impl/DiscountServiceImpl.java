@@ -48,17 +48,10 @@ public class DiscountServiceImpl implements DiscountService {
     public Discount changeActive(Long id) {
         Discount discount = this.getById(id);
         if (discount != null) {
-            if (discount.getActived()) {
-                discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-                discount.setActived(Boolean.FALSE);
-                discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                return repository.saveAndFlush(discount);
-            } else {
-                discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-                discount.setActived(Boolean.TRUE);
-                discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                return repository.saveAndFlush(discount);
-            }
+            discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+            discount.setActived(!discount.getActived());
+            discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+            return repository.saveAndFlush(discount);
         } else {
             return null;
         }
