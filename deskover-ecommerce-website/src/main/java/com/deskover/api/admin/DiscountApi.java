@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.deskover.configuration.security.payload.response.MessageErrorResponse;
 import com.deskover.configuration.security.payload.response.MessageErrorUtil;
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.entity.Discount;
@@ -69,7 +68,7 @@ public class DiscountApi {
 			discountService.create(discount);
 			return ResponseEntity.created(null).body(new MessageResponse("Thêm mới thành công"));
 		}catch (Exception e) {
-			MessageErrorResponse error = MessageErrorUtil.message("Thêm mới thất bại", e);
+			MessageResponse error = MessageErrorUtil.message("Thêm mới thất bại ", e);
 			return ResponseEntity.badRequest().body(error);
 		}
 	}
@@ -80,7 +79,7 @@ public class DiscountApi {
 			discountService.update(discount);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}catch (Exception e) {
-			MessageErrorResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
+			MessageResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
 			return ResponseEntity.badRequest().body(error);
 		}
 	}

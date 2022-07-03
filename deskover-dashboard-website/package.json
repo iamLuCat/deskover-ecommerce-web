@@ -34,6 +34,7 @@
     "@ng-bootstrap/ng-bootstrap": "^12.1.2",
     "@ngrx/store": "13.0.2",
     "angular-datatables": "^13.0.1",
+    "animate.css": "^4.1.1",
     "autoprefixer": "10.4.5",
     "bootstrap": "^5.2.0-beta1",
     "core-js": "3.8.0",

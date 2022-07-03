@@ -1,5 +1,19 @@
 package com.deskover.api.admin;
 
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.AdminCreateDto;
 import com.deskover.dto.AdministratorDto;
@@ -7,14 +21,6 @@ import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminPasswordService;
 import com.deskover.service.AdminService;
 import com.deskover.util.ValidationUtil;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("v1/api/admin")

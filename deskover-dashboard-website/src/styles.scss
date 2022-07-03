@@ -8,10 +8,13 @@ $blue: #1c519d;
 @import '~admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css';
 @import '~admin-lte/dist/css/adminlte.min.css';
 
+@import '~ngx-bootstrap/datepicker/bs-datepicker.css';
 @import '~ngx-toastr/toastr';
 
 @import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
+
+@import "~animate.css/animate.min.css";
 
 body {
   width: 100vw;
@@ -25,15 +28,55 @@ body {
 }
 
 // CSS Custom - Start
+.brand-link {
+  text-align: left;
+}
+
+.brand-image {
+  display: none;
+  animation: fadeOut 0.5s ease;
+}
+
+@media (min-width: 992px) {
+  .brand-link {
+    text-align: center;
+  }
+
+  .sidebar-mini.sidebar-collapse .brand-image {
+    display: block;
+
+    animation: fadeIn 0.5s ease;
+  }
+
+  .sidebar-mini.sidebar-collapse .main-sidebar:hover .brand-image {
+    display: none;
+  }
+}
+
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
 .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
-  background-color: #1c519d;
+  background-color: $primary !important;
   color: #fff;
 }
 
 .page-item.active .page-link {
-  background-color: #1c519d;
-  border-color: #1c519d;
+  background-color: $primary !important;
+  border-color: $primary !important;
+}
+
+.bs-datepicker-head,
+.bs-datepicker-head, .bs-datepicker button:active,
+.bs-datepicker-body table td span.selected,
+.bs-datepicker-body table td.selected span,
+.bs-datepicker-body table td span[class*="select-"]:after,
+.bs-datepicker-body table td[class*="select-"] span:after,
+.bs-datepicker-body table td.active-week span:hover
+{
+  background-color: $primary !important;
+}
+.bs-datepicker-body table td.week span
+{
+  color: $primary !important;
 }
 
 .table-responsive {
@@ -82,6 +125,13 @@ body {
 
 .file-drop-area > img {
   width: 150px;
+}
+
+.login-page {
+  background-image: url('/assets/images/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 // CSS Custom - End
