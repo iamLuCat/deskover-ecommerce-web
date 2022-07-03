@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layout/layout :: layout(  
+        ~{::title},
+        ~{::#content}
+    )}">
+<head>
+    <title>Title of About Page</title>
+</head>
+<body id="content">
+    
+    <!-- Page Title-->
+    <nav th:replace="~{components/page_title :: component(  
+        ~{::#title},
+        ~{::#breadcrumb}
+    )}">
+        <div class="title">test</div>
+        <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+            <li class="breadcrumb-item"><a class="text-nowrap" href="index.html"><i class="ci-home"></i>Home</a></li>
+            <li class="breadcrumb-item text-nowrap"><a href="shop-grid-ls.html">Shop</a>
+            </li>
+            <li class="breadcrumb-item text-nowrap active" aria-current="page">Cart</li>
+        </ol>
+    </nav>
+</body>
+</html>

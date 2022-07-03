@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout (title, modal, main)">
+
+<head>
+    <title th:replace="${title}">title</title>
+    <th:block th:include="components/header.html :: header"></th:block>
+    <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
+    <link rel="stylesheet" media="screen" href="vendor/simplebar/dist/simplebar.min.css" />
+    <link rel="stylesheet" media="screen" href="vendor/tiny-slider/dist/tiny-slider.css" />
+    <link rel="stylesheet" media="screen" href="vendor/drift-zoom/dist/drift-basic.min.css" />
+    <link rel="stylesheet" media="screen" href="vendor/lightgallery.js/dist/css/lightgallery.min.css" />
+</head>
+
+<body class="handheld-toolbar-enabled">
+    <!-- Sign in / sign up modal-->
+    <th:block th:replace="components/modal/signin_signup.html :: modal"></th:block>
+    <th:block th:replace="${modal} ?: ~{}"></th:block>
+    <main class="page-wrapper">
+        <!-- Quick View Modal-->
+        <th:block th:replace="components/modal/quick_view.html :: modal"></th:block>
+        <!-- Navbar Store-->
+        <th:block th:replace="components/navigation_header.html :: menu"></th:block>
+        <article th:insert="${main} ?: ~{}" th:remove="tag">
+        </article>
+    </main>
+
+    <!-- Footer-->
+    <th:block th:replace="components/footer.html :: footer"></th:block>
+    <th:block th:include="components/scripts.html :: scripts"></th:block>
+</body>
+
+</html>
