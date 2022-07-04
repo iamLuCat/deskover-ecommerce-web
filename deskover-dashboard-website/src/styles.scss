@@ -190,6 +190,13 @@ body {
   content: '';
 }
 
+@media (min-width: 576px) {
+  .user-menu > .dropdown-menu > .user-body a {
+    background: #ffffff !important;
+    color: #495057 !important;
+  }
+}
+
 .user-menu > .dropdown-menu > .user-footer {
   background-color: #f8f9fa;
   padding: 10px;
@@ -205,6 +212,12 @@ body {
   color: #6c757d;
 }
 
+@media (min-width: 576px) {
+  .user-menu > .dropdown-menu > .user-footer .btn-default:hover {
+    background-color: #f8f9fa;
+  }
+}
+
 .user-menu .user-image {
   border-radius: 50%;
   float: left;
@@ -212,6 +225,15 @@ body {
   margin-right: 10px;
   margin-top: -2px;
   width: 2.1rem;
+}
+
+@media (min-width: 576px) {
+  .user-menu .user-image {
+    float: none;
+    line-height: 10px;
+    margin-right: 0.4rem;
+    margin-top: -8px;
+  }
 }
 
 .user-menu .user-image {
@@ -225,26 +247,14 @@ body {
   padding: 0 0.5rem;
 }
 
-@media (min-width: 576px) {
-  .user-menu > .dropdown-menu > .user-footer .btn-default:hover {
-    background-color: #f8f9fa;
-  }
-
-  .user-menu .user-image {
-    float: none;
-    line-height: 10px;
-    margin-right: 0.4rem;
-    margin-top: -8px;
-  }
-
-  .user-menu > .dropdown-menu > .user-body a {
-    background: #ffffff !important;
-    color: #495057 !important;
-  }
+// Sidebar menu animation
+// Needed for open/close menu animation for menus with child nodes
+.nav .nav-item:not(.menu-open) > .ng-trigger-openClose,
+.nav .nav-item > .ng-trigger-openClose.ng-animating {
+  overflow: hidden;
+  display: block;
 }
-
-@media (max-width: 575.98px) {
-  .w-sm-100 {
-    width: 100% !important;
-  }
+// Override original AdminLTE transform
+.nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
+  transform: none;
 }
