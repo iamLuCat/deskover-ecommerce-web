@@ -1,10 +1,10 @@
 <button
     [type]="type"
-    class="btn btn-{{ color }} d-flex align-items-center justify-content-center rounded-pill"
+    class="btn btn-{{ color }}"
     [ngClass]="{'btn-block': block}"
     [disabled]="disabled || loading"
 >
-    <i *ngIf="!!icon" class="me-2" [ngClass]="icons[icon]"></i>
+    <i *ngIf="!!icon" class="mr-2" [ngClass]="icons[icon]"></i>
     <ng-content></ng-content>
     <span
         *ngIf="loading"
