@@ -201,7 +201,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   }
 
   deleteDiscount(id: number) {
-    AlertUtils.warning('Xác nhận', 'Khuyến mãi áp dụng trên sản phẩm sẽ bị huỷ. Tiếp tục?').then((result) => {
+    AlertUtils.warning('Xác nhận xoá', 'Khuyến mãi đang áp dụng trên sản phẩm sẽ bị huỷ').then((result) => {
       if (result.value) {
         this.discountService.changeActive(id).subscribe(data => {
           AlertUtils.toastSuccess('Xoá danh mục thành công');
