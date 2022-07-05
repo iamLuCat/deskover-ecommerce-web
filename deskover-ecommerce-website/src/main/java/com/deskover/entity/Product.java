@@ -5,17 +5,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -87,5 +77,15 @@ public class Product implements Serializable {
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "product")
+    private ProductThumbnail productThumbnail;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private Set<Rating> ratings = new LinkedHashSet<>();
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "product")
+    private ProductDetail productDetail;
 
 }
