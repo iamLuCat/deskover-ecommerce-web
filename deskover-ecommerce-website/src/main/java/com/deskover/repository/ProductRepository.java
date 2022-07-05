@@ -12,4 +12,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Boolean existsBySlug(String slug);
 	Product findBySlug(String slug);
 	List<Product> findBySubCategoryId(Long id);
+
+	// Remo
 }

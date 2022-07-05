@@ -9,7 +9,6 @@ export interface Product {
   description: string;
   price: number;
   image: string;
-  createdAt: Date;
   modifiedAt: Date;
   modifiedBy: string;
   actived: boolean;

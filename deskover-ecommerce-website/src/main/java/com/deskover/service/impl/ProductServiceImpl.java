@@ -1,6 +1,7 @@
 package com.deskover.service.impl;
 
 import com.deskover.dto.ProductDto;
+import com.deskover.entity.Discount;
 import com.deskover.entity.Product;
 import com.deskover.repository.ProductRepository;
 import com.deskover.repository.datatables.ProductRepoForDatatables;

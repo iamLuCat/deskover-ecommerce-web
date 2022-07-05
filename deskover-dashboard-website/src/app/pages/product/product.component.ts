@@ -1,12 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { Product } from "@/entites/product";
-import { DataTableDirective } from "angular-datatables";
-import { NgbModal, NgbModalConfig } from "@ng-bootstrap/ng-bootstrap";
-import { ProductService } from "@services/product.service";
-import { AlertUtils } from "@/utils/alert-utils";
-import { Category } from "@/entites/category";
-import { CategoryService } from '@services/category.service';
-import { DatePipe } from "@angular/common";
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Product} from "@/entites/product";
+import {DataTableDirective} from "angular-datatables";
+import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
+import {ProductService} from "@services/product.service";
+import {AlertUtils} from "@/utils/alert-utils";
+import {Category} from "@/entites/category";
+import {CategoryService} from '@services/category.service';
+import {DatePipe} from "@angular/common";
+import {Subcategory} from "@/entites/subcategory";
+import {SubcategoryService} from "@services/subcategory.service";
 
 @Component({
   selector: 'app-product',
@@ -19,6 +21,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
   product: Product;
   categories: Category[];
   categoryId: number = null;
+  subcategories: Subcategory[];
+  subcategoryId: number = null;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -26,19 +30,21 @@ export class ProductComponent implements OnInit, AfterViewInit {
   dtOptions: any = {};
 
   @ViewChild('productModal') productModal: any;
-  @ViewChild(DataTableDirective, { static: false }) dtElement: DataTableDirective;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
     private modalConfig: NgbModalConfig,
     private modalService: NgbModal,
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private subcategoryService: SubcategoryService,
   ) {
     modalConfig.backdrop = 'static';
     modalConfig.keyboard = false;
     modalConfig.centered = true;
 
     this.getCategories();
+    this.getSubcategories();
   }
 
   ngOnInit() {
@@ -49,11 +55,15 @@ export class ProductComponent implements OnInit, AfterViewInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      responsive: true,
       lengthMenu: [5, 10, 25, 50, 100],
+      responsive: true,
       serverSide: true,
       processing: true,
       stateSave: true,
+      columnDefs: [{
+        "defaultContent": "",
+        "targets": "_all",
+      }],
       ajax: (dataTablesParameters: any, callback) => {
         this.productService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.categoryId).then(resp => {
           self.products = resp.data;
@@ -64,12 +74,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
           });
         });
       },
-      columnDefs: [
-        { responsivePriority: 1, targets: 0 },
-        { responsivePriority: 10001, targets: 2 },
-        { responsivePriority: 10002, targets: 6 },
-        { responsivePriority: 2, targets: 7 }
-      ],
       columns: [
         {
           title: 'Ảnh',
@@ -79,32 +83,64 @@ export class ProductComponent implements OnInit, AfterViewInit {
           className: 'align-middle',
           render: (data, type, row, meta) => {
             let srcImg = data ? data : 'assets/images/no-image.png';
-            return `<img src="${srcImg}" class="img-fluid" style="max-width: 70px;">`;
-          }
+            return `<img src="${srcImg}" class="img-fluid img-thumbnail" style="max-width: 70px;" alt="product-thumbnail">`;
+          },
+          responsivePriority: 1
         },
-        { title: 'Tên', data: 'name', className: 'align-middle' },
-        { title: 'Slug', data: 'slug', className: 'align-middle' },
+        {
+          title: 'Tên',
+          data: 'name',
+          className: 'align-middle'
+        },
+        {
+          title: 'Slug',
+          data: 'slug',
+          className: 'align-middle',
+          responsivePriority: 10001
+        },
         {
           title: 'Thương hiệu',
           data: 'brand.name',
           className: 'align-middle text-md-center text-start',
         },
-        { title: 'Danh mục', data: 'subCategory.name', className: 'align-middle' },
+        {
+          title: 'Danh mục',
+          data: 'subCategory.name',
+          className: 'align-middle'
+        },
         {
           title: 'Giá',
           data: 'price',
           className: 'align-middle',
           render: (data, type, row, meta) => {
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
-          }
+            return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data);
+          },
         },
         {
-          title: 'Ngày tạo',
-          data: 'createdAt',
+          title: 'Khuyến mãi',
+          data: 'discount',
+          className: 'align-middle',
+          render: (data, type, row, meta) => {
+            if (data) {
+              return `
+                ${data.name} <span class="badge badge-danger">${data.percent}%</span>
+              `;
+            }
+          },
+          responsivePriority: 10001
+        },
+        {
+          title: 'Ngày cập nhật',
+          data: 'modifiedAt',
           className: 'align-middle',
           render: (data, type, row, meta) => {
             return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          }
+          },
+        },
+        {
+          title: 'Cập nhật bởi',
+          data: 'modifiedBy',
+          className: 'align-middle'
         },
         {
           title: 'Công cụ',
@@ -128,7 +164,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
               return `
                <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
             }
-          }
+          },
+          responsivePriority: 1
         },
       ]
     }
@@ -164,10 +201,16 @@ export class ProductComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /* Category */
+  /* Category & Subcategory */
   getCategories() {
     this.categoryService.getByActive().subscribe(data => {
       this.categories = data;
+    });
+  }
+
+  getSubcategories() {
+    this.subcategoryService.getByActive(true, this.categoryId).subscribe(data => {
+      this.subcategories = data;
     });
   }
 

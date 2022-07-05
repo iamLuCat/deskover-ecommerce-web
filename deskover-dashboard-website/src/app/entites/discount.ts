@@ -5,7 +5,6 @@ export interface Discount {
   percent: number;
   startDate: number;
   endDate: number;
-  createdAt: Date;
   modifiedAt: Date;
   modifiedBy: string;
   actived: boolean;
