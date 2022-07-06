@@ -64,7 +64,7 @@
 <!-- Modal -->
 <ng-template #subcategoryModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title text-danger" id="modal-basic-title">
+    <h4 class="modal-title text-primary" id="modal-basic-title">
       {{ isEdit ? 'Cập nhật' : 'Thêm' }} danh mục
     </h4>
     <button
@@ -126,7 +126,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger" (click)="saveSubcategory(subcategoryDto); c('Save click')"
+    <button type="button" class="btn btn-outline-primary" (click)="saveSubcategory(subcategoryDto); c('Save click')"
             [disabled]="subcategoryForm.invalid">Lưu
     </button>
   </div>
