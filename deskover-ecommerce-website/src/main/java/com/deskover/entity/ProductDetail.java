@@ -1,13 +1,24 @@
 package com.deskover.entity;
 
+import java.io.Serializable;
+import java.time.Instant;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,11 +31,7 @@ public class ProductDetail implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
+    
     @Column(name = "cpu")
     private String cpu;
 
@@ -73,5 +80,10 @@ public class ProductDetail implements Serializable {
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
+    
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
 }
