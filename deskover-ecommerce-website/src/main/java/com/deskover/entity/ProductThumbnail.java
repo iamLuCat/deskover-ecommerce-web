@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -22,10 +24,6 @@ public class ProductThumbnail implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
 
     @Column(name = "thumbnail_1")
     private String thumbnail1;
@@ -45,5 +43,10 @@ public class ProductThumbnail implements Serializable {
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
+    
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -77,17 +78,9 @@ public class Product implements Serializable {
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
-
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "product")
-    private ProductThumbnail productThumbnail;
-
+    
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<Rating> ratings = new LinkedHashSet<>();
-
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "product")
-    private ProductDetail productDetail;
 
 }

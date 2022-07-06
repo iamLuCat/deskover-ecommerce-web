@@ -21,6 +21,14 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "orders")
+@NamedStoredProcedureQuery(name = "Order.getTotalPrice_Shiping_PerMonth", 
+  procedureName = "getTotalPrice_Shiping_PerMonth", parameters = {
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "month", type = String.class),
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "year", type = String.class),
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "modified_by", type = String.class),
+  @StoredProcedureParameter(mode = ParameterMode.OUT, name = "total", type = String.class),
+  
+  })
 public class Order implements Serializable {
 	
     private static final long serialVersionUID = 3887345717822508619L;
