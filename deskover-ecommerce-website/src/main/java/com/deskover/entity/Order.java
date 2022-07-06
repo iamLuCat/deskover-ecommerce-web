@@ -22,7 +22,9 @@ import java.util.Set;
 @Entity
 @Table(name = "orders")
 public class Order implements Serializable {
+	
     private static final long serialVersionUID = 3887345717822508619L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -31,7 +33,7 @@ public class Order implements Serializable {
     @Column(name = "order_code", nullable = false, length = 11)
     private String orderCode;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     
@@ -53,10 +55,12 @@ public class Order implements Serializable {
     @Column(name = "email", length = 50)
     private String email;
 
-    @Column(name = "status", nullable = false)
-    @CreationTimestamp
-    private Timestamp status;
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
 
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
+    
     @JsonIgnore
     @OneToMany(mappedBy = "order")
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
@@ -64,12 +68,5 @@ public class Order implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
-
-    @Column(name = "created_at", nullable = false)
-    @CreationTimestamp
-    private Timestamp createdAt;
-
-    @Column(name = "modified_by", length = 50)
-    private String modifiedBy;
 
 }
