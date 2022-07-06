@@ -13,6 +13,5 @@ public class AdminPasswordDto implements Serializable {
     private static final long serialVersionUID = -1375560384006807504L;
     private Long id;
     private String password;
-    private Timestamp createdDate;
-    private Timestamp modifiedDate;
+    private Timestamp modifiedAt;
 }
