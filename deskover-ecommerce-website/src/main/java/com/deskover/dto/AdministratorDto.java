@@ -16,11 +16,10 @@ public class AdministratorDto implements Serializable {
     private String username;
     private String fullname;
     private Timestamp lastLogin;
-    private Timestamp createdAt;
     private Timestamp modifiedAt;
-    private String modifiedUser;	
+    private String modifiedBy;	
     private Boolean actived;
     private String avatar;
     private AdminPasswordDto password;
-//    private Set<AdminAuthorityDto> authorities;
+    private Set<AdminAuthorityDto> authorities;
 }

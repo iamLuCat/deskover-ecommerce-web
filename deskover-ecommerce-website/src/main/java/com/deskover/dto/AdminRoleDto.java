@@ -17,5 +17,5 @@ public class AdminRoleDto implements Serializable {
     private Long id;
     private String name;
     private String description;
-    private Timestamp createdDate;
+    private Timestamp modifiedAt;
 }

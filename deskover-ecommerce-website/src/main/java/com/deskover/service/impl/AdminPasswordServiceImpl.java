@@ -32,7 +32,7 @@ public class AdminPasswordServiceImpl implements AdminPasswordService{
 		}
 		String hashPassword = bcrypt.encode(adminPassword.getPassword());
 		adminPassword.setPassword(hashPassword);
-		adminPassword.setModifiedAt(null);
+		adminPassword.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 		adminPassword.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 		return repo.save(adminPassword);
 	}
