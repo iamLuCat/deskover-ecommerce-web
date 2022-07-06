@@ -50,17 +50,48 @@
     </div>
   </div>
 </section>
+<ng-template #productModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-primary" id="modal-title">
+      Sản phẩm khuyến mãi
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+      <li ngbNavItem>
+        <a ngbNavLink>Tất cả sản phẩm</a>
+        <ng-template ngbNavContent>
+          <div class="table-responsive p-3 mt-3">
+            <table datatable [dtOptions]="dtProductOptions" class="table table-hover table-sm nowrap w-100">
+              <thead class="table-primary"></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </ng-template>
+      </li>
+      <li ngbNavItem>
+        <a ngbNavLink>Sản phẩm khuyến mãi</a>
+        <ng-template ngbNavContent>Second content</ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">
+      Lưu
+    </button>
+  </div>
+</ng-template>
 <!-- Modal -->
 <ng-template #discountModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title text-danger" id="modal-basic-title">
+    <h4 class="modal-title text-primary" id="modal-basic-title">
       {{ isEdit ? 'Cập nhật' : 'Thêm' }} khuyến mãi
     </h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -107,14 +138,13 @@
           <label for="description" class="form-label">Mô tả</label>
           <textarea class="form-control" id="description" rows="3" name="description"
                     [(ngModel)]="discount.description" #description="ngModel"></textarea>
-
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
     <button type="button"
-            class="btn btn-outline-danger"
+            class="btn btn-outline-primary"
             (click)="saveDiscount(discount); c('Save click')"
             [disabled]="discountForm.invalid">
       Lưu

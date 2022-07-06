@@ -53,7 +53,7 @@
 <!-- Modal -->
 <ng-template #brandModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title text-danger" id="modal-basic-title">
+    <h4 class="modal-title text-primary" id="modal-basic-title">
       {{ isEdit ? 'Cập nhật' : 'Thêm' }} thương hiệu
     </h4>
     <button
@@ -109,7 +109,7 @@
   </div>
   <div class="modal-footer">
     <button type="button"
-            class="btn btn-outline-danger"
+            class="btn btn-outline-primary"
             (click)="saveBrand(brand); c('Save click')"
             [disabled]="brandForm.invalid">
       Lưu
