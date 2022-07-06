@@ -16,7 +16,7 @@ import { AlertUtils } from '@/utils/alert-utils';
 export class CategoryComponent implements OnInit {
 
   categories: Category[];
-  category: Category;
+  category: Category = <Category>{};
 
   isEdit: boolean = false;
   isActive: boolean = true;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
@@ -12,7 +13,7 @@ import com.deskover.entity.Product;
 
 public interface ProductService{
 	
-	List<Product> findByActived(Boolean actived,Integer page, Integer size);
+	Page<Product> findByActived(Boolean actived, Integer page, Integer size);
 	
 	List<Product> findBySubcategoryId(Long id);
 	

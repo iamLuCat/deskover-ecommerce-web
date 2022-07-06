@@ -17,9 +17,9 @@ import {Product} from "@/entites/product";
 })
 export class PromotionComponent implements OnInit, AfterViewInit {
   discounts: Discount[];
-  discount: Discount;
+  discount: Discount = <Discount>{};
   products: Product[];
-  product: Product;
+  product: Product = <Product>{};
 
   isEdit: boolean = false;
   isActive: boolean = true;
