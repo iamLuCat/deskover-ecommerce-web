@@ -1,18 +1,9 @@
 package com.deskover.api.admin;
 
-import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.dto.ghtk.UrlGGStrogeResponDto;
-import com.deskover.util.FileUtil;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.ghtk.UrlGGStrogeResponDto;
-import com.deskover.service.FileService;
+import com.deskover.util.FileUtil;
 
 @RestController
 @CrossOrigin("*")
