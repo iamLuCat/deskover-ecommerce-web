@@ -108,6 +108,18 @@ body {
   background-color: rgba(243, 71, 112, .09) !important;
 }
 
+.bg-faded-cyan {
+  background-color: rgba(0, 188, 212, .09) !important;
+}
+
+.bg-faded-success {
+  background-color: rgba(76, 175, 80, .09) !important;
+}
+
+.bg-faded-warning {
+  background-color: rgba(255, 152, 0, .09) !important;
+}
+
 .file-drop-area {
   position: relative;
   padding: 1rem 1rem;
@@ -127,6 +139,10 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.nav-sidebar .nav-link p {
+  white-space: nowrap;
 }
 
 // CSS Custom - End

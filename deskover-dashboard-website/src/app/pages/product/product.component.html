@@ -64,7 +64,7 @@
 <!-- Modal -->
 <ng-template #productModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title text-danger" id="modal-basic-title">
+    <h4 class="modal-title text-primary" id="modal-basic-title">
       {{ isEdit ? 'Cập nhật' : 'Thêm' }} sản phẩm
     </h4>
     <button
@@ -97,7 +97,7 @@
   </div>
   <div class="modal-footer">
     <button type="button"
-            class="btn btn-outline-danger"
+            class="btn btn-outline-primary"
             (click)="saveProduct(product); c('Save click')"
             [disabled]="productForm.invalid">
       Lưu

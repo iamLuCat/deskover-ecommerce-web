@@ -7,6 +7,8 @@ import {DiscountService} from "@services/discount.service";
 import {DatePipe} from "@angular/common";
 import {AlertUtils} from "@/utils/alert-utils";
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
+import {ProductService} from "@services/product.service";
+import {Product} from "@/entites/product";
 
 @Component({
   selector: 'app-promotion',
@@ -16,11 +18,14 @@ import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 export class PromotionComponent implements OnInit, AfterViewInit {
   discounts: Discount[];
   discount: Discount;
+  products: Product[];
+  product: Product;
 
   isEdit: boolean = false;
   isActive: boolean = true;
 
   dtOptions: any = {};
+  dtProductOptions: any = {};
 
   bsConfig?: Partial<BsDatepickerConfig>;
   discountDateRange: Date[] = [new Date(), new Date()];
@@ -28,12 +33,14 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   discountEndTime: Date = new Date();
 
   @ViewChild('discountModal') discountModal: any;
+  @ViewChild('productModal') productModal: any;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
     private modalConfig: NgbModalConfig,
     private modalService: NgbModal,
     private discountService: DiscountService,
+    private productService: ProductService,
   ) {
     modalConfig.size = 'lg';
     modalConfig.backdrop = 'static';
@@ -108,6 +115,10 @@ export class PromotionComponent implements OnInit, AfterViewInit {
             if (self.isActive) {
               return `
               <div class="d-flex justify-content-end align-items-center">
+              <a href="javascript:void(0)" class="btn btn-product btn-sm bg-faded-warning me-2" data-id="${data.id}"
+                    title="Sản phẩm" data-toggle="tooltip">
+                    <i class="fa-solid fa-box text-warning"></i>
+                </a>
                 <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-2" data-id="${data.id}"
                     title="Sửa" data-toggle="tooltip">
                     <i class="fa fa-pen-square text-info"></i>
@@ -126,7 +137,97 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         },
       ]
     }
+
+    self.dtProductOptions = {
+      pagingType: 'full_numbers',
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
+      },
+      lengthMenu: [5, 10, 25, 50, 100],
+      responsive: true,
+      serverSide: true,
+      processing: true,
+      stateSave: true,
+      columnDefs: [{
+        "defaultContent": "",
+        "targets": "_all",
+      }],
+      ajax: (dataTablesParameters: any, callback) => {
+        this.productService.getByActiveForDatatable(dataTablesParameters, true, null).then(resp => {
+          self.products = resp.data;
+          callback({
+            recordsTotal: resp.recordsTotal,
+            recordsFiltered: resp.recordsFiltered,
+            data: self.products
+          });
+        });
+      },
+      columns: [
+        {
+          title: 'Ảnh',
+          data: 'image',
+          orderable: false,
+          searchable: false,
+          className: 'align-middle',
+          render: (data, type, row, meta) => {
+            let srcImg = data ? data : 'assets/images/no-image.png';
+            return `<img src="${srcImg}" class="img-fluid img-thumbnail" style="max-width: 70px;" alt="product-thumbnail">`;
+          },
+          responsivePriority: 1
+        },
+        {
+          title: 'Tên',
+          data: 'name',
+          className: 'align-middle'
+        },
+        {
+          title: 'Thương hiệu',
+          data: 'brand.name',
+          className: 'align-middle text-md-center text-start',
+        },
+        {
+          title: 'Danh mục',
+          data: 'subCategory.name',
+          className: 'align-middle'
+        },
+        {
+          title: 'Khuyến mãi',
+          data: 'discount',
+          className: 'align-middle',
+          render: (data, type, row, meta) => {
+            if (data) {
+              return `
+                ${data.name} <span class="badge badge-danger">${data.percent}%</span>
+              `;
+            }
+          },
+          responsivePriority: 10001
+        },
+        {
+          title: 'Công cụ',
+          data: null,
+          orderable: false,
+          searchable: false,
+          className: 'align-middle text-start text-md-end',
+          render: (data, type, full, meta) => {
+            if (self.isActive) {
+              return `
+                <a href="javascript:void(0)" class="btn btn-add-product btn-sm bg-faded-info me-1" data-id="${data.id}"
+                    title="Sửa" data-toggle="tooltip">
+                    <i class="fa fa-pen-square text-info"></i>
+                </a>
+            `;
+            } else {
+              return `
+               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
+            }
+          },
+          responsivePriority: 1
+        },
+      ]
+    }
   }
+
 
   ngAfterViewInit() {
     const self = this;
@@ -143,6 +244,11 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     body.on('click', '.btn-active', function () {
       const id = $(this).data('id');
       self.activeDiscount(id);
+    });
+
+    body.on('click', '.btn-product', function () {
+      const id = $(this).data('id');
+      self.getProduct(id);
     });
   }
 
@@ -216,6 +322,12 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
       this.rerender();
     });
+  }
+
+  getProduct(id: number) {
+
+
+    this.openModal(this.productModal);
   }
 
   // Modal
