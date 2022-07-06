@@ -53,7 +53,7 @@
 <ng-template #productModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-primary" id="modal-title">
-      Sản phẩm khuyến mãi
+      {{discount.name}} - Giảm giá {{discount.percent}}%
     </h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
@@ -63,8 +63,8 @@
     <ul ngbNav #nav="ngbNav" class="nav-tabs">
       <li ngbNavItem>
         <a ngbNavLink>Tất cả sản phẩm</a>
-        <ng-template ngbNavContent>
-          <div class="table-responsive p-3 mt-3">
+        <ng-template ngbNavContent class="p-0">
+          <div class="table-responsive p-1 mt-2">
             <table datatable [dtOptions]="dtProductOptions" class="table table-hover table-sm nowrap w-100">
               <thead class="table-primary"></thead>
               <tbody></tbody>

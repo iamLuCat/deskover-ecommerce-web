@@ -143,8 +143,13 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
+      pageLength: 8,
+      lengthMenu: [8, 16, 32, 64],
       responsive: true,
+      paging: true,
+      // scrollX: false,
+      // scrollY: '45vh',
+      // scrollCollapse: true,
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -164,18 +169,6 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       },
       columns: [
         {
-          title: 'Ảnh',
-          data: 'image',
-          orderable: false,
-          searchable: false,
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            let srcImg = data ? data : 'assets/images/no-image.png';
-            return `<img src="${srcImg}" class="img-fluid img-thumbnail" style="max-width: 70px;" alt="product-thumbnail">`;
-          },
-          responsivePriority: 1
-        },
-        {
           title: 'Tên',
           data: 'name',
           className: 'align-middle'
@@ -191,19 +184,6 @@ export class PromotionComponent implements OnInit, AfterViewInit {
           className: 'align-middle'
         },
         {
-          title: 'Khuyến mãi',
-          data: 'discount',
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            if (data) {
-              return `
-                ${data.name} <span class="badge badge-danger">${data.percent}%</span>
-              `;
-            }
-          },
-          responsivePriority: 10001
-        },
-        {
           title: 'Công cụ',
           data: null,
           orderable: false,
@@ -212,14 +192,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
-                <a href="javascript:void(0)" class="btn btn-add-product btn-sm bg-faded-info me-1" data-id="${data.id}"
-                    title="Sửa" data-toggle="tooltip">
-                    <i class="fa fa-pen-square text-info"></i>
-                </a>
-            `;
-            } else {
-              return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
+               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Thêm khuyến mãi</button>`
             }
           },
           responsivePriority: 1
@@ -235,7 +208,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     let body = $('body');
     body.on('click', '.btn-edit', function () {
       const id = $(this).data('id');
-      self.getDiscount(id);
+      self.editDiscount(id);
     });
     body.on('click', '.btn-delete', function () {
       const id = $(this).data('id');
@@ -282,6 +255,10 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       this.discountStartTime = new Date(this.discount.startDate);
       this.discountEndTime = new Date(this.discount.endDate);
     });
+  }
+
+  editDiscount(id: number) {
+    this.getDiscount(id);
     this.isEdit = true;
     this.openModal(this.discountModal);
   }
@@ -324,15 +301,15 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getProduct(id: number) {
-
-
-    this.openModal(this.productModal);
+  getProduct(discountId: number) {
+    this.getDiscount(discountId);
+    this.openModal(this.productModal, 'xl');
   }
 
   // Modal
-  openModal(content) {
+  openModal(content: any, size: string = 'lg') {
     this.closeModal();
+    this.modalConfig.size = size;
     this.modalService.open(content);
   }
 
