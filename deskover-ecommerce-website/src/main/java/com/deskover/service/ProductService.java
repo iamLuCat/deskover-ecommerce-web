@@ -38,8 +38,4 @@ public interface ProductService{
     void changeDelete(List<Product> products, Boolean isActive);
 	
 	void changeActiveSubcategoty(Long id);
-
-
-
-
 }

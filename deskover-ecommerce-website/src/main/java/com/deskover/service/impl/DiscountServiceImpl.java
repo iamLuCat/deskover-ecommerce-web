@@ -73,7 +73,23 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     @Transactional
-    public Discount update(Discount discount) {
+    public Discount update(Discount discount, Long productIdToAdd, Long productIdToRemove) {
+        if (productIdToAdd != null) {
+            Product product = productService.findById(productIdToAdd);
+            product.setDiscount(discount);
+            if (productService.update(product) == null) {
+                throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
+            }
+        }
+
+        if (productIdToRemove != null) {
+            Product product = productService.findById(productIdToRemove);
+            product.setDiscount(null);
+            if (productService.update(product) == null) {
+                throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
+            }
+        }
+
         discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repository.saveAndFlush(discount);

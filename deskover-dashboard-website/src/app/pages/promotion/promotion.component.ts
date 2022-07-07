@@ -339,8 +339,8 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   }
 
   editDiscount(discountId: number) {
-    this.getDiscount(discountId);
     this.isEdit = true;
+    this.getDiscount(discountId);
     this.openModal(this.discountModal);
   }
 
@@ -388,16 +388,17 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   }
 
   addProduct(productId: number) {
-    this.discountService.update(this.discount, productId).subscribe(data => {
+    this.discountService.update(this.discount, productId, null).subscribe(data => {
       AlertUtils.toastSuccess('Thêm sản phẩm thành công');
-      this.rerender();
+      $('.product-table').DataTable().ajax.reload(null, false);
+
     });
   }
 
   removeProduct(productId: number) {
-    this.discountService.update(this.discount, productId).subscribe(data => {
+    this.discountService.update(this.discount, null, productId).subscribe(data => {
       AlertUtils.toastSuccess('Xoá sản phẩm thành công');
-      this.rerender();
+      $('.product-table').DataTable().ajax.reload(null, false);
     });
   }
 
