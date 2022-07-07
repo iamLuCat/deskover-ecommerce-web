@@ -22,15 +22,6 @@ export class ProductService {
     return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params).toPromise();
   }
 
-  getAll(page: number, size: number, active: Boolean): Observable<any> {
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString())
-      .set('active', active.toString());
-
-    return this.restApi.getWithParams(this.url, params);
-  }
-
   getByActive(): Observable<Product[]> {
     return this.restApi.get(this.url + "/actived");
   }

@@ -14,7 +14,7 @@ import {BrandService} from "@services/brand.service";
 export class BrandComponent implements OnInit, AfterViewInit {
 
   brands: Brand[];
-  brand: Brand;
+  brand: Brand = <Brand>{};
 
   isEdit: boolean = false;
   isActive: boolean = true;

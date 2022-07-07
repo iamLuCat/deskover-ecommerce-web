@@ -18,8 +18,8 @@ import {SubcategoryDto} from "@/dtos/subcategory-dto";
 })
 export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   subcategories: Subcategory[];
-  subcategory: Subcategory;
-  subcategoryDto: SubcategoryDto;
+  subcategory: Subcategory = <Subcategory>{};
+  subcategoryDto: SubcategoryDto = <SubcategoryDto>{};
 
   categories: Category[];
 

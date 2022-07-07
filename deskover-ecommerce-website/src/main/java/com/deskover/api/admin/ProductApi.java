@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.HttpStatus;
@@ -43,8 +44,8 @@ public class ProductApi {
     RestTemplate restTemplate;
 
     @GetMapping("/products/active")
-    public ResponseEntity<?> doGetAll(@RequestParam("page") Integer page, @RequestParam("items") Integer items) {
-        List<Product> products = productService.findByActived(Boolean.TRUE, page, items);
+    public ResponseEntity<?> doGetAll(@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+        Page<Product> products = productService.findByActived(Boolean.TRUE, page.orElse(0), size.orElse(10));
         if (products.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
         }

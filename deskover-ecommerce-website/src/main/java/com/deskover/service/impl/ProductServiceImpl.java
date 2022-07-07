@@ -8,6 +8,7 @@ import com.deskover.repository.datatables.ProductRepoForDatatables;
 import com.deskover.service.*;
 import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -16,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.List;
@@ -43,14 +45,8 @@ public class ProductServiceImpl implements ProductService {
     private DiscountService discountService;
 
     @Override
-    public List<Product> findByActived(Boolean actived, Integer page, Integer size) {
-        if (page > 0) {
-            Pageable pageable = PageRequest.of(page, size);
-            return repository.findByActived(actived, pageable);
-        } else {
-            Pageable pageable = PageRequest.of(0, size);
-            return repository.findByActived(actived, pageable);
-        }
+    public Page<Product> findByActived(Boolean actived, Integer page, Integer size) {
+        return repository.findByActived(actived, PageRequest.of(page, size));
     }
 
     @Override
@@ -163,14 +159,45 @@ public class ProductServiceImpl implements ProductService {
     public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive,
             Long categoryId) {
         DataTablesOutput<Product> products = null;
-        if (categoryId != null) {
-            products = repoForDatatables.findAll(input, (root, query, cb) -> cb.and(
-                    cb.equal(root.get("actived"), isActive),
-                    cb.equal(root.get("subCategory").get("category").get("id"), categoryId)));
-        } else {
-            products = repoForDatatables.findAll(input,
-                    (root, query, cb) -> cb.equal(root.get("actived"), isActive));
+        products = repoForDatatables.findAll(input, (root, query, cb) -> {
+            Predicate predicate = cb.conjunction();
+            if (isActive != null) {
+                predicate.getExpressions().add(cb.equal(root.get("actived"), isActive));
+            }
+            if (categoryId != null) {
+                predicate.getExpressions().add(cb.equal(root.get("subCategory").get("category").get("id"), categoryId));
+            }
+            return predicate;
+        });
+        if (products.getError() != null) {
+            throw new IllegalArgumentException(products.getError());
         }
+        return products;
+    }
+
+    public DataTablesOutput<Product> getByActiveForDatatables(
+            @Valid DataTablesInput input,
+            Boolean isActive,
+            Boolean isExistsByDiscount,
+            Long categoryId) {
+        DataTablesOutput<Product> products = null;
+        products = repoForDatatables.findAll(input, (root, query, cb) -> {
+            Predicate predicate = cb.conjunction();
+            if (isActive != null) {
+                predicate.getExpressions().add(cb.equal(root.get("actived"), isActive));
+            }
+            if (isExistsByDiscount != null) {
+                if (isExistsByDiscount) {
+                    predicate.getExpressions().add(cb.isNotNull(root.get("discount")));
+                } else {
+                    predicate.getExpressions().add(cb.isNull(root.get("discount")));
+                }
+            }
+            if (categoryId != null) {
+                predicate.getExpressions().add(cb.equal(root.get("subCategory").get("category").get("id"), categoryId));
+            }
+            return predicate;
+        });
         if (products.getError() != null) {
             throw new IllegalArgumentException(products.getError());
         }
