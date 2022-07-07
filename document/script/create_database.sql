@@ -523,21 +523,22 @@ VALUE	('MOMO', 'Thanh toán MoMo'),
 -- Trạng thái đơn hàng
 CREATE TABLE status_order(
 	id BIGINT NOT NULL AUTO_INCREMENT,
+    `code` VARCHAR(10) NOT NULL,
     `status` VARCHAR(50)  NOT NULL,
     PRIMARY KEY (id),
 	UNIQUE KEY UK_payment (`status`)
 );
 
-INSERT status_order(`status`)
-VALUE	('Chờ xác nhận'),
-		('Xác nhận đơn hàng'),
-		('Chờ lấy hàng'),
-        ('Lấy hàng thành công'),
-		('Lấy hàng không thành công'),
-        ('Đang giao'),
-        ('Đã giao'),
-        ('Giao hàng không thành công'),
-        ('Huỷ đơn');
+INSERT status_order(`code`,`status`)
+VALUE	('C-XN','Chờ xác nhận'),
+		('XN-DH','Xác nhận đơn hàng'),
+		('C-LH','Chờ lấy hàng'),
+        ('LH-TC','Lấy hàng thành công'),
+		('LH-TB','Lấy hàng không thành công'),
+        ('DG','Đang giao'),
+        ('GH-TC','Giao hàng thành công'),
+        ('GH-TB','Giao hàng không thành công'),
+        ('HUY','Huỷ đơn');
 	
 -- Đơn đặt hàng
 CREATE TABLE orders (

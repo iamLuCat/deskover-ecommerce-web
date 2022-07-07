@@ -1,9 +1,11 @@
 package com.deskover.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
@@ -12,7 +14,9 @@ import com.deskover.entity.Product;
 
 public interface ProductService{
 	
-	List<Product> findByActived(Boolean actived,Integer page, Integer size);
+	Page<Product> findByActived(Boolean actived, Optional<Integer> page, Optional<Integer> size);
+	
+	Page<Product> findByName(String name, Optional<Integer> page, Optional<Integer> size);
 	
 	List<Product> findBySubcategoryId(Long id);
 	
@@ -37,6 +41,8 @@ public interface ProductService{
     void changeDelete(List<Product> products, Boolean isActive);
 	
 	void changeActiveSubcategoty(Long id);
+
+	
 
 
 
