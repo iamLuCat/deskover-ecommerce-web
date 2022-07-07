@@ -60,29 +60,20 @@
     </button>
   </div>
   <div class="modal-body">
-    <ul ngbNav #nav="ngbNav" class="nav-tabs">
-      <li ngbNavItem>
-        <a ngbNavLink>Tất cả sản phẩm</a>
-        <ng-template ngbNavContent>
-            <div class="table-responsive pt-3">
-              <table datatable [dtOptions]="dtAllProductOptions" class="table table-hover table-sm w-100">
-                <thead class="table-primary"></thead>
-                <tbody></tbody>
-              </table>
-            </div>
-        </ng-template>
-      </li>
-      <li ngbNavItem>
-        <a ngbNavLink>Sản phẩm khuyến mãi</a>
-        <ng-template ngbNavContent>
-          <table datatable [dtOptions]="dtDiscountProductOptions" class="table table-hover table-sm w-100">
-            <thead class="table-primary"></thead>
-            <tbody></tbody>
-          </table>
-        </ng-template>
-      </li>
-    </ul>
-    <div [ngbNavOutlet]="nav"></div>
+    <div class="row">
+      <div class="col col-md-6">
+        <table datatable [dtOptions]="dtAllProductOptions" class="table table-hover table-sm nowrap w-100">
+          <thead class="table-primary"></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="col col-md-6">
+        <table datatable [dtOptions]="dtDiscountProductOptions" class="table table-hover table-sm nowrap w-100">
+          <thead class="table-primary"></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">

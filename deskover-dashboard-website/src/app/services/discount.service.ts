@@ -40,7 +40,7 @@ export class DiscountService {
         return this.restApi.post(this.url, discount);
     }
 
-    update(discount: Discount): Observable<Discount> {
+    update(discount: Discount, productId: number = null): Observable<Discount> {
         return this.restApi.put(this.url, discount);
     }
 
