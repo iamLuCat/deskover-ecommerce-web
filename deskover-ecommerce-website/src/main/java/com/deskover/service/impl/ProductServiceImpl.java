@@ -1,12 +1,11 @@
 package com.deskover.service.impl;
 
-import com.deskover.dto.ProductDto;
-import com.deskover.entity.Discount;
-import com.deskover.entity.Product;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.*;
-import com.deskover.util.MapperUtil;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,11 +16,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Predicate;
-import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
+import com.deskover.dto.ProductDto;
+import com.deskover.entity.Product;
+import com.deskover.repository.ProductRepository;
+import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.BrandService;
+import com.deskover.service.CategoryService;
+import com.deskover.service.DiscountService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
+import com.deskover.util.MapperUtil;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -45,9 +49,30 @@ public class ProductServiceImpl implements ProductService {
     private DiscountService discountService;
 
     @Override
-    public Page<Product> findByActived(Boolean actived, Integer page, Integer size) {
-        return repository.findByActived(actived, PageRequest.of(page, size));
+    public Page<Product> findByActived(Boolean actived, Optional<Integer> page, Optional<Integer> size) {
+            Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
+            return repository.findByActived(actived, pageable);
     }
+    
+	@Override
+	public Page<Product> findByName(String name, Optional<Integer> page, Optional<Integer> size) {
+		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
+		
+			Page<Product> pages = repository.findByNameContaining(name, pageable);
+			if(!pages.isEmpty()) {
+				return pages;
+			}
+			Page<Product> pageSub = repository.findBySubCategoryNameContaining(name, pageable);
+			if (!pageSub.isEmpty()) {
+				return pageSub;
+			}
+			Page<Product> pageCate = repository.findBySubCategoryCategoryNameContaining(name, pageable);
+			if (!pageCate.isEmpty()) {
+				return pageCate;
+			}
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+
+	}
 
     @Override
     @Transactional
@@ -231,5 +256,7 @@ public class ProductServiceImpl implements ProductService {
         subcategoryService.changeActive(product.getSubCategory().getId());
 
     }
+
+
 
 }
