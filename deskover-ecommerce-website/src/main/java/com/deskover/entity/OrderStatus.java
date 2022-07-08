@@ -20,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "status_order")
-public class StatusOrder implements Serializable {
+public class OrderStatus implements Serializable {
 	
 	/**
 	 * 
@@ -31,6 +31,9 @@ public class StatusOrder implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	
+	@Column(name = "code")
+	private String code;
 	
 	@Column(name = "status")
 	private String status;

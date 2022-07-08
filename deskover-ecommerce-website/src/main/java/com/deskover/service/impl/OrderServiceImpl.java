@@ -21,4 +21,20 @@ public class OrderServiceImpl implements OrderService {
 		return repository.findAll();
 	}
 
+	@Override
+	public List<Order> getAllOrderStatus(String status) {
+		return repository.findByOrderStatusCode(status);
+	}
+
+	@Override
+	public Order findByOrderCode(String orderCode, String status) {
+		// TODO Auto-generated method stub
+		Order order = repository.findByOrderCodeAndOrderStatusCode(orderCode, status);
+		if(order == null) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+			
+		}
+		return order;
+	}
+
 }
