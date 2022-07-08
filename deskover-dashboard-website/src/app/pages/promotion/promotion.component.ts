@@ -173,7 +173,8 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         {
           title: 'Tên',
           data: 'name',
-          className: 'align-middle'
+          className: 'align-middle',
+          responsivePriority: 0,
         },
         {
           title: 'Thương hiệu',
@@ -239,7 +240,8 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         {
           title: 'Tên',
           data: 'name',
-          className: 'align-middle'
+          className: 'align-middle',
+          responsivePriority: 0,
         },
         {
           title: 'Thương hiệu',
