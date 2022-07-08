@@ -88,4 +88,17 @@ public class OrderApi {
 		}
 	}
 	
+	@GetMapping("order-total-per-days")
+	public ResponseEntity<?> doGetPrices(){
+		try {
+			String order = orderRepository.getToTalPricePerMonth("07", "2022", "minhnh");
+			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(order));
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.ok(e.getLocalizedMessage());
+		}
+	}
+	//permonth
+	
 }
