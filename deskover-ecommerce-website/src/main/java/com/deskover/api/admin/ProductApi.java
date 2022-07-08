@@ -42,15 +42,6 @@ public class ProductApi {
 
     @Autowired
     RestTemplate restTemplate;
-
-    @GetMapping("/products/active")
-    public ResponseEntity<?> doGetAll(@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
-        Page<Product> products = productService.findByActived(Boolean.TRUE, page.orElse(0), size.orElse(10));
-        if (products.isEmpty()) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
-        }
-        return ResponseEntity.ok(products);
-    }
    
     @GetMapping("/product")
     public ResponseEntity<?> doGetAll(@RequestParam("search") String search
