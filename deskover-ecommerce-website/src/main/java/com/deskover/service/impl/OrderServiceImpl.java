@@ -29,11 +29,12 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Order findByOrderCode(String orderCode, String status) {
 		// TODO Auto-generated method stub
-		Order order = repository.findByOrderCodeContainingAndOrderStatusCodeContaining(orderCode, status);
-		if(order != null) {
-			return order;
+		Order order = repository.findByOrderCodeAndOrderStatusCode(orderCode, status);
+		if(order == null) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+			
 		}
-		throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+		return order;
 	}
 
 }
