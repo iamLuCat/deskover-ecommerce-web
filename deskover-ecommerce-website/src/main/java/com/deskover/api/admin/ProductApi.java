@@ -44,29 +44,28 @@ public class ProductApi {
     RestTemplate restTemplate;
    
     @GetMapping("/product")
-    public ResponseEntity<?> doGetAll(@RequestParam("search") String search
-    		,@RequestParam("number") Optional<Integer> number,
-    		@RequestParam("size") Optional<Integer> size) {
-    	try {
-    		if(search.isBlank()) {
-        		Page<Product> products = productService.findByActived(Boolean.TRUE, number, size);
-        		if (products.isEmpty()) {
+    public ResponseEntity<?> doGetAll(@RequestParam("search") String search,
+            @RequestParam("number") Optional<Integer> number,
+            @RequestParam("size") Optional<Integer> size) {
+        try {
+            if (search.isBlank()) {
+                Page<Product> products = productService.findByActived(Boolean.TRUE, number, size);
+                if (products.isEmpty()) {
                     return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
                 }
-        		return ResponseEntity.ok(products);
-        	}else {
-        		 Page<Product> products = productService.findByName(search, number, size);
-        		 if (products.isEmpty()) {
-        	            return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
-        	      }
-        		 return ResponseEntity.ok(products);
-        	}
-		} catch (Exception e) {
-			
+                return ResponseEntity.ok(products);
+            } else {
+                Page<Product> products = productService.findByName(search, number, size);
+                if (products.isEmpty()) {
+                    return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
+                }
+                return ResponseEntity.ok(products);
+            }
+        } catch (Exception e) {
+
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-		}
-    
-       
+        }
+
     }
 
     @GetMapping("/products/subcategory")
@@ -89,7 +88,8 @@ public class ProductApi {
             @Valid @RequestBody DataTablesInput input,
             @RequestParam("isActive") Optional<Boolean> isActive,
             @RequestParam("categoryId") Optional<Long> categoryId) {
-        DataTablesOutput<Product> output = productService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE), categoryId.orElse(null));
+        DataTablesOutput<Product> output = productService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE),
+                categoryId.orElse(null));
         return ResponseEntity.ok(output);
     }
 
