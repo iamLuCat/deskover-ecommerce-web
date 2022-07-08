@@ -42,7 +42,7 @@ public class ProductApi {
 
     @Autowired
     RestTemplate restTemplate;
-   
+
     @GetMapping("/product")
     public ResponseEntity<?> doGetAll(@RequestParam("search") String search,
             @RequestParam("number") Optional<Integer> number,
