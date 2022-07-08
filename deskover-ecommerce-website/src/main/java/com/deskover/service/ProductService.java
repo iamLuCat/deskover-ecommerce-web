@@ -12,22 +12,22 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import com.deskover.dto.ProductDto;
 import com.deskover.entity.Product;
 
-public interface ProductService{
-	
+public interface ProductService {
+
 	Page<Product> findByActived(Boolean actived, Optional<Integer> page, Optional<Integer> size);
-	
+
 	Page<Product> findByName(String name, Optional<Integer> page, Optional<Integer> size);
-	
+
 	List<Product> findBySubcategoryId(Long id);
-	
+
 	Product create(ProductDto productDto);
-	
+
 	Product changeActive(Long id);
-	
+
 	Product update(Product product);
 
 	Product findById(Long id);
-	
+
 	Product findBySlug(String slug);
 
 	Boolean existsBySlug(String slug);
@@ -36,15 +36,10 @@ public interface ProductService{
 
 	DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive);
 
-    DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive, Long categoryId);
+	DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive, Long categoryId);
 
-    void changeDelete(List<Product> products, Boolean isActive);
-	
+	void changeDelete(List<Product> products, Boolean isActive);
+
 	void changeActiveSubcategoty(Long id);
-
-	
-
-
-
 
 }

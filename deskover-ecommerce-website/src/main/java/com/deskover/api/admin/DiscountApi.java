@@ -74,9 +74,17 @@ public class DiscountApi {
 	}
 	
 	@PutMapping("/discounts")
-	public ResponseEntity<?> doUpdate(@RequestBody Discount discount){
+	public ResponseEntity<?> doUpdate(
+			@RequestBody Discount discount,
+			@RequestParam("productIdToAdd") Optional<Long> productIdToAdd,
+			@RequestParam("productIdToRemove") Optional<Long> productIdToRemove
+	){
 		try {
-			discountService.update(discount);
+			discountService.update(
+					discount,
+					productIdToAdd.orElse(null),
+					productIdToRemove.orElse(null)
+			);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}catch (Exception e) {
 			MessageResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);

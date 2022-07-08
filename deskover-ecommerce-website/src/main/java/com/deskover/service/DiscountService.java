@@ -17,7 +17,7 @@ public interface DiscountService {
 	
 	Discount changeActive(Long id);
 	
-	Discount update(Discount discount);
+	Discount update(Discount discount, Long productIdToAdd, Long productIdToRemove);
 
 	Discount findById(Long id);
 

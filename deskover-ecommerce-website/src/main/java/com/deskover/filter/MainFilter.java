@@ -16,15 +16,19 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @Order(1)
 public class MainFilter extends OncePerRequestFilter {
-	
-	protected final Log logger = LogFactory.getLog(getClass());
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		logger.warn(request.getRequestURL());
-		
-		filterChain.doFilter(request, response);
-	}
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        logger.warn(
+				request.getRequestURL()
+				+ "?" + (request.getQueryString() == null ? "" : request.getQueryString())
+				+ " - " + request.getMethod()
+		);
+
+        filterChain.doFilter(request, response);
+    }
 
 }
