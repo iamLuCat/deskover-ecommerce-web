@@ -2,13 +2,10 @@ package com.deskover.api.admin;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
-import org.apache.catalina.valves.rewrite.InternalRewriteMap.UpperCase;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +20,7 @@ import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("v1/api/admin")
 public class OrderApi {
 	
@@ -72,7 +70,7 @@ public class OrderApi {
 			Order order = orderService.findByOrderCode(orderCode, status.toUpperCase());
 			return ResponseEntity.ok(order);
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getLocalizedMessage(), e);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(), e);
 		}
 	
 	}
