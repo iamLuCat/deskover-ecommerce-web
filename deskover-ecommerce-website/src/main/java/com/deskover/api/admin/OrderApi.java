@@ -76,10 +76,10 @@ public class OrderApi {
 	}
 	
 	
-	@GetMapping("order-total-per-day")
-	public ResponseEntity<?> doGetPrice(){
+	@GetMapping("order-total-per-month")
+	public ResponseEntity<?> doGetPrice(@RequestParam("userModified") String userModified){
 		try {
-			String order = orderRepository.getToTalPricePerMonth("07", "2022", "minhnh");
+			String order = orderService.getToTalPricePerMonth(userModified);
 			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(order));
 			
 		} catch (Exception e) {
@@ -87,18 +87,5 @@ public class OrderApi {
 			return ResponseEntity.ok(e.getLocalizedMessage());
 		}
 	}
-	
-	@GetMapping("order-total-per-days")
-	public ResponseEntity<?> doGetPrices(){
-		try {
-			String order = orderRepository.getToTalPricePerMonth("07", "2022", "minhnh");
-			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(order));
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			return ResponseEntity.ok(e.getLocalizedMessage());
-		}
-	}
-	//permonth
 	
 }
