@@ -1,20 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import * as Editor from '../../build/ckeditor5';
-// import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-ckeditor',
   templateUrl: './ckeditor.component.html',
   styleUrls: ['./ckeditor.component.scss']
 })
-export class CKEditorComponent implements OnInit {
+export class CKEditorComponent {
   public Editor = Editor;
+  public config: any;
 
-  config: any;
+  @Input() bindingValue: any = '';
+  @Input() id: string = '';
 
   constructor() {
     this.config = {
-      placeholder: 'Welcome to CKEditor 5!',
+      placeholder: 'Product description.....',
       removePlugins: [
         'Title',
         'CKBox',
@@ -48,6 +49,11 @@ export class CKEditorComponent implements OnInit {
           'toggleImageCaption', 'imageTextAlternative', '|',
           'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', 'imageStyle:side', '|',
           "resizeImage"
+        ]
+      },
+      mediaEmbed: {
+        toolbar: [
+          'mediaEmbed'
         ]
       },
       table: {
@@ -105,9 +111,6 @@ export class CKEditorComponent implements OnInit {
         shouldNotGroupWhenFull: true,
       },
     }
-  }
-
-  ngOnInit(): void {
   }
 
   public onReady(editor) {
