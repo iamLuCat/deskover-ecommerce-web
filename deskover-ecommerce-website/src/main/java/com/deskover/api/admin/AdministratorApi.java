@@ -18,7 +18,6 @@ import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.AdminCreateDto;
 import com.deskover.dto.AdministratorDto;
 import com.deskover.service.AdminAuthorityService;
-import com.deskover.service.AdminPasswordService;
 import com.deskover.service.AdminService;
 import com.deskover.util.ValidationUtil;
 
@@ -27,9 +26,6 @@ import com.deskover.util.ValidationUtil;
 public class AdministratorApi {
     @Autowired
     AdminService adminService;
-
-    @Autowired
-    AdminPasswordService adminPasswordService;
 
     @Autowired
     AdminAuthorityService adminAuthorityService;
