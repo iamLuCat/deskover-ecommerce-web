@@ -1,3 +1,7 @@
+:root {
+  --ck-z-default: 10055;
+}
+
 $blue: #1c519d;
 @import "bootstrap";
 
@@ -28,6 +32,10 @@ body {
 }
 
 // CSS Custom - Start
+.ck-rounded-corners .ck.ck-balloon-panel, .ck.ck-balloon-panel.ck-rounded-corners {
+  z-index: 10055 !important;
+}
+
 .brand-link {
   text-align: center;
 }
