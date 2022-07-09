@@ -35,6 +35,7 @@ VALUES 	(1, 'ROLE_ADMIN','Quản trị viên'),
 CREATE TABLE administrator (
     id BIGINT NOT NULL AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
     fullname VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
 	avatar VARCHAR(128) DEFAULT NULL,
     last_login TIMESTAMP DEFAULT NULL,
@@ -45,34 +46,14 @@ CREATE TABLE administrator (
     UNIQUE KEY UQ_Admin_Username (username)
 );
 
-INSERT administrator (id,username,fullname)
-VALUES 	(1,'minhnh','Nguyễn Hoài Minh'),
-		(2,'vupq','Phạm Quang Vũ'),
-		(3,'haipv','Phạm Văn Hải'),
-        (4,'manager1','Nguyễn Thị Lài'),
-		(5,'staff1','Nguyễn Tuyết Vân'),
-        (6,'staffwarehouse1','Phạm Văn Mạnh'),
-        (7,'shipper1','Nguyễn Mạnh Hùng')
-;
-
-CREATE TABLE admin_password (
-	id BIGINT NOT NULL AUTO_INCREMENT,
-    admin_id BIGINT NOT NULL,
-    `password` VARCHAR(60) NOT NULL,
-	modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_by VARCHAR(50) DEFAULT NULL,
-    PRIMARY KEY (id),
-	CONSTRAINT FK_Password_Admin FOREIGN KEY (admin_id) REFERENCES administrator (id)
-);
-
-INSERT admin_password (id,admin_id,password)
-VALUES 	(1,1,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
-		(2,2,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
-		(3,3,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
-        (4,4,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
-		(5,5,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
-        (6,6,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
-        (7,7,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i')
+INSERT administrator (id,username,`password`,fullname,modified_by)
+VALUES 	(1,'minhnh','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Hoài Minh','haipv'),
+		(2,'vupq','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Phạm Quang Vũ','haipv'),
+		(3,'haipv','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Phạm Văn Hải','haipv'),
+        (4,'manager1','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Thị Lài','haipv'),
+		(5,'staff1','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Tuyết Vân','haipv'),
+        (6,'staffwarehouse1','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Phạm Văn Mạnh','haipv'),
+        (7,'shipper1','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Mạnh Hùng','haipv')
 ;
 
 CREATE TABLE admin_authority (
@@ -112,9 +93,9 @@ CREATE TABLE `user` (
   UNIQUE KEY UQ_User_Username (username)
 );
 
-insert `user` (id,username,fullname,verify)
-values 	(1,'huynq','Nguyễn Quang Huy',1),
-		(2,'minhbd','Bùi Đức Minh',1)
+insert `user` (id,username,fullname,verify,modified_by)
+values 	(1,'huynq','Nguyễn Quang Huy',1,'haipv'),
+		(2,'minhbd','Bùi Đức Minh',1,'haipv')
 ;
 
 CREATE TABLE contact (
@@ -146,7 +127,7 @@ CREATE TABLE user_password (
   CONSTRAINT FK_Password_User FOREIGN KEY (user_id) REFERENCES `user` (id)
 );
 
-insert user_password (id,user_id,password)
+insert user_password (id,user_id,`password`)
 values 	(1,1,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
 		(2,2,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i')
 ;
@@ -159,7 +140,7 @@ values 	(1,1,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
 CREATE TABLE category (
   id BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-  `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
+  `description` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
   actived BIT NOT NULL DEFAULT 1,
   modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -168,15 +149,15 @@ CREATE TABLE category (
   UNIQUE KEY UQ_Category_Slug (slug)
 );
 
-insert category (id,name,slug)
-values 	(1,'Laptop','laptop'),
-		(2,'Bàn phím','ban-phim'),
-        (3,'Chuột + Lót chuột','chuot-lot-chuot'),
-		(4,'Màn hình','man-hinh'),
-		(5,'Linh kiện pc','linh-kien-pc'),
-        (6,'Ghế','ghe'),
-        (7,'Sản phẩm apple','san-pham-apple'),
-        (8,'Điện thoại','dien-thoai')
+insert category (id,name,slug,modified_by)
+values 	(1,'Laptop','laptop','haipv'),
+		(2,'Bàn phím','ban-phim','haipv'),
+        (3,'Chuột + Lót chuột','chuot-lot-chuot','haipv'),
+		(4,'Màn hình','man-hinh','haipv'),
+		(5,'Linh kiện pc','linh-kien-pc','haipv'),
+        (6,'Ghế','ghe','haipv'),
+        (7,'Sản phẩm apple','san-pham-apple','haipv'),
+        (8,'Điện thoại','dien-thoai','haipv')
 ;
 
 -- Danh mục con
@@ -194,23 +175,23 @@ CREATE TABLE subcategory (
   CONSTRAINT FK_SubCategory_Category FOREIGN KEY (category_id) REFERENCES category (id)
 );
 
-insert subcategory (id,category_id,name,slug)
-values 	(1,1,'Laptop văn phòng','laptop-van-phong'),
-		(2,1,'Laptop gaming','laptop-gaming'),
-		(3,2,'Bàn phím gaming','ban-phim-gaming'),
-        (4,2,'Bàn phím văn phòng','ban-phim-van-phong'),
-        (5,2,'Bàn phím bluetooth','ban-phim-bluetooth'),
-		(6,3,'Chuột gaming','chuot-gaming'),
-        (7,3,'Chuột văn phòng','chuot-van-phong'),
-        (8,3,'Chuột không dây','chuot-khong-day'),
-        (9,6,'Ghế gaming','ghe-gaming'),
-        (10,6,'Ghế công thái học','ghe-cong-thai-hoc'),
-        (11,7,'Macbook','macbook'),
-        (12,7,'Imac','imac'),
-        (13,7,'Mac mini','mac-mini'),
-        (14,8,'Android','android'),
-        (15,8,'iOS','ios')
-;
+insert subcategory (id,category_id,`name`,slug,modified_by)
+values 	(1,1,'Laptop văn phòng','laptop-van-phong','haipv'),
+		(2,1,'Laptop gaming','laptop-gaming','haipv'),
+		(3,2,'Bàn phím gaming','ban-phim-gaming','haipv'),
+        (4,2,'Bàn phím văn phòng','ban-phim-van-phong','haipv'),
+        (5,2,'Bàn phím bluetooth','ban-phim-bluetooth','haipv'),
+		(6,3,'Chuột gaming','chuot-gaming','haipv'),
+        (7,3,'Chuột văn phòng','chuot-van-phong','haipv'),
+        (8,3,'Chuột không dây','chuot-khong-day','haipv'),
+        (9,6,'Ghế gaming','ghe-gaming','haipv'),
+        (10,6,'Ghế công thái học','ghe-cong-thai-hoc','haipv'),
+        (11,7,'Macbook','macbook','haipv'),
+        (12,7,'Imac','imac','haipv'),
+        (13,7,'Mac mini','mac-mini','haipv'),
+        (14,8,'Android','android','haipv'),
+        (15,8,'iOS','ios','haipv')
+	;
 
 -- Thương hiệu
 CREATE TABLE brand (
@@ -225,17 +206,17 @@ CREATE TABLE brand (
   UNIQUE KEY UQ_Brand_Slug (slug)
 );
 
-insert brand (id,`name`,slug)
-values 	(1,'Asus','asus'),
-		(2,'Acer','acer'),
-        (3,'Dell','dell'),
-        (4,'Msi','msi'),
-        (5,'Lenovo','lenovo'),
-        (6,'Hp','hp'),
-        (7,'Lg','lg'),
-        (8,'Apple','apple'),
-        (9,'Oppo','oppo'),
-        (10,'Samsung','samssung')
+insert brand (id,`name`,slug,modified_by)
+values 	(1,'Asus','asus','haipv'),
+		(2,'Acer','acer','haipv'),
+        (3,'Dell','dell','haipv'),
+        (4,'Msi','msi','haipv'),
+        (5,'Lenovo','lenovo','haipv'),
+        (6,'Hp','hp','haipv'),
+        (7,'Lg','lg','haipv'),
+        (8,'Apple','apple','haipv'),
+        (9,'Oppo','oppo','haipv'),
+        (10,'Samsung','samssung','haipv')
 ;
 
 -- giảm giá
@@ -252,11 +233,11 @@ CREATE TABLE discount (
   PRIMARY KEY (id)
 );
 
-insert discount (id,`name`,percent,start_date,end_date,actived)
-values 	(1,'Black friday',50,'2022-11-25 00:00:01','2022-11-25 23:59:59',0),
-		(2,'Valentine','10','2022-02-14 00:00:01','2022-02-14 23:59:59',0),
-        (3,'Lễ giáng sinh',20,'2022-12-24 00:00:01','2022-12-24 23:59:59',0),
-        (4,'Mừng khai trương',20,'2022-01-01 00:00:01','2022-12-30 23:59:59',1)
+insert discount (id,`name`,percent,start_date,end_date,actived,modified_by)
+values 	(1,'Black friday',50,'2022-11-25 00:00:01','2022-11-25 23:59:59',0,'haipv'),
+		(2,'Valentine','10','2022-02-14 00:00:01','2022-02-14 23:59:59',0,'haipv'),
+        (3,'Lễ giáng sinh',20,'2022-12-24 00:00:01','2022-12-24 23:59:59',0,'haipv'),
+        (4,'Mừng khai trương',20,'2022-01-01 00:00:01','2022-12-30 23:59:59',1,'haipv')
 ;
 
 -- Sản phẩm
@@ -265,7 +246,8 @@ CREATE TABLE product (
   `name` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   slug VARCHAR(150) NOT NULL,
   image TEXT DEFAULT NULL,
-  `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+  `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
+  `spec` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   price DOUBLE DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
   sub_category_id BIGINT DEFAULT NULL,
@@ -343,59 +325,56 @@ values
         (41,'Mac Mini M1 8GPU 16GB 512GB Z12P000HK','mac-mini-m1-8gpu-16gb-512gb-z12p000hk',null,34990000,13,8,null,'haipv')
 ;
 -- Thông số kỹ thuật của sản phẩm
-CREATE TABLE product_details (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  product_id BIGINT NOT NULL,
-  `cpu` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  ram VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  hard_drive VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  graphics_card VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  screen VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  web_cam VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  front_camera TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  rear_camera TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  camera_features TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  communication_port TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  operating_system VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
-  pin VARCHAR(255) DEFAULT NULL,
-  weight VARCHAR(255) DEFAULT NULL,
-  modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_by VARCHAR(50) DEFAULT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT FK_ProductDetails_Product FOREIGN KEY (product_id) REFERENCES product (id),
-  UNIQUE KEY UK_PRODUCTID_DETAILS(product_id)
-);
+-- CREATE TABLE product_details (
+--   product_id BIGINT NOT NULL,
+--   `cpu` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   ram VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   hard_drive VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   graphics_card VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   screen VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   web_cam VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   front_camera TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   rear_camera TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   camera_features TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   communication_port TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   operating_system VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI DEFAULT NULL,
+--   pin VARCHAR(255) DEFAULT NULL,
+--   weight VARCHAR(255) DEFAULT NULL,
+--   modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   modified_by VARCHAR(50) DEFAULT NULL,
+--   PRIMARY KEY (product_id),
+--   CONSTRAINT FK_ProductDetails_Product FOREIGN KEY (product_id) REFERENCES product (id)
+-- );
 
-insert product_details (id,product_id,`cpu`,ram,hard_drive,graphics_card,screen,web_cam,communication_port,operating_system,pin,weight,modified_by)
-values 
-		-- laptop
-		(1,1,'Intel Core i3-1115G4 1.7GHz up to 4.1GHz 6MB','8GB DDR4 2666MHz Onboard',
-        '256GB SSD M.2 PCIE G3X4 (Còn trống 1 khe SSD M.2 PCIE)','Intel UHD Graphics',
-        '14" FHD (1920 x 1080), IPS, Anti-Glare with 45% NTSC, NanoEdge','HD Web Camera',
-        '1 x Type-A USB 3.2 Gen 1,1 x Type-C USB 3.2,2 x USB 2.0 port(s),1 x HDMI 1.4'
-        ,'Windows 11 Home','3 Cells 42WHrs','1.4 kg','haipv'),
-        (2,2,'Intel Core i3-1115G4 1.7GHz up to 4.1GHz 6MB','4GB LPDDR4X 3200MHz Onboard',
-        '512GB SSD M.2 PCIE G3X4','Intel UHD Graphics','14" FHD (1920 x 1080)','720p HD camera',
-        '1x Thunderbolt™ 4 supports display / power delivery,1x USB 3.2 Gen 2 Type-A,1x USB 2.0 Type-A,
-        1x HDMI 1.4,1x 3.5mm Combo Audio Jack,1x DC-in','Windows 10 Home','3 Cells 42WHrs','1.5 kg','haipv'),
-        (3,3,'Intel Core i5-1135G7 up to 4.2GHz 8MB','8GB DDR4 3200MHz Onboard','512GB SSD M.2 PCIE G3X4',
-        'Intel® Iris Xe Graphics for 11th Gen Intel® Processors','OLED 15.6” FHD (1920 x 1080), 60 Hz',
-        'HD Web Camera','1x Type-A USB 3.2 Gen 1,1x Type-C USB 3.2,2x USB 2.0 port(s),1x HDMI 1.4',
-        'Windows 11 Home','3 Cells 42WHrs','1.7 kg','haipv'),
-        (4,4,'AMD Ryzen 5 5600H 3.3GHz up to 4.2GHz 16MB, 6 nhân, 12 luồng','16GB Onboard DDR4 3200MHz',
-        '512GB M.2 NVMe™ PCIe® 3.0 SSD (1slot)','NVIDIA® GeForce® RTX™ 3050 4GB GDDR6 Boost',
-        '16 inch 4K/UHD (3840 x 2400) OLED 16:10','720p HD camera//With privacy shutter',
-        '1x USB 3.2 Gen 1 Type-C,1x USB 3.2 Gen 1 Type-A,2x USB 2.0 Type-A,1x HDMI 1.4,
-        1x 3.5mm Combo Audio Jack','Windows 11 Home','6 Cells 96WHrs','1.95 kg','haipv'),
-        (5,5,'Intel® Core™ i7-1165G7 (4.70GHz, 12 MB cache, 4 cores 8 threads)','16GB 4266MHz LPDDR4X',
-        '512GB PCIe® NVMe™ 3.0 x2 M.2 SSD','Intel® Iris® Xe Graphics','13.3", 1920 x 1080 Pixel, OLED, 60 Hz',
-        'Camera IRHD webcam','2 x Thunderbolt™ 4 USB-C®,1 x USB 3.2 Gen 1 Type-A,1 x Standard HDMI,
-        1 x MicroSD card reader','Windows 11 Home','4-cell, 65WHrs','1.1 kg','haipv')
-        ;
+-- insert product_details (product_id,`cpu`,ram,hard_drive,graphics_card,screen,web_cam,communication_port,operating_system,pin,weight,modified_by)
+-- values 
+-- 		-- laptop
+-- 		(1,'Intel Core i3-1115G4 1.7GHz up to 4.1GHz 6MB','8GB DDR4 2666MHz Onboard',
+--         '256GB SSD M.2 PCIE G3X4 (Còn trống 1 khe SSD M.2 PCIE)','Intel UHD Graphics',
+--         '14" FHD (1920 x 1080), IPS, Anti-Glare with 45% NTSC, NanoEdge','HD Web Camera',
+--         '1 x Type-A USB 3.2 Gen 1,1 x Type-C USB 3.2,2 x USB 2.0 port(s),1 x HDMI 1.4'
+--         ,'Windows 11 Home','3 Cells 42WHrs','1.4 kg','haipv'),
+--         (2,'Intel Core i3-1115G4 1.7GHz up to 4.1GHz 6MB','4GB LPDDR4X 3200MHz Onboard',
+--         '512GB SSD M.2 PCIE G3X4','Intel UHD Graphics','14" FHD (1920 x 1080)','720p HD camera',
+--         '1x Thunderbolt™ 4 supports display / power delivery,1x USB 3.2 Gen 2 Type-A,1x USB 2.0 Type-A,
+--         1x HDMI 1.4,1x 3.5mm Combo Audio Jack,1x DC-in','Windows 10 Home','3 Cells 42WHrs','1.5 kg','haipv'),
+--         (3,'Intel Core i5-1135G7 up to 4.2GHz 8MB','8GB DDR4 3200MHz Onboard','512GB SSD M.2 PCIE G3X4',
+--         'Intel® Iris Xe Graphics for 11th Gen Intel® Processors','OLED 15.6” FHD (1920 x 1080), 60 Hz',
+--         'HD Web Camera','1x Type-A USB 3.2 Gen 1,1x Type-C USB 3.2,2x USB 2.0 port(s),1x HDMI 1.4',
+--         'Windows 11 Home','3 Cells 42WHrs','1.7 kg','haipv'),
+--         (4,'AMD Ryzen 5 5600H 3.3GHz up to 4.2GHz 16MB, 6 nhân, 12 luồng','16GB Onboard DDR4 3200MHz',
+--         '512GB M.2 NVMe™ PCIe® 3.0 SSD (1slot)','NVIDIA® GeForce® RTX™ 3050 4GB GDDR6 Boost',
+--         '16 inch 4K/UHD (3840 x 2400) OLED 16:10','720p HD camera//With privacy shutter',
+--         '1x USB 3.2 Gen 1 Type-C,1x USB 3.2 Gen 1 Type-A,2x USB 2.0 Type-A,1x HDMI 1.4,
+--         1x 3.5mm Combo Audio Jack','Windows 11 Home','6 Cells 96WHrs','1.95 kg','haipv'),
+--         (5,'Intel® Core™ i7-1165G7 (4.70GHz, 12 MB cache, 4 cores 8 threads)','16GB 4266MHz LPDDR4X',
+--         '512GB PCIe® NVMe™ 3.0 x2 M.2 SSD','Intel® Iris® Xe Graphics','13.3", 1920 x 1080 Pixel, OLED, 60 Hz',
+--         'Camera IRHD webcam','2 x Thunderbolt™ 4 USB-C®,1 x USB 3.2 Gen 1 Type-A,1 x Standard HDMI,
+--         1 x MicroSD card reader','Windows 11 Home','4-cell, 65WHrs','1.1 kg','haipv')
+--         ;
 
 -- Thông số kỹ thuật của sản phẩm
 CREATE TABLE product_thumbnail (
-  id BIGINT NOT NULL AUTO_INCREMENT,
   product_id BIGINT NOT NULL,
   thumbnail_1 VARCHAR(255) DEFAULT NULL,
   thumbnail_2 VARCHAR(255) DEFAULT NULL,
@@ -403,18 +382,17 @@ CREATE TABLE product_thumbnail (
   video VARCHAR(255) DEFAULT NULL,
   modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_by VARCHAR(50) DEFAULT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT FK_ProductThumbnail_Product FOREIGN KEY (product_id) REFERENCES product (id),
-  UNIQUE KEY UK_PRODUCTID_THUMBNAIL(product_id)
+  PRIMARY KEY (product_id),
+  CONSTRAINT FK_ProductThumbnail_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
-insert product_thumbnail (id,product_id,thumbnail_1,thumbnail_2,thumbnail_3,video,modified_by)
+insert product_thumbnail (product_id,thumbnail_1,thumbnail_2,thumbnail_3,video,modified_by)
 values 	
-		(1,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png?alt=media&token=5e9b9bea-25fb-4b12-a00a-4c14fed33ee0','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','https://www.youtube.com/watch?v=gIHD6vyiXEQ','haipv'),
-        (2,2,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png?alt=media&token=e8040187-7cce-4669-b5ed-84cdf2efad34','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png?alt=media&token=26878704-60fa-489a-848d-cc2242654017','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','https://www.youtube.com/watch?v=dFLnMsJ5DmI&t=11s','haipv'),
-        (3,3,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png?alt=media&token=03d3e189-c8ac-4af0-ba8d-23f07a2f865d','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png?alt=media&token=ca9124cf-75f5-47be-afd7-c4953a891274','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','https://www.youtube.com/watch?v=ab4TeyIsllE','haipv'),
-        (4,4,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png?alt=media&token=7a11dc73-972f-4540-ad11-872d7cb1a2c1','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png?alt=media&token=22a2d1ef-0803-4a3d-b116-4362f6581084','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png?alt=media&token=ed4b89f5-5546-4493-abf1-028106f79e81','https://www.youtube.com/watch?v=dqGz4JTh0Q0','haipv'),
-        (5,5,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png?alt=media&token=1ed4b582-cb47-4de1-a322-b53b24a3fa91','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png?alt=media&token=58b5469f-9626-43ea-a715-b5f21e9f16b5','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png?alt=media&token=823afad6-d130-40c1-85a2-487d53be32a0','https://www.youtube.com/watch?v=Fthb7EC5BY0','haipv')
+		(1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png?alt=media&token=5e9b9bea-25fb-4b12-a00a-4c14fed33ee0','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','https://www.youtube.com/watch?v=gIHD6vyiXEQ','haipv'),
+        (2,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png?alt=media&token=e8040187-7cce-4669-b5ed-84cdf2efad34','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png?alt=media&token=26878704-60fa-489a-848d-cc2242654017','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','https://www.youtube.com/watch?v=dFLnMsJ5DmI&t=11s','haipv'),
+        (3,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png?alt=media&token=03d3e189-c8ac-4af0-ba8d-23f07a2f865d','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png?alt=media&token=ca9124cf-75f5-47be-afd7-c4953a891274','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','https://www.youtube.com/watch?v=ab4TeyIsllE','haipv'),
+        (4,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png?alt=media&token=7a11dc73-972f-4540-ad11-872d7cb1a2c1','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png?alt=media&token=22a2d1ef-0803-4a3d-b116-4362f6581084','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png?alt=media&token=ed4b89f5-5546-4493-abf1-028106f79e81','https://www.youtube.com/watch?v=dqGz4JTh0Q0','haipv'),
+        (5,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png?alt=media&token=1ed4b582-cb47-4de1-a322-b53b24a3fa91','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png?alt=media&token=58b5469f-9626-43ea-a715-b5f21e9f16b5','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png?alt=media&token=823afad6-d130-40c1-85a2-487d53be32a0','https://www.youtube.com/watch?v=Fthb7EC5BY0','haipv')
 ;
 
 --------------------------------------------------------------------------------------------------------------
@@ -445,48 +423,48 @@ CREATE TABLE inventory (
   CONSTRAINT FK_Inventory_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
-insert inventory (product_id,quantity)
-values 	(1,100),
-		(2,100),
-        (3,100),
-        (4,100),
-        (5,100),
-        (6,100),
-        (7,100),
-        (8,100),
-        (9,100),
-        (10,100),
-        (11,100),
-        (12,100),
-        (13,100),
-        (14,100),
-        (15,100),
-        (16,100),
-        (17,100),
-        (18,100),
-        (19,100),
-        (20,100),
-        (21,100),
-		(22,100),
-        (23,100),
-        (24,100),
-        (25,100),
-        (26,100),
-        (27,100),
-        (28,100),
-        (29,100),
-        (30,100),
-        (31,100),
-        (32,100),
-        (33,100),
-        (34,100),
-        (35,100),
-        (36,100),
-        (37,100),
-        (38,100),
-        (39,100),
-        (40,100),
-        (41,100)
+insert inventory (product_id,quantity,modified_by)
+values 	(1,100,'haipv'),
+		(2,100,'haipv'),
+        (3,100,'haipv'),
+        (4,100,'haipv'),
+        (5,100,'haipv'),
+        (6,100,'haipv'),
+        (7,100,'haipv'),
+        (8,100,'haipv'),
+        (9,100,'haipv'),
+        (10,100,'haipv'),
+        (11,100,'haipv'),
+        (12,100,'haipv'),
+        (13,100,'haipv'),
+        (14,100,'haipv'),
+        (15,100,'haipv'),
+        (16,100,'haipv'),
+        (17,100,'haipv'),
+        (18,100,'haipv'),
+        (19,100,'haipv'),
+        (20,100,'haipv'),
+        (21,100,'haipv'),
+		(22,100,'haipv'),
+        (23,100,'haipv'),
+        (24,100,'haipv'),
+        (25,100,'haipv'),
+        (26,100,'haipv'),
+        (27,100,'haipv'),
+        (28,100,'haipv'),
+        (29,100,'haipv'),
+        (30,100,'haipv'),
+        (31,100,'haipv'),
+        (32,100,'haipv'),
+        (33,100,'haipv'),
+        (34,100,'haipv'),
+        (35,100,'haipv'),
+        (36,100,'haipv'),
+        (37,100,'haipv'),
+        (38,100,'haipv'),
+        (39,100,'haipv'),
+        (40,100,'haipv'),
+        (41,100,'haipv')
 ;
 
 --------------------------------------------------------------------------------------------------------------
