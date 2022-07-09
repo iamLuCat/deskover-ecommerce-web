@@ -1,4 +1,3 @@
-import {AdminPassword} from "@/entites/admin-password";
 import {AdminAuthority} from "@/entites/admin-authority";
 
 export interface Admin {
@@ -9,6 +8,6 @@ export interface Admin {
   modifiedAt: Date;
   actived: boolean;
   avatar: string;
-  password: AdminPassword;
+  password: string;
   authorities: AdminAuthority[];
 }
