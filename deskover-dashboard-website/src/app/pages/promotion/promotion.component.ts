@@ -149,7 +149,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       paging: false,
       info: false,
       scrollX: false,
-      scrollY: '50vh',
+      scrollY: '23vh',
       scrollCollapse: true,
       serverSide: true,
       processing: true,
@@ -214,7 +214,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       paging: false,
       info: false,
       scrollX: false,
-      scrollY: '50vh',
+      scrollY: '23vh',
       scrollCollapse: true,
       serverSide: true,
       processing: true,
@@ -272,7 +272,6 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       ]
     };
   }
-
 
   ngAfterViewInit() {
     const self = this;
@@ -405,9 +404,10 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   }
 
   // Modal
-  openModal(content: any, size: string = 'lg') {
+  openModal(content: any, size: string = 'lg', fullScreen: boolean = false) {
     this.closeModal();
     this.modalConfig.size = size;
+    this.modalConfig.fullscreen = fullScreen;
     this.modalService.open(content);
   }
 

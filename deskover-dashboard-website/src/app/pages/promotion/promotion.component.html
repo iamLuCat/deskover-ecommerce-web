@@ -52,7 +52,7 @@
 </section>
 <ng-template #productModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title text-primary" id="modal-title">
+    <h4 class="modal-title text-primary text-uppercase fw-bolder" id="modal-title">
       {{discount.name}} - Giảm giá {{discount.percent}}%
     </h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -61,24 +61,27 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <div class="col col-md-6">
-        <table datatable [dtOptions]="dtAllProductOptions" class="product-table table table-hover table-sm nowrap w-100">
-          <thead class="table-primary"></thead>
-          <tbody></tbody>
-        </table>
+      <div class="col-12 mb-3">
+        <div class="table-responsive position-relative">
+          <h5 class="text-uppercase fw-bolder d-block d-md-none text-center">Không áp dụng</h5>
+          <h5 class="text-uppercase fw-bolder d-none d-md-block position-absolute pt-2 top-0 start-0">Không áp dụng</h5>
+          <table datatable [dtOptions]="dtAllProductOptions" class="product-table table table-hover table-sm nowrap w-100">
+            <thead class="table-primary"></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
-      <div class="col col-md-6">
-        <table datatable [dtOptions]="dtDiscountProductOptions" class="product-table table table-hover table-sm nowrap w-100">
-          <thead class="table-primary"></thead>
-          <tbody></tbody>
-        </table>
+      <div class="col-12">
+        <div class="table-responsive position-relative">
+          <h5 class="text-uppercase fw-bolder d-block d-md-none text-center">Đang áp dụng</h5>
+          <h5 class="text-uppercase fw-bolder d-none d-md-block position-absolute pt-2 top-0 start-0">Đang áp dụng</h5>
+          <table datatable [dtOptions]="dtDiscountProductOptions" class="product-table table table-hover table-sm nowrap w-100">
+            <thead class="table-primary"></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">
-      Lưu
-    </button>
   </div>
 </ng-template>
 <!-- Modal -->
