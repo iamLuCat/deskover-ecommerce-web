@@ -12,4 +12,6 @@ public interface OrderService {
 
 	Order findByOrderCode(String orderCode, String status);
 
+	String getToTalPricePerMonth(String userModified);
+
 }
