@@ -1,5 +1,6 @@
 package com.deskover.service.impl;
 
+import java.time.YearMonth;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,16 @@ public class OrderServiceImpl implements OrderService {
 			
 		}
 		return order;
+	}
+
+	@Override
+	public String getToTalPricePerMonth(String userModified) {
+		YearMonth currentTimes = YearMonth.now();
+		
+		String month = currentTimes.getMonthValue()+"";
+		String year = currentTimes.getYear()+"";
+		
+		return repository.getToTalPricePerMonth(month, year, userModified);
 	}
 
 }

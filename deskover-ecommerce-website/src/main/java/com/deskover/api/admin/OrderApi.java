@@ -76,10 +76,10 @@ public class OrderApi {
 	}
 	
 	
-	@GetMapping("order-total-per-day")
-	public ResponseEntity<?> doGetPrice(){
+	@GetMapping("order-total-per-month")
+	public ResponseEntity<?> doGetPrice(@RequestParam("userModified") String userModified){
 		try {
-			String order = orderRepository.getToTalPricePerMonth("07", "2022", "minhnh");
+			String order = orderService.getToTalPricePerMonth(userModified);
 			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(order));
 			
 		} catch (Exception e) {
