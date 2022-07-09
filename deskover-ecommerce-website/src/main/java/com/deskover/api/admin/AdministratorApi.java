@@ -2,6 +2,7 @@ package com.deskover.api.admin;
 
 import javax.validation.Valid;
 
+import com.deskover.entity.Administrator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class AdministratorApi {
 
     @GetMapping("/administrator/{id}")
     public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
-        AdministratorDto admin = mapper.map(adminService.getById(id), AdministratorDto.class);
+        Administrator admin = adminService.getById(id);
         if (admin == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Administrator not found"));
         }

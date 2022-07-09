@@ -26,7 +26,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             Administrator admin = adminService.getByUsername(username);
             return new User(
                     admin.getUsername(),
-                    admin.getPassword().getPassword(),
+                    admin.getPassword(),
                     admin.getActived(),
                     true,
                     true,
