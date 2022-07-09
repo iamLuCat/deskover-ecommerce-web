@@ -45,13 +45,14 @@ import {PromotionComponent} from '@pages/promotion/promotion.component';
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {defineLocale} from 'ngx-bootstrap/chronos';
 import {viLocale} from 'ngx-bootstrap/locale';
-import { ProductComponent } from './pages/product/product.component';
+import {ProductComponent} from '@pages/product/product.component';
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
+import {CKEditorComponent} from '@components/ckeditor/ckeditor.component';
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
 
-// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,6 +82,7 @@ defineLocale('vi', viLocale);
     SubcategoryComponent,
     PromotionComponent,
     ProductComponent,
+    CKEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,11 +101,13 @@ defineLocale('vi', viLocale);
     DataTablesModule,
     TooltipModule,
     BsDatepickerModule,
-    TimepickerModule
+    TimepickerModule,
+    CKEditorModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

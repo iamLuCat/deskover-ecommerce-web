@@ -42,13 +42,15 @@ export class ProductComponent implements OnInit, AfterViewInit {
     modalConfig.backdrop = 'static';
     modalConfig.keyboard = false;
     modalConfig.centered = true;
+    modalConfig.size = 'xl';
 
     this.getCategories();
-    this.getSubcategories();
+    // this.getSubcategories();
   }
 
   ngOnInit() {
     const self = this;
+
 
     self.dtOptions = {
       pagingType: 'full_numbers',
