@@ -77,7 +77,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <form #productForm="ngForm">
+    <form #productForm="ngForm" >
       <div class="row">
         <div class="col-12 mb-3">
           <label class="form-label" for="name">Tên</label>
@@ -89,7 +89,7 @@
         </div>
         <div class="col-12 mb-3">
           <label class="form-label">Mô tả</label>
-          <app-ckeditor [id]="'discount'" [bindingValue]="product.description"></app-ckeditor>
+          <app-ckeditor [id]="'discount'" [bindingValue]="product.description?product.description:''"></app-ckeditor>
         </div>
       </div>
     </form>
