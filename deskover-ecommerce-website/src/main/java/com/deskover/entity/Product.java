@@ -93,4 +93,15 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product")
     private Set<Rating> ratings = new LinkedHashSet<>();
 
+    @Lob
+    @Column(name = "spec")
+    private String spec;
+
+    @Column(name = "video")
+    private String video;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private Set<ProductThumbnail> productThumbnails = new LinkedHashSet<>();
+
 }

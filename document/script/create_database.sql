@@ -246,6 +246,7 @@ CREATE TABLE product (
   `name` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   slug VARCHAR(150) NOT NULL,
   image TEXT DEFAULT NULL,
+  video VARCHAR(255) DEFAULT NULL,
   `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   `spec` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   price DOUBLE DEFAULT NULL,
@@ -261,68 +262,68 @@ CREATE TABLE product (
   CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id)
 );
 
-insert product (id,`name`,slug,image,price,sub_category_id,brand_id,discount_id,modified_by)
+insert product (id,`name`,slug,image,video,price,sub_category_id,brand_id,discount_id,modified_by)
 values 	
 		-- asus
 			-- laptop-van-phong
-		(1,'Laptop Asus VivoBook A415EA EB1750W','laptop-asus-vivobook-a415ea-eb1750w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w.png?alt=media&token=c80601eb-069d-4bbd-a334-8124e41c4e12',14990000,1,1,4,'haipv'),
-		(2,'Laptop ASUS Vivobook Flip TP470EA EC346W','laptop-asus-vivobook-flip-tp470ea-ec346w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w.png?alt=media&token=0b28b1aa-cbd3-4007-8d57-b65601ea934f',15890000,1,1,4,'haipv'),
-        (3,'Laptop Asus Vivobook OLED A515EA L12033W','laptop-asus-vivobook-a515ea-l12033w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w.png?alt=media&token=ae377180-fda7-41b7-83a6-ae0e9a8f81ae',19990000,1,1,4,'haipv'),
-		(4,'Laptop ASUS VivoBook Pro 16X OLED M7600QC L2077W','laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w.png?alt=media&token=b2aa721d-1df6-4221-812c-bcdae6fbab30',32990000,1,1,4,'haipv'),
-        (5,'Laptop Asus ZenBook 13 UX325EA KG599W','laptop-asus-zenbook-13-ux325ea-kg599w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w.png?alt=media&token=70c03aaa-3a85-42fc-ba7e-e633b3361ffb',30890000,1,1,4,'haipv'),
+		(1,'Laptop Asus VivoBook A415EA EB1750W','laptop-asus-vivobook-a415ea-eb1750w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w.png?alt=media&token=c80601eb-069d-4bbd-a334-8124e41c4e12','https://www.youtube.com/watch?v=gIHD6vyiXEQ',14990000,1,1,4,'haipv'),
+		(2,'Laptop ASUS Vivobook Flip TP470EA EC346W','laptop-asus-vivobook-flip-tp470ea-ec346w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w.png?alt=media&token=0b28b1aa-cbd3-4007-8d57-b65601ea934f','https://www.youtube.com/watch?v=dFLnMsJ5DmI&t',15890000,1,1,4,'haipv'),
+        (3,'Laptop Asus Vivobook OLED A515EA L12033W','laptop-asus-vivobook-a515ea-l12033w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w.png?alt=media&token=ae377180-fda7-41b7-83a6-ae0e9a8f81ae','https://www.youtube.com/watch?v=ab4TeyIsllE&t',19990000,1,1,4,'haipv'),
+		(4,'Laptop ASUS VivoBook Pro 16X OLED M7600QC L2077W','laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w.png?alt=media&token=b2aa721d-1df6-4221-812c-bcdae6fbab30','https://www.youtube.com/watch?v=dqGz4JTh0Q0&t',32990000,1,1,4,'haipv'),
+        (5,'Laptop Asus ZenBook 13 UX325EA KG599W','laptop-asus-zenbook-13-ux325ea-kg599w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w.png?alt=media&token=70c03aaa-3a85-42fc-ba7e-e633b3361ffb','https://www.youtube.com/watch?v=Fthb7EC5BY0&t',30890000,1,1,4,'haipv'),
 		-- acer
 			-- laptop-van-phong
-        (6,'Laptop Acer Swift X SFX16 51G 50GS','laptop-acer-swift-x-sfx16-51g-50gs','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-swift-x-sfx16-51g-50gs.png?alt=media&token=7b80cdd8-6487-4184-956f-c8aad77ea37f',29990000,1,2,null,'haipv'),
-        (7,'Laptop Acer Swift 3 SF314 43 R52K','laptop-acer-swift-3-sf314-43-r52k','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-swift-3-sf314-43-r52k.png?alt=media&token=a375cb39-07fa-4ccd-af8c-d8e5141bd10e',24490000,1,2,null,'haipv'),
-        (8,'Laptop Acer Swift 3 SF314 43 R4X3','laptop-acer-swift-3-sf314-43-r4x3','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-swift-3-sf314-43-r4x3.png?alt=media&token=16abf0dc-51e6-4c61-8aa4-5692b0ebade8',20990000,1,2,null,'haipv'),
-		(9,'Laptop Acer Aspire 3 A315 56 37DV','laptop-acer-aspire-3-a315-56-37dv','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-aspire-3-a315-56-37dv.png?alt=media&token=f53f08f2-5a29-4cdb-a956-aa3a4c908803',12490000,1,2,null,'haipv'),
-		(10,'Laptop Acer Aspire 5 A515 57 52Y2','laptop-acer-aspire-5-a515-57-52y2','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-aspire-5-a515-57-52y2.png?alt=media&token=90c59da7-c263-46a9-b13f-bc7788008533',18950000,1,2,null,'haipv'),
+        (6,'Laptop Acer Swift X SFX16 51G 50GS','laptop-acer-swift-x-sfx16-51g-50gs','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-swift-x-sfx16-51g-50gs.png?alt=media&token=7b80cdd8-6487-4184-956f-c8aad77ea37f',null,29990000,1,2,null,'haipv'),
+        (7,'Laptop Acer Swift 3 SF314 43 R52K','laptop-acer-swift-3-sf314-43-r52k','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-swift-3-sf314-43-r52k.png?alt=media&token=a375cb39-07fa-4ccd-af8c-d8e5141bd10e',null,24490000,1,2,null,'haipv'),
+        (8,'Laptop Acer Swift 3 SF314 43 R4X3','laptop-acer-swift-3-sf314-43-r4x3','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-swift-3-sf314-43-r4x3.png?alt=media&token=16abf0dc-51e6-4c61-8aa4-5692b0ebade8',null,20990000,1,2,null,'haipv'),
+		(9,'Laptop Acer Aspire 3 A315 56 37DV','laptop-acer-aspire-3-a315-56-37dv','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-aspire-3-a315-56-37dv.png?alt=media&token=f53f08f2-5a29-4cdb-a956-aa3a4c908803',null,12490000,1,2,null,'haipv'),
+		(10,'Laptop Acer Aspire 5 A515 57 52Y2','laptop-acer-aspire-5-a515-57-52y2','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-aspire-5-a515-57-52y2.png?alt=media&token=90c59da7-c263-46a9-b13f-bc7788008533',null,18950000,1,2,null,'haipv'),
         -- Dellfire
         
 			-- laptop-van-phong
-        (11,'Laptop Dell Vostro 3510 V5I3305W Black','laptop-dell-vostro-3510-v5i3305w-black',null,15990000,1,3,null,'haipv'),
-        (12,'Laptop Dell Vostro 3400 P132G003 70270645','laptop-dell-vostro-3400-p132g003-70270645',null,17490000,1,3,null,'haipv'),
-        (13,'Laptop Dell Inspiron 15 3511 P112F002 70270650','laptop-dell-inspiron-15-3511-p112f002-70270650',null,20990000,1,3,null,'haipv'),
-        (14,'Laptop Dell Vostro 5620 70282719 P117F001','laptop-dell-vostro-5620-70282719-p117f001',null,22990000,1,3,null,'haipv'),
-        (15,'Laptop Dell XPS 17 9700 XPS7I7001W1 Silver','laptop-dell-xps-17-9700-xps7i7001w1-silver',null,75000000,1,3,null,'haipv'),
+        (11,'Laptop Dell Vostro 3510 V5I3305W Black','laptop-dell-vostro-3510-v5i3305w-black',null,null,15990000,1,3,null,'haipv'),
+        (12,'Laptop Dell Vostro 3400 P132G003 70270645','laptop-dell-vostro-3400-p132g003-70270645',null,null,17490000,1,3,null,'haipv'),
+        (13,'Laptop Dell Inspiron 15 3511 P112F002 70270650','laptop-dell-inspiron-15-3511-p112f002-70270650',null,null,20990000,1,3,null,'haipv'),
+        (14,'Laptop Dell Vostro 5620 70282719 P117F001','laptop-dell-vostro-5620-70282719-p117f001',null,null,22990000,1,3,null,'haipv'),
+        (15,'Laptop Dell XPS 17 9700 XPS7I7001W1 Silver','laptop-dell-xps-17-9700-xps7i7001w1-silver',null,null,75000000,1,3,null,'haipv'),
         -- MSI
 			-- laptop-van-phong
-        (16,'Laptop MSI Modern 14 B11MOU 1028VN','laptop-msi-modern-14-b11mou-1028vn',null,14490000,1,4,null,'haipv'),
-        (17,'Laptop MSI Modern 14 B5M 202VN','laptop-msi-modern-14-b5m-202vn',null,16990000,1,4,null,'haipv'),
-        (18,'Laptop MSI Modern 15 A5M 238VN','laptop-msi-modern-15-a5m-238vn',null,17990000,1,4,null,'haipv'),
-        (19,'Laptop MSI Modern 15 A5M 239VN','laptop-msi-modern-15-a5m-239vn',null,19990000,1,4,null,'haipv'),
-        (20,'Laptop MSI Modern 14 B11MOU 1033VN','laptop-msi-modern-14-b11mou-1033vn',null,21990000,1,4,null,'haipv'),
+        (16,'Laptop MSI Modern 14 B11MOU 1028VN','laptop-msi-modern-14-b11mou-1028vn',null,null,14490000,1,4,null,'haipv'),
+        (17,'Laptop MSI Modern 14 B5M 202VN','laptop-msi-modern-14-b5m-202vn',null,null,16990000,1,4,null,'haipv'),
+        (18,'Laptop MSI Modern 15 A5M 238VN','laptop-msi-modern-15-a5m-238vn',null,null,17990000,1,4,null,'haipv'),
+        (19,'Laptop MSI Modern 15 A5M 239VN','laptop-msi-modern-15-a5m-239vn',null,null,19990000,1,4,null,'haipv'),
+        (20,'Laptop MSI Modern 14 B11MOU 1033VN','laptop-msi-modern-14-b11mou-1033vn',null,null,21990000,1,4,null,'haipv'),
         -- LENOVO
 			-- laptop-van-phong
-        (21,'Laptop Lenovo V14 G2 ITL 82KA00RXVN','laptop-lenovo-v14-g2-itl-82ka00rxvn',null,13590000,1,5,null,'haipv'),
-        (22,'Laptop Lenovo ThinkBook 15 G3 ACL 21A400CFVN','laptop-lenovo-thinkbook-15-g3-acl-21a400cfvn',null,19990000,1,5,null,'haipv'),
-        (23,'Laptop Lenovo IdeaPad 5 Pro 16ACH6 82L500WMVN','laptop-lenovo-ideapad-5-pro-16ach6-82l500wmvn',null,25990000,1,5,null,'haipv'),
-        (24,'Laptop Lenovo Yoga Slim 7 Pro 14ACH5 82NK003HVN','laptop-lenovo-yoga-slim-7-pro-14ach5-82nk003hvn',null,32990000,1,5,null,'haipv'),
-        (25,'Laptop Lenovo Yoga Slim 7 Carbon 14ACN6 82L0005AVN','laptop-lenovo-yoga-slim-7-carbon-14acn6-82l0005avn',null,35990000,1,5,null,'haipv'),
+        (21,'Laptop Lenovo V14 G2 ITL 82KA00RXVN','laptop-lenovo-v14-g2-itl-82ka00rxvn',null,null,13590000,1,5,null,'haipv'),
+        (22,'Laptop Lenovo ThinkBook 15 G3 ACL 21A400CFVN','laptop-lenovo-thinkbook-15-g3-acl-21a400cfvn',null,null,19990000,1,5,null,'haipv'),
+        (23,'Laptop Lenovo IdeaPad 5 Pro 16ACH6 82L500WMVN','laptop-lenovo-ideapad-5-pro-16ach6-82l500wmvn',null,null,25990000,1,5,null,'haipv'),
+        (24,'Laptop Lenovo Yoga Slim 7 Pro 14ACH5 82NK003HVN','laptop-lenovo-yoga-slim-7-pro-14ach5-82nk003hvn',null,null,32990000,1,5,null,'haipv'),
+        (25,'Laptop Lenovo Yoga Slim 7 Carbon 14ACN6 82L0005AVN','laptop-lenovo-yoga-slim-7-carbon-14acn6-82l0005avn',null,null,35990000,1,5,null,'haipv'),
         -- HP
 			-- laptop-van-phong
-        (26,'Laptop HP Pavilion 15 EG0506TX 46M05PA','laptop-hp-pavilion-15-eg0506tx-46m05pa',null,19990000,1,6,null,'haipv'),
-        (27,'Laptop HP ProBook 450 G8 614K3PA','laptop-hp-probook-450-g8-614k3pa',null,20990000,1,6,null,'haipv'),
-        (28,'Laptop HP Pavilion 14 dv0534TU 4P5G3PA','laptop-hp-pavilion-14-dv0534tu-4p5g3pa',null,22490000,1,6,null,'haipv'),
+        (26,'Laptop HP Pavilion 15 EG0506TX 46M05PA','laptop-hp-pavilion-15-eg0506tx-46m05pa',null,null,19990000,1,6,null,'haipv'),
+        (27,'Laptop HP ProBook 450 G8 614K3PA','laptop-hp-probook-450-g8-614k3pa',null,null,20990000,1,6,null,'haipv'),
+        (28,'Laptop HP Pavilion 14 dv0534TU 4P5G3PA','laptop-hp-pavilion-14-dv0534tu-4p5g3pa',null,null,22490000,1,6,null,'haipv'),
         -- LG
 			-- laptop-van-phong
-        (29,'LG Gram 17ZD90P-G.AX71A5','laptop-lg-gram-17zd90p-g-ax71a5',null,44990000,1,7,null,'haipv'),
-        (30,'LG Gram 16Z90P-G.AH73A5','laptop-lg-gram-16z90p-g-ah73a5',null,48900000,1,7,null,'haipv'),
-        (31,'LG Gram 14Z90P-G.AH75A5','laptop-lg-gram-14z90p-g-ah75a5',null,47990000,1,7,null,'haipv'),
+        (29,'LG Gram 17ZD90P-G.AX71A5','laptop-lg-gram-17zd90p-g-ax71a5',null,null,44990000,1,7,null,'haipv'),
+        (30,'LG Gram 16Z90P-G.AH73A5','laptop-lg-gram-16z90p-g-ah73a5',null,null,48900000,1,7,null,'haipv'),
+        (31,'LG Gram 14Z90P-G.AH75A5','laptop-lg-gram-14z90p-g-ah75a5',null,null,47990000,1,7,null,'haipv'),
         -- APPLE
 			-- Macbook
-		(32,'Macbook Air M2 10GPU 8GB 512GB - Silver','macbook-air-m2-10gpu-8gb-512gb-silver',null,42990000,11,8,null,'haipv'),
-		(33,'Macbook Air M2 8GPU 8GB 256GB - Starlight','macbook-air-m2-8gpu-8gb-256gb-starlight',null,33990000,11,8,null,'haipv'),
-        (34,'MacBook Pro 13 M2 10GPU 8GB 512GB Space Gray','macbook-pro-13-m2-10gpu-8gb-512gb-space-gray',null,39990000,11,8,null,'haipv'),
-        (35,'MacBook Pro 14" 2021 M1 Pro 10CPU 16 GPU 16GB 1TB Silver','macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver',null,64990000,11,8,null,'haipv'),
-        (36,'MacBook Pro 16 2021 M1 Max 32GPU 32GB 1TB Space Gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray',null,99000000,11,8,null,'haipv'),
+		(32,'Macbook Air M2 10GPU 8GB 512GB - Silver','macbook-air-m2-10gpu-8gb-512gb-silver',null,null,42990000,11,8,null,'haipv'),
+		(33,'Macbook Air M2 8GPU 8GB 256GB - Starlight','macbook-air-m2-8gpu-8gb-256gb-starlight',null,null,33990000,11,8,null,'haipv'),
+        (34,'MacBook Pro 13 M2 10GPU 8GB 512GB Space Gray','macbook-pro-13-m2-10gpu-8gb-512gb-space-gray',null,null,39990000,11,8,null,'haipv'),
+        (35,'MacBook Pro 14" 2021 M1 Pro 10CPU 16 GPU 16GB 1TB Silver','macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver',null,null,64990000,11,8,null,'haipv'),
+        (36,'MacBook Pro 16 2021 M1 Max 32GPU 32GB 1TB Space Gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray',null,null,99000000,11,8,null,'haipv'),
 			-- IMac
-		(37,'iMac 24 2021 M1 7GPU 8GB 256GB MGTF3SA/A - Silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver',null,33990000,12,8,null,'haipv'),
-		(38,'iMac 24 2021 M1 8GPU 8GB 256GB MGPK3SA/A - Blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue',null,38990000,12,8,null,'haipv'),
-		(39,'iMac 24 2021 M1 8GPU 16GB 512GB Z12R00047 - Silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver',null,50990000,12,8,null,'haipv'),
+		(37,'iMac 24 2021 M1 7GPU 8GB 256GB MGTF3SA/A - Silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver',null,null,33990000,12,8,null,'haipv'),
+		(38,'iMac 24 2021 M1 8GPU 8GB 256GB MGPK3SA/A - Blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue',null,null,38990000,12,8,null,'haipv'),
+		(39,'iMac 24 2021 M1 8GPU 16GB 512GB Z12R00047 - Silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver',null,null,50990000,12,8,null,'haipv'),
 			-- Mac Mini
-		(40,'Mac Mini M1 8GPU 16GB 1TB Z12P000HM','mac-mini-m1-8gpu-16gb-1tb-z12p000hm',null,41990000,13,8,null,'haipv'),
-        (41,'Mac Mini M1 8GPU 16GB 512GB Z12P000HK','mac-mini-m1-8gpu-16gb-512gb-z12p000hk',null,34990000,13,8,null,'haipv')
+		(40,'Mac Mini M1 8GPU 16GB 1TB Z12P000HM','mac-mini-m1-8gpu-16gb-1tb-z12p000hm',null,null,41990000,13,8,null,'haipv'),
+        (41,'Mac Mini M1 8GPU 16GB 512GB Z12P000HK','mac-mini-m1-8gpu-16gb-512gb-z12p000hk',null,null,34990000,13,8,null,'haipv')
 ;
 -- Thông số kỹ thuật của sản phẩm
 -- CREATE TABLE product_details (
@@ -375,24 +376,36 @@ values
 
 -- Thông số kỹ thuật của sản phẩm
 CREATE TABLE product_thumbnail (
+  id BIGINT NOT NULL AUTO_INCREMENT,
   product_id BIGINT NOT NULL,
-  thumbnail_1 VARCHAR(255) DEFAULT NULL,
-  thumbnail_2 VARCHAR(255) DEFAULT NULL,
-  thumbnail_3 VARCHAR(255) DEFAULT NULL,
-  video VARCHAR(255) DEFAULT NULL,
+  thumbnail VARCHAR(255) DEFAULT NULL,
   modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_by VARCHAR(50) DEFAULT NULL,
-  PRIMARY KEY (product_id),
+  PRIMARY KEY (id),
   CONSTRAINT FK_ProductThumbnail_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
-insert product_thumbnail (product_id,thumbnail_1,thumbnail_2,thumbnail_3,video,modified_by)
+insert product_thumbnail (id,product_id,thumbnail,modified_by)
 values 	
-		(1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png?alt=media&token=5e9b9bea-25fb-4b12-a00a-4c14fed33ee0','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','https://www.youtube.com/watch?v=gIHD6vyiXEQ','haipv'),
-        (2,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png?alt=media&token=e8040187-7cce-4669-b5ed-84cdf2efad34','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png?alt=media&token=26878704-60fa-489a-848d-cc2242654017','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','https://www.youtube.com/watch?v=dFLnMsJ5DmI&t=11s','haipv'),
-        (3,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png?alt=media&token=03d3e189-c8ac-4af0-ba8d-23f07a2f865d','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png?alt=media&token=ca9124cf-75f5-47be-afd7-c4953a891274','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','https://www.youtube.com/watch?v=ab4TeyIsllE','haipv'),
-        (4,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png?alt=media&token=7a11dc73-972f-4540-ad11-872d7cb1a2c1','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png?alt=media&token=22a2d1ef-0803-4a3d-b116-4362f6581084','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png?alt=media&token=ed4b89f5-5546-4493-abf1-028106f79e81','https://www.youtube.com/watch?v=dqGz4JTh0Q0','haipv'),
-        (5,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png?alt=media&token=1ed4b582-cb47-4de1-a322-b53b24a3fa91','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png?alt=media&token=58b5469f-9626-43ea-a715-b5f21e9f16b5','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png?alt=media&token=823afad6-d130-40c1-85a2-487d53be32a0','https://www.youtube.com/watch?v=Fthb7EC5BY0','haipv')
+		(1,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4','haipv'),
+        (2,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png?alt=media&token=5e9b9bea-25fb-4b12-a00a-4c14fed33ee0','haipv'),
+        (3,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','haipv'),
+       
+        (4,2,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png?alt=media&token=e8040187-7cce-4669-b5ed-84cdf2efad34','haipv'),
+		(5,2,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png?alt=media&token=26878704-60fa-489a-848d-cc2242654017','haipv'),
+		(6,2,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','haipv'),
+       
+        (7,3,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png?alt=media&token=03d3e189-c8ac-4af0-ba8d-23f07a2f865d','haipv'),
+        (8,3,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png?alt=media&token=ca9124cf-75f5-47be-afd7-c4953a891274','haipv'),
+        (9,3,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','haipv'),
+        
+        (10,4,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png?alt=media&token=7a11dc73-972f-4540-ad11-872d7cb1a2c1','haipv'),
+        (11,4,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png?alt=media&token=22a2d1ef-0803-4a3d-b116-4362f6581084','haipv'),
+        (12,4,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png?alt=media&token=ed4b89f5-5546-4493-abf1-028106f79e81','haipv'),
+        
+        (13,5,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png?alt=media&token=1ed4b582-cb47-4de1-a322-b53b24a3fa91','haipv'),
+        (14,5,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png?alt=media&token=58b5469f-9626-43ea-a715-b5f21e9f16b5','haipv'),
+        (15,5,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png?alt=media&token=823afad6-d130-40c1-85a2-487d53be32a0','haipv')
 ;
 
 --------------------------------------------------------------------------------------------------------------
@@ -529,7 +542,6 @@ CREATE TABLE orders (
   full_name VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI NOT NULL,
   email VARCHAR(50) DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` INT NOT NULL DEFAULT '0',
   modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_Order_OrderCode (order_code),

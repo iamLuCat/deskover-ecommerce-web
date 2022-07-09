@@ -12,11 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.deskover.dto.AdminCreateDto;
 import com.deskover.dto.AdministratorDto;
 import com.deskover.entity.AdminAuthority;
-import com.deskover.entity.AdminPassword;
 import com.deskover.entity.Administrator;
 import com.deskover.repository.AdministratorRepository;
 import com.deskover.service.AdminAuthorityService;
-import com.deskover.service.AdminPasswordService;
 import com.deskover.service.AdminRoleService;
 import com.deskover.service.AdminService;
 import com.deskover.util.MapperUtil;
@@ -26,9 +24,6 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdministratorRepository repo;
 
-    @Autowired
-    private AdminPasswordService adminPasswordService;
-    
     @Autowired
     private AdminAuthorityService adminAuthorityService;
 
@@ -65,11 +60,6 @@ public class AdminServiceImpl implements AdminService {
         entityAdmin.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         Administrator adminCreated = repo.save(entityAdmin);
 
-        AdminPassword createPassword = new AdminPassword();
-        createPassword.setAdmin(adminCreated);
-        createPassword.setPassword(adminRequest.getPassword());
-        AdminPassword passwordCreated = adminPasswordService.create(createPassword);
-        adminCreated.setPassword(passwordCreated);
         
         AdminAuthority defaultAuthority = new AdminAuthority();
         defaultAuthority.setAdmin(adminCreated);
@@ -98,12 +88,11 @@ public class AdminServiceImpl implements AdminService {
         }
     	
     	adminUpdate.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-    	adminUpdate.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+    	adminUpdate.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
     	
     	Administrator entityAdmin = MapperUtil.map(adminUpdate, Administrator.class);
     	// entityAdmin.setPassword(MapperUtil.map(adminUpdate.getPassword(), AdminPassword.class));
-    	entityAdmin.getPassword().setAdmin(entityAdmin);
-    	
+
 //    	repoPass.saveAndFlush(entityAdmin.getPassword());
     	
     	Administrator adminUpdated = repo.saveAndFlush(entityAdmin);
