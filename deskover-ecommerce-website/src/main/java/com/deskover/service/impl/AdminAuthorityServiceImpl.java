@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +40,7 @@ public class AdminAuthorityServiceImpl implements AdminAuthorityService {
         if(adminAuthority == null){
             throw new IllegalArgumentException("Thêm mới authority không thành công");
         }
+        adminAuthority.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         adminAuthority.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(adminAuthority);
     }
