@@ -17,15 +17,17 @@ import {Product} from "@/entites/product";
 })
 export class PromotionComponent implements OnInit, AfterViewInit {
   discounts: Discount[];
-  discount: Discount;
+  discount: Discount = <Discount>{};
   products: Product[];
-  product: Product;
+  product: Product = <Product>{};
 
   isEdit: boolean = false;
   isActive: boolean = true;
 
+  dtTrigger: Subject<any> = new Subject();
   dtOptions: any = {};
-  dtProductOptions: any = {};
+  dtAllProductOptions: any = {};
+  dtDiscountProductOptions: any = {};
 
   bsConfig?: Partial<BsDatepickerConfig>;
   discountDateRange: Date[] = [new Date(), new Date()];
@@ -136,25 +138,30 @@ export class PromotionComponent implements OnInit, AfterViewInit {
           }
         },
       ]
-    }
+    };
 
-    self.dtProductOptions = {
+    self.dtAllProductOptions = {
       pagingType: 'full_numbers',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
       responsive: true,
+      paging: false,
+      info: false,
+      scrollX: false,
+      scrollY: '50vh',
+      scrollCollapse: true,
       serverSide: true,
       processing: true,
-      stateSave: true,
       columnDefs: [{
         "defaultContent": "",
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
         this.productService.getByActiveForDatatable(dataTablesParameters, true, null).then(resp => {
-          self.products = resp.data;
+          self.products = resp.data.filter(product => {
+            return product.discount === null;
+          });
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
@@ -164,44 +171,20 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       },
       columns: [
         {
-          title: 'Ảnh',
-          data: 'image',
-          orderable: false,
-          searchable: false,
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            let srcImg = data ? data : 'assets/images/no-image.png';
-            return `<img src="${srcImg}" class="img-fluid img-thumbnail" style="max-width: 70px;" alt="product-thumbnail">`;
-          },
-          responsivePriority: 1
-        },
-        {
           title: 'Tên',
           data: 'name',
-          className: 'align-middle'
+          className: 'align-middle',
+          responsivePriority: 0,
         },
         {
           title: 'Thương hiệu',
           data: 'brand.name',
-          className: 'align-middle text-md-center text-start',
+          className: 'align-middle',
         },
         {
           title: 'Danh mục',
           data: 'subCategory.name',
           className: 'align-middle'
-        },
-        {
-          title: 'Khuyến mãi',
-          data: 'discount',
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            if (data) {
-              return `
-                ${data.name} <span class="badge badge-danger">${data.percent}%</span>
-              `;
-            }
-          },
-          responsivePriority: 10001
         },
         {
           title: 'Công cụ',
@@ -212,20 +195,82 @@ export class PromotionComponent implements OnInit, AfterViewInit {
           render: (data, type, full, meta) => {
             if (self.isActive) {
               return `
-                <a href="javascript:void(0)" class="btn btn-add-product btn-sm bg-faded-info me-1" data-id="${data.id}"
-                    title="Sửa" data-toggle="tooltip">
-                    <i class="fa fa-pen-square text-info"></i>
-                </a>
-            `;
-            } else {
-              return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
+               <button type="button" class="btn btn-add-product btn-sm bg-faded-success text-success" data-id="${data.id}">
+                  Thêm
+               </button>`
             }
           },
           responsivePriority: 1
         },
       ]
-    }
+    };
+
+    self.dtDiscountProductOptions = {
+      pagingType: 'full_numbers',
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
+      },
+      responsive: true,
+      paging: false,
+      info: false,
+      scrollX: false,
+      scrollY: '50vh',
+      scrollCollapse: true,
+      serverSide: true,
+      processing: true,
+      columnDefs: [{
+        "defaultContent": "",
+        "targets": "_all",
+      }],
+      ajax: (dataTablesParameters: any, callback) => {
+        this.productService.getByActiveForDatatable(dataTablesParameters, true, null).then(resp => {
+          self.products = resp.data.filter(product => {
+            if (product.discount) {
+              return product.discount.id === this.discount.id;
+            }
+          });
+          callback({
+            recordsTotal: resp.recordsTotal,
+            recordsFiltered: resp.recordsFiltered,
+            data: self.products
+          });
+        });
+      },
+      columns: [
+        {
+          title: 'Tên',
+          data: 'name',
+          className: 'align-middle',
+          responsivePriority: 0,
+        },
+        {
+          title: 'Thương hiệu',
+          data: 'brand.name',
+          className: 'align-middle',
+        },
+        {
+          title: 'Danh mục',
+          data: 'subCategory.name',
+          className: 'align-middle'
+        },
+        {
+          title: 'Công cụ',
+          data: null,
+          orderable: false,
+          searchable: false,
+          className: 'align-middle text-start text-md-end',
+          render: (data, type, full, meta) => {
+            if (self.isActive) {
+              return `
+               <button type="button" class="btn btn-remove-product btn-sm bg-faded-danger text-danger" data-id="${data.id}">
+                Xoá
+               </button>`
+            }
+          },
+          responsivePriority: 1
+        },
+      ]
+    };
   }
 
 
@@ -235,7 +280,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     let body = $('body');
     body.on('click', '.btn-edit', function () {
       const id = $(this).data('id');
-      self.getDiscount(id);
+      self.editDiscount(id);
     });
     body.on('click', '.btn-delete', function () {
       const id = $(this).data('id');
@@ -250,6 +295,17 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       const id = $(this).data('id');
       self.getProduct(id);
     });
+
+    body.on('click', '.btn-add-product', function () {
+      const id = $(this).data('id');
+      self.addProduct(id);
+    });
+
+    body.on('click', '.btn-remove-product', function () {
+      const id = $(this).data('id');
+      self.removeProduct(id);
+    });
+
   }
 
   rerender() {
@@ -275,14 +331,18 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     this.openModal(this.discountModal);
   }
 
-  getDiscount(id: number) {
-    this.discountService.getById(id).subscribe(data => {
+  getDiscount(discountId: number) {
+    this.discountService.getById(discountId).subscribe(data => {
       this.discount = data;
       this.discountDateRange = [new Date(this.discount.startDate), new Date(this.discount.endDate)];
       this.discountStartTime = new Date(this.discount.startDate);
       this.discountEndTime = new Date(this.discount.endDate);
     });
+  }
+
+  editDiscount(discountId: number) {
     this.isEdit = true;
+    this.getDiscount(discountId);
     this.openModal(this.discountModal);
   }
 
@@ -306,10 +366,10 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     this.closeModal();
   }
 
-  deleteDiscount(id: number) {
+  deleteDiscount(discountId: number) {
     AlertUtils.warning('Xác nhận xoá', 'Khuyến mãi đang áp dụng trên sản phẩm sẽ bị huỷ').then((result) => {
       if (result.value) {
-        this.discountService.changeActive(id).subscribe(data => {
+        this.discountService.changeActive(discountId).subscribe(data => {
           AlertUtils.toastSuccess('Xoá danh mục thành công');
           this.rerender();
         });
@@ -317,22 +377,37 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     });
   }
 
-  activeDiscount(id: number) {
-    this.discountService.changeActive(id).subscribe(data => {
+  activeDiscount(discountId: number) {
+    this.discountService.changeActive(discountId).subscribe(data => {
       AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
       this.rerender();
     });
   }
 
-  getProduct(id: number) {
+  getProduct(discountId: number) {
+    this.getDiscount(discountId);
+    this.openModal(this.productModal, 'xl');
+  }
 
+  addProduct(productId: number) {
+    this.discountService.update(this.discount, productId, null).subscribe(data => {
+      AlertUtils.toastSuccess('Thêm sản phẩm thành công');
+      $('.product-table').DataTable().ajax.reload(null, false);
 
-    this.openModal(this.productModal);
+    });
+  }
+
+  removeProduct(productId: number) {
+    this.discountService.update(this.discount, null, productId).subscribe(data => {
+      AlertUtils.toastSuccess('Xoá sản phẩm thành công');
+      $('.product-table').DataTable().ajax.reload(null, false);
+    });
   }
 
   // Modal
-  openModal(content) {
+  openModal(content: any, size: string = 'lg') {
     this.closeModal();
+    this.modalConfig.size = size;
     this.modalService.open(content);
   }
 

@@ -1,8 +1,9 @@
 package com.deskover.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 import com.deskover.entity.Order;
@@ -14,9 +15,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			@Param("year") String year,
 			@Param("modified_by") String modified_by);
 	
-	@Procedure(name = "Order.getTotalPrice_Shiping_PerMonth",outputParameterName = "total")
-	String getTotalCarsByModelEntiy(@Param("month") String month,
-			@Param("year") String year,
-			@Param("modified_by") String modified_by,
-			@Param("total") String total);
+	List<Order> findByOrderStatusCode(String code);
+	
+	Order findByOrderCodeAndOrderStatusCode( String orderCode,  String status);
 }

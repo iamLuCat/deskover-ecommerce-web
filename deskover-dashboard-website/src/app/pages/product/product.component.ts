@@ -18,7 +18,7 @@ import {SubcategoryService} from "@services/subcategory.service";
 export class ProductComponent implements OnInit, AfterViewInit {
 
   products: Product[];
-  product: Product;
+  product: Product = <Product>{};
   categories: Category[];
   categoryId: number = null;
   subcategories: Subcategory[];

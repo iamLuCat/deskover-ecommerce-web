@@ -36,6 +36,10 @@ export class RestApiService {
     return this.httpClient.put(link, body).pipe(catchError(RestApiService.handleError));
   }
 
+  putWithParams(link: string, body: any, params: HttpParams): Observable<any> {
+    return this.httpClient.put(link, body, {params}).pipe(catchError(RestApiService.handleError));
+  }
+
   delete(link: string, id: number) {
     return this.httpClient.delete(link + '/' + id).pipe(catchError(RestApiService.handleError));
   }

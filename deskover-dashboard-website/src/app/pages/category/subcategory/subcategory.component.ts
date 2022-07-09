@@ -18,8 +18,8 @@ import {SubcategoryDto} from "@/dtos/subcategory-dto";
 })
 export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   subcategories: Subcategory[];
-  subcategory: Subcategory;
-  subcategoryDto: SubcategoryDto;
+  subcategory: Subcategory = <Subcategory>{};
+  subcategoryDto: SubcategoryDto = <SubcategoryDto>{};
 
   categories: Category[];
 
@@ -211,16 +211,18 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   activeSubcategory(id: number) {
     this.subcategory = this.subcategories.find(item => item.id === id);
-    if (!this.subcategory.category.actived) {
-      AlertUtils.info('Danh mục cha đã bị khoá', 'Kích hoạt lại danh mục cha?').then((result) => {
-        if (result.value) {
-          this.categoryService.changeActive(this.subcategory.category.id).subscribe(data => {
-            this.changeActive(id);
-          });
-        }
-      });
-    } else {
-      this.changeActive(id);
+    if (this.subcategory) {
+      if (!this.subcategory.category.actived) {
+        AlertUtils.info('Danh mục cha đã bị khoá', 'Kích hoạt lại danh mục cha?').then((result) => {
+          if (result.value) {
+            this.categoryService.changeActive(this.subcategory.category.id).subscribe(data => {
+              this.changeActive(id);
+            });
+          }
+        });
+      } else {
+        this.changeActive(id);
+      }
     }
   }
 
