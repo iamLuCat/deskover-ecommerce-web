@@ -48,7 +48,9 @@
               "gatekeeper-client-sdk",
               "path",
               "os",
-              "fs"
+              "fs",
+              "luxon",
+              "sweetalert2"
             ]
           },
           "configurations": {
