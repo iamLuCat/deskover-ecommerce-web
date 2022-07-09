@@ -10,8 +10,8 @@ export class CKEditorComponent {
   public Editor = Editor;
   public config: any;
 
-  @Input() bindingValue: any = '';
-  @Input() id: string = '';
+  @Input() bindingValue: any;
+  @Input() id: string;
 
   constructor() {
     this.config = {
