@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.deskover.dto.TotalByCategory;
 import com.deskover.entity.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -17,8 +16,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			@Param("modified_by") String modified_by);
 	
 	//DashBoard-Admin
-	@Query(value="{CALL totalByCategory(:month, :year)}", nativeQuery = true)
-	String getToTalByCategory(@Param("month") String month,@Param("year") String year);
+	@Query(value="{CALL totalByNameCategory(:month, :year)}", nativeQuery = true)
+	String[] totalByNameCategory(@Param("month") String month,@Param("year") String year);
+	
+	@Query(value="{CALL totalPriceByCategory(:month, :year)}", nativeQuery = true)
+	String[] totalPriceByCategory(@Param("month") String month,@Param("year") String year);
 	
 	List<Order> findByOrderStatusCode(String code);
 	
