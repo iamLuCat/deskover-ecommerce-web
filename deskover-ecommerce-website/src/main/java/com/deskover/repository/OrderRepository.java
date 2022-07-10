@@ -10,6 +10,14 @@ import com.deskover.entity.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	//Shipper
+	@Query(value = "{CALL getTotalPrice_Shipping_PerDay(:day,:month, :year,:modified_by,:code)}", nativeQuery = true)
+	String getTotalPrice_Shipping_PerDay(
+			@Param("day") String day,
+			@Param("month") String month,
+			@Param("year") String year,
+			@Param("modified_by") String modified_by,
+			@Param("code") String code);
+	
 	@Query(value = "{CALL getTotalPrice_Shiping_PerMonth(:month, :year,:modified_by)}", nativeQuery = true)
 	String getToTalPricePerMonth(@Param("month") String month,
 			@Param("year") String year,

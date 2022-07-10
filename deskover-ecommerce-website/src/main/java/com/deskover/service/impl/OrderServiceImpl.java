@@ -1,7 +1,9 @@
 package com.deskover.service.impl;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.deskover.dto.OrderDto;
 import com.deskover.dto.OrderItemDto;
+import com.deskover.dto.Total7DaysAgo;
 import com.deskover.entity.Order;
 import com.deskover.entity.OrderDetail;
 import com.deskover.entity.OrderItem;
@@ -19,6 +22,7 @@ import com.deskover.repository.OrderDetailRepository;
 import com.deskover.repository.OrderItemRepository;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
+import com.deskover.util.DecimalFormatUtil;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -44,6 +48,31 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Order> getAllOrderStatus(String status) {
 		return repository.findByOrderStatusCode(status);
+	}
+	
+	@Override
+	public List<Total7DaysAgo> doGetTotalPrice7DaysAgo() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		LocalDateTime now = LocalDateTime.now();
+		List<Total7DaysAgo> total7DaysAgos = new ArrayList<>();
+		for (int i = 0; i < 7; i++) {
+			LocalDateTime then = now.minusDays(i);
+			Total7DaysAgo day = new Total7DaysAgo();
+			day.setDate(then.format(format));
+			String total = repository.getTotalPrice_Shipping_PerDay(then.getDayOfMonth()+"",
+					then.getMonth().getValue()+"",
+					then.getYear()+"",
+					SecurityContextHolder.getContext().getAuthentication().getName(), "GH-TC" );
+			if(total != null) {
+				day.setTotalPrice(DecimalFormatUtil.FormatDecical(total));
+			}else {
+				day.setTotalPrice("0");
+			}
+			
+			total7DaysAgos.add(day);
+
+		}
+		return total7DaysAgos;
 	}
 
 	@Override
@@ -100,5 +129,7 @@ public class OrderServiceImpl implements OrderService {
 		return repository.getCountOrder(currentTimes.getMonthValue()+"",
 				currentTimes.getYear()+"",SecurityContextHolder.getContext().getAuthentication().getName());
 	}
+
+
 
 }

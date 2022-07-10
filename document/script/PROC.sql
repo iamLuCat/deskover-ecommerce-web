@@ -7,6 +7,10 @@ SELECT sum(order_item.quantity * order_item.price) as 'total',product.id,product
 from product inner join order_item on product.id = order_item.product_id
 GROUP BY product_id;
 
+SELECT sum(order_item.quantity * order_item.price) as 'totalOrder'  from orders join order_item on orders.id = order_item.order_id where order_item.order_id = '3' group by order_item.order_id;
+
+SELECT count(*) from orders join status_order on orders.status_id = status_order.id  where status_order.`code` = 'GH-TC';
+
 SELECT category.id,category.name, sum(order_item.quantity * order_item.price) as 'totalProduct'
 from 
 	product 
@@ -36,18 +40,37 @@ GROUP BY category.id;
 
 SELECT sum(order_item.quantity * order_item.price),order_item.product_id from order_item GROUP BY product_id;  
 
+-- tổng tiền của đơn hàng
+DROP procedure IF EXISTS `totalOrder`;
+DELIMITER $$
+CREATE PROCEDURE `totalOrder`(IN `id` int)
+BEGIN
+	DECLARE totalOrder INT DEFAULT 0;
+	SET totalOrder = 
+    ( 
+			SELECT sum(order_item.quantity * order_item.price) as 'totalOrder'  
+            from orders 
+					join order_item on orders.id = order_item.order_id 
+			where 
+					order_item.order_id = `id` 
+			group by order_item.order_id
+    );
+    SELECT totalOrder;
+END$$
+
+DELIMITER ;
+;
+call deskover.totalOrder('3');
+
 -- doanh thu ngay
--- SELECT SUM( order_item.quantity * order_item.price) as 'totalBy'
--- 	FROM 
--- 		orders 
--- 			INNER JOIN order_item ON orders.id = order_item.order_id
--- 	WHERE
--- 		DAY('2022-07-03');
-
-
 DROP procedure IF EXISTS `getTotalPrice_Shipping_PerDay`;
 DELIMITER $$
-CREATE PROCEDURE `getTotalPrice_Shipping_PerDay`(IN `day` varchar(2),IN `month` varchar(2),IN `year` varchar(4), IN modified_by varchar(50))
+CREATE PROCEDURE `getTotalPrice_Shipping_PerDay`(
+					IN `day` varchar(2),
+					IN `month` varchar(2),
+					IN `year` varchar(4),
+					IN modified_by varchar(50),
+					IN `code` varchar(5))
 BEGIN
 	DECLARE totalPricePerDay varchar(20) DEFAULT 0;
 	SET totalPricePerDay = 
@@ -56,10 +79,12 @@ BEGIN
 			FROM 
 				orders 
 					INNER JOIN order_item ON orders.id = order_item.order_id
+                    JOIN status_order ON orders.status_id = status_order.id
 			WHERE
                 DAY(orders.created_at) = `day`
                 AND MONTH(orders.created_at)= `month`
                 AND YEAR(orders.created_at) = `year`
+                AND status_order.`code` = `code`
                 AND orders.modified_by = modified_by
     );
     SELECT totalPricePerDay;
@@ -67,8 +92,10 @@ END$$
 
 DELIMITER ;
 ;
-call deskover.getTotalPrice_Shipping_PerDay('07', '07', '2022', 'minhnh');
--- doanh thu thang
+call deskover.getTotalPrice_Shipping_PerDay('10', '07', '2022', 'minhnh','GH-TC');
+
+
+-- doanh thu thang shipper
 
 DROP procedure IF EXISTS `getTotalPrice_Shiping_PerMonth`;
 
@@ -82,9 +109,11 @@ BEGIN
 			FROM 
 				orders 
 					INNER JOIN order_item ON orders.id = order_item.order_id
+                    JOIN status_order ON orders.status_id = status_order.id
 			WHERE
 				MONTH(orders.created_at)= `month`
                 AND YEAR(orders.created_at) = `year`
+                AND status_order.`code` = 'GH-TC'
                 AND orders.modified_by = modified_by
     );
     SELECT totalPricePerMonth;
@@ -93,6 +122,31 @@ DELIMITER ;
 ;
 call deskover.getTotalPrice_Shiping_PerMonth('07', '2022', 'minhnh');
 
+-- Tổng số đơn hàng giao thành công của tháng
+
+DROP procedure IF EXISTS `countOrder`;
+
+DELIMITER $$
+CREATE  PROCEDURE `countOrder`(IN `month` varchar(2),IN `year` varchar(4), IN modified_by varchar(50))
+BEGIN
+		DECLARE countOrder varchar(20) DEFAULT 0;
+		SET countOrder = 
+    ( 
+			SELECT count(*)
+            from orders 
+				join status_order 
+					on orders.status_id = status_order.id  
+				where 
+					MONTH(orders.created_at)= `month`
+					AND YEAR(orders.created_at) = `year`
+					AND status_order.`code` = 'GH-TC'
+					AND orders.modified_by = modified_by
+    );
+    SELECT countOrder;
+END$$
+DELIMITER ;
+;
+call deskover.countOrder('07', '2022', 'minhnh');
 
 -- doanh thu nam
 DROP procedure IF EXISTS `getTotalPricePerYear`;
