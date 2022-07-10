@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.dto.AdministratorDto;
-import com.deskover.dto.TotalByCategory;
+import com.deskover.dto.OrderDto;
 import com.deskover.entity.Order;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
@@ -65,24 +64,33 @@ public class OrderApi {
 	
 	@GetMapping("order/{orderCode}")
 	public ResponseEntity<?> doGetOrderByOrderCode(@PathVariable("orderCode") String orderCode,
-					@RequestParam("status") String status
-			){
-		
+					@RequestParam("status") String status){
 		try {
-			Order order = orderService.findByOrderCode(orderCode, status.toUpperCase());
-			return ResponseEntity.ok(order);
+			OrderDto orderDto = orderService.findByOrderCode(orderCode, status);
+			return ResponseEntity.ok(orderDto);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(), e);
 		}
 	
 	}
 	
-	
-	@GetMapping("order-total-per-month")
-	public ResponseEntity<?> doGetPrice(@RequestParam("userModified") String userModified){
+	@GetMapping("/order-total-per-month")
+	public ResponseEntity<?> doGetPrice(){
 		try {
-			String order = orderService.getToTalPricePerMonth(userModified);
+			System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+			String order = orderService.getToTalPricePerMonth();
 			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(order));
+			
+		} catch (Exception e) {
+			return ResponseEntity.ok("0");
+		}
+	}
+	
+	@GetMapping("/order-count-order-per-month")
+	public ResponseEntity<?> doGetCountOrder(){
+		try {
+			String countOrder = orderService.getCountOrderPerMonth();
+			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(countOrder));
 			
 		} catch (Exception e) {
 			return ResponseEntity.ok("0");
