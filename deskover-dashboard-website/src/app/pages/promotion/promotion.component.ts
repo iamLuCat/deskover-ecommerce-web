@@ -266,7 +266,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     const body = $('body');
 
     this.productDiscountModal.onShown.subscribe(() => {
-
+      $('.product-table').DataTable().ajax.reload(null, false);
     });
 
     body.on('click', '.btn-edit', function () {
@@ -386,7 +386,6 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     this.discountService.update(this.discount, productId, null).subscribe(data => {
       AlertUtils.toastSuccess('Thêm sản phẩm thành công');
       $('.product-table').DataTable().ajax.reload(null, false);
-
     });
   }
 
