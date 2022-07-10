@@ -1,5 +1,6 @@
 package com.deskover.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +24,6 @@ public class ProductThumbnail implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
     @Column(name = "thumbnail")
     private String thumbnail;
 
@@ -35,5 +32,10 @@ public class ProductThumbnail implements Serializable {
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
 }

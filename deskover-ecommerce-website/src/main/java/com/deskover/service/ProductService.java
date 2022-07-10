@@ -14,11 +14,11 @@ import com.deskover.entity.Product;
 
 public interface ProductService {
 
-	Page<Product> findByActived(Boolean actived, Optional<Integer> page, Optional<Integer> size);
+	Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size);
 
-	Page<Product> findByName(String name, Optional<Integer> page, Optional<Integer> size);
+	Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size);
 
-	List<Product> findBySubcategoryId(Long id);
+	List<Product> getBySubcategoryId(Long id);
 
 	Product create(ProductDto productDto);
 
@@ -33,8 +33,6 @@ public interface ProductService {
 	Boolean existsBySlug(String slug);
 
 	Boolean existsBySlug(Product product);
-
-	DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive);
 
 	DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive, Long categoryId);
 

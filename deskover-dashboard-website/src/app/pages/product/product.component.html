@@ -79,17 +79,29 @@
   <div class="modal-body">
     <form #productForm="ngForm" >
       <div class="row">
-        <div class="col-12 mb-3">
-          <label class="form-label" for="name">Tên</label>
-          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
-                 #name="ngModel" required/><!--oninput="this.value = Math.abs(this.value)"-->
-          <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-            <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label" for="name">Tên</label>
+              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
+                     #name="ngModel" (keyup)="product.slug=toSlug(product.name)" required/><!--oninput="this.value = Math.abs(this.value)"-->
+              <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+                <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
+              </div>
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label" for="slug">Slug</label>
+              <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug"
+                     #slug="ngModel" required/>
+              <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
+                <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
+              </div>
+            </div>
+            <div class="col-12 mb-3">
+              <label class="form-label">Mô tả</label>
+              <app-ckeditor [id]="'discount'" [bindingValue]="product.description?product.description:''"></app-ckeditor>
+            </div>
           </div>
-        </div>
-        <div class="col-12 mb-3">
-          <label class="form-label">Mô tả</label>
-          <app-ckeditor [id]="'discount'" [bindingValue]="product.description?product.description:''"></app-ckeditor>
         </div>
       </div>
     </form>

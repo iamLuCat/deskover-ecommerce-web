@@ -34,7 +34,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     @Autowired
     private CategoryService categoryService;
-    
+
 
     @Override
     public List<Subcategory> getByCategory(Long categoryId) {
@@ -43,6 +43,11 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     public List<Subcategory> getByActive(Boolean isActive) {
         return repo.findByActived(isActive);
+    }
+
+    @Override
+    public List<Subcategory> getAll(Boolean isActive, Long categoryId) {
+        return repo.findByActivedAndCategoryId(isActive, categoryId);
     }
 
     public Subcategory getById(Long id) {
@@ -86,7 +91,6 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         }
         return subcategories;
     }
-
 
     @Override
     public Subcategory create(SubcategoryDto subcategoryDto) {
@@ -157,7 +161,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             subcategory.setActived(Boolean.FALSE);
             subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        	List<Product> products = productService.findBySubcategoryId(subcategory.getId());
+        	List<Product> products = productService.getBySubcategoryId(subcategory.getId());
         	productService.changeDelete(products, Boolean.FALSE);
         });
         repo.saveAll(subcategories);
@@ -192,13 +196,13 @@ public class SubcategoryServiceImpl implements SubcategoryService {
                 subcategory.setActived(Boolean.FALSE);
                 subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
                 subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                List<Product> products = productService.findBySubcategoryId(subcategory.getId());
+                List<Product> products = productService.getBySubcategoryId(subcategory.getId());
                 productService.changeDelete(products, Boolean.FALSE);
             } else {
                 subcategory.setActived(Boolean.TRUE);
                 subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
                 subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                List<Product> products = productService.findBySubcategoryId(subcategory.getId());
+                List<Product> products = productService.getBySubcategoryId(subcategory.getId());
                 productService.changeDelete(products, Boolean.TRUE);
                 repo.save(subcategory);
 
@@ -209,11 +213,5 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             throw new IllegalArgumentException("Danh mục cha đã bị vô hiệu hóa");
         }
     }
-
-//	@Override
-//	public Subcategory create(Subcategory subcategory) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 }

@@ -49,14 +49,13 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private DiscountService discountService;
 
-    @Override
-    public Page<Product> findByActived(Boolean actived, Optional<Integer> page, Optional<Integer> size) {
+    public Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size) {
             Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
-            return repository.findByActived(actived, pageable);
+            return repository.findByActived(isActive, pageable);
     }
-    
-	@Override
-	public Page<Product> findByName(String name, Optional<Integer> page, Optional<Integer> size) {
+
+    @Override
+	public Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size) {
 		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
 		
 			Page<Product> pages = repository.findByNameContaining(name, pageable);
@@ -172,16 +171,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive) {
-        DataTablesOutput<Product> products = repoForDatatables.findAll(input,
-                (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("actived"), isActive));
-        if (products.getError() != null) {
-            throw new IllegalArgumentException(products.getError());
-        }
-        return products;
-    }
-
-    @Override
     public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive,
             Long categoryId) {
         DataTablesOutput<Product> products = null;
@@ -243,7 +232,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findBySubcategoryId(Long id) {
+    public List<Product> getBySubcategoryId(Long id) {
 
         return repository.findBySubCategoryId(id);
     }

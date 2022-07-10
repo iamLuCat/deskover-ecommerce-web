@@ -43,19 +43,19 @@ public class ProductApi {
     @Autowired
     RestTemplate restTemplate;
 
-    @GetMapping("/product")
+    @GetMapping("/products")
     public ResponseEntity<?> doGetAll(@RequestParam("search") String search,
             @RequestParam("number") Optional<Integer> number,
             @RequestParam("size") Optional<Integer> size) {
         try {
             if (search.isBlank()) {
-                Page<Product> products = productService.findByActived(Boolean.TRUE, number, size);
+                Page<Product> products = productService.getByActive(Boolean.TRUE, number, size);
                 if (products.isEmpty()) {
                     return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
                 }
                 return ResponseEntity.ok(products);
             } else {
-                Page<Product> products = productService.findByName(search, number, size);
+                Page<Product> products = productService.getByName(search, number, size);
                 if (products.isEmpty()) {
                     return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
                 }
@@ -70,7 +70,7 @@ public class ProductApi {
 
     @GetMapping("/products/subcategory")
     public ResponseEntity<?> doGetBySubcategory() {
-        List<Product> products = productService.findBySubcategoryId((long) 1);
+        List<Product> products = productService.getBySubcategoryId((long) 1);
         return ResponseEntity.ok(products);
     }
 
@@ -93,7 +93,7 @@ public class ProductApi {
         return ResponseEntity.ok(output);
     }
 
-    @PostMapping("/product")
+    @PostMapping("/products")
     public ResponseEntity<?> doPostCreate(@RequestBody ProductDto productDto, BindingResult result) {
         if (result.hasErrors()) {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -108,7 +108,7 @@ public class ProductApi {
 
     }
 
-    @PutMapping("/product")
+    @PutMapping("/products")
     public ResponseEntity<?> doPutUpdate(@RequestBody Product product, BindingResult result) {
         if (result.hasErrors()) {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -126,7 +126,7 @@ public class ProductApi {
         }
     }
 
-    @PutMapping("product/{id}")
+    @PutMapping("products/{id}")
     public ResponseEntity<?> changeActiveSubcategoty(@PathVariable("id") Long id) {
         try {
             productService.changeActiveSubcategoty(id);
@@ -137,7 +137,7 @@ public class ProductApi {
 
     }
 
-    @DeleteMapping("product/{id}")
+    @DeleteMapping("products/{id}")
     public ResponseEntity<?> doDeleteById(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(productService.changeActive(id));
