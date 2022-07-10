@@ -40,12 +40,14 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public String getToTalPricePerMonth(String userModified) {
+	
 		YearMonth currentTimes = YearMonth.now();
 		
 		String month = currentTimes.getMonthValue()+"";
 		String year = currentTimes.getYear()+"";
-		
 		return repository.getToTalPricePerMonth(month, year, userModified);
+	
+		
 	}
 
 }
