@@ -1,7 +1,10 @@
 package com.deskover.api.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.dto.AdministratorDto;
+import com.deskover.dto.TotalByCategory;
 import com.deskover.entity.Order;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
@@ -86,10 +91,25 @@ public class OrderApi {
 	
 	//DashBoard-ADMIN
 	
-	@GetMapping("/total-by-category")
-	public ResponseEntity<?> doGetTotalByCategory(){
-		String totalByCategories = orderRepository.getToTalByCategory("07", "2022");
-		return ResponseEntity.ok(totalByCategories);
-	}
+//	@GetMapping("/total-by-category")
+//	public ResponseEntity<?> dogetTotal(){
+//		
+//		String[] result1 = orderRepository.totalByNameCategory("07", "2022");
+//		String[] result2 = orderRepository.totalPriceByCategory("07", "2022");
+//		String[][] data = new String[2][result1.length];
+//		data[0] = result1;
+//		data[1] = result2;
+//			
+//		return ResponseEntity.ok(data);
+//	}
 	
+
+	@GetMapping("/total-by-category")
+	public Map<String,String[]>importedByCateOverTheTime(){
+//		List<Object[]> totalByCategories =orderRepository.getToTalByCategory("07", "2022") ;
+		Map<String,String[]> map = new HashMap<>();
+		map.put("price",orderRepository.totalPriceByCategory("07", "2022"));
+		map.put("name",orderRepository.totalByNameCategory("07", "2022"));
+		return map;
+	}
 }
