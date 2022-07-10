@@ -1,5 +1,6 @@
 package com.deskover.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +24,6 @@ public class Rating implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
     @Column(name = "fullname", nullable = false)
     private String fullname;
 
@@ -46,5 +43,10 @@ public class Rating implements Serializable {
     @Column(name = "modified_at", nullable = false)
     @CreationTimestamp
     private Timestamp modifiedAt;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
 }

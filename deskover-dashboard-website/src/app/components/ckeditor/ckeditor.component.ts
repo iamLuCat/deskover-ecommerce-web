@@ -113,11 +113,11 @@ export class CKEditorComponent {
     }
   }
 
-  public onReady(editor) {
-    editor.ui.getEditableElement().parentElement.insertBefore(
-      editor.ui.view.toolbar.element,
-      editor.ui.getEditableElement()
-    );
-  }
+  // public onReady(editor) {
+  //   editor.ui.getEditableElement().parentElement.insertBefore(
+  //     editor.ui.view.toolbar.element,
+  //     editor.ui.getEditableElement()
+  //   );
+  // }
 
 }

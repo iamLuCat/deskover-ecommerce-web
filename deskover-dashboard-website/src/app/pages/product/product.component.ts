@@ -9,6 +9,7 @@ import {CategoryService} from '@services/category.service';
 import {DatePipe} from "@angular/common";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
+import {UrlUtils} from "@/utils/url-utils";
 
 @Component({
   selector: 'app-product',
@@ -43,9 +44,10 @@ export class ProductComponent implements OnInit, AfterViewInit {
     modalConfig.keyboard = false;
     modalConfig.centered = true;
     modalConfig.size = 'xl';
+    modalConfig.fullscreen = 'xxl';
 
     this.getCategories();
-    // this.getSubcategories();
+    this.getSubcategories();
   }
 
   ngOnInit() {
@@ -213,6 +215,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
   getSubcategories() {
     this.subcategoryService.getByActive(true, this.categoryId).subscribe(data => {
       this.subcategories = data;
+      console.log(this.subcategories);
     });
   }
 
@@ -224,9 +227,10 @@ export class ProductComponent implements OnInit, AfterViewInit {
   }
 
   getProduct(id: number) {
-    this.productService.getById(id).subscribe(data => {
-      this.product = data;
-    });
+    // this.productService.getById(id).subscribe(data => {
+    //   this.product = data;
+    // });
+    this.product = this.products.find(p => p.id === id);
     this.isEdit = true;
     this.openModal(this.productModal);
   }
@@ -267,6 +271,11 @@ export class ProductComponent implements OnInit, AfterViewInit {
       AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
       this.rerender();
     });
+  }
+
+  /* Slugify */
+  toSlug(text: string) {
+    return UrlUtils.slugify(text);
   }
 
   /* Modal */
