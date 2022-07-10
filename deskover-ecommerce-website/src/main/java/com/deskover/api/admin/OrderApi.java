@@ -80,9 +80,16 @@ public class OrderApi {
 			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(order));
 			
 		} catch (Exception e) {
-			// TODO: handle exception
-			return ResponseEntity.ok(e.getLocalizedMessage());
+			return ResponseEntity.ok("0");
 		}
+	}
+	
+	//DashBoard-ADMIN
+	
+	@GetMapping("/total-by-category")
+	public ResponseEntity<?> doGetTotalByCategory(){
+		String totalByCategories = orderRepository.getToTalByCategory("07", "2022");
+		return ResponseEntity.ok(totalByCategories);
 	}
 	
 }
