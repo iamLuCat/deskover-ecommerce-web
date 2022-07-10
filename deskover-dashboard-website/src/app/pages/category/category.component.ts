@@ -1,11 +1,11 @@
 import {Category} from '@/entites/category';
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
 import {Subject} from "rxjs";
 import {CategoryService} from "@services/category.service";
-import { AlertUtils } from '@/utils/alert-utils';
+import {AlertUtils} from '@/utils/alert-utils';
 
 @Component({
   selector: 'app-category',
@@ -27,15 +27,7 @@ export class CategoryComponent implements OnInit {
   @ViewChild('categoryModal') categoryModal: any;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
-  constructor(
-    private modalConfig: NgbModalConfig,
-    private modalService: NgbModal,
-    private categoryService: CategoryService
-  ) {
-    modalConfig.backdrop = 'static';
-    modalConfig.keyboard = false;
-    modalConfig.centered = true;
-  }
+  constructor(private categoryService: CategoryService) {}
 
   ngOnInit() {
     const self = this;
@@ -140,11 +132,11 @@ export class CategoryComponent implements OnInit {
 
   // Modal
   openModal(content) {
-    this.modalService.open(content);
+    this.categoryModal.show();
   }
 
   closeModal() {
-    this.modalService.dismissAll();
+    this.categoryModal.hide();
   }
 
 }
