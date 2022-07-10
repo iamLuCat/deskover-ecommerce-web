@@ -227,12 +227,11 @@ export class ProductComponent implements OnInit, AfterViewInit {
   }
 
   getProduct(id: number) {
-    // this.productService.getById(id).subscribe(data => {
-    //   this.product = data;
-    // });
-    this.product = this.products.find(p => p.id === id);
-    this.isEdit = true;
+    this.productService.getById(id).subscribe(data => {
+      this.product = data;
+    });
     this.openModal(this.productModal);
+    this.isEdit = true;
   }
 
   saveProduct(product: Product) {
