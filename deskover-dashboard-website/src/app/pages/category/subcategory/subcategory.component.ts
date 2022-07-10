@@ -34,9 +34,15 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
+    private modalConfig: NgbModalConfig,
+    private modalService: NgbModal,
     private subcategoryService: SubcategoryService,
     private categoryService: CategoryService
   ) {
+    modalConfig.backdrop = 'static';
+    modalConfig.keyboard = false;
+    modalConfig.centered = true;
+
     this.getCategories();
   }
 
@@ -236,11 +242,12 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Modal bootstrap
   openModal(content) {
-    this.subcategoryModal.show();
+    this.modalService.dismissAll();
+    this.modalService.open(content);
   }
 
   closeModal() {
-    this.subcategoryModal.hide();
+    this.modalService.dismissAll();
   }
 
 }
