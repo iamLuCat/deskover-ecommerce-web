@@ -1,6 +1,5 @@
 package com.deskover.dto;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -33,7 +32,7 @@ public class OrderDto {
 	    
 	    private List<OrderItemDto> orderItem;
 
-	    private Timestamp createdAt;
+	    private String createdAt;
 	    
 		private String code;
 		
