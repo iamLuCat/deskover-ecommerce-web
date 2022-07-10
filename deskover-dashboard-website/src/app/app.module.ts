@@ -49,7 +49,6 @@ import {ProductComponent} from '@pages/product/product.component';
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
 import {CKEditorComponent} from '@components/ckeditor/ckeditor.component';
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
-import {ModalModule} from "ngx-bootstrap/modal";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -85,27 +84,26 @@ defineLocale('vi', viLocale);
     ProductComponent,
     CKEditorComponent,
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
-        HttpClientModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        ToastrModule.forRoot({
-            timeOut: 3000,
-            positionClass: 'toast-top-right',
-            preventDuplicates: true
-        }),
-        NgbModule,
-        DataTablesModule,
-        TooltipModule,
-        BsDatepickerModule,
-        TimepickerModule,
-        CKEditorModule,
-        ModalModule
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
+    HttpClientModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true
+    }),
+    NgbModule,
+    DataTablesModule,
+    TooltipModule,
+    BsDatepickerModule,
+    TimepickerModule,
+    CKEditorModule
+  ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

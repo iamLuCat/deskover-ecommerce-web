@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Product} from "@/entites/product";
 import {DataTableDirective} from "angular-datatables";
+import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 import {ProductService} from "@services/product.service";
 import {AlertUtils} from "@/utils/alert-utils";
 import {Category} from "@/entites/category";
@@ -33,10 +34,18 @@ export class ProductComponent implements OnInit, AfterViewInit {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
+    private modalConfig: NgbModalConfig,
+    private modalService: NgbModal,
     private productService: ProductService,
     private categoryService: CategoryService,
-    private subcategoryService: SubcategoryService
+    private subcategoryService: SubcategoryService,
   ) {
+    modalConfig.backdrop = 'static';
+    modalConfig.keyboard = false;
+    modalConfig.centered = true;
+    modalConfig.size = 'xl';
+    modalConfig.fullscreen = 'xxl';
+
     this.getCategories();
     this.getSubcategories();
   }
@@ -270,10 +279,11 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   /* Modal */
   openModal(content) {
-    this.productModal.show();
+    this.closeModal();
+    this.modalService.open(content);
   }
 
   closeModal() {
-    this.productModal.hide();
+    this.modalService.dismissAll();
   }
 }
