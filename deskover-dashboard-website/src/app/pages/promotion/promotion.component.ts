@@ -1,7 +1,8 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Discount} from "@/entites/discount";
 import {Subject} from "rxjs";
 import {DataTableDirective} from "angular-datatables";
+import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 import {DiscountService} from "@services/discount.service";
 import {DatePipe} from "@angular/common";
 import {AlertUtils} from "@/utils/alert-utils";
@@ -23,6 +24,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   isEdit: boolean = false;
   isActive: boolean = true;
 
+  dtTrigger: Subject<any> = new Subject();
   dtOptions: any = {};
   dtAllProductOptions: any = {};
   dtDiscountProductOptions: any = {};
@@ -33,13 +35,20 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   discountEndTime: Date = new Date();
 
   @ViewChild('discountModal') discountModal: any;
-  @ViewChild('productDiscountModal') productDiscountModal: any;
+  @ViewChild('productModal') productModal: any;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
+    private modalConfig: NgbModalConfig,
+    private modalService: NgbModal,
     private discountService: DiscountService,
     private productService: ProductService,
   ) {
+    modalConfig.size = 'lg';
+    modalConfig.backdrop = 'static';
+    modalConfig.keyboard = false;
+    modalConfig.centered = true;
+
     // Config datepicker ngx-bootstrap
     this.bsConfig = Object.assign({}, {
       containerClass: 'theme-dark-blue',
@@ -54,6 +63,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     const self = this;
+
     self.dtOptions = {
       pagingType: 'full_numbers',
       language: {
@@ -129,6 +139,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         },
       ]
     };
+
     self.dtAllProductOptions = {
       pagingType: 'full_numbers',
       language: {
@@ -193,6 +204,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         },
       ]
     };
+
     self.dtDiscountProductOptions = {
       pagingType: 'full_numbers',
       language: {
@@ -263,22 +275,16 @@ export class PromotionComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const self = this;
-    const body = $('body');
 
-    this.productDiscountModal.onShown.subscribe(() => {
-
-    });
-
+    let body = $('body');
     body.on('click', '.btn-edit', function () {
       const id = $(this).data('id');
       self.editDiscount(id);
     });
-
     body.on('click', '.btn-delete', function () {
       const id = $(this).data('id');
       self.deleteDiscount(id);
     });
-
     body.on('click', '.btn-active', function () {
       const id = $(this).data('id');
       self.activeDiscount(id);
@@ -321,7 +327,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     this.discountStartTime = new Date();
     this.discountEndTime = new Date();
 
-    this.discountModal.show();
+    this.openModal(this.discountModal);
   }
 
   getDiscount(discountId: number) {
@@ -336,7 +342,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   editDiscount(discountId: number) {
     this.isEdit = true;
     this.getDiscount(discountId);
-    this.discountModal.show();
+    this.openModal(this.discountModal);
   }
 
   saveDiscount(discount: Discount) {
@@ -356,7 +362,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       });
     }
     this.rerender();
-    this.discountModal.hide();
+    this.closeModal();
   }
 
   deleteDiscount(discountId: number) {
@@ -379,7 +385,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
 
   getProduct(discountId: number) {
     this.getDiscount(discountId);
-    this.productDiscountModal.show();
+    this.openModal(this.productModal, 'xl');
   }
 
   addProduct(productId: number) {
@@ -395,5 +401,17 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       AlertUtils.toastSuccess('Xoá sản phẩm thành công');
       $('.product-table').DataTable().ajax.reload(null, false);
     });
+  }
+
+  // Modal
+  openModal(content: any, size: string = 'lg', fullScreen: boolean = false) {
+    this.closeModal();
+    this.modalConfig.size = size;
+    this.modalConfig.fullscreen = fullScreen;
+    this.modalService.open(content);
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
   }
 }
