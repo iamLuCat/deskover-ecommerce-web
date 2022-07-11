@@ -47,13 +47,13 @@ export const MENU = [
       {
         name: 'Danh mục chính',
         path: ['/category'],
-        iconClasses: 'fas fa-layer-group',
+        iconClasses: 'fa-duotone fa-circle-dot',
       },
 
       {
         name: 'Danh mục con',
         path: ['/subcategory'],
-        iconClasses: 'fas fa-layer-group',
+        iconClasses: 'fa-duotone fa-circle-dot',
       }
     ]
   },
