@@ -42,111 +42,180 @@
       <div class="card-body p-0">
         <div class="table-responsive p-3">
           <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
-            <thead class="table-primary"></thead>
-            <tbody></tbody>
+            <thead class="table-primary">
+            <tr>
+              <th class="align-middle">Tên</th>
+              <th class="align-middle">Mô tả</th>
+              <th class="align-middle">Mức giảm giá</th>
+              <th class="align-middle text-center">Thời gian bắt đầu</th>
+              <th class="align-middle text-center">Thời gian kết thúc</th>
+              <th class="align-middle text-end">Công cụ</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="discounts?.length !== 0">
+            <tr *ngFor="let item of discounts; let i = index">
+              <td class="align-middle">
+                {{ item.name }}
+              </td>
+              <td class="align-middle">
+                {{ item.description }}
+              </td>
+              <td class="align-middle">
+                {{ item.percent }}%
+              </td>
+              <td class="align-middle text-center">
+                {{ item.startDate | date: 'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ item.endDate | date: 'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-end">
+                <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                  <button type="button" class="btn btn-product btn-sm bg-faded-warning me-1" placement="top" ngbTooltip="Sản phẩm khuyến mãi"
+                          (click)="getProduct(item.id)">
+                    <i class="fas fa-pen-square text-warning"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" ngbTooltip="Sửa"
+                          (click)="getDiscount(item.id)">
+                    <i class="fas fa-pen-square text-info"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteDiscount(item.id)"
+                          placement="top" ngbTooltip="Xoá" container="body">
+                    <i class="fas fa-trash text-danger"></i>
+                  </button>
+                </div>
+                <div *ngIf="!isActive">
+                  <button type="button" class="btn btn-sm bg-success" (click)="activeDiscount(item.id)">
+                    Kích hoạt
+                  </button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="discounts?.length === 0">
+            <tr>
+              <td colspan="5" class="text-center">Không tìm thấy kết quá</td>
+            </tr>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
 </section>
-<ng-template #productModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title text-primary text-uppercase fw-bolder" id="modal-title">
-      {{discount.name}} - Giảm giá {{discount.percent}}%
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-12 mb-3">
-        <div class="table-responsive position-relative">
-          <h5 class="text-uppercase fw-bolder d-block d-md-none text-center">Không áp dụng</h5>
-          <h5 class="text-uppercase fw-bolder d-none d-md-block position-absolute pt-2 top-0 start-0">Không áp dụng</h5>
-          <table datatable [dtOptions]="dtAllProductOptions" class="product-table table table-hover table-sm nowrap w-100">
-            <thead class="table-primary"></thead>
-            <tbody></tbody>
-          </table>
-        </div>
+<div bsModal #productDiscountModal="bs-modal" id="product-discount-modal" class="modal fade" tabindex="-1" data-bs-focus="false"
+     role="dialog" aria-labelledby="product-discount-dialog-sizes">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="product-discount-dialog-sizes" class="modal-title pull-left text-primary fw-bold text-uppercase">
+          {{discount.name}} - Giảm giá {{discount.percent}}%
+        </h4>
+        <button type="button" class="btn-close close pull-right"
+                (click)="productDiscountModal.hide()" aria-label="Close">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
       </div>
-      <div class="col-12">
-        <div class="table-responsive position-relative">
-          <h5 class="text-uppercase fw-bolder d-block d-md-none text-center">Đang áp dụng</h5>
-          <h5 class="text-uppercase fw-bolder d-none d-md-block position-absolute pt-2 top-0 start-0">Đang áp dụng</h5>
-          <table datatable [dtOptions]="dtDiscountProductOptions" class="product-table table table-hover table-sm nowrap w-100">
-            <thead class="table-primary"></thead>
-            <tbody></tbody>
-          </table>
+      <div class="modal-body p-0">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive position-relative p-3">
+              <h5 class="text-uppercase fw-bolder d-block d-md-none text-center">Không áp dụng</h5>
+              <h5 class="text-uppercase fw-bolder d-none d-md-block position-absolute p-3 top-0 start-0">Không áp
+                dụng</h5>
+              <table datatable [dtOptions]="dtAllProductOptions"
+                     class="product-table table table-hover table-sm nowrap w-100">
+                <thead class="table-primary"></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="table-responsive position-relative p-3">
+              <h5 class="text-uppercase fw-bolder d-block d-md-none text-center">Đang áp dụng</h5>
+              <h5 class="text-uppercase fw-bolder d-none d-md-block position-absolute p-3 top-0 start-0">Đang áp
+                dụng</h5>
+              <table datatable [dtOptions]="dtDiscountProductOptions"
+                     class="product-table table table-hover table-sm nowrap w-100">
+                <thead class="table-primary"></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</ng-template>
-<!-- Modal -->
-<ng-template #discountModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title text-primary" id="modal-basic-title">
-      {{ isEdit ? 'Cập nhật' : 'Thêm' }} khuyến mãi
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form #discountForm="ngForm">
-      <div class="row" *ngIf="discount">
-        <div class="col-12 mb-3">
-          <label class="form-label" for="name">Tên</label>
-          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="discount.name"
-                 #name="ngModel" required
-          /><!--oninput="this.value = Math.abs(this.value)"-->
-          <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-            <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
-          </div>
-        </div>
-        <div class="col-6 mb-3">
-          <label class="form-label" for="percent">Mức giảm giá</label>
-          <!--oninput="this.value = Math.abs(this.value)"-->
-          <input type="number" min="0" max="100" class="form-control" id="percent" name="percent"
-                 [(ngModel)]="discount.percent" #percent="ngModel" required
-          />
-          <div class="invalid-feedback" *ngIf="percent.invalid && (percent.dirty || percent.touched)">
-            <span *ngIf="percent.errors?.required">Vui lòng nhập mức giảm giá</span>
-            <span *ngIf="percent.errors?.min || percent.errors?.max">Mức giảm giá không hợp lệ (0-100)</span>
-          </div>
-        </div>
-        <div class="col-6 mb-3">
-          <label class="form-label" for="discountRangeDate">Thời gian giảm giá</label>
-          <input type="text" id="discountRangeDate" name="discountRangeDate" placeholder="Ngày bắt đầu - Ngày kết thúc"
-                 class="form-control" [bsConfig]="bsConfig" #discountRangeDate="bsDaterangepicker" bsDaterangepicker
-                 [(ngModel)]="discountDateRange">
-        </div>
-        <div class="col-6 mb-3">
-          <label class="form-label" for="discountStartTime">Giờ bắt đầu</label>
-          <timepicker id="discountStartTime" name="discountStartTime" [(ngModel)]="discountStartTime"
-            [showMinutes]="true" [showSeconds]="true"></timepicker>
-        </div>
-        <div class="col-6 mb-3">
-          <label class="form-label" for="discountEndTime">Giờ kết thúc</label>
-          <timepicker id="discountEndTime" name="discountEndTime" [(ngModel)]="discountEndTime"
-            [showMinutes]="true" [showSeconds]="true"></timepicker>
-        </div>
-        <div class="col-12 mb-3">
-          <label for="description" class="form-label">Mô tả</label>
-          <textarea class="form-control" id="description" rows="3" name="description"
-                    [(ngModel)]="discount.description" #description="ngModel"></textarea>
-        </div>
+</div>
+<!-- Modal - Start -->
+<div bsModal #discountModal="bs-modal" class="modal fade" tabindex="-1" data-bs-focus="false"
+     role="dialog" aria-labelledby="discount-dialog-sizes">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="discount-dialog-sizes" class="modal-title pull-left text-primary fw-bold">
+          {{ isEdit ? 'Cập nhật' : 'Thêm' }} khuyến mãi
+        </h4>
+        <button type="button" class="btn-close close pull-right"
+                (click)="discountModal.hide()" aria-label="Close">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
       </div>
-    </form>
+      <div class="modal-body">
+        <form #discountForm="ngForm">
+          <div class="row" *ngIf="discount">
+            <div class="col-12 mb-3">
+              <label class="form-label" for="name">Tên</label>
+              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="discount.name"
+                     #name="ngModel" required
+              /><!--oninput="this.value = Math.abs(this.value)"-->
+              <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+                <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
+              </div>
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label" for="percent">Mức giảm giá</label>
+              <!--oninput="this.value = Math.abs(this.value)"-->
+              <input type="number" min="0" max="100" class="form-control" id="percent" name="percent"
+                     [(ngModel)]="discount.percent" #percent="ngModel" required
+              />
+              <div class="invalid-feedback" *ngIf="percent.invalid && (percent.dirty || percent.touched)">
+                <span *ngIf="percent.errors?.required">Vui lòng nhập mức giảm giá</span>
+                <span *ngIf="percent.errors?.min || percent.errors?.max">Mức giảm giá không hợp lệ (0-100)</span>
+              </div>
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label" for="discountRangeDate">Thời gian giảm giá</label>
+              <input type="text" id="discountRangeDate" name="discountRangeDate"
+                     placeholder="Ngày bắt đầu - Ngày kết thúc"
+                     class="form-control" [bsConfig]="bsConfig" #discountRangeDate="bsDaterangepicker"
+                     bsDaterangepicker
+                     [(ngModel)]="discountDateRange">
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <label class="form-label" for="discountStartTime">Giờ bắt đầu</label>
+              <timepicker id="discountStartTime" name="discountStartTime" [(ngModel)]="discountStartTime"
+                          [showMinutes]="true" [showSeconds]="true" [showMeridian]="false"></timepicker>
+            </div>
+            <div class="col-12 col-md-6 ">
+              <label class="form-label" for="discountEndTime">Giờ kết thúc</label>
+              <timepicker id="discountEndTime" name="discountEndTime" [(ngModel)]="discountEndTime"
+                          [showMinutes]="true" [showSeconds]="true" [showMeridian]="false"></timepicker>
+            </div>
+            <div class="col-12 mb-3">
+              <label for="description" class="form-label">Mô tả</label>
+              <textarea class="form-control" id="description" rows="3" name="description"
+                        [(ngModel)]="discount.description" #description="ngModel"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" [disabled]="discountForm.invalid"
+                (click)="saveDiscount(discount);">Lưu
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="modal-footer">
-    <button type="button"
-            class="btn btn-outline-primary"
-            (click)="saveDiscount(discount); c('Save click')"
-            [disabled]="discountForm.invalid">
-      Lưu
-    </button>
-  </div>
-</ng-template>
+</div>
+<!-- Modal - End -->

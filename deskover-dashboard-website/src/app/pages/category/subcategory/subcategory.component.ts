@@ -9,6 +9,8 @@ import {CategoryService} from "@services/category.service";
 import {AlertUtils} from '@/utils/alert-utils';
 import {Category} from "@/entites/category";
 import {SubcategoryDto} from "@/dtos/subcategory-dto";
+import {ModalDirective} from "ngx-bootstrap/modal";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-subcategory',
@@ -30,19 +32,13 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
-  @ViewChild('subcategoryModal') subcategoryModal: any;
+  @ViewChild('subcategoryModal') subcategoryModal: ModalDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
-    private modalConfig: NgbModalConfig,
-    private modalService: NgbModal,
     private subcategoryService: SubcategoryService,
     private categoryService: CategoryService
   ) {
-    modalConfig.backdrop = 'static';
-    modalConfig.keyboard = false;
-    modalConfig.centered = true;
-
     this.getCategories();
   }
 
@@ -65,55 +61,17 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: self.subcategories
+            data: []
           });
         });
       },
       columns: [
-        {title: 'Tên', data: 'name', className: 'align-middle', responsivePriority: 1},
-        {title: 'Slug', data: 'slug', className: 'align-middle'},
-        {title: 'Mô tả', data: 'description', className: 'align-middle'},
-        {title: 'Danh mục cha', data: 'category.name', className: 'align-middle', responsivePriority: 3},
-        // {
-        //   title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
-        //   render: (data, type, full, meta) => {
-        //     return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-        //   }
-        // },
-        // {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
-        // {
-        //   title: 'Trạng thái', data: 'actived', className: 'align-middle text-start text-md-center',
-        //   render: (data, type, full, meta) => {
-        //     return `<span class="badge bg-${data ? 'success' : 'danger'}">${data ? 'Hoạt động' : 'Vô hiệu hoá'}</span>`;
-        //   }
-        // },
-        {
-          title: 'Công cụ',
-          data: null,
-          orderable: false,
-          searchable: false,
-          className: 'align-middle text-end',
-          responsivePriority: 2,
-          render: (data, type, full, meta) => {
-            if (self.isActive) {
-              return `
-              <div class="d-flex justify-content-end align-items-center">
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-1" data-id="${data.id}"
-                    title="Sửa" data-toggle="tooltip">
-                    <i class="fa fa-pen-square text-info"></i>
-                </a>
-                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
-                    title="Xoá" data-toggle="tooltip">
-                    <i class="fa fa-trash text-danger"></i>
-                </a>
-              </div>
-              `;
-            } else {
-              return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
-            }
-          }
-        },
+        {data: 'name'},
+        {data: 'slug'},
+        {data: 'description'},
+        {data: 'category.name'},
+        {data: 'modifiedAt'},
+        {data: null, orderable: false, searchable: false}
       ]
     }
   }
@@ -171,9 +129,10 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   getSubcategory(id: number) {
     this.subcategoryService.getOne(id).subscribe(data => {
       this.subcategoryDto = this.subcategoryService.convertToDto(data);
+
+      this.isEdit = true;
+      this.openModal(this.subcategoryModal);
     });
-    this.isEdit = true;
-    this.openModal(this.subcategoryModal);
   }
 
   saveSubcategory(subcategoryDto: SubcategoryDto) {
@@ -181,7 +140,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.subcategoryService.create(subcategoryDto).subscribe(data => {
         AlertUtils.toastSuccess('Cập nhật thành công');
         this.rerender();
-        this.closeModal();
+        this.closeModal(this.subcategoryModal);
       }, error => {
         AlertUtils.toastError(error);
       });
@@ -189,7 +148,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.subcategoryService.update(subcategoryDto).subscribe(data => {
         AlertUtils.toastSuccess('Thêm mới thành công');
         this.rerender();
-        this.closeModal();
+        this.closeModal(this.subcategoryModal);
       }, error => {
         AlertUtils.toastError(error);
       });
@@ -241,13 +200,14 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Modal bootstrap
-  openModal(content) {
-    this.modalService.dismissAll();
-    this.modalService.open(content);
+  openModal(content: ModalDirective) {
+    if(!content.isShown) {
+      content?.show();
+    }
   }
 
-  closeModal() {
-    this.modalService.dismissAll();
+  closeModal(content: ModalDirective) {
+    content?.hide();
   }
 
 }

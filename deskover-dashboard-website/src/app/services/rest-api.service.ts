@@ -1,14 +1,13 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {Observable, Subject, throwError} from 'rxjs';
 import {catchError} from "rxjs/operators";
 import {AlertUtils} from "@/utils/alert-utils";
 
 @Injectable({
   providedIn: 'root'
 })
-export class RestApiService {
-
+export class RestApiService{
   constructor(private httpClient: HttpClient) {
   }
 

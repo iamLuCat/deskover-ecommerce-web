@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-uppercase text-primary">Quản lý sản phẩm</h1>
+        <h1 class="m-0 text-uppercase text-primary fw-bold">Quản lý sản phẩm</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -54,64 +54,121 @@
         <div class="table-responsive p-3">
           <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
             <thead class="table-primary">
+            <tr>
+              <th class="align-middle">Ảnh</th>
+              <th class="align-middle">Tên</th>
+              <th class="align-middle">Thương hiệu</th>
+              <th class="align-middle">Danh mục</th>
+              <th class="align-middle">Giá</th>
+              <th class="align-middle text-center">Ngày cập nhật</th>
+              <th class="align-middle text-center">Cập nhật bởi</th>
+              <th class="align-middle text-end">Thao tác</th>
+            </tr>
             </thead>
+            <tbody *ngIf="products?.length !== 0">
+            <tr *ngFor="let item of products; let i = index">
+              <td class="align-middle">
+                <img src="{{item.image ? item.image : 'assets/images/no-image.png'}}" class="img-thumbnail"
+                     style="max-width:70px; height: 70px" alt="product-thumbnail">
+              </td>
+              <td class="align-middle">
+                {{ item.name }}
+              </td>
+              <td class="align-middle">
+                {{ item.brand.name }}
+              </td>
+              <td class="align-middle">
+                {{ item.subCategory.name }}
+              </td>
+              <td class="align-middle text-center">
+                {{ item.price | currency:'VND' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ item.modifiedAt | date:'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ item.modifiedBy }}
+              </td>
+              <td class="align-middle text-end">
+                <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" ngbTooltip="Sửa"
+                          (click)="getProduct(item.id)">
+                    <i class="fas fa-pen-square text-info"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteProduct(item.id)"
+                          placement="top" ngbTooltip="Xoá" container="body">
+                    <i class="fas fa-trash text-danger"></i>
+                  </button>
+                </div>
+                <div *ngIf="!isActive">
+                  <button type="button" class="btn btn-sm bg-success" (click)="activeProduct(item.id)">
+                    Kích hoạt
+                  </button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="products?.length === 0">
+            <tr>
+              <td colspan="5" class="text-center">Không tìm thấy kết quá</td>
+            </tr>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!--<app-ckeditor></app-ckeditor>-->
-<!-- Modal -->
-<ng-template #productModal let-c="close" let-d="dismiss" tabindex="-1" data-bs-focus="false" >
-  <div class="modal-header">
-    <h4 class="modal-title text-primary" id="modal-basic-title">
-      {{ isEdit ? 'Cập nhật' : 'Thêm' }} sản phẩm
-    </h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form #productForm="ngForm" >
-      <div class="row">
-        <div class="col-8">
+<!-- Modal - Start -->
+<div bsModal #productModal="bs-modal" class="modal fade" tabindex="-1" data-bs-focus="false"
+     role="dialog" aria-labelledby="product-dialog-sizes">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="product-dialog-sizes" class="modal-title pull-left text-primary fw-bold">
+          {{ isEdit ? 'Cập nhật' : 'Thêm' }} sản phẩm
+        </h4>
+        <button type="button" class="btn-close close pull-right"
+                (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #productForm="ngForm">
           <div class="row">
-            <div class="col-6 mb-3">
-              <label class="form-label" for="name">Tên</label>
-              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
-                     #name="ngModel" (keyup)="product.slug=toSlug(product.name)" required/><!--oninput="this.value = Math.abs(this.value)"-->
-              <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-                <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
+            <div class="col-8">
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label" for="name">Tên</label>
+                  <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
+                         #name="ngModel" (keyup)="product.slug=toSlug(product.name)" required/>
+                  <!--oninput="this.value = Math.abs(this.value)"-->
+                  <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+                    <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
+                  </div>
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label" for="slug">Slug</label>
+                  <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug"
+                         #slug="ngModel" required/>
+                  <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
+                    <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
+                  </div>
+                </div>
+                <div class="col-12 mb-3">
+                  <label class="form-label">Mô tả</label>
+                  <app-ckeditor [id]="'discount'"
+                                [bindingValue]="product.description?product.description:''"></app-ckeditor>
+                </div>
               </div>
-            </div>
-            <div class="col-6 mb-3">
-              <label class="form-label" for="slug">Slug</label>
-              <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug"
-                     #slug="ngModel" required/>
-              <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
-                <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
-              </div>
-            </div>
-            <div class="col-12 mb-3">
-              <label class="form-label">Mô tả</label>
-              <app-ckeditor [id]="'discount'" [bindingValue]="product.description?product.description:''"></app-ckeditor>
             </div>
           </div>
-        </div>
+        </form>
       </div>
-    </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="saveProduct(product)">Lưu</button>
+      </div>
+    </div>
   </div>
-  <div class="modal-footer">
-    <button type="button"
-            class="btn btn-outline-primary"
-            (click)="saveProduct(product); c('Save click')"
-            [disabled]="productForm.invalid">
-      Lưu
-    </button>
-  </div>
-</ng-template>
+</div>
+<!-- Modal - End -->

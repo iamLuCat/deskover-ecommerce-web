@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Product} from "@/entites/product";
 import {DataTableDirective} from "angular-datatables";
-import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 import {ProductService} from "@services/product.service";
 import {AlertUtils} from "@/utils/alert-utils";
 import {Category} from "@/entites/category";
@@ -10,6 +9,7 @@ import {DatePipe} from "@angular/common";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
 import {UrlUtils} from "@/utils/url-utils";
+import {ModalDirective} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-product',
@@ -30,22 +30,14 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   dtOptions: any = {};
 
-  @ViewChild('productModal') productModal: any;
+  @ViewChild('productModal') productModal: ModalDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
-    private modalConfig: NgbModalConfig,
-    private modalService: NgbModal,
     private productService: ProductService,
     private categoryService: CategoryService,
-    private subcategoryService: SubcategoryService,
+    private subcategoryService: SubcategoryService
   ) {
-    modalConfig.backdrop = 'static';
-    modalConfig.keyboard = false;
-    modalConfig.centered = true;
-    modalConfig.size = 'xl';
-    modalConfig.fullscreen = 'xxl';
-
     this.getCategories();
     this.getSubcategories();
   }
@@ -60,7 +52,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
       lengthMenu: [5, 10, 25, 50, 100],
-      responsive: true,
+      responsive: false,
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -74,103 +66,19 @@ export class ProductComponent implements OnInit, AfterViewInit {
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: self.products
+            data: []
           });
         });
       },
       columns: [
-        {
-          title: 'Ảnh',
-          data: 'image',
-          orderable: false,
-          searchable: false,
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            let srcImg = data ? data : 'assets/images/no-image.png';
-            return `<img src="${srcImg}" class="img-fluid img-thumbnail" style="max-width: 70px;" alt="product-thumbnail">`;
-          },
-          responsivePriority: 1
-        },
-        {
-          title: 'Tên',
-          data: 'name',
-          className: 'align-middle'
-        },
-        {
-          title: 'Slug',
-          data: 'slug',
-          className: 'align-middle',
-          responsivePriority: 10001
-        },
-        {
-          title: 'Thương hiệu',
-          data: 'brand.name',
-          className: 'align-middle text-md-center text-start',
-        },
-        {
-          title: 'Danh mục',
-          data: 'subCategory.name',
-          className: 'align-middle'
-        },
-        {
-          title: 'Giá',
-          data: 'price',
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data);
-          },
-        },
-        {
-          title: 'Khuyến mãi',
-          data: 'discount',
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            if (data) {
-              return `
-                ${data.name} <span class="badge badge-danger">${data.percent}%</span>
-              `;
-            }
-          },
-          responsivePriority: 10001
-        },
-        {
-          title: 'Ngày cập nhật',
-          data: 'modifiedAt',
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          },
-        },
-        {
-          title: 'Cập nhật bởi',
-          data: 'modifiedBy',
-          className: 'align-middle'
-        },
-        {
-          title: 'Công cụ',
-          data: null,
-          orderable: false,
-          searchable: false,
-          className: 'align-middle text-start text-md-end',
-          render: (data, type, full, meta) => {
-            if (self.isActive) {
-              return `
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-1" data-id="${data.id}"
-                    title="Sửa" data-toggle="tooltip">
-                    <i class="fa fa-pen-square text-info"></i>
-                </a>
-                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
-                    title="Xoá" data-toggle="tooltip">
-                    <i class="fa fa-trash text-danger"></i>
-                </a>
-            `;
-            } else {
-              return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
-            }
-          },
-          responsivePriority: 1
-        },
+        {data: 'image', orderable: false, searchable: false},
+        {data: 'name'},
+        {data: 'brand.name'},
+        {data: 'subCategory.name'},
+        {data: 'price'},
+        {data: 'modifiedAt'},
+        {data: 'modifiedBy'},
+        {data: null, orderable: false, searchable: false,},
       ]
     }
   }
@@ -279,11 +187,10 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   /* Modal */
   openModal(content) {
-    this.closeModal();
-    this.modalService.open(content);
+    this.productModal.show();
   }
 
   closeModal() {
-    this.modalService.dismissAll();
+    this.productModal.hide();
   }
 }

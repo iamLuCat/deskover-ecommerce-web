@@ -23,9 +23,6 @@ import com.deskover.util.DecimalFormatUtil;
 @CrossOrigin("*")
 @RequestMapping("v1/api/admin")
 public class OrderApi {
-	
-	
-		
 	@Autowired
 	private OrderService orderService;
 	
