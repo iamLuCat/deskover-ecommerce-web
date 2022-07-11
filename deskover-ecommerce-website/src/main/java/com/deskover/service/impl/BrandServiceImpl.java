@@ -1,6 +1,7 @@
 package com.deskover.service.impl;
 
 import com.deskover.entity.Brand;
+import com.deskover.entity.Category;
 import com.deskover.repository.BrandRepository;
 import com.deskover.repository.datatables.BrandRepoForDatatables;
 import com.deskover.service.BrandService;
@@ -128,5 +129,10 @@ public class BrandServiceImpl implements BrandService {
         }
         return brands;
     }
+
+	@Override
+	public List<Brand> getByActived(Boolean isActive) {
+		return repo.findByActived(isActive);
+	}
 
 }
