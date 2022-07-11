@@ -18,7 +18,7 @@ export interface Product {
   actived: boolean;
   spec: string;
   video: string;
-  subcategory: Subcategory;
+  subCategory: Subcategory;
   brand: Brand;
   discount: Discount;
   productThumbnails: ProductThumbnail[];

@@ -1,17 +1,17 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
 import {AlertUtils} from '@/utils/alert-utils';
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
+import {ModalDirective} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-brand',
   templateUrl: './brand.component.html',
   styleUrls: ['./brand.component.scss']
 })
-export class BrandComponent implements OnInit, AfterViewInit {
+export class BrandComponent implements OnInit, AfterViewInit, OnDestroy {
 
   brands: Brand[];
   brand: Brand = <Brand>{};
@@ -21,17 +21,10 @@ export class BrandComponent implements OnInit, AfterViewInit {
 
   dtOptions: any = {};
 
-  @ViewChild('brandModal') brandModal: any;
+  @ViewChild('brandModal') brandModal: ModalDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
-  constructor(
-    private modalConfig: NgbModalConfig,
-    private modalService: NgbModal,
-    private brandService: BrandService
-  ) {
-    modalConfig.backdrop = 'static';
-    modalConfig.keyboard = false;
-    modalConfig.centered = true;
+  constructor(private brandService: BrandService) {
   }
 
   ngOnInit() {
@@ -42,7 +35,6 @@ export class BrandComponent implements OnInit, AfterViewInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      responsive: true,
       lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
@@ -53,48 +45,16 @@ export class BrandComponent implements OnInit, AfterViewInit {
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: self.brands
+            data: []
           });
         });
       },
       columns: [
-        {title: 'Tên', data: 'name', className: 'align-middle', responsivePriority: 1},
-        {title: 'Slug', data: 'slug', className: 'align-middle'},
-        {title: 'Mô tả', data: 'description', className: 'align-middle'},
-        // {
-        //   title: 'Ngày cập nhật', data: 'modifiedAt', className: 'align-middle text-start text-md-center',
-        //   render: (data, type, full, meta) => {
-        //     return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-        //   }
-        // },
-        // {title: 'Người cập nhật', data: 'modifiedBy', className: 'align-middle text-start text-md-center'},
-        {
-          title: 'Công cụ',
-          data: null,
-          orderable: false,
-          searchable: false,
-          className: 'align-middle text-end',
-          responsivePriority: 3,
-          render: (data, type, full, meta) => {
-            if (self.isActive) {
-              return `
-                <div class="d-flex justify-content-end align-items-center">
-                  <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-1" data-id="${data.id}"
-                      title="Sửa" data-toggle="tooltip">
-                      <i class="fa fa-pen-square text-info"></i>
-                  </a>
-                  <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
-                      title="Xoá" data-toggle="tooltip">
-                      <i class="fa fa-trash text-danger"></i>
-                  </a>
-                </div>
-            `;
-            } else {
-              return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
-            }
-          }
-        },
+        {data: 'name'},
+        {data: 'slug'},
+        {data: 'description'},
+        {data: 'modifiedAt'},
+        {data: null, orderable: false, searchable: false,},
       ]
     }
   }
@@ -104,17 +64,20 @@ export class BrandComponent implements OnInit, AfterViewInit {
 
     let body = $('body');
     body.on('click', '.btn-edit', function () {
-      const id = $(this).data('id');
+      const id = $(this).data('brand-id');
       self.getBrand(id);
     });
     body.on('click', '.btn-delete', function () {
-      const id = $(this).data('id');
+      const id = $(this).data('brand-id');
       self.deleteBrand(id);
     });
     body.on('click', '.btn-active', function () {
-      const id = $(this).data('id');
+      const id = $(this).data('brand-id');
       self.activeBrand(id);
     });
+  }
+
+  ngOnDestroy() {
   }
 
   rerender() {
@@ -136,11 +99,11 @@ export class BrandComponent implements OnInit, AfterViewInit {
   }
 
   getBrand(id: number) {
+    this.isEdit = true;
     this.brandService.getById(id).subscribe(data => {
       this.brand = data;
+      this.openModal(this.brandModal);
     });
-    this.isEdit = true;
-    this.openModal(this.brandModal);
   }
 
   saveBrand(brand: Brand) {
@@ -188,12 +151,11 @@ export class BrandComponent implements OnInit, AfterViewInit {
 
   // Modal
   openModal(content) {
-    this.closeModal();
-    this.modalService.open(content);
+    this.brandModal.show();
   }
 
   closeModal() {
-    this.modalService.dismissAll();
+    this.brandModal.hide();
   }
 
 }
