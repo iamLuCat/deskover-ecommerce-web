@@ -20,6 +20,8 @@ public interface OrderService {
 	String getCountOrderPerMonth();
 
 	DataTotaPrice7DaysAgo doGetTotalPrice7DaysAgo();
+
+	void pickupOrder(String orderCode,String code);
 	
 //	List<TotalByCategory> getToTalByCategoty()
 
