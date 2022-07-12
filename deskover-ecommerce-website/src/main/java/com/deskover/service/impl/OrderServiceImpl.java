@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.deskover.dto.OrderDto;
 import com.deskover.dto.OrderItemDto;
@@ -19,9 +20,11 @@ import com.deskover.dto.app.total7dayago.Total7DaysAgo;
 import com.deskover.entity.Order;
 import com.deskover.entity.OrderDetail;
 import com.deskover.entity.OrderItem;
+import com.deskover.entity.OrderStatus;
 import com.deskover.repository.OrderDetailRepository;
 import com.deskover.repository.OrderItemRepository;
 import com.deskover.repository.OrderRepository;
+import com.deskover.repository.OrderStatusReponsitory;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
 
@@ -39,6 +42,12 @@ public class OrderServiceImpl implements OrderService {
     
     @Autowired
     private OrderItemRepository orderItemRepository;
+    
+    @Autowired
+    private OrderStatusReponsitory orderStatusReponsitory;
+    
+//    @Autowired
+//    private Status
 
 	@Override
 	public List<Order> getAll() {
@@ -135,6 +144,28 @@ public class OrderServiceImpl implements OrderService {
 		YearMonth currentTimes = YearMonth.now();
 		return repository.getCountOrder(currentTimes.getMonthValue()+"",
 				currentTimes.getYear()+"",SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+
+	@Override
+	@Transactional
+	public void pickupOrder(String orderCode, String code) {
+		try {
+			Order order = repository.findByOrderCode(orderCode);
+			if(order == null) {
+				throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+				
+			}
+			OrderStatus status = orderStatusReponsitory.findByCode(code);
+			if(status == null) {
+				throw new IllegalArgumentException("Cập nhập thất bại");
+				
+			}
+			order.setOrderStatus(status);
+			repository.saveAndFlush(order);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Cập nhập đơn hàng thấy bại");
+		}
+		
 	}
 
 
