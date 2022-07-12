@@ -31,7 +31,7 @@
           </div>
           <div class="col d-flex align-items-center justify-content-end">
             <button type="button" class="btn bg-faded-accent rounded-pill" (click)="newCategory()" placement="left"
-              ngbTooltip="Thêm">
+              tooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
           </div>
@@ -68,12 +68,12 @@
               </td>-->
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" ngbTooltip="Sửa"
+                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
                           (click)="getCategory(item.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
                   <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteCategory(item.id)"
-                          placement="top" ngbTooltip="Xoá" container="body">
+                          placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash text-danger"></i>
                   </button>
                 </div>

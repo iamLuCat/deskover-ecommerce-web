@@ -1,8 +1,4 @@
-:root {
-  --ck-z-default: 10055;
-}
-
-$blue: #1c519d;
+@import "variable";
 @import "bootstrap";
 
 @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
@@ -11,14 +7,13 @@ $blue: #1c519d;
 
 @import '~admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css';
 @import '~admin-lte/dist/css/adminlte.min.css';
-
 @import '~ngx-bootstrap/datepicker/bs-datepicker.css';
 @import '~ngx-toastr/toastr';
-
 @import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
-
 @import "~animate.css/animate.min.css";
+
+@import "common";
 
 body {
   width: 100vw;
@@ -31,11 +26,6 @@ body {
   background: transparent;
 }
 
-// CSS Custom - Start
-.ck-rounded-corners .ck.ck-balloon-panel, .ck.ck-balloon-panel.ck-rounded-corners {
-  z-index: 10055 !important;
-}
-
 .brand-link {
   text-align: center;
 }
@@ -43,6 +33,10 @@ body {
 .brand-image {
   display: none;
   animation: fadeOut 0.5s ease;
+}
+
+.ck-rounded-corners .ck.ck-balloon-panel, .ck.ck-balloon-panel.ck-rounded-corners {
+  z-index: 10055 !important;
 }
 
 @media (min-width: 992px) {
@@ -65,67 +59,6 @@ body {
 .page-item.active .page-link {
   background-color: $primary !important;
   border-color: $primary !important;
-}
-
-.bs-datepicker-head,
-.bs-datepicker-head, .bs-datepicker button:active,
-.bs-datepicker-body table td span.selected,
-.bs-datepicker-body table td.selected span,
-.bs-datepicker-body table td span[class*="select-"]:after,
-.bs-datepicker-body table td[class*="select-"] span:after,
-.bs-datepicker-body table td.active-week span:hover
-{
-  background-color: $primary !important;
-}
-.bs-datepicker-body table td.week span
-{
-  color: $primary !important;
-}
-
-.table-responsive {
-  .dataTables_empty {
-    display: none;
-  }
-}
-
-.invalid-feedback {
-  display: block;
-}
-
-.text-accent {
-  color: #4e54c8 !important;
-}
-
-.icon {
-  width: 25px;
-}
-
-.btn-icon {
-  padding: 0.625rem 0.875rem;
-}
-
-.bg-faded-accent {
-  background-color: rgba(78, 84, 200, .09) !important;
-}
-
-.bg-faded-info {
-  background-color: rgba(105, 179, 254, .09) !important;
-}
-
-.bg-faded-danger {
-  background-color: rgba(243, 71, 112, .09) !important;
-}
-
-.bg-faded-cyan {
-  background-color: rgba(0, 188, 212, .09) !important;
-}
-
-.bg-faded-success {
-  background-color: rgba(76, 175, 80, .09) !important;
-}
-
-.bg-faded-warning {
-  background-color: rgba(255, 152, 0, .09) !important;
 }
 
 .file-drop-area {
@@ -153,7 +86,17 @@ body {
   white-space: nowrap;
 }
 
-// CSS Custom - End
+// Sidebar menu animation
+// Needed for open/close menu animation for menus with child nodes
+.nav .nav-item:not(.menu-open) > .ng-trigger-openClose,
+.nav .nav-item > .ng-trigger-openClose.ng-animating {
+  overflow: hidden;
+  display: block;
+}
+// Override original AdminLTE transform
+.nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
+  transform: none;
+}
 
 .user-menu > .nav-link {
   cursor: pointer;
@@ -269,16 +212,4 @@ body {
 
 .content {
   padding: 0 0.5rem;
-}
-
-// Sidebar menu animation
-// Needed for open/close menu animation for menus with child nodes
-.nav .nav-item:not(.menu-open) > .ng-trigger-openClose,
-.nav .nav-item > .ng-trigger-openClose.ng-animating {
-  overflow: hidden;
-  display: block;
-}
-// Override original AdminLTE transform
-.nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
-  transform: none;
 }

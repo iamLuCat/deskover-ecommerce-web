@@ -32,7 +32,6 @@ import {ControlSidebarComponent} from '@modules/main/control-sidebar/control-sid
 import {StoreModule} from '@ngrx/store';
 import {authReducer} from './store/auth/reducer';
 import {uiReducer} from './store/ui/reducer';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SelectComponent} from '@components/select/select.component';
 import {CheckboxComponent} from '@components/checkbox/checkbox.component';
 import {CategoryComponent} from '@pages/category/category.component';
@@ -50,9 +49,12 @@ import {TimepickerModule} from "ngx-bootstrap/timepicker";
 import {CKEditorComponent} from '@components/ckeditor/ckeditor.component';
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import {ModalModule} from "ngx-bootstrap/modal";
+import {IConfig, NgxMaskModule} from "ngx-mask";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
+
+export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [
@@ -85,27 +87,27 @@ defineLocale('vi', viLocale);
     ProductComponent,
     CKEditorComponent,
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
-        HttpClientModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        ToastrModule.forRoot({
-            timeOut: 3000,
-            positionClass: 'toast-top-right',
-            preventDuplicates: true
-        }),
-        NgbModule,
-        DataTablesModule,
-        TooltipModule,
-        BsDatepickerModule,
-        TimepickerModule,
-        CKEditorModule,
-        ModalModule
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
+    HttpClientModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true
+    }),
+    DataTablesModule,
+    TooltipModule,
+    BsDatepickerModule,
+    TimepickerModule,
+    CKEditorModule,
+    ModalModule,
+    NgxMaskModule.forRoot(),
+  ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

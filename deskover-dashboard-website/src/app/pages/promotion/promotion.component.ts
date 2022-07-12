@@ -8,6 +8,7 @@ import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {ProductService} from "@services/product.service";
 import {Product} from "@/entites/product";
 import {ModalDirective} from "ngx-bootstrap/modal";
+import {FormControlDirective} from "@angular/forms";
 
 @Component({
   selector: 'app-promotion',
@@ -34,6 +35,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
 
   @ViewChild('discountModal') discountModal: ModalDirective;
   @ViewChild('productDiscountModal') productDiscountModal: ModalDirective;
+  @ViewChild('discountForm') discountForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
@@ -294,6 +296,8 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   }
 
   newDiscount() {
+    this.discountForm.control.reset();
+
     this.isEdit = false;
     this.discount = <Discount>{};
 

@@ -81,19 +81,7 @@ public class ProductServiceImpl implements ProductService {
         if (this.existsBySlug(product)) {
             Product productExists = repository.findBySlug(product.getSlug());
             if (productExists != null && !productExists.getActived()) {
-                productExists.setActived(Boolean.TRUE);
-                productExists.setName(product.getName());
-                productExists.setDescription(product.getDescription());
-                productExists.setPrice(product.getPrice());
-                productExists.setImage(product.getImage());
-                productExists.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-                productExists.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                productExists.setSubCategory(subcategoryService.getById(productDto.getSubcategoryId()));
-                productExists.setBrand(brandService.getById(productDto.getBrandId()));
-                if (productDto.getDiscountId() != null) {
-                    productExists.setDiscount(discountService.findById(productDto.getDiscountId()));
-                }
-                productExists.setDiscount(null);
+                product.setId(productExists.getId());
                 return this.update(productExists);
             } else {
                 throw new IllegalArgumentException("Slug đã tồn tại");
@@ -102,13 +90,6 @@ public class ProductServiceImpl implements ProductService {
             product.setActived(Boolean.TRUE);
             product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-            ;
-            product.setSubCategory(subcategoryService.getById(productDto.getSubcategoryId()));
-            product.setBrand(brandService.getById(productDto.getBrandId()));
-            if (productDto.getDiscountId() != null) {
-                product.setDiscount(discountService.findById(productDto.getDiscountId()));
-            }
-            product.setDiscount(null);
             return repository.saveAndFlush(product);
         }
     }

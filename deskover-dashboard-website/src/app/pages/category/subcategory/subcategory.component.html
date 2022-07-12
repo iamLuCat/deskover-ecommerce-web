@@ -83,12 +83,12 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" ngbTooltip="Sửa"
+                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
                           (click)="getSubcategory(item.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
                   <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteSubcategory(item.id)"
-                          placement="top" ngbTooltip="Xoá" container="body">
+                          placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash text-danger"></i>
                   </button>
                 </div>
@@ -147,6 +147,7 @@
             <label class="form-label" for="category">Danh mục cha</label>
             <select id="category" class="custom-select" name="category" [(ngModel)]="subcategoryDto.categoryId"
                     #category="ngModel" required>
+              <option value="">-- Chọn danh mục cha --</option>
               <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
             </select>
             <div class="invalid-feedback" *ngIf="category.invalid && (category.dirty || category.touched)">

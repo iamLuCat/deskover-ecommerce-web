@@ -31,10 +31,10 @@
             </select>
           </div>
           <div class="col-md-auto col-sm-12">
-            <label for="filter-category" class="col-form-label">Danh mục cha:</label>
+            <label for="filter-category" class="col-form-label">Danh mục:</label>
           </div>
           <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
-            <select id="filter-category" class="form-select" [(ngModel)]="categoryId" (change)="filter()">
+            <select id="filter-category" class="form-select" [(ngModel)]="category_id_filter" (change)="filter()">
               <option [ngValue]="null">Tất cả</option>
               <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
             </select>
@@ -57,9 +57,9 @@
             <tr>
               <th class="align-middle">Ảnh</th>
               <th class="align-middle">Tên</th>
-              <th class="align-middle">Thương hiệu</th>
-              <th class="align-middle">Danh mục</th>
-              <th class="align-middle">Giá</th>
+              <th class="align-middle text-center">Thương hiệu</th>
+              <th class="align-middle text-center">Danh mục</th>
+              <th class="align-middle text-center">Giá</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
               <th class="align-middle text-end">Thao tác</th>
@@ -74,10 +74,10 @@
               <td class="align-middle">
                 {{ item.name }}
               </td>
-              <td class="align-middle">
+              <td class="align-middle text-center">
                 {{ item.brand.name }}
               </td>
-              <td class="align-middle">
+              <td class="align-middle text-center">
                 {{ item.subCategory.name }}
               </td>
               <td class="align-middle text-center">
@@ -91,12 +91,12 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" ngbTooltip="Sửa"
-                          (click)="getProduct(item.id)">
+                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
+                          (click)="editProduct(item.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
                   <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteProduct(item.id)"
-                          placement="top" ngbTooltip="Xoá" container="body">
+                          placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash text-danger"></i>
                   </button>
                 </div>
@@ -142,7 +142,6 @@
                   <label class="form-label" for="name">Tên</label>
                   <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
                          #name="ngModel" (keyup)="product.slug=toSlug(product.name)" required/>
-                  <!--oninput="this.value = Math.abs(this.value)"-->
                   <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
                     <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
                   </div>
@@ -155,10 +154,61 @@
                     <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
                   </div>
                 </div>
+              </div>
+              <div class="row">
+                <div class="col-4 mb-3">
+                  <label class="form-label" for="brand">Thương hiệu</label>
+                  <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
+                          [compareWith]="compareFn" #brand="ngModel" required>
+                    <option value="">-- Chọn thương hiệu --</option>
+                    <option *ngFor="let item of brands" [ngValue]="item">{{ item.name }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="brand.invalid && (brand.dirty || brand.touched)">
+                    <span *ngIf="brand.errors?.required">Vui lòng chọn thương hiệu</span>
+                  </div>
+                </div>
+                <div class="col-4 mb-3">
+                  <label class="form-label" for="category">Danh mục cha</label>
+                  <select class="form-control" id="category" name="category" [(ngModel)]="category"
+                          #categoryEdit="ngModel" [compareWith]="compareFn"
+                          (change)="getSubcategoriesByCategory()" required>
+                    <option value="">-- Chọn danh mục --</option>
+                    <option *ngFor="let item of categories" [ngValue]="item">{{ item.name }}</option>
+                  </select>
+                  <div class="invalid-feedback"
+                       *ngIf="categoryEdit.invalid && (categoryEdit.dirty || categoryEdit.touched)">
+                    <span *ngIf="categoryEdit.errors?.required">Vui lòng chọn danh mục</span>
+                  </div>
+                </div>
+                <div class="col-4 mb-3" *ngIf="product.subCategory">
+                  <label class="form-label" for="subCategory">Danh mục con</label>
+                  <select class="form-control" id="subCategory" name="subCategory"
+                          [(ngModel)]="product.subCategory" #subCategory="ngModel"
+                          [disabled]="category.id === null" [compareWith]="compareFn" required>
+                    <option value="">-- Chọn danh mục con --</option>
+                    <option *ngFor="let item of subcategories" [ngValue]="item">{{ item.name }}</option>
+                  </select>
+                  <div class="invalid-feedback"
+                       *ngIf="subCategory.invalid && (subCategory.dirty || subCategory.touched)">
+                    <span *ngIf="subCategory.errors?.required">Vui lòng chọn danh mục con</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 mb-3">
+                  <label for="price" class="form-label">Giá</label>
+                  <input class="form-control" id="price" type='text' mask="separator" thousandSeparator="."
+                         suffix=" VNĐ"/>
+                </div>
                 <div class="col-12 mb-3">
                   <label class="form-label">Mô tả</label>
-                  <app-ckeditor [id]="'discount'"
-                                [bindingValue]="product.description?product.description:''"></app-ckeditor>
+                  <app-ckeditor [id]="'description'" [name]="'description'"
+                                [(ngModel)]="product.description"></app-ckeditor>
+                </div>
+                <div class="col-12 mb-3">
+                  <label class="form-label">Thông số kỹ thuật</label>
+                  <app-ckeditor [id]="'spec'" [name]="'spec'"
+                                [(ngModel)]="product.spec"></app-ckeditor>
                 </div>
               </div>
             </div>

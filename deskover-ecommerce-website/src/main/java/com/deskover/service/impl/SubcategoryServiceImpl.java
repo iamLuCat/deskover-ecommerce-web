@@ -47,7 +47,11 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     @Override
     public List<Subcategory> getAll(Boolean isActive, Long categoryId) {
-        return repo.findByActivedAndCategoryId(isActive, categoryId);
+        if (categoryId == null) {
+            return repo.findByActived(isActive);
+        } else {
+            return repo.findByActivedAndCategoryId(isActive, categoryId);
+        }
     }
 
     public Subcategory getById(Long id) {
@@ -97,21 +101,18 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         Subcategory subcategory = MapperUtil.map(subcategoryDto, Subcategory.class);
         if (this.existsBySlug(subcategory)) {
             Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
-            subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-            subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             if (subcategoryExists != null && !subcategoryExists.getActived()) {
-                subcategoryExists.setActived(true);
-                subcategoryExists.setName(subcategory.getName());
-                subcategoryExists.setDescription(subcategory.getDescription());
-                subcategoryExists.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-                return this.update(subcategoryExists);
+                subcategory.setId(subcategoryExists.getId());
+            } else {
+                throw new IllegalArgumentException("Slug đã tồn tại");
             }
-            throw new IllegalArgumentException("Slug đã tồn tại");
-        } else {
-            subcategory.setActived(true);
-            subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-            return repo.save(subcategory);
         }
+
+        subcategory.setActived(true);
+        subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
+        return repo.save(subcategory);
     }
 
     @Override
