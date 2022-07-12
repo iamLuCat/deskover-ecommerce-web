@@ -18,7 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.OrderDto;
-import com.deskover.dto.Total7DaysAgo;
+import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
+import com.deskover.dto.app.total7dayago.Total7DaysAgo;
 import com.deskover.entity.Order;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
@@ -70,15 +71,15 @@ public class OrderApi {
 	}
 
 	@GetMapping("/order-7days")
-	public ResponseEntity<?> doGetTotalPrice7DaysAgo() {
-		try {
-			List<Total7DaysAgo> totals = orderService.doGetTotalPrice7DaysAgo();
-			return ResponseEntity.ok(totals);
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-		}
-	}
-
+	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
+			try {
+				DataTotaPrice7DaysAgo totals = orderService.doGetTotalPrice7DaysAgo();
+				return ResponseEntity.ok(totals);
+			} catch (Exception e) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(), e);
+			}
+    } 
+	
 	@GetMapping("/order-total-per-month")
 	public ResponseEntity<?> doGetPrice() {
 		try {

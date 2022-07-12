@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.deskover.dto.OrderDto;
 import com.deskover.dto.OrderItemDto;
-import com.deskover.dto.Total7DaysAgo;
+import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
+import com.deskover.dto.app.total7dayago.Total7DaysAgo;
 import com.deskover.entity.Order;
 import com.deskover.entity.OrderDetail;
 import com.deskover.entity.OrderItem;
@@ -51,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public List<Total7DaysAgo> doGetTotalPrice7DaysAgo() {
+	public DataTotaPrice7DaysAgo doGetTotalPrice7DaysAgo() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		List<Total7DaysAgo> total7DaysAgos = new ArrayList<>();
@@ -64,15 +65,20 @@ public class OrderServiceImpl implements OrderService {
 					then.getYear()+"",
 					SecurityContextHolder.getContext().getAuthentication().getName(), "GH-TC" );
 			if(total != null) {
-				day.setTotalPrice(DecimalFormatUtil.FormatDecical(total));
+				day.setTotalPrice(Double.parseDouble(total));
+				day.setPriceFormat(DecimalFormatUtil.FormatDecical(total)+"đ");				
+				System.out.println(day.getTotalPrice());
 			}else {
-				day.setTotalPrice("0");
+				day.setTotalPrice(0.0);
+				day.setPriceFormat("0.0đ");
 			}
 			
 			total7DaysAgos.add(day);
 
 		}
-		return total7DaysAgos;
+		DataTotaPrice7DaysAgo totals = new DataTotaPrice7DaysAgo();
+		totals.setData(total7DaysAgos);
+		return totals;
 	}
 
 	@Override
@@ -105,6 +111,7 @@ public class OrderServiceImpl implements OrderService {
 			itemDto.setName(item.getProduct().getName());
 			itemDto.setPrice(formatter.format(item.getPrice()));
 			itemDto.setQuantity(item.getQuantity());
+			itemDto.setImg(item.getProduct().getImage());
 			itemDtos.add(itemDto);
 		}
 		orderDto.setOrderItem(itemDtos);

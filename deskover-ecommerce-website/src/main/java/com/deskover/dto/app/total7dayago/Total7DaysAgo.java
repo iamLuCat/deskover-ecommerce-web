@@ -1,4 +1,4 @@
-package com.deskover.dto;
+package com.deskover.dto.app.total7dayago;
 
 import java.io.Serializable;
 
@@ -18,7 +18,8 @@ public class Total7DaysAgo implements Serializable {
 	 */
 	private static final long serialVersionUID = 8639077289009627168L;
 	
-	String date;
-	String totalPrice;
+	private String date;
+	private Double totalPrice;
+	private String priceFormat;
 	
 }
