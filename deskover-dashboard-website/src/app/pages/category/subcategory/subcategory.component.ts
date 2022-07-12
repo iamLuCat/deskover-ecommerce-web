@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject} from "rxjs";
 import {DataTableDirective} from "angular-datatables";
-import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 import {UrlUtils} from "@/utils/url-utils";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
@@ -10,13 +9,12 @@ import {AlertUtils} from '@/utils/alert-utils';
 import {Category} from "@/entites/category";
 import {SubcategoryDto} from "@/dtos/subcategory-dto";
 import {ModalDirective} from "ngx-bootstrap/modal";
-import {DatePipe} from "@angular/common";
+import {FormControlDirective} from "@angular/forms";
 
 @Component({
   selector: 'app-subcategory',
   templateUrl: './subcategory.component.html',
   styleUrls: ['./subcategory.component.scss'],
-  providers: [NgbModalConfig, NgbModal]
 })
 export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   subcategories: Subcategory[];
@@ -33,6 +31,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject();
 
   @ViewChild('subcategoryModal') subcategoryModal: ModalDirective;
+  @ViewChild('subcategoryForm') subcategoryForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
@@ -121,6 +120,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   newSubcategory() {
+    this.subcategoryForm.control.reset();
     this.isEdit = false;
     this.subcategoryDto = <SubcategoryDto>{};
     this.openModal(this.subcategoryModal);

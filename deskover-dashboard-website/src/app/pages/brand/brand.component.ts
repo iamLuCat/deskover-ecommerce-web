@@ -5,6 +5,7 @@ import {AlertUtils} from '@/utils/alert-utils';
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {ModalDirective} from "ngx-bootstrap/modal";
+import {FormControlDirective} from "@angular/forms";
 
 @Component({
   selector: 'app-brand',
@@ -22,6 +23,7 @@ export class BrandComponent implements OnInit, AfterViewInit, OnDestroy {
   dtOptions: any = {};
 
   @ViewChild('brandModal') brandModal: ModalDirective;
+  @ViewChild('brandForm') brandForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(private brandService: BrandService) {
@@ -93,6 +95,7 @@ export class BrandComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   newBrand() {
+    this.brandForm.control.reset();
     this.isEdit = false;
     this.brand = <Brand>{};
     this.openModal(this.brandModal);

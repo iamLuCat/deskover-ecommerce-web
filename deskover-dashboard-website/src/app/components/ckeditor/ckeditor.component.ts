@@ -1,17 +1,34 @@
-import {Component, Input} from '@angular/core';
+import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import * as Editor from '../../build/ckeditor5';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
 @Component({
   selector: 'app-ckeditor',
   templateUrl: './ckeditor.component.html',
-  styleUrls: ['./ckeditor.component.scss']
+  styleUrls: ['./ckeditor.component.scss'],
+  providers: [{
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CKEditorComponent),
+      multi: true
+  }]
 })
-export class CKEditorComponent {
+export class CKEditorComponent implements OnInit, ControlValueAccessor {
   public Editor = Editor;
   public config: any;
 
-  @Input() bindingValue: any;
   @Input() id: string;
+  @Input() name: string;
+
+  private _value: string = '';
+
+  get value() {
+    return this._value;
+  }
+
+  set value(value: string) {
+    this._value = value;
+    this.onChange(value);
+  }
 
   constructor() {
     this.config = {
@@ -63,7 +80,7 @@ export class CKEditorComponent {
         ]
       },
       fontSize: {
-        options: [ 10, 12, 14, 'default', 18, 20, 22 ],
+        options: [10, 12, 14, 'default', 18, 20, 22],
         supportAllValues: true
       },
       htmlSupport: {
@@ -98,19 +115,45 @@ export class CKEditorComponent {
           'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
           'bulletedList', 'numberedList', 'todoList', '|',
           'outdent', 'indent', '|',
-          'undo', 'redo',
-          '-',
+          'undo', 'redo', '|',
           'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
           'alignment', '|',
-          'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+          'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed',
+          '-',
           'specialCharacters', 'horizontalLine', 'pageBreak', '|',
           'textPartLanguage', '|',
-
           'sourceEditing'
         ],
         shouldNotGroupWhenFull: true,
       },
     }
+  }
+
+  ngOnInit(): void {
+  }
+
+  onChange(value: string) {
+  }
+
+  onTouch() {
+  }
+
+  onReady(editor) {
+    if (editor.model.schema.isRegistered('image')) {
+      editor.model.schema.extend('image', { allowAttributes: 'blockIndent' });
+    }
+  }
+
+  writeValue(obj: any): void {
+    this._value = obj;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
   }
 
 }

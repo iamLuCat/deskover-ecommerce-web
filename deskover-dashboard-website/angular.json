@@ -38,6 +38,11 @@
 
               "src/assets/fonts/fontawesome-pro/js/all.min.js"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/scss"
+              ]
+            },
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,

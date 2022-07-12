@@ -1,18 +1,17 @@
 import {Category} from '@/entites/category';
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
 import {Subject} from "rxjs";
 import {CategoryService} from "@services/category.service";
 import {AlertUtils} from '@/utils/alert-utils';
 import {ModalDirective} from "ngx-bootstrap/modal";
+import {FormControlDirective} from "@angular/forms";
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
-  providers: [NgbModalConfig, NgbModal]
 })
 export class CategoryComponent implements OnInit {
 
@@ -26,6 +25,7 @@ export class CategoryComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
 
   @ViewChild('categoryModal') categoryModal: ModalDirective;
+  @ViewChild('categoryForm') categoryForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(private categoryService: CategoryService) {}
@@ -74,6 +74,7 @@ export class CategoryComponent implements OnInit {
   }
 
   newCategory() {
+    this.categoryForm.control.reset();
     this.isEdit = false;
     this.category = <Category>{};
     this.openModal(this.categoryModal);

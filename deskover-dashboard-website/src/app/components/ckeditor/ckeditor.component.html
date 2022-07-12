@@ -1,6 +1,8 @@
 <ckeditor
   [editor]="Editor"
   [id]="id"
-  [(ngModel)]="bindingValue"
+  [name]="name"
+  [(ngModel)]="value"
   [config]="config"
+  (ready)="onReady($event)"
 ></ckeditor>
