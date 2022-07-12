@@ -15,6 +15,8 @@ public class OrderItemDto {
 	
 	private Integer quantity;
 	
+	private String img;
+	
 	private String price;
 
 }
