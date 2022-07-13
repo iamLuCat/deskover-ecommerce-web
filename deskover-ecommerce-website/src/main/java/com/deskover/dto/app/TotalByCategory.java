@@ -1,4 +1,4 @@
-package com.deskover.dto;
+package com.deskover.dto.app;
 
 import java.io.Serializable;
 

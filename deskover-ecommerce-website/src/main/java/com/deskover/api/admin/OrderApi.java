@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.dto.OrderDto;
+import com.deskover.dto.app.order.OrderDto;
+import com.deskover.dto.app.order.resquest.DataOrderResquest;
 import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
-import com.deskover.dto.app.total7dayago.Total7DaysAgo;
 import com.deskover.entity.Order;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
@@ -137,4 +137,6 @@ public class OrderApi {
 		map.put("name",orderRepository.totalByNameCategory("07", "2022"));
 		return map;
 	}
+
+
 }
