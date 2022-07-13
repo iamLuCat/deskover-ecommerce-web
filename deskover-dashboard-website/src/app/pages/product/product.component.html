@@ -195,11 +195,27 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-12 mb-3">
+                <div class="col-6 mb-3">
                   <label for="price" class="form-label">Giá</label>
-                  <input class="form-control" id="price" type='text' mask="separator" thousandSeparator="."
-                         suffix=" VNĐ"/>
+                  <input class="form-control" id="price" name="price" type='text' mask="separator" thousandSeparator="."
+                         suffix=" VNĐ" [(ngModel)]="product.price" #price="ngModel" required/>
+                  <div class="invalid-feedback"
+                       *ngIf="price.invalid && (price.dirty || price.touched)">
+                    <span *ngIf="price.errors?.required">Vui lòng nhập giá</span>
+                  </div>
                 </div>
+                <div class="col-6 mb-3">
+                  <label for="quantity" class="form-label">Số lượng</label>
+                  <input class="form-control" id="quantity" type='text' mask="separator" name="quantity"
+                         thousandSeparator="." [(ngModel)]="product.quantity" #quantity="ngModel"
+                         required/>
+                  <div class="invalid-feedback"
+                       *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">
+                    <span *ngIf="quantity.errors?.required">Vui lòng nhập số lượng</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-12 mb-3">
                   <label class="form-label">Mô tả</label>
                   <app-ckeditor [id]="'description'" [name]="'description'"
