@@ -17,18 +17,19 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px !important;
+  height: 5px;
+  width: 5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent !important;
+  background: transparent;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgba(104, 105, 119, 0.4) !important;
-  border-radius: 20px !important;
+  background: rgba(104, 105, 119, 0.4);
+  border-radius: 20px;
 }
 
 body {
@@ -38,9 +39,8 @@ body {
   overflow: auto;
 }
 
-::-webkit-scrollbar {
-  width: 0;
-  background: transparent;
+.modal-body, .ck.ck-editor__main>.ck-editor__editable {
+  overflow-x: hidden !important;
 }
 
 .brand-link {

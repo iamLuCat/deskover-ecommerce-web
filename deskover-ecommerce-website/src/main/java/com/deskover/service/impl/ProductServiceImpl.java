@@ -1,12 +1,11 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.criteria.Predicate;
-import javax.validation.Valid;
-
+import com.deskover.entity.Product;
+import com.deskover.entity.ProductThumbnail;
+import com.deskover.repository.ProductRepository;
+import com.deskover.repository.ProductThumbnailRepository;
+import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,22 +16,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.dto.ProductDto;
-import com.deskover.entity.Product;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.BrandService;
-import com.deskover.service.CategoryService;
-import com.deskover.service.DiscountService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
-import com.deskover.util.MapperUtil;
+import javax.persistence.criteria.Predicate;
+import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository repository;
+
+    @Autowired
+    private ProductThumbnailRepository thumbnailRepository;
 
     @Autowired
     private ProductRepoForDatatables repoForDatatables;
@@ -76,22 +73,34 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product create(ProductDto productDto) {
-        Product product = MapperUtil.map(productDto, Product.class);
+    public Product create(Product product) {
         if (this.existsBySlug(product)) {
             Product productExists = repository.findBySlug(product.getSlug());
             if (productExists != null && !productExists.getActived()) {
                 product.setId(productExists.getId());
-                return this.update(productExists);
             } else {
                 throw new IllegalArgumentException("Slug đã tồn tại");
             }
-        } else {
-            product.setActived(Boolean.TRUE);
-            product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-            product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-            return repository.saveAndFlush(product);
         }
+        product.setActived(Boolean.TRUE);
+        return this.save(product);
+    }
+
+    @Override
+    @Transactional
+    public Product save(Product product) {
+        product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        Product savedProduct = repository.saveAndFlush(product);
+
+        // Product thumbnail
+        if (product.getProductThumbnails() != null) {
+            for (ProductThumbnail thumbnail : product.getProductThumbnails()) {
+                saveThumbnail(thumbnail, savedProduct);
+            }
+        }
+
+        return savedProduct;
     }
 
     @Override
@@ -109,14 +118,6 @@ public class ProductServiceImpl implements ProductService {
         } else {
             throw new IllegalArgumentException("Danh mục đã bị vô hiệu hoá");
         }
-    }
-
-    @Override
-    @Transactional
-    public Product update(Product product) {
-        product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        return repository.saveAndFlush(product);
     }
 
     @Override
@@ -227,7 +228,11 @@ public class ProductServiceImpl implements ProductService {
         subcategoryService.changeActive(product.getSubCategory().getId());
 
     }
-
-
+    ProductThumbnail saveThumbnail(ProductThumbnail productThumbnail, Product product) {
+        productThumbnail.setProduct(product);
+        productThumbnail.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        productThumbnail.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        return thumbnailRepository.save(productThumbnail);
+    }
 
 }
