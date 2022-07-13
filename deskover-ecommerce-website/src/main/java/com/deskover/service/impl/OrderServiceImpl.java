@@ -11,16 +11,20 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.deskover.dto.OrderDto;
 import com.deskover.dto.OrderItemDto;
-import com.deskover.dto.Total7DaysAgo;
+import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
+import com.deskover.dto.app.total7dayago.Total7DaysAgo;
 import com.deskover.entity.Order;
 import com.deskover.entity.OrderDetail;
 import com.deskover.entity.OrderItem;
+import com.deskover.entity.OrderStatus;
 import com.deskover.repository.OrderDetailRepository;
 import com.deskover.repository.OrderItemRepository;
 import com.deskover.repository.OrderRepository;
+import com.deskover.repository.OrderStatusReponsitory;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
 
@@ -38,6 +42,12 @@ public class OrderServiceImpl implements OrderService {
     
     @Autowired
     private OrderItemRepository orderItemRepository;
+    
+    @Autowired
+    private OrderStatusReponsitory orderStatusReponsitory;
+    
+//    @Autowired
+//    private Status
 
 	@Override
 	public List<Order> getAll() {
@@ -51,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public List<Total7DaysAgo> doGetTotalPrice7DaysAgo() {
+	public DataTotaPrice7DaysAgo doGetTotalPrice7DaysAgo() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		List<Total7DaysAgo> total7DaysAgos = new ArrayList<>();
@@ -64,15 +74,20 @@ public class OrderServiceImpl implements OrderService {
 					then.getYear()+"",
 					SecurityContextHolder.getContext().getAuthentication().getName(), "GH-TC" );
 			if(total != null) {
-				day.setTotalPrice(DecimalFormatUtil.FormatDecical(total));
+				day.setTotalPrice(Double.parseDouble(total));
+				day.setPriceFormat(DecimalFormatUtil.FormatDecical(total)+"đ");				
+				System.out.println(day.getTotalPrice());
 			}else {
-				day.setTotalPrice("0");
+				day.setTotalPrice(0.0);
+				day.setPriceFormat("0.0đ");
 			}
 			
 			total7DaysAgos.add(day);
 
 		}
-		return total7DaysAgos;
+		DataTotaPrice7DaysAgo totals = new DataTotaPrice7DaysAgo();
+		totals.setData(total7DaysAgos);
+		return totals;
 	}
 
 	@Override
@@ -105,6 +120,7 @@ public class OrderServiceImpl implements OrderService {
 			itemDto.setName(item.getProduct().getName());
 			itemDto.setPrice(formatter.format(item.getPrice()));
 			itemDto.setQuantity(item.getQuantity());
+			itemDto.setImg(item.getProduct().getImage());
 			itemDtos.add(itemDto);
 		}
 		orderDto.setOrderItem(itemDtos);
@@ -128,6 +144,28 @@ public class OrderServiceImpl implements OrderService {
 		YearMonth currentTimes = YearMonth.now();
 		return repository.getCountOrder(currentTimes.getMonthValue()+"",
 				currentTimes.getYear()+"",SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+
+	@Override
+	@Transactional
+	public void pickupOrder(String orderCode, String code) {
+		try {
+			Order order = repository.findByOrderCode(orderCode);
+			if(order == null) {
+				throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+				
+			}
+			OrderStatus status = orderStatusReponsitory.findByCode(code);
+			if(status == null) {
+				throw new IllegalArgumentException("Cập nhập thất bại");
+				
+			}
+			order.setOrderStatus(status);
+			repository.saveAndFlush(order);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Cập nhập đơn hàng thấy bại");
+		}
+		
 	}
 
 

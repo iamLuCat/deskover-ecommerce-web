@@ -3,7 +3,8 @@ package com.deskover.service;
 import java.util.List;
 
 import com.deskover.dto.OrderDto;
-import com.deskover.dto.Total7DaysAgo;
+import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
+import com.deskover.dto.app.total7dayago.Total7DaysAgo;
 import com.deskover.entity.Order;
 
 public interface OrderService {
@@ -18,7 +19,9 @@ public interface OrderService {
 	
 	String getCountOrderPerMonth();
 
-	List<Total7DaysAgo> doGetTotalPrice7DaysAgo();
+	DataTotaPrice7DaysAgo doGetTotalPrice7DaysAgo();
+
+	void pickupOrder(String orderCode,String code);
 	
 //	List<TotalByCategory> getToTalByCategoty()
 
