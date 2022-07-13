@@ -24,7 +24,8 @@
             "@pages/*": ["app/pages/*"],
             "@services/*": ["app/services/*"],
             "@/*": ["app/*"]
-        }
+        },
+        "allowJs": true
     },
     "angularCompilerOptions": {
         "fullTemplateTypeCheck": true,

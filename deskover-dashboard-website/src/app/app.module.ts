@@ -32,7 +32,6 @@ import {ControlSidebarComponent} from '@modules/main/control-sidebar/control-sid
 import {StoreModule} from '@ngrx/store';
 import {authReducer} from './store/auth/reducer';
 import {uiReducer} from './store/ui/reducer';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SelectComponent} from '@components/select/select.component';
 import {CheckboxComponent} from '@components/checkbox/checkbox.component';
 import {CategoryComponent} from '@pages/category/category.component';
@@ -45,13 +44,18 @@ import {PromotionComponent} from '@pages/promotion/promotion.component';
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {defineLocale} from 'ngx-bootstrap/chronos';
 import {viLocale} from 'ngx-bootstrap/locale';
-import { ProductComponent } from './pages/product/product.component';
+import {ProductComponent} from '@pages/product/product.component';
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
+import {CKEditorComponent} from '@components/ckeditor/ckeditor.component';
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
+import {ModalModule} from "ngx-bootstrap/modal";
+import {IConfig, NgxMaskModule} from "ngx-mask";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
 
-// @ts-ignore
+export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,6 +85,7 @@ defineLocale('vi', viLocale);
     SubcategoryComponent,
     PromotionComponent,
     ProductComponent,
+    CKEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,15 +100,18 @@ defineLocale('vi', viLocale);
       positionClass: 'toast-top-right',
       preventDuplicates: true
     }),
-    NgbModule,
     DataTablesModule,
     TooltipModule,
     BsDatepickerModule,
-    TimepickerModule
+    TimepickerModule,
+    CKEditorModule,
+    ModalModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

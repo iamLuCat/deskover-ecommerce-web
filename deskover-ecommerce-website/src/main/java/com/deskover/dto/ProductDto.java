@@ -26,9 +26,8 @@ public class ProductDto implements Serializable{
     private Timestamp modifiedAt;
     private String modifiedBy;
     private Boolean actived;
-    private Long subcategoryId;
-    private Long brandId;
-    private Long discountId;
+    private SubcategoryDto subcategory;
+    private BrandDto brand;
     
     public ProductDto(Product product) {
     	this.id = product.getId();
@@ -40,11 +39,7 @@ public class ProductDto implements Serializable{
     	this.modifiedAt = product.getModifiedAt();
     	this.modifiedBy = product.getModifiedBy();
     	this.actived = product.getActived();
-    	this.subcategoryId = product.getSubCategory().getId();
-    	this.brandId = product.getBrand().getId();
-    	this.discountId = product.getDiscount().getId();
-    	
+    	this.subcategory = new SubcategoryDto(product.getSubCategory());
+    	this.brand = new BrandDto(product.getBrand());
     }
-
-	
 }

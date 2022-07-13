@@ -49,14 +49,13 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private DiscountService discountService;
 
-    @Override
-    public Page<Product> findByActived(Boolean actived, Optional<Integer> page, Optional<Integer> size) {
+    public Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size) {
             Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
-            return repository.findByActived(actived, pageable);
+            return repository.findByActived(isActive, pageable);
     }
-    
-	@Override
-	public Page<Product> findByName(String name, Optional<Integer> page, Optional<Integer> size) {
+
+    @Override
+	public Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size) {
 		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
 		
 			Page<Product> pages = repository.findByNameContaining(name, pageable);
@@ -82,19 +81,7 @@ public class ProductServiceImpl implements ProductService {
         if (this.existsBySlug(product)) {
             Product productExists = repository.findBySlug(product.getSlug());
             if (productExists != null && !productExists.getActived()) {
-                productExists.setActived(Boolean.TRUE);
-                productExists.setName(product.getName());
-                productExists.setDescription(product.getDescription());
-                productExists.setPrice(product.getPrice());
-                productExists.setImage(product.getImage());
-                productExists.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-                productExists.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                productExists.setSubCategory(subcategoryService.getById(productDto.getSubcategoryId()));
-                productExists.setBrand(brandService.getById(productDto.getBrandId()));
-                if (productDto.getDiscountId() != null) {
-                    productExists.setDiscount(discountService.findById(productDto.getDiscountId()));
-                }
-                productExists.setDiscount(null);
+                product.setId(productExists.getId());
                 return this.update(productExists);
             } else {
                 throw new IllegalArgumentException("Slug đã tồn tại");
@@ -103,13 +90,6 @@ public class ProductServiceImpl implements ProductService {
             product.setActived(Boolean.TRUE);
             product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-            ;
-            product.setSubCategory(subcategoryService.getById(productDto.getSubcategoryId()));
-            product.setBrand(brandService.getById(productDto.getBrandId()));
-            if (productDto.getDiscountId() != null) {
-                product.setDiscount(discountService.findById(productDto.getDiscountId()));
-            }
-            product.setDiscount(null);
             return repository.saveAndFlush(product);
         }
     }
@@ -169,16 +149,6 @@ public class ProductServiceImpl implements ProductService {
         System.out.println(isExits);
 
         return isExits;
-    }
-
-    @Override
-    public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive) {
-        DataTablesOutput<Product> products = repoForDatatables.findAll(input,
-                (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("actived"), isActive));
-        if (products.getError() != null) {
-            throw new IllegalArgumentException(products.getError());
-        }
-        return products;
     }
 
     @Override
@@ -243,7 +213,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findBySubcategoryId(Long id) {
+    public List<Product> getBySubcategoryId(Long id) {
 
         return repository.findBySubCategoryId(id);
     }

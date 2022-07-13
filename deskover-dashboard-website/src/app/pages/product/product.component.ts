@@ -1,14 +1,17 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Product} from "@/entites/product";
 import {DataTableDirective} from "angular-datatables";
-import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 import {ProductService} from "@services/product.service";
 import {AlertUtils} from "@/utils/alert-utils";
 import {Category} from "@/entites/category";
 import {CategoryService} from '@services/category.service';
-import {DatePipe} from "@angular/common";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
+import {UrlUtils} from "@/utils/url-utils";
+import {ModalDirective} from "ngx-bootstrap/modal";
+import {Brand} from "@/entites/brand";
+import {BrandService} from "@services/brand.service";
+import {FormControlDirective} from "@angular/forms";
 
 @Component({
   selector: 'app-product',
@@ -18,33 +21,35 @@ import {SubcategoryService} from "@services/subcategory.service";
 export class ProductComponent implements OnInit, AfterViewInit {
 
   products: Product[];
-  product: Product = <Product>{};
+  product: Product;
   categories: Category[];
-  categoryId: number = null;
+  category: Category;
   subcategories: Subcategory[];
-  subcategoryId: number = null;
+  subcategory: Subcategory;
+  brands: Brand[];
+  brand: Brand;
+
+  category_id_filter: number = null;
 
   isEdit: boolean = false;
   isActive: boolean = true;
 
   dtOptions: any = {};
 
-  @ViewChild('productModal') productModal: any;
+  @ViewChild('productModal') productModal: ModalDirective;
+  @ViewChild('productForm') productForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
-    private modalConfig: NgbModalConfig,
-    private modalService: NgbModal,
     private productService: ProductService,
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
+    private brandService: BrandService,
   ) {
-    modalConfig.backdrop = 'static';
-    modalConfig.keyboard = false;
-    modalConfig.centered = true;
+    this.newData();
 
     this.getCategories();
-    this.getSubcategories();
+    this.getBrands();
   }
 
   ngOnInit() {
@@ -56,7 +61,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
       lengthMenu: [5, 10, 25, 50, 100],
-      responsive: true,
+      responsive: false,
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -65,108 +70,24 @@ export class ProductComponent implements OnInit, AfterViewInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.categoryId).then(resp => {
+        this.productService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.category_id_filter).then(resp => {
           self.products = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: self.products
+            data: []
           });
         });
       },
       columns: [
-        {
-          title: 'Ảnh',
-          data: 'image',
-          orderable: false,
-          searchable: false,
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            let srcImg = data ? data : 'assets/images/no-image.png';
-            return `<img src="${srcImg}" class="img-fluid img-thumbnail" style="max-width: 70px;" alt="product-thumbnail">`;
-          },
-          responsivePriority: 1
-        },
-        {
-          title: 'Tên',
-          data: 'name',
-          className: 'align-middle'
-        },
-        {
-          title: 'Slug',
-          data: 'slug',
-          className: 'align-middle',
-          responsivePriority: 10001
-        },
-        {
-          title: 'Thương hiệu',
-          data: 'brand.name',
-          className: 'align-middle text-md-center text-start',
-        },
-        {
-          title: 'Danh mục',
-          data: 'subCategory.name',
-          className: 'align-middle'
-        },
-        {
-          title: 'Giá',
-          data: 'price',
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data);
-          },
-        },
-        {
-          title: 'Khuyến mãi',
-          data: 'discount',
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            if (data) {
-              return `
-                ${data.name} <span class="badge badge-danger">${data.percent}%</span>
-              `;
-            }
-          },
-          responsivePriority: 10001
-        },
-        {
-          title: 'Ngày cập nhật',
-          data: 'modifiedAt',
-          className: 'align-middle',
-          render: (data, type, row, meta) => {
-            return new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
-          },
-        },
-        {
-          title: 'Cập nhật bởi',
-          data: 'modifiedBy',
-          className: 'align-middle'
-        },
-        {
-          title: 'Công cụ',
-          data: null,
-          orderable: false,
-          searchable: false,
-          className: 'align-middle text-start text-md-end',
-          render: (data, type, full, meta) => {
-            if (self.isActive) {
-              return `
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-1" data-id="${data.id}"
-                    title="Sửa" data-toggle="tooltip">
-                    <i class="fa fa-pen-square text-info"></i>
-                </a>
-                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
-                    title="Xoá" data-toggle="tooltip">
-                    <i class="fa fa-trash text-danger"></i>
-                </a>
-            `;
-            } else {
-              return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
-            }
-          },
-          responsivePriority: 1
-        },
+        {data: 'image', orderable: false, searchable: false},
+        {data: 'name'},
+        {data: 'brand.name'},
+        {data: 'subCategory.name'},
+        {data: 'price'},
+        {data: 'modifiedAt'},
+        {data: 'modifiedBy'},
+        {data: null, orderable: false, searchable: false,},
       ]
     }
   }
@@ -177,7 +98,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
     let body = $('body');
     body.on('click', '.btn-edit', function () {
       const id = $(this).data('id');
-      self.getProduct(id);
+      self.editProduct(id);
     });
     body.on('click', '.btn-delete', function () {
       const id = $(this).data('id');
@@ -189,18 +110,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
     });
   }
 
-  rerender() {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.ajax.reload(null, false);
-    });
-  }
-
-  filter() {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.draw();
-    });
-  }
-
   /* Category & Subcategory */
   getCategories() {
     this.categoryService.getByActive().subscribe(data => {
@@ -208,25 +117,126 @@ export class ProductComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getSubcategories() {
-    this.subcategoryService.getByActive(true, this.categoryId).subscribe(data => {
+  getSubcategoriesByCategory() {
+    this.subcategoryService.getByActive(true, this.category.id).subscribe(data => {
       this.subcategories = data;
+      console.log(this.subcategories);
     });
+  }
+
+  getBrands() {
+    this.brandService.getByActive().subscribe(data => {
+      this.brands = data;
+    });
+  }
+
+  newData() {
+    this.product = <Product>{
+      id: null,
+      name: '',
+      slug: '',
+      description: '',
+      price: null,
+      image: '',
+      modifiedAt: null,
+      modifiedBy: '',
+      actived: true,
+      spec:`
+        <div class="row pt-2">
+          <div class="col-lg-5 col-sm-6">
+            <h3 class="h6">General specs</h3>
+            <ul class="list-unstyled fs-sm pb-2">
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Model:</span><span>Amazfit Smartwatch</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Gender:</span><span>Unisex</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Smartphone app:</span><span>Amazfit Watch</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">OS campitibility:</span><span>Android / iOS</span></li>
+            </ul>
+            <h3 class="h6">Physical specs</h3>
+            <ul class="list-unstyled fs-sm pb-2">
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Shape:</span><span>Rectangular</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Body material:</span><span>Plastics / Ceramics</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Band material:</span><span>Silicone</span></li>
+            </ul>
+            <h3 class="h6">Display</h3>
+            <ul class="list-unstyled fs-sm pb-2">
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display type:</span><span>Color</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display size:</span><span>1.28"</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Screen resolution:</span><span>176 x 176</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Touch screen:</span><span>No</span></li>
+            </ul>
+          </div>
+          <div class="col-lg-5 col-sm-6 offset-lg-1">
+            <h3 class="h6">Functions</h3>
+            <ul class="list-unstyled fs-sm pb-2">
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Phone calls:</span><span>Incoming call notification</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Monitoring:</span><span>Heart rate / Physical activity</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">GPS support:</span><span>Yes</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Sensors:</span><span>Heart rate, Gyroscope, Geomagnetic, Light sensor</span></li>
+            </ul>
+            <h3 class="h6">Battery</h3>
+            <ul class="list-unstyled fs-sm pb-2">
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery:</span><span>Li-Pol</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery capacity:</span><span>190 mAh</span></li>
+            </ul>
+            <h3 class="h6">Dimensions</h3>
+            <ul class="list-unstyled fs-sm pb-2">
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Dimensions:</span><span>195 x 20 mm</span></li>
+              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Weight:</span><span>32 g</span></li>
+            </ul>
+          </div>
+        </div>`,
+      video: '',
+      brand: <Brand>{
+        id: null,
+      },
+      subCategory: <Subcategory>{
+        category: <Category>{}
+      }
+    };
+    this.category = <Category>{
+      id: null,
+      name: '',
+      description: '',
+      slug: '',
+      modifiedAt: null,
+      modifiedBy: '',
+      actived: true,
+    };
+    this.subcategory = <Subcategory>{
+      id: null,
+      name: '',
+      description: '',
+      slug: '',
+      modifiedAt: null,
+      modifiedBy: '',
+      actived: true
+    };
+    this.brand = <Brand>{
+      id: null,
+      name: '',
+      description: '',
+      slug: '',
+      modifiedAt: null,
+      modifiedBy: '',
+      actived: true
+    };
   }
 
   /* Product */
   newProduct() {
+    this.productForm.control.reset();
     this.isEdit = false;
-    this.product = <Product>{};
+    this.newData();
     this.openModal(this.productModal);
   }
 
-  getProduct(id: number) {
+  editProduct(id: number) {
     this.productService.getById(id).subscribe(data => {
       this.product = data;
+      this.category = data.subCategory.category;
     });
-    this.isEdit = true;
     this.openModal(this.productModal);
+    this.isEdit = true;
   }
 
   saveProduct(product: Product) {
@@ -267,13 +277,34 @@ export class ProductComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /* Slugify */
+  toSlug(text: string) {
+    return UrlUtils.slugify(text);
+  }
+
   /* Modal */
   openModal(content) {
-    this.closeModal();
-    this.modalService.open(content);
+    this.productModal.show();
   }
 
   closeModal() {
-    this.modalService.dismissAll();
+    this.productModal.hide();
+  }
+
+  /* Other */
+  rerender() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.ajax.reload(null, false);
+    });
+  }
+
+  filter() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.draw();
+    });
+  }
+
+  compareFn(c1: any, c2: any): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 }

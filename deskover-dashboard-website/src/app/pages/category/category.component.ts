@@ -1,17 +1,17 @@
 import {Category} from '@/entites/category';
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
 import {Subject} from "rxjs";
 import {CategoryService} from "@services/category.service";
-import { AlertUtils } from '@/utils/alert-utils';
+import {AlertUtils} from '@/utils/alert-utils';
+import {ModalDirective} from "ngx-bootstrap/modal";
+import {FormControlDirective} from "@angular/forms";
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
-  providers: [NgbModalConfig, NgbModal]
 })
 export class CategoryComponent implements OnInit {
 
@@ -24,18 +24,11 @@ export class CategoryComponent implements OnInit {
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
-  @ViewChild('categoryModal') categoryModal: any;
+  @ViewChild('categoryModal') categoryModal: ModalDirective;
+  @ViewChild('categoryForm') categoryForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
-  constructor(
-    private modalConfig: NgbModalConfig,
-    private modalService: NgbModal,
-    private categoryService: CategoryService
-  ) {
-    modalConfig.backdrop = 'static';
-    modalConfig.keyboard = false;
-    modalConfig.centered = true;
-  }
+  constructor(private categoryService: CategoryService) {}
 
   ngOnInit() {
     const self = this;
@@ -63,8 +56,7 @@ export class CategoryComponent implements OnInit {
         { data: 'name' },
         { data: 'slug' },
         { data: 'description' },
-        // { data: 'modifiedAt' },
-        // { data: 'modifiedBy' },
+        { data: 'modifiedAt' },
         { data: null, orderable: false, searchable: false },
       ]
     }
@@ -82,6 +74,7 @@ export class CategoryComponent implements OnInit {
   }
 
   newCategory() {
+    this.categoryForm.control.reset();
     this.isEdit = false;
     this.category = <Category>{};
     this.openModal(this.categoryModal);
@@ -90,9 +83,10 @@ export class CategoryComponent implements OnInit {
   getCategory(id: number) {
     this.categoryService.getById(id).subscribe(data => {
       this.category = data;
+
+      this.isEdit = true;
+      this.openModal(this.categoryModal);
     });
-    this.isEdit = true;
-    this.openModal(this.categoryModal);
   }
 
   saveCategory(category: Category) {
@@ -140,11 +134,11 @@ export class CategoryComponent implements OnInit {
 
   // Modal
   openModal(content) {
-    this.modalService.open(content);
+    this.categoryModal.show();
   }
 
   closeModal() {
-    this.modalService.dismissAll();
+    this.categoryModal.hide();
   }
 
 }

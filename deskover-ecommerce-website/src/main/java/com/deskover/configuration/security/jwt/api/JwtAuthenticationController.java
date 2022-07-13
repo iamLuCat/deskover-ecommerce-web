@@ -64,7 +64,7 @@ public class JwtAuthenticationController {
 	
 	@GetMapping("/get-principal")
     public ResponseEntity<?> getProfile() {
-        // return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+	        // return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		return ResponseEntity.ok(adminService.getPrincipal());
     }
 }

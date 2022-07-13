@@ -68,8 +68,13 @@ public class BrandServiceImpl implements BrandService {
     @Override
     @Transactional
     public Brand create(Brand brand) {
-        if(this.existsBySlug(brand)) {
-            throw new IllegalArgumentException("Slug đã tồn tại");
+        if (this.existsBySlug(brand)) {
+            Brand brandExists = this.getBySlug(brand.getSlug());
+            if (brandExists.getActived() == Boolean.FALSE) {
+                brand.setId(brandExists.getId());
+            } else {
+                throw new IllegalArgumentException("Slug đã tồn tại");
+            }
         }
         brand.setActived(Boolean.TRUE);
         brand.setModifiedAt(new Timestamp(System.currentTimeMillis()));

@@ -76,7 +76,6 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order")
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 
