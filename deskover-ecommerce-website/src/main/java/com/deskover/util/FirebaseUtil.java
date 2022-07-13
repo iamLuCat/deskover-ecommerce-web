@@ -16,7 +16,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class FileUtil {
+public class FirebaseUtil {
     private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/%s?alt=media";
     private static final String JSON_FILE_NAME = "src/main/resources/credentials/deskover-firebase.json";
 
