@@ -12,6 +12,8 @@ import {ModalDirective} from "ngx-bootstrap/modal";
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
+import {ProductThumbnail} from "@/entites/product-thumbnail";
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-product',
@@ -19,7 +21,6 @@ import {FormControlDirective} from "@angular/forms";
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit, AfterViewInit {
-
   products: Product[];
   product: Product;
   categories: Category[];
@@ -64,6 +65,11 @@ export class ProductComponent implements OnInit, AfterViewInit {
       scrollX: true,
       serverSide: true,
       processing: true,
+      responsive: {
+        details: {
+          type: 'column',
+        }
+      },
       stateSave: true,
       columnDefs: [{
         "defaultContent": "",
@@ -120,7 +126,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
   getSubcategoriesByCategory() {
     this.subcategoryService.getByActive(true, this.category.id).subscribe(data => {
       this.subcategories = data;
-      console.log(this.subcategories);
     });
   }
 
@@ -141,7 +146,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
       modifiedAt: null,
       modifiedBy: '',
       actived: true,
-      spec:`
+      spec: `
         <div class="row pt-2">
           <div class="col-lg-5 col-sm-6">
             <h3 class="h6">General specs</h3>
@@ -191,7 +196,13 @@ export class ProductComponent implements OnInit, AfterViewInit {
       },
       subCategory: <Subcategory>{
         category: <Category>{}
-      }
+      },
+      productThumbnails: [
+        <ProductThumbnail>{thumbnail: ''},
+        <ProductThumbnail>{thumbnail: ''},
+        <ProductThumbnail>{thumbnail: ''},
+        <ProductThumbnail>{thumbnail: ''},
+      ],
     };
     this.category = <Category>{
       id: null,
@@ -235,8 +246,9 @@ export class ProductComponent implements OnInit, AfterViewInit {
       this.product = data;
       this.category = data.subCategory.category;
     });
-    this.openModal(this.productModal);
     this.isEdit = true;
+    this.getSubcategoriesByCategory();
+    this.openModal(this.productModal);
   }
 
   saveProduct(product: Product) {
@@ -277,6 +289,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
     });
   }
 
+
+
   /* Slugify */
   toSlug(text: string) {
     return UrlUtils.slugify(text);
@@ -302,6 +316,18 @@ export class ProductComponent implements OnInit, AfterViewInit {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.draw();
     });
+  }
+
+  getImageSrc(image: string) {
+    if (!image) {
+      return 'assets/images/no-image.png';
+    } else {
+      // Kiểm tra image có phải là url hay không
+      if (image.indexOf('http') === 0) {
+        return image;
+      }
+      return `${environment.globalUrl.avatar}/images/${image}`;
+    }
   }
 
   compareFn(c1: any, c2: any): boolean {

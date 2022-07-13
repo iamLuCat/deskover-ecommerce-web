@@ -27,7 +27,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageErrorUtil;
 import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.dto.ProductDto;
 import com.deskover.entity.Product;
 import com.deskover.service.ProductService;
 import com.deskover.util.ValidationUtil;
@@ -94,13 +93,13 @@ public class ProductApi {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<?> doPostCreate(@RequestBody ProductDto productDto, BindingResult result) {
+    public ResponseEntity<?> doPostCreate(@RequestBody Product product, BindingResult result) {
         if (result.hasErrors()) {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         try {
-            productService.create(productDto);
+            productService.create(product);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
@@ -118,7 +117,7 @@ public class ProductApi {
             return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
         }
         try {
-            productService.update(product);
+            productService.save(product);
             return ResponseEntity.ok(new MessageResponse("Cập nhập sản phẩm thành công"));
         } catch (Exception e) {
             MessageResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);

@@ -23,7 +23,7 @@ export interface Product {
   brand: Brand;
   discount: Discount;
   productThumbnails: ProductThumbnail[];
-  ratings: Rating[];
-  inventories: Inventory[];
-  orderItems: OrderItem[];
+  // ratings: Rating[];
+  // inventories: Inventory[];
+  // orderItems: OrderItem[];
 }

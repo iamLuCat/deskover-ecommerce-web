@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import com.deskover.dto.ProductDto;
 import com.deskover.entity.Product;
 
 public interface ProductService {
@@ -20,11 +19,11 @@ public interface ProductService {
 
 	List<Product> getBySubcategoryId(Long id);
 
-	Product create(ProductDto productDto);
+	Product create(Product product);
 
 	Product changeActive(Long id);
 
-	Product update(Product product);
+	Product save(Product product);
 
 	Product findById(Long id);
 
