@@ -234,7 +234,7 @@ CREATE TABLE discount (
 );
 
 insert discount (id,`name`,percent,start_date,end_date,actived,modified_by)
-values 	(1,'Black friday',50,'2022-11-25 00:00:01','2022-11-25 23:59:59',0,'haipv'),
+values 	(1,'Black Friday',50,'2022-11-25 00:00:01','2022-11-25 23:59:59',0,'haipv'),
 		(2,'Valentine','10','2022-02-14 00:00:01','2022-02-14 23:59:59',0,'haipv'),
         (3,'Lễ giáng sinh',20,'2022-12-24 00:00:01','2022-12-24 23:59:59',0,'haipv'),
         (4,'Mừng khai trương',20,'2022-01-01 00:00:01','2022-12-30 23:59:59',1,'haipv')
@@ -249,7 +249,8 @@ CREATE TABLE product (
   video VARCHAR(255) DEFAULT NULL,
   `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   `spec` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-  price DOUBLE DEFAULT NULL,
+  price DOUBLE NOT NULL,
+  quantity BIGINT NOT NULL DEFAULT 1000,
   actived BIT NOT NULL DEFAULT 1,
   sub_category_id BIGINT DEFAULT NULL,
   brand_id BIGINT NOT NULL,
@@ -424,61 +425,6 @@ CREATE TABLE rating (
     PRIMARY KEY (id),
     CONSTRAINT FK_Rating_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
-
--- Lưu trữ
-CREATE TABLE inventory (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  product_id BIGINT NOT NULL,
-  quantity BIGINT NOT NULL,
-  modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified_by VARCHAR(50) DEFAULT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT FK_Inventory_Product FOREIGN KEY (product_id) REFERENCES product (id)
-);
-
-insert inventory (product_id,quantity,modified_by)
-values 	(1,100,'haipv'),
-		(2,100,'haipv'),
-        (3,100,'haipv'),
-        (4,100,'haipv'),
-        (5,100,'haipv'),
-        (6,100,'haipv'),
-        (7,100,'haipv'),
-        (8,100,'haipv'),
-        (9,100,'haipv'),
-        (10,100,'haipv'),
-        (11,100,'haipv'),
-        (12,100,'haipv'),
-        (13,100,'haipv'),
-        (14,100,'haipv'),
-        (15,100,'haipv'),
-        (16,100,'haipv'),
-        (17,100,'haipv'),
-        (18,100,'haipv'),
-        (19,100,'haipv'),
-        (20,100,'haipv'),
-        (21,100,'haipv'),
-		(22,100,'haipv'),
-        (23,100,'haipv'),
-        (24,100,'haipv'),
-        (25,100,'haipv'),
-        (26,100,'haipv'),
-        (27,100,'haipv'),
-        (28,100,'haipv'),
-        (29,100,'haipv'),
-        (30,100,'haipv'),
-        (31,100,'haipv'),
-        (32,100,'haipv'),
-        (33,100,'haipv'),
-        (34,100,'haipv'),
-        (35,100,'haipv'),
-        (36,100,'haipv'),
-        (37,100,'haipv'),
-        (38,100,'haipv'),
-        (39,100,'haipv'),
-        (40,100,'haipv'),
-        (41,100,'haipv')
-;
 
 --------------------------------------------------------------------------------------------------------------
 -- Đặt hàng

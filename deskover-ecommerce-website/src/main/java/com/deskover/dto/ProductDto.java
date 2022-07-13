@@ -23,6 +23,7 @@ public class ProductDto implements Serializable{
     private String description;
     private Double price;
     private String image;
+    private Long quantity;
     private Timestamp modifiedAt;
     private String modifiedBy;
     private Boolean actived;
@@ -36,6 +37,7 @@ public class ProductDto implements Serializable{
     	this.description = product.getDescription();
     	this.price = product.getPrice();
     	this.image = product.getImage();
+        this.quantity = product.getQuantity();
     	this.modifiedAt = product.getModifiedAt();
     	this.modifiedBy = product.getModifiedBy();
     	this.actived = product.getActived();
