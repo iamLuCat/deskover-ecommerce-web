@@ -21,11 +21,17 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -73,6 +79,9 @@ public class Product implements Serializable {
     @Column(name = "video")
     private String video;
 
+    @Column(name = "quantity", nullable = false)
+    private Long quantity;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "discount_id")
     private Discount discount;
@@ -89,9 +98,6 @@ public class Product implements Serializable {
     private Set<Rating> ratings = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "product")
-    private Set<Inventory> inventories = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "product")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 
     @JsonIgnore
@@ -102,5 +108,5 @@ public class Product implements Serializable {
     private Set<ProductThumbnail> productThumbnails = new LinkedHashSet<>();
 
     @Formula(value = "(select coalesce(AVG(r.point), 0) FROM Rating r WHERE r.product_id = id)")
-    private Integer averageRating; 
+    private Integer averageRating;
 }

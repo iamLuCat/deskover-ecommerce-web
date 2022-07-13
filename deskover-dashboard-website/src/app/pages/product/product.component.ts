@@ -61,7 +61,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
       lengthMenu: [5, 10, 25, 50, 100],
-      responsive: false,
+      scrollX: true,
       serverSide: true,
       processing: true,
       stateSave: true,

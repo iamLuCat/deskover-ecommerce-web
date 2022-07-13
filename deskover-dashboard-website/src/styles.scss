@@ -15,10 +15,27 @@
 
 @import "common";
 
+/* width */
+::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(104, 105, 119, 0.4) !important;
+  border-radius: 20px !important;
+}
+
 body {
   width: 100vw;
   height: 100vh;
   font-family: 'Source Sans Pro', sans-serif;
+  overflow: auto;
 }
 
 ::-webkit-scrollbar {
