@@ -43,7 +43,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	
 	List<Order> findByOrderStatusCode(String code);
 	
+	List<Order> findByModifiedByAndOrderStatusCode(String modifiedBy, String code);
+	
+	List<Order> findByModifiedBy(String modifiedBy);
+	
 	Order findByOrderCodeAndOrderStatusCode( String orderCode,  String status);
 	
 	Order findByOrderCode( String orderCode);
+	
 }

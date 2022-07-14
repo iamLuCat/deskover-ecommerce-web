@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.dto.OrderDto;
+import com.deskover.dto.app.order.OrderDto;
+import com.deskover.dto.app.order.resquest.DataOrderResquest;
 import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
-import com.deskover.dto.app.total7dayago.Total7DaysAgo;
 import com.deskover.entity.Order;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
@@ -63,6 +63,10 @@ public class OrderApi {
 	public ResponseEntity<?> doGetOrderByOrderCode(@PathVariable("orderCode") String orderCode,
 			@RequestParam("status") String status) {
 		try {
+			if(status.isBlank()) {
+				OrderDto orderDto = orderService.findByCode(orderCode);
+				return ResponseEntity.ok(orderDto);
+			}
 			OrderDto orderDto = orderService.findByOrderCode(orderCode, status);
 			return ResponseEntity.ok(orderDto);
 		} catch (Exception e) {
@@ -71,17 +75,6 @@ public class OrderApi {
 	
 	}
 	
-	@PostMapping("/order/{orderCode}")
-	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status){
-		try {
-			 orderService.pickupOrder(orderCode,status);
-			 return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
-		}
-
-	}
-
 	@GetMapping("/order-7days")
 	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
 			try {
@@ -114,6 +107,32 @@ public class OrderApi {
 			return ResponseEntity.ok("0");
 		}
 	}
+	
+	
+	
+	@GetMapping("/order/delivery")
+	public ResponseEntity<?> doGetDelivery(@RequestParam("status") String status){
+		try {
+			DataOrderResquest dtos = orderService.getListOrder(status);
+			return ResponseEntity.ok(dtos);
+
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));
+		}
+	}
+	
+	
+	@PostMapping("/order/{orderCode}")
+	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status){
+		try {
+			 orderService.pickupOrder(orderCode,status);
+			 return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
+		}
+	}
+
+
 
 	// DashBoard-ADMIN
 
@@ -128,7 +147,7 @@ public class OrderApi {
 	//
 	// return ResponseEntity.ok(data);
 	// }
-
+	
 	@GetMapping("/total-by-category")
 	public Map<String, String[]> importedByCateOverTheTime() {
 		// List<Object[]> totalByCategories =orderRepository.getToTalByCategory("07",
@@ -138,4 +157,6 @@ public class OrderApi {
 		map.put("name", orderRepository.totalByNameCategory("07", "2022"));
 		return map;
 	}
+
+
 }
