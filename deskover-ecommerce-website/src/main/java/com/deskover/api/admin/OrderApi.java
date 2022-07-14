@@ -63,6 +63,10 @@ public class OrderApi {
 	public ResponseEntity<?> doGetOrderByOrderCode(@PathVariable("orderCode") String orderCode,
 			@RequestParam("status") String status) {
 		try {
+			if(status.isBlank()) {
+				OrderDto orderDto = orderService.findByCode(orderCode);
+				return ResponseEntity.ok(orderDto);
+			}
 			OrderDto orderDto = orderService.findByOrderCode(orderCode, status);
 			return ResponseEntity.ok(orderDto);
 		} catch (Exception e) {
@@ -117,6 +121,7 @@ public class OrderApi {
 		}
 	}
 	
+	
 	@PostMapping("/order/{orderCode}")
 	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status){
 		try {
@@ -125,7 +130,6 @@ public class OrderApi {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
 		}
-
 	}
 
 
