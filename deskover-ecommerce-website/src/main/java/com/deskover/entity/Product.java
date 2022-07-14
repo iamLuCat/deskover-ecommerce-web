@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -100,4 +101,6 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product")
     private Set<ProductThumbnail> productThumbnails = new LinkedHashSet<>();
 
+    @Formula(value = "(select coalesce(AVG(r.point), 0) FROM Rating r WHERE r.product_id = id)")
+    private Integer averageRating; 
 }

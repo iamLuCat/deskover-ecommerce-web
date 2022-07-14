@@ -21,15 +21,14 @@
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                            <li class="breadcrumb-item"><a class="text-nowrap" href="index.html"><i class="ci-home"></i>Home</a></li>
-                            <li class="breadcrumb-item text-nowrap"><a href="shop-grid-ls.html">Shop</a>
+                            <li class="breadcrumb-item"><a class="text-nowrap" href="index.html"><i class="ci-home"></i>Trang chủ</a></li>
                             </li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Cart</li>
+                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Cửa hàng</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0">Your cart</h1>
+                    <h1 class="h3 text-light mb-0">Tìm kiếm</h1>
                 </div>
             </div>
         </div>
@@ -58,10 +57,10 @@
                                                         <input class="widget-filter-search form-control rounded-end" type="text" placeholder="Search"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
                                                     </div>
                                                     <ul class="widget-list widget-filter-list pt-1" style="height: 12rem;" data-simplebar data-simplebar-auto-hide="false">
-                                                        <li class="widget-list-item widget-filter-item"><a class="widget-list-link d-flex justify-content-between align-items-center" href="#"><span class="widget-filter-item-text">Tất cả</span></a></li>
+                                                        <li class="widget-list-item widget-filter-item"><a class="widget-list-link d-flex justify-content-between align-items-center" href="" ng-click="shop.filter.categoryToggleSelection(category.slug,'')"><span class="widget-filter-item-text">Tất cả</span></a></li>
                                                         <li class="widget-list-item widget-filter-item" ng-repeat="subcategory in category.subcategories">
-                                                            <a class="widget-list-link d-flex justify-content-between align-items-center" href="#">
-                                                                <span class="widget-filter-item-text">{{subcategory.name}}</span>
+                                                            <a class="widget-list-link d-flex justify-content-between align-items-center" href="" ng-click="shop.filter.categoryToggleSelection('',subcategory.slug)">
+                                                                <span class="widget-filter-item-text" >{{subcategory.name}}</span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -114,68 +113,31 @@
                     <div class="d-flex justify-content-center justify-content-sm-between align-items-center pt-2 pb-4 pb-sm-5">
                         <div class="d-flex flex-wrap">
                             <div class="d-flex align-items-center flex-nowrap me-3 me-sm-4 pb-3">
-                                <label class="text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block" for="sorting">Sort by:</label>
-                                <select class="form-select" id="sorting">
-                                    <option>Popularity</option>
-                                    <option>Low - Hight Price</option>
-                                    <option>High - Low Price</option>
-                                    <option>Average Rating</option>
-                                    <option>A - Z Order</option>
-                                    <option>Z - A Order</option>
-                                </select><span class="fs-sm text-light opacity-75 text-nowrap ms-2 d-none d-md-block">of 287 products</span>
+                                <label class="text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block" for="sorting">Theo:</label>
+                                <select class="form-select" id="sorting" ng-model="shop.filter.sort" ng-change="shop.loadItems()">
+                                    <option value="1">Giá thấp đến cao</option>
+                                    <option value="2">Giá cao đến thấp</option>
+                                    <option value="3">Đánh giá tốt</option>
+                                    <option value="4">Thứ tự A - Z</option>
+                                    <option value="5">Thứ tự Z - A</option>
+                                </select><span class="fs-sm text-light opacity-75 text-nowrap ms-2 d-none d-md-block">trên 287 sản phẩm</span>
                             </div>
                         </div>
-                        <div class="d-flex pb-3"><a class="nav-link-style nav-link-light me-3" href="#"><i class="ci-arrow-left"></i></a><span class="fs-md text-light">1 / 5</span><a class="nav-link-style nav-link-light ms-3" href="#"><i class="ci-arrow-right"></i></a></div>
-                        <div class="d-none d-sm-flex pb-3"><a class="btn btn-icon nav-link-style bg-light text-dark disabled opacity-100 me-2" href="#"><i class="ci-view-grid"></i></a><a class="btn btn-icon nav-link-style nav-link-light" href="shop-list-ls.html"><i class="ci-view-list"></i></a></div>
                     </div>
                     <!-- Products grid-->
 
                     <!-- Products grid-->
-                    <div class="row mx-n2">
+                    <div class="row mx-n2 repeated-item">
                         <!-- Product-->
-                        <div class="col-md-4 col-sm-6 px-2 mb-4">
+                        <div class="col-md-4 col-sm-6 px-2 mb-4" ng-repeat="item in shop.items">
                             <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/07.jpg" alt="Product"></a>
-                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Women's Swimwear</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">Two-Piece Bikini in Print</a></h3>
+                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="{{item.image}}" alt="{{item.slug}}"></a>
+                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">{{item.category}}</a>
+                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">{{item.name}}</a></h3>
                                     <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">$18.<small>99</small></span></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                            <i class="star-rating-icon ci-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body card-body-hidden">
-                                    <div class="text-center pb-2">
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size4" id="xs3" checked>
-                                            <label class="form-option-label" for="xs3">XS</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size4" id="s3">
-                                            <label class="form-option-label" for="s3">S</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size4" id="m3">
-                                            <label class="form-option-label" for="m3">M</label>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
-                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
-                                </div>
-                            </div>
-                            <hr class="d-sm-none">
-                        </div>
-                        <!-- Product-->
-                        <div class="col-md-4 col-sm-6 px-2 mb-4">
-                            <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/08.jpg" alt="Product"></a>
-                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Kid's Toys</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">Soft Panda Teddy Bear</a></h3>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">$14.<small>99</small></span></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                            <i class="star-rating-icon ci-star-filled active"></i>
+                                        <div class="product-price"><span class="text-accent">{{item.price|number}} <small>VND</small></span></div>
+                                        <div class="star-rating">
+                                            <i class="star-rating-icon ci-star-filled active" ng-repeat="p in [].constructor(item.rating) track by $index"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -186,265 +148,33 @@
                             </div>
                             <hr class="d-sm-none">
                         </div>
-                        <!-- Product-->
-                        <div class="col-md-4 col-sm-6 px-2 mb-4">
-                            <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/09.jpg" alt="Product"></a>
-                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Cosmetics</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">Metallic Lipstick (Crimson)</a></h3>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">$12.<small>99</small></span></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-half active"></i>
-                                            <i class="star-rating-icon ci-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body card-body-hidden">
-                                    <div class="text-center pb-2">
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="color3" id="crimson" checked>
-                                            <label class="form-option-label rounded-circle" for="crimson"><span class="form-option-color rounded-circle" style="background-color: #bd3c82;"></span></label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="color3" id="creamy">
-                                            <label class="form-option-label rounded-circle" for="creamy"><span class="form-option-color rounded-circle" style="background-color: #ebae81;"></span></label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="color3" id="palm">
-                                            <label class="form-option-label rounded-circle" for="palm"><span class="form-option-color rounded-circle" style="background-color: #ca8799;"></span></label>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
-                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
-                                </div>
+                        <div ng-if="shop.items.length == 0">
+                            <div class="text-center w-100">
+                                <div>Không tìm thấy sản phẩm nào</div> 
+                                <br>
+                                <img width="500px" src="/img/not-found.png" alt="">
                             </div>
-                            <hr class="d-sm-none">
-                        </div>
-                        <!-- Product-->
-                        <div class="col-md-4 col-sm-6 px-2 mb-4">
-                            <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/10.jpg" alt="Product"></a>
-                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Men’s Accessories</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">5-Pack Multicolor Bracelets</a></h3>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">$7.<small>99</small></span></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                            <i class="star-rating-icon ci-star-filled active"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body card-body-hidden">
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
-                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
-                                </div>
-                            </div>
-                            <hr class="d-sm-none">
-                        </div>
-                        <!-- Product-->
-                        <div class="col-md-4 col-sm-6 px-2 mb-4">
-                            <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/11.jpg" alt="Product"></a>
-                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Men’s Sandals</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">Soft Footbed Sandals</a></h3>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">$99.<small>50</small></span></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                            <i class="star-rating-icon ci-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body card-body-hidden">
-                                    <div class="text-center pb-2">
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="color4" id="blue2" checked>
-                                            <label class="form-option-label rounded-circle" for="blue2"><span class="form-option-color rounded-circle" style="background-color: #879fb3;"></span></label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="color4" id="brown">
-                                            <label class="form-option-label rounded-circle" for="brown"><span class="form-option-color rounded-circle" style="background-color: #9c6d4a;"></span></label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="color4" id="black">
-                                            <label class="form-option-label rounded-circle" for="black"><span class="form-option-color rounded-circle" style="background-color: #333333;"></span></label>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex mb-2">
-                                        <select class="form-select form-select-sm me-2">
-                                            <option>9.5</option>
-                                            <option>10</option>
-                                            <option>10.5</option>
-                                            <option>11</option>
-                                            <option>11.5</option>
-                                        </select>
-                                        <button class="btn btn-primary btn-sm" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
-                                    </div>
-                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
-                                </div>
-                            </div>
-                            <hr class="d-sm-none">
-                        </div>
-                        <!-- Product-->
-                        <div class="col-md-4 col-sm-6 px-2 mb-4">
-                            <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/12.jpg" alt="Product"></a>
-                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Men’s Hats</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">3-Color Sun Stash Hat</a></h3>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">$25.<small>99</small></span></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                            <i class="star-rating-icon ci-star-half active"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body card-body-hidden">
-                                    <div class="text-center pb-2">
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size5" id="s4" checked>
-                                            <label class="form-option-label" for="s4">S</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size5" id="m4">
-                                            <label class="form-option-label" for="m4">M</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size5" id="l4">
-                                            <label class="form-option-label" for="l4">L</label>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
-                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
-                                </div>
-                            </div>
-                            <hr class="d-sm-none">
-                        </div>
-                        <!-- Product-->
-                        <div class="col-md-4 col-sm-6 px-2 mb-4">
-                            <div class="card product-card"><span class="badge bg-danger badge-shadow">Sale</span>
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/13.jpg" alt="Product"></a>
-                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Men’s T-shirts</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">Cotton Polo Regular Fit</a></h3>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">$11.<small>50</small></span>
-                                            <del class="fs-sm text-muted">$13.<small>50</small></del>
-                                        </div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star"></i><i class="star-rating-icon ci-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body card-body-hidden">
-                                    <div class="text-center pb-2">
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size6" id="s5">
-                                            <label class="form-option-label" for="s5">S</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size6" id="m5">
-                                            <label class="form-option-label" for="m5">M</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size6" id="l5" checked>
-                                            <label class="form-option-label" for="l5">L</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size6" id="xl5">
-                                            <label class="form-option-label" for="xl5">XL</label>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
-                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
-                                </div>
-                            </div>
-                            <hr class="d-sm-none">
-                        </div>
-                        <!-- Product-->
-                        <div class="col-md-4 col-sm-6 px-2 mb-4">
-                            <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/14.jpg" alt="Product"></a>
-                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Men’s Jeans</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">Slim Taper Fit Jeans</a></h3>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">$58.<small>99</small></span></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                            <i class="star-rating-icon ci-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body card-body-hidden">
-                                    <div class="text-center pb-2">
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size7" id="s6">
-                                            <label class="form-option-label" for="s6">S</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size7" id="m6">
-                                            <label class="form-option-label" for="m6">M</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size7" id="l6" checked>
-                                            <label class="form-option-label" for="l6">L</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size7" id="xl6">
-                                            <label class="form-option-label" for="xl6">XL</label>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
-                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
-                                </div>
-                            </div>
-                            <hr class="d-sm-none">
-                        </div>
-                        <!-- Product-->
-                        <div class="col-md-4 col-sm-6 px-2 mb-4">
-                            <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/15.jpg" alt="Product"></a>
-                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Men’s Waistcoats</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">Single-breasted Trenchcoat</a></h3>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">$79.<small>99</small></span></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-half active"></i>
-                                            <i class="star-rating-icon ci-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body card-body-hidden">
-                                    <div class="text-center pb-2">
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size8" id="m7">
-                                            <label class="form-option-label" for="m7">M</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size8" id="l7" checked>
-                                            <label class="form-option-label" for="l7">L</label>
-                                        </div>
-                                        <div class="form-check form-option form-check-inline mb-2">
-                                            <input class="form-check-input" type="radio" name="size8" id="xl7">
-                                            <label class="form-option-label" for="xl7">XL</label>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
-                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
-                                </div>
-                            </div>
+                            
+                            
                         </div>
                     </div>
                     <hr class="my-3">
                     <!-- Pagination-->
-                    <nav class="d-flex justify-content-between pt-2" aria-label="Page navigation">
+                    <nav class="d-flex justify-content-between pt-2" aria-label="Page navigation" ng-if="shop.totalPage > 1">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#"><i class="ci-arrow-left me-2"></i>Prev</a></li>
+                            <li class="page-item"><button class="page-link" aria-label="Trở về trước một trang" ng-click="shop.filter.changePage(shop.filter.currentPage-1)"><i class="ci-arrow-left me-2"></i>Về trước</a></li>
                         </ul>
                         <ul class="pagination">
-                            <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 5</span></li>
-                            <li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">1<span class="visually-hidden">(current)</span></span>
+                            <li class="page-item d-sm-none"><span class="page-link page-link-static">{{shop.filter.currentPage+1}} / {{shop.totalPage}}</span></li>
+                            <li class="page-item d-none d-sm-block" ng-attr-aria-current="{{shop.filter.currentPage === $index ? 'active':''}}" 
+                                ng-class="shop.filter.currentPage === $index ? 'active':''"
+                                ng-repeat="p in [].constructor(shop.totalPage) track by $index">
+                                <span class="page-link" ng-if="shop.filter.currentPage === $index">{{ $index+1 }}<span class="visually-hidden">(current)</span></span>
+                                <button class="page-link" href="#" ng-if="shop.filter.currentPage != $index" ng-click="shop.filter.changePage($index)">{{ $index+1 }}</button>
                             </li>
-                            <li class="page-item d-none d-sm-block"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item d-none d-sm-block"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item d-none d-sm-block"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item d-none d-sm-block"><a class="page-link" href="#">5</a></li>
                         </ul>
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#" aria-label="Next">Next<i class="ci-arrow-right ms-2"></i></a></li>
+                            <li class="page-item"><button class="page-link" aria-label="Tiến tới thêm một trang" ng-click="shop.filter.changePage(shop.filter.currentPage+1)">Tiếp theo<i class="ci-arrow-right ms-2"></i></button></li>
                         </ul>
                     </nav>
                 </section>

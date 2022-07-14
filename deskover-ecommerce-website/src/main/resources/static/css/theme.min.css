@@ -51,7 +51,7 @@
     --bs-black-rgb: 0, 0, 0;
     --bs-body-color-rgb: 75, 86, 107;
     --bs-body-bg-rgb: 255, 255, 255;
-    --bs-font-sans-serif: "Rubik", sans-serif;
+    --bs-font-sans-serif: "Roboto", sans-serif;
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
     --bs-body-font-family: var(--bs-font-sans-serif);
@@ -17364,7 +17364,7 @@ a.nav-link:hover .media-tab-media {
 }
 
 .page-item.active>.page-link {
-    box-shadow: 0 .5rem 1.125rem -0.425rem rgba(254, 105, 106, .9)
+    box-shadow: 0 .5rem 1.125rem -0.425rem rgba(102, 177, 255, 0.8)
 }
 
 .pagination .page-link {
@@ -19578,3 +19578,34 @@ html:not([dir=rtl]) .range-slider-ui.noUi-horizontal .noUi-handle {
 }
 
 /*# sourceMappingURL=theme.min.css.map */
+
+/*
+  We are using CSS transitions for when the enter and move events
+  are triggered for the element that has the `repeated-item` class
+*/
+.repeated-item.ng-enter, .repeated-item.ng-move {
+    transition: all 0.5s linear;
+    opacity: 0;
+  }
+  
+  /*
+    `.ng-enter-active` and `.ng-move-active` are where the transition destination
+    properties are set so that the animation knows what to animate
+  */
+  .repeated-item.ng-enter.ng-enter-active,
+  .repeated-item.ng-move.ng-move-active {
+    opacity: 1;
+  }
+  
+  /*
+    We are using CSS keyframe animations for when the `leave` event
+    is triggered for the element that has the `repeated-item` class
+  */
+  .repeated-item.ng-leave {
+    animation: 0.5s my_animation;
+  }
+  
+  @keyframes my_animation {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,8 +14,11 @@ import com.deskover.entity.Brand;
 import com.deskover.entity.Category;
 import com.deskover.entity.api.BrandModel;
 import com.deskover.entity.api.CategoryModel;
+import com.deskover.entity.api.FilterModel;
+import com.deskover.entity.api.ShopModel;
 import com.deskover.service.BrandService;
 import com.deskover.service.CategoryService;
+import com.deskover.service.ShopService;
 
 @RestController
 @RequestMapping("api")
@@ -24,6 +29,9 @@ public class CustomerAPI {
 	
 	@Autowired
 	private BrandService brandService;
+	
+	@Autowired
+	private ShopService shopService;
 	
 	@GetMapping("category/all")
 	public List<CategoryModel> getAllCategory(){
@@ -45,6 +53,11 @@ public class CustomerAPI {
 			brandsModel.add(brandModel);
 		});		
 		return brandsModel;
+	}
+	
+	@PostMapping("shop/search")
+	public ShopModel search(@RequestBody FilterModel filter){
+		return shopService.search(filter);
 	}
 	
 }
