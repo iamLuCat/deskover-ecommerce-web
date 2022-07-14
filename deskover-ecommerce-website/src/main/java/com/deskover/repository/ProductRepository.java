@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.deskover.entity.Product;
 
@@ -27,5 +28,34 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	List<Product> findBySubCategoryId(Long id);
 
-	// Remo
+	@Query(value = "SELECT p FROM Product p "
+			+ "WHERE p.name LIKE %?1% "
+			+ "AND p.subCategory.category.name LIKE %?2% "
+			+ "AND p.subCategory.name LIKE %?3% "
+			+ "AND p.price BETWEEN ?4 AND ?5 "
+			+ "AND (coalesce(?6) is null OR p.brand.name IN ?6) ",
+			nativeQuery = false)
+	List<Product> search(
+			String keyword, 
+			String categories, 
+			String subcategories, 
+			Double minPrice,
+			Double maxPrice,
+			List<String> brands);
+	
+	@Query(value = "SELECT p FROM Product p "
+			+ "WHERE p.name LIKE %?1% "
+			+ "AND p.subCategory.category.slug LIKE %?2% "
+			+ "AND p.subCategory.slug LIKE %?3% "
+			+ "AND p.price BETWEEN ?4 AND ?5 "
+			+ "AND (coalesce(?6) is null OR p.brand.name IN ?6) ",
+			nativeQuery = false)
+	Page<Product> searchPage(
+			String keyword, 
+			String categories, 
+			String subcategories, 
+			Double minPrice,
+			Double maxPrice,
+			List<String> brands,
+			Pageable pageable);
 }
