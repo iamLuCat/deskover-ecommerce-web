@@ -262,6 +262,43 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
+	@Override
+	public OrderDto findByCode(String orderCode) {
+	DecimalFormat formatter = new DecimalFormat("###,###,###");
+		
+		Order order = repository.findByOrderCode(orderCode);
+		if(order == null) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+			
+		}
+		OrderDto orderDto = mapper.map(order, OrderDto.class);
+		OrderDetail orderDetail = orderDetailRepository.findByOrder(order);
+		
+		orderDto.setAddress(orderDetail.getAddress());
+		orderDto.setProvince(orderDetail.getProvince());
+		orderDto.setDistrict(orderDetail.getDistrict());
+		orderDto.setWard(orderDetail.getWard());
+		orderDto.setTel(orderDetail.getTel());
+		
+		orderDto.setCode(order.getOrderStatus().getCode());
+		orderDto.setStatus(order.getOrderStatus().getStatus());
+		
+		List<OrderItem> orderItems = orderItemRepository.findByOrderId(order.getId());
+		List<OrderItemDto> itemDtos = new ArrayList<>();
+		
+		for (OrderItem item : orderItems) {
+			OrderItemDto itemDto = new OrderItemDto();
+			itemDto.setName(item.getProduct().getName());
+			itemDto.setPrice(formatter.format(item.getPrice()));
+			itemDto.setQuantity(item.getQuantity());
+			itemDto.setImg(item.getProduct().getImage());
+			itemDtos.add(itemDto);
+		}
+		orderDto.setOrderItem(itemDtos);
+		orderDto.setTotalPrice(formatter.format(repository.getTotalOrder(order.getId())));
+		return orderDto;
+	}
+
 	
 
 

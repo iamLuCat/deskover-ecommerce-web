@@ -15,6 +15,8 @@ public interface OrderService {
 
 	OrderDto findByOrderCode(String orderCode, String status);
 	
+	OrderDto findByCode(String orderCode);
+	
 	DataOrderResquest getListOrder(String status);
 	
 	DataOrderResquest getListOrderByUser();
