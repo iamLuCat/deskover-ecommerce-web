@@ -6,25 +6,37 @@ var app = angular.module('app', [])
 
 app.controller('shopCtrl', function ($scope, $http) {
   $scope.shop = {
-    item: [],
+    items: [],
     filter: {
       keyword: '',
-      categories: [],
-      subcategories: [],
+      category: "",
+      subcategory: "",
       brands: [],
       minPrice: 0,
-      maxPrice: 0,
-      currentPage: 1,
-      itemsPerPage: 9,
-      brandsToggleSelection(brand){
-        var idx = $scope.shop.filter.brands.indexOf(brand);
-        if(idx > -1){
-          $scope.shop.filter.brands.splice(idx,1);
-        }else{
-          $scope.shop.filter.brands.push(brand);
+      maxPrice: 9999999999,
+      currentPage: 0,
+      itemsPerPage: 12,
+      sort: '1',
+      brandsToggleSelection(b) {
+        var idx = $scope.shop.filter.brands.indexOf(b);
+        if (idx > -1) {
+          $scope.shop.filter.brands.splice(idx, 1);
+        } else {
+          $scope.shop.filter.brands.push(b);
         }
-        
-      } 
+        $scope.shop.loadItems();
+      },
+      categoryToggleSelection(c,sc){
+        this.category = c;
+        this.subcategory = sc;
+        $scope.shop.loadItems();
+      },
+      changePage(p){
+        if(p > $scope.shop.totalPage - 1 || p < 0) return;
+
+        this.currentPage = p;
+        $scope.shop.loadItems();
+      }
     },
     totalPage: 0,
     totalItems: 0,
@@ -32,12 +44,14 @@ app.controller('shopCtrl', function ($scope, $http) {
     brands: [],
     init: async function () {
       await this.loadDatabase();
+      this.loadItems();
     },
     sliderUpdate(value) {
-      this.minPrice = value[0];
-      this.maxPrice = value[1];
+      this.filter.minPrice = value[0];
+      this.filter.maxPrice = value[1];
 
-      console.log(this.minPrice, this.maxPrice);
+      console.log(this.filter.minPrice, this.filter.maxPrice);
+      this.loadItems();
     },
     loadDatabase() {
       $http({
@@ -56,23 +70,39 @@ app.controller('shopCtrl', function ($scope, $http) {
       }, function errorCallback(response) {
         console.error(response.statusText);
       });
+    },
+    loadItems() {
+      $http.post("/api/shop/search", this.filter)
+        .then(resp => {
+          this.items = resp.data.items;
+          this.totalPage = resp.data.totalPage;
+          this.totalItems = resp.data.totalItems;
+          console.log(resp.data);
+          console.log(this.filter);
+
+          if(resp.data.totalPage > 0 && this.filter.currentPage > resp.data.totalPage-1){
+            this.filter.currentPage = resp.data.totalPage-1;
+          }
+        }).catch(err => {
+          console.error(err)
+        })
     }
   }
 
-}).directive('repeatDirective', function() {
-  return function(scope, element, attrs) {
-    if (scope.$last){
+}).directive('repeatDirective', function () {
+  return function (scope, element, attrs) {
+    if (scope.$last) {
       setTimeout(() => {
         for (var t = document.querySelectorAll(".widget-filter"), e = 0; e < t.length; e++)(function (e) {
-        var r = t[e].querySelector(".widget-filter-search"),
-          n = t[e].querySelector(".widget-filter-list").querySelectorAll(".widget-filter-item");
-        if (!r) return;
-        r.addEventListener("keyup", function () {
-          for (var e = r.value.toLowerCase(), t = 0; t < n.length; t++) - 1 < n[t].querySelector(".widget-filter-item-text").innerHTML.toLowerCase().indexOf(e) ? n[t].classList.remove("d-none") : n[t].classList.add("d-none")
-        })
-      })(e);
+          var r = t[e].querySelector(".widget-filter-search"),
+            n = t[e].querySelector(".widget-filter-list").querySelectorAll(".widget-filter-item");
+          if (!r) return;
+          r.addEventListener("keyup", function () {
+            for (var e = r.value.toLowerCase(), t = 0; t < n.length; t++) - 1 < n[t].querySelector(".widget-filter-item-text").innerHTML.toLowerCase().indexOf(e) ? n[t].classList.remove("d-none") : n[t].classList.add("d-none")
+          })
+        })(e);
       }, 1000)
-      
+
     }
   };
 })
