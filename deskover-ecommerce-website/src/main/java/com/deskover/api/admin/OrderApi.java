@@ -36,22 +36,22 @@ public class OrderApi {
 	@Autowired OrderRepository orderRepository;
 	
 	/*
-	 * 1 Chờ xác nhận 
-	 * 2 Xác nhận đơn hàng 
-	 * 3 Chờ lấy hàng 
-	 * 4 Lấy hàng thành công 
+	 * 1 Chờ xác nhận
+	 * 2 Xác nhận đơn hàng
+	 * 3 Chờ lấy hàng
+	 * 4 Lấy hàng thành công
 	 * 5 Lấy hàng không thành công
-	 * 6 Đang giao 
-	 * 7 Đã giao 
-	 * 8 Giao hàng không thành công 
+	 * 6 Đang giao
+	 * 7 Đã giao
+	 * 8 Giao hàng không thành công
 	 * 9.Huỷ đơn
 	 */
-	
-	//Order status
+
+	// Order status
 	@GetMapping("/order")
-	public ResponseEntity<?> doGetOrderStatus(@RequestParam("status") String status){
+	public ResponseEntity<?> doGetOrderStatus(@RequestParam("status") String status) {
 		List<Order> orders = orderService.getAllOrderStatus(status.toUpperCase());
-		if(orders.isEmpty()) {
+		if (orders.isEmpty()) {
 			ResponseEntity.notFound().build();
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Không tìm thấy đơn hàng"));
 		}
@@ -86,12 +86,12 @@ public class OrderApi {
     } 
 	
 	@GetMapping("/order-total-per-month")
-	public ResponseEntity<?> doGetPrice(){
+	public ResponseEntity<?> doGetPrice() {
 		try {
 			System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
 			String order = orderService.getToTalPricePerMonth();
 			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(order));
-			
+
 		} catch (Exception e) {
 			return ResponseEntity.ok("0");
 		}
@@ -135,11 +135,12 @@ public class OrderApi {
 	// }
 	
 	@GetMapping("/total-by-category")
-	public Map<String,String[]>importedByCateOverTheTime(){
-//		List<Object[]> totalByCategories =orderRepository.getToTalByCategory("07", "2022") ;
-		Map<String,String[]> map = new HashMap<>();
-		map.put("price",orderRepository.totalPriceByCategory("07", "2022"));
-		map.put("name",orderRepository.totalByNameCategory("07", "2022"));
+	public Map<String, String[]> importedByCateOverTheTime() {
+		// List<Object[]> totalByCategories =orderRepository.getToTalByCategory("07",
+		// "2022") ;
+		Map<String, String[]> map = new HashMap<>();
+		map.put("price", orderRepository.totalPriceByCategory("07", "2022"));
+		map.put("name", orderRepository.totalByNameCategory("07", "2022"));
 		return map;
 	}
 
