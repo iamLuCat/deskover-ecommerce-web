@@ -11,17 +11,7 @@ SELECT sum(order_item.quantity * order_item.price) as 'totalOrder'  from orders 
 
 SELECT count(*) from orders join status_order on orders.status_id = status_order.id  where status_order.`code` = 'GH-TC';
 
-SELECT category.id,category.name, sum(order_item.quantity * order_item.price) as 'totalProduct'
-from 
-	product 
-		inner join order_item 
-					on product.id = order_item.product_id 
-		join subcategory
-					on product.sub_category_id = subcategory.id 
-		join category 
-					on product.sub_category_id = category.id
-GROUP BY category.id;
-
+-- tìm tổng tiền theo loại
 SELECT category.name,  sum(order_item.quantity * order_item.price) as 'totalProduct'
 from 
 	category 
@@ -170,6 +160,8 @@ DELIMITER ;
 
 call deskover.getTotalPricePerYear('2022');
 
+-- Doanh thu tháng
+
 DROP procedure IF EXISTS `totalOrderPerMonth`;
 
 DELIMITER $$
@@ -187,9 +179,13 @@ BEGIN
     SELECT totalOrder;
 END$$
 
+
+-- Doanh thu theo loại
+
 USE `deskover`;
 DROP procedure IF EXISTS `totalByNameCategory`;
 
+-- price
 DELIMITER $$
 USE `deskover`$$
 CREATE PROCEDURE `totalByNameCategory` (IN `month` varchar(2),IN `year` varchar(4))
@@ -221,6 +217,7 @@ call deskover.totalByNameCategory('07', '2022');
 USE `deskover`;
 DROP procedure IF EXISTS `totalPriceByCategory`;
 
+-- name.
 DELIMITER $$
 USE `deskover`$$
 CREATE PROCEDURE `totalPriceByCategory` (IN `month` varchar(2),IN `year` varchar(4))
