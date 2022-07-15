@@ -1,34 +1,29 @@
 package com.deskover.service.impl;
 
-import com.deskover.dto.AdminCreateDto;
-import com.deskover.dto.AdministratorDto;
-import com.deskover.entity.AdminPassword;
-import com.deskover.entity.Administrator;
-import com.deskover.repository.AdminPasswordRepository;
-import com.deskover.repository.AdministratorRepository;
-import com.deskover.service.AdminAuthorityService;
-import com.deskover.service.AdminPasswordService;
-import com.deskover.service.AdminRoleService;
-import com.deskover.service.AdminService;
-import com.deskover.util.MapperUtil;
+import java.sql.Timestamp;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
+import com.deskover.dto.AdminCreateDto;
+import com.deskover.dto.AdministratorDto;
+import com.deskover.entity.AdminAuthority;
+import com.deskover.entity.Administrator;
+import com.deskover.repository.AdministratorRepository;
+import com.deskover.service.AdminAuthorityService;
+import com.deskover.service.AdminRoleService;
+import com.deskover.service.AdminService;
+import com.deskover.util.MapperUtil;
 
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdministratorRepository repo;
 
-    @Autowired
-    private AdminPasswordService adminPasswordService;
-
-    @Autowired
-    private AdminPasswordRepository repoPass;
-    
     @Autowired
     private AdminAuthorityService adminAuthorityService;
 
@@ -52,6 +47,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Administrator getPrincipal(String username) {
+    	return repo.findByUsername(username);
+    }
+
+    @Override
     @Transactional
     public AdministratorDto create(AdminCreateDto adminRequest) {
         if (repo.existsByUsername(adminRequest.getUsername())) {
@@ -65,12 +65,14 @@ public class AdminServiceImpl implements AdminService {
         entityAdmin.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         Administrator adminCreated = repo.save(entityAdmin);
 
-        AdminPassword createPassword = new AdminPassword();
-        createPassword.setAdmin(adminCreated);
-        createPassword.setPassword(adminRequest.getPassword());
-        AdminPassword passwordCreated = adminPasswordService.create(createPassword);
-        adminCreated.setPassword(passwordCreated);
-        adminCreated.setAuthorities(null);
+        
+        AdminAuthority defaultAuthority = new AdminAuthority();
+        defaultAuthority.setAdmin(adminCreated);
+        defaultAuthority.setRole(adminRoleService.getById(Long.valueOf(3)));
+        AdminAuthority authority = adminAuthorityService.create(defaultAuthority);
+        Set<AdminAuthority> authorities = new LinkedHashSet<AdminAuthority>();
+        authorities.add(authority);
+        adminCreated.setAuthorities(authorities);
         
 //        admin.getListRoleId().forEach(item -> {
 //            System.out.println(item);
@@ -91,13 +93,12 @@ public class AdminServiceImpl implements AdminService {
         }
     	
     	adminUpdate.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-    	adminUpdate.setModifiedUser(SecurityContextHolder.getContext().getAuthentication().getName());
+    	adminUpdate.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
     	
     	Administrator entityAdmin = MapperUtil.map(adminUpdate, Administrator.class);
     	// entityAdmin.setPassword(MapperUtil.map(adminUpdate.getPassword(), AdminPassword.class));
-    	entityAdmin.getPassword().setAdmin(entityAdmin);
-    	
-    	repoPass.saveAndFlush(entityAdmin.getPassword());
+
+//    	repoPass.saveAndFlush(entityAdmin.getPassword());
     	
     	Administrator adminUpdated = repo.saveAndFlush(entityAdmin);
  

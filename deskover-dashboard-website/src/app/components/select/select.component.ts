@@ -16,7 +16,7 @@ import {v4 as uuidv4} from 'uuid';
     styleUrls: ['./select.component.scss']
 })
 export class SelectComponent implements OnInit {
-    @HostBinding('class') classes: string = ' mb-3';
+    @HostBinding('class') classes: string = 'form-group';
     public ID: string;
     @Input() type: string;
     @Input() disabled: boolean;

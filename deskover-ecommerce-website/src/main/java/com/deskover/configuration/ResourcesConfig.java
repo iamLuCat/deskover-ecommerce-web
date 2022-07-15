@@ -18,14 +18,16 @@ public class ResourcesConfig implements WebMvcConfigurer{
 				"/fonts/**",
 				"/img/**",
 				"/js/**",
-				"/vendor/**"
+				"/vendor/**",
+				"/app/**"
 				).addResourceLocations(
 				"classpath:/static/css/",
 				"classpath:/static/dist/",
 				"classpath:/static/fonts/",
 				"classpath:/static/img/",
 				"classpath:/static/js/",
-				"classpath:/static/vendor/"
+				"classpath:/static/vendor/",
+				"classpath:/static/app/"
 				);
 	}
 }

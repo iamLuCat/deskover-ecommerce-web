@@ -1,14 +1,13 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {Observable, Subject, throwError} from 'rxjs';
 import {catchError} from "rxjs/operators";
 import {AlertUtils} from "@/utils/alert-utils";
 
 @Injectable({
   providedIn: 'root'
 })
-export class RestApiService {
-
+export class RestApiService{
   constructor(private httpClient: HttpClient) {
   }
 
@@ -32,8 +31,19 @@ export class RestApiService {
     return this.httpClient.post(link, body, {params}).pipe(catchError(RestApiService.handleError));
   }
 
+  postWithFile(link: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    // formData.append('body', JSON.stringify(body));
+    return this.httpClient.post(link, formData).pipe(catchError(RestApiService.handleError));
+  }
+
   put(link: string, body: any): Observable<any> {
     return this.httpClient.put(link, body).pipe(catchError(RestApiService.handleError));
+  }
+
+  putWithParams(link: string, body: any, params: HttpParams): Observable<any> {
+    return this.httpClient.put(link, body, {params}).pipe(catchError(RestApiService.handleError));
   }
 
   delete(link: string, id: number) {

@@ -27,6 +27,13 @@ export class SubcategoryService {
     return this.restApi.getOne(this.url, id);
   }
 
+  getByActive(isActive: boolean, categoryId: number): Observable<Subcategory[]> {
+    const params = new HttpParams()
+      .set("isActive", isActive.toString())
+      .set("categoryId", categoryId ? categoryId.toString() : '');
+    return this.restApi.getWithParams(this.url, params);
+  }
+
   create(subcategoryDto: SubcategoryDto): Observable<Subcategory> {
     return this.restApi.post(this.url, subcategoryDto);
   }
@@ -45,8 +52,8 @@ export class SubcategoryService {
       name: subcategory.name,
       description: subcategory.description,
       slug: subcategory.slug,
-      createdAt: subcategory.createdAt,
       modifiedAt: subcategory.modifiedAt,
+      modifiedBy: subcategory.modifiedBy,
       actived: subcategory.actived,
       categoryId: subcategory.category.id
     };

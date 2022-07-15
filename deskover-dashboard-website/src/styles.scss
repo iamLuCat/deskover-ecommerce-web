@@ -1,4 +1,4 @@
-$blue: #1c519d;
+@import "variable";
 @import "bootstrap";
 
 @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
@@ -7,27 +7,43 @@ $blue: #1c519d;
 
 @import '~admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css';
 @import '~admin-lte/dist/css/adminlte.min.css';
-
 @import '~ngx-bootstrap/datepicker/bs-datepicker.css';
 @import '~ngx-toastr/toastr';
-
 @import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
-
 @import "~animate.css/animate.min.css";
+@import "~ngx-spinner/animations/ball-scale-multiple.css";
+
+@import "common";
+
+/* width */
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(104, 105, 119, 0.4);
+  border-radius: 20px;
+}
 
 body {
   width: 100vw;
   height: 100vh;
   font-family: 'Source Sans Pro', sans-serif;
+  overflow: auto;
 }
 
-::-webkit-scrollbar {
-  width: 0;
-  background: transparent;
+.modal-body, .ck.ck-editor__main>.ck-editor__editable {
+  overflow-x: hidden !important;
 }
 
-// CSS Custom - Start
 .brand-link {
   text-align: center;
 }
@@ -35,6 +51,31 @@ body {
 .brand-image {
   display: none;
   animation: fadeOut 0.5s ease;
+}
+
+.ck-rounded-corners .ck.ck-balloon-panel, .ck.ck-balloon-panel.ck-rounded-corners {
+  z-index: 10055 !important;
+}
+
+.file-drop-area {
+  position: relative;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  text-align: center;
+  cursor: pointer;
+
+  .file-drop-input {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    opacity: 0;
+    outline: none;
+    cursor: pointer;
+    z-index: 2;
+  }
 }
 
 @media (min-width: 992px) {
@@ -59,69 +100,6 @@ body {
   border-color: $primary !important;
 }
 
-.bs-datepicker-head,
-.bs-datepicker-head, .bs-datepicker button:active,
-.bs-datepicker-body table td span.selected,
-.bs-datepicker-body table td.selected span,
-.bs-datepicker-body table td span[class*="select-"]:after,
-.bs-datepicker-body table td[class*="select-"] span:after,
-.bs-datepicker-body table td.active-week span:hover
-{
-  background-color: $primary !important;
-}
-.bs-datepicker-body table td.week span
-{
-  color: $primary !important;
-}
-
-.table-responsive {
-  .dataTables_empty {
-    display: none;
-  }
-}
-
-.invalid-feedback {
-  display: block;
-}
-
-.text-accent {
-  color: #4e54c8 !important;
-}
-
-.icon {
-  width: 25px;
-}
-
-.btn-icon {
-  padding: 0.625rem 0.875rem;
-}
-
-.bg-faded-accent {
-  background-color: rgba(78, 84, 200, .09) !important;
-}
-
-.bg-faded-info {
-  background-color: rgba(105, 179, 254, .09) !important;
-}
-
-.bg-faded-danger {
-  background-color: rgba(243, 71, 112, .09) !important;
-}
-
-.file-drop-area {
-  position: relative;
-  padding: 1rem 1rem;
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-  border: 2px dashed #dae1e7;
-  background-color: #fff;
-  text-align: center;
-  cursor: pointer;
-}
-
-.file-drop-area > img {
-  width: 150px;
-}
-
 .login-page {
   background-image: url('/assets/images/login-bg.jpg');
   background-size: cover;
@@ -129,7 +107,21 @@ body {
   background-repeat: no-repeat;
 }
 
-// CSS Custom - End
+.nav-sidebar .nav-link p {
+  white-space: nowrap;
+}
+
+// Sidebar menu animation
+// Needed for open/close menu animation for menus with child nodes
+.nav .nav-item:not(.menu-open) > .ng-trigger-openClose,
+.nav .nav-item > .ng-trigger-openClose.ng-animating {
+  overflow: hidden;
+  display: block;
+}
+// Override original AdminLTE transform
+.nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
+  transform: none;
+}
 
 .user-menu > .nav-link {
   cursor: pointer;
@@ -190,6 +182,13 @@ body {
   content: '';
 }
 
+@media (min-width: 576px) {
+  .user-menu > .dropdown-menu > .user-body a {
+    background: #ffffff !important;
+    color: #495057 !important;
+  }
+}
+
 .user-menu > .dropdown-menu > .user-footer {
   background-color: #f8f9fa;
   padding: 10px;
@@ -205,6 +204,12 @@ body {
   color: #6c757d;
 }
 
+@media (min-width: 576px) {
+  .user-menu > .dropdown-menu > .user-footer .btn-default:hover {
+    background-color: #f8f9fa;
+  }
+}
+
 .user-menu .user-image {
   border-radius: 50%;
   float: left;
@@ -212,6 +217,15 @@ body {
   margin-right: 10px;
   margin-top: -2px;
   width: 2.1rem;
+}
+
+@media (min-width: 576px) {
+  .user-menu .user-image {
+    float: none;
+    line-height: 10px;
+    margin-right: 0.4rem;
+    margin-top: -8px;
+  }
 }
 
 .user-menu .user-image {
@@ -223,28 +237,4 @@ body {
 
 .content {
   padding: 0 0.5rem;
-}
-
-@media (min-width: 576px) {
-  .user-menu > .dropdown-menu > .user-footer .btn-default:hover {
-    background-color: #f8f9fa;
-  }
-
-  .user-menu .user-image {
-    float: none;
-    line-height: 10px;
-    margin-right: 0.4rem;
-    margin-top: -8px;
-  }
-
-  .user-menu > .dropdown-menu > .user-body a {
-    background: #ffffff !important;
-    color: #495057 !important;
-  }
-}
-
-@media (max-width: 575.98px) {
-  .w-sm-100 {
-    width: 100% !important;
-  }
 }

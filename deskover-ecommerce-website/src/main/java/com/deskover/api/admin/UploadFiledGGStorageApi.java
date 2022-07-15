@@ -3,11 +3,7 @@ package com.deskover.api.admin;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import javax.websocket.server.PathParam;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,22 +15,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.ghtk.UrlGGStrogeResponDto;
-import com.deskover.service.FileService;
+import com.deskover.util.FirebaseUtil;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("v1/api/admin")
 public class UploadFiledGGStorageApi {
-	@Autowired
-	FileService fileService;
 
 	@PostMapping("/upload-file")
 	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile files) {
 		try {
 			String fileName = files.getOriginalFilename();
 			
-			File file = fileService.convertToFile(files, fileName);
-			String TEMP_URL = fileService.uploadFile(file, fileName);
+			File file = FirebaseUtil.convertToFile(files, fileName);
+			String TEMP_URL = FirebaseUtil.uploadFile(file, fileName);
 			UrlGGStrogeResponDto url = new UrlGGStrogeResponDto();
 			url.setUrl(TEMP_URL);
 			if (url.getUrl() == null) {
@@ -53,13 +47,13 @@ public class UploadFiledGGStorageApi {
 	}
 
 	@PostMapping("/upload-files")
-	public ResponseEntity<?> uploadd(@RequestParam("files") MultipartFile[] files) {
+	public ResponseEntity<?> upload(@RequestParam("files") MultipartFile[] files) {
 		try {
 			List<UrlGGStrogeResponDto> response = new ArrayList<>();
 			for (MultipartFile multipartFile : files) {
 				String fileName = multipartFile.getOriginalFilename();
-				File file = fileService.convertToFile(multipartFile, fileName);
-				String TEMP_URL = fileService.uploadFile(file, fileName);
+				File file = FirebaseUtil.convertToFile(multipartFile, fileName);
+				String TEMP_URL = FirebaseUtil.uploadFile(file, fileName);
 				UrlGGStrogeResponDto url = new UrlGGStrogeResponDto();
 				url.setUrl(TEMP_URL);
 				if (url.getUrl() == null) {

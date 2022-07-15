@@ -1,5 +1,6 @@
 package com.deskover.api.admin;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,61 +33,67 @@ import com.deskover.util.ValidationUtil;
 @CrossOrigin("*")
 @RequestMapping("v1/api/admin")
 public class SubcategoryApi {
-	
-	@Autowired
-	SubcategoryService subcategoryService;
+    @Autowired
+    SubcategoryService subcategoryService;
 
-	@GetMapping("/subcategories/{id}")
-	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
-		Subcategory subcategory = subcategoryService.getById(id);
-		return ResponseEntity.ok(Objects.requireNonNullElseGet(subcategory, () -> new MessageResponse("Not Found SubCategory")));
-	}
+    @GetMapping("/subcategories")
+    public ResponseEntity<?> doGetByActiveAndCategory(
+            @RequestParam("categoryId") Optional<Long> categoryId,
+            @RequestParam("isActive") Optional<Boolean> isActive
+    ) {
+        List<Subcategory> subcategory = subcategoryService.getAll(
+                isActive.orElse(null),
+                categoryId.orElse(null)
+        );
+        return ResponseEntity.ok(Objects.requireNonNullElseGet(subcategory, () -> new MessageResponse("Subcategory not found")));
+    }
 
-	/*@PostMapping("/subcategories/datatables")
-	public ResponseEntity<?> doGetByActiveForDatatables(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
-		return ResponseEntity.ok(subcategoryService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
-	}*/
+    @GetMapping("/subcategories/{id}")
+    public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
+        Subcategory subcategory = subcategoryService.getById(id);
+        return ResponseEntity.ok(Objects.requireNonNullElseGet(subcategory, () -> new MessageResponse("Subcategory not found")));
+    }
 
-	@PostMapping("/subcategories/datatables")
-	public ResponseEntity<?> doGetByActiveForDatatablesTest(@Valid @RequestBody DataTablesInput input,
-															@RequestParam("isActive") Optional<Boolean> isActive,
-															@RequestParam("categoryId") Optional<Long> categoryId) {
-		return ResponseEntity.ok(subcategoryService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE),
-				categoryId.orElse(null)));
-	}
+    @PostMapping("/subcategories/datatables")
+    public ResponseEntity<?> doGetByActiveForDatatablesTest(@Valid @RequestBody DataTablesInput input,
+                                                            @RequestParam("isActive") Optional<Boolean> isActive,
+                                                            @RequestParam("categoryId") Optional<Long> categoryId) {
+        return ResponseEntity.ok(subcategoryService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE),
+                categoryId.orElse(null)));
+    }
 
-	@PostMapping("/subcategories")
-	public ResponseEntity<?> doPostCreate(@Valid @RequestBody SubcategoryDto subcategoryDto, BindingResult result){
-		if (result.hasErrors()) {
-			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
-			return ResponseEntity.badRequest().body(errors);
-		}
-		try {
-			subcategoryService.create(subcategoryDto);
-			return new ResponseEntity<>(HttpStatus.CREATED);
-		}catch (Exception e) {
-			return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	
-	@PutMapping("/subcategories")
-	public ResponseEntity<?> updateSubcategory(@RequestBody SubcategoryDto subcategoryDto){
+    @PostMapping("/subcategories")
+    public ResponseEntity<?> doPostCreate(@Valid @RequestBody SubcategoryDto subcategoryDto, BindingResult result) {
+        if (result.hasErrors()) {
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
         try {
-			subcategoryService.update(subcategoryDto);
-			return new ResponseEntity<>(HttpStatus.OK);
-		}catch (Exception e) {
-			return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@DeleteMapping("/subcategories/{id}")
-	public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id){
-		try {
-			return ResponseEntity.ok(subcategoryService.changeActive(id));
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-		}
-	}
-	
+            subcategoryService.create(subcategoryDto);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @PutMapping("/subcategories")
+    public ResponseEntity<?> updateSubcategory(@RequestBody SubcategoryDto subcategoryDto) {
+        try {
+            subcategoryService.update(subcategoryDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/subcategories/{id}")
+    public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok(subcategoryService.changeActive(id));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
+    }
+
 }

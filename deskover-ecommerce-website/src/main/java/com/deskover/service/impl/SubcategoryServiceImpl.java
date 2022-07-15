@@ -34,7 +34,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     @Autowired
     private CategoryService categoryService;
-    
+
 
     @Override
     public List<Subcategory> getByCategory(Long categoryId) {
@@ -43,6 +43,15 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     public List<Subcategory> getByActive(Boolean isActive) {
         return repo.findByActived(isActive);
+    }
+
+    @Override
+    public List<Subcategory> getAll(Boolean isActive, Long categoryId) {
+        if (categoryId == null) {
+            return repo.findByActived(isActive);
+        } else {
+            return repo.findByActivedAndCategoryId(isActive, categoryId);
+        }
     }
 
     public Subcategory getById(Long id) {
@@ -87,27 +96,23 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         return subcategories;
     }
 
-
     @Override
     public Subcategory create(SubcategoryDto subcategoryDto) {
         Subcategory subcategory = MapperUtil.map(subcategoryDto, Subcategory.class);
         if (this.existsBySlug(subcategory)) {
             Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
-            subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-            subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             if (subcategoryExists != null && !subcategoryExists.getActived()) {
-                subcategoryExists.setActived(true);
-                subcategoryExists.setName(subcategory.getName());
-                subcategoryExists.setDescription(subcategory.getDescription());
-                subcategoryExists.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-                return this.update(subcategoryExists);
+                subcategory.setId(subcategoryExists.getId());
+            } else {
+                throw new IllegalArgumentException("Slug đã tồn tại");
             }
-            throw new IllegalArgumentException("Slug đã tồn tại");
-        } else {
-            subcategory.setActived(true);
-            subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-            return repo.save(subcategory);
         }
+
+        subcategory.setActived(true);
+        subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
+        return repo.save(subcategory);
     }
 
     @Override
@@ -157,7 +162,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             subcategory.setActived(Boolean.FALSE);
             subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        	List<Product> products = productService.findBySubcategoryId(subcategory.getId());
+        	List<Product> products = productService.getBySubcategoryId(subcategory.getId());
         	productService.changeDelete(products, Boolean.FALSE);
         });
         repo.saveAll(subcategories);
@@ -192,13 +197,13 @@ public class SubcategoryServiceImpl implements SubcategoryService {
                 subcategory.setActived(Boolean.FALSE);
                 subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
                 subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                List<Product> products = productService.findBySubcategoryId(subcategory.getId());
+                List<Product> products = productService.getBySubcategoryId(subcategory.getId());
                 productService.changeDelete(products, Boolean.FALSE);
             } else {
                 subcategory.setActived(Boolean.TRUE);
                 subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
                 subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-                List<Product> products = productService.findBySubcategoryId(subcategory.getId());
+                List<Product> products = productService.getBySubcategoryId(subcategory.getId());
                 productService.changeDelete(products, Boolean.TRUE);
                 repo.save(subcategory);
 
@@ -209,11 +214,5 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             throw new IllegalArgumentException("Danh mục cha đã bị vô hiệu hóa");
         }
     }
-
-//	@Override
-//	public Subcategory create(Subcategory subcategory) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 }

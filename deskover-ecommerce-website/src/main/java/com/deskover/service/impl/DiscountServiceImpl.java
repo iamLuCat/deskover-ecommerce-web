@@ -1,11 +1,12 @@
 package com.deskover.service.impl;
 
 import com.deskover.entity.Discount;
+import com.deskover.entity.Product;
 import com.deskover.repository.DiscountRepository;
 import com.deskover.repository.datatables.DiscountRepoForDatatables;
 import com.deskover.service.DiscountService;
+import com.deskover.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.datatables.mapping.Column;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class DiscountServiceImpl implements DiscountService {
@@ -25,6 +27,9 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Autowired
     private DiscountRepoForDatatables repoForDatatables;
+
+    @Autowired
+    ProductService productService;
 
     public Discount getById(Long id) {
         return repository.findById(id).orElse(null);
@@ -38,6 +43,7 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     @Transactional
     public Discount create(Discount discount) {
+        discount.setActived(Boolean.TRUE);
         discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repository.saveAndFlush(discount);
@@ -51,7 +57,15 @@ public class DiscountServiceImpl implements DiscountService {
             discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             discount.setActived(!discount.getActived());
             discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-            return repository.saveAndFlush(discount);
+            Discount result = repository.saveAndFlush(discount);
+
+            // Remove the discount from the products
+            Set<Product> products = result.getProducts();
+            for (Product product : products) {
+                product.setDiscount(null);
+            }
+
+            return result;
         } else {
             return null;
         }
@@ -59,7 +73,23 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     @Transactional
-    public Discount update(Discount discount) {
+    public Discount update(Discount discount, Long productIdToAdd, Long productIdToRemove) {
+        if (productIdToAdd != null) {
+            Product product = productService.findById(productIdToAdd);
+            product.setDiscount(discount);
+            if (productService.save(product) == null) {
+                throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
+            }
+        }
+
+        if (productIdToRemove != null) {
+            Product product = productService.findById(productIdToRemove);
+            product.setDiscount(null);
+            if (productService.save(product) == null) {
+                throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
+            }
+        }
+
         discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         discount.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repository.saveAndFlush(discount);

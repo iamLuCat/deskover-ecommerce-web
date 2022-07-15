@@ -40,8 +40,12 @@ export class DiscountService {
         return this.restApi.post(this.url, discount);
     }
 
-    update(discount: Discount): Observable<Discount> {
-        return this.restApi.put(this.url, discount);
+    update(discount: Discount, productIdToAdd: number = null, productIdToRemove: number = null): Observable<Discount> {
+        const params = new HttpParams()
+          .set("productIdToAdd", productIdToAdd ? productIdToAdd.toString() : "")
+          .set("productIdToRemove", productIdToRemove ? productIdToRemove.toString() : "");
+
+        return this.restApi.putWithParams(this.url, discount, params);
     }
 
     changeActive(id: number) {

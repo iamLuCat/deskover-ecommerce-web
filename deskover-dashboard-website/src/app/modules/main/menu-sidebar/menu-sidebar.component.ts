@@ -4,7 +4,6 @@ import {Component, HostBinding, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {AuthService} from "@services/auth.service";
-import {environment} from "../../../../environments/environment";
 
 const BASE_CLASSES = 'main-sidebar elevation-4';
 
@@ -38,38 +37,40 @@ export const MENU = [
   {
     name: 'Bảng điều khiển',
     path: ['/'],
-    icon: 'fas fa-tachometer-alt'
+    iconClasses: 'fas fa-tachometer-alt'
   },
   {
     header: 'QUẢN LÝ',
     name: 'Danh mục',
-    icon: 'fas fa-layer-group',
+    iconClasses: 'fas fa-layer-group',
     children: [
       {
         name: 'Danh mục chính',
-        path: ['/category']
+        path: ['/category'],
+        iconClasses: 'fa-duotone fa-circle-dot',
       },
 
       {
         name: 'Danh mục con',
-        path: ['/subcategory']
+        path: ['/subcategory'],
+        iconClasses: 'fa-duotone fa-circle-dot',
       }
     ]
   },
   {
     name: 'Thương hiệu',
     path: ['/brand'],
-    icon: 'fas fa-copyright'
+    iconClasses: 'fas fa-copyright'
   },
   {
     name: 'Khuyến mãi',
     path: ['/promotion'],
-    icon: 'fa-solid fa-badge-percent'
+    iconClasses: 'fa-solid fa-badge-percent'
   },
   {
     name: 'Sản phẩm',
     path: ['/product'],
-    icon: 'fa-brands fa-product-hunt'
+    iconClasses: 'fa-brands fa-product-hunt'
   }
 
 ];

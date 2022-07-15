@@ -51,7 +51,7 @@
     --bs-black-rgb: 0, 0, 0;
     --bs-body-color-rgb: 75, 86, 107;
     --bs-body-bg-rgb: 255, 255, 255;
-    --bs-font-sans-serif: "Rubik", sans-serif;
+    --bs-font-sans-serif: "Roboto", sans-serif;
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
     --bs-body-font-family: var(--bs-font-sans-serif);

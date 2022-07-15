@@ -50,13 +50,14 @@ public class Administrator implements Serializable {
     @Column(name = "avatar", length = 128)
     private String avatar;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "admin")
-    private AdminPassword password;
-
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
     private Set<AdminAuthority> authorities = new LinkedHashSet<>();
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
 }

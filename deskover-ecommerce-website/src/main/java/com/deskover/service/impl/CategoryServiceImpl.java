@@ -84,19 +84,15 @@ public class CategoryServiceImpl implements CategoryService {
 		if (this.existsBySlug(category)) {
 			Category categoryExists = repo.findBySlug(category.getSlug());
 			if (categoryExists != null && !categoryExists.getActived()) {
-				categoryExists.setActived(Boolean.TRUE);
-				categoryExists.setName(category.getName());
-				categoryExists.setDescription(category.getDescription());
-				categoryExists.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return this.update(categoryExists);
+				category.setId(categoryExists.getId());
+			} else {
+				throw new IllegalArgumentException("Slug đã tồn tại");
 			}
-			throw new IllegalArgumentException("Slug đã tồn tại");
-		} else {
-			category.setActived(Boolean.TRUE);
-			category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			category.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			return repo.save(category);
 		}
+		category.setActived(Boolean.TRUE);
+		category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+		category.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		return repo.save(category);
 	}
 
 	@Override
