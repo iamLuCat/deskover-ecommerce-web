@@ -50,6 +50,7 @@ import {CKEditorComponent} from '@components/ckeditor/ckeditor.component';
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import {ModalModule} from "ngx-bootstrap/modal";
 import {IConfig, NgxMaskModule} from "ngx-mask";
+import {NgxSpinnerModule} from "ngx-spinner";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -87,27 +88,28 @@ export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
     ProductComponent,
     CKEditorComponent,
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
-    HttpClientModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true
-    }),
-    DataTablesModule,
-    TooltipModule,
-    BsDatepickerModule,
-    TimepickerModule,
-    CKEditorModule,
-    ModalModule,
-    NgxMaskModule.forRoot(),
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
+        HttpClientModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot({
+            timeOut: 3000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true
+        }),
+        DataTablesModule,
+        TooltipModule,
+        BsDatepickerModule,
+        TimepickerModule,
+        CKEditorModule,
+        ModalModule,
+        NgxMaskModule.forRoot(),
+        NgxSpinnerModule,
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

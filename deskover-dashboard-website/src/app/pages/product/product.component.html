@@ -212,12 +212,11 @@
             </div>
             <div class="col-12 col-lg-8">
               <div class="row mb-3">
-                <div class="col-12 col-md-6 mb-3 mb-md-0">
-                  <a href="javascript:void(0)">
-                    <img class="img-fluid img-thumbnail" alt="Product"
-                         [src]="getImageSrc(product.image)">
-                  </a>
-
+                <div class="col-12 col-md-6 mb-3 mb-md-0 file-drop-area">
+                  <img class="img-fluid img-thumbnail" alt="Product"
+                       [src]="getImageSrc(product.image)">
+                  <input type="file" name="image" id="image" class="file-drop-input"
+                         (change)="onFileChanged($event)">
                 </div>
                 <div class="col-12 col-md-6">
                   <div class="row row-cols-2 g-3">

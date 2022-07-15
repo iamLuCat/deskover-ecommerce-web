@@ -41,4 +41,10 @@ export class ProductService {
   changeActive(id: number) {
     return this.restApi.delete(this.url, id);
   }
+
+  uploadImage(id: number, file: File): Observable<Product> {
+    const formData = new FormData();
+    formData.append('file', file);
+    // return this.restApi.postWithFile();
+  }
 }
