@@ -178,7 +178,7 @@ BEGIN
     );
     SELECT totalOrder;
 END$$
-
+DELIMITER ;
 
 -- Doanh thu theo loại
 
