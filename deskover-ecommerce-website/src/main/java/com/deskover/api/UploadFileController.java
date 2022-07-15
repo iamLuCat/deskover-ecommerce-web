@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,23 +31,6 @@ public class UploadFileController {
                 .toUriString();
         try {
             UploadFileResponse uploadFileResponse = uploadFileService.uploadAdminAvatar(file, baseUrl);
-            return ResponseEntity.ok(uploadFileResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @PostMapping("/upload-file/product-thumbnail")
-    public ResponseEntity<?> handleFileUpload(
-            @RequestParam("file") MultipartFile file,
-            HttpServletRequest request
-    ) {
-        String baseUrl = ServletUriComponentsBuilder.fromRequestUri(request)
-                .replacePath(null)
-                .build()
-                .toUriString();
-        try {
-            UploadFileResponse uploadFileResponse = uploadFileService.uploadImageProduct(file, baseUrl);
             return ResponseEntity.ok(uploadFileResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
