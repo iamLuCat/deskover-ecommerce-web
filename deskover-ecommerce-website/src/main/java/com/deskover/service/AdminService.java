@@ -9,7 +9,7 @@ public interface AdminService {
     Administrator getByUsername(String username);
     AdministratorDto getPrincipal();
 
-    AdministratorDto getPrincipal(String username);
+    Administrator getPrincipal(String username);
 
     AdministratorDto create(AdminCreateDto adminRequest);
     AdministratorDto update(AdministratorDto adminUpdate);

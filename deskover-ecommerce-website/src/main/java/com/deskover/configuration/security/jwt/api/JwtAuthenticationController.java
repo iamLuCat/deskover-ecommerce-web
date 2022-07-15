@@ -1,7 +1,5 @@
 package com.deskover.configuration.security.jwt.api;
 
-import com.deskover.dto.AdministratorDto;
-import com.deskover.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +19,8 @@ import com.deskover.configuration.security.jwt.JwtUserDetailsService;
 import com.deskover.configuration.security.jwt.entity.JwtRequest;
 import com.deskover.configuration.security.jwt.entity.JwtResponse;
 import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.entity.Administrator;
+import com.deskover.service.AdminService;
 import com.deskover.util.JwtTokenUtil;
 
 @RestController
@@ -56,7 +56,7 @@ public class JwtAuthenticationController {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		AdministratorDto adminProfile = adminService.getPrincipal(userDetails.getUsername());
+		Administrator adminProfile = adminService.getPrincipal(userDetails.getUsername());
 		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(), adminProfile.getAuthorities()));
 	}
 	
