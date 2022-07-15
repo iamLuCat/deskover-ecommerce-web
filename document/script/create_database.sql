@@ -48,7 +48,7 @@ CREATE TABLE administrator (
 
 INSERT administrator (id,username,`password`,fullname,modified_by)
 VALUES 	(1,'minhnh','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Hoài Minh','haipv'),
-		(2,'vupq','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Phạm Quang Vũ','haipv'),
+		(2,'vupq06','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Phạm Quang Vũ','haipv'),
 		(3,'haipv','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Phạm Văn Hải','haipv'),
         (4,'manager1','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Thị Lài','haipv'),
 		(5,'staff1','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Tuyết Vân','haipv'),
@@ -69,7 +69,7 @@ CREATE TABLE admin_authority (
 
 INSERT INTO admin_authority (id, role_id, admin_id) VALUES
 (1, 1, 1),
-(2, 1, 2),
+(2, 5, 2),
 (3, 1, 3),
 (4, 2, 4),
 (5, 3, 5),

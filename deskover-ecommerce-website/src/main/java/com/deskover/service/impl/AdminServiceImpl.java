@@ -47,8 +47,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AdministratorDto getPrincipal(String username) {
-        return MapperUtil.map(repo.findByUsername(username), AdministratorDto.class);
+    public Administrator getPrincipal(String username) {
+    	return repo.findByUsername(username);
     }
 
     @Override

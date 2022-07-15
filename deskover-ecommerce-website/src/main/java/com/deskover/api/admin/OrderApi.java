@@ -73,8 +73,18 @@ public class OrderApi {
 		}
 	
 	}
-
 	
+	@GetMapping("/order/delivery")
+	public ResponseEntity<?> doGetDelivery(@RequestParam("status") String status){
+		try {
+			DataOrderResquest dtos = orderService.getListOrder(status);
+			return ResponseEntity.ok(dtos);
+
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));
+		}
+	}
+
 	@GetMapping("/order-7days")
 	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
 			try {
