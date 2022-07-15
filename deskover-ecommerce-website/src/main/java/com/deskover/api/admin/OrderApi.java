@@ -133,6 +133,35 @@ public class OrderApi {
 //	}
 	
 
+	
+
+	@PostMapping("/order/{orderCode}")
+	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status,
+			@RequestParam("note") String note){
+		try {
+			 orderService.pickupOrder(orderCode,status,note);
+			 return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
+		}
+	}
+
+
+
+	// DashBoard-ADMIN
+
+	// @GetMapping("/total-by-category")
+	// public ResponseEntity<?> dogetTotal(){
+	//
+	// String[] result1 = orderRepository.totalByNameCategory("07", "2022");
+	// String[] result2 = orderRepository.totalPriceByCategory("07", "2022");
+	// String[][] data = new String[2][result1.length];
+	// data[0] = result1;
+	// data[1] = result2;
+	//
+	// return ResponseEntity.ok(data);
+	// }
+	
 	@GetMapping("/total-by-category")
 	public Map<String,String[]>importedByCateOverTheTime(){
 //		List<Object[]> totalByCategories =orderRepository.getToTalByCategory("07", "2022") ;
