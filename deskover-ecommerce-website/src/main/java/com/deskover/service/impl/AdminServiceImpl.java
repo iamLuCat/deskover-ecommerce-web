@@ -47,6 +47,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public AdministratorDto getPrincipal(String username) {
+        return MapperUtil.map(repo.findByUsername(username), AdministratorDto.class);
+    }
+
+    @Override
     @Transactional
     public AdministratorDto create(AdminCreateDto adminRequest) {
         if (repo.existsByUsername(adminRequest.getUsername())) {

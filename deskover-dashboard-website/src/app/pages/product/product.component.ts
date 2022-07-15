@@ -326,7 +326,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
       if (image.indexOf('http') === 0) {
         return image;
       }
-      return `${environment.globalUrl.avatar}/images/${image}`;
+      return `${environment.globalUrl.avatarUser}/images/${image}`;
     }
   }
 
