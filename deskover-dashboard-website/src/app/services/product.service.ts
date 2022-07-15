@@ -5,6 +5,7 @@ import {DataTablesResponse} from "@/entites/data-tables-response";
 import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Product} from "@/entites/product";
+import {UploadedImage} from "@/entites/uploaded-image";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class ProductService {
     return this.restApi.delete(this.url, id);
   }
 
-  uploadImage(id: number, file: File): Observable<Product> {
+  uploadImage(file: File): Observable<UploadedImage> {
     return this.restApi.postWithFile(environment.globalUrl.uploadProductImageApi, file);
   }
 }

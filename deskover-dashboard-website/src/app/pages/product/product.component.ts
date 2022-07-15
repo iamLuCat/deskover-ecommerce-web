@@ -14,6 +14,7 @@ import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
 import {ProductThumbnail} from "@/entites/product-thumbnail";
 import { environment } from 'environments/environment';
+import {UploadedImage} from "@/entites/uploaded-image";
 
 @Component({
   selector: 'app-product',
@@ -31,6 +32,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
   brand: Brand;
 
   category_id_filter: number = null;
+  uploadedImage: UploadedImage;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -326,7 +328,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
       if (image.indexOf('http') === 0) {
         return image;
       }
-      return `${environment.globalUrl.avatarUser}/images/${image}`;
     }
   }
 
@@ -340,7 +341,10 @@ export class ProductComponent implements OnInit, AfterViewInit {
     const inputName = $event.target['name'];
     switch (inputName) {
       case 'image':
-
+        this.productService.uploadImage(file).subscribe(data => {
+          this.uploadedImage = data;
+          this.product.image = this.uploadedImage.url;
+        });
         break;
     }
   }

@@ -24,13 +24,13 @@ public class UploadFileServiceImpl implements UploadFileService {
         return uploadFile(avatarFile, PRODUCT_IMAGE_FOLDER, baseUrl);
     }
 
-    private UploadFileResponse uploadFile(MultipartFile avatarFile, String path, String baseUrl) {
-        if (avatarFile.isEmpty()) {
+    private UploadFileResponse uploadFile(MultipartFile file, String path, String baseUrl) {
+        if (file.isEmpty()) {
             throw new MyFileNotFoundException("Không tìm thấy file");
         }
-        File uploadedFile = FileUtil.uploadFile(avatarFile, FileUtil.STATIC_FOLDER_DIR + path);
+        File uploadedFile = FileUtil.uploadFile(file, FileUtil.STATIC_FOLDER_DIR + path);
         return new UploadFileResponse(
-                baseUrl + path + avatarFile.getOriginalFilename(),
+                baseUrl + path + file.getOriginalFilename(),
                 uploadedFile.getName()
         );
     }

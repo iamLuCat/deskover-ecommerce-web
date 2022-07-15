@@ -3,6 +3,7 @@ package com.deskover.util.storage;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.Objects;
 
 public class FileUtil {
     public static String STATIC_FOLDER_DIR = "src/main/resources/static";
@@ -16,9 +17,7 @@ public class FileUtil {
         if (!uploadFolder.exists()) {
             uploadFolder.mkdirs();
         }
-        File uploadedFile = new File(uploadFolder.getAbsolutePath() + "/" + file.getOriginalFilename());
-        System.out.println(uploadFolder.getAbsolutePath());
-        System.out.println(uploadedFile.getAbsolutePath());
+        File uploadedFile = new File(uploadFolder.getAbsolutePath(), Objects.requireNonNull(file.getOriginalFilename()));
         try {
             file.transferTo(uploadedFile);
         } catch (Exception e) {
