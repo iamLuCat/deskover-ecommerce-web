@@ -333,4 +333,15 @@ export class ProductComponent implements OnInit, AfterViewInit {
   compareFn(c1: any, c2: any): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
+
+
+  onFileChanged($event: Event) {
+    const file: File = $event.target['files'][0];
+    const inputName = $event.target['name'];
+    switch (inputName) {
+      case 'image':
+
+        break;
+    }
+  }
 }

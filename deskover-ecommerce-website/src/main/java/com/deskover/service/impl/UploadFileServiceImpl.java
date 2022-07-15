@@ -8,20 +8,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.Objects;
 
 @Service
 public class UploadFileServiceImpl implements UploadFileService {
-    private final String ADMIN_AVATAR_DIR = FileUtil.STATIC_FOLDER + "/img/admin/avatar";
+    private final String AVATAR_ADMIN_FOLDER = "/img/admin/avatars/";
+    private final String PRODUCT_IMAGE_FOLDER = "/img/shop/products/";
 
     @Override
     public UploadFileResponse uploadAdminAvatar(MultipartFile avatarFile, String baseUrl) {
+        return uploadFile(avatarFile, AVATAR_ADMIN_FOLDER, baseUrl);
+    }
+
+    @Override
+    public UploadFileResponse uploadImageProduct(MultipartFile avatarFile, String baseUrl) {
+        return uploadFile(avatarFile, PRODUCT_IMAGE_FOLDER, baseUrl);
+    }
+
+    private UploadFileResponse uploadFile(MultipartFile avatarFile, String path, String baseUrl) {
         if (avatarFile.isEmpty()) {
             throw new MyFileNotFoundException("Không tìm thấy file");
         }
-        File uploadedFile = FileUtil.uploadFile(avatarFile, ADMIN_AVATAR_DIR);
+        File uploadedFile = FileUtil.uploadFile(avatarFile, FileUtil.STATIC_FOLDER_DIR + path);
         return new UploadFileResponse(
-                baseUrl + "/img/admin/avatar/" + uploadedFile.getName(),
+                baseUrl + path + avatarFile.getOriginalFilename(),
                 uploadedFile.getName()
         );
     }

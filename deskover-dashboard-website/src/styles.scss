@@ -12,6 +12,7 @@
 @import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 @import "~animate.css/animate.min.css";
+@import "~ngx-spinner/animations/ball-scale-multiple.css";
 
 @import "common";
 
@@ -56,6 +57,27 @@ body {
   z-index: 10055 !important;
 }
 
+.file-drop-area {
+  position: relative;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  text-align: center;
+  cursor: pointer;
+
+  .file-drop-input {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    opacity: 0;
+    outline: none;
+    cursor: pointer;
+    z-index: 2;
+  }
+}
+
 @media (min-width: 992px) {
   .sidebar-mini.sidebar-collapse .brand-image {
     display: block;
@@ -76,20 +98,6 @@ body {
 .page-item.active .page-link {
   background-color: $primary !important;
   border-color: $primary !important;
-}
-
-.file-drop-area {
-  position: relative;
-  padding: 1rem 1rem;
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-  border: 2px dashed #dae1e7;
-  background-color: #fff;
-  text-align: center;
-  cursor: pointer;
-}
-
-.file-drop-area > img {
-  width: 150px;
 }
 
 .login-page {

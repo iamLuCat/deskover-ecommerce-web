@@ -19,8 +19,8 @@ public class UploadFileController {
     @Autowired
     private UploadFileService uploadFileService;
 
-    @PostMapping("/upload-file/avatar-admin")
-    public ResponseEntity<?> handleFileUpload(
+    @PostMapping("/upload-file/admin-avatar")
+    public ResponseEntity<?> uploadAdminAvatar(
             @RequestParam("file") MultipartFile file,
             HttpServletRequest request
     ) {
@@ -30,6 +30,23 @@ public class UploadFileController {
                 .toUriString();
         try {
             UploadFileResponse uploadFileResponse = uploadFileService.uploadAdminAvatar(file, baseUrl);
+            return ResponseEntity.ok(uploadFileResponse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/upload-file/product-thumbnail")
+    public ResponseEntity<?> handleFileUpload(
+            @RequestParam("file") MultipartFile file,
+            HttpServletRequest request
+    ) {
+        String baseUrl = ServletUriComponentsBuilder.fromRequestUri(request)
+                .replacePath(null)
+                .build()
+                .toUriString();
+        try {
+            UploadFileResponse uploadFileResponse = uploadFileService.uploadImageProduct(file, baseUrl);
             return ResponseEntity.ok(uploadFileResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
