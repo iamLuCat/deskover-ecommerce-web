@@ -41,4 +41,8 @@ export class ProductService {
   changeActive(id: number) {
     return this.restApi.delete(this.url, id);
   }
+
+  uploadImage(id: number, file: File): Observable<Product> {
+    return this.restApi.postWithFile(environment.globalUrl.uploadProductImageApi, file);
+  }
 }

@@ -8,6 +8,9 @@ public interface AdminService {
     Administrator getById(Long id);
     Administrator getByUsername(String username);
     AdministratorDto getPrincipal();
+
+    AdministratorDto getPrincipal(String username);
+
     AdministratorDto create(AdminCreateDto adminRequest);
     AdministratorDto update(AdministratorDto adminUpdate);
     void delete(Long id);

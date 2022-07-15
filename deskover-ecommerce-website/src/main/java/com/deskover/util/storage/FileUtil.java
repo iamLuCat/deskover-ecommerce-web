@@ -3,10 +3,9 @@ package com.deskover.util.storage;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.Objects;
 
 public class FileUtil {
-    public static String STATIC_FOLDER = "src/main/resources/static";
+    public static String STATIC_FOLDER_DIR = "src/main/resources/static";
 
     public static String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);

@@ -326,11 +326,22 @@ export class ProductComponent implements OnInit, AfterViewInit {
       if (image.indexOf('http') === 0) {
         return image;
       }
-      return `${environment.globalUrl.avatar}/images/${image}`;
+      return `${environment.globalUrl.avatarUser}/images/${image}`;
     }
   }
 
   compareFn(c1: any, c2: any): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
+
+
+  onFileChanged($event: Event) {
+    const file: File = $event.target['files'][0];
+    const inputName = $event.target['name'];
+    switch (inputName) {
+      case 'image':
+
+        break;
+    }
   }
 }
