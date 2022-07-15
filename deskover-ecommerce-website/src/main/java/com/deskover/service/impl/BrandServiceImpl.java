@@ -1,21 +1,22 @@
-package com.deskover.service.impl;
+ package com.deskover.service.impl;
 
-import com.deskover.entity.Brand;
-import com.deskover.entity.Category;
-import com.deskover.repository.BrandRepository;
-import com.deskover.repository.datatables.BrandRepoForDatatables;
-import com.deskover.service.BrandService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
+import java.sql.Timestamp;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.sql.Timestamp;
-import java.util.List;
+import com.deskover.entity.Brand;
+import com.deskover.repository.BrandRepository;
+import com.deskover.repository.datatables.BrandRepoForDatatables;
+import com.deskover.service.BrandService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
 
 @Service
 public class BrandServiceImpl implements BrandService {
