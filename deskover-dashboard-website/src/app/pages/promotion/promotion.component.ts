@@ -251,21 +251,6 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       $('.product-table').DataTable().ajax.reload(null, false);
     });
 
-    body.on('click', '.btn-edit', function () {
-      const id = $(this).data('id');
-      self.editDiscount(id);
-    });
-
-    body.on('click', '.btn-delete', function () {
-      const id = $(this).data('id');
-      self.deleteDiscount(id);
-    });
-
-    body.on('click', '.btn-active', function () {
-      const id = $(this).data('id');
-      self.activeDiscount(id);
-    });
-
     body.on('click', '.btn-product', function () {
       const id = $(this).data('id');
       self.getProduct(id);

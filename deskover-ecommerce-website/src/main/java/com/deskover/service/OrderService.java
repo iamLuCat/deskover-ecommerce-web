@@ -27,7 +27,7 @@ public interface OrderService {
 
 	DataTotaPrice7DaysAgo doGetTotalPrice7DaysAgo();
 
-	void pickupOrder(String orderCode,String code);
+	void pickupOrder(String orderCode,String code,String note);
 	
 //	List<TotalByCategory> getToTalByCategoty()
 

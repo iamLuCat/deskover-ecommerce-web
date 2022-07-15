@@ -32,10 +32,9 @@ import com.deskover.util.DecimalFormatUtil;
 public class OrderApi {
 	@Autowired
 	private OrderService orderService;
-
-	@Autowired
-	OrderRepository orderRepository;
-
+	
+	@Autowired OrderRepository orderRepository;
+	
 	/*
 	 * 1 Chờ xác nhận
 	 * 2 Xác nhận đơn hàng
@@ -58,10 +57,10 @@ public class OrderApi {
 		}
 		return ResponseEntity.ok(orders);
 	}
-
+	
 	@GetMapping("/order/{orderCode}")
 	public ResponseEntity<?> doGetOrderByOrderCode(@PathVariable("orderCode") String orderCode,
-			@RequestParam("status") String status) {
+					@RequestParam("status") String status){
 		try {
 			if(status.isBlank()) {
 				OrderDto orderDto = orderService.findByCode(orderCode);
@@ -74,6 +73,7 @@ public class OrderApi {
 		}
 	
 	}
+
 	
 	@GetMapping("/order-7days")
 	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
@@ -96,44 +96,30 @@ public class OrderApi {
 			return ResponseEntity.ok("0");
 		}
 	}
-
+	
 	@GetMapping("/order-count-order-per-month")
-	public ResponseEntity<?> doGetCountOrder() {
+	public ResponseEntity<?> doGetCountOrder(){
 		try {
 			String countOrder = orderService.getCountOrderPerMonth();
 			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(countOrder));
-
+			
 		} catch (Exception e) {
 			return ResponseEntity.ok("0");
 		}
 	}
 	
-	
-	
-	@GetMapping("/order/delivery")
-	public ResponseEntity<?> doGetDelivery(@RequestParam("status") String status){
-		try {
-			DataOrderResquest dtos = orderService.getListOrder(status);
-			return ResponseEntity.ok(dtos);
-
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));
-		}
-	}
-	
-	
 	@PostMapping("/order/{orderCode}")
-	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status){
+	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status,
+			@RequestParam("note") String note){
 		try {
-			 orderService.pickupOrder(orderCode,status);
+			 orderService.pickupOrder(orderCode,status,note);
 			 return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
 		}
 	}
-
-
-
+	
+	
 	// DashBoard-ADMIN
 
 	// @GetMapping("/total-by-category")

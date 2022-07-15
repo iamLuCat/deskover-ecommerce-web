@@ -13,6 +13,7 @@ export interface Product {
   description: string;
   price: number;
   image: string;
+  quantity: number;
   modifiedAt: Date;
   modifiedBy: string;
   actived: boolean;
@@ -22,7 +23,7 @@ export interface Product {
   brand: Brand;
   discount: Discount;
   productThumbnails: ProductThumbnail[];
-  ratings: Rating[];
-  inventories: Inventory[];
-  orderItems: OrderItem[];
+  // ratings: Rating[];
+  // inventories: Inventory[];
+  // orderItems: OrderItem[];
 }
