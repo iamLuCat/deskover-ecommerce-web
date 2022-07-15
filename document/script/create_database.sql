@@ -541,6 +541,8 @@ CREATE TABLE orders (
   status_id BIGINT DEFAULT NULL,
   full_name VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI NOT NULL,
   email VARCHAR(50) DEFAULT NULL,
+  note TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
+  shipping_not TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
@@ -12763,78 +12765,6 @@ INSERT INTO `ward` (`id`, `_name`, `_prefix`, `_province_id`, `_district_id`) VA
 (11282, 'Trùng Khánh', 'Thị trấn', 63, 709),
 (11283, 'Trung Phúc', 'Xã', 63, 709);
 
--- PROC
-
-DROP procedure IF EXISTS `getTotalPrice_Shipping_PerDay`;
-DELIMITER $$
-CREATE PROCEDURE `getTotalPrice_Shipping_PerDay`(IN `day` varchar(2),IN `month` varchar(2),IN `year` varchar(4), IN modified_by varchar(50))
-BEGIN
-	DECLARE totalPricePerDay varchar(20) DEFAULT 0;
-	SET totalPricePerDay = 
-    ( 
-					SELECT SUM( order_item.quantity * order_item.price) as 'total'
-			FROM 
-				orders 
-					INNER JOIN order_item ON orders.id = order_item.order_id
-			WHERE
-                DAY(orders.created_at) = `day`
-                AND MONTH(orders.created_at)= `month`
-                AND YEAR(orders.created_at) = `year`
-                AND orders.modified_by = modified_by
-    );
-    SELECT totalPricePerDay;
-END$$
-
-DELIMITER ;
-;
-call deskover.getTotalPrice_Shipping_PerDay('07', '07', '2022', 'minhnh');
--- doanh thu thang
-
-DROP procedure IF EXISTS `getTotalPrice_Shiping_PerMonth`;
-
-DELIMITER $$
-CREATE  PROCEDURE `getTotalPrice_Shiping_PerMonth`(IN `month` varchar(2),IN `year` varchar(4), IN modified_by varchar(50))
-BEGIN
-		DECLARE totalPricePerMonth varchar(20) DEFAULT 0;
-		SET totalPricePerMonth = 
-    ( 
-					SELECT SUM( order_item.quantity * order_item.price) as 'Total'
-			FROM 
-				orders 
-					INNER JOIN order_item ON orders.id = order_item.order_id
-			WHERE
-				MONTH(orders.created_at)= `month`
-                AND YEAR(orders.created_at) = `year`
-                AND orders.modified_by = modified_by
-    );
-    SELECT totalPricePerMonth;
-END$$
-DELIMITER ;
-;
-call deskover.getTotalPrice_Shiping_PerMonth('07', '2022', 'minhnh');
-
-
--- doanh thu nam
-DROP procedure IF EXISTS `getTotalPricePerYear`;
-
-DELIMITER $$
-CREATE PROCEDURE `getTotalPricePerYear` (IN `year` varchar(50))
-BEGIN
-	DECLARE totalPricePerYear varchar(20) DEFAULT 0;
-		SET totalPricePerYear = 
-    ( 
-					SELECT SUM( order_item.quantity * order_item.price) as 'Total_year'
-			FROM 
-				orders 
-					INNER JOIN order_item ON orders.id = order_item.order_id
-			WHERE
-			     YEAR(orders.created_at) = `year`
-    );
-    SELECT totalPricePerYear;
-END$$
-DELIMITER ;
-
-call deskover.getTotalPricePerYear('2022');
 
 
 

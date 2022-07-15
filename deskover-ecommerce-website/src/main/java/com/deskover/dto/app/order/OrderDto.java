@@ -34,6 +34,10 @@ public class OrderDto {
 
 	    private String createdAt;
 	    
+	    private String note;
+	    
+	    private String shipping_note;
+	    
 		private String code;
 		
 		private String status;
