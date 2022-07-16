@@ -1,4 +1,4 @@
-package com.deskover.util.storage;
+package com.deskover.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UploadFileResponse {
+public class UploadFile {
     private String url;
     private String filename;
 }

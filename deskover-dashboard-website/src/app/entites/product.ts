@@ -2,9 +2,6 @@ import {Subcategory} from "@/entites/subcategory";
 import {Brand} from "@/entites/brand";
 import {Discount} from "@/entites/discount";
 import {ProductThumbnail} from "@/entites/product-thumbnail";
-import {Rating} from "@/entites/rating";
-import {Inventory} from "@/entites/inventory";
-import {OrderItem} from "@/entites/order-item";
 
 export interface Product {
   id: number;
@@ -13,6 +10,8 @@ export interface Product {
   description: string;
   price: number;
   image: string;
+  imageUrl: string;
+  imageFile: File;
   quantity: number;
   modifiedAt: Date;
   modifiedBy: string;
@@ -23,7 +22,4 @@ export interface Product {
   brand: Brand;
   discount: Discount;
   productThumbnails: ProductThumbnail[];
-  // ratings: Rating[];
-  // inventories: Inventory[];
-  // orderItems: OrderItem[];
 }

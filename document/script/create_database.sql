@@ -245,7 +245,8 @@ CREATE TABLE product (
   id BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   slug VARCHAR(150) NOT NULL,
-  image TEXT DEFAULT NULL,
+  image VARCHAR(255) DEFAULT NULL,
+  image_url VARCHAR(255) DEFAULT 'assets/images/no-image.png',
   video VARCHAR(255) DEFAULT NULL,
   `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   `spec` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
@@ -263,7 +264,7 @@ CREATE TABLE product (
   CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id)
 );
 
-insert product (id,`name`,slug,image,video,price,sub_category_id,brand_id,discount_id,modified_by)
+insert product (id,`name`,slug,image_url,video,price,sub_category_id,brand_id,discount_id,modified_by)
 values 	
 		-- asus
 			-- laptop-van-phong
@@ -380,13 +381,14 @@ CREATE TABLE product_thumbnail (
   id BIGINT NOT NULL AUTO_INCREMENT,
   product_id BIGINT NOT NULL,
   thumbnail VARCHAR(255) DEFAULT NULL,
+  thumbnail_url VARCHAR(255) DEFAULT 'assets/images/no-image.png',
   modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_ProductThumbnail_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
-insert product_thumbnail (id,product_id,thumbnail,modified_by)
+insert product_thumbnail (id,product_id,thumbnail_url,modified_by)
 values 	
 		(1,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4','haipv'),
         (2,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png?alt=media&token=5e9b9bea-25fb-4b12-a00a-4c14fed33ee0','haipv'),

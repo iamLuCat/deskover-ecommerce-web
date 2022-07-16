@@ -44,6 +44,8 @@ export class ProductService {
   }
 
   uploadImage(file: File): Observable<UploadedImage> {
-    return this.restApi.postWithFile(environment.globalUrl.uploadProductImageApi, file);
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.restApi.postWithFile(environment.globalUrl.uploadProductImageApi, formData);
   }
 }

@@ -63,13 +63,13 @@ public class SubcategoryApi {
     }
 
     @PostMapping("/subcategories")
-    public ResponseEntity<?> doPostCreate(@Valid @RequestBody SubcategoryDto subcategoryDto, BindingResult result) {
+    public ResponseEntity<?> doPostCreate(@Valid @RequestBody Subcategory subcategory, BindingResult result) {
         if (result.hasErrors()) {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         try {
-            subcategoryService.create(subcategoryDto);
+            subcategoryService.create(subcategory);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
@@ -78,9 +78,9 @@ public class SubcategoryApi {
 
 
     @PutMapping("/subcategories")
-    public ResponseEntity<?> updateSubcategory(@RequestBody SubcategoryDto subcategoryDto) {
+    public ResponseEntity<?> updateSubcategory(@RequestBody Subcategory subcategory) {
         try {
-            subcategoryService.update(subcategoryDto);
+            subcategoryService.update(subcategory);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);

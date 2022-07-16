@@ -31,9 +31,7 @@ export class RestApiService{
     return this.httpClient.post(link, body, {params}).pipe(catchError(RestApiService.handleError));
   }
 
-  postWithFile(link: string, file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
+  postWithFile(link: string, formData: FormData): Observable<any> {
     return this.httpClient.post(link, formData).pipe(catchError(RestApiService.handleError));
   }
 

@@ -1,10 +1,10 @@
 package com.deskover.service;
 
-import com.deskover.util.storage.UploadFileResponse;
+import com.deskover.dto.UploadFile;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface UploadFileService {
-    UploadFileResponse uploadAdminAvatar(MultipartFile avatarFile, String baseUrl);
+    UploadFile uploadAdminAvatar(MultipartFile file, String baseUrl);
 
-    UploadFileResponse uploadImageProduct(MultipartFile avatarFile, String baseUrl);
+    UploadFile uploadImageProduct(MultipartFile file, String baseUrl);
 }
