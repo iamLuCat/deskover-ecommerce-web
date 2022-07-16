@@ -99,7 +99,7 @@ public class AdministratorApi {
 		}
 	}
 
-	@DeleteMapping("/administrator/authority")
+	@PostMapping("/administrator/authority")
 	public ResponseEntity<?> doChangeRole(@RequestParam(value = "adminId", required = true) Long adminId,
 			@RequestParam(value = "roleId", required = true) Long roleId) {
 		try {

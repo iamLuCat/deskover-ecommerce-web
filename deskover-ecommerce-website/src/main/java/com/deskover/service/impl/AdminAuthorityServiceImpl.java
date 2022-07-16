@@ -60,6 +60,7 @@ public class AdminAuthorityServiceImpl implements AdminAuthorityService {
         return repo.findByAdminIdAndRoleId(adminId,roleId);
     }
 
+    @Transactional
     @Override
     public void changeRole(Long adminId, Long roleId) {
         if(repo.existsByAdminIdAndRoleId(adminId,roleId)){
