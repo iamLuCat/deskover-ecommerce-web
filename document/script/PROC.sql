@@ -240,8 +240,36 @@ BEGIN
 	GROUP BY category.id;
 	
 END$$
-
 DELIMITER ;
+
+USE `deskover`;
+DROP procedure IF EXISTS `getToTalByCategory`;
+DELIMITER $$
+USE `deskover`$$
+CREATE PROCEDURE `getToTalByCategory` (IN `month` varchar(2),IN `year` varchar(4))
+BEGIN
+	SELECT category.name,  sum(order_item.quantity * order_item.price) as 'totalProduct'
+	from 
+		category 
+			join subcategory
+						on subcategory.category_id = category.id 
+			inner join product 
+						on subcategory.id = product.sub_category_id 
+
+			join order_item 
+						on product.id = order_item.product_id
+			join orders
+						on order_item.order_id = orders.id
+			where
+						month(orders.created_at) = `month`
+						and year(orders.created_at) = `year`
+	GROUP BY category.id;
+	
+END$$
+DELIMITER ;
+
+call deskover.getToTalByCategory('07', '2022');
+
 
 
 

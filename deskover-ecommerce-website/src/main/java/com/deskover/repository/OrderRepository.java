@@ -35,6 +35,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	
 	
 	//DashBoard-Admin
+	
+	@Query(value="{CALL getToTalByCategory(:month, :year)}", nativeQuery = true)
+	List<Object[]> getToTalByCategory(@Param("month") String month,@Param("year") String year);
+	
 	@Query(value="{CALL totalByNameCategory(:month, :year)}", nativeQuery = true)
 	String[] totalByNameCategory(@Param("month") String month,@Param("year") String year);
 	
