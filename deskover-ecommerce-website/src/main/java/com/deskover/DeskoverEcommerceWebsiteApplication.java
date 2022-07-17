@@ -28,6 +28,7 @@ public class DeskoverEcommerceWebsiteApplication {
         } catch (UnknownHostException e) {
  
             e.printStackTrace();
+           
         }
 	}
 	
