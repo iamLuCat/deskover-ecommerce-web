@@ -1,9 +1,15 @@
 package com.deskover.api.admin;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,6 +28,9 @@ import com.deskover.dto.AdminCreateDto;
 import com.deskover.dto.AdminUpdatePassDto;
 import com.deskover.dto.AdministratorDto;
 import com.deskover.entity.Administrator;
+import com.deskover.entity.Brand;
+import com.deskover.entity.Category;
+import com.deskover.entity.Product;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminService;
 import com.deskover.util.ValidationUtil;
@@ -37,6 +46,32 @@ public class AdministratorApi {
 
 	@Autowired
 	private ModelMapper mapper;
+
+	@GetMapping("/administrator")
+	public ResponseEntity<?> doGetIsActived(@RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size, @RequestParam("isActive") Optional<Boolean> isActive) {
+		Page<Administrator> Admins = adminService.getByActived(isActive.orElse(Boolean.TRUE), page.orElse(0),
+				size.orElse(1));
+		if (Admins.isEmpty()) {
+			return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
+		}
+		return ResponseEntity.ok(Admins);
+	}
+
+	@GetMapping("/administrator/actived")
+    public ResponseEntity<?> doGetAllActive() {
+        List<Administrator> admins = adminService.getByActived(Boolean.TRUE);
+        if (admins.isEmpty()) {
+            return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
+        }
+        return ResponseEntity.ok(admins);
+    }
+	
+	@PostMapping("/administrator/datatables")
+	public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input,
+			@RequestParam("isActive") Optional<Boolean> isActive) {
+		return ResponseEntity.ok(adminService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
+	}
 
 	@GetMapping("/administrator/{id}")
 	public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
@@ -82,7 +117,7 @@ public class AdministratorApi {
 			return ResponseEntity.badRequest().body(errors);
 		}
 		try {
-			AdministratorDto adminUpdated = adminService.updatePassowrd(admin);
+			AdministratorDto adminUpdated = adminService.updatePassword(admin);
 			return ResponseEntity.ok().body(adminUpdated);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -103,7 +138,7 @@ public class AdministratorApi {
 	public ResponseEntity<?> doChangeRole(@RequestParam(value = "adminId", required = true) Long adminId,
 			@RequestParam(value = "roleId", required = true) Long roleId) {
 		try {
-			adminAuthorityService.changeRole(adminId,roleId);
+			adminAuthorityService.changeRole(adminId, roleId);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
