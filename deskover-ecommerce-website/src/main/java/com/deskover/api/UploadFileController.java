@@ -29,7 +29,7 @@ public class UploadFileController {
                 .build()
                 .toUriString();
         try {
-            UploadFile uploadFileResponse = uploadFileService.uploadAdminAvatar(file, baseUrl);
+            UploadFile uploadFileResponse = uploadFileService.uploadAdminAvatar(file);
             return ResponseEntity.ok(uploadFileResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

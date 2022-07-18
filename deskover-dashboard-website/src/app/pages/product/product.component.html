@@ -217,7 +217,7 @@
                     <img class="img-fluid" alt="Product"
                          [src]="product?.imageUrl || 'assets/images/no-image.png'">
                     <input type="file" name="image" class="file-drop-input" accept="image/*"
-                           [(ngModel)]="product.imageFile" (change)="selectedImageChanged($event)">
+                           (change)="selectedImageChanged($event)">
                   </div>
                 </div>
                 <div class="col-12 col-md-6">
@@ -227,7 +227,7 @@
                         <img class="img-fluid" alt="Product"
                              [src]="productThumbnail?.thumbnailUrl || 'assets/images/no-image.png'">
                         <input type="file" [name]="'productThumbnail' + i" class="file-drop-input" accept="image/*"
-                               [(ngModel)]="productThumbnail.thumbnailFile" (change)="selectedThumbnailChange($event, i)">
+                               (change)="selectedThumbnailChange($event, i)">
                       </div>
                     </div>
                   </div>

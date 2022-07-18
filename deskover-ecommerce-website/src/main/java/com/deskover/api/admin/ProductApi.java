@@ -160,12 +160,8 @@ public class ProductApi {
             @RequestParam("file") MultipartFile file,
             HttpServletRequest request
     ) {
-        String baseUrl = ServletUriComponentsBuilder.fromRequestUri(request)
-                .replacePath(null)
-                .build()
-                .toUriString();
         try {
-            UploadFile uploadFileResponse = uploadFileService.uploadImageProduct(file, baseUrl);
+            UploadFile uploadFileResponse = uploadFileService.uploadImageProduct(file);
             return ResponseEntity.ok(uploadFileResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
