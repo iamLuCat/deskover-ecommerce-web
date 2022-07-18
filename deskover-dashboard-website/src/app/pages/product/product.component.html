@@ -52,7 +52,7 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh</th>
@@ -68,7 +68,7 @@
             <tbody *ngIf="products?.length !== 0">
             <tr *ngFor="let item of products; let i = index">
               <td class="align-middle">
-                <img src="{{getImageSrc(item.image)}}" class="img-thumbnail"
+                <img src="{{item.imageUrl}}" class="img-thumbnail"
                      style="max-width:70px; height: 70px" alt="product-thumbnail">
               </td>
               <td class="align-middle">
@@ -134,7 +134,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form #productForm="ngForm">
+        <form #productForm="ngForm" enctype="multipart/form-data">
           <div class="row">
             <div class="col-12 col-lg-4">
               <div class="col-12 mb-3">
@@ -212,37 +212,23 @@
             </div>
             <div class="col-12 col-lg-8">
               <div class="row mb-3">
-                <div class="col-12 col-md-6 mb-3 mb-md-0 file-drop-area">
-                  <img class="img-fluid img-thumbnail" alt="Product"
-                       [src]="getImageSrc(product.image)">
-                  <input type="file" name="image" id="image" class="file-drop-input"
-                         (change)="onFileChanged($event)">
+                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                  <div class="file-drop-area p-3 border rounded-4">
+                    <img class="img-fluid" alt="Product"
+                         [src]="product?.imageUrl || 'assets/images/no-image.png'">
+                    <input type="file" name="image" class="file-drop-input" accept="image/*"
+                           [(ngModel)]="product.imageFile" (change)="selectedImageChanged($event)">
+                  </div>
                 </div>
                 <div class="col-12 col-md-6">
                   <div class="row row-cols-2 g-3">
-                    <div class="col">
-                      <a href="javascript:void(0)">
-                        <img class="img-fluid img-thumbnail" alt="Product"
-                             [src]="getImageSrc(product.productThumbnails[0]?.thumbnail)">
-                      </a>
-                    </div>
-                    <div class="col">
-                      <a href="javascript:void(0)">
-                        <img class="img-fluid img-thumbnail" alt="Product"
-                             [src]="getImageSrc(product.productThumbnails[1]?.thumbnail)">
-                      </a>
-                    </div>
-                    <div class="col">
-                      <a href="javascript:void(0)">
-                        <img class="img-fluid img-thumbnail" alt="Product"
-                             [src]="getImageSrc(product.productThumbnails[2]?.thumbnail)">
-                      </a>
-                    </div>
-                    <div class="col">
-                      <a href="javascript:void(0)">
-                        <img class="img-fluid img-thumbnail" alt="Product"
-                             [src]="getImageSrc(product.productThumbnails[3]?.thumbnail)">
-                      </a>
+                    <div class="col" *ngFor="let productThumbnail of product.productThumbnails; index as i">
+                      <div class="file-drop-area p-3 border rounded-4">
+                        <img class="img-fluid" alt="Product"
+                             [src]="productThumbnail?.thumbnailUrl || 'assets/images/no-image.png'">
+                        <input type="file" [name]="'productThumbnail' + i" class="file-drop-input" accept="image/*"
+                               [(ngModel)]="productThumbnail.thumbnailFile" (change)="selectedThumbnailChange($event, i)">
+                      </div>
                     </div>
                   </div>
                 </div>

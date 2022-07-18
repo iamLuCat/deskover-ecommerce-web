@@ -13,7 +13,9 @@ import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
 import {ProductThumbnail} from "@/entites/product-thumbnail";
-import { environment } from 'environments/environment';
+import {environment} from 'environments/environment';
+import {UploadedImage} from "@/entites/uploaded-image";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-product',
@@ -31,6 +33,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
   brand: Brand;
 
   category_id_filter: number = null;
+  uploadedImage: UploadedImage;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -42,6 +45,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
+    protected sanitizer: DomSanitizer,
     private productService: ProductService,
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
@@ -62,14 +66,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
       lengthMenu: [5, 10, 25, 50, 100],
-      scrollX: true,
       serverSide: true,
       processing: true,
-      responsive: {
-        details: {
-          type: 'column',
-        }
-      },
       stateSave: true,
       columnDefs: [{
         "defaultContent": "",
@@ -245,6 +243,9 @@ export class ProductComponent implements OnInit, AfterViewInit {
     this.productService.getById(id).subscribe(data => {
       this.product = data;
       this.category = data.subCategory.category;
+      if (this.product.productThumbnails.length < 4) {
+        this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
+      }
     });
     this.isEdit = true;
     this.getSubcategoriesByCategory();
@@ -252,6 +253,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
   }
 
   saveProduct(product: Product) {
+    console.log(product);
+    return;
     if (this.isEdit) {
       this.productService.update(product).subscribe(data => {
         AlertUtils.toastSuccess('Cập nhật thành công');
@@ -290,7 +293,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
   }
 
 
-
   /* Slugify */
   toSlug(text: string) {
     return UrlUtils.slugify(text);
@@ -318,30 +320,27 @@ export class ProductComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getImageSrc(image: string) {
-    if (!image) {
-      return 'assets/images/no-image.png';
-    } else {
-      // Kiểm tra image có phải là url hay không
-      if (image.indexOf('http') === 0) {
-        return image;
-      }
-      return `${environment.globalUrl.avatarUser}/images/${image}`;
-    }
-  }
-
   compareFn(c1: any, c2: any): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 
 
-  onFileChanged($event: Event) {
-    const file: File = $event.target['files'][0];
-    const inputName = $event.target['name'];
-    switch (inputName) {
-      case 'image':
-
-        break;
+  selectedImageChanged($event: Event) {
+    console.log($event.target['files'][0])
+    const fileReader = new FileReader();
+    fileReader.onload = async (e) => {
+      const value = this.sanitizer.bypassSecurityTrustUrl(fileReader.result as string);
+      this.product.imageUrl = value as string;
     }
+    fileReader.readAsDataURL($event.target['files'][0]);
+  }
+
+  selectedThumbnailChange($event: Event, index: number) {
+    const fileReader = new FileReader();
+    fileReader.onload = async (e) => {
+      const value = this.sanitizer.bypassSecurityTrustUrl(fileReader.result as string);
+      this.product.productThumbnails[index].thumbnailUrl = value as string;
+    }
+    fileReader.readAsDataURL($event.target['files'][0]);
   }
 }

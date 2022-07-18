@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.deskover.service.UploadFileService;
-import com.deskover.util.storage.UploadFileResponse;
+import com.deskover.dto.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -165,7 +165,7 @@ public class ProductApi {
                 .build()
                 .toUriString();
         try {
-            UploadFileResponse uploadFileResponse = uploadFileService.uploadImageProduct(file, baseUrl);
+            UploadFile uploadFileResponse = uploadFileService.uploadImageProduct(file, baseUrl);
             return ResponseEntity.ok(uploadFileResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

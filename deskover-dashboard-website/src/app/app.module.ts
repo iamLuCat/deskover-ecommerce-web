@@ -50,12 +50,9 @@ import {CKEditorComponent} from '@components/ckeditor/ckeditor.component';
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import {ModalModule} from "ngx-bootstrap/modal";
 import {IConfig, NgxMaskModule} from "ngx-mask";
-import {NgxSpinnerModule} from "ngx-spinner";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
-
-export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [
@@ -107,8 +104,7 @@ export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
         TimepickerModule,
         CKEditorModule,
         ModalModule,
-        NgxMaskModule.forRoot(),
-        NgxSpinnerModule,
+        NgxMaskModule.forRoot()
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

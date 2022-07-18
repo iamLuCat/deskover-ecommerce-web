@@ -12,7 +12,6 @@
 @import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 @import "~animate.css/animate.min.css";
-@import "~ngx-spinner/animations/ball-scale-multiple.css";
 
 @import "common";
 
@@ -40,6 +39,10 @@ body {
   overflow: auto;
 }
 
+tr, td {
+  white-space: nowrap;
+}
+
 .modal-body, .ck.ck-editor__main>.ck-editor__editable {
   overflow-x: hidden !important;
 }
@@ -62,6 +65,9 @@ body {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   text-align: center;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 100%;
 
   .file-drop-input {
     display: block;

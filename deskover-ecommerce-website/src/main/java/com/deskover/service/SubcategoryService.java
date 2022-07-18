@@ -23,16 +23,10 @@ public interface SubcategoryService {
 
 	DataTablesOutput<Subcategory> getByActiveForDatatables(DataTablesInput input, Boolean isActive, Long categoryId);
 
-	Subcategory create(SubcategoryDto subcategoryDto);
-    
-//    Subcategory create(Subcategory subcategory);
+    Subcategory create(Subcategory subcategory);
 
-	Subcategory update(SubcategoryDto subcategoryDto);
-
-	@Transactional
 	Subcategory update(Subcategory subcategory);
 
-	@Transactional
 	void delete(Long id);
 
 	void deleteMultiple(List<Subcategory> subcategories);

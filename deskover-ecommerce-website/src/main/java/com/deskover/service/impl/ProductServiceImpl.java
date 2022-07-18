@@ -47,29 +47,29 @@ public class ProductServiceImpl implements ProductService {
     private DiscountService discountService;
 
     public Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size) {
-            Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
-            return repository.findByActived(isActive, pageable);
+        Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
+        return repository.findByActived(isActive, pageable);
     }
 
     @Override
-	public Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size) {
-		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
-		
-			Page<Product> pages = repository.findByNameContaining(name, pageable);
-			if(!pages.isEmpty()) {
-				return pages;
-			}
-			Page<Product> pageSub = repository.findBySubCategoryNameContaining(name, pageable);
-			if (!pageSub.isEmpty()) {
-				return pageSub;
-			}
-			Page<Product> pageCate = repository.findBySubCategoryCategoryNameContaining(name, pageable);
-			if (!pageCate.isEmpty()) {
-				return pageCate;
-			}
-			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+    public Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size) {
+        Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
 
-	}
+        Page<Product> pages = repository.findByNameContaining(name, pageable);
+        if (!pages.isEmpty()) {
+            return pages;
+        }
+        Page<Product> pageSub = repository.findBySubCategoryNameContaining(name, pageable);
+        if (!pageSub.isEmpty()) {
+            return pageSub;
+        }
+        Page<Product> pageCate = repository.findBySubCategoryCategoryNameContaining(name, pageable);
+        if (!pageCate.isEmpty()) {
+            return pageCate;
+        }
+        throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+
+    }
 
     @Override
     @Transactional
@@ -154,7 +154,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive,
-            Long categoryId) {
+                                                              Long categoryId) {
         DataTablesOutput<Product> products = null;
         products = repoForDatatables.findAll(input, (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
@@ -228,6 +228,7 @@ public class ProductServiceImpl implements ProductService {
         subcategoryService.changeActive(product.getSubCategory().getId());
 
     }
+
     ProductThumbnail saveThumbnail(ProductThumbnail productThumbnail, Product product) {
         productThumbnail.setProduct(product);
         productThumbnail.setModifiedAt(new Timestamp(System.currentTimeMillis()));

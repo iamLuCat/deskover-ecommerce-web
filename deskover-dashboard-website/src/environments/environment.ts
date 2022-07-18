@@ -7,8 +7,8 @@ export const BASE_URL = 'http://localhost:8080';
 export const environment = {
   production: false,
   globalUrl: {
-    avatarUser: BASE_URL + '/img/admin/avatar',
-    productThumbnail: BASE_API + '/img/product/thumbnail',
+    getAvatarUser: BASE_URL + '/img/admin/avatar',
+    getProductThumbnail: BASE_API + '/img/shop/products',
 
     login: BASE_API + '/admin/auth/login',
     getPrincipal: BASE_API + '/admin/auth/get-principal',

@@ -59,8 +59,13 @@ public class Product implements Serializable {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "image", length = 150)
+    @Lob
+    @Column(name = "image")
     private String image;
+
+    @Lob
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
@@ -97,6 +102,7 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product")
     private Set<Rating> ratings = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 
@@ -109,4 +115,5 @@ public class Product implements Serializable {
 
     @Formula(value = "(select coalesce(AVG(r.point), 0) FROM Rating r WHERE r.product_id = id)")
     private Integer averageRating;
+
 }
