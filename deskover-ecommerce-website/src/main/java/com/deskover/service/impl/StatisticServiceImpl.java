@@ -38,11 +38,11 @@ public class StatisticServiceImpl implements StatisticService {
 
 	@Override
 	public String[][] getTotalPricePerMonthAndYear(Integer months,Integer years) {
-		String[][] result = new String[2][months];
+		
 		
 		YearMonth current = YearMonth.now();
-		
 		if(years.equals(current.getYear())) {
+			String[][] result = new String[2][months];
 			for (int i = 0; i < months; i++) {
 				String month = current.minusMonths((long)i).getMonthValue() + "";
 				String year = current.minusMonths((long)i).getYear() + "";
@@ -52,10 +52,10 @@ public class StatisticServiceImpl implements StatisticService {
 			}
 			return result;
 		}
-
-		for (int i = 0; i < months; i++) {
-			result[0][(months-1)-i] = months-i + "-" + years;
-			result[1][(months-1)-i] = repository.getTotalPricePerYear(months-i+"", years+"");
+		String[][] result = new String[2][12];
+		for (int i = 0; i < 12; i++) {
+			result[0][(12-1)-i] = 12-i + "-" + years;
+			result[1][(12-1)-i] = repository.getTotalPricePerYear(12-i+"", years+"");
 		}
  		return result;
 	}

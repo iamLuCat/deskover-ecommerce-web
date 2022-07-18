@@ -23,7 +23,6 @@ public class StatisticApi {
 	
 	@GetMapping("/dashboard")
 	public ResponseEntity<?> getTotalPricePerMonthAndYear(@RequestParam("month") Integer month, @RequestParam("year") Integer year){
-		
 		return ResponseEntity.ok(statisticService.getTotalPricePerMonthAndYear(month, year));
 	}
 
@@ -32,4 +31,5 @@ public class StatisticApi {
 		TotalPrice totalByCategories = statisticService.getToTalByCategory(month,"2022") ;
 		return totalByCategories;
 	}
+	
 }
