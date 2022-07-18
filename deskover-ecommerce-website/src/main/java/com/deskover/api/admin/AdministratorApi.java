@@ -5,11 +5,9 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -28,9 +26,6 @@ import com.deskover.dto.AdminCreateDto;
 import com.deskover.dto.AdminUpdatePassDto;
 import com.deskover.dto.AdministratorDto;
 import com.deskover.entity.Administrator;
-import com.deskover.entity.Brand;
-import com.deskover.entity.Category;
-import com.deskover.entity.Product;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminService;
 import com.deskover.util.ValidationUtil;
@@ -43,9 +38,6 @@ public class AdministratorApi {
 
 	@Autowired
 	AdminAuthorityService adminAuthorityService;
-
-	@Autowired
-	private ModelMapper mapper;
 
 	@GetMapping("/administrator")
 	public ResponseEntity<?> doGetIsActived(@RequestParam("page") Optional<Integer> page,

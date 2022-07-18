@@ -1,11 +1,11 @@
 package com.deskover.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
 import com.deskover.entity.User;
 
 public interface UserService {
-	void changeActived(Long id);
-	Page<User> findByActived(Boolean actived, Pageable Page);
+	 void changeActived(Long id);
+	 DataTablesOutput<User> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
 }
