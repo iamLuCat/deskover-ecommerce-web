@@ -45,6 +45,9 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Administrator getById(Long id) {
 		Administrator admin = repo.findById(id).orElse(null);
+		if(admin==null) {
+			 throw new IllegalArgumentException("Không tìm thấy user: "+id);
+		}
 		admin.setAuthorities(adminAuthorityService.getByAdminId(admin.getId()));
 		return admin;
 	}
