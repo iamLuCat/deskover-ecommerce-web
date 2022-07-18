@@ -139,10 +139,11 @@ DELIMITER ;
 call deskover.countOrder('07', '2022', 'minhnh');
 
 -- doanh thu nam
+use deskover;
 DROP procedure IF EXISTS `getTotalPricePerYear`;
 
 DELIMITER $$
-CREATE PROCEDURE `getTotalPricePerYear` (IN `year` varchar(50))
+CREATE PROCEDURE `getTotalPricePerYear` (IN `month` varchar(2),IN `year` varchar(4))
 BEGIN
 	DECLARE totalPricePerYear varchar(20) DEFAULT 0;
 		SET totalPricePerYear = 
@@ -153,12 +154,13 @@ BEGIN
 					INNER JOIN order_item ON orders.id = order_item.order_id
 			WHERE
 			     YEAR(orders.created_at) = `year`
+                 AND MONTH(orders.created_at) = `month`
     );
-    SELECT totalPricePerYear;
+   SELECT IF(totalPricePerYear>0, totalPricePerYear, 0);
 END$$
 DELIMITER ;
 
-call deskover.getTotalPricePerYear('2022');
+call deskover.getTotalPricePerYear('07','2022');
 
 -- Doanh thu tháng
 

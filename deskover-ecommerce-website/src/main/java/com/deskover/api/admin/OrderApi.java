@@ -1,9 +1,6 @@
 package com.deskover.api.admin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.dto.TotalPrice;
 import com.deskover.dto.app.order.OrderDto;
 import com.deskover.dto.app.order.resquest.DataOrderResquest;
 import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
@@ -130,73 +126,5 @@ public class OrderApi {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
 		}
 	}
-	
-	
-	// DashBoard-ADMIN
-
-	// @GetMapping("/total-by-category")
-	// public ResponseEntity<?> dogetTotal(){
-	//
-	// String[] result1 = orderRepository.totalByNameCategory("07", "2022");
-	// String[] result2 = orderRepository.totalPriceByCategory("07", "2022");
-	// String[][] data = new String[2][result1.length];
-	// data[0] = result1;
-	// data[1] = result2;
-	//
-	// return ResponseEntity.ok(data);
-	// }
-	
-	@GetMapping("/total-by-category")
-	public Map<String, String[]> importedByCateOverTheTime() {
-		// List<Object[]> totalByCategories =orderRepository.getToTalByCategory("07",
-		// "2022") ;
-		Map<String, String[]> map = new HashMap<>();
-		map.put("price", orderRepository.totalPriceByCategory("07", "2022"));
-		map.put("name", orderRepository.totalByNameCategory("07", "2022"));
-		return map;
-	}
-	
-//	@GetMapping("/total")
-//	public Map<String, List<Object[]>> importedByCateOverTheTimee() {
-//		
-//		List<Object[]> totalByCategories =orderRepository.getToTalByCategory("07","2022") ;
-//		
-//		List<String> array1 = new ArrayList<>();
-//		List<Double> array2 = new ArrayList<>();
-//		String[][] result = new String[2][3];
-//		totalByCategories.forEach((total)->{
-//			total[0].toString();
-//			total[1].toString();
-//			array1.add(total[0].toString());
-//			array2.add((Double) total[1]);
-//	
-//		});
-//		
-//		Map<String, List<Object[]>> map = new HashMap<>();
-//		map.put("price", totalByCategories);
-////		map.put("name", orderRepository.totalByNameCategory("07", "2022"));
-//		return map;
-//	}
-	
-	@GetMapping("/total")
-	public TotalPrice importedByCateOverTheTimee() {
-		
-		List<Object[]> totalByCategories =orderRepository.getToTalByCategory("07","2022") ;
-		
-		List<String> array1 = new ArrayList<>();
-		List<Double> array2 = new ArrayList<>();
-		
-		totalByCategories.forEach((total)->{
-			array1.add(total[0].toString());
-			array2.add((Double) total[1]);
-	
-		});
-		TotalPrice price = new TotalPrice(); 
-		price.setName(array1);
-		price.setTotalProduct(array2);
-		
-		return price;
-	}
-
 
 }

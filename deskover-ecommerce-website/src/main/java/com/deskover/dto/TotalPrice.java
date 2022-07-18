@@ -14,6 +14,6 @@ import lombok.Setter;
 public class TotalPrice {
 	
 	List<String> name;
-	List<Double> totalProduct;
+	List<Double> totalPrice;
 
 }

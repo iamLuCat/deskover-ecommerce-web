@@ -29,6 +29,8 @@ public interface OrderService {
 
 	void pickupOrder(String orderCode,String code,String note);
 	
-//	List<TotalByCategory> getToTalByCategoty()
+	//Dashboard ADMIN
+
+	
 
 }
