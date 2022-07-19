@@ -84,12 +84,14 @@ public class ProductApi {
             @RequestParam("isActive") Optional<Boolean> isActive,
             @RequestParam("categoryId") Optional<Long> categoryId,
             @RequestParam("subcategoryId") Optional<Long> subcategoryId,
-            @RequestParam("brandId") Optional<Long> brandId) {
+            @RequestParam("brandId") Optional<Long> brandId,
+            @RequestParam("isDiscount") Optional<Boolean> isDiscount) {
         DataTablesOutput<Product> output = productService.getByActiveForDatatables(
                 input,
                 isActive.orElse(Boolean.TRUE),
                 categoryId.orElse(null),
-                brandId.orElse(null)
+                brandId.orElse(null),
+                isDiscount.orElse(null)
         );
         return ResponseEntity.ok(output);
     }

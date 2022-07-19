@@ -37,7 +37,7 @@ import {CheckboxComponent} from '@components/checkbox/checkbox.component';
 import {CategoryComponent} from '@pages/category/category.component';
 import {BrandComponent} from '@pages/brand/brand.component';
 import {DataTablesModule} from 'angular-datatables';
-import {AuthInterceptor} from "@/interceptor/auth-interceptor";
+import {AuthInterceptor} from "@/interceptors/auth-interceptor";
 import {SubcategoryComponent} from '@pages/category/subcategory/subcategory.component';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {PromotionComponent} from '@pages/promotion/promotion.component';

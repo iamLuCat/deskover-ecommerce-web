@@ -35,7 +35,8 @@ public interface ProductService {
 			@Valid DataTablesInput input,
 			Boolean isActive,
 			Long categoryId,
-			Long brandId
+			Long brandId,
+			Boolean isDiscount
 	);
 
 	void changeDelete(List<Product> products, Boolean isActive);

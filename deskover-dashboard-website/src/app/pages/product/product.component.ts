@@ -14,6 +14,7 @@ import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
 import {ProductThumbnail} from "@/entites/product-thumbnail";
 import {UploadedImage} from "@/entites/uploaded-image";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-product',
@@ -72,12 +73,11 @@ export class ProductComponent implements OnInit, AfterViewInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(
-          dataTablesParameters,
-          this.isActive,
-          this.categoryIdFilter,
-          this.brandIdFilter
-        ).then(resp => {
+        const params = new HttpParams()
+          .set("isActive", this.isActive.toString())
+          .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : '')
+          .set("brandId", this.brandIdFilter ? this.brandIdFilter.toString() : '');
+        this.productService.getByActiveForDatatable(dataTablesParameters, params).then(resp => {
           self.products = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,

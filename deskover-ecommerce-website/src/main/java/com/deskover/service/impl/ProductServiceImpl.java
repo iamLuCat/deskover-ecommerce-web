@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -186,21 +188,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive,
-                                                              Long categoryId, Long brandId) {
+    public DataTablesOutput<Product> getByActiveForDatatables(
+            @Valid DataTablesInput input,
+            Boolean isActive,
+            Long categoryId,
+            Long brandId,
+            Boolean isDiscount) {
         DataTablesOutput<Product> products = null;
-        products = repoForDatatables.findAll(input, (root, query, cb) -> {
-            Predicate predicate = cb.conjunction();
+        products = repoForDatatables.findAll(input, (Specification<Product>) (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
             if (isActive != null) {
-                predicate.getExpressions().add(cb.equal(root.get("actived"), isActive));
+                predicates.add(cb.equal(root.get("actived"), isActive));
             }
             if (categoryId != null) {
-                predicate.getExpressions().add(cb.equal(root.get("subCategory").get("category").get("id"), categoryId));
+                predicates.add(cb.equal(root.get("subCategory").get("category").get("id"), categoryId));
             }
             if (brandId != null) {
-                predicate.getExpressions().add(cb.equal(root.get("brand").get("id"), brandId));
+                predicates.add(cb.equal(root.get("brand").get("id"), brandId));
             }
-            return predicate;
+            if (isDiscount != null) {
+                if (isDiscount) {
+                    predicates.add(root.get("discount").isNotNull());
+                } else {
+                    predicates.add(root.get("discount").isNull());
+                }
+            }
+            return cb.and(predicates.toArray(new Predicate[predicates.size()]));
         });
         if (products.getError() != null) {
             throw new IllegalArgumentException(products.getError());

@@ -9,6 +9,7 @@ import {ProductService} from "@services/product.service";
 import {Product} from "@/entites/product";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-promotion',
@@ -19,6 +20,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   discounts: Discount[];
   discount: Discount = <Discount>{};
   products: Product[];
+  discountProducts: Product[];
   product: Product = <Product>{};
 
   isEdit: boolean = false;
@@ -56,6 +58,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     const self = this;
+
     self.dtOptions = {
       pagingType: 'full_numbers',
       language: {
@@ -112,16 +115,10 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       ]
     };
     self.dtAllProductOptions = {
-      pagingType: 'full_numbers',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      responsive: true,
-      paging: false,
-      info: false,
-      scrollX: false,
-      scrollY: '23vh',
-      scrollCollapse: true,
+      lengthMenu: [10, 25, 50, 100],
       serverSide: true,
       processing: true,
       columnDefs: [{
@@ -129,63 +126,28 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(dataTablesParameters, true).then(resp => {
-          self.products = resp.data.filter(product => {
-            return product.discount === null;
-          });
+        const params = new HttpParams()
+          .set("isActive", this.isActive.toString())
+          .set("isDiscount", "false");
+        this.productService.getByActiveForDatatable(dataTablesParameters, params).then(resp => {
+          self.products = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: self.products
+            data: []
           });
         });
       },
       columns: [
-        {
-          title: 'Tên',
-          data: 'name',
-          className: 'align-middle',
-          responsivePriority: 0,
-        },
-        {
-          title: 'Thương hiệu',
-          data: 'brand.name',
-          className: 'align-middle',
-        },
-        {
-          title: 'Danh mục',
-          data: 'subCategory.name',
-          className: 'align-middle'
-        },
-        {
-          title: 'Công cụ',
-          data: null,
-          orderable: false,
-          searchable: false,
-          className: 'align-middle text-start text-md-end',
-          render: (data, type, full, meta) => {
-            if (self.isActive) {
-              return `
-               <button type="button" class="btn btn-add-product btn-sm bg-faded-success text-success" data-id="${data.id}">
-                  Thêm
-               </button>`
-            }
-          },
-          responsivePriority: 1
-        },
+        {data: 'name'},
+        {title: 'Công cụ',data: null,orderable: false,searchable: false},
       ]
     };
     self.dtDiscountProductOptions = {
-      pagingType: 'full_numbers',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      responsive: true,
-      paging: false,
-      info: false,
-      scrollX: false,
-      scrollY: '23vh',
-      scrollCollapse: true,
+      lengthMenu: [10, 25, 50, 100],
       serverSide: true,
       processing: true,
       columnDefs: [{
@@ -193,52 +155,21 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(dataTablesParameters, true).then(resp => {
-          self.products = resp.data.filter(product => {
-            if (product.discount) {
-              return product.discount.id === this.discount.id;
-            }
-          });
+        const params = new HttpParams()
+          .set("isActive", this.isActive.toString())
+          .set("isDiscount", "true");
+        this.productService.getByActiveForDatatable(dataTablesParameters, params).then(resp => {
+          self.discountProducts = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: self.products
+            data: []
           });
         });
       },
       columns: [
-        {
-          title: 'Tên',
-          data: 'name',
-          className: 'align-middle',
-          responsivePriority: 0,
-        },
-        {
-          title: 'Thương hiệu',
-          data: 'brand.name',
-          className: 'align-middle',
-        },
-        {
-          title: 'Danh mục',
-          data: 'subCategory.name',
-          className: 'align-middle'
-        },
-        {
-          title: 'Công cụ',
-          data: null,
-          orderable: false,
-          searchable: false,
-          className: 'align-middle text-start text-md-end',
-          render: (data, type, full, meta) => {
-            if (self.isActive) {
-              return `
-               <button type="button" class="btn btn-remove-product btn-sm bg-faded-danger text-danger" data-id="${data.id}">
-                Xoá
-               </button>`
-            }
-          },
-          responsivePriority: 1
-        },
+        {data: 'name'},
+        {title: 'Công cụ',data: null,orderable: false,searchable: false},
       ]
     };
   }
@@ -249,21 +180,6 @@ export class PromotionComponent implements OnInit, AfterViewInit {
 
     this.productDiscountModal.onShown.subscribe(() => {
       $('.product-table').DataTable().ajax.reload(null, false);
-    });
-
-    body.on('click', '.btn-product', function () {
-      const id = $(this).data('id');
-      self.getProduct(id);
-    });
-
-    body.on('click', '.btn-add-product', function () {
-      const id = $(this).data('id');
-      self.addProduct(id);
-    });
-
-    body.on('click', '.btn-remove-product', function () {
-      const id = $(this).data('id');
-      self.removeProduct(id);
     });
 
   }
