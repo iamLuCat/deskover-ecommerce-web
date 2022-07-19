@@ -16,10 +16,7 @@ export class ProductService {
   constructor(private restApi: RestApiService) {
   }
 
-  getByActiveForDatatable(tableQuery: any, isActive: boolean, categoryId: number): Promise<DataTablesResponse> {
-    const params = new HttpParams()
-      .set("isActive", isActive.toString())
-      .set("categoryId", categoryId ? categoryId.toString() : '');
+  getByActiveForDatatable(tableQuery: any, params: HttpParams): Promise<DataTablesResponse> {
     return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params).toPromise();
   }
 
