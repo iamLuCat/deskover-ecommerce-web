@@ -23,7 +23,6 @@ import com.deskover.entity.Order;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
-import com.deskover.util.QrCodeUtil;
 
 @RestController
 @CrossOrigin("*")
@@ -143,7 +142,7 @@ public class OrderApi {
 		try {
 			 return ResponseEntity.ok(orderService.managerOrder(orderCode));
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
 		}
 	}
 	

@@ -477,6 +477,7 @@ VALUE	('C-XN','Chờ xác nhận'),
         ('DG','Đang giao'),
         ('GH-TC','Giao hàng thành công'),
         ('GH-TB','Giao hàng không thành công'),
+        ('C-HUY','Chờ huỷ đơn'),
         ('HUY','Huỷ đơn');
 	
 -- Đơn đặt hàng

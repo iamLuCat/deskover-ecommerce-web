@@ -310,10 +310,15 @@ public class OrderServiceImpl implements OrderService {
 		if(order.getOrderStatus().getCode().equals("C-XN")) {
 			order.setQrCode(QrCodeUtil.QrCode(order.getOrderCode(), order.getOrderCode()));
 			order.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			order.setOrderStatus(orderStatusReponsitory.findByCode("XN-DH"));
+			order.setOrderStatus(orderStatusReponsitory.findByCode("C-LH"));
+			return repository.saveAndFlush(order);
+		}else if (order.getOrderStatus().getCode().equals("C-HUY")) {
+			order.setQrCode(QrCodeUtil.QrCode(order.getOrderCode(), order.getOrderCode()));
+			order.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+			order.setOrderStatus(orderStatusReponsitory.findByCode("HUY"));
 			return repository.saveAndFlush(order);
 		}
-		return null;
+		throw new IllegalArgumentException("Đơn hàng code_status = 'C-XN' hoặc 'C-HUY'!!");
 	}
 
 

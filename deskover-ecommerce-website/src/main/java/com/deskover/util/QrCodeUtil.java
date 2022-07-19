@@ -27,7 +27,8 @@ public class QrCodeUtil {
 		    Path path = FileSystems.getDefault().getPath(outputFile);
 		    try {
 				MatrixToImageWriter.writeToPath(matrix, "PNG", path);
-				return "img/qrcode/"+name+".png";
+//				return "img/qrcode/"+name+".png";
+				return name+".png";
 				
 			} catch (IOException e) {
 				e.printStackTrace();
