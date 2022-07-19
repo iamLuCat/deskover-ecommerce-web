@@ -1,13 +1,16 @@
 package com.deskover.service;
 
-import com.deskover.entity.Product;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import com.deskover.dto.ProductDto;
+import com.deskover.entity.Product;
 
 public interface ProductService {
 
@@ -17,11 +20,11 @@ public interface ProductService {
 
 	List<Product> getBySubcategoryId(Long id);
 
-	Product create(Product product);
+	Product create(ProductDto productDto);
 
 	Product changeActive(Long id);
 
-	Product save(Product product);
+	Product update(Product product);
 
 	Product findById(Long id);
 
@@ -31,13 +34,7 @@ public interface ProductService {
 
 	Boolean existsBySlug(Product product);
 
-	DataTablesOutput<Product> getByActiveForDatatables(
-			@Valid DataTablesInput input,
-			Boolean isActive,
-			Long categoryId,
-			Long brandId,
-			Boolean isDiscount
-	);
+	DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive, Long categoryId);
 
 	void changeDelete(List<Product> products, Boolean isActive);
 

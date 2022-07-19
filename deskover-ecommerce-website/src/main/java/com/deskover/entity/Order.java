@@ -13,7 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -56,12 +59,6 @@ public class Order implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id")
     private OrderStatus orderStatus;
-    
-    @Column(name="note")
-    private String note;
-    
-    @Column(name="shipping_note")
-    private String shipping_note;
 
     @Column(name = "full_name", nullable = false, length = 128)
     private String fullName;

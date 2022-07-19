@@ -24,13 +24,8 @@ public class ProductThumbnail implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Lob
     @Column(name = "thumbnail")
     private String thumbnail;
-
-    @Lob
-    @Column(name = "thumbnail_url")
-    private String thumbnailUrl;
 
     @Column(name = "modified_at", nullable = false)
     private Timestamp modifiedAt;

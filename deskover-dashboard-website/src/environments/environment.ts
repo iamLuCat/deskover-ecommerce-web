@@ -1,24 +1,20 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-export const BASE_API = 'http://localhost:8080/v1/api';
-export const BASE_URL = 'http://localhost:8080';
 
 export const environment = {
   production: false,
   globalUrl: {
-    getAvatarUser: BASE_URL + '/img/admin/avatar',
-    getProductThumbnail: BASE_API + '/img/shop/products',
+    avatar: 'http://localhost:8080/assets/user/images/avatar',
 
-    login: BASE_API + '/admin/auth/login',
-    getPrincipal: BASE_API + '/admin/auth/get-principal',
-    adminApi: BASE_API + '/admin',
-    categoryApi: BASE_API + '/admin/categories',
-    subcategoryApi: BASE_API + '/admin/subcategories',
-    brandApi: BASE_API + '/admin/brands',
-    discountApi: BASE_API + '/admin/discounts',
-    productApi: BASE_API + '/admin/products',
-    uploadProductImageApi: BASE_API + '/admin/products/upload-image',
+    login: 'http://localhost:8080/v1/api/admin/auth/login',
+    getPrincipal: 'http://localhost:8080/v1/api/admin/auth/get-principal',
+    adminApi: 'http://localhost:8080/v1/api/admin',
+    categoryApi: 'http://localhost:8080/v1/api/admin/categories',
+    subcategoryApi: 'http://localhost:8080/v1/api/admin/subcategories',
+    brandApi: 'http://localhost:8080/v1/api/admin/brands',
+    discountApi: 'http://localhost:8080/v1/api/admin/discounts',
+    productApi: 'http://localhost:8080/v1/api/admin/products',
   },
 };
 

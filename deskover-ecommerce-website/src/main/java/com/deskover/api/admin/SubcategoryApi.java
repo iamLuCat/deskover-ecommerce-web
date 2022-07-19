@@ -1,21 +1,33 @@
 package com.deskover.api.admin;
 
-import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.entity.Subcategory;
-import com.deskover.service.SubcategoryService;
-import com.deskover.util.ValidationUtil;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.dto.SubcategoryDto;
+import com.deskover.entity.Subcategory;
+import com.deskover.service.SubcategoryService;
+import com.deskover.util.ValidationUtil;
 
 @RestController
 @CrossOrigin("*")
@@ -51,13 +63,13 @@ public class SubcategoryApi {
     }
 
     @PostMapping("/subcategories")
-    public ResponseEntity<?> doPostCreate(@Valid @RequestBody Subcategory subcategory, BindingResult result) {
+    public ResponseEntity<?> doPostCreate(@Valid @RequestBody SubcategoryDto subcategoryDto, BindingResult result) {
         if (result.hasErrors()) {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         try {
-            subcategoryService.create(subcategory);
+            subcategoryService.create(subcategoryDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
@@ -66,9 +78,9 @@ public class SubcategoryApi {
 
 
     @PutMapping("/subcategories")
-    public ResponseEntity<?> updateSubcategory(@RequestBody Subcategory subcategory) {
+    public ResponseEntity<?> updateSubcategory(@RequestBody SubcategoryDto subcategoryDto) {
         try {
-            subcategoryService.update(subcategory);
+            subcategoryService.update(subcategoryDto);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);

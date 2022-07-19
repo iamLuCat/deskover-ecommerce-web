@@ -4,5 +4,4 @@ import com.deskover.entity.AdminRole;
 
 public interface AdminRoleService {
     AdminRole getById(Long id);
-    AdminRole getByRoleId(String roleId);
 }

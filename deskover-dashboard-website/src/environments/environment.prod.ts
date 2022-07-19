@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   globalUrl: {
-    getAvatarUser: 'http://localhost:8080/assets/user/img/avatar',
+    avatar: 'http://localhost:8080/assets/user/img/avatar',
 
     login: 'http://localhost:8080/v1/api/admin/login',
     getPrincipal: 'http://localhost:8080/v1/api/admin/get-principal',

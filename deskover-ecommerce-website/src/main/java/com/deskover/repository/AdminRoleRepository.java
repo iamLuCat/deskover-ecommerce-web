@@ -4,5 +4,4 @@ import com.deskover.entity.AdminRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AdminRoleRepository extends JpaRepository<AdminRole, Long> {
-	AdminRole findByRoleId(String roleId);
 }

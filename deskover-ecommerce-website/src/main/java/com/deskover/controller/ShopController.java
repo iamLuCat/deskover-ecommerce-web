@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.deskover.dto.api.ProductModel;
 import com.deskover.entity.Product;
 import com.deskover.service.ProductService;
 
@@ -20,12 +21,12 @@ public class ShopController {
 	private ProductService pservice;
 	
 	@GetMapping("item")
-	public String item(@RequestParam("id") String id, Model model) {
-		if(id.isBlank()) return "redirect:index";
+	public String item(@RequestParam String p, Model model) {
+		if(p.isBlank()) return "redirect:index";
 		
 		try {
-			Product product = pservice.findById(Long.parseLong(id));
-			model.addAttribute("product", product);
+			Product product = pservice.findBySlug(p);
+			model.addAttribute("product", new ProductModel(product));
 		} catch (Exception e) {
 			 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}

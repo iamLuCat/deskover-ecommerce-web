@@ -7,6 +7,7 @@ import {SubcategoryService} from "@services/subcategory.service";
 import {CategoryService} from "@services/category.service";
 import {AlertUtils} from '@/utils/alert-utils';
 import {Category} from "@/entites/category";
+import {SubcategoryDto} from "@/dtos/subcategory-dto";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 
@@ -18,6 +19,7 @@ import {FormControlDirective} from "@angular/forms";
 export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   subcategories: Subcategory[];
   subcategory: Subcategory = <Subcategory>{};
+  subcategoryDto: SubcategoryDto = <SubcategoryDto>{};
 
   categories: Category[];
 
@@ -120,20 +122,22 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   newSubcategory() {
     this.subcategoryForm.control.reset();
     this.isEdit = false;
+    this.subcategoryDto = <SubcategoryDto>{};
     this.openModal(this.subcategoryModal);
   }
 
   getSubcategory(id: number) {
     this.subcategoryService.getOne(id).subscribe(data => {
-      this.subcategory = data;
+      this.subcategoryDto = this.subcategoryService.convertToDto(data);
+
       this.isEdit = true;
       this.openModal(this.subcategoryModal);
     });
   }
 
-  saveSubcategory(subcategory: Subcategory) {
+  saveSubcategory(subcategoryDto: SubcategoryDto) {
     if (!this.isEdit) {
-      this.subcategoryService.create(subcategory).subscribe(data => {
+      this.subcategoryService.create(subcategoryDto).subscribe(data => {
         AlertUtils.toastSuccess('Cập nhật thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
@@ -141,7 +145,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         AlertUtils.toastError(error);
       });
     } else {
-      this.subcategoryService.update(subcategory).subscribe(data => {
+      this.subcategoryService.update(subcategoryDto).subscribe(data => {
         AlertUtils.toastSuccess('Thêm mới thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
@@ -188,10 +192,6 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     }, error => {
       AlertUtils.toastError(error);
     });
-  }
-
-  compareFn(c1: any, c2: any): boolean {
-    return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 
   // Slugify

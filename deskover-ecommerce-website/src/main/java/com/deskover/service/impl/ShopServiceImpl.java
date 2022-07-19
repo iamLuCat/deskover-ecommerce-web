@@ -1,7 +1,5 @@
 package com.deskover.service.impl;
 
-import java.util.Comparator;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,9 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.deskover.dto.api.FilterModel;
+import com.deskover.dto.api.ProductModel;
+import com.deskover.dto.api.ShopModel;
 import com.deskover.entity.Product;
-import com.deskover.entity.api.FilterModel;
-import com.deskover.entity.api.ShopModel;
 import com.deskover.repository.ProductRepository;
 import com.deskover.service.ShopService;
 
@@ -55,9 +54,14 @@ public class ShopServiceImpl implements ShopService {
 				filter.getMaxPrice(), 
 				filter.getBrands(),
 				pageable);
-		
-		
-		
 		return new ShopModel(products);
+	}
+
+	@Override
+	public ProductModel getProduct(String slug) {
+		Product product = productRepo.findBySlug(slug);
+		ProductModel data = new ProductModel(product);
+		
+		return data;
 	}
 }

@@ -1,7 +1,7 @@
 import {BrandComponent} from '@pages/brand/brand.component';
 import {CategoryComponent} from '@pages/category/category.component';
 import {NgModule} from '@angular/core';
-import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from '@modules/main/main.component';
 import {LoginComponent} from '@modules/login/login.component';
 import {ProfileComponent} from '@pages/profile/profile.component';
@@ -81,7 +81,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {relativeLinkResolution: 'legacy', preloadingStrategy: PreloadAllModules})],
+  imports: [RouterModule.forRoot(routes, {relativeLinkResolution: 'legacy', preloadingStrategy: 'preloadAll'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

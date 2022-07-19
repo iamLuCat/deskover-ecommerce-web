@@ -34,18 +34,9 @@
             <label for="filter-category" class="col-form-label">Danh mục:</label>
           </div>
           <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
-            <select id="filter-category" class="form-select" [(ngModel)]="categoryIdFilter" (change)="filter()">
+            <select id="filter-category" class="form-select" [(ngModel)]="category_id_filter" (change)="filter()">
               <option [ngValue]="null">Tất cả</option>
               <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
-            </select>
-          </div>
-          <div class="col-md-auto col-sm-12">
-            <label for="filter-brand" class="col-form-label">Thương hiệu:</label>
-          </div>
-          <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
-            <select id="filter-brand" class="form-select" [(ngModel)]="brandIdFilter" (change)="filter()">
-              <option [ngValue]="null">Tất cả</option>
-              <option *ngFor="let brand of brands" [ngValue]="brand.id">{{brand.name}}</option>
             </select>
           </div>
           <!-- Filter - End -->
@@ -61,7 +52,7 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh</th>
@@ -77,7 +68,7 @@
             <tbody *ngIf="products?.length !== 0">
             <tr *ngFor="let item of products; let i = index">
               <td class="align-middle">
-                <img src="{{item.imageUrl || 'assets/images/no-image.png'}}" class="img-thumbnail"
+                <img src="{{item.image ? item.image : 'assets/images/no-image.png'}}" class="img-thumbnail"
                      style="max-width:70px; height: 70px" alt="product-thumbnail">
               </td>
               <td class="align-middle">
@@ -119,7 +110,7 @@
             </tbody>
             <tbody *ngIf="products?.length === 0">
             <tr>
-              <td colspan="8" class="text-center">Không tìm thấy kết quá</td>
+              <td colspan="5" class="text-center">Không tìm thấy kết quá</td>
             </tr>
             </tbody>
           </table>
@@ -129,9 +120,9 @@
   </div>
 </section>
 <!-- Modal - Start -->
-<div bsModal [config]="{backdrop: 'static'}" #productModal="bs-modal" class="modal" tabindex="-1" data-bs-focus="false"
+<div bsModal #productModal="bs-modal" class="modal fade" tabindex="-1" data-bs-focus="false"
      role="dialog" aria-labelledby="product-dialog-sizes">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="product-dialog-sizes" class="modal-title pull-left text-primary fw-bold">
@@ -143,114 +134,82 @@
         </button>
       </div>
       <div class="modal-body">
-        <form #productForm="ngForm" enctype="multipart/form-data">
+        <form #productForm="ngForm">
           <div class="row">
-            <div class="col-12 col-lg-4">
-              <div class="col-12 mb-3">
-                <label class="form-label" for="name">Tên</label>
-                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
-                       #name="ngModel" (keyup)="product.slug=toSlug(product.name)" required/>
-                <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-                  <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
-                </div>
-              </div>
-              <div class="col-12 mb-3">
-                <label class="form-label" for="slug">Slug</label>
-                <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug"
-                       #slug="ngModel" required/>
-                <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
-                  <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
-                </div>
-              </div>
-              <div class="col-12 mb-3">
-                <label class="form-label" for="brand">Thương hiệu</label>
-                <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
-                        [compareWith]="compareFn" #brand="ngModel" required>
-                  <option value="">-- Chọn thương hiệu --</option>
-                  <option *ngFor="let item of brands" [ngValue]="item">{{ item.name }}</option>
-                </select>
-                <div class="invalid-feedback" *ngIf="brand.invalid && (brand.dirty || brand.touched)">
-                  <span *ngIf="brand.errors?.required">Vui lòng chọn thương hiệu</span>
-                </div>
-              </div>
-              <div class="col-12 mb-3">
-                <label class="form-label" for="category">Danh mục cha</label>
-                <select class="form-control" id="category" name="category" [(ngModel)]="category"
-                        #categoryEdit="ngModel" [compareWith]="compareFn"
-                        (change)="getSubcategoriesByCategory()" required>
-                  <option value="">-- Chọn danh mục --</option>
-                  <option *ngFor="let item of categories" [ngValue]="item">{{ item.name }}</option>
-                </select>
-                <div class="invalid-feedback"
-                     *ngIf="categoryEdit.invalid && (categoryEdit.dirty || categoryEdit.touched)">
-                  <span *ngIf="categoryEdit.errors?.required">Vui lòng chọn danh mục</span>
-                </div>
-              </div>
-              <div class="col-12 mb-3" *ngIf="product.subCategory">
-                <label class="form-label" for="subCategory">Danh mục con</label>
-                <select class="form-control" id="subCategory" name="subCategory"
-                        [(ngModel)]="product.subCategory" #subCategory="ngModel"
-                        [disabled]="category.id === null" [compareWith]="compareFn" required>
-                  <option value="">-- Chọn danh mục con --</option>
-                  <option *ngFor="let item of subcategories" [ngValue]="item">{{ item.name }}</option>
-                </select>
-                <div class="invalid-feedback"
-                     *ngIf="subCategory.invalid && (subCategory.dirty || subCategory.touched)">
-                  <span *ngIf="subCategory.errors?.required">Vui lòng chọn danh mục con</span>
-                </div>
-              </div>
-              <div class="col-12 mb-3">
-                <label for="price" class="form-label">Giá</label>
-                <input class="form-control" id="price" name="price" type='text' mask="separator" thousandSeparator="."
-                       suffix=" VNĐ" [(ngModel)]="product.price" #price="ngModel" required/>
-                <div class="invalid-feedback"
-                     *ngIf="price.invalid && (price.dirty || price.touched)">
-                  <span *ngIf="price.errors?.required">Vui lòng nhập giá</span>
-                </div>
-              </div>
-              <div class="col-12 mb-3">
-                <label for="quantity" class="form-label">Số lượng</label>
-                <input class="form-control" id="quantity" type='text' mask="separator" name="quantity"
-                       thousandSeparator="." [(ngModel)]="product.quantity" #quantity="ngModel"
-                       required/>
-                <div class="invalid-feedback"
-                     *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">
-                  <span *ngIf="quantity.errors?.required">Vui lòng nhập số lượng</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-8">
-              <div class="row mb-3">
-                <div class="col-12 col-md-6 mb-3 mb-md-0">
-                  <div class="file-drop-area p-3 border rounded-4">
-                    <img class="img-fluid" alt="Product"
-                         [src]="product?.imageUrl || 'assets/images/no-image.png'">
-                    <input type="file" name="image" class="file-drop-input" accept="image/*"
-                           (change)="selectedImageChanged($event)">
+            <div class="col-8">
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label" for="name">Tên</label>
+                  <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
+                         #name="ngModel" (keyup)="product.slug=toSlug(product.name)" required/>
+                  <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+                    <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
                   </div>
                 </div>
-                <div class="col-12 col-md-6">
-                  <div class="row row-cols-2 g-3">
-                    <div class="col" *ngFor="let productThumbnail of product.productThumbnails; index as i">
-                      <div class="file-drop-area p-3 border rounded-4">
-                        <img class="img-fluid" alt="Product"
-                             [src]="productThumbnail?.thumbnailUrl || 'assets/images/no-image.png'">
-                        <input type="file" [name]="'productThumbnail' + i" class="file-drop-input" accept="image/*"
-                               (change)="selectedThumbnailChange($event, i)">
-                      </div>
-                    </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label" for="slug">Slug</label>
+                  <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug"
+                         #slug="ngModel" required/>
+                  <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
+                    <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
                   </div>
                 </div>
               </div>
-              <div class="col-12 mb-3">
-                <label class="form-label">Thông số kỹ thuật</label>
-                <app-ckeditor [id]="'spec'" [name]="'spec'"
-                              [(ngModel)]="product.spec"></app-ckeditor>
+              <div class="row">
+                <div class="col-4 mb-3">
+                  <label class="form-label" for="brand">Thương hiệu</label>
+                  <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
+                          [compareWith]="compareFn" #brand="ngModel" required>
+                    <option value="">-- Chọn thương hiệu --</option>
+                    <option *ngFor="let item of brands" [ngValue]="item">{{ item.name }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="brand.invalid && (brand.dirty || brand.touched)">
+                    <span *ngIf="brand.errors?.required">Vui lòng chọn thương hiệu</span>
+                  </div>
+                </div>
+                <div class="col-4 mb-3">
+                  <label class="form-label" for="category">Danh mục cha</label>
+                  <select class="form-control" id="category" name="category" [(ngModel)]="category"
+                          #categoryEdit="ngModel" [compareWith]="compareFn"
+                          (change)="getSubcategoriesByCategory()" required>
+                    <option value="">-- Chọn danh mục --</option>
+                    <option *ngFor="let item of categories" [ngValue]="item">{{ item.name }}</option>
+                  </select>
+                  <div class="invalid-feedback"
+                       *ngIf="categoryEdit.invalid && (categoryEdit.dirty || categoryEdit.touched)">
+                    <span *ngIf="categoryEdit.errors?.required">Vui lòng chọn danh mục</span>
+                  </div>
+                </div>
+                <div class="col-4 mb-3" *ngIf="product.subCategory">
+                  <label class="form-label" for="subCategory">Danh mục con</label>
+                  <select class="form-control" id="subCategory" name="subCategory"
+                          [(ngModel)]="product.subCategory" #subCategory="ngModel"
+                          [disabled]="category.id === null" [compareWith]="compareFn" required>
+                    <option value="">-- Chọn danh mục con --</option>
+                    <option *ngFor="let item of subcategories" [ngValue]="item">{{ item.name }}</option>
+                  </select>
+                  <div class="invalid-feedback"
+                       *ngIf="subCategory.invalid && (subCategory.dirty || subCategory.touched)">
+                    <span *ngIf="subCategory.errors?.required">Vui lòng chọn danh mục con</span>
+                  </div>
+                </div>
               </div>
-              <div class="col-12 mb-3">
-                <label class="form-label">Mô tả</label>
-                <app-ckeditor [id]="'description'" [name]="'description'"
-                              [(ngModel)]="product.description"></app-ckeditor>
+              <div class="row">
+                <div class="col-12 mb-3">
+                  <label for="price" class="form-label">Giá</label>
+                  <input class="form-control" id="price" type='text' mask="separator" thousandSeparator="."
+                         suffix=" VNĐ"/>
+                </div>
+                <div class="col-12 mb-3">
+                  <label class="form-label">Mô tả</label>
+                  <app-ckeditor [id]="'description'" [name]="'description'"
+                                [(ngModel)]="product.description"></app-ckeditor>
+                </div>
+                <div class="col-12 mb-3">
+                  <label class="form-label">Thông số kỹ thuật</label>
+                  <app-ckeditor [id]="'spec'" [name]="'spec'"
+                                [(ngModel)]="product.spec"></app-ckeditor>
+                </div>
               </div>
             </div>
           </div>

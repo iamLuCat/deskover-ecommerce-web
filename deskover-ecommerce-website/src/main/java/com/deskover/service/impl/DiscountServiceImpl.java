@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -77,7 +78,7 @@ public class DiscountServiceImpl implements DiscountService {
         if (productIdToAdd != null) {
             Product product = productService.findById(productIdToAdd);
             product.setDiscount(discount);
-            if (productService.save(product) == null) {
+            if (productService.update(product) == null) {
                 throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
             }
         }
@@ -85,7 +86,7 @@ public class DiscountServiceImpl implements DiscountService {
         if (productIdToRemove != null) {
             Product product = productService.findById(productIdToRemove);
             product.setDiscount(null);
-            if (productService.save(product) == null) {
+            if (productService.update(product) == null) {
                 throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
             }
         }

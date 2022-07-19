@@ -48,7 +48,7 @@ CREATE TABLE administrator (
 
 INSERT administrator (id,username,`password`,fullname,modified_by)
 VALUES 	(1,'minhnh','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Hoài Minh','haipv'),
-		(2,'vupq06','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Phạm Quang Vũ','haipv'),
+		(2,'vupq','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Phạm Quang Vũ','haipv'),
 		(3,'haipv','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Phạm Văn Hải','haipv'),
         (4,'manager1','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Thị Lài','haipv'),
 		(5,'staff1','$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i','Nguyễn Tuyết Vân','haipv'),
@@ -69,7 +69,7 @@ CREATE TABLE admin_authority (
 
 INSERT INTO admin_authority (id, role_id, admin_id) VALUES
 (1, 1, 1),
-(2, 5, 2),
+(2, 1, 2),
 (3, 1, 3),
 (4, 2, 4),
 (5, 3, 5),
@@ -234,7 +234,7 @@ CREATE TABLE discount (
 );
 
 insert discount (id,`name`,percent,start_date,end_date,actived,modified_by)
-values 	(1,'Black Friday',50,'2022-11-25 00:00:01','2022-11-25 23:59:59',0,'haipv'),
+values 	(1,'Black friday',50,'2022-11-25 00:00:01','2022-11-25 23:59:59',0,'haipv'),
 		(2,'Valentine','10','2022-02-14 00:00:01','2022-02-14 23:59:59',0,'haipv'),
         (3,'Lễ giáng sinh',20,'2022-12-24 00:00:01','2022-12-24 23:59:59',0,'haipv'),
         (4,'Mừng khai trương',20,'2022-01-01 00:00:01','2022-12-30 23:59:59',1,'haipv')
@@ -245,13 +245,11 @@ CREATE TABLE product (
   id BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   slug VARCHAR(150) NOT NULL,
-  image VARCHAR(255) DEFAULT NULL,
-  image_url VARCHAR(255) DEFAULT 'assets/images/no-image.png',
+  image TEXT DEFAULT NULL,
   video VARCHAR(255) DEFAULT NULL,
   `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   `spec` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-  price DOUBLE NOT NULL,
-  quantity BIGINT NOT NULL DEFAULT 1000,
+  price DOUBLE DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
   sub_category_id BIGINT DEFAULT NULL,
   brand_id BIGINT NOT NULL,
@@ -264,7 +262,7 @@ CREATE TABLE product (
   CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id)
 );
 
-insert product (id,`name`,slug,image_url,video,price,sub_category_id,brand_id,discount_id,modified_by)
+insert product (id,`name`,slug,image,video,price,sub_category_id,brand_id,discount_id,modified_by)
 values 	
 		-- asus
 			-- laptop-van-phong
@@ -381,14 +379,13 @@ CREATE TABLE product_thumbnail (
   id BIGINT NOT NULL AUTO_INCREMENT,
   product_id BIGINT NOT NULL,
   thumbnail VARCHAR(255) DEFAULT NULL,
-  thumbnail_url VARCHAR(255) DEFAULT 'assets/images/no-image.png',
   modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_ProductThumbnail_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
-insert product_thumbnail (id,product_id,thumbnail_url,modified_by)
+insert product_thumbnail (id,product_id,thumbnail,modified_by)
 values 	
 		(1,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4','haipv'),
         (2,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png?alt=media&token=5e9b9bea-25fb-4b12-a00a-4c14fed33ee0','haipv'),
@@ -427,6 +424,61 @@ CREATE TABLE rating (
     PRIMARY KEY (id),
     CONSTRAINT FK_Rating_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
+
+-- Lưu trữ
+CREATE TABLE inventory (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  product_id BIGINT NOT NULL,
+  quantity BIGINT NOT NULL,
+  modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified_by VARCHAR(50) DEFAULT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_Inventory_Product FOREIGN KEY (product_id) REFERENCES product (id)
+);
+
+insert inventory (product_id,quantity,modified_by)
+values 	(1,100,'haipv'),
+		(2,100,'haipv'),
+        (3,100,'haipv'),
+        (4,100,'haipv'),
+        (5,100,'haipv'),
+        (6,100,'haipv'),
+        (7,100,'haipv'),
+        (8,100,'haipv'),
+        (9,100,'haipv'),
+        (10,100,'haipv'),
+        (11,100,'haipv'),
+        (12,100,'haipv'),
+        (13,100,'haipv'),
+        (14,100,'haipv'),
+        (15,100,'haipv'),
+        (16,100,'haipv'),
+        (17,100,'haipv'),
+        (18,100,'haipv'),
+        (19,100,'haipv'),
+        (20,100,'haipv'),
+        (21,100,'haipv'),
+		(22,100,'haipv'),
+        (23,100,'haipv'),
+        (24,100,'haipv'),
+        (25,100,'haipv'),
+        (26,100,'haipv'),
+        (27,100,'haipv'),
+        (28,100,'haipv'),
+        (29,100,'haipv'),
+        (30,100,'haipv'),
+        (31,100,'haipv'),
+        (32,100,'haipv'),
+        (33,100,'haipv'),
+        (34,100,'haipv'),
+        (35,100,'haipv'),
+        (36,100,'haipv'),
+        (37,100,'haipv'),
+        (38,100,'haipv'),
+        (39,100,'haipv'),
+        (40,100,'haipv'),
+        (41,100,'haipv')
+;
 
 --------------------------------------------------------------------------------------------------------------
 -- Đặt hàng
@@ -489,8 +541,6 @@ CREATE TABLE orders (
   status_id BIGINT DEFAULT NULL,
   full_name VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI NOT NULL,
   email VARCHAR(50) DEFAULT NULL,
-  note TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-  shipping_note TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
@@ -12713,6 +12763,78 @@ INSERT INTO `ward` (`id`, `_name`, `_prefix`, `_province_id`, `_district_id`) VA
 (11282, 'Trùng Khánh', 'Thị trấn', 63, 709),
 (11283, 'Trung Phúc', 'Xã', 63, 709);
 
+-- PROC
+
+DROP procedure IF EXISTS `getTotalPrice_Shipping_PerDay`;
+DELIMITER $$
+CREATE PROCEDURE `getTotalPrice_Shipping_PerDay`(IN `day` varchar(2),IN `month` varchar(2),IN `year` varchar(4), IN modified_by varchar(50))
+BEGIN
+	DECLARE totalPricePerDay varchar(20) DEFAULT 0;
+	SET totalPricePerDay = 
+    ( 
+					SELECT SUM( order_item.quantity * order_item.price) as 'total'
+			FROM 
+				orders 
+					INNER JOIN order_item ON orders.id = order_item.order_id
+			WHERE
+                DAY(orders.created_at) = `day`
+                AND MONTH(orders.created_at)= `month`
+                AND YEAR(orders.created_at) = `year`
+                AND orders.modified_by = modified_by
+    );
+    SELECT totalPricePerDay;
+END$$
+
+DELIMITER ;
+;
+call deskover.getTotalPrice_Shipping_PerDay('07', '07', '2022', 'minhnh');
+-- doanh thu thang
+
+DROP procedure IF EXISTS `getTotalPrice_Shiping_PerMonth`;
+
+DELIMITER $$
+CREATE  PROCEDURE `getTotalPrice_Shiping_PerMonth`(IN `month` varchar(2),IN `year` varchar(4), IN modified_by varchar(50))
+BEGIN
+		DECLARE totalPricePerMonth varchar(20) DEFAULT 0;
+		SET totalPricePerMonth = 
+    ( 
+					SELECT SUM( order_item.quantity * order_item.price) as 'Total'
+			FROM 
+				orders 
+					INNER JOIN order_item ON orders.id = order_item.order_id
+			WHERE
+				MONTH(orders.created_at)= `month`
+                AND YEAR(orders.created_at) = `year`
+                AND orders.modified_by = modified_by
+    );
+    SELECT totalPricePerMonth;
+END$$
+DELIMITER ;
+;
+call deskover.getTotalPrice_Shiping_PerMonth('07', '2022', 'minhnh');
+
+
+-- doanh thu nam
+DROP procedure IF EXISTS `getTotalPricePerYear`;
+
+DELIMITER $$
+CREATE PROCEDURE `getTotalPricePerYear` (IN `year` varchar(50))
+BEGIN
+	DECLARE totalPricePerYear varchar(20) DEFAULT 0;
+		SET totalPricePerYear = 
+    ( 
+					SELECT SUM( order_item.quantity * order_item.price) as 'Total_year'
+			FROM 
+				orders 
+					INNER JOIN order_item ON orders.id = order_item.order_id
+			WHERE
+			     YEAR(orders.created_at) = `year`
+    );
+    SELECT totalPricePerYear;
+END$$
+DELIMITER ;
+
+call deskover.getTotalPricePerYear('2022');
 
 
 

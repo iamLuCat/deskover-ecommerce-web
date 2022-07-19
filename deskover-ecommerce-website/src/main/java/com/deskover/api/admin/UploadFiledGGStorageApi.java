@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.ghtk.UrlGGStrogeResponDto;
-import com.deskover.util.FirebaseUtil;
+import com.deskover.util.FileUtil;
 
 @RestController
 @CrossOrigin("*")
@@ -27,8 +27,8 @@ public class UploadFiledGGStorageApi {
 		try {
 			String fileName = files.getOriginalFilename();
 			
-			File file = FirebaseUtil.convertToFile(files, fileName);
-			String TEMP_URL = FirebaseUtil.uploadFile(file, fileName);
+			File file = FileUtil.convertToFile(files, fileName);
+			String TEMP_URL = FileUtil.uploadFile(file, fileName);
 			UrlGGStrogeResponDto url = new UrlGGStrogeResponDto();
 			url.setUrl(TEMP_URL);
 			if (url.getUrl() == null) {
@@ -52,8 +52,8 @@ public class UploadFiledGGStorageApi {
 			List<UrlGGStrogeResponDto> response = new ArrayList<>();
 			for (MultipartFile multipartFile : files) {
 				String fileName = multipartFile.getOriginalFilename();
-				File file = FirebaseUtil.convertToFile(multipartFile, fileName);
-				String TEMP_URL = FirebaseUtil.uploadFile(file, fileName);
+				File file = FileUtil.convertToFile(multipartFile, fileName);
+				String TEMP_URL = FileUtil.uploadFile(file, fileName);
 				UrlGGStrogeResponDto url = new UrlGGStrogeResponDto();
 				url.setUrl(TEMP_URL);
 				if (url.getUrl() == null) {
