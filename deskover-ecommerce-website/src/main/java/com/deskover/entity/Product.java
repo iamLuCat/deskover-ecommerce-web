@@ -103,4 +103,7 @@ public class Product implements Serializable {
 
     @Formula(value = "(select coalesce(AVG(r.point), 0) FROM Rating r WHERE r.product_id = id)")
     private Integer averageRating; 
+    
+    @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id)")
+    private Integer totalRating;
 }
