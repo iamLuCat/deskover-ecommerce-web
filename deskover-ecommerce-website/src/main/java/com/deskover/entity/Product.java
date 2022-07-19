@@ -1,31 +1,18 @@
 package com.deskover.entity;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Formula;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -53,8 +40,13 @@ public class Product implements Serializable {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "image", length = 150)
+    @Lob
+    @Column(name = "image")
     private String image;
+
+    @Lob
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
@@ -73,6 +65,9 @@ public class Product implements Serializable {
     @Column(name = "video")
     private String video;
 
+    @Column(name = "quantity", nullable = false)
+    private Long quantity;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "discount_id")
     private Discount discount;
@@ -88,9 +83,7 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product")
     private Set<Rating> ratings = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "product")
-    private Set<Inventory> inventories = new LinkedHashSet<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 
@@ -102,7 +95,7 @@ public class Product implements Serializable {
     private Set<ProductThumbnail> productThumbnails = new LinkedHashSet<>();
 
     @Formula(value = "(select coalesce(AVG(r.point), 0) FROM Rating r WHERE r.product_id = id)")
-    private Integer averageRating; 
+    private Integer averageRating;
     
     @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id)")
     private Integer totalRating;
