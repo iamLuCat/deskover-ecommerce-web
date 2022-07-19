@@ -187,7 +187,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive,
-                                                              Long categoryId) {
+                                                              Long categoryId, Long brandId) {
         DataTablesOutput<Product> products = null;
         products = repoForDatatables.findAll(input, (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
@@ -196,6 +196,9 @@ public class ProductServiceImpl implements ProductService {
             }
             if (categoryId != null) {
                 predicate.getExpressions().add(cb.equal(root.get("subCategory").get("category").get("id"), categoryId));
+            }
+            if (brandId != null) {
+                predicate.getExpressions().add(cb.equal(root.get("brand").get("id"), brandId));
             }
             return predicate;
         });

@@ -129,7 +129,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(dataTablesParameters, true, null).then(resp => {
+        this.productService.getByActiveForDatatable(dataTablesParameters, true).then(resp => {
           self.products = resp.data.filter(product => {
             return product.discount === null;
           });
@@ -193,7 +193,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(dataTablesParameters, true, null).then(resp => {
+        this.productService.getByActiveForDatatable(dataTablesParameters, true).then(resp => {
           self.products = resp.data.filter(product => {
             if (product.discount) {
               return product.discount.id === this.discount.id;

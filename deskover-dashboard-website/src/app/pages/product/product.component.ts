@@ -13,9 +13,7 @@ import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
 import {ProductThumbnail} from "@/entites/product-thumbnail";
-import {environment} from 'environments/environment';
 import {UploadedImage} from "@/entites/uploaded-image";
-import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-product',
@@ -32,7 +30,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
   brands: Brand[];
   brand: Brand;
 
-  category_id_filter: number = null;
+  categoryIdFilter: number = null;
+  brandIdFilter: number = null;
   uploadedImage: UploadedImage;
 
   isEdit: boolean = false;
@@ -45,7 +44,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
-    protected sanitizer: DomSanitizer,
     private productService: ProductService,
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
@@ -74,7 +72,12 @@ export class ProductComponent implements OnInit, AfterViewInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.category_id_filter).then(resp => {
+        this.productService.getByActiveForDatatable(
+          dataTablesParameters,
+          this.isActive,
+          this.categoryIdFilter,
+          this.brandIdFilter
+        ).then(resp => {
           self.products = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
