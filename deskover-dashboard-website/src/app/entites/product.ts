@@ -11,7 +11,6 @@ export interface Product {
   price: number;
   image: string;
   imageUrl: string;
-  imageFile: File;
   quantity: number;
   modifiedAt: Date;
   modifiedBy: string;

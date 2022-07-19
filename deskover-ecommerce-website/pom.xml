@@ -94,7 +94,7 @@
             <artifactId>firebase-admin</artifactId>
             <version>7.0.1</version>
         </dependency>
-        <dependency>
+		<dependency>
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>
 		</dependency>
@@ -108,6 +108,16 @@
 	        <artifactId>javase</artifactId>
 	        <version>3.3.1</version>
     	</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

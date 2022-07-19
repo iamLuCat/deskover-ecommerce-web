@@ -13,9 +13,8 @@ import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
 import {ProductThumbnail} from "@/entites/product-thumbnail";
-import {environment} from 'environments/environment';
 import {UploadedImage} from "@/entites/uploaded-image";
-import {DomSanitizer} from "@angular/platform-browser";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-product',
@@ -32,7 +31,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
   brands: Brand[];
   brand: Brand;
 
-  category_id_filter: number = null;
+  categoryIdFilter: number = null;
+  brandIdFilter: number = null;
   uploadedImage: UploadedImage;
 
   isEdit: boolean = false;
@@ -45,7 +45,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
-    protected sanitizer: DomSanitizer,
     private productService: ProductService,
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
@@ -74,7 +73,11 @@ export class ProductComponent implements OnInit, AfterViewInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.category_id_filter).then(resp => {
+        const params = new HttpParams()
+          .set("isActive", this.isActive.toString())
+          .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : '')
+          .set("brandId", this.brandIdFilter ? this.brandIdFilter.toString() : '');
+        this.productService.getByActiveForDatatable(dataTablesParameters, params).then(resp => {
           self.products = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -243,9 +246,11 @@ export class ProductComponent implements OnInit, AfterViewInit {
     this.productService.getById(id).subscribe(data => {
       this.product = data;
       this.category = data.subCategory.category;
+
       if (this.product.productThumbnails.length < 4) {
         this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
       }
+      this.product.productThumbnails.sort((a, b) => a.id - b.id);
     });
     this.isEdit = true;
     this.getSubcategoriesByCategory();
@@ -253,8 +258,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
   }
 
   saveProduct(product: Product) {
-    console.log(product);
-    return;
     if (this.isEdit) {
       this.productService.update(product).subscribe(data => {
         AlertUtils.toastSuccess('Cập nhật thành công');
@@ -326,21 +329,20 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
 
   selectedImageChanged($event: Event) {
-    console.log($event.target['files'][0])
-    const fileReader = new FileReader();
-    fileReader.onload = async (e) => {
-      const value = this.sanitizer.bypassSecurityTrustUrl(fileReader.result as string);
-      this.product.imageUrl = value as string;
-    }
-    fileReader.readAsDataURL($event.target['files'][0]);
+    const file = $event.target['files'][0];
+    this.productService.uploadImage(file).subscribe(data => {
+      this.uploadedImage = data;
+      this.product.imageUrl = this.uploadedImage.url;
+      this.product.image = this.uploadedImage.filename;
+    });
   }
 
   selectedThumbnailChange($event: Event, index: number) {
-    const fileReader = new FileReader();
-    fileReader.onload = async (e) => {
-      const value = this.sanitizer.bypassSecurityTrustUrl(fileReader.result as string);
-      this.product.productThumbnails[index].thumbnailUrl = value as string;
-    }
-    fileReader.readAsDataURL($event.target['files'][0]);
+    const file = $event.target['files'][0];
+    this.productService.uploadImage(file).subscribe(data => {
+      this.uploadedImage = data;
+      this.product.productThumbnails[index].thumbnailUrl = this.uploadedImage.url;
+      this.product.productThumbnails[index].thumbnail = this.uploadedImage.filename;
+    });
   }
 }
