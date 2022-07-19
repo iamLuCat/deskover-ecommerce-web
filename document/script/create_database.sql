@@ -483,6 +483,7 @@ VALUE	('C-XN','Chờ xác nhận'),
 CREATE TABLE orders (
   id BIGINT NOT NULL AUTO_INCREMENT,
   order_code VARCHAR(11) NOT NULL,
+  order_qr_code VARCHAR(128) DEFAULT NULL,
   user_id BIGINT DEFAULT NULL,
   shipping_id BIGINT DEFAULT NULL,
   payment_id BIGINT DEFAULT NULL,

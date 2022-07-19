@@ -40,7 +40,10 @@ public class Order implements Serializable {
 
     @Column(name = "order_code", nullable = false, length = 11)
     private String orderCode;
-
+    
+    @Column(name = "order_qr_code")
+    private String qrCode;
+    
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
