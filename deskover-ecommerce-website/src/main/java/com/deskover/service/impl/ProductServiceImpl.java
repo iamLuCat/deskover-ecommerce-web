@@ -278,4 +278,11 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+	@Override
+	public List<Product> getProductByCreateAtDesc(Boolean active) {
+		
+		return repository.findByActivedOrderByModifiedAtDesc(active);
+		
+	}
+
 }

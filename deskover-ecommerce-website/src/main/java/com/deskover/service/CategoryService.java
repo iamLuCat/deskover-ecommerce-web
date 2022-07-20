@@ -29,4 +29,5 @@ public interface CategoryService {
 	Category update(Category category);
 
 	void changeActived(Long id);
+	
 }
