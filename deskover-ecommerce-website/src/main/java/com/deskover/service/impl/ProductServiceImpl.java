@@ -1,24 +1,31 @@
 package com.deskover.service.impl;
 
+import com.deskover.constant.PathConstant;
 import com.deskover.entity.Product;
 import com.deskover.entity.ProductThumbnail;
 import com.deskover.repository.ProductRepository;
 import com.deskover.repository.ProductThumbnailRepository;
 import com.deskover.repository.datatables.ProductRepoForDatatables;
 import com.deskover.service.*;
+import com.deskover.util.FileUtil;
+import com.deskover.util.UrlUtil;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
+import java.io.File;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,18 +96,50 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(Product product) {
+        if (this.existsByOtherSlug(product)) {
+            throw new IllegalArgumentException("Slug đã tồn tại");
+        }
+
         product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        Product savedProduct = repository.saveAndFlush(product);
 
-        // Product thumbnail
+        String sourcePath = PathConstant.TEMP_STATIC + product.getImage();
+        if (FileUtils.getFile(sourcePath).exists()) {
+            String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug();
+            File imageFile = FileUtil.copyFile(sourcePath, destPath);
+            product.setImage(imageFile.getName());
+            product.setImageUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
+        }
+        Product savedProduct = repository.save(product);
+
         if (product.getProductThumbnails() != null) {
+            int index = 0;
             for (ProductThumbnail thumbnail : product.getProductThumbnails()) {
-                saveThumbnail(thumbnail, savedProduct);
+                saveThumbnail(thumbnail, savedProduct, index);
+                index++;
             }
         }
 
+        FileUtil.removeFolder(PathConstant.TEMP_STATIC);
         return savedProduct;
+    }
+
+    ProductThumbnail saveThumbnail(ProductThumbnail productThumbnail, Product product, Integer index) {
+        productThumbnail.setProduct(product);
+        productThumbnail.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        productThumbnail.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if (productThumbnail.getThumbnail() != null &&!productThumbnail.getThumbnail().isBlank()) {
+            String sourcePath = PathConstant.TEMP_STATIC + productThumbnail.getThumbnail();
+            if (FileUtils.getFile(sourcePath).exists()) {
+                String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug() + "-" + index;
+                File thumbnailFile = FileUtil.copyFile(sourcePath, destPath);
+                productThumbnail.setThumbnail(thumbnailFile.getName());
+                productThumbnail.setThumbnailUrl(UrlUtil.getImageUrl(thumbnailFile.getName(), PathConstant.PRODUCT_IMAGE));
+            }
+        }
+
+        return thumbnailRepository.save(productThumbnail);
     }
 
     @Override
@@ -137,34 +176,49 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findBySlug(String slug) {
-        return repository.findBySlug(slug);
+    public Boolean existsByOtherSlug(Product product) {
+        Product productExits = repository.findBySlug(product.getSlug());
+        return (productExits != null && !productExits.getId().equals(product.getId()))
+                || subcategoryService.existsBySlug(product.getSlug())
+                || categoryService.existsBySlug(product.getSlug());
     }
 
     @Override
     public Boolean existsBySlug(Product product) {
-        Product productExits = repository.findBySlug(product.getSlug());
-        Boolean isExits = (productExits != null && !productExits.getId().equals(product.getId()))
+        return existsBySlug(product.getSlug())
                 || subcategoryService.existsBySlug(product.getSlug())
                 || categoryService.existsBySlug(product.getSlug());
-        System.out.println(isExits);
-
-        return isExits;
     }
 
+
+
     @Override
-    public DataTablesOutput<Product> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive,
-                                                              Long categoryId) {
+    public DataTablesOutput<Product> getByActiveForDatatables(
+            @Valid DataTablesInput input,
+            Boolean isActive,
+            Long categoryId,
+            Long brandId,
+            Boolean isDiscount) {
         DataTablesOutput<Product> products = null;
-        products = repoForDatatables.findAll(input, (root, query, cb) -> {
-            Predicate predicate = cb.conjunction();
+        products = repoForDatatables.findAll(input, (Specification<Product>) (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
             if (isActive != null) {
-                predicate.getExpressions().add(cb.equal(root.get("actived"), isActive));
+                predicates.add(cb.equal(root.get("actived"), isActive));
             }
             if (categoryId != null) {
-                predicate.getExpressions().add(cb.equal(root.get("subCategory").get("category").get("id"), categoryId));
+                predicates.add(cb.equal(root.get("subCategory").get("category").get("id"), categoryId));
             }
-            return predicate;
+            if (brandId != null) {
+                predicates.add(cb.equal(root.get("brand").get("id"), brandId));
+            }
+            if (isDiscount != null) {
+                if (isDiscount) {
+                    predicates.add(root.get("discount").isNotNull());
+                } else {
+                    predicates.add(root.get("discount").isNull());
+                }
+            }
+            return cb.and(predicates.toArray(new Predicate[predicates.size()]));
         });
         if (products.getError() != null) {
             throw new IllegalArgumentException(products.getError());
@@ -229,11 +283,11 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    ProductThumbnail saveThumbnail(ProductThumbnail productThumbnail, Product product) {
-        productThumbnail.setProduct(product);
-        productThumbnail.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        productThumbnail.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        return thumbnailRepository.save(productThumbnail);
-    }
+	@Override
+	public List<Product> getProductByCreateAtDesc(Boolean active) {
+		
+		return repository.findByActivedOrderByModifiedAtDesc(active);
+		
+	}
 
 }

@@ -2,10 +2,8 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.dto.SubcategoryDto;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.deskover.entity.Subcategory;
 
@@ -35,6 +33,8 @@ public interface SubcategoryService {
 
 	Boolean existsBySlug(String slug);
 	
+	Boolean existsByOtherSlug(Subcategory subcategory);
+
 	Boolean existsBySlug(Subcategory subcategory);
 
 	void deleteAll(List<Subcategory> subcategories);

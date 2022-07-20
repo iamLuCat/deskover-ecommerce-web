@@ -1,0 +1,43 @@
+import {Component, HostBinding, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from "@services/auth.service";
+
+@Component({
+    selector: 'app-forgot-password',
+    templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.scss']
+})
+export class ForgotPasswordComponent implements OnInit, OnDestroy {
+    @HostBinding('class') class = 'login-box';
+    public forgotPasswordForm: FormGroup;
+    public isAuthLoading = false;
+
+    constructor(
+        private renderer: Renderer2,
+        private authService: AuthService
+    ) {}
+
+    ngOnInit(): void {
+        this.renderer.addClass(
+            document.querySelector('app-root'),
+            'login-page'
+        );
+        this.forgotPasswordForm = new FormGroup({
+            email: new FormControl(null, Validators.required)
+        });
+    }
+
+    forgotPassword() {
+        if (this.forgotPasswordForm.valid) {
+        } else {
+            // this.toastr.error('Hello world!', 'Toastr fun!');
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.renderer.removeClass(
+            document.querySelector('app-root'),
+            'login-page'
+        );
+    }
+}

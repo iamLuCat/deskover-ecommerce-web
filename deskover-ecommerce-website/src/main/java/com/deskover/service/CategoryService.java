@@ -12,6 +12,8 @@ public interface CategoryService {
 	// Check if the slug is already in use by another category
 	Boolean existsBySlug(String slug);
 	
+	Boolean existsByOtherSlug(Category category);
+
 	Boolean existsBySlug(Category category);
 
 	List<Category> getByActived(Boolean isActive);
@@ -29,4 +31,5 @@ public interface CategoryService {
 	Category update(Category category);
 
 	void changeActived(Long id);
+	
 }

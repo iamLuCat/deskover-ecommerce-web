@@ -140,6 +140,8 @@ values 	(1,1,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
 CREATE TABLE category (
   id BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+  img  VARCHAR(128) DEFAULT NULL,
+  imgUrl  VARCHAR(128) DEFAULT NULL,
   `description` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
   actived BIT NOT NULL DEFAULT 1,
@@ -164,6 +166,8 @@ values 	(1,'Laptop','laptop','haipv'),
 CREATE TABLE subcategory (
   id BIGINT NOT NULL AUTO_INCREMENT,
   category_id BIGINT NOT NULL,
+  img  VARCHAR(128) DEFAULT NULL,
+  imgUrl  VARCHAR(128) DEFAULT NULL,
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
@@ -477,12 +481,14 @@ VALUE	('C-XN','Chờ xác nhận'),
         ('DG','Đang giao'),
         ('GH-TC','Giao hàng thành công'),
         ('GH-TB','Giao hàng không thành công'),
+        ('C-HUY','Chờ huỷ đơn'),
         ('HUY','Huỷ đơn');
 	
 -- Đơn đặt hàng
 CREATE TABLE orders (
   id BIGINT NOT NULL AUTO_INCREMENT,
   order_code VARCHAR(11) NOT NULL,
+  order_qr_code VARCHAR(128) DEFAULT NULL,
   user_id BIGINT DEFAULT NULL,
   shipping_id BIGINT DEFAULT NULL,
   payment_id BIGINT DEFAULT NULL,

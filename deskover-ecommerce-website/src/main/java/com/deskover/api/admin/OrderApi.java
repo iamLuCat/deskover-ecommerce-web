@@ -69,13 +69,23 @@ public class OrderApi {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));
 		}
-	
 	}
 	
 	@GetMapping("/order/delivery")
 	public ResponseEntity<?> doGetDelivery(@RequestParam("status") String status){
 		try {
 			DataOrderResquest dtos = orderService.getListOrder(status);
+			return ResponseEntity.ok(dtos);
+
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));
+		}
+	}
+	
+	@GetMapping("/order/statis")
+	public ResponseEntity<?> doGetAllByUser(){
+		try {
+			DataOrderResquest dtos = orderService.getListOrderByUser();
 			return ResponseEntity.ok(dtos);
 
 		} catch (Exception e) {
@@ -126,5 +136,15 @@ public class OrderApi {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
 		}
 	}
+	
+	@PostMapping("order/manager/{orderCode}")
+	public ResponseEntity<?> test(@PathVariable("orderCode") String orderCode){
+		try {
+			 return ResponseEntity.ok(orderService.managerOrder(orderCode));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+		}
+	}
+	
 
 }
