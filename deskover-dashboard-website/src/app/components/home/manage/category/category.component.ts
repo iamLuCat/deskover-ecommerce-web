@@ -7,6 +7,7 @@ import {CategoryService} from "@services/category.service";
 import {AlertUtils} from '@/utils/alert-utils';
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
+import {UploadService} from "@services/upload.service";
 
 @Component({
   selector: 'app-category',
@@ -27,7 +28,7 @@ export class CategoryComponent implements OnInit {
   @ViewChild('categoryForm') categoryForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private uploadService: UploadService) {
   }
 
   ngOnInit() {
@@ -145,5 +146,9 @@ export class CategoryComponent implements OnInit {
 
   selectedImageChanged($event: Event) {
     const file = $event.target['files'][0];
+    this.uploadService.uploadImage(file).subscribe(data => {
+      this.category.imgUrl = data.url;
+      this.category.img = data.filename;
+    });
   }
 }

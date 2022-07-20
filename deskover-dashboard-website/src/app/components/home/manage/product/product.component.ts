@@ -15,7 +15,7 @@ import {FormControlDirective} from "@angular/forms";
 import {ProductThumbnail} from "@/entites/product-thumbnail";
 import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
-import {UploadFileService} from "@services/upload-file.service";
+import {UploadService} from "@services/upload.service";
 
 @Component({
   selector: 'app-product',
@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
     private brandService: BrandService,
-    private uploadService: UploadFileService
+    private uploadService: UploadService
   ) {
     this.newData();
 

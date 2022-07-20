@@ -1,6 +1,6 @@
 package com.deskover.service.impl;
 
-import com.deskover.constant.FileConstant;
+import com.deskover.constant.PathConstant;
 import com.deskover.dto.UploadFile;
 import com.deskover.service.UploadFileService;
 import com.deskover.util.FileUtil;
@@ -13,11 +13,11 @@ public class UploadFileServiceImpl implements UploadFileService {
 
     @Override
     public UploadFile uploadFileToTempFolder(MultipartFile file) {
-        return uploadFile(file, FileConstant.TEMP_PATH);
+        return uploadFile(file, PathConstant.TEMP);
     }
 
     private UploadFile uploadFile(MultipartFile file, String folderPath) {
-        FileUtil.uploadFile(file, FileConstant.STATIC_PATH +  folderPath);
+        FileUtil.uploadFile(file, PathConstant.STATIC +  folderPath);
         String fileName = file.getOriginalFilename();
         String fileUrl = ServletUriComponentsBuilder
                 .fromCurrentContextPath()

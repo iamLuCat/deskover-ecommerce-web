@@ -7,7 +7,7 @@ import {RestApiService} from "@services/rest-api.service";
 @Injectable({
   providedIn: 'root'
 })
-export class UploadFileService {
+export class UploadService {
   url = environment.globalUrl.uploadFileApi;
 
   constructor(private restApi: RestApiService) { }

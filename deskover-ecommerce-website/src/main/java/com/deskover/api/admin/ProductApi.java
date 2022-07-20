@@ -114,7 +114,7 @@ public class ProductApi {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
-        if (productService.existsBySlug(product)) {
+        if (productService.existsByOtherSlug(product)) {
             return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
         }
         try {

@@ -1,5 +1,6 @@
 package com.deskover.service.impl;
 
+import com.deskover.constant.PathConstant;
 import com.deskover.entity.Category;
 import com.deskover.entity.Subcategory;
 import com.deskover.repository.CategoryRepository;
@@ -7,6 +8,9 @@ import com.deskover.repository.datatables.CategoryRepoForDatatables;
 import com.deskover.service.CategoryService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
+import com.deskover.util.FileUtil;
+import com.deskover.util.UrlUtil;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -90,9 +95,7 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 		}
 		category.setActived(Boolean.TRUE);
-		category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-		category.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-		return repo.save(category);
+		return update(category);
 	}
 
 	@Override
@@ -100,6 +103,16 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category update(Category category) {
 		category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 		category.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+
+		String sourcePath = PathConstant.TEMP_STATIC + category.getImg();
+		if (FileUtils.getFile(sourcePath).exists()) {
+			String destPath = PathConstant.CATEGORY_IMAGE_STATIC + category.getSlug();
+			File imageFile = FileUtil.copyFile(sourcePath, destPath);
+			category.setImg(imageFile.getName());
+			category.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.CATEGORY_IMAGE));
+		}
+
+		FileUtil.removeFolder(PathConstant.TEMP_STATIC);
 		return repo.save(category);
 	}
 

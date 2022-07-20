@@ -25,11 +25,9 @@ public interface ProductService {
 
 	Product findById(Long id);
 
-	Product findBySlug(String slug);
-
 	Boolean existsBySlug(String slug);
 
-	Boolean existsBySlug(Product product);
+	Boolean existsByOtherSlug(Product product);
 
 	DataTablesOutput<Product> getByActiveForDatatables(
 			@Valid DataTablesInput input,

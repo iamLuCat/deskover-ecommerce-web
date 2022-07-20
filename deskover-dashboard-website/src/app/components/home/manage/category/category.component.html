@@ -31,7 +31,7 @@
           </div>
           <div class="col d-flex align-items-center justify-content-end">
             <button type="button" class="btn bg-faded-accent rounded-pill" (click)="newCategory()" placement="left"
-              tooltip="Thêm">
+                    tooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
           </div>
@@ -41,19 +41,19 @@
         <div class="table-responsive p-3">
           <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm dt-responsive nowrap w-100">
             <thead class="table-primary">
-              <tr>
-                <th class="align-middle">Ảnh</th>
-                <th class="align-middle">Tên</th>
-                <th class="align-middle">Slug</th>
-                <th class="align-middle">Mô tả</th>
-                <th class="align-middle text-center">Ngày cập nhật</th>
-                <th class="align-middle text-end">Công cụ</th>
-              </tr>
+            <tr>
+              <th class="align-middle">Ảnh</th>
+              <th class="align-middle">Tên</th>
+              <th class="align-middle">Slug</th>
+              <th class="align-middle">Mô tả</th>
+              <th class="align-middle text-center">Ngày cập nhật</th>
+              <th class="align-middle text-end">Công cụ</th>
+            </tr>
             </thead>
             <tbody *ngIf="categories?.length !== 0">
             <tr *ngFor="let item of categories; let i = index">
               <td class="align-middle">
-                <img src="{{ item.imgUrl || 'assets/images/no-image.png' }}" class="img-fluid" width="50">
+                <img src="{{ item.imgUrl || 'assets/images/no-image.png' }}" class="img-thumbnail img-50">
               </td>
               <td class="align-middle">
                 {{ item.name }}
@@ -101,8 +101,9 @@
   </div>
 </section>
 <!-- Modal -->
-<div bsModal [config]="{backdrop: 'static'}" #categoryModal="bs-modal" class="modal fade" tabindex="-1" data-bs-focus="false" role="dialog"
-  aria-labelledby="category-dialog-sizes">
+<div bsModal [config]="{backdrop: 'static'}" #categoryModal="bs-modal" class="modal fade" tabindex="-1"
+     data-bs-focus="false" role="dialog"
+     aria-labelledby="category-dialog-sizes">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content">
       <div class="modal-header">
@@ -116,24 +117,27 @@
       <div class="modal-body">
         <form #categoryForm="ngForm">
           <div class="row">
-            <div class="col-12 col-md-4 mb-3 d-flex justify-content-center align-items-center border rounded-4 file-drop-area">
-              <img src="assets/images/no-image.png" class="img-fluid w-100">
-              <input type="file" name="image" class="file-drop-input" accept="image/*"
-                     (change)="selectedImageChanged($event)">
+            <div class="col-12 col-md-5 mb-3">
+              <div class="d-flex justify-content-center align-items-center file-drop-area border rounded-4">
+                <img src="{{category?.imgUrl ?? 'assets/images/no-image.png'}}" class="img-fluid w-100">
+                <input type="file" name="image" class="file-drop-input" accept="image/*"
+                       (change)="selectedImageChanged($event)">
+              </div>
             </div>
-            <div class="col-12 col-md-8 mb-3">
+            <div class="col-12 col-md-7 mb-3">
               <div class="mb-3">
                 <label class="form-label" [for]="'name'">Tên</label>
                 <input type="text" class="form-control" id="name" name="name" [(ngModel)]="category.name"
-                       (keyup)="category.slug = toSlug(category.name)" #name="ngModel" required />
+                       (keyup)="category.slug = toSlug(category.name)" #name="ngModel" required/>
                 <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
                   <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
                 </div>
               </div>
               <div class="mb-3">
                 <label class="form-label" [for]="'slug'">Slug</label>
-                <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="category.slug" #slug="ngModel"
-                       required />
+                <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="category.slug"
+                       #slug="ngModel"
+                       required/>
                 <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
                   <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
                 </div>
@@ -149,7 +153,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" [disabled]="categoryForm.invalid"
-          (click)="saveCategory(category);">Lưu</button>
+                (click)="saveCategory(category);">Lưu
+        </button>
       </div>
     </div>
   </div>
