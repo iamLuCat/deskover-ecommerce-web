@@ -2,7 +2,6 @@ package com.deskover.api.admin;
 
 import com.deskover.configuration.security.payload.response.MessageErrorUtil;
 import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.dto.UploadFile;
 import com.deskover.entity.Product;
 import com.deskover.service.ProductService;
 import com.deskover.service.UploadFileService;
@@ -16,10 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -129,7 +126,7 @@ public class ProductApi {
         }
     }
 
-    @PutMapping("products/{id}")
+    @PutMapping("/products/{id}")
     public ResponseEntity<?> changeActiveSubcategoty(@PathVariable("id") Long id) {
         try {
             productService.changeActiveSubcategoty(id);
@@ -140,27 +137,12 @@ public class ProductApi {
 
     }
 
-    @DeleteMapping("products/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<?> doDeleteById(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(productService.changeActive(id));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-        }
-    }
-
-
-
-    @PostMapping("/products/upload-image")
-    public ResponseEntity<?> handleFileUpload(
-            @RequestParam("file") MultipartFile file,
-            HttpServletRequest request
-    ) {
-        try {
-            UploadFile uploadFileResponse = uploadFileService.uploadImageProduct(file);
-            return ResponseEntity.ok(uploadFileResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

@@ -12,12 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class UploadFileServiceImpl implements UploadFileService {
 
     @Override
-    public UploadFile uploadAdminAvatar(MultipartFile file) {
-        return uploadFile(file, FileConstant.AVATAR_ADMIN_FOLDER);
-    }
-
-    @Override
-    public UploadFile uploadImageProduct(MultipartFile file) {
+    public UploadFile uploadFileToTempFolder(MultipartFile file) {
         return uploadFile(file, FileConstant.TEMP_PATH);
     }
 

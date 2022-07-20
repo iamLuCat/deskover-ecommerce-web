@@ -22,13 +22,13 @@ export class CategoryComponent implements OnInit {
   isActive: boolean = true;
 
   dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   @ViewChild('categoryModal') categoryModal: ModalDirective;
   @ViewChild('categoryForm') categoryForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService) {
+  }
 
   ngOnInit() {
     const self = this;
@@ -53,14 +53,16 @@ export class CategoryComponent implements OnInit {
         });
       },
       columns: [
-        { data: 'name' },
-        { data: 'slug' },
-        { data: 'description' },
-        { data: 'modifiedAt' },
-        { data: null, orderable: false, searchable: false },
+        {data: 'imgUrl'},
+        {data: 'name'},
+        {data: 'slug'},
+        {data: 'description'},
+        {data: 'modifiedAt'},
+        {data: null, orderable: false, searchable: false},
       ]
     }
   }
+
   rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.ajax.reload(null, false);
@@ -141,4 +143,7 @@ export class CategoryComponent implements OnInit {
     this.categoryModal.hide();
   }
 
+  selectedImageChanged($event: Event) {
+    const file = $event.target['files'][0];
+  }
 }

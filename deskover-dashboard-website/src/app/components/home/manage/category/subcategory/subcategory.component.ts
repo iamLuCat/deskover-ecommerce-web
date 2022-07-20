@@ -62,6 +62,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       },
       columns: [
+        {data: 'imgUrl'},
         {data: 'name'},
         {data: 'slug'},
         {data: 'description'},
@@ -81,8 +82,6 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // dtInstance.destroy();
-      // this.dtTrigger.next();
       dtInstance.ajax.reload(null, false);
     });
   }

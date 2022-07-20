@@ -42,6 +42,7 @@
           <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm dt-responsive nowrap w-100">
             <thead class="table-primary">
               <tr>
+                <th class="align-middle">Ảnh</th>
                 <th class="align-middle">Tên</th>
                 <th class="align-middle">Slug</th>
                 <th class="align-middle">Mô tả</th>
@@ -51,6 +52,9 @@
             </thead>
             <tbody *ngIf="categories?.length !== 0">
             <tr *ngFor="let item of categories; let i = index">
+              <td class="align-middle">
+                <img src="{{ item.imgUrl || 'assets/images/no-image.png' }}" class="img-fluid" width="50">
+              </td>
               <td class="align-middle">
                 {{ item.name }}
               </td>
@@ -112,27 +116,34 @@
       <div class="modal-body">
         <form #categoryForm="ngForm">
           <div class="row">
-            <div class="col-6 mb-3">
-              <label class="form-label" for="name">Tên</label>
-              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="category.name"
-                (keyup)="category.slug = toSlug(category.name)" #name="ngModel" required />
-              <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-                <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
+            <div class="col-12 col-md-4 mb-3 d-flex justify-content-center align-items-center border rounded-4 file-drop-area">
+              <img src="assets/images/no-image.png" class="img-fluid w-100">
+              <input type="file" name="image" class="file-drop-input" accept="image/*"
+                     (change)="selectedImageChanged($event)">
+            </div>
+            <div class="col-12 col-md-8 mb-3">
+              <div class="mb-3">
+                <label class="form-label" [for]="'name'">Tên</label>
+                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="category.name"
+                       (keyup)="category.slug = toSlug(category.name)" #name="ngModel" required />
+                <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+                  <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" [for]="'slug'">Slug</label>
+                <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="category.slug" #slug="ngModel"
+                       required />
+                <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
+                  <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
+                </div>
               </div>
             </div>
-            <div class="col-6 mb-3">
-              <label class="form-label" for="slug">Slug</label>
-              <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="category.slug" #slug="ngModel"
-                required />
-              <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
-                <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
-              </div>
-            </div>
-            <div class="col-12 mb-3">
-              <label for="description" class="form-label">Mô tả</label>
-              <textarea class="form-control" id="description" rows="4" name="description"
-                [(ngModel)]="category.description" #description="ngModel"></textarea>
-            </div>
+          </div>
+          <div class="mb-3">
+            <label [for]="'description'" class="form-label">Mô tả</label>
+            <textarea class="form-control" id="description" rows="4" name="description"
+                      [(ngModel)]="category.description" #description="ngModel"></textarea>
           </div>
         </form>
       </div>
