@@ -37,12 +37,12 @@ export const MENU = [
   {
     name: 'Bảng điều khiển',
     path: ['/'],
-    iconClasses: 'fas fa-tachometer-alt'
+    iconClasses: 'fa-duotone fa-gauge-max'
   },
   {
     header: 'QUẢN LÝ',
     name: 'Danh mục',
-    iconClasses: 'fas fa-layer-group',
+    iconClasses: 'fa-duotone fa-layer-group',
     children: [
       {
         name: 'Danh mục chính',
@@ -60,17 +60,16 @@ export const MENU = [
   {
     name: 'Thương hiệu',
     path: ['/brand'],
-    iconClasses: 'fas fa-copyright'
+    iconClasses: 'fa-duotone fa-copyright'
   },
   {
     name: 'Khuyến mãi',
     path: ['/promotion'],
-    iconClasses: 'fa-solid fa-badge-percent'
+    iconClasses: 'fa-duotone fa-badge-percent'
   },
   {
     name: 'Sản phẩm',
     path: ['/product'],
-    iconClasses: 'fa-brands fa-product-hunt'
-  }
-
+    iconClasses: 'fa-duotone fa-cart-flatbed-boxes'
+  },
 ];
