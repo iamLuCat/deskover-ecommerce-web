@@ -8,14 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.deskover.dto.BrandModel;
+import com.deskover.dto.CategoryModel;
+import com.deskover.dto.FilterModel;
+import com.deskover.dto.ProductModel;
+import com.deskover.dto.ShopModel;
 import com.deskover.entity.Brand;
 import com.deskover.entity.Category;
-import com.deskover.entity.api.BrandModel;
-import com.deskover.entity.api.CategoryModel;
-import com.deskover.entity.api.FilterModel;
-import com.deskover.entity.api.ShopModel;
 import com.deskover.service.BrandService;
 import com.deskover.service.CategoryService;
 import com.deskover.service.ShopService;
@@ -58,6 +60,11 @@ public class CustomerAPI {
 	@PostMapping("shop/search")
 	public ShopModel search(@RequestBody FilterModel filter){
 		return shopService.search(filter);
+	}
+	
+	@GetMapping("product/item")
+	public ProductModel search(@RequestParam String s){
+		return shopService.getProduct(s);
 	}
 	
 }
