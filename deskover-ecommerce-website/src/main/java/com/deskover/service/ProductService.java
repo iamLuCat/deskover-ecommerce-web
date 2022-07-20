@@ -27,6 +27,8 @@ public interface ProductService {
 
 	Boolean existsBySlug(String slug);
 
+	Product findBySlug(String slug);
+
 	Boolean existsByOtherSlug(Product product);
 
     Boolean existsBySlug(Product product);
