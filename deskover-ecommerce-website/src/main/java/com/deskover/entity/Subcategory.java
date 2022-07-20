@@ -34,39 +34,45 @@ import lombok.Setter;
 @Entity
 @Table(name = "subcategory")
 public class Subcategory implements Serializable {
-    private static final long serialVersionUID = -6798249517976702456L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+	private static final long serialVersionUID = -6798249517976702456L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false)
+	private Long id;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+	@JoinColumn(name = "category_id", nullable = false)
+	private Category category;
 
-	@NotBlank(message="Không bỏ trống tên")
-    @Column(name = "name")
-    private String name;
+	@Column(name = "img")
+	private String img;
 
-    @Column(name = "description", length = 150)
-    private String description;
+	@Column(name = "imgUrl")
+	private String imgUrl;
 
-    @NotBlank(message="Không bỏ trống slug" )
-    @Column(name = "slug", nullable = false, length = 50)
-    private String slug;
+	@NotBlank(message = "Không bỏ trống tên")
+	@Column(name = "name")
+	private String name;
 
-    @Column(name = "modified_at", nullable = false)
-    @CreationTimestamp
-    private Timestamp modifiedAt;
+	@Column(name = "description", length = 150)
+	private String description;
 
-    @Column(name = "actived")
-    private Boolean actived;
+	@NotBlank(message = "Không bỏ trống slug")
+	@Column(name = "slug", nullable = false, length = 50)
+	private String slug;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "subCategory")
-    private Set<Product> products = new LinkedHashSet<>();
+	@Column(name = "modified_at", nullable = false)
+	@CreationTimestamp
+	private Timestamp modifiedAt;
 
-    @Column(name = "modified_by", length = 50)
-    private String modifiedBy;
+	@Column(name = "actived")
+	private Boolean actived;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "subCategory")
+	private Set<Product> products = new LinkedHashSet<>();
+
+	@Column(name = "modified_by", length = 50)
+	private String modifiedBy;
 
 }
