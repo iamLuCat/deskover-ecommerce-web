@@ -22,7 +22,7 @@
         <div class="row g-2">
           <!-- Filter - Start -->
           <div class="col-auto">
-            <label for="filter-active" class="col-form-label">Trạng thái:</label>
+            <label [for]="'filter-active'" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
             <select id="filter-active" class="form-select" [(ngModel)]="isActive" (change)="filter()">
@@ -31,7 +31,7 @@
             </select>
           </div>
           <div class="col-md-auto col-sm-12">
-            <label for="filter-category" class="col-form-label">Danh mục:</label>
+            <label [for]="'filter-category'" class="col-form-label">Danh mục:</label>
           </div>
           <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
             <select id="filter-category" class="form-select" [(ngModel)]="categoryIdFilter" (change)="filter()">
@@ -40,7 +40,7 @@
             </select>
           </div>
           <div class="col-md-auto col-sm-12">
-            <label for="filter-brand" class="col-form-label">Thương hiệu:</label>
+            <label [for]="'filter-brand'" class="col-form-label">Thương hiệu:</label>
           </div>
           <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
             <select id="filter-brand" class="form-select" [(ngModel)]="brandIdFilter" (change)="filter()">
@@ -77,8 +77,8 @@
             <tbody *ngIf="products?.length !== 0">
             <tr *ngFor="let item of products; let i = index">
               <td class="align-middle">
-                <img src="{{item.imageUrl || 'assets/images/no-image.png'}}" class="img-thumbnail"
-                     style="max-width:70px; height: 70px" alt="product-thumbnail">
+                <img src="{{item.imageUrl || 'assets/images/no-image.png'}}" class="img-thumbnail img-50"
+                     alt="product-thumbnail">
               </td>
               <td class="align-middle">
                 {{ item.name }}
@@ -147,7 +147,7 @@
           <div class="row">
             <div class="col-12 col-lg-4">
               <div class="col-12 mb-3">
-                <label class="form-label" for="name">Tên</label>
+                <label class="form-label" [for]="'name'">Tên</label>
                 <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
                        #name="ngModel" (keyup)="product.slug=toSlug(product.name)" required/>
                 <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
@@ -155,7 +155,7 @@
                 </div>
               </div>
               <div class="col-12 mb-3">
-                <label class="form-label" for="slug">Slug</label>
+                <label class="form-label" [for]="'slug'">Slug</label>
                 <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug"
                        #slug="ngModel" required/>
                 <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
@@ -163,7 +163,7 @@
                 </div>
               </div>
               <div class="col-12 mb-3">
-                <label class="form-label" for="brand">Thương hiệu</label>
+                <label class="form-label" [for]="'brand'">Thương hiệu</label>
                 <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
                         [compareWith]="compareFn" #brand="ngModel" required>
                   <option value="">-- Chọn thương hiệu --</option>
@@ -174,7 +174,7 @@
                 </div>
               </div>
               <div class="col-12 mb-3">
-                <label class="form-label" for="category">Danh mục cha</label>
+                <label class="form-label" [for]="'category'">Danh mục cha</label>
                 <select class="form-control" id="category" name="category" [(ngModel)]="category"
                         #categoryEdit="ngModel" [compareWith]="compareFn"
                         (change)="getSubcategoriesByCategory()" required>
@@ -187,7 +187,7 @@
                 </div>
               </div>
               <div class="col-12 mb-3" *ngIf="product.subCategory">
-                <label class="form-label" for="subCategory">Danh mục con</label>
+                <label class="form-label" [for]="'subCategory'">Danh mục con</label>
                 <select class="form-control" id="subCategory" name="subCategory"
                         [(ngModel)]="product.subCategory" #subCategory="ngModel"
                         [disabled]="category.id === null" [compareWith]="compareFn" required>
@@ -200,7 +200,7 @@
                 </div>
               </div>
               <div class="col-12 mb-3">
-                <label for="price" class="form-label">Giá</label>
+                <label [for]="'price'" class="form-label">Giá</label>
                 <input class="form-control" id="price" name="price" type='text' mask="separator" thousandSeparator="."
                        suffix=" VNĐ" [(ngModel)]="product.price" #price="ngModel" required/>
                 <div class="invalid-feedback"
@@ -209,7 +209,7 @@
                 </div>
               </div>
               <div class="col-12 mb-3">
-                <label for="quantity" class="form-label">Số lượng</label>
+                <label [for]="'quantity'" class="form-label">Số lượng</label>
                 <input class="form-control" id="quantity" type='text' mask="separator" name="quantity"
                        thousandSeparator="." [(ngModel)]="product.quantity" #quantity="ngModel"
                        required/>
@@ -258,7 +258,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" [disabled]="productForm.invalid"
-                (click)="saveProduct(product)">Lưu</button>
+                (click)="saveProduct(product)">Lưu
+        </button>
       </div>
     </div>
   </div>

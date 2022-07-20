@@ -21,16 +21,6 @@ import {DropdownComponent} from '@components/shared/dropdown/dropdown.component'
 import {DropdownMenuComponent} from '@components/shared/dropdown/dropdown-menu/dropdown-menu.component';
 import {SelectComponent} from '@components/shared/select/select.component';
 import {CheckboxComponent} from '@components/shared/checkbox/checkbox.component';
-import {AuthInterceptor} from "@/interceptors/auth-interceptor";
-
-import {authReducer} from './store/auth/reducer';
-import {uiReducer} from './store/ui/reducer';
-
-import {registerLocaleData} from '@angular/common';
-import localeEn from '@angular/common/locales/en';
-
-import {defineLocale} from 'ngx-bootstrap/chronos';
-import {viLocale} from 'ngx-bootstrap/locale';
 import {MainComponent} from "@components/home/main.component";
 import {HeaderComponent} from "@components/layouts/header/header.component";
 import {MenuSidebarComponent} from "@components/layouts/menu-sidebar/menu-sidebar.component";
@@ -52,6 +42,16 @@ import {NotificationsComponent} from "@components/layouts/header/notifications/n
 import {MessagesComponent} from "@components/layouts/header/messages/messages.component";
 import {DashboardComponent} from "@components/home/dashboard/dashboard.component";
 import {CKEditorComponent} from "@components/shared/ckeditor/ckeditor.component";
+
+import {AuthInterceptor} from "@/interceptors/auth-interceptor";
+
+import {authReducer} from './store/auth/reducer';
+import {uiReducer} from './store/ui/reducer';
+import {registerLocaleData} from '@angular/common';
+import {defineLocale} from 'ngx-bootstrap/chronos';
+import localeEn from '@angular/common/locales/en';
+import {viLocale} from 'ngx-bootstrap/locale';
+
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
 

@@ -47,6 +47,12 @@ export class RestApiService{
     return this.httpClient.delete(link + '/' + id).pipe(catchError(RestApiService.handleError));
   }
 
+  uploadFile(link: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.httpClient.post(link, formData);
+  }
+
   private static handleError(error: any) {
     let errorMessage = 'Unknown error!';
     if (error instanceof HttpErrorResponse) {

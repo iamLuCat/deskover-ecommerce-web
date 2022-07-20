@@ -79,9 +79,6 @@ public class CategoryApi {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
-        if (categoryService.existsBySlug(category)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Slug đã tồn tại"));
-        }
         try {
             categoryService.update(category);
             return new ResponseEntity<>(HttpStatus.OK);

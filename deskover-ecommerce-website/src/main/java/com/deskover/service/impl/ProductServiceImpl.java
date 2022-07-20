@@ -1,6 +1,6 @@
 package com.deskover.service.impl;
 
-import com.deskover.constant.FileConstant;
+import com.deskover.constant.PathConstant;
 import com.deskover.entity.Product;
 import com.deskover.entity.ProductThumbnail;
 import com.deskover.repository.ProductRepository;
@@ -96,15 +96,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(Product product) {
+        if (this.existsByOtherSlug(product)) {
+            throw new IllegalArgumentException("Slug đã tồn tại");
+        }
+
         product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        String sourcePath = FileConstant.TEMP_STATIC_PATH + product.getImage();
+        String sourcePath = PathConstant.TEMP_STATIC + product.getImage();
         if (FileUtils.getFile(sourcePath).exists()) {
-            String destPath = FileConstant.PRODUCT_IMAGE_STATIC_PATH + product.getSlug();
+            String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
             product.setImage(imageFile.getName());
-            product.setImageUrl(UrlUtil.getImageUrl(imageFile.getName(), FileConstant.PRODUCT_IMAGE_PATH));
+            product.setImageUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
         }
         Product savedProduct = repository.save(product);
 
@@ -116,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        FileUtil.removeFolder(FileConstant.TEMP_STATIC_PATH);
+        FileUtil.removeFolder(PathConstant.TEMP_STATIC);
         return savedProduct;
     }
 
@@ -126,12 +130,12 @@ public class ProductServiceImpl implements ProductService {
         productThumbnail.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if (productThumbnail.getThumbnail() != null &&!productThumbnail.getThumbnail().isBlank()) {
-            String sourcePath = FileConstant.TEMP_STATIC_PATH + productThumbnail.getThumbnail();
+            String sourcePath = PathConstant.TEMP_STATIC + productThumbnail.getThumbnail();
             if (FileUtils.getFile(sourcePath).exists()) {
-                String destPath = FileConstant.PRODUCT_IMAGE_STATIC_PATH + product.getSlug() + "-" + index;
+                String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug() + "-" + index;
                 File thumbnailFile = FileUtil.copyFile(sourcePath, destPath);
                 productThumbnail.setThumbnail(thumbnailFile.getName());
-                productThumbnail.setThumbnailUrl(UrlUtil.getImageUrl(thumbnailFile.getName(), FileConstant.PRODUCT_IMAGE_PATH));
+                productThumbnail.setThumbnailUrl(UrlUtil.getImageUrl(thumbnailFile.getName(), PathConstant.PRODUCT_IMAGE));
             }
         }
 
@@ -172,20 +176,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findBySlug(String slug) {
-        return repository.findBySlug(slug);
+    public Boolean existsByOtherSlug(Product product) {
+        Product productExits = repository.findBySlug(product.getSlug());
+        return (productExits != null && !productExits.getId().equals(product.getId()))
+                || subcategoryService.existsBySlug(product.getSlug())
+                || categoryService.existsBySlug(product.getSlug());
     }
 
     @Override
     public Boolean existsBySlug(Product product) {
-        Product productExits = repository.findBySlug(product.getSlug());
-        Boolean isExits = (productExits != null && !productExits.getId().equals(product.getId()))
+        return existsBySlug(product.getSlug())
                 || subcategoryService.existsBySlug(product.getSlug())
                 || categoryService.existsBySlug(product.getSlug());
-        System.out.println(isExits);
-
-        return isExits;
     }
+
+
 
     @Override
     public DataTablesOutput<Product> getByActiveForDatatables(
