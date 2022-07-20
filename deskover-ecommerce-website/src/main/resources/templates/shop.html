@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
         ~{::title},
-        ~{::modal},
+        ~{::#modal_out},
+        ~{::#modal_in},
         ~{::#handheld},
         ~{::#content}
     )}">
 
 <head>
-    <title>Title of About Page</title>
+    <title>Deskover: tìm kiếm</title>
 </head>
 
 <body>
-    <div id="modal">
+    <div id="modal_out" th:remove="tag">
 
+    </div>
+    <div id="modal_in" th:remove="tag">
     </div>
     <div id="content" th:remove="tag">
         <!-- Page Title-->
@@ -33,6 +36,8 @@
             </div>
         </div>
         <div class="container pb-5 mb-2 mb-md-4" ng-controller="shopCtrl" id="shopCtrl" ng-init="shop.init()">
+            <!-- Quick View Modal-->
+            <th:block th:replace="components/modal/quick_view.html :: modal"></th:block>
             <div class="row">
                 <!-- Sidebar-->
                 <aside class="col-lg-4">
@@ -60,7 +65,7 @@
                                                         <li class="widget-list-item widget-filter-item"><a class="widget-list-link d-flex justify-content-between align-items-center" href="" ng-click="shop.filter.categoryToggleSelection(category.slug,'')"><span class="widget-filter-item-text">Tất cả</span></a></li>
                                                         <li class="widget-list-item widget-filter-item" ng-repeat="subcategory in category.subcategories">
                                                             <a class="widget-list-link d-flex justify-content-between align-items-center" href="" ng-click="shop.filter.categoryToggleSelection('',subcategory.slug)">
-                                                                <span class="widget-filter-item-text" >{{subcategory.name}}</span>
+                                                                <span class="widget-filter-item-text">{{subcategory.name}}</span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -77,12 +82,12 @@
                                     <div class="range-slider-ui"></div>
                                     <div class="pb-1">
                                         <div class="w-100 mb-2">
-                                            <div class="input-group input-group-sm"><span class="input-group-text">VND</span>
+                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">TỪ</span>
                                                 <input class="form-control range-slider-value-min" type="text">
                                             </div>
                                         </div>
                                         <div class="w-100">
-                                            <div class="input-group input-group-sm"><span class="input-group-text">VND</span>
+                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">ĐẾN</span>
                                                 <input class="form-control range-slider-value-max" type="text">
                                             </div>
                                         </div>
@@ -120,7 +125,7 @@
                                     <option value="3">Đánh giá tốt</option>
                                     <option value="4">Thứ tự A - Z</option>
                                     <option value="5">Thứ tự Z - A</option>
-                                </select><span class="fs-sm text-light opacity-75 text-nowrap ms-2 d-none d-md-block">trên 287 sản phẩm</span>
+                                </select><span class="fs-sm text-light opacity-75 text-nowrap ms-2 d-none d-md-block">trên {{shop.totalItems}} sản phẩm</span>
                             </div>
                         </div>
                     </div>
@@ -131,9 +136,9 @@
                         <!-- Product-->
                         <div class="col-md-4 col-sm-6 px-2 mb-4" ng-repeat="item in shop.items">
                             <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="{{item.image}}" alt="{{item.slug}}"></a>
+                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden"  th:href="@{/shop/item?p={{item.slug}}}"><img src="{{item.imageUrl}}" alt="{{item.slug}}"></a>
                                 <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">{{item.category}}</a>
-                                    <h3 class="product-title fs-sm"><a href="shop-single-v1.html">{{item.name}}</a></h3>
+                                    <h3 class="product-title fs-sm"><a th:href="@{/shop/item?p=item.slug}">{{item.name}}</a></h3>
                                     <div class="d-flex justify-content-between">
                                         <div class="product-price"><span class="text-accent">{{item.price|number}} <small>VND</small></span></div>
                                         <div class="star-rating">
@@ -142,20 +147,18 @@
                                     </div>
                                 </div>
                                 <div class="card-body card-body-hidden">
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
-                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
+                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Thêm vào giỏ hàng</button>
+                                    <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal" ng-click="shop.quickView(item.slug)"><i class="ci-eye align-middle me-1"></i>Xem nhanh</a></div>
                                 </div>
                             </div>
                             <hr class="d-sm-none">
                         </div>
                         <div ng-if="shop.items.length == 0">
                             <div class="text-center w-100">
-                                <div>Không tìm thấy sản phẩm nào</div> 
+                                <div>Không tìm thấy sản phẩm nào</div>
                                 <br>
-                                <img width="500px" src="/img/not-found.png" alt="">
+                                <img width="500px" th:src="@{/img/not-found.png}" alt="">
                             </div>
-                            
-                            
                         </div>
                     </div>
                     <hr class="my-3">
@@ -166,9 +169,7 @@
                         </ul>
                         <ul class="pagination">
                             <li class="page-item d-sm-none"><span class="page-link page-link-static">{{shop.filter.currentPage+1}} / {{shop.totalPage}}</span></li>
-                            <li class="page-item d-none d-sm-block" ng-attr-aria-current="{{shop.filter.currentPage === $index ? 'active':''}}" 
-                                ng-class="shop.filter.currentPage === $index ? 'active':''"
-                                ng-repeat="p in [].constructor(shop.totalPage) track by $index">
+                            <li class="page-item d-none d-sm-block" ng-attr-aria-current="{{shop.filter.currentPage === $index ? 'active':''}}" ng-class="shop.filter.currentPage === $index ? 'active':''" ng-repeat="p in [].constructor(shop.totalPage) track by $index">
                                 <span class="page-link" ng-if="shop.filter.currentPage === $index">{{ $index+1 }}<span class="visually-hidden">(current)</span></span>
                                 <button class="page-link" href="#" ng-if="shop.filter.currentPage != $index" ng-click="shop.filter.changePage($index)">{{ $index+1 }}</button>
                             </li>

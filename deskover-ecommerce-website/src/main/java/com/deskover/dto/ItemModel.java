@@ -1,4 +1,4 @@
-package com.deskover.entity.api;
+package com.deskover.dto;
 
 import java.util.List;
 
@@ -17,6 +17,7 @@ public class ItemModel {
 		this.slug = product.getSlug();
 		this.price = product.getPrice();
 		this.image = product.getImage();
+		this.imageUrl = product.getImageUrl();
 		this.discount = product.getDiscount();
 		this.category = product.getSubCategory().getCategory().getName();
 		this.rating = product.getAverageRating();
@@ -26,6 +27,7 @@ public class ItemModel {
 	private String slug;
 	private Double price;
 	private String image;
+	private String imageUrl;
 	private Discount discount;
 	private String category;
 	private int rating;
