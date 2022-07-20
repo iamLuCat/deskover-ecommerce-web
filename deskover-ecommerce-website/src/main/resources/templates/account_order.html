@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
         ~{::title},
-        ~{::modal_out},
-        ~{::modal_in},
-        ~{::#handheld},
+        ~{::modal},
         ~{::#content}
     )}">
-    (title, modal_out, modal_in, handheld, main)
+
 <head>
     <title>Deskover: OrderDetail</title>
 </head>
 
-<body>
-    <div id="modal_out">
-
-    </div>
-    <div id="modal_in">
-        
+<body id="content">
+    <div id="modal">
+        <!-- Order Details Modal-->
+        <th:block th:replace="components/modal/order_detail.html :: modal"></th:block>
     </div>
     <div id="content">
         <!-- Page Title-->
@@ -127,14 +123,6 @@
                         </ul>
                     </nav>
                 </section>
-            </div>
-        </div>
-    </div>
-    <div id="handheld" th:remove="tag">
-        <!-- Toolbar for handheld devices (Shop)-->
-        <div class="handheld-toolbar ha">
-            <div class="d-table table-layout-fixed w-100"><a class="d-table-cell handheld-toolbar-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#shop-sidebar"><span class="handheld-toolbar-icon"><i class="ci-filter-alt"></i></span><span class="handheld-toolbar-label">Filters</span></a>
-                <a class="d-table-cell handheld-toolbar-item" href="account-wishlist.html"><span class="handheld-toolbar-icon"><i class="ci-heart"></i></span><span class="handheld-toolbar-label">Wishlist</span></a><a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a><a class="d-table-cell handheld-toolbar-item" href="shop-cart.html"><span class="handheld-toolbar-icon"><i class="ci-cart"></i><span class="badge bg-primary rounded-pill ms-1">4</span></span><span class="handheld-toolbar-label">$265.00</span></a>
             </div>
         </div>
     </div>

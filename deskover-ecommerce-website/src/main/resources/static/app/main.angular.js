@@ -6,7 +6,6 @@ var app = angular.module('app', [])
 
 app.controller('shopCtrl', function ($scope, $http) {
   $scope.shop = {
-    item: [],
     items: [],
     filter: {
       keyword: '',
@@ -50,6 +49,8 @@ app.controller('shopCtrl', function ($scope, $http) {
     sliderUpdate(value) {
       this.filter.minPrice = value[0];
       this.filter.maxPrice = value[1];
+
+      console.log(this.filter.minPrice, this.filter.maxPrice);
       this.loadItems();
     },
     loadDatabase() {
@@ -85,18 +86,6 @@ app.controller('shopCtrl', function ($scope, $http) {
         }).catch(err => {
           console.error(err)
         })
-    },
-    quickView(slug){
-      $http({
-        method: 'GET',
-        url: '/api/product/item',
-        params: {s: slug}
-      }).then(function successCallback(resp) {
-        $scope.shop.item = resp.data;
-        console.log(resp.data)
-      }, function errorCallback(resp) {
-        console.error(resp.statusText);
-      });
     }
   }
 

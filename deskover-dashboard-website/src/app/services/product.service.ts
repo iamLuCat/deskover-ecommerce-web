@@ -5,6 +5,7 @@ import {DataTablesResponse} from "@/entites/data-tables-response";
 import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Product} from "@/entites/product";
+import {UploadedImage} from "@/entites/uploaded-image";
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,7 @@ export class ProductService {
   constructor(private restApi: RestApiService) {
   }
 
-  getByActiveForDatatable(tableQuery: any, isActive: boolean, categoryId: number): Promise<DataTablesResponse> {
-    const params = new HttpParams()
-      .set("isActive", isActive.toString())
-      .set("categoryId", categoryId ? categoryId.toString() : '');
+  getByActiveForDatatable(tableQuery: any, params: HttpParams): Promise<DataTablesResponse> {
     return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params).toPromise();
   }
 
@@ -40,5 +38,11 @@ export class ProductService {
 
   changeActive(id: number) {
     return this.restApi.delete(this.url, id);
+  }
+
+  uploadImage(file: File): Observable<UploadedImage> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.restApi.postWithFile(environment.globalUrl.uploadProductImageApi, formData);
   }
 }

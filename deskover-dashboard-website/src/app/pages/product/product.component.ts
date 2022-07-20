@@ -12,6 +12,9 @@ import {ModalDirective} from "ngx-bootstrap/modal";
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
+import {ProductThumbnail} from "@/entites/product-thumbnail";
+import {UploadedImage} from "@/entites/uploaded-image";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-product',
@@ -19,7 +22,6 @@ import {FormControlDirective} from "@angular/forms";
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit, AfterViewInit {
-
   products: Product[];
   product: Product;
   categories: Category[];
@@ -29,7 +31,9 @@ export class ProductComponent implements OnInit, AfterViewInit {
   brands: Brand[];
   brand: Brand;
 
-  category_id_filter: number = null;
+  categoryIdFilter: number = null;
+  brandIdFilter: number = null;
+  uploadedImage: UploadedImage;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -61,7 +65,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
       lengthMenu: [5, 10, 25, 50, 100],
-      responsive: false,
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -70,7 +73,11 @@ export class ProductComponent implements OnInit, AfterViewInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.productService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.category_id_filter).then(resp => {
+        const params = new HttpParams()
+          .set("isActive", this.isActive.toString())
+          .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : '')
+          .set("brandId", this.brandIdFilter ? this.brandIdFilter.toString() : '');
+        this.productService.getByActiveForDatatable(dataTablesParameters, params).then(resp => {
           self.products = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -120,7 +127,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
   getSubcategoriesByCategory() {
     this.subcategoryService.getByActive(true, this.category.id).subscribe(data => {
       this.subcategories = data;
-      console.log(this.subcategories);
     });
   }
 
@@ -141,7 +147,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
       modifiedAt: null,
       modifiedBy: '',
       actived: true,
-      spec:`
+      spec: `
         <div class="row pt-2">
           <div class="col-lg-5 col-sm-6">
             <h3 class="h6">General specs</h3>
@@ -191,7 +197,13 @@ export class ProductComponent implements OnInit, AfterViewInit {
       },
       subCategory: <Subcategory>{
         category: <Category>{}
-      }
+      },
+      productThumbnails: [
+        <ProductThumbnail>{thumbnail: ''},
+        <ProductThumbnail>{thumbnail: ''},
+        <ProductThumbnail>{thumbnail: ''},
+        <ProductThumbnail>{thumbnail: ''},
+      ],
     };
     this.category = <Category>{
       id: null,
@@ -234,9 +246,15 @@ export class ProductComponent implements OnInit, AfterViewInit {
     this.productService.getById(id).subscribe(data => {
       this.product = data;
       this.category = data.subCategory.category;
+
+      if (this.product.productThumbnails.length < 4) {
+        this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
+      }
+      this.product.productThumbnails.sort((a, b) => a.id - b.id);
     });
-    this.openModal(this.productModal);
     this.isEdit = true;
+    this.getSubcategoriesByCategory();
+    this.openModal(this.productModal);
   }
 
   saveProduct(product: Product) {
@@ -277,6 +295,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
     });
   }
 
+
   /* Slugify */
   toSlug(text: string) {
     return UrlUtils.slugify(text);
@@ -306,5 +325,24 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   compareFn(c1: any, c2: any): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
+
+
+  selectedImageChanged($event: Event) {
+    const file = $event.target['files'][0];
+    this.productService.uploadImage(file).subscribe(data => {
+      this.uploadedImage = data;
+      this.product.imageUrl = this.uploadedImage.url;
+      this.product.image = this.uploadedImage.filename;
+    });
+  }
+
+  selectedThumbnailChange($event: Event, index: number) {
+    const file = $event.target['files'][0];
+    this.productService.uploadImage(file).subscribe(data => {
+      this.uploadedImage = data;
+      this.product.productThumbnails[index].thumbnailUrl = this.uploadedImage.url;
+      this.product.productThumbnails[index].thumbnail = this.uploadedImage.filename;
+    });
   }
 }

@@ -4,7 +4,6 @@ import {RestApiService} from "@services/rest-api.service";
 import {DataTablesResponse} from "@/entites/data-tables-response";
 import {Observable} from "rxjs";
 import {Subcategory} from "@/entites/subcategory";
-import {SubcategoryDto} from "@/dtos/subcategory-dto";
 import {CategoryService} from "@services/category.service";
 import {HttpParams} from "@angular/common/http";
 
@@ -34,28 +33,15 @@ export class SubcategoryService {
     return this.restApi.getWithParams(this.url, params);
   }
 
-  create(subcategoryDto: SubcategoryDto): Observable<Subcategory> {
-    return this.restApi.post(this.url, subcategoryDto);
+  create(subcategory: Subcategory): Observable<Subcategory> {
+    return this.restApi.post(this.url, subcategory);
   }
 
-  update(subcategoryDto: SubcategoryDto): Observable<Subcategory> {
-    return this.restApi.put(this.url, subcategoryDto);
+  update(subcategory: Subcategory): Observable<Subcategory> {
+    return this.restApi.put(this.url, subcategory);
   }
 
   changeActive(id: number) {
     return this.restApi.delete(this.url, id);
-  }
-
-  convertToDto(subcategory: Subcategory): SubcategoryDto {
-    return {
-      id: subcategory.id,
-      name: subcategory.name,
-      description: subcategory.description,
-      slug: subcategory.slug,
-      modifiedAt: subcategory.modifiedAt,
-      modifiedBy: subcategory.modifiedBy,
-      actived: subcategory.actived,
-      categoryId: subcategory.category.id
-    };
   }
 }
