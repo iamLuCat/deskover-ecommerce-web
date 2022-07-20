@@ -313,7 +313,6 @@ public class OrderServiceImpl implements OrderService {
 			order.setOrderStatus(orderStatusReponsitory.findByCode("C-LH"));
 			return repository.saveAndFlush(order);
 		}else if (order.getOrderStatus().getCode().equals("C-HUY")) {
-			order.setQrCode(QrCodeUtil.QrCode(order.getOrderCode(), order.getOrderCode()));
 			order.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 			order.setOrderStatus(orderStatusReponsitory.findByCode("HUY"));
 			return repository.saveAndFlush(order);
