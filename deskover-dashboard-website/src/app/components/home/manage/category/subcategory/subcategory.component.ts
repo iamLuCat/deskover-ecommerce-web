@@ -9,6 +9,7 @@ import {AlertUtils} from '@/utils/alert-utils';
 import {Category} from "@/entites/category";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
+import {UploadService} from "@services/upload.service";
 
 @Component({
   selector: 'app-subcategory',
@@ -26,7 +27,6 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   categoryId: number = null;
 
   dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   @ViewChild('subcategoryModal') subcategoryModal: ModalDirective;
   @ViewChild('subcategoryForm') subcategoryForm: FormControlDirective;
@@ -34,7 +34,8 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private subcategoryService: SubcategoryService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private uploadService: UploadService,
   ) {
     this.getCategories();
   }
@@ -63,6 +64,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       },
       columns: [
+        {data: 'imgUrl', orderable: false, searchable: false},
         {data: 'name'},
         {data: 'slug'},
         {data: 'description'},
@@ -75,32 +77,13 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const self = this;
-
-    this.dtTrigger.next();
-
-    let body = $('body');
-    body.on('click', '.btn-edit', function () {
-      const id = $(this).data('id');
-      self.getSubcategory(id);
-    });
-    body.on('click', '.btn-delete', function () {
-      const id = $(this).data('id');
-      self.deleteSubcategory(id);
-    });
-    body.on('click', '.btn-active', function () {
-      const id = $(this).data('id');
-      self.activeSubcategory(id);
-    });
   }
 
   ngOnDestroy() {
-    this.dtTrigger.unsubscribe();
   }
 
   rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // dtInstance.destroy();
-      // this.dtTrigger.next();
       dtInstance.ajax.reload(null, false);
     });
   }
@@ -208,6 +191,14 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   closeModal(content: ModalDirective) {
     content?.hide();
+  }
+
+  selectedImageChanged($event: Event) {
+    const file = $event.target['files'][0];
+    this.uploadService.uploadImage(file).subscribe(data => {
+      this.subcategory.imgUrl = data.url;
+      this.subcategory.img = data.filename;
+    });
   }
 
 }

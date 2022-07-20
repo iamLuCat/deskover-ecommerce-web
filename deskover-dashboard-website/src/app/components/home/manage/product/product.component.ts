@@ -15,6 +15,7 @@ import {FormControlDirective} from "@angular/forms";
 import {ProductThumbnail} from "@/entites/product-thumbnail";
 import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
+import {UploadService} from "@services/upload.service";
 
 @Component({
   selector: 'app-product',
@@ -49,6 +50,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
     private brandService: BrandService,
+    private uploadService: UploadService
   ) {
     this.newData();
 
@@ -101,20 +103,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const self = this;
-
-    let body = $('body');
-    body.on('click', '.btn-edit', function () {
-      const id = $(this).data('id');
-      self.editProduct(id);
-    });
-    body.on('click', '.btn-delete', function () {
-      const id = $(this).data('id');
-      self.deleteProduct(id);
-    });
-    body.on('click', '.btn-active', function () {
-      const id = $(this).data('id');
-      self.activeProduct(id);
-    });
   }
 
   /* Category & Subcategory */
@@ -330,7 +318,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   selectedImageChanged($event: Event) {
     const file = $event.target['files'][0];
-    this.productService.uploadImage(file).subscribe(data => {
+    this.uploadService.uploadImage(file).subscribe(data => {
       this.uploadedImage = data;
       this.product.imageUrl = this.uploadedImage.url;
       this.product.image = this.uploadedImage.filename;
@@ -339,7 +327,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   selectedThumbnailChange($event: Event, index: number) {
     const file = $event.target['files'][0];
-    this.productService.uploadImage(file).subscribe(data => {
+    this.uploadService.uploadImage(file).subscribe(data => {
       this.uploadedImage = data;
       this.product.productThumbnails[index].thumbnailUrl = this.uploadedImage.url;
       this.product.productThumbnails[index].thumbnail = this.uploadedImage.filename;
