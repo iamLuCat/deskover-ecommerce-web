@@ -2,7 +2,6 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Discount} from "@/entites/discount";
 import {DataTableDirective} from "angular-datatables";
 import {DiscountService} from "@services/discount.service";
-import {DatePipe} from "@angular/common";
 import {AlertUtils} from "@/utils/alert-utils";
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {ProductService} from "@services/product.service";
