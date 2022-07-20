@@ -257,7 +257,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" (click)="saveProduct(product)">Lưu</button>
+        <button type="button" class="btn btn-outline-primary" [disabled]="productForm.invalid"
+                (click)="saveProduct(product)">Lưu</button>
       </div>
     </div>
   </div>
