@@ -1,5 +1,6 @@
 package com.deskover.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -58,4 +59,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			Double maxPrice,
 			List<String> brands,
 			Pageable pageable);
+//	List<Product> findActivedByOrderByModifiedAtDesc(Boolean active);
+	List<Product> findByActivedOrderByModifiedAtDesc(Boolean active);
 }
