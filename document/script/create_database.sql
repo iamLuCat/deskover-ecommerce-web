@@ -141,7 +141,7 @@ CREATE TABLE category (
   id BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   img  VARCHAR(128) DEFAULT NULL,
-  imgUrl  VARCHAR(128) DEFAULT NULL,
+  imgUrl  VARCHAR(128) DEFAULT 'img/shop/categories/no-image.png',
   `description` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
   actived BIT NOT NULL DEFAULT 1,
@@ -151,15 +151,12 @@ CREATE TABLE category (
   UNIQUE KEY UQ_Category_Slug (slug)
 );
 
-insert category (id,name,slug,modified_by)
-values 	(1,'Laptop','laptop','haipv'),
-		(2,'Bàn phím','ban-phim','haipv'),
-        (3,'Chuột + Lót chuột','chuot-lot-chuot','haipv'),
-		(4,'Màn hình','man-hinh','haipv'),
-		(5,'Linh kiện pc','linh-kien-pc','haipv'),
-        (6,'Ghế','ghe','haipv'),
-        (7,'Sản phẩm apple','san-pham-apple','haipv'),
-        (8,'Điện thoại','dien-thoai','haipv')
+insert category (id,name,slug,img,imgUrl,modified_by)
+values 	(1,'Laptop','laptop','laptop.png','img/shop/categories/laptop.png','haipv'),
+		(2,'Điện thoại','dien-thoai','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
+		(3,'Máy tính bảng','may-tinh-bang','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
+		(4,'Đồng hồ','dong-ho','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
+        (5,'Phụ kiện','phu-kien','phu-kien.png','img/shop/categories/phu-kien.png','haipv')
 ;
 
 -- Danh mục con
@@ -167,7 +164,7 @@ CREATE TABLE subcategory (
   id BIGINT NOT NULL AUTO_INCREMENT,
   category_id BIGINT NOT NULL,
   img  VARCHAR(128) DEFAULT NULL,
-  imgUrl  VARCHAR(128) DEFAULT NULL,
+  imgUrl  VARCHAR(128) DEFAULT 'img/shop/categories/no-image.png',
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
@@ -179,22 +176,26 @@ CREATE TABLE subcategory (
   CONSTRAINT FK_SubCategory_Category FOREIGN KEY (category_id) REFERENCES category (id)
 );
 
-insert subcategory (id,category_id,`name`,slug,modified_by)
-values 	(1,1,'Laptop văn phòng','laptop-van-phong','haipv'),
-		(2,1,'Laptop gaming','laptop-gaming','haipv'),
-		(3,2,'Bàn phím gaming','ban-phim-gaming','haipv'),
-        (4,2,'Bàn phím văn phòng','ban-phim-van-phong','haipv'),
-        (5,2,'Bàn phím bluetooth','ban-phim-bluetooth','haipv'),
-		(6,3,'Chuột gaming','chuot-gaming','haipv'),
-        (7,3,'Chuột văn phòng','chuot-van-phong','haipv'),
-        (8,3,'Chuột không dây','chuot-khong-day','haipv'),
-        (9,6,'Ghế gaming','ghe-gaming','haipv'),
-        (10,6,'Ghế công thái học','ghe-cong-thai-hoc','haipv'),
-        (11,7,'Macbook','macbook','haipv'),
-        (12,7,'Imac','imac','haipv'),
-        (13,7,'Mac mini','mac-mini','haipv'),
-        (14,8,'Android','android','haipv'),
-        (15,8,'iOS','ios','haipv')
+insert subcategory (id,category_id,`name`,slug,img,imgUrl,modified_by)
+values 	(1,1,'Văn phòng','van-phong','laptop.png','img/shop/categories/laptop.png','haipv'),
+		(2,1,'Gaming','gaming','laptop.png','img/shop/categories/laptop.png','haipv'),
+        
+		(3,2,'Android','android','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
+        (4,2,'iPhone(iOS)','ios','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
+        (5,2,'phổ thông','pho-thong','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
+        
+		(6,3,'7 - 8 inch (nhỏ gọn)','small','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
+        (7,3,'10 - 12 inch (trung bình)','medium','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
+        (8,3,'Trên 12 inch (lớn)','larg','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
+        
+        (9,4,'Dây đeo','day-deo','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
+        (10,4,'Vòng đeo tay thông minh','vong-deo-tay-thong-minh','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
+        (11,4,'Đồng hồ định vị trẻ em','dong-ho-dinh-vi-tre-em','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
+        
+        (12,5,'Chuột, bàn phím','chuot-ban-phim','chuot-ban-phim.png','img/shop/categories/chuot-ban-phim.png','haipv'),
+        (13,5,'Cáp, sạc','cap-sac','cap-sacn.png','img/shop/categories/cap-sac.png','haipv'),
+        (14,5,'Pin dự phòng','pin-du-phong','pin-du-phong.png','img/shop/categories/pin-du-phong.png','haipv'),
+        (15,5,'Giá đỡ','gia-do','gia-do.png','img/shop/categories/gia-do.png','haipv')
 	;
 
 -- Thương hiệu
@@ -250,10 +251,13 @@ CREATE TABLE product (
   `name` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   slug VARCHAR(150) NOT NULL,
   image VARCHAR(255) DEFAULT NULL,
-  image_url VARCHAR(255) DEFAULT 'assets/images/no-image.png',
+  image_url VARCHAR(255) DEFAULT 'img/shop/products/no-image.png',
   video VARCHAR(255) DEFAULT NULL,
   `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   `spec` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
+  `utility` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
+  `design` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
+  `orther` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   price DOUBLE NOT NULL,
   quantity BIGINT NOT NULL DEFAULT 1000,
   actived BIT NOT NULL DEFAULT 1,
@@ -284,8 +288,7 @@ values
         (8,'Laptop Acer Swift 3 SF314 43 R4X3','laptop-acer-swift-3-sf314-43-r4x3','laptop-acer-swift-3-sf314-43-r4x3.png',null,20990000,1,2,null,'haipv'),
 		(9,'Laptop Acer Aspire 3 A315 56 37DV','laptop-acer-aspire-3-a315-56-37dv','laptop-acer-aspire-3-a315-56-37dv.png',null,12490000,1,2,null,'haipv'),
 		(10,'Laptop Acer Aspire 5 A515 57 52Y2','laptop-acer-aspire-5-a515-57-52y2','laptop-acer-aspire-5-a515-57-52y2.png',null,18950000,1,2,null,'haipv'),
-        -- Dellfire
-        
+        -- Dell
 			-- laptop-van-phong
         (11,'Laptop Dell Vostro 3510 V5I3305W Black','laptop-dell-vostro-3510-v5i3305w-black','laptop-dell-vostro-3510-v5i3305w-black.png',null,15990000,1,3,null,'haipv'),
         (12,'Laptop Dell Vostro 3400 P132G003 70270645','laptop-dell-vostro-3400-p132g003-70270645','laptop-dell-vostro-3400-p132g003-70270645.png',null,17490000,1,3,null,'haipv'),
@@ -385,7 +388,7 @@ CREATE TABLE product_thumbnail (
   id BIGINT NOT NULL AUTO_INCREMENT,
   product_id BIGINT NOT NULL,
   thumbnail VARCHAR(255) DEFAULT NULL,
-  thumbnail_url VARCHAR(255) DEFAULT 'assets/images/no-image.png',
+  thumbnail_url VARCHAR(255) DEFAULT 'img/shop/products/no-image.png',
   modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_by VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
@@ -394,25 +397,25 @@ CREATE TABLE product_thumbnail (
 
 insert product_thumbnail (id,product_id,thumbnail_url,modified_by)
 values 	
-		(1,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4','haipv'),
-        (2,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png?alt=media&token=5e9b9bea-25fb-4b12-a00a-4c14fed33ee0','haipv'),
-        (3,1,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','haipv'),
+		(1,1,'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png','haipv'),
+        (2,1,'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png','haipv'),
+        (3,1,'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png','haipv'),
        
-        (4,2,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png?alt=media&token=e8040187-7cce-4669-b5ed-84cdf2efad34','haipv'),
-		(5,2,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png?alt=media&token=26878704-60fa-489a-848d-cc2242654017','haipv'),
-		(6,2,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','haipv'),
+        (4,2,'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png','haipv'),
+		(5,2,'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png','haipv'),
+		(6,2,'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-3.png','haipv'),
        
-        (7,3,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png?alt=media&token=03d3e189-c8ac-4af0-ba8d-23f07a2f865d','haipv'),
-        (8,3,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png?alt=media&token=ca9124cf-75f5-47be-afd7-c4953a891274','haipv'),
-        (9,3,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff','haipv'),
+        (7,3,'laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png','haipv'),
+        (8,3,'laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png','haipv'),
+        (9,3,'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png','haipv'),
         
-        (10,4,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png?alt=media&token=7a11dc73-972f-4540-ad11-872d7cb1a2c1','haipv'),
-        (11,4,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png?alt=media&token=22a2d1ef-0803-4a3d-b116-4362f6581084','haipv'),
-        (12,4,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png?alt=media&token=ed4b89f5-5546-4493-abf1-028106f79e81','haipv'),
+        (10,4,'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png','haipv'),
+        (11,4,'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png','haipv'),
+        (12,4,'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png','haipv'),
         
-        (13,5,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png?alt=media&token=1ed4b582-cb47-4de1-a322-b53b24a3fa91','haipv'),
-        (14,5,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png?alt=media&token=58b5469f-9626-43ea-a715-b5f21e9f16b5','haipv'),
-        (15,5,'https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png?alt=media&token=823afad6-d130-40c1-85a2-487d53be32a0','haipv')
+        (13,5,'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png','haipv'),
+        (14,5,'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png','haipv'),
+        (15,5,'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png','haipv')
 ;
 
 --------------------------------------------------------------------------------------------------------------
