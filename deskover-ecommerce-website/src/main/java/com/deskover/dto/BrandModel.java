@@ -1,4 +1,4 @@
-package com.deskover.entity.api;
+package com.deskover.dto;
 
 import com.deskover.entity.Brand;
 

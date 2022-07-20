@@ -1,4 +1,4 @@
-package com.deskover.entity.api;
+package com.deskover.dto;
 
 import java.util.ArrayList;
 import java.util.List;

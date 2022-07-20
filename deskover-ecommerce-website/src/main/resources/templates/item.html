@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
         ~{::title},
-        ~{::modal},
+        ~{::#modal_out},
+        ~{::#modal_in},
+        ~{::#handheld},
         ~{::#content}
     )}">
 
 <head>
-    <title>Deskover: <th:block th:text="${product.name}"></th:block></title>
+    <title>Deskover: <th:block th:text="${product.name}"></th:block>
+    </title>
 </head>
 
 <body id="content">
-    <div id="modal">
+    <div id="modal_out" th:remove="tag">
 
+    </div>
+    <div id="modal_in" th:remove="tag">
     </div>
     <div id="content">
         <!-- Page Title-->
@@ -23,12 +28,16 @@
                             <li class="breadcrumb-item"><a class="text-nowrap" href="index.html"><i class="ci-home"></i>Home</a></li>
                             <li class="breadcrumb-item text-nowrap"><a href="shop-grid-ls.html">Shop</a>
                             </li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page"><th:block th:text="${product.name}"></th:block></li>
+                            <li class="breadcrumb-item text-nowrap active" aria-current="page">
+                                [[${product.name}]]
+                            </li>
                         </ol>
                     </nav>
                 </div>
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0"><th:block th:text="${product.name}"></th:block></h1>
+                    <h1 class="h3 text-light mb-0">
+                        [[${product.name}]]
+                    </h1>
                 </div>
             </div>
         </div>
@@ -36,9 +45,9 @@
             <div class="bg-light shadow-lg rounded-3">
                 <!-- Tabs-->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item"><a class="nav-link py-4 px-sm-4 active" href="#general" data-bs-toggle="tab" role="tab">General <span class='d-none d-sm-inline'>Info</span></a></li>
-                    <li class="nav-item"><a class="nav-link py-4 px-sm-4" href="#specs" data-bs-toggle="tab" role="tab"><span class='d-none d-sm-inline'>Tech</span> Specs</a></li>
-                    <li class="nav-item"><a class="nav-link py-4 px-sm-4" href="#reviews" data-bs-toggle="tab" role="tab">Reviews <span class="fs-sm opacity-60">(74)</span></a></li>
+                    <li class="nav-item"><a class="nav-link py-4 px-sm-4 active" href="#general" data-bs-toggle="tab" role="tab">Thông <span class='d-none d-sm-inline'>tin</span></a></li>
+                    <li class="nav-item"><a class="nav-link py-4 px-sm-4" href="#specs" data-bs-toggle="tab" role="tab"><span class='d-none d-sm-inline'>Thông </span>số</a></li>
+                    <li class="nav-item"><a class="nav-link py-4 px-sm-4" href="#reviews" data-bs-toggle="tab" role="tab">Đánh giá <span class="fs-sm opacity-60">([[${product.totalRating}]])</span></a></li>
                 </ul>
                 <div class="px-4 pt-lg-3 pb-3 mb-5">
                     <div class="tab-content px-lg-3">
@@ -49,29 +58,36 @@
                                 <div class="col-lg-7 pe-lg-0">
                                     <div class="product-gallery">
                                         <div class="product-gallery-preview order-sm-2">
-                                            <div class="product-gallery-preview-item active" id="first"><img class="image-zoom" src="img/shop/single/gallery/05.jpg" data-zoom="img/shop/single/gallery/05.jpg" alt="Product image">
+                                            <div class="product-gallery-preview-item active" id="a0"><img class="image-zoom" th:src="${product.imageUrl}" th:data-zoom="${product.imageUrl}" alt="Product image">
                                                 <div class="image-zoom-pane"></div>
                                             </div>
-                                            <div class="product-gallery-preview-item" id="second"><img class="image-zoom" src="img/shop/single/gallery/06.jpg" data-zoom="img/shop/single/gallery/06.jpg" alt="Product image">
+                                            <th:block th:each="thumbs, i : ${product.thumbsnails}" th:remove="tag">
+                                            <div class="product-gallery-preview-item" th:id="${'a'+(i.index+1)}">
+                                                <img class="image-zoom" th:src="${thumbs}" th:data-zoom="${thumbs}" alt="Product image">
                                                 <div class="image-zoom-pane"></div>
                                             </div>
-                                            <div class="product-gallery-preview-item" id="third"><img class="image-zoom" src="img/shop/single/gallery/07.jpg" data-zoom="img/shop/single/gallery/07.jpg" alt="Product image">
-                                                <div class="image-zoom-pane"></div>
-                                            </div>
-                                            <div class="product-gallery-preview-item" id="fourth"><img class="image-zoom" src="img/shop/single/gallery/08.jpg" data-zoom="img/shop/single/gallery/08.jpg" alt="Product image">
-                                                <div class="image-zoom-pane"></div>
-                                            </div>
+                                            </th:block>
+                                            
                                         </div>
-                                        <div class="product-gallery-thumblist order-sm-1"><a class="product-gallery-thumblist-item active" href="#first"><img src="img/shop/single/gallery/th05.jpg" alt="Product thumb"></a><a class="product-gallery-thumblist-item" href="#second"><img src="img/shop/single/gallery/th06.jpg" alt="Product thumb"></a><a class="product-gallery-thumblist-item" href="#third"><img src="img/shop/single/gallery/th07.jpg" alt="Product thumb"></a><a class="product-gallery-thumblist-item" href="#fourth"><img src="img/shop/single/gallery/th08.jpg" alt="Product thumb"></a><a class="product-gallery-thumblist-item video-item" href="https://www.youtube.com/watch?v=nrQevwouWn0">
+                                        <div class="product-gallery-thumblist order-sm-1">
+                                            <a class="product-gallery-thumblist-item active" href="#a0"><img th:src="${product.imageUrl}" alt="Product thumb"></a>
+                                            <th:block th:each="thumbs, i : ${product.thumbsnails}">
+                                             <a class="product-gallery-thumblist-item" th:href="${'#a'+(i.index+1)}"><img th:src="${thumbs}" alt="Product thumb"></a>
+                                            </th:block>
+                                           
+                                            <a class="product-gallery-thumblist-item video-item" th:href="${product.video}" th:if="${product.video}">
                                                 <div class="product-gallery-thumblist-item-text"><i class="ci-video"></i>Video</div>
-                                            </a></div>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Product details-->
                                 <div class="col-lg-5 pt-4 pt-lg-0">
                                     <div class="product-details ms-auto pb-3">
-                                        <div class="h3 fw-normal text-accent mb-3 me-1"><th:block th:text="${#numbers.formatCurrency(product.price)}"></th:block> <small>VND</small></div>
-                                        <div class="fs-sm mb-4"><span class="text-heading fw-medium me-1">Color:</span><span class="text-muted" id="colorOption">Dark blue/Orange</span></div>
+                                        <div class="h3 fw-normal text-accent mb-3 me-1">
+                                            <th:block th:text="${#numbers.formatCurrency(product.price)}"></th:block> <small>VND</small>
+                                        </div>
+                                        <div class="fs-sm mb-4"><span class="text-heading fw-medium me-1">[[${product.category}]]</span> - <span class="text-muted" id="colorOption">[[${product.subcategory}]]</span></div>
                                         <div class="d-flex align-items-center pt-2 pb-4">
                                             <select class="form-select me-3" style="width: 5rem;">
                                                 <option value="1">1</option>
@@ -85,9 +101,6 @@
                                         <div class="d-flex mb-4">
                                             <div class="w-100 me-3">
                                                 <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-heart fs-lg me-2"></i><span class='d-none d-sm-inline'>Thêm vào </span>yêu thích</button>
-                                            </div>
-                                            <div class="w-100">
-                                                <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-compare fs-lg me-2"></i>So sánh</button>
                                             </div>
                                         </div>
                                         <!-- Product panels-->
@@ -121,10 +134,10 @@
                         <!-- Tech specs tab-->
                         <div class="tab-pane fade" id="specs" role="tabpanel">
                             <div class="d-md-flex justify-content-between align-items-start pb-4 mb-4 border-bottom">
-                                <div class="d-flex align-items-center me-md-3"><img src="img/shop/single/gallery/th05.jpg" width="90" alt="Product thumb">
+                                <div class="d-flex align-items-center me-md-3"><img th:src="${product.image}" width="90" alt="Product thumb">
                                     <div class="ps-3">
-                                        <h6 class="fs-base mb-2">Smartwatch Youth Edition</h6>
-                                        <div class="h4 fw-normal text-accent">$124.<small>99</small></div>
+                                        <h6 class="fs-base mb-2">[[${product.name}]]</h6>
+                                        <div class="h4 fw-normal text-accent">[[${#numbers.formatInteger(product.price,3,'COMMA')}]]<small> VND</small></div>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center pt-3">
@@ -135,72 +148,25 @@
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                     </select>
-                                    <button class="btn btn-primary btn-shadow me-2" type="button"><i class="ci-cart fs-lg me-sm-2"></i><span class="d-none d-sm-inline">Add to
-                                            Cart</span></button>
+                                    <button class="btn btn-primary btn-shadow me-2" type="button"><i class="ci-cart fs-lg me-sm-2"></i>
+                                        <span class="d-none d-sm-inline">Thêm vào giỏ hàng</span></button>
                                     <div class="me-2">
-                                        <button class="btn btn-secondary btn-icon" type="button" data-bs-toggle="tooltip" title="Add to Wishlist"><i class="ci-heart fs-lg"></i></button>
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-secondary btn-icon" type="button" data-bs-toggle="tooltip" title="Compare"><i class="ci-compare fs-lg"></i></button>
+                                        <button class="btn btn-secondary btn-icon" type="button" data-bs-toggle="tooltip" title="Thêm vào yêu thích"><i class="ci-heart fs-lg"></i></button>
                                     </div>
                                 </div>
                             </div>
                             <!-- Specs table-->
                             <div class="row pt-2">
-                                <div class="col-lg-5 col-sm-6">
-                                    <h3 class="h6">General specs</h3>
-                                    <ul class="list-unstyled fs-sm pb-2">
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Model:</span><span>Amazfit Smartwatch</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Gender:</span><span>Unisex</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Smartphone app:</span><span>Amazfit Watch</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">OS campitibility:</span><span>Android / iOS</span></li>
-                                    </ul>
-                                    <h3 class="h6">Physical specs</h3>
-                                    <ul class="list-unstyled fs-sm pb-2">
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Shape:</span><span>Rectangular</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Body material:</span><span>Plastics / Ceramics</span>
-                                        </li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Band material:</span><span>Silicone</span></li>
-                                    </ul>
-                                    <h3 class="h6">Display</h3>
-                                    <ul class="list-unstyled fs-sm pb-2">
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display type:</span><span>Color</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display size:</span><span>1.28"</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Screen resolution:</span><span>176 x 176</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Touch screen:</span><span>No</span></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-5 col-sm-6 offset-lg-1">
-                                    <h3 class="h6">Functions</h3>
-                                    <ul class="list-unstyled fs-sm pb-2">
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Phone calls:</span><span>Incoming call
-                                                notification</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Monitoring:</span><span>Heart rate / Physical
-                                                activity</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">GPS support:</span><span>Yes</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Sensors:</span><span>Heart rate, Gyroscope, Geomagnetic,
-                                                Light sensor</span></li>
-                                    </ul>
-                                    <h3 class="h6">Battery</h3>
-                                    <ul class="list-unstyled fs-sm pb-2">
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery:</span><span>Li-Pol</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery capacity:</span><span>190 mAh</span></li>
-                                    </ul>
-                                    <h3 class="h6">Dimensions</h3>
-                                    <ul class="list-unstyled fs-sm pb-2">
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Dimensions:</span><span>195 x 20 mm</span></li>
-                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Weight:</span><span>32 g</span></li>
-                                    </ul>
-                                </div>
+                                [[${product.spec}]]
                             </div>
                         </div>
                         <!-- Reviews tab-->
                         <div class="tab-pane fade" id="reviews" role="tabpanel">
                             <div class="d-md-flex justify-content-between align-items-start pb-4 mb-4 border-bottom">
-                                <div class="d-flex align-items-center me-md-3"><img src="img/shop/single/gallery/th05.jpg" width="90" alt="Product thumb">
+                                <div class="d-flex align-items-center me-md-3"><img th:src="${product.image}" width="90" alt="Product thumb">
                                     <div class="ps-3">
-                                        <h6 class="fs-base mb-2">Smartwatch Youth Edition</h6>
-                                        <div class="h4 fw-normal text-accent">$124.<small>99</small></div>
+                                        <h6 class="fs-base mb-2">[[${product.name}]]</h6>
+                                        <div class="h4 fw-normal text-accent">[[${#numbers.formatInteger(product.price,3,'COMMA')}]]<small> VND</small></div>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center pt-3">
@@ -211,23 +177,27 @@
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                     </select>
-                                    <button class="btn btn-primary btn-shadow me-2" type="button"><i class="ci-cart fs-lg me-sm-2"></i><span class="d-none d-sm-inline">Add to
-                                            Cart</span></button>
+                                    <button class="btn btn-primary btn-shadow me-2" type="button"><i class="ci-cart fs-lg me-sm-2"></i>
+                                        <span class="d-none d-sm-inline">Thêm vào giỏ hàng</span></button>
                                     <div class="me-2">
-                                        <button class="btn btn-secondary btn-icon" type="button" data-bs-toggle="tooltip" title="Add to Wishlist"><i class="ci-heart fs-lg"></i></button>
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-secondary btn-icon" type="button" data-bs-toggle="tooltip" title="Compare"><i class="ci-compare fs-lg"></i></button>
+                                        <button class="btn btn-secondary btn-icon" type="button" data-bs-toggle="tooltip" title="Thêm vào yêu thích"><i class="ci-heart fs-lg"></i></button>
                                     </div>
                                 </div>
                             </div>
                             <!-- Reviews-->
                             <div class="row pt-2 pb-3">
                                 <div class="col-lg-4 col-md-5">
-                                    <h2 class="h3 mb-4">74 Reviews</h2>
-                                    <div class="star-rating me-2"><i class="ci-star-filled fs-sm text-accent me-1"></i><i class="ci-star-filled fs-sm text-accent me-1"></i><i class="ci-star-filled fs-sm text-accent me-1"></i><i class="ci-star-filled fs-sm text-accent me-1"></i><i class="ci-star fs-sm text-muted me-1"></i></div><span class="d-inline-block align-middle">4.1 Overall rating</span>
-                                    <p class="pt-3 fs-sm text-muted">58 out of 74 (77%)<br>Customers recommended this
-                                        product</p>
+                                    <h2 class="h3 mb-4">[[${product.totalRating}]] Lượt đánh giá</h2>
+                                    <div class="star-rating me-2">
+                                        <i class="ci-star-filled fs-sm text-accent me-1" 
+                                        th:if="${product.averageRating != 0}"
+                                        th:each="i: ${#numbers.sequence(1, product.averageRating)}"></i>
+                                        <i class="ci-star fs-sm text-muted me-1"
+                                        th:if="${product.averageRating == 0}"
+                                        th:each="i: ${#numbers.sequence(1, 5-product.averageRating)}"></i>
+                                    </div>
+                                    <span class="d-inline-block align-middle" th:if="${product.totalRating == 0}">[[${product.averageRating}]] Chưa có điểm đánh giá</span>
+                                    <span class="d-inline-block align-middle" th:if="${product.totalRating > 0}">[[${product.averageRating}]] Điểm đánh giá trung bình</span>
                                 </div>
                                 <div class="col-lg-8 col-md-7">
                                     <div class="d-flex align-items-center mb-2">
@@ -432,28 +402,9 @@
                 </div>
             </div>
         </div>
-        <!-- Product description-->
-        <div class="container pt-lg-3 pb-4 pb-sm-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <h2 class="h3 pb-2">Choose your style</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p><img src="img/shop/single/prod-img2.jpg" alt="Product description">
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                        totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-                        dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
-                        sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
-                        est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius
-                        modi tempora.</p>
-                </div>
-            </div>
-        </div>
-        <hr class="mb-5">
         <!-- Product carousel (You may also like)-->
         <div class="container pt-lg-2 pb-5 mb-md-3">
-            <h2 class="h3 text-center pb-4">You may also like</h2>
+            <h2 class="h3 text-center pb-4">Bạn cũng có thể thích</h2>
             <div class="tns-carousel tns-controls-static tns-controls-outside">
                 <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: true, &quot;nav&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 18},&quot;768&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 20}, &quot;1100&quot;:{&quot;items&quot;:4, &quot;gutter&quot;: 30}}}">
                     <!-- Product-->
@@ -470,145 +421,14 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Product-->
-                    <div>
-                        <div class="card product-card card-static">
-                            <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/67.jpg" alt="Product"></a>
-                            <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Smartwatches</a>
-                                <h3 class="product-title fs-sm"><a href="#">Heart Rate &amp; Activity Tracker</a></h3>
-                                <div class="d-flex justify-content-between">
-                                    <div class="product-price text-accent">$26.<small>99</small></div>
-                                    <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-half active"></i><i class="star-rating-icon ci-star"></i><i class="star-rating-icon ci-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product-->
-                    <div>
-                        <div class="card product-card card-static">
-                            <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/64.jpg" alt="Product"></a>
-                            <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Smartwatches</a>
-                                <h3 class="product-title fs-sm"><a href="#">Smart Watch Series 5, Aluminium</a></h3>
-                                <div class="d-flex justify-content-between">
-                                    <div class="product-price text-accent">$349.<small>99</small></div>
-                                    <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product-->
-                    <div>
-                        <div class="card product-card card-static">
-                            <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/68.jpg" alt="Product"></a>
-                            <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Smartwatches</a>
-                                <h3 class="product-title fs-sm"><a href="#">Health &amp; Fitness Smartwatch</a></h3>
-                                <div class="d-flex justify-content-between">
-                                    <div class="product-price text-accent">$118.<small>00</small></div>
-                                    <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product-->
-                    <div>
-                        <div class="card product-card card-static">
-                            <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/69.jpg" alt="Product"></a>
-                            <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Smartwatches</a>
-                                <h3 class="product-title fs-sm"><a href="#">Heart Rate &amp; Activity Tracker</a></h3>
-                                <div class="d-flex justify-content-between">
-                                    <div class="product-price text-accent">$25.<small>00</small></div>
-                                    <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-half active"></i><i class="star-rating-icon ci-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-        <!-- Product bundles carousel (Cheaper together)-->
-        <div class="container pt-lg-1 pb-5 mb-md-3">
-            <div class="card card-body pt-5">
-                <h2 class="h3 text-center pb-4">Cheaper together</h2>
-                <div class="tns-carousel">
-                    <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 1, &quot;controls&quot;: false, &quot;nav&quot;: true}">
-                        <div>
-                            <div class="row align-items-center">
-                                <div class="col-md-3 col-sm-5">
-                                    <div class="card product-card card-static text-center mx-auto" style="max-width: 20rem;"><a class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/70.jpg" alt="Product"></a>
-                                        <div class="card-body py-2"><span class="d-inline-block bg-secondary fs-ms rounded-1 py-1 px-2 mb-3">Your
-                                                product</span>
-                                            <h3 class="product-title fs-sm"><a href="#">Smartwatch Youth Edition</a></h3>
-                                            <div class="product-price text-accent">$124.<small>99</small></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 col-sm-2 text-center">
-                                    <div class="display-4 fw-light text-muted px-4">+</div>
-                                </div>
-                                <div class="col-md-3 col-sm-5">
-                                    <div class="card product-card card-static text-center mx-auto" style="max-width: 20rem;"><a class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/72.jpg" alt="Product"></a>
-                                        <div class="card-body py-2"><span class="d-inline-block bg-danger fs-ms text-white rounded-1 py-1 px-2 mb-3">-20%</span>
-                                            <h3 class="product-title fs-sm"><a href="#">Smartwatch Wireless Charger</a></h3>
-                                            <div class="product-price"><span class="text-accent">$16.<small>00</small></span>
-                                                <del class="fs-sm text-muted">$20.<small>00</small></del>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-none d-md-block col-md-1 text-center">
-                                    <div class="display-4 fw-light text-muted px-4">=</div>
-                                </div>
-                                <div class="col-md-4 pt-3 pt-md-0">
-                                    <div class="bg-secondary p-4 rounded-3 text-center mx-auto" style="max-width: 20rem;">
-                                        <div class="h3 fw-normal text-accent mb-3 me-1">$140.<small>99</small></div>
-                                        <button class="btn btn-primary" type="button">Purchase together</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="row align-items-center">
-                                <div class="col-md-3 col-sm-5">
-                                    <div class="card product-card card-static text-center mx-auto" style="max-width: 20rem;"><a class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/70.jpg" alt="Product"></a>
-                                        <div class="card-body py-2"><span class="d-inline-block bg-secondary fs-ms rounded-1 py-1 px-2 mb-3">Your
-                                                product</span>
-                                            <h3 class="product-title fs-sm"><a href="#">Smartwatch Youth Edition</a></h3>
-                                            <div class="product-price text-accent">$124.<small>99</small></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 col-sm-2 text-center">
-                                    <div class="display-4 fw-light text-muted px-4">+</div>
-                                </div>
-                                <div class="col-md-3 col-sm-5">
-                                    <div class="card product-card card-static text-center mx-auto" style="max-width: 20rem;"><a class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/71.jpg" alt="Product"></a>
-                                        <div class="card-body py-2"><span class="d-inline-block bg-danger fs-ms text-white rounded-1 py-1 px-2 mb-3">-15%</span>
-                                            <h3 class="product-title fs-sm"><a href="#">Bluetooth Headset Air (White)</a>
-                                            </h3>
-                                            <div class="product-price"><span class="text-accent">$59.<small>00</small></span>
-                                                <del class="fs-sm text-muted">$69.<small>00</small></del>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-none d-md-block col-md-1 text-center">
-                                    <div class="display-4 fw-light text-muted px-4">=</div>
-                                </div>
-                                <div class="col-md-4 pt-3 pt-md-0">
-                                    <div class="bg-secondary p-4 rounded-3 text-center mx-auto" style="max-width: 20rem;">
-                                        <div class="h3 fw-normal text-accent mb-3 me-1">$183.<small>99</small></div>
-                                        <button class="btn btn-primary" type="button">Purchase together</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div id="handheld" th:remove="tag">
+        <!-- Toolbar for handheld devices (Default)-->
+        <div class="handheld-toolbar">
+            <div class="d-table table-layout-fixed w-100"><a class="d-table-cell handheld-toolbar-item" href="account-wishlist.html"><span class="handheld-toolbar-icon"><i class="ci-heart"></i></span><span class="handheld-toolbar-label">Wishlist</span></a><a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a><a class="d-table-cell handheld-toolbar-item" href="shop-cart.html"><span class="handheld-toolbar-icon"><i class="ci-cart"></i><span class="badge bg-primary rounded-pill ms-1">4</span></span><span class="handheld-toolbar-label">$265.00</span></a></div>
         </div>
     </div>
 </body>

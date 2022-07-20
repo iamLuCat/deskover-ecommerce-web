@@ -6,6 +6,7 @@ var app = angular.module('app', [])
 
 app.controller('shopCtrl', function ($scope, $http) {
   $scope.shop = {
+    item: [],
     items: [],
     filter: {
       keyword: '',
@@ -49,8 +50,6 @@ app.controller('shopCtrl', function ($scope, $http) {
     sliderUpdate(value) {
       this.filter.minPrice = value[0];
       this.filter.maxPrice = value[1];
-
-      console.log(this.filter.minPrice, this.filter.maxPrice);
       this.loadItems();
     },
     loadDatabase() {
@@ -86,6 +85,20 @@ app.controller('shopCtrl', function ($scope, $http) {
         }).catch(err => {
           console.error(err)
         })
+    },
+    quickView(slug){
+      $http({
+        method: 'GET',
+        url: '/api/product/item',
+        params: {s: slug}
+      }).then(function successCallback(resp) {
+        $scope.shop.item = resp.data;
+
+
+        console.log(resp.data)
+      }, function errorCallback(resp) {
+        console.error(resp.statusText);
+      });
     }
   }
 
@@ -102,6 +115,42 @@ app.controller('shopCtrl', function ($scope, $http) {
           })
         })(e);
       }, 1000)
+
+    }
+  };
+}).directive('repeatDirectiveQuickview', function () {
+  return function (scope, element, attrs) {
+    console.log("run")
+    if (scope.$last) {
+      setTimeout(() => {
+        var c = document.querySelectorAll(".product-gallery");
+        if (c.length)
+            for (var e = 0; e < c.length; e++) ! function(r) {
+                for (var n = c[r].querySelectorAll(".product-gallery-thumblist-item:not(.video-item)"), a = c[r].querySelectorAll(".product-gallery-preview-item"), e = c[r].querySelectorAll(".product-gallery-thumblist-item.video-item"), t = 0; t < n.length; t++) n[t].addEventListener("click", o);
+
+                function o(e) {
+                    e.preventDefault();
+                    for (var t = 0; t < n.length; t++) a[t].classList.remove("active"), n[t].classList.remove("active");
+                    this.classList.add("active"), c[r].querySelector(this.getAttribute("href")).classList.add("active")
+                }
+                for (var l = 0; l < e.length; l++) lightGallery(e[l], {
+                    selector: "this",
+                    download: !1,
+                    videojs: !0,
+                    youtubePlayerParams: {
+                        modestbranding: 1,
+                        showinfo: 0,
+                        rel: 0,
+                        controls: 0
+                    },
+                    vimeoPlayerParams: {
+                        byline: 0,
+                        portrait: 0,
+                        color: "fe696a"
+                    }
+                })
+            }(e)
+    }, 500)
 
     }
   };
