@@ -264,68 +264,68 @@ CREATE TABLE product (
   CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id)
 );
 
-insert product (id,`name`,slug,image_url,video,price,sub_category_id,brand_id,discount_id,modified_by)
+insert product (id,`name`,slug,image,video,price,sub_category_id,brand_id,discount_id,modified_by)
 values 	
 		-- asus
 			-- laptop-van-phong
-		(1,'Laptop Asus VivoBook A415EA EB1750W','laptop-asus-vivobook-a415ea-eb1750w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w.png?alt=media&token=c80601eb-069d-4bbd-a334-8124e41c4e12','https://www.youtube.com/watch?v=gIHD6vyiXEQ',14990000,1,1,4,'haipv'),
-		(2,'Laptop ASUS Vivobook Flip TP470EA EC346W','laptop-asus-vivobook-flip-tp470ea-ec346w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-flip-tp470ea-ec346w.png?alt=media&token=0b28b1aa-cbd3-4007-8d57-b65601ea934f','https://www.youtube.com/watch?v=dFLnMsJ5DmI&t',15890000,1,1,4,'haipv'),
-        (3,'Laptop Asus Vivobook OLED A515EA L12033W','laptop-asus-vivobook-a515ea-l12033w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a515ea-l12033w.png?alt=media&token=ae377180-fda7-41b7-83a6-ae0e9a8f81ae','https://www.youtube.com/watch?v=ab4TeyIsllE&t',19990000,1,1,4,'haipv'),
-		(4,'Laptop ASUS VivoBook Pro 16X OLED M7600QC L2077W','laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w.png?alt=media&token=b2aa721d-1df6-4221-812c-bcdae6fbab30','https://www.youtube.com/watch?v=dqGz4JTh0Q0&t',32990000,1,1,4,'haipv'),
-        (5,'Laptop Asus ZenBook 13 UX325EA KG599W','laptop-asus-zenbook-13-ux325ea-kg599w','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-zenbook-13-ux325ea-kg599w.png?alt=media&token=70c03aaa-3a85-42fc-ba7e-e633b3361ffb','https://www.youtube.com/watch?v=Fthb7EC5BY0&t',30890000,1,1,4,'haipv'),
+		(1,'Laptop Asus VivoBook A415EA EB1750W','laptop-asus-vivobook-a415ea-eb1750w','laptop-asus-vivobook-a415ea-eb1750w.png','https://www.youtube.com/watch?v=gIHD6vyiXEQ',14990000,1,1,4,'haipv'),
+		(2,'Laptop ASUS Vivobook Flip TP470EA EC346W','laptop-asus-vivobook-flip-tp470ea-ec346w','laptop-asus-vivobook-flip-tp470ea-ec346w.png','https://www.youtube.com/watch?v=dFLnMsJ5DmI&t',15890000,1,1,4,'haipv'),
+        (3,'Laptop Asus Vivobook OLED A515EA L12033W','laptop-asus-vivobook-a515ea-l12033w','laptop-asus-vivobook-a515ea-l12033w.png','https://www.youtube.com/watch?v=ab4TeyIsllE&t',19990000,1,1,4,'haipv'),
+		(4,'Laptop ASUS VivoBook Pro 16X OLED M7600QC L2077W','laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w','laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w.png','https://www.youtube.com/watch?v=dqGz4JTh0Q0&t',32990000,1,1,4,'haipv'),
+        (5,'Laptop Asus ZenBook 13 UX325EA KG599W','laptop-asus-zenbook-13-ux325ea-kg599w','laptop-asus-zenbook-13-ux325ea-kg599w.png','https://www.youtube.com/watch?v=Fthb7EC5BY0&t',30890000,1,1,4,'haipv'),
 		-- acer
 			-- laptop-van-phong
-        (6,'Laptop Acer Swift X SFX16 51G 50GS','laptop-acer-swift-x-sfx16-51g-50gs','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-swift-x-sfx16-51g-50gs.png?alt=media&token=7b80cdd8-6487-4184-956f-c8aad77ea37f',null,29990000,1,2,null,'haipv'),
-        (7,'Laptop Acer Swift 3 SF314 43 R52K','laptop-acer-swift-3-sf314-43-r52k','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-swift-3-sf314-43-r52k.png?alt=media&token=a375cb39-07fa-4ccd-af8c-d8e5141bd10e',null,24490000,1,2,null,'haipv'),
-        (8,'Laptop Acer Swift 3 SF314 43 R4X3','laptop-acer-swift-3-sf314-43-r4x3','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-swift-3-sf314-43-r4x3.png?alt=media&token=16abf0dc-51e6-4c61-8aa4-5692b0ebade8',null,20990000,1,2,null,'haipv'),
-		(9,'Laptop Acer Aspire 3 A315 56 37DV','laptop-acer-aspire-3-a315-56-37dv','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-aspire-3-a315-56-37dv.png?alt=media&token=f53f08f2-5a29-4cdb-a956-aa3a4c908803',null,12490000,1,2,null,'haipv'),
-		(10,'Laptop Acer Aspire 5 A515 57 52Y2','laptop-acer-aspire-5-a515-57-52y2','https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-acer-aspire-5-a515-57-52y2.png?alt=media&token=90c59da7-c263-46a9-b13f-bc7788008533',null,18950000,1,2,null,'haipv'),
+        (6,'Laptop Acer Swift X SFX16 51G 50GS','laptop-acer-swift-x-sfx16-51g-50gs','laptop-acer-swift-x-sfx16-51g-50gs.png',null,29990000,1,2,null,'haipv'),
+        (7,'Laptop Acer Swift 3 SF314 43 R52K','laptop-acer-swift-3-sf314-43-r52k','laptop-acer-swift-3-sf314-43-r52k.png',null,24490000,1,2,null,'haipv'),
+        (8,'Laptop Acer Swift 3 SF314 43 R4X3','laptop-acer-swift-3-sf314-43-r4x3','laptop-acer-swift-3-sf314-43-r4x3.png',null,20990000,1,2,null,'haipv'),
+		(9,'Laptop Acer Aspire 3 A315 56 37DV','laptop-acer-aspire-3-a315-56-37dv','laptop-acer-aspire-3-a315-56-37dv.png',null,12490000,1,2,null,'haipv'),
+		(10,'Laptop Acer Aspire 5 A515 57 52Y2','laptop-acer-aspire-5-a515-57-52y2','laptop-acer-aspire-5-a515-57-52y2.png',null,18950000,1,2,null,'haipv'),
         -- Dellfire
         
 			-- laptop-van-phong
-        (11,'Laptop Dell Vostro 3510 V5I3305W Black','laptop-dell-vostro-3510-v5i3305w-black',null,null,15990000,1,3,null,'haipv'),
-        (12,'Laptop Dell Vostro 3400 P132G003 70270645','laptop-dell-vostro-3400-p132g003-70270645',null,null,17490000,1,3,null,'haipv'),
-        (13,'Laptop Dell Inspiron 15 3511 P112F002 70270650','laptop-dell-inspiron-15-3511-p112f002-70270650',null,null,20990000,1,3,null,'haipv'),
-        (14,'Laptop Dell Vostro 5620 70282719 P117F001','laptop-dell-vostro-5620-70282719-p117f001',null,null,22990000,1,3,null,'haipv'),
-        (15,'Laptop Dell XPS 17 9700 XPS7I7001W1 Silver','laptop-dell-xps-17-9700-xps7i7001w1-silver',null,null,75000000,1,3,null,'haipv'),
+        (11,'Laptop Dell Vostro 3510 V5I3305W Black','laptop-dell-vostro-3510-v5i3305w-black','laptop-dell-vostro-3510-v5i3305w-black.png',null,15990000,1,3,null,'haipv'),
+        (12,'Laptop Dell Vostro 3400 P132G003 70270645','laptop-dell-vostro-3400-p132g003-70270645','laptop-dell-vostro-3400-p132g003-70270645.png',null,17490000,1,3,null,'haipv'),
+        (13,'Laptop Dell Inspiron 15 3511 P112F002 70270650','laptop-dell-inspiron-15-3511-p112f002-70270650','laptop-dell-inspiron-15-3511-p112f002-70270650.png',null,20990000,1,3,null,'haipv'),
+        (14,'Laptop Dell Vostro 5620 70282719 P117F001','laptop-dell-vostro-5620-70282719-p117f001','laptop-dell-vostro-5620-70282719-p117f001.png',null,22990000,1,3,null,'haipv'),
+        (15,'Laptop Dell XPS 17 9700 XPS7I7001W1 Silver','laptop-dell-xps-17-9700-xps7i7001w1-silver','laptop-dell-xps-17-9700-xps7i7001w1-silver.png',null,75000000,1,3,null,'haipv'),
         -- MSI
 			-- laptop-van-phong
-        (16,'Laptop MSI Modern 14 B11MOU 1028VN','laptop-msi-modern-14-b11mou-1028vn',null,null,14490000,1,4,null,'haipv'),
-        (17,'Laptop MSI Modern 14 B5M 202VN','laptop-msi-modern-14-b5m-202vn',null,null,16990000,1,4,null,'haipv'),
-        (18,'Laptop MSI Modern 15 A5M 238VN','laptop-msi-modern-15-a5m-238vn',null,null,17990000,1,4,null,'haipv'),
-        (19,'Laptop MSI Modern 15 A5M 239VN','laptop-msi-modern-15-a5m-239vn',null,null,19990000,1,4,null,'haipv'),
-        (20,'Laptop MSI Modern 14 B11MOU 1033VN','laptop-msi-modern-14-b11mou-1033vn',null,null,21990000,1,4,null,'haipv'),
+        (16,'Laptop MSI Modern 14 B11MOU 1028VN','laptop-msi-modern-14-b11mou-1028vn','laptop-msi-modern-14-b11mou-1028vn.png',null,14490000,1,4,null,'haipv'),
+        (17,'Laptop MSI Modern 14 B5M 202VN','laptop-msi-modern-14-b5m-202vn','laptop-msi-modern-14-b5m-202vn.png',null,16990000,1,4,null,'haipv'),
+        (18,'Laptop MSI Modern 15 A5M 238VN','laptop-msi-modern-15-a5m-238vn','laptop-msi-modern-15-a5m-238vn.png',null,17990000,1,4,null,'haipv'),
+        (19,'Laptop MSI Modern 15 A5M 239VN','laptop-msi-modern-15-a5m-239vn','laptop-msi-modern-15-a5m-239vn.png',null,19990000,1,4,null,'haipv'),
+        (20,'Laptop MSI Modern 14 B11MOU 1033VN','laptop-msi-modern-14-b11mou-1033vn','laptop-msi-modern-14-b11mou-1033vn.png',null,21990000,1,4,null,'haipv'),
         -- LENOVO
 			-- laptop-van-phong
-        (21,'Laptop Lenovo V14 G2 ITL 82KA00RXVN','laptop-lenovo-v14-g2-itl-82ka00rxvn',null,null,13590000,1,5,null,'haipv'),
-        (22,'Laptop Lenovo ThinkBook 15 G3 ACL 21A400CFVN','laptop-lenovo-thinkbook-15-g3-acl-21a400cfvn',null,null,19990000,1,5,null,'haipv'),
-        (23,'Laptop Lenovo IdeaPad 5 Pro 16ACH6 82L500WMVN','laptop-lenovo-ideapad-5-pro-16ach6-82l500wmvn',null,null,25990000,1,5,null,'haipv'),
-        (24,'Laptop Lenovo Yoga Slim 7 Pro 14ACH5 82NK003HVN','laptop-lenovo-yoga-slim-7-pro-14ach5-82nk003hvn',null,null,32990000,1,5,null,'haipv'),
-        (25,'Laptop Lenovo Yoga Slim 7 Carbon 14ACN6 82L0005AVN','laptop-lenovo-yoga-slim-7-carbon-14acn6-82l0005avn',null,null,35990000,1,5,null,'haipv'),
+        (21,'Laptop Lenovo V14 G2 ITL 82KA00RXVN','laptop-lenovo-v14-g2-itl-82ka00rxvn','laptop-lenovo-v14-g2-itl-82ka00rxvn.png',null,13590000,1,5,null,'haipv'),
+        (22,'Laptop Lenovo ThinkBook 15 G3 ACL 21A400CFVN','laptop-lenovo-thinkbook-15-g3-acl-21a400cfvn','laptop-lenovo-thinkbook-15-g3-acl-21a400cfvn.png',null,19990000,1,5,null,'haipv'),
+        (23,'Laptop Lenovo IdeaPad 5 Pro 16ACH6 82L500WMVN','laptop-lenovo-ideapad-5-pro-16ach6-82l500wmvn','laptop-lenovo-ideapad-5-pro-16ach6-82l500wmvn.png',null,25990000,1,5,null,'haipv'),
+        (24,'Laptop Lenovo Yoga Slim 7 Pro 14ACH5 82NK003HVN','laptop-lenovo-yoga-slim-7-pro-14ach5-82nk003hvn','laptop-lenovo-yoga-slim-7-pro-14ach5-82nk003hvn.png',null,32990000,1,5,null,'haipv'),
+        (25,'Laptop Lenovo Yoga Slim 7 Carbon 14ACN6 82L0005AVN','laptop-lenovo-yoga-slim-7-carbon-14acn6-82l0005avn','laptop-lenovo-yoga-slim-7-carbon-14acn6-82l0005avn.png',null,35990000,1,5,null,'haipv'),
         -- HP
 			-- laptop-van-phong
-        (26,'Laptop HP Pavilion 15 EG0506TX 46M05PA','laptop-hp-pavilion-15-eg0506tx-46m05pa',null,null,19990000,1,6,null,'haipv'),
-        (27,'Laptop HP ProBook 450 G8 614K3PA','laptop-hp-probook-450-g8-614k3pa',null,null,20990000,1,6,null,'haipv'),
-        (28,'Laptop HP Pavilion 14 dv0534TU 4P5G3PA','laptop-hp-pavilion-14-dv0534tu-4p5g3pa',null,null,22490000,1,6,null,'haipv'),
+        (26,'Laptop HP Pavilion 15 EG0506TX 46M05PA','laptop-hp-pavilion-15-eg0506tx-46m05pa','laptop-hp-pavilion-15-eg0506tx-46m05pa.png',null,19990000,1,6,null,'haipv'),
+        (27,'Laptop HP ProBook 450 G8 614K3PA','laptop-hp-probook-450-g8-614k3pa','laptop-hp-probook-450-g8-614k3pa.png',null,20990000,1,6,null,'haipv'),
+        (28,'Laptop HP Pavilion 14 dv0534TU 4P5G3PA','laptop-hp-pavilion-14-dv0534tu-4p5g3pa','laptop-hp-pavilion-14-dv0534tu-4p5g3pa.png',null,22490000,1,6,null,'haipv'),
         -- LG
 			-- laptop-van-phong
-        (29,'LG Gram 17ZD90P-G.AX71A5','laptop-lg-gram-17zd90p-g-ax71a5',null,null,44990000,1,7,null,'haipv'),
-        (30,'LG Gram 16Z90P-G.AH73A5','laptop-lg-gram-16z90p-g-ah73a5',null,null,48900000,1,7,null,'haipv'),
-        (31,'LG Gram 14Z90P-G.AH75A5','laptop-lg-gram-14z90p-g-ah75a5',null,null,47990000,1,7,null,'haipv'),
+        (29,'LG Gram 17ZD90P-G.AX71A5','laptop-lg-gram-17zd90p-g-ax71a5','laptop-lg-gram-17zd90p-g-ax71a5.png',null,44990000,1,7,null,'haipv'),
+        (30,'LG Gram 16Z90P-G.AH73A5','laptop-lg-gram-16z90p-g-ah73a5','laptop-lg-gram-16z90p-g-ah73a5.png',null,48900000,1,7,null,'haipv'),
+        (31,'LG Gram 14Z90P-G.AH75A5','laptop-lg-gram-14z90p-g-ah75a5','laptop-lg-gram-14z90p-g-ah75a5.png',null,47990000,1,7,null,'haipv'),
         -- APPLE
 			-- Macbook
-		(32,'Macbook Air M2 10GPU 8GB 512GB - Silver','macbook-air-m2-10gpu-8gb-512gb-silver',null,null,42990000,11,8,null,'haipv'),
-		(33,'Macbook Air M2 8GPU 8GB 256GB - Starlight','macbook-air-m2-8gpu-8gb-256gb-starlight',null,null,33990000,11,8,null,'haipv'),
-        (34,'MacBook Pro 13 M2 10GPU 8GB 512GB Space Gray','macbook-pro-13-m2-10gpu-8gb-512gb-space-gray',null,null,39990000,11,8,null,'haipv'),
-        (35,'MacBook Pro 14" 2021 M1 Pro 10CPU 16 GPU 16GB 1TB Silver','macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver',null,null,64990000,11,8,null,'haipv'),
-        (36,'MacBook Pro 16 2021 M1 Max 32GPU 32GB 1TB Space Gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray',null,null,99000000,11,8,null,'haipv'),
+		(32,'Macbook Air M2 10GPU 8GB 512GB - Silver','macbook-air-m2-10gpu-8gb-512gb-silver','macbook-air-m2-10gpu-8gb-512gb-silver.png',null,42990000,11,8,null,'haipv'),
+		(33,'Macbook Air M2 8GPU 8GB 256GB - Starlight','macbook-air-m2-8gpu-8gb-256gb-starlight','macbook-air-m2-8gpu-8gb-256gb-starlight.png',null,33990000,11,8,null,'haipv'),
+        (34,'MacBook Pro 13 M2 10GPU 8GB 512GB Space Gray','macbook-pro-13-m2-10gpu-8gb-512gb-space-gray','macbook-pro-13-m2-10gpu-8gb-512gb-space-gray.png',null,39990000,11,8,null,'haipv'),
+        (35,'MacBook Pro 14" 2021 M1 Pro 10CPU 16 GPU 16GB 1TB Silver','macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver','macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver.png',null,64990000,11,8,null,'haipv'),
+        (36,'MacBook Pro 16 2021 M1 Max 32GPU 32GB 1TB Space Gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray.png',null,99000000,11,8,null,'haipv'),
 			-- IMac
-		(37,'iMac 24 2021 M1 7GPU 8GB 256GB MGTF3SA/A - Silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver',null,null,33990000,12,8,null,'haipv'),
-		(38,'iMac 24 2021 M1 8GPU 8GB 256GB MGPK3SA/A - Blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue',null,null,38990000,12,8,null,'haipv'),
-		(39,'iMac 24 2021 M1 8GPU 16GB 512GB Z12R00047 - Silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver',null,null,50990000,12,8,null,'haipv'),
+		(37,'iMac 24 2021 M1 7GPU 8GB 256GB MGTF3SA/A - Silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver.png',null,33990000,12,8,null,'haipv'),
+		(38,'iMac 24 2021 M1 8GPU 8GB 256GB MGPK3SA/A - Blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue.png',null,38990000,12,8,null,'haipv'),
+		(39,'iMac 24 2021 M1 8GPU 16GB 512GB Z12R00047 - Silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver.png',null,50990000,12,8,null,'haipv'),
 			-- Mac Mini
-		(40,'Mac Mini M1 8GPU 16GB 1TB Z12P000HM','mac-mini-m1-8gpu-16gb-1tb-z12p000hm',null,null,41990000,13,8,null,'haipv'),
-        (41,'Mac Mini M1 8GPU 16GB 512GB Z12P000HK','mac-mini-m1-8gpu-16gb-512gb-z12p000hk',null,null,34990000,13,8,null,'haipv')
+		(40,'Mac Mini M1 8GPU 16GB 1TB Z12P000HM','mac-mini-m1-8gpu-16gb-1tb-z12p000hm','mac-mini-m1-8gpu-16gb-1tb-z12p000hm.png',null,41990000,13,8,null,'haipv'),
+        (41,'Mac Mini M1 8GPU 16GB 512GB Z12P000HK','mac-mini-m1-8gpu-16gb-512gb-z12p000hk','mac-mini-m1-8gpu-16gb-512gb-z12p000hk.png',null,34990000,13,8,null,'haipv')
 ;
 -- Thông số kỹ thuật của sản phẩm
 -- CREATE TABLE product_details (
