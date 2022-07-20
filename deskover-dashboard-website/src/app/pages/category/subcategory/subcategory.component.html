@@ -112,7 +112,7 @@
   </div>
 </section>
 <!-- Modal - Start -->
-<div bsModal #subcategoryModal="bs-modal" class="modal fade" tabindex="-1" data-bs-focus="false">
+<div bsModal [config]="{backdrop: 'static'}" #subcategoryModal="bs-modal" class="modal fade" tabindex="-1" data-bs-focus="false">
      role="dialog" aria-labelledby="subcategory-dialog-sizes">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content">
@@ -129,15 +129,15 @@
         <form #subcategoryForm="ngForm">
           <div class="mb-3">
             <label class="form-label" for="name">Tên</label>
-            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="subcategoryDto.name"
-                   (keyup)="subcategoryDto.slug = toSlug(subcategoryDto.name)" #name="ngModel" required/>
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="subcategory.name"
+                   (keyup)="subcategory.slug = toSlug(subcategory.name)" #name="ngModel" required/>
             <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
               <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
             </div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="slug">Slug</label>
-            <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="subcategoryDto.slug"
+            <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="subcategory.slug"
                    #slug="ngModel" required/>
             <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
               <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
@@ -145,10 +145,10 @@
           </div>
           <div class="mb-3">
             <label class="form-label" for="category">Danh mục cha</label>
-            <select id="category" class="custom-select" name="category" [(ngModel)]="subcategoryDto.categoryId"
+            <select id="category" class="custom-select" name="category" [(ngModel)]="subcategory.category" [compareWith]="compareFn"
                     #category="ngModel" required>
               <option value="">-- Chọn danh mục cha --</option>
-              <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+              <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
             </select>
             <div class="invalid-feedback" *ngIf="category.invalid && (category.dirty || category.touched)">
               <span *ngIf="category.errors?.['required']">Vui lòng chọn một danh mục</span>
@@ -157,14 +157,14 @@
           <div class="mb-3">
             <label for="description" class="form-label">Mô tả</label>
             <textarea class="form-control" id="description" rows="4" name="description"
-                      [(ngModel)]="subcategoryDto.description" #description="ngModel"></textarea>
+                      [(ngModel)]="subcategory.description" #description="ngModel"></textarea>
 
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" [disabled]="subcategoryForm.invalid"
-                (click)="saveSubcategory(subcategoryDto);">Lưu</button>
+                (click)="saveSubcategory(subcategory);">Lưu</button>
       </div>
     </div>
   </div>

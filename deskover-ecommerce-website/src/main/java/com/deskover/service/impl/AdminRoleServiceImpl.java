@@ -14,4 +14,8 @@ public class AdminRoleServiceImpl implements AdminRoleService {
     public AdminRole getById(Long id) {
         return repo.findById(id).orElse(null);
     }
+	@Override
+	public AdminRole getByRoleId(String roleId) {
+		return repo.findByRoleId(roleId);
+	}
 }

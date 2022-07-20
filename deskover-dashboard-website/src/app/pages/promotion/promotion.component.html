@@ -71,12 +71,13 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-product btn-sm bg-faded-warning me-1" placement="top" tooltip="Sản phẩm khuyến mãi"
+                  <button type="button" class="btn btn-product btn-sm bg-faded-warning me-1" placement="top"
+                          tooltip="Sản phẩm khuyến mãi"
                           (click)="getProduct(item.id)">
                     <i class="fas fa-pen-square text-warning"></i>
                   </button>
                   <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
-                          (click)="getDiscount(item.id)">
+                          (click)="editDiscount(item.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
                   <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteDiscount(item.id)"
@@ -103,9 +104,9 @@
     </div>
   </div>
 </section>
-<div bsModal #productDiscountModal="bs-modal" id="product-discount-modal" class="modal fade" tabindex="-1" data-bs-focus="false"
-     role="dialog" aria-labelledby="product-discount-dialog-sizes">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
+<div bsModal [config]="{backdrop: 'static'}" #productDiscountModal="bs-modal" id="product-discount-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="product-discount-dialog-sizes">
+  <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="product-discount-dialog-sizes" class="modal-title pull-left text-primary fw-bold text-uppercase">
@@ -117,28 +118,54 @@
         </button>
       </div>
       <div class="modal-body p-0">
-        <div class="row">
-          <div class="col-12">
-            <div class="table-responsive position-relative p-3">
-              <h5 class="text-uppercase fw-bolder d-block d-md-none text-center">Không áp dụng</h5>
-              <h5 class="text-uppercase fw-bolder d-none d-md-block position-absolute p-3 top-0 start-0">Không áp
-                dụng</h5>
+        <div class="row g-0">
+          <div class="col-12 col-md-6 px-1 border-end">
+            <div class="table-responsive mb-3 p-3">
+              <h5 class="text-uppercase fw-bolder mb-3">Không áp dụng</h5>
               <table datatable [dtOptions]="dtAllProductOptions"
                      class="product-table table table-hover table-sm nowrap w-100">
-                <thead class="table-primary"></thead>
-                <tbody></tbody>
+                <thead class="table-primary">
+                <tr>
+                  <th class="align-middle">Tên</th>
+                  <th class="align-middle text-end">Công cụ</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of products; let i = index">
+                  <td class="align-middle">
+                    {{ item.name }}
+                  </td>
+                  <td class="align-middle text-end">
+                    <button type="button" class="btn btn-sm bg-faded-success" (click)="addProduct(item.id)">
+                      <i class="fas fa-plus text-success"></i>
+                    </button>
+                  </td>
+                </tbody>
               </table>
             </div>
           </div>
-          <div class="col-12">
-            <div class="table-responsive position-relative p-3">
-              <h5 class="text-uppercase fw-bolder d-block d-md-none text-center">Đang áp dụng</h5>
-              <h5 class="text-uppercase fw-bolder d-none d-md-block position-absolute p-3 top-0 start-0">Đang áp
-                dụng</h5>
+          <div class="col-12 col-md-6 px-1">
+            <div class="table-responsive mb-3 p-3">
+              <h5 class="text-uppercase fw-bolder mb-3">Đang áp dụng</h5>
               <table datatable [dtOptions]="dtDiscountProductOptions"
                      class="product-table table table-hover table-sm nowrap w-100">
-                <thead class="table-primary"></thead>
-                <tbody></tbody>
+                <thead class="table-primary">
+                <tr>
+                  <th class="align-middle">Tên</th>
+                  <th class="align-middle text-end">Công cụ</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of discountProducts; let i = index">
+                  <td class="align-middle">
+                    {{ item.name }}
+                  </td>
+                  <td class="align-middle text-end">
+                    <button type="button" class="btn btn-sm bg-faded-danger" (click)="removeProduct(item.id)">
+                      <i class="fas fa-trash text-danger"></i>
+                    </button>
+                  </td>
+                </tbody>
               </table>
             </div>
           </div>
@@ -148,8 +175,8 @@
   </div>
 </div>
 <!-- Modal - Start -->
-<div bsModal #discountModal="bs-modal" class="modal fade" tabindex="-1" data-bs-focus="false"
-     role="dialog" aria-labelledby="discount-dialog-sizes">
+<div bsModal [config]="{backdrop: 'static'}" #discountModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="discount-dialog-sizes">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content">
       <div class="modal-header">

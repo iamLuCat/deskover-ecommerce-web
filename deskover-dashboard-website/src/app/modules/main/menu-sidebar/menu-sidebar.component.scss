@@ -1,3 +1,7 @@
 :host {
     display: block;
 }
+
+.sidebar>nav {
+  overflow-y: initial !important;
+}

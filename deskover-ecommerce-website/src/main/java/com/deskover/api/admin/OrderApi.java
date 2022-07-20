@@ -1,8 +1,6 @@
 package com.deskover.api.admin;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,10 +30,9 @@ import com.deskover.util.DecimalFormatUtil;
 public class OrderApi {
 	@Autowired
 	private OrderService orderService;
-
-	@Autowired
-	OrderRepository orderRepository;
-
+	
+	@Autowired OrderRepository orderRepository;
+	
 	/*
 	 * 1 Chờ xác nhận
 	 * 2 Xác nhận đơn hàng
@@ -58,10 +55,10 @@ public class OrderApi {
 		}
 		return ResponseEntity.ok(orders);
 	}
-
+	
 	@GetMapping("/order/{orderCode}")
 	public ResponseEntity<?> doGetOrderByOrderCode(@PathVariable("orderCode") String orderCode,
-			@RequestParam("status") String status) {
+					@RequestParam("status") String status){
 		try {
 			if(status.isBlank()) {
 				OrderDto orderDto = orderService.findByCode(orderCode);
@@ -75,6 +72,17 @@ public class OrderApi {
 	
 	}
 	
+	@GetMapping("/order/delivery")
+	public ResponseEntity<?> doGetDelivery(@RequestParam("status") String status){
+		try {
+			DataOrderResquest dtos = orderService.getListOrder(status);
+			return ResponseEntity.ok(dtos);
+
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));
+		}
+	}
+
 	@GetMapping("/order-7days")
 	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
 			try {
@@ -96,67 +104,27 @@ public class OrderApi {
 			return ResponseEntity.ok("0");
 		}
 	}
-
+	
 	@GetMapping("/order-count-order-per-month")
-	public ResponseEntity<?> doGetCountOrder() {
+	public ResponseEntity<?> doGetCountOrder(){
 		try {
 			String countOrder = orderService.getCountOrderPerMonth();
 			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(countOrder));
-
+			
 		} catch (Exception e) {
 			return ResponseEntity.ok("0");
 		}
 	}
 	
-	
-	
-	@GetMapping("/order/delivery")
-	public ResponseEntity<?> doGetDelivery(@RequestParam("status") String status){
-		try {
-			DataOrderResquest dtos = orderService.getListOrder(status);
-			return ResponseEntity.ok(dtos);
-
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));
-		}
-	}
-	
-	
 	@PostMapping("/order/{orderCode}")
-	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status){
+	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status,
+			@RequestParam("note") String note){
 		try {
-			 orderService.pickupOrder(orderCode,status);
+			 orderService.pickupOrder(orderCode,status,note);
 			 return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
 		}
 	}
-
-
-
-	// DashBoard-ADMIN
-
-	// @GetMapping("/total-by-category")
-	// public ResponseEntity<?> dogetTotal(){
-	//
-	// String[] result1 = orderRepository.totalByNameCategory("07", "2022");
-	// String[] result2 = orderRepository.totalPriceByCategory("07", "2022");
-	// String[][] data = new String[2][result1.length];
-	// data[0] = result1;
-	// data[1] = result2;
-	//
-	// return ResponseEntity.ok(data);
-	// }
-	
-	@GetMapping("/total-by-category")
-	public Map<String, String[]> importedByCateOverTheTime() {
-		// List<Object[]> totalByCategories =orderRepository.getToTalByCategory("07",
-		// "2022") ;
-		Map<String, String[]> map = new HashMap<>();
-		map.put("price", orderRepository.totalPriceByCategory("07", "2022"));
-		map.put("name", orderRepository.totalByNameCategory("07", "2022"));
-		return map;
-	}
-
 
 }

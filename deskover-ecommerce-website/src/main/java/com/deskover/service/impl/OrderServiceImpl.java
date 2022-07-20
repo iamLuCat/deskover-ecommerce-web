@@ -241,7 +241,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Transactional
-	public void pickupOrder(String orderCode, String code) {
+	public void pickupOrder(String orderCode, String code,String note) {
 		try {
 			Order order = repository.findByOrderCode(orderCode);
 			if(order == null) {
@@ -253,6 +253,7 @@ public class OrderServiceImpl implements OrderService {
 				throw new IllegalArgumentException("Cập nhập thất bại");
 				
 			}
+			order.setShipping_note(note);
 			order.setOrderStatus(status);
 			order.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 			repository.saveAndFlush(order);
@@ -298,6 +299,8 @@ public class OrderServiceImpl implements OrderService {
 		orderDto.setTotalPrice(formatter.format(repository.getTotalOrder(order.getId())));
 		return orderDto;
 	}
+
+
 
 	
 

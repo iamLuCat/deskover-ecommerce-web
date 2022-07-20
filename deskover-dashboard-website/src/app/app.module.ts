@@ -37,7 +37,7 @@ import {CheckboxComponent} from '@components/checkbox/checkbox.component';
 import {CategoryComponent} from '@pages/category/category.component';
 import {BrandComponent} from '@pages/brand/brand.component';
 import {DataTablesModule} from 'angular-datatables';
-import {AuthInterceptor} from "@/interceptor/auth-interceptor";
+import {AuthInterceptor} from "@/interceptors/auth-interceptor";
 import {SubcategoryComponent} from '@pages/category/subcategory/subcategory.component';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {PromotionComponent} from '@pages/promotion/promotion.component';
@@ -53,8 +53,6 @@ import {IConfig, NgxMaskModule} from "ngx-mask";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
-
-export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [
@@ -87,27 +85,27 @@ export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
     ProductComponent,
     CKEditorComponent,
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
-    HttpClientModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true
-    }),
-    DataTablesModule,
-    TooltipModule,
-    BsDatepickerModule,
-    TimepickerModule,
-    CKEditorModule,
-    ModalModule,
-    NgxMaskModule.forRoot(),
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
+        HttpClientModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot({
+            timeOut: 3000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true
+        }),
+        DataTablesModule,
+        TooltipModule,
+        BsDatepickerModule,
+        TimepickerModule,
+        CKEditorModule,
+        ModalModule,
+        NgxMaskModule.forRoot()
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

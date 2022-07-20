@@ -97,8 +97,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    public Subcategory create(SubcategoryDto subcategoryDto) {
-        Subcategory subcategory = MapperUtil.map(subcategoryDto, Subcategory.class);
+    public Subcategory create(Subcategory subcategory) {
         if (this.existsBySlug(subcategory)) {
             Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
             if (subcategoryExists != null && !subcategoryExists.getActived()) {
@@ -107,24 +106,9 @@ public class SubcategoryServiceImpl implements SubcategoryService {
                 throw new IllegalArgumentException("Slug đã tồn tại");
             }
         }
-
         subcategory.setActived(true);
         subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-        return repo.save(subcategory);
-    }
-
-    @Override
-    @Transactional
-    public Subcategory update(SubcategoryDto subcategoryDto) {
-        Subcategory subcategory = MapperUtil.map(subcategoryDto, Subcategory.class);
-        if (this.existsBySlug(subcategory)) {
-            throw new IllegalArgumentException("Slug đã tồn tại");
-        }
-        subcategory.setCategory(categoryService.getById(subcategoryDto.getCategoryId()));
-        subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return repo.save(subcategory);
     }
 
