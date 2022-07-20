@@ -477,12 +477,14 @@ VALUE	('C-XN','Chờ xác nhận'),
         ('DG','Đang giao'),
         ('GH-TC','Giao hàng thành công'),
         ('GH-TB','Giao hàng không thành công'),
+        ('C-HUY','Chờ huỷ đơn'),
         ('HUY','Huỷ đơn');
 	
 -- Đơn đặt hàng
 CREATE TABLE orders (
   id BIGINT NOT NULL AUTO_INCREMENT,
   order_code VARCHAR(11) NOT NULL,
+  order_qr_code VARCHAR(128) DEFAULT NULL,
   user_id BIGINT DEFAULT NULL,
   shipping_id BIGINT DEFAULT NULL,
   payment_id BIGINT DEFAULT NULL,

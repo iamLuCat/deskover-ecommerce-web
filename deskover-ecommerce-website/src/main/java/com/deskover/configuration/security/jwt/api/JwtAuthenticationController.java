@@ -57,7 +57,7 @@ public class JwtAuthenticationController {
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
 		Administrator adminProfile = adminService.getPrincipal(userDetails.getUsername());
-		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(), adminProfile.getAuthorities()));
+		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthorities()));
 	}
 	
 	private void authenticate(String username, String password) throws Exception {

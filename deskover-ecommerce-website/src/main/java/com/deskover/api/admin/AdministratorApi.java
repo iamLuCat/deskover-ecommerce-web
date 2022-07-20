@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.AdminCreateDto;
@@ -67,11 +68,17 @@ public class AdministratorApi {
 
 	@GetMapping("/administrator/{id}")
 	public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
-		Administrator admin = adminService.getById(id);
-		if (admin == null) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Administrator not found"));
+		try {
+			Administrator admin = adminService.getById(id);
+			if (admin == null) {
+				return ResponseEntity.badRequest().body(new MessageResponse("Administrator not found"));
+			}
+			return ResponseEntity.ok(admin);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
 		}
-		return ResponseEntity.ok(admin);
+		
+	
 	}
 
 	@PostMapping("/administrator")
@@ -112,7 +119,7 @@ public class AdministratorApi {
 			AdministratorDto adminUpdated = adminService.updatePassword(admin);
 			return ResponseEntity.ok().body(adminUpdated);
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
 		}
 	}
 

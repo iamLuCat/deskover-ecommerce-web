@@ -28,6 +28,7 @@ import com.deskover.repository.OrderRepository;
 import com.deskover.repository.OrderStatusReponsitory;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
+import com.deskover.util.QrCodeUtil;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -121,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
 			itemDto.setName(item.getProduct().getName());
 			itemDto.setPrice(formatter.format(item.getPrice()));
 			itemDto.setQuantity(item.getQuantity());
-			itemDto.setImg(item.getProduct().getImage());
+			itemDto.setImg(item.getProduct().getImageUrl());
 			itemDtos.add(itemDto);
 		}
 		orderDto.setOrderItem(itemDtos);
@@ -298,6 +299,26 @@ public class OrderServiceImpl implements OrderService {
 		orderDto.setOrderItem(itemDtos);
 		orderDto.setTotalPrice(formatter.format(repository.getTotalOrder(order.getId())));
 		return orderDto;
+	}
+
+	@Override
+	public Order managerOrder(String orderCode) {
+		Order order = repository.findByOrderCode(orderCode);
+		if(order==null) {
+			throw new IllegalArgumentException("Không tìm thấy đơn hàng");
+		}
+		if(order.getOrderStatus().getCode().equals("C-XN")) {
+			order.setQrCode(QrCodeUtil.QrCode(order.getOrderCode(), order.getOrderCode()));
+			order.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+			order.setOrderStatus(orderStatusReponsitory.findByCode("C-LH"));
+			return repository.saveAndFlush(order);
+		}else if (order.getOrderStatus().getCode().equals("C-HUY")) {
+			order.setQrCode(QrCodeUtil.QrCode(order.getOrderCode(), order.getOrderCode()));
+			order.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+			order.setOrderStatus(orderStatusReponsitory.findByCode("HUY"));
+			return repository.saveAndFlush(order);
+		}
+		throw new IllegalArgumentException("Đơn hàng code_status = 'C-XN' hoặc 'C-HUY'!!");
 	}
 
 

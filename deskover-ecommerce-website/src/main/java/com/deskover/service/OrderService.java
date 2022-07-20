@@ -28,6 +28,8 @@ public interface OrderService {
 	DataTotaPrice7DaysAgo doGetTotalPrice7DaysAgo();
 
 	void pickupOrder(String orderCode,String code,String note);
+
+	Order managerOrder(String orderCode);
 	
 	//Dashboard ADMIN
 
