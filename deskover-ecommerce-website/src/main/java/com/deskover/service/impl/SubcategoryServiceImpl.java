@@ -1,16 +1,6 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.deskover.dto.SubcategoryDto;
+import com.deskover.constant.PathConstant;
 import com.deskover.entity.Product;
 import com.deskover.entity.Subcategory;
 import com.deskover.repository.SubcategoryRepository;
@@ -18,7 +8,19 @@ import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
 import com.deskover.service.CategoryService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
-import com.deskover.util.MapperUtil;
+import com.deskover.util.FileUtil;
+import com.deskover.util.UrlUtil;
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
@@ -115,11 +117,21 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     @Override
     @Transactional
     public Subcategory update(Subcategory subcategory) {
-        if (this.existsBySlug(subcategory)) {
+        if (this.existsByOtherSlug(subcategory)) {
             throw new IllegalArgumentException("Slug đã tồn tại");
         }
         subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        String sourcePath = PathConstant.TEMP_STATIC + subcategory.getImg();
+        if (FileUtils.getFile(sourcePath).exists()) {
+            String destPath = PathConstant.SUBCATEGORY_IMAGE_STATIC + subcategory.getSlug();
+            File imageFile = FileUtil.copyFile(sourcePath, destPath);
+            subcategory.setImg(imageFile.getName());
+            subcategory.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.SUBCATEGORY_IMAGE));
+        }
+
+        FileUtil.removeFolder(PathConstant.TEMP_STATIC);
         return repo.save(subcategory);
     }
 
@@ -155,6 +167,13 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     @Override
     public Boolean existsBySlug(String slug) {
         return repo.existsBySlug(slug);
+    }
+
+    @Override
+    public Boolean existsByOtherSlug(Subcategory subcategory) {
+        Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
+        return (subcategoryExists != null && !subcategoryExists.getId().equals(subcategory.getId())) || productService.existsBySlug(subcategory.getSlug())
+                || categoryService.existsBySlug(subcategory.getSlug());
     }
 
     @Override

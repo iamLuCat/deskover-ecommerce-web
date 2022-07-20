@@ -21,7 +21,7 @@
       <div class="card-header">
         <div class="row g-2">
           <div class="col-auto">
-            <label for="filter-category" class="col-form-label">Trạng thái:</label>
+            <label [for]="'filter-category'" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-auto">
             <select id="filter-category" class="form-select" [(ngModel)]="isActive" (change)="filter()">
@@ -39,7 +39,7 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm dt-responsive nowrap w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh</th>
@@ -124,7 +124,7 @@
                        (change)="selectedImageChanged($event)">
               </div>
             </div>
-            <div class="col-12 col-md-7 mb-3">
+            <div class="col-12 col-md-7">
               <div class="mb-3">
                 <label class="form-label" [for]="'name'">Tên</label>
                 <input type="text" class="form-control" id="name" name="name" [(ngModel)]="category.name"

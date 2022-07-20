@@ -29,7 +29,9 @@ public interface ProductService {
 
 	Boolean existsByOtherSlug(Product product);
 
-	DataTablesOutput<Product> getByActiveForDatatables(
+    Boolean existsBySlug(Product product);
+
+    DataTablesOutput<Product> getByActiveForDatatables(
 			@Valid DataTablesInput input,
 			Boolean isActive,
 			Long categoryId,

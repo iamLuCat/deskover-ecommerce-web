@@ -42,6 +42,14 @@ public class CategoryServiceImpl implements CategoryService {
 
 	// Check if the slug is already in use by another category
 	@Override
+	public Boolean existsByOtherSlug(Category category) {
+		Category categoryExists = repo.findBySlug(category.getSlug());
+		return (categoryExists != null && !categoryExists.getId().equals(category.getId()))
+				|| productService.existsBySlug(category.getSlug())
+				|| subcategoryService.existsBySlug(category.getSlug());
+	}
+
+	@Override
 	public Boolean existsBySlug(Category category) {
 		Category categoryExists = repo.findBySlug(category.getSlug());
 		return (categoryExists != null && !categoryExists.getId().equals(category.getId()))
@@ -86,7 +94,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public Category create(Category category) {
-		if (this.existsBySlug(category)) {
+		if (this.existsByOtherSlug(category)) {
 			Category categoryExists = repo.findBySlug(category.getSlug());
 			if (categoryExists != null && !categoryExists.getActived()) {
 				category.setId(categoryExists.getId());
@@ -101,6 +109,10 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public Category update(Category category) {
+		if (this.existsByOtherSlug(category)) {
+			throw new IllegalArgumentException("Slug đã tồn tại");
+		}
+
 		category.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 		category.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 

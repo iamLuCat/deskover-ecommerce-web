@@ -2,7 +2,6 @@ import {Category} from '@/entites/category';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
-import {Subject} from "rxjs";
 import {CategoryService} from "@services/category.service";
 import {AlertUtils} from '@/utils/alert-utils';
 import {ModalDirective} from "ngx-bootstrap/modal";
@@ -54,7 +53,7 @@ export class CategoryComponent implements OnInit {
         });
       },
       columns: [
-        {data: 'imgUrl'},
+        {data: 'imgUrl', orderable: false, searchable: false},
         {data: 'name'},
         {data: 'slug'},
         {data: 'description'},

@@ -183,6 +183,7 @@ public class ProductServiceImpl implements ProductService {
                 || categoryService.existsBySlug(product.getSlug());
     }
 
+    @Override
     public Boolean existsBySlug(Product product) {
         return existsBySlug(product.getSlug())
                 || subcategoryService.existsBySlug(product.getSlug())
