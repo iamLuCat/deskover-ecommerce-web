@@ -26,7 +26,6 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   categoryId: number = null;
 
   dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   @ViewChild('subcategoryModal') subcategoryModal: ModalDirective;
   @ViewChild('subcategoryForm') subcategoryForm: FormControlDirective;
@@ -75,26 +74,9 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const self = this;
-
-    this.dtTrigger.next();
-
-    let body = $('body');
-    body.on('click', '.btn-edit', function () {
-      const id = $(this).data('id');
-      self.getSubcategory(id);
-    });
-    body.on('click', '.btn-delete', function () {
-      const id = $(this).data('id');
-      self.deleteSubcategory(id);
-    });
-    body.on('click', '.btn-active', function () {
-      const id = $(this).data('id');
-      self.activeSubcategory(id);
-    });
   }
 
   ngOnDestroy() {
-    this.dtTrigger.unsubscribe();
   }
 
   rerender() {
