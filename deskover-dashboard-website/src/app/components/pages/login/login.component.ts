@@ -1,7 +1,7 @@
 import {Component, HostBinding, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from "@services/auth.service";
-import {AlertUtils} from "@/utils/alert-utils";
+import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 @Component({
     selector: 'app-login',
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             await this.authService.login(this.loginForm.value);
             this.isAuthLoading = false;
         } else {
-            AlertUtils.toastError('Biểu mẫu không hợp lệ!');
+            NotiflixUtils.failureNotify('Biểu mẫu không hợp lệ!');
         }
     }
 
