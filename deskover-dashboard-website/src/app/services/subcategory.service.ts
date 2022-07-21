@@ -15,11 +15,11 @@ export class SubcategoryService {
 
   constructor(private restApi: RestApiService, private categoryService: CategoryService) { }
 
-  getByActiveForDatatable(tableQuery: any, isActive: boolean, categoryId: number): Promise<DataTablesResponse> {
+  getByActiveForDatatable(tableQuery: any, isActive: boolean, categoryId: number): Observable<DataTablesResponse> {
     const params = new HttpParams()
       .set("isActive", isActive.toString())
       .set("categoryId", categoryId ? categoryId.toString() : '');
-    return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params).toPromise();
+    return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params);
   }
 
   getOne(id: number): Observable<Subcategory> {

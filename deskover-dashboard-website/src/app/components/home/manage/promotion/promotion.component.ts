@@ -69,7 +69,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
       processing: true,
       stateSave: true, // sau khi refresh sẽ giữ lại dữ liệu đã filter, sort và paginate
       ajax: (dataTablesParameters: any, callback) => {
-        this.discountService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
+        this.discountService.getByActiveForDatatable(dataTablesParameters, this.isActive).subscribe(resp => {
           self.discounts = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -128,7 +128,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         const params = new HttpParams()
           .set("isActive", this.isActive.toString())
           .set("isDiscount", "false");
-        this.productService.getByActiveForDatatable(dataTablesParameters, params).then(resp => {
+        this.productService.getByActiveForDatatable(dataTablesParameters, params).subscribe(resp => {
           self.products = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -157,7 +157,7 @@ export class PromotionComponent implements OnInit, AfterViewInit {
         const params = new HttpParams()
           .set("isActive", this.isActive.toString())
           .set("isDiscount", "true");
-        this.productService.getByActiveForDatatable(dataTablesParameters, params).then(resp => {
+        this.productService.getByActiveForDatatable(dataTablesParameters, params).subscribe(resp => {
           self.discountProducts = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -174,9 +174,6 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const self = this;
-    const body = $('body');
-
     this.productDiscountModal.onShown.subscribe(() => {
       $('.product-table').DataTable().ajax.reload(null, false);
     });

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
-import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
-import { MainComponent } from '@components/home/main.component';
+import {RouterModule, Routes} from '@angular/router';
+import {MainComponent} from '@components/home/main.component';
 import {AuthGuard} from '@guards/auth.guard';
 import {NonAuthGuard} from '@guards/non-auth.guard';
 import {DashboardComponent} from "@components/home/dashboard/dashboard.component";
@@ -14,6 +14,7 @@ import {LoginComponent} from "@components/pages/login/login.component";
 import {ForgotPasswordComponent} from "@components/pages/forgot-password/forgot-password.component";
 import {RecoverPasswordComponent} from "@components/pages/recover-password/recover-password.component";
 import {PrivacyPolicyComponent} from "@components/pages/privacy-policy/privacy-policy.component";
+import {UserComponent} from "@components/home/manage/user/user.component";
 
 const routes: Routes = [
   {
@@ -31,24 +32,28 @@ const routes: Routes = [
         component: ProfileComponent
       },
       {
-        path: 'category',
+        path: 'categories',
         component: CategoryComponent,
       },
       {
-        path: 'subcategory',
+        path: 'subcategories',
         component: SubcategoryComponent,
       },
       {
-        path: 'brand',
+        path: 'brands',
         component: BrandComponent,
       },
       {
-        path: 'promotion',
+        path: 'promotions',
         component: PromotionComponent ,
       },
       {
-        path: 'product',
+        path: 'products',
         component: ProductComponent,
+      },
+      {
+        path: 'users',
+        component: UserComponent,
       },
       {
         path: '',
@@ -81,7 +86,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {relativeLinkResolution: 'legacy', preloadingStrategy: PreloadAllModules})],
+  imports: [RouterModule.forRoot(routes, {relativeLinkResolution: 'legacy'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

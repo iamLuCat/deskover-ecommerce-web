@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Product} from "@/entites/product";
 import {DataTableDirective} from "angular-datatables";
 import {ProductService} from "@services/product.service";
@@ -22,7 +22,7 @@ import {UploadService} from "@services/upload.service";
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit, AfterViewInit {
+export class ProductComponent implements OnInit {
   products: Product[];
   product: Product;
   categories: Category[];
@@ -81,7 +81,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
           .set("isActive", this.isActive.toString())
           .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : '')
           .set("brandId", this.brandIdFilter ? this.brandIdFilter.toString() : '');
-        this.productService.getByActiveForDatatable(dataTablesParameters, params).then(resp => {
+        this.productService.getByActiveForDatatable(dataTablesParameters, params).subscribe(resp => {
           self.products = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -101,10 +101,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
         {data: null, orderable: false, searchable: false,},
       ]
     }
-  }
-
-  ngAfterViewInit() {
-    const self = this;
   }
 
   /* Category & Subcategory */
