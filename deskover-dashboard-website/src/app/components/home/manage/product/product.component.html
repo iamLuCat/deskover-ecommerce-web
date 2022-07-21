@@ -248,22 +248,31 @@
                   </div>
                 </div>
               </div>
-              <!--<div class="mb-3">
-                <label>Video mô tả (Youtube)</label>
-                <div class="ratio ratio-16x9">
-                  <iframe src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" title="YouTube video" allowfullscreen></iframe>
-                </div>
-              </div>-->
-             <!-- <div class="mb-3">
-                <label class="form-label">Thông số kỹ thuật</label>
-                <app-ckeditor [id]="'spec'" [name]="'spec'"
-                              [(ngModel)]="product.spec"></app-ckeditor>
-              </div>
               <div class="mb-3">
-                <label class="form-label">Mô tả</label>
-                <app-ckeditor [id]="'description'" [name]="'description'"
-                              [(ngModel)]="product.description"></app-ckeditor>
-              </div>-->
+                <label class="form-label">Mô tả & Thông số kỹ thuật</label>
+                <tabset type="pills mb-2">
+                  <tab heading="Mô tả chi tiết">
+                    <app-ckeditor [id]="'description'" [name]="'description'"
+                                  [(ngModel)]="product.description"></app-ckeditor>
+                  </tab>
+                  <tab heading="Thông số kĩ thuật">
+                    <app-ckeditor [id]="'spec'" [name]="'spec'"
+                                  [(ngModel)]="product.spec"></app-ckeditor>
+                  </tab>
+                  <tab heading="Tính năng">
+                    <app-ckeditor [id]="'utility'" [name]="'utility'"
+                                  [(ngModel)]="product.utility"></app-ckeditor>
+                  </tab>
+                  <tab heading="Kích thước và cân nặng">
+                    <app-ckeditor [id]="'design'" [name]="'design'"
+                                  [(ngModel)]="product.design"></app-ckeditor>
+                  </tab>
+                  <tab heading="Khác">
+                    <app-ckeditor [id]="'other'" [name]="'other'"
+                                  [(ngModel)]="product.other"></app-ckeditor>
+                  </tab>
+                </tabset>
+              </div>
             </div>
           </div>
         </form>

@@ -36,6 +36,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
   brandIdFilter: number = null;
   uploadedImage: UploadedImage;
 
+  ckeditorValue: string = '';
+
   isEdit: boolean = false;
   isActive: boolean = true;
 
@@ -129,12 +131,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
       id: null,
       name: '',
       slug: '',
-      description: '',
-      price: null,
-      img: '',
-      modifiedAt: null,
-      modifiedBy: '',
-      actived: true,
       spec: `
         <div class="row pt-2">
           <div class="col-lg-5 col-sm-6">
@@ -179,6 +175,15 @@ export class ProductComponent implements OnInit, AfterViewInit {
             </ul>
           </div>
         </div>`,
+      description: '',
+      utility: '',
+      design: '',
+      other: '',
+      price: null,
+      img: '',
+      modifiedAt: null,
+      modifiedBy: '',
+      actived: true,
       video: '',
       brand: <Brand>{
         id: null,
@@ -338,5 +343,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
       // return 'https://via.placeholder.com/150x150';
       return 'assets/images/no-video.png';
     }
+  }
+
+  test() {
   }
 }
