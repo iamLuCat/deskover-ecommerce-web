@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,5 +40,26 @@ public class CartApi {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
 		}
 	}
-
+	
+	@PostMapping("/minus-cart")
+	public ResponseEntity<?> doMinusCart(@RequestParam("username") String username, 
+			@RequestParam("productId") Long productId){
+		try {
+			cartService.minusCart(username, productId);
+			return ResponseEntity.ok(new MessageResponse("Thêm mới thành công"));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+		}
+	}
+	
+	@DeleteMapping("cart")
+	public ResponseEntity<?> doDeleteCart(@RequestParam("username") String username, 
+			@RequestParam("productId") Long productId){
+		try {
+			cartService.deleteCart(username, productId);
+			return ResponseEntity.ok(new MessageResponse("Xoá thành công"));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+		}
+	}
 }

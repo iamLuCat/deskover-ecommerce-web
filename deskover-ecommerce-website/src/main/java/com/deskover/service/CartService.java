@@ -10,4 +10,8 @@ public interface CartService {
 
 	List<Cart> doGetAllCartOrder(String username);
 
+	Cart minusCart(String username, Long productId);
+
+	void deleteCart(String username, Long productId);
+
 }
