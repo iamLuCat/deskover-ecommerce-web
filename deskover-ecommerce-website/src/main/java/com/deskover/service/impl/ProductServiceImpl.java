@@ -289,10 +289,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
 	@Override
-	public List<Product> getProductByCreateAtDesc(Boolean active) {
-		
-		return repo.findByActivedOrderByModifiedAtDesc(active);
-		
+	public Page<Product> getProductByCreateAtDesc(Boolean active, Optional<Integer> page, Optional<Integer> size) {
+		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
+		Page<Product> products = repo.findByActivedOrderByModifiedAtDesc(active,pageable);
+		if(products == null) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+		}
+		return products;
 	}
 
 }
