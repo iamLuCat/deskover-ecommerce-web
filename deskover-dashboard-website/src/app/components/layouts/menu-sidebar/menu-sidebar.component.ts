@@ -72,4 +72,9 @@ export const MENU = [
     path: ['/product'],
     iconClasses: 'fa-duotone fa-cart-flatbed-boxes'
   },
+  {
+    name: 'Người dùng',
+    path: ['/user'],
+    iconClasses: 'fa-duotone fa-users'
+  },
 ];
