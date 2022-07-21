@@ -4,7 +4,7 @@ import {Confirm, Notify} from "notiflix";
 export class NotiflixUtils {
   constructor() { }
 
-  static showConfirm(title: string, message: string, okCallback: Function) {
+  static showConfirm(title: string, message: string, okCallback: Function, cancelCallback: Function = undefined) {
     Confirm.show(
       title,
       message,
@@ -14,7 +14,7 @@ export class NotiflixUtils {
         okCallback();
       },
       () => {
-        // do nothing
+        cancelCallback();
       },
       {
         // button background color

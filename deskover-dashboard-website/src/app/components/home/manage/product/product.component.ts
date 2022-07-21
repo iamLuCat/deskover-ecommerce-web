@@ -329,4 +329,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
       this.product.productThumbnails[index].thumbnail = this.uploadedImage.filename;
     });
   }
+
+  getYoutubeId(url: string) {
+    return UrlUtils.getYoutubeId(url);
+  }
 }

@@ -1,18 +1,5 @@
 package com.deskover.service.impl;
 
-import java.text.DecimalFormat;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.deskover.dto.app.order.OrderDto;
 import com.deskover.dto.app.order.OrderItemDto;
 import com.deskover.dto.app.order.resquest.DataOrderResquest;
@@ -29,6 +16,18 @@ import com.deskover.repository.OrderStatusReponsitory;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
 import com.deskover.util.QrCodeUtil;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -122,7 +121,7 @@ public class OrderServiceImpl implements OrderService {
 			itemDto.setName(item.getProduct().getName());
 			itemDto.setPrice(formatter.format(item.getPrice()));
 			itemDto.setQuantity(item.getQuantity());
-			itemDto.setImg(item.getProduct().getImageUrl());
+			itemDto.setImg(item.getProduct().getImg());
 			itemDtos.add(itemDto);
 		}
 		orderDto.setOrderItem(itemDtos);
@@ -165,7 +164,7 @@ public class OrderServiceImpl implements OrderService {
 				itemDto.setName(item.getProduct().getName());
 				itemDto.setPrice(formatter.format(item.getPrice()));
 				itemDto.setQuantity(item.getQuantity());
-				itemDto.setImg(item.getProduct().getImage());
+				itemDto.setImg(item.getProduct().getImg());
 				itemDtos.add(itemDto);
 			}
 			orderDto.setOrderItem(itemDtos);
@@ -211,7 +210,7 @@ public class OrderServiceImpl implements OrderService {
 				itemDto.setName(item.getProduct().getName());
 				itemDto.setPrice(formatter.format(item.getPrice()));
 				itemDto.setQuantity(item.getQuantity());
-				itemDto.setImg(item.getProduct().getImage());
+				itemDto.setImg(item.getProduct().getImg());
 				itemDtos.add(itemDto);
 			}
 			orderDto.setOrderItem(itemDtos);
@@ -293,7 +292,7 @@ public class OrderServiceImpl implements OrderService {
 			itemDto.setName(item.getProduct().getName());
 			itemDto.setPrice(formatter.format(item.getPrice()));
 			itemDto.setQuantity(item.getQuantity());
-			itemDto.setImg(item.getProduct().getImage());
+			itemDto.setImg(item.getProduct().getImg());
 			itemDtos.add(itemDto);
 		}
 		orderDto.setOrderItem(itemDtos);

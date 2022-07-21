@@ -29,19 +29,4 @@ public class ProductDto implements Serializable{
     private Boolean actived;
     private SubcategoryDto subcategory;
     private BrandDto brand;
-    
-    public ProductDto(Product product) {
-    	this.id = product.getId();
-    	this.name = product.getName();
-    	this.slug = product.getSlug();
-    	this.description = product.getDescription();
-    	this.price = product.getPrice();
-    	this.image = product.getImage();
-        this.quantity = product.getQuantity();
-    	this.modifiedAt = product.getModifiedAt();
-    	this.modifiedBy = product.getModifiedBy();
-    	this.actived = product.getActived();
-    	this.subcategory = new SubcategoryDto(product.getSubCategory());
-    	this.brand = new BrandDto(product.getBrand());
-    }
 }

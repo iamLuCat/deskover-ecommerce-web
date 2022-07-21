@@ -252,13 +252,13 @@ CREATE TABLE product (
   `name` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   slug VARCHAR(150) NOT NULL,
   img VARCHAR(255) DEFAULT NULL,
-  imgUrl VARCHAR(255) DEFAULT NULL,
+  img_url VARCHAR(255) DEFAULT NULL,
   video VARCHAR(255) DEFAULT NULL,
   `description` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   `spec` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   `utility` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   `design` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-  `orther` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
+  `other` TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   price DOUBLE NOT NULL,
   quantity BIGINT NOT NULL DEFAULT 1000,
   actived BIT NOT NULL DEFAULT 1,
@@ -273,7 +273,7 @@ CREATE TABLE product (
   CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id)
 );
 
-insert product (id,`name`,slug,img,imgUrl,video,price,sub_category_id,brand_id,discount_id,modified_by)
+insert product (id,`name`,slug,img,img_url,video,price,sub_category_id,brand_id,discount_id,modified_by)
 values 	
 		-- asus
 			-- laptop-van-phong
