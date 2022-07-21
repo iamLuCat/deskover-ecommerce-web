@@ -16,7 +16,6 @@ import {ProductThumbnail} from "@/entites/product-thumbnail";
 import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
-import {Confirm} from "notiflix";
 
 @Component({
   selector: 'app-product',
@@ -132,7 +131,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
       slug: '',
       description: '',
       price: null,
-      image: '',
+      img: '',
       modifiedAt: null,
       modifiedBy: '',
       actived: true,
@@ -191,6 +190,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
         <ProductThumbnail>{thumbnail: ''},
         <ProductThumbnail>{thumbnail: ''},
         <ProductThumbnail>{thumbnail: ''},
+        <ProductThumbnail>{thumbnail: ''},
       ],
     };
     this.category = <Category>{
@@ -237,7 +237,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
       this.product = data;
       this.category = data.subCategory.category;
 
-      if (this.product.productThumbnails.length < 3) {
+      if (this.product.productThumbnails.length < 4) {
         this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
       }
       this.product.productThumbnails.sort((a, b) => a.id - b.id);
@@ -316,8 +316,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
     const file = $event.target['files'][0];
     this.uploadService.uploadImage(file).subscribe(data => {
       this.uploadedImage = data;
-      this.product.imageUrl = this.uploadedImage.url;
-      this.product.image = this.uploadedImage.filename;
+      this.product.imgUrl = this.uploadedImage.url;
+      this.product.img = this.uploadedImage.filename;
     });
   }
 
@@ -330,7 +330,13 @@ export class ProductComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getYoutubeId(url: string) {
-    return UrlUtils.getYoutubeId(url);
+  getThumbnailYoutube(url: string) {
+    if (url) {
+      const youtubeId = UrlUtils.getYoutubeId(url);
+      return `https://img.youtube.com/vi/${youtubeId}/default.jpg`;
+    } else {
+      // return 'https://via.placeholder.com/150x150';
+      return 'assets/images/no-video.png';
+    }
   }
 }

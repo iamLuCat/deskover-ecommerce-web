@@ -9,8 +9,8 @@ export interface Product {
   slug: string;
   description: string;
   price: number;
-  image: string;
-  imageUrl: string;
+  img: string;
+  imgUrl: string;
   quantity: number;
   modifiedAt: Date;
   modifiedBy: string;
