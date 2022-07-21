@@ -1,5 +1,7 @@
 package com.deskover.service.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,11 @@ public class CartServiceImpl implements CartService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
 
 	@Override
 	@Transactional
-	public Cart addToCart(Long userId, Long productId, Integer quantity) {
+	public Cart addToCart(String username, Long productId, Integer quantity) {
 		try {
 			Product product = productService.findById(productId);
 			
@@ -34,9 +37,9 @@ public class CartServiceImpl implements CartService {
 				throw new IllegalArgumentException("Không tìm thấy user");
 			}
 			
-			Cart cart = cartRepository.findByProductIdAndUserId(productId, userId);
+			Cart cart = cartRepository.findByProductIdAndUserUsername(productId, username);
 			if(cart == null) {
-				User user = userRepository.getById(userId);
+				User user = userRepository.findByUsername(username);
 				Cart cartNew = new Cart();
 				cartNew.setProduct(product);
 				cartNew.setUser(user);
@@ -55,6 +58,11 @@ public class CartServiceImpl implements CartService {
 			throw new IllegalArgumentException("Thêm mới thất bại");
 		}
 	
+	}
+
+	@Override
+	public List<Cart> doGetAllCartOrder(String username) {
+		return cartRepository.findByUserUsername(username);
 	}
 	
 }
