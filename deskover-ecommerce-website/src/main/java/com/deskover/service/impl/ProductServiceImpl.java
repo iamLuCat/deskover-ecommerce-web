@@ -103,12 +103,12 @@ public class ProductServiceImpl implements ProductService {
         product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        String sourcePath = PathConstant.TEMP_STATIC + product.getImage();
+        String sourcePath = PathConstant.TEMP_STATIC + product.getImg();
         if (FileUtils.getFile(sourcePath).exists()) {
             String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
-            product.setImage(imageFile.getName());
-            product.setImageUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
+            product.setImg(imageFile.getName());
+            product.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
         }
         Product savedProduct = repo.save(product);
 

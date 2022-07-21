@@ -66,12 +66,10 @@ tr, td {
 .file-drop-area {
   position: relative;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  text-align: center;
   cursor: pointer;
   display: flex;
   align-items: center;
-  height: 100%;
-  width: 100%;
+  justify-content: center;
 
   .file-drop-input {
     display: block;

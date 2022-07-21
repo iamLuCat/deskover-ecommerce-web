@@ -77,8 +77,7 @@
             <tbody *ngIf="products?.length !== 0">
             <tr *ngFor="let item of products; let i = index">
               <td class="align-middle">
-                <img src="{{item.imageUrl || 'assets/images/no-image.png'}}" class="img-thumbnail img-50"
-                     alt="product-thumbnail">
+                <img src="{{item.imgUrl || 'assets/images/no-image.png'}}" class="img-thumbnail img-50" alt="Product">
               </td>
               <td class="align-middle">
                 {{ item.name }}
@@ -222,18 +221,20 @@
             <div class="col-12 col-lg-8">
               <div class="row mb-3">
                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                  <div class="file-drop-area p-3 border rounded-4">
-                    <img class="img-fluid" alt="Product"
-                         [src]="product?.imageUrl || 'assets/images/no-image.png'">
+                  <label class="form-label">Ảnh đại diện</label>
+                  <div class="file-drop-area ratio ratio-1x1">
+                    <img class="img-fluid img-thumbnail" alt="Product"
+                         [src]="product?.imgUrl || 'assets/images/no-image.png'">
                     <input type="file" name="image" class="file-drop-input" accept="image/*"
                            (change)="selectedImageChanged($event)">
                   </div>
                 </div>
                 <div class="col-12 col-md-6">
+                  <label class="form-label">Ảnh mô tả</label>
                   <div class="row row-cols-2 g-3">
                     <div class="col" *ngFor="let productThumbnail of product.productThumbnails; index as i">
-                      <div class="file-drop-area p-3 border rounded-4">
-                        <img class="img-fluid" alt="Product"
+                      <div class="file-drop-area p-3 ratio ratio-1x1">
+                        <img class="img-fluid img-thumbnail" alt="Product"
                              [src]="productThumbnail?.thumbnailUrl || 'assets/images/no-image.png'">
                         <input type="file" [name]="'productThumbnail' + i" class="file-drop-input" accept="image/*"
                                (change)="selectedThumbnailChange($event, i)">

@@ -1,14 +1,12 @@
 package com.deskover.dto;
 
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import com.deskover.entity.Product;
 import com.deskover.entity.ProductThumbnail;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -18,8 +16,8 @@ public class ProductModel {
 		this.name = product.getName();
 		this.slug = product.getSlug();
 		this.price = product.getPrice();
-		this.image = product.getImage();
-		this.imageUrl = product.getImageUrl();
+		this.img = product.getImg();
+		this.imgUrl = product.getImgUrl();
 		this.video = product.getVideo();
 		this.spec = product.getSpec();
 		this.brand = product.getBrand().getName();
@@ -37,8 +35,8 @@ public class ProductModel {
 	private String name;
 	private String slug;
 	private Double price;
-	private String image;
-	private String imageUrl;
+	private String img;
+	private String imgUrl;
 	private String video;
 	private String spec;
 	private String brand;

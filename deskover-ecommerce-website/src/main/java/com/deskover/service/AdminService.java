@@ -1,15 +1,14 @@
 package com.deskover.service;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-
 import com.deskover.dto.AdminCreateDto;
 import com.deskover.dto.AdminUpdatePassDto;
 import com.deskover.dto.AdministratorDto;
 import com.deskover.entity.Administrator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+
+import java.util.List;
 
 public interface AdminService {
 	
@@ -19,7 +18,7 @@ public interface AdminService {
     
     Administrator getPrincipal(String username);
     
-    AdministratorDto getPrincipal();
+    Administrator getPrincipal();
     
     AdministratorDto create(AdminCreateDto adminRequest);
     

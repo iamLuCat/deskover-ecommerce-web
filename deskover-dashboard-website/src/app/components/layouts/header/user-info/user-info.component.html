@@ -30,7 +30,7 @@
         <span>{{ user.fullname }}</span>
         <small>
           <span>Ngày đăng ký: &nbsp;</span>
-          <span>{{ formatDate(user.modifiedAt) }}</span>
+          <span>{{ user.modifiedAt | date: 'dd/MM/yyyy' }}</span>
         </small>
       </p>
     </li>
