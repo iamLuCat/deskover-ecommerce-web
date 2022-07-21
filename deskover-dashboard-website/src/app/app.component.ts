@@ -24,17 +24,17 @@ export class AppComponent implements OnInit {
       }
     });
 
-    /*this.router.events.subscribe(
+    this.router.events.subscribe(
       event => {
         if(event instanceof RouteConfigLoadStart) {
-          Loading.circle();
+          Block.circle('body');
           return;
         }
         if(event instanceof RouteConfigLoadEnd) {
-          Loading.remove();
+          Block.remove('body');
           return;
         }
       }
-    );*/
+    );
   }
 }
