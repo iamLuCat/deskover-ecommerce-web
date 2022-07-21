@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Discount} from "@/entites/discount";
 import {DataTableDirective} from "angular-datatables";
 import {DiscountService} from "@services/discount.service";
-import {AlertUtils} from "@/utils/alert-utils";
+import {NotiflixUtils} from "@/utils/notiflix-utils";
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {ProductService} from "@services/product.service";
 import {Product} from "@/entites/product";
@@ -228,15 +228,15 @@ export class PromotionComponent implements OnInit, AfterViewInit {
     this.discount.endDate = this.discountDateRange[1].setTime(this.discountEndTime.getTime());
     if (this.isEdit) {
       this.discountService.update(discount).subscribe(data => {
-        AlertUtils.toastSuccess('Cập nhật thành công');
+        NotiflixUtils.successNotify('Cập nhật thành công');
       }, error => {
-        AlertUtils.toastError(error);
+        NotiflixUtils.failureNotify(error);
       });
     } else {
       this.discountService.create(discount).subscribe(data => {
-        AlertUtils.toastSuccess('Thêm mới thành công');
+        NotiflixUtils.successNotify('Thêm mới thành công');
       }, error => {
-        AlertUtils.toastError(error);
+        NotiflixUtils.failureNotify(error);
       });
     }
     this.rerender();
@@ -244,19 +244,17 @@ export class PromotionComponent implements OnInit, AfterViewInit {
   }
 
   deleteDiscount(discountId: number) {
-    AlertUtils.warning('Xác nhận xoá', 'Khuyến mãi đang áp dụng trên sản phẩm sẽ bị huỷ').then((result) => {
-      if (result.value) {
-        this.discountService.changeActive(discountId).subscribe(data => {
-          AlertUtils.toastSuccess('Xoá danh mục thành công');
-          this.rerender();
-        });
-      }
+    NotiflixUtils.showConfirm('Xác nhận xoá', 'Khuyến mãi đang áp dụng trên sản phẩm sẽ bị huỷ', () => {
+      this.discountService.changeActive(discountId).subscribe(data => {
+        NotiflixUtils.successNotify('Xoá danh mục thành công');
+        this.rerender();
+      });
     });
   }
 
   activeDiscount(discountId: number) {
     this.discountService.changeActive(discountId).subscribe(data => {
-      AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
+      NotiflixUtils.successNotify('Kích hoạt danh mục thành công');
       this.rerender();
     });
   }
@@ -268,14 +266,14 @@ export class PromotionComponent implements OnInit, AfterViewInit {
 
   addProduct(productId: number) {
     this.discountService.update(this.discount, productId, null).subscribe(data => {
-      AlertUtils.toastSuccess('Thêm sản phẩm thành công');
+      NotiflixUtils.successNotify('Thêm sản phẩm thành công');
       $('.product-table').DataTable().ajax.reload(null, false);
     });
   }
 
   removeProduct(productId: number) {
     this.discountService.update(this.discount, null, productId).subscribe(data => {
-      AlertUtils.toastSuccess('Xoá sản phẩm thành công');
+      NotiflixUtils.successNotify('Xoá sản phẩm thành công');
       $('.product-table').DataTable().ajax.reload(null, false);
     });
   }

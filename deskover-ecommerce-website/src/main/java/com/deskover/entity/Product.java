@@ -41,12 +41,12 @@ public class Product implements Serializable {
     private Double price;
 
     @Lob
-    @Column(name = "image")
-    private String image;
+    @Column(name = "img")
+    private String img;
 
     @Lob
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "img_url")
+    private String imgUrl;
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
@@ -61,6 +61,18 @@ public class Product implements Serializable {
     @Lob
     @Column(name = "spec")
     private String spec;
+
+    @Lob
+    @Column(name = "utility")
+    private String utility;
+
+    @Lob
+    @Column(name = "design")
+    private String design;
+
+    @Lob
+    @Column(name = "other")
+    private String other;
 
     @Column(name = "video")
     private String video;

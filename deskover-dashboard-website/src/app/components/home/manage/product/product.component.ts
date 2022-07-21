@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Product} from "@/entites/product";
 import {DataTableDirective} from "angular-datatables";
 import {ProductService} from "@services/product.service";
-import {AlertUtils} from "@/utils/alert-utils";
+import {NotiflixUtils} from "@/utils/notiflix-utils";
 import {Category} from "@/entites/category";
 import {CategoryService} from '@services/category.service';
 import {Subcategory} from "@/entites/subcategory";
@@ -16,6 +16,7 @@ import {ProductThumbnail} from "@/entites/product-thumbnail";
 import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
+import {Confirm} from "notiflix";
 
 @Component({
   selector: 'app-product',
@@ -249,37 +250,31 @@ export class ProductComponent implements OnInit, AfterViewInit {
   saveProduct(product: Product) {
     if (this.isEdit) {
       this.productService.update(product).subscribe(data => {
-        AlertUtils.toastSuccess('Cập nhật thành công');
+        NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
         this.closeModal();
-      }, error => {
-        AlertUtils.toastError(error);
       });
     } else {
       this.productService.create(product).subscribe(data => {
-        AlertUtils.toastSuccess('Thêm mới thành công');
+        NotiflixUtils.successNotify('Thêm mới thành công');
         this.rerender();
         this.closeModal();
-      }, error => {
-        AlertUtils.toastError(error);
       });
     }
   }
 
   deleteProduct(id: number) {
-    AlertUtils.warning('Xác nhận', 'Các danh mục con liên quan cũng sẽ bị xoá').then((result) => {
-      if (result.value) {
-        this.productService.changeActive(id).subscribe(data => {
-          AlertUtils.toastSuccess('Xoá danh mục thành công');
-          this.rerender();
-        });
-      }
+    NotiflixUtils.showConfirm('Xác nhận', 'Xoá sản phẩm khỏi danh sách', () => {
+      this.productService.changeActive(id).subscribe(data => {
+        NotiflixUtils.successNotify('Xoá danh mục thành công');
+        this.rerender();
+      });
     });
   }
 
   activeProduct(id: number) {
     this.productService.changeActive(id).subscribe(data => {
-      AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
+      NotiflixUtils.successNotify('Kích hoạt danh mục thành công');
       this.rerender();
     });
   }
@@ -333,5 +328,9 @@ export class ProductComponent implements OnInit, AfterViewInit {
       this.product.productThumbnails[index].thumbnailUrl = this.uploadedImage.url;
       this.product.productThumbnails[index].thumbnail = this.uploadedImage.filename;
     });
+  }
+
+  getYoutubeId(url: string) {
+    return UrlUtils.getYoutubeId(url);
   }
 }

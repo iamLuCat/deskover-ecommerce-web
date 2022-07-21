@@ -1,15 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {DateTime} from 'luxon';
 import {AuthService} from "@services/auth.service";
-import { environment } from 'environments/environment';
 import {Admin} from "@/entites/admin";
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  selector: 'app-user-info',
+  templateUrl: './user-info.component.html',
+  styleUrls: ['./user-info.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserInfoComponent implements OnInit {
   public user: Admin;
 
   constructor(private authService: AuthService) {
