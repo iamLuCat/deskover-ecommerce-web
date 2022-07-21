@@ -43,6 +43,6 @@ public interface ProductService {
 
 	void changeActiveSubcategoty(Long id);
 
-	List<Product> getProductByCreateAtDesc(Boolean active);
+	Page<Product>  getProductByCreateAtDesc(Boolean active,Optional<Integer> page, Optional<Integer> size);
 
 }
