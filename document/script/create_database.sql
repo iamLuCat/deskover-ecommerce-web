@@ -179,23 +179,24 @@ CREATE TABLE subcategory (
 insert subcategory (id,category_id,`name`,slug,img,imgUrl,modified_by)
 values 	(1,1,'Văn phòng','van-phong','laptop.png','img/shop/categories/laptop.png','haipv'),
 		(2,1,'Gaming','gaming','laptop.png','img/shop/categories/laptop.png','haipv'),
+        (3,1,'Đồ họa - kỹ thuật','do-hoa-ky-thuat','laptop.png','img/shop/categories/laptop.png','haipv'),
         
-		(3,2,'Android','android','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
-        (4,2,'iPhone(iOS)','ios','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
-        (5,2,'phổ thông','pho-thong','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
+		(4,2,'Android','android','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
+        (5,2,'iPhone(iOS)','ios','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
+        (6,2,'phổ thông','pho-thong','dien-thoai.png','img/shop/categories/dien-thoai.png','haipv'),
         
-		(6,3,'7 - 8 inch (nhỏ gọn)','small','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
-        (7,3,'10 - 12 inch (trung bình)','medium','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
-        (8,3,'Trên 12 inch (lớn)','larg','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
+		(7,3,'7 - 8 inch (nhỏ gọn)','small','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
+        (8,3,'10 - 12 inch (trung bình)','medium','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
+        (9,3,'Trên 12 inch (lớn)','larg','may-tinh-bang.png','img/shop/categories/may-tinh-bang.png','haipv'),
         
-        (9,4,'Dây đeo','day-deo','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
-        (10,4,'Vòng đeo tay thông minh','vong-deo-tay-thong-minh','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
-        (11,4,'Đồng hồ định vị trẻ em','dong-ho-dinh-vi-tre-em','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
-        
-        (12,5,'Chuột, bàn phím','chuot-ban-phim','chuot-ban-phim.png','img/shop/categories/chuot-ban-phim.png','haipv'),
-        (13,5,'Cáp, sạc','cap-sac','cap-sacn.png','img/shop/categories/cap-sac.png','haipv'),
-        (14,5,'Pin dự phòng','pin-du-phong','pin-du-phong.png','img/shop/categories/pin-du-phong.png','haipv'),
-        (15,5,'Giá đỡ','gia-do','gia-do.png','img/shop/categories/gia-do.png','haipv')
+        (10,4,'Dây đeo','day-deo','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
+        (11,4,'Đồng hồ thông minh','dong-ho-thong-minh','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
+        (12,4,'Đồng hồ định vị trẻ em','dong-ho-dinh-vi-tre-em','dong-ho.png','img/shop/categories/dong-ho.png','haipv'),
+	
+        (13,5,'Chuột, bàn phím','chuot-ban-phim','chuot-ban-phim.png','img/shop/categories/chuot-ban-phim.png','haipv'),
+        (14,5,'Cáp, sạc','cap-sac','cap-sacn.png','img/shop/categories/cap-sac.png','haipv'),
+        (15,5,'Pin dự phòng','pin-du-phong','pin-du-phong.png','img/shop/categories/pin-du-phong.png','haipv'),
+        (16,5,'Giá đỡ','gia-do','gia-do.png','img/shop/categories/gia-do.png','haipv')
 	;
 
 -- Thương hiệu
@@ -321,18 +322,18 @@ values
         (31,'LG Gram 14Z90P-G.AH75A5','laptop-lg-gram-14z90p-g-ah75a5','laptop-lg-gram-14z90p-g-ah75a5.png',null,47990000,1,7,null,'haipv'),
         -- APPLE
 			-- Macbook
-		(32,'Macbook Air M2 10GPU 8GB 512GB - Silver','macbook-air-m2-10gpu-8gb-512gb-silver','macbook-air-m2-10gpu-8gb-512gb-silver.png',null,42990000,11,8,null,'haipv'),
-		(33,'Macbook Air M2 8GPU 8GB 256GB - Starlight','macbook-air-m2-8gpu-8gb-256gb-starlight','macbook-air-m2-8gpu-8gb-256gb-starlight.png',null,33990000,11,8,null,'haipv'),
-        (34,'MacBook Pro 13 M2 10GPU 8GB 512GB Space Gray','macbook-pro-13-m2-10gpu-8gb-512gb-space-gray','macbook-pro-13-m2-10gpu-8gb-512gb-space-gray.png',null,39990000,11,8,null,'haipv'),
-        (35,'MacBook Pro 14" 2021 M1 Pro 10CPU 16 GPU 16GB 1TB Silver','macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver','macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver.png',null,64990000,11,8,null,'haipv'),
-        (36,'MacBook Pro 16 2021 M1 Max 32GPU 32GB 1TB Space Gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray.png',null,99000000,11,8,null,'haipv'),
+		(32,'Macbook Air M2 10GPU 8GB 512GB - Silver','macbook-air-m2-10gpu-8gb-512gb-silver','macbook-air-m2-10gpu-8gb-512gb-silver.png',null,42990000,3,8,null,'haipv'),
+		(33,'Macbook Air M2 8GPU 8GB 256GB - Starlight','macbook-air-m2-8gpu-8gb-256gb-starlight','macbook-air-m2-8gpu-8gb-256gb-starlight.png',null,33990000,3,8,null,'haipv'),
+        (34,'MacBook Pro 13 M2 10GPU 8GB 512GB Space Gray','macbook-pro-13-m2-10gpu-8gb-512gb-space-gray','macbook-pro-13-m2-10gpu-8gb-512gb-space-gray.png',null,39990000,3,8,null,'haipv'),
+        (35,'MacBook Pro 14" 2021 M1 Pro 10CPU 16 GPU 16GB 1TB Silver','macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver','macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver.png',null,64990000,3,8,null,'haipv'),
+        (36,'MacBook Pro 16 2021 M1 Max 32GPU 32GB 1TB Space Gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray.png',null,99000000,3,8,null,'haipv'),
 			-- IMac
-		(37,'iMac 24 2021 M1 7GPU 8GB 256GB MGTF3SA/A - Silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver.png',null,33990000,12,8,null,'haipv'),
-		(38,'iMac 24 2021 M1 8GPU 8GB 256GB MGPK3SA/A - Blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue.png',null,38990000,12,8,null,'haipv'),
-		(39,'iMac 24 2021 M1 8GPU 16GB 512GB Z12R00047 - Silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver.png',null,50990000,12,8,null,'haipv'),
+		(37,'iMac 24 2021 M1 7GPU 8GB 256GB MGTF3SA/A - Silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver.png',null,33990000,3,8,null,'haipv'),
+		(38,'iMac 24 2021 M1 8GPU 8GB 256GB MGPK3SA/A - Blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue.png',null,38990000,3,8,null,'haipv'),
+		(39,'iMac 24 2021 M1 8GPU 16GB 512GB Z12R00047 - Silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver.png',null,50990000,3,8,null,'haipv'),
 			-- Mac Mini
-		(40,'Mac Mini M1 8GPU 16GB 1TB Z12P000HM','mac-mini-m1-8gpu-16gb-1tb-z12p000hm','mac-mini-m1-8gpu-16gb-1tb-z12p000hm.png',null,41990000,13,8,null,'haipv'),
-        (41,'Mac Mini M1 8GPU 16GB 512GB Z12P000HK','mac-mini-m1-8gpu-16gb-512gb-z12p000hk','mac-mini-m1-8gpu-16gb-512gb-z12p000hk.png',null,34990000,13,8,null,'haipv')
+		(40,'Mac Mini M1 8GPU 16GB 1TB Z12P000HM','mac-mini-m1-8gpu-16gb-1tb-z12p000hm','mac-mini-m1-8gpu-16gb-1tb-z12p000hm.png',null,41990000,3,8,null,'haipv'),
+        (41,'Mac Mini M1 8GPU 16GB 512GB Z12P000HK','mac-mini-m1-8gpu-16gb-512gb-z12p000hk','mac-mini-m1-8gpu-16gb-512gb-z12p000hk.png',null,34990000,3,8,null,'haipv')
 ;
 -- Thông số kỹ thuật của sản phẩm
 -- CREATE TABLE product_details (
@@ -397,25 +398,25 @@ CREATE TABLE product_thumbnail (
 
 insert product_thumbnail (id,product_id,thumbnail_url,modified_by)
 values 	
-		(1,1,'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png','haipv'),
-        (2,1,'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png','haipv'),
-        (3,1,'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png','haipv'),
+		(1,1,'img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png','haipv'),
+        (2,1,'img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png','haipv'),
+        (3,1,'img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png','haipv'),
        
-        (4,2,'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png','haipv'),
-		(5,2,'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png','haipv'),
-		(6,2,'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-3.png','haipv'),
+        (4,2,'img/shop/products/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png','haipv'),
+		(5,2,'img/shop/products/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png','haipv'),
+		(6,2,'img/shop/products/laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-3.png','haipv'),
        
-        (7,3,'laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png','haipv'),
-        (8,3,'laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png','haipv'),
-        (9,3,'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png','haipv'),
+        (7,3,'img/shop/products/laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png','haipv'),
+        (8,3,'img/shop/products/laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png','haipv'),
+        (9,3,'img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png','haipv'),
         
-        (10,4,'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png','haipv'),
-        (11,4,'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png','haipv'),
-        (12,4,'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png','haipv'),
+        (10,4,'img/shop/products/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png','haipv'),
+        (11,4,'img/shop/products/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png','haipv'),
+        (12,4,'img/shop/products/laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png','haipv'),
         
-        (13,5,'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png','haipv'),
-        (14,5,'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png','haipv'),
-        (15,5,'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png','haipv')
+        (13,5,'img/shop/products/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png','haipv'),
+        (14,5,'img/shop/products/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png','haipv'),
+        (15,5,'img/shop/products/laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png','haipv')
 ;
 
 --------------------------------------------------------------------------------------------------------------
