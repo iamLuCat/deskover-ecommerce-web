@@ -2,7 +2,7 @@ import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {Observable, Subject, throwError} from 'rxjs';
 import {catchError} from "rxjs/operators";
-import {AlertUtils} from "@/utils/alert-utils";
+import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +63,7 @@ export class RestApiService{
     } else {
       errorMessage = `Error Code: ${error.status} - Message: ${error.message}`;
     }
-    return throwError(errorMessage);
+    NotiflixUtils.failureNotify(errorMessage);
+    return throwError(() => errorMessage);
   }
 }

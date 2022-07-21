@@ -3,7 +3,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
 import {CategoryService} from "@services/category.service";
-import {AlertUtils} from '@/utils/alert-utils';
+import {NotiflixUtils} from '@/utils/notiflix-utils';
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {UploadService} from "@services/upload.service";
@@ -94,37 +94,35 @@ export class CategoryComponent implements OnInit {
   saveCategory(category: Category) {
     if (this.isEdit) {
       this.categoryService.update(category).subscribe(data => {
-        AlertUtils.toastSuccess('Cập nhật thành công');
+        NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
         this.closeModal();
       }, error => {
-        AlertUtils.toastError(error);
+        NotiflixUtils.failureNotify(error);
       });
     } else {
       this.categoryService.create(category).subscribe(data => {
-        AlertUtils.toastSuccess('Thêm mới thành công');
+        NotiflixUtils.successNotify('Thêm mới thành công');
         this.rerender();
         this.closeModal();
       }, error => {
-        AlertUtils.toastError(error);
+        NotiflixUtils.failureNotify(error);
       });
     }
   }
 
   deleteCategory(id: number) {
-    AlertUtils.warning('Xác nhận', 'Các danh mục con liên quan cũng sẽ bị xoá').then((result) => {
-      if (result.value) {
-        this.categoryService.changeActive(id).subscribe(data => {
-          AlertUtils.toastSuccess('Xoá danh mục thành công');
-          this.rerender();
-        });
-      }
+    NotiflixUtils.showConfirm('Xác nhận', 'Các danh mục con liên quan cũng sẽ bị xoá', () => {
+      this.categoryService.changeActive(id).subscribe(data => {
+        NotiflixUtils.successNotify('Xoá danh mục thành công');
+        this.rerender();
+      });
     });
   }
 
   activeCategory(id: number) {
     this.categoryService.changeActive(id).subscribe(data => {
-      AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
+      NotiflixUtils.successNotify('Kích hoạt danh mục thành công');
       this.rerender();
     });
   }
