@@ -33,7 +33,7 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductRepository repository;
+    private ProductRepository repo;
 
     @Autowired
     private ProductThumbnailRepository thumbnailRepository;
@@ -55,22 +55,22 @@ public class ProductServiceImpl implements ProductService {
 
     public Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
-        return repository.findByActived(isActive, pageable);
+        return repo.findByActived(isActive, pageable);
     }
 
     @Override
     public Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
 
-        Page<Product> pages = repository.findByNameContaining(name, pageable);
+        Page<Product> pages = repo.findByNameContaining(name, pageable);
         if (!pages.isEmpty()) {
             return pages;
         }
-        Page<Product> pageSub = repository.findBySubCategoryNameContaining(name, pageable);
+        Page<Product> pageSub = repo.findBySubCategoryNameContaining(name, pageable);
         if (!pageSub.isEmpty()) {
             return pageSub;
         }
-        Page<Product> pageCate = repository.findBySubCategoryCategoryNameContaining(name, pageable);
+        Page<Product> pageCate = repo.findBySubCategoryCategoryNameContaining(name, pageable);
         if (!pageCate.isEmpty()) {
             return pageCate;
         }
@@ -82,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Product create(Product product) {
         if (this.existsBySlug(product)) {
-            Product productExists = repository.findBySlug(product.getSlug());
+            Product productExists = repo.findBySlug(product.getSlug());
             if (productExists != null && !productExists.getActived()) {
                 product.setId(productExists.getId());
             } else {
@@ -110,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
             product.setImage(imageFile.getName());
             product.setImageUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
         }
-        Product savedProduct = repository.save(product);
+        Product savedProduct = repo.save(product);
 
         if (product.getProductThumbnails() != null) {
             int index = 0;
@@ -153,7 +153,7 @@ public class ProductServiceImpl implements ProductService {
             product.setActived(!product.getActived());
             product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-            return repository.saveAndFlush(product);
+            return repo.saveAndFlush(product);
         } else {
             throw new IllegalArgumentException("Danh mục đã bị vô hiệu hoá");
         }
@@ -161,23 +161,28 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(Long id) {
-        Optional<Product> optional = repository.findById(id);
+        Optional<Product> optional = repo.findById(id);
         return optional.orElse(null);
     }
 
     public Product getById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repo.findById(id).orElse(null);
     }
 
     @Override
     public Boolean existsBySlug(String slug) {
-        Product product = repository.findBySlug(slug);
+        Product product = repo.findBySlug(slug);
         return product != null;
     }
 
     @Override
+    public Product findBySlug(String slug) {
+        return repo.findBySlug(slug);
+    }
+
+    @Override
     public Boolean existsByOtherSlug(Product product) {
-        Product productExits = repository.findBySlug(product.getSlug());
+        Product productExits = repo.findBySlug(product.getSlug());
         return (productExits != null && !productExits.getId().equals(product.getId()))
                 || subcategoryService.existsBySlug(product.getSlug())
                 || categoryService.existsBySlug(product.getSlug());
@@ -263,14 +268,14 @@ public class ProductServiceImpl implements ProductService {
             product.setActived(isActive);
             product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         });
-        repository.saveAll(products);
+        repo.saveAll(products);
 
     }
 
     @Override
     public List<Product> getBySubcategoryId(Long id) {
 
-        return repository.findBySubCategoryId(id);
+        return repo.findBySubCategoryId(id);
     }
 
     @Override
@@ -286,7 +291,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getProductByCreateAtDesc(Boolean active) {
 		
-		return repository.findByActivedOrderByModifiedAtDesc(active);
+		return repo.findByActivedOrderByModifiedAtDesc(active);
 		
 	}
 

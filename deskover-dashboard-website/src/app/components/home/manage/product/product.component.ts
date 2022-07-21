@@ -190,7 +190,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
         <ProductThumbnail>{thumbnail: ''},
         <ProductThumbnail>{thumbnail: ''},
         <ProductThumbnail>{thumbnail: ''},
-        <ProductThumbnail>{thumbnail: ''},
       ],
     };
     this.category = <Category>{
@@ -226,7 +225,9 @@ export class ProductComponent implements OnInit, AfterViewInit {
   newProduct() {
     this.productForm.control.reset();
     this.isEdit = false;
-    this.newData();
+    setTimeout(() => {
+      this.newData();
+    },1000);
     this.openModal(this.productModal);
   }
 
@@ -235,7 +236,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
       this.product = data;
       this.category = data.subCategory.category;
 
-      if (this.product.productThumbnails.length < 4) {
+      if (this.product.productThumbnails.length < 3) {
         this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
       }
       this.product.productThumbnails.sort((a, b) => a.id - b.id);
