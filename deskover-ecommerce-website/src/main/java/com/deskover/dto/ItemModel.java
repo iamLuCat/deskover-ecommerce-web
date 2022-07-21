@@ -1,10 +1,7 @@
 package com.deskover.dto;
 
-import java.util.List;
-
 import com.deskover.entity.Discount;
 import com.deskover.entity.Product;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +13,8 @@ public class ItemModel {
 		this.name = product.getName();
 		this.slug = product.getSlug();
 		this.price = product.getPrice();
-		this.image = product.getImage();
-		this.imageUrl = product.getImageUrl();
+		this.img = product.getImg();
+		this.imgUrl = product.getImgUrl();
 		this.discount = product.getDiscount();
 		this.category = product.getSubCategory().getCategory().getName();
 		this.rating = product.getAverageRating();
@@ -26,8 +23,8 @@ public class ItemModel {
 	private String name;
 	private String slug;
 	private Double price;
-	private String image;
-	private String imageUrl;
+	private String img;
+	private String imgUrl;
 	private Discount discount;
 	private String category;
 	private int rating;

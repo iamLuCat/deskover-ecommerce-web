@@ -77,8 +77,7 @@
             <tbody *ngIf="products?.length !== 0">
             <tr *ngFor="let item of products; let i = index">
               <td class="align-middle">
-                <img src="{{item.imageUrl || 'assets/images/no-image.png'}}" class="img-thumbnail img-50"
-                     alt="product-thumbnail">
+                <img src="{{item.imageUrl || 'assets/images/no-image.png'}}" class="img-thumbnail img-50" alt="Product">
               </td>
               <td class="align-middle">
                 {{ item.name }}
@@ -238,6 +237,10 @@
                         <input type="file" [name]="'productThumbnail' + i" class="file-drop-input" accept="image/*"
                                (change)="selectedThumbnailChange($event, i)">
                       </div>
+                    </div>
+                    <div class="col">
+                        <img class="img-fluid" alt="Product"
+                             [src]="product?.video || 'assets/images/no-image.png'">
                     </div>
                   </div>
                 </div>

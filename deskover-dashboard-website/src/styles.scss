@@ -42,6 +42,10 @@ tr, td {
   white-space: nowrap;
 }
 
+.notiflix-confirm-buttons>a {
+  text-decoration: none;
+}
+
 .modal-body, .ck.ck-editor__main>.ck-editor__editable {
   overflow-x: hidden !important;
 }

@@ -32,7 +32,7 @@ import {LanguageComponent} from "@components/layouts/header/language/language.co
 import {ProductComponent} from "@components/home/manage/product/product.component";
 import {ProfileComponent} from "@components/home/profile/profile.component";
 import {CategoryComponent} from "@components/home/manage/category/category.component";
-import {UserComponent} from "@components/layouts/header/user/user.component";
+import {UserInfoComponent} from "@components/layouts/header/user-info/user-info.component";
 import {ControlSidebarComponent} from "@components/layouts/control-sidebar/control-sidebar.component";
 import {RecoverPasswordComponent} from "@components/pages/recover-password/recover-password.component";
 import {ForgotPasswordComponent} from "@components/pages/forgot-password/forgot-password.component";
@@ -68,7 +68,7 @@ defineLocale('vi', viLocale);
     MessagesComponent,
     NotificationsComponent,
     ButtonComponent,
-    UserComponent,
+    UserInfoComponent,
     ForgotPasswordComponent,
     RecoverPasswordComponent,
     LanguageComponent,

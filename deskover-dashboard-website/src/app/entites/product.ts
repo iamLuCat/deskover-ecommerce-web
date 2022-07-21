@@ -16,6 +16,8 @@ export interface Product {
   modifiedBy: string;
   actived: boolean;
   spec: string;
+  utility: string;
+  design: string;
   video: string;
   subCategory: Subcategory;
   brand: Brand;

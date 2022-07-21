@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
-import {AlertUtils} from '@/utils/alert-utils';
+import {NotiflixUtils} from '@/utils/notiflix-utils';
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {ModalDirective} from "ngx-bootstrap/modal";
@@ -112,37 +112,35 @@ export class BrandComponent implements OnInit, AfterViewInit, OnDestroy {
   saveBrand(brand: Brand) {
     if (this.isEdit) {
       this.brandService.update(brand).subscribe(data => {
-        AlertUtils.toastSuccess('Cập nhật thành công');
+        NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
         this.closeModal();
       }, error => {
-        AlertUtils.toastError(error);
+        NotiflixUtils.failureNotify(error);
       });
     } else {
       this.brandService.create(brand).subscribe(data => {
-        AlertUtils.toastSuccess('Thêm mới thành công');
+        NotiflixUtils.successNotify('Thêm mới thành công');
         this.rerender();
         this.closeModal();
       }, error => {
-        AlertUtils.toastError(error);
+        NotiflixUtils.failureNotify(error);
       });
     }
   }
 
   deleteBrand(id: number) {
-    AlertUtils.warning('Xác nhận', 'Các danh mục con liên quan cũng sẽ bị xoá').then((result) => {
-      if (result.value) {
-        this.brandService.changeActive(id).subscribe(data => {
-          AlertUtils.toastSuccess('Xoá danh mục thành công');
-          this.rerender();
-        });
-      }
+    NotiflixUtils.showConfirm('Xác nhận', 'Các danh mục con liên quan cũng sẽ bị xoá', () => {
+      this.brandService.changeActive(id).subscribe(data => {
+        NotiflixUtils.successNotify('Xoá danh mục thành công');
+        this.rerender();
+      });
     });
   }
 
   activeBrand(id: number) {
     this.brandService.changeActive(id).subscribe(data => {
-      AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
+      NotiflixUtils.successNotify('Kích hoạt danh mục thành công');
       this.rerender();
     });
   }

@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {RestApiService} from '@services/rest-api.service';
 import {Admin} from "@/entites/admin";
-import {AlertUtils} from "@/utils/alert-utils";
+import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +30,7 @@ export class AuthService {
       await this.getProfile();
       await this.router.navigate(['/']);
     } catch (e) {
-      AlertUtils.toastError(e);
+      NotiflixUtils.failureNotify(e);
     }
   }
 

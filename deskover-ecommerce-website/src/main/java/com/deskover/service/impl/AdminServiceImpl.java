@@ -1,20 +1,5 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.deskover.dto.AdminCreateDto;
 import com.deskover.dto.AdminUpdatePassDto;
 import com.deskover.dto.AdministratorDto;
@@ -26,6 +11,20 @@ import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminRoleService;
 import com.deskover.service.AdminService;
 import com.deskover.util.MapperUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -58,9 +57,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public AdministratorDto getPrincipal() {
+	public Administrator getPrincipal() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		return MapperUtil.map(repo.findByUsername(username), AdministratorDto.class);
+		return repo.findByUsername(username);
 	}
 
 	@Override

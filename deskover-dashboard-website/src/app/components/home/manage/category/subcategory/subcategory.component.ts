@@ -5,7 +5,7 @@ import {UrlUtils} from "@/utils/url-utils";
 import {Subcategory} from "@/entites/subcategory";
 import {SubcategoryService} from "@services/subcategory.service";
 import {CategoryService} from "@services/category.service";
-import {AlertUtils} from '@/utils/alert-utils';
+import {NotiflixUtils} from '@/utils/notiflix-utils';
 import {Category} from "@/entites/category";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
@@ -117,33 +117,29 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   saveSubcategory(subcategory: Subcategory) {
     if (!this.isEdit) {
       this.subcategoryService.create(subcategory).subscribe(data => {
-        AlertUtils.toastSuccess('Cập nhật thành công');
+        NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
       }, error => {
-        AlertUtils.toastError(error);
+        NotiflixUtils.failureNotify(error);
       });
     } else {
       this.subcategoryService.update(subcategory).subscribe(data => {
-        AlertUtils.toastSuccess('Thêm mới thành công');
+        NotiflixUtils.successNotify('Thêm mới thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
       }, error => {
-        AlertUtils.toastError(error);
+        NotiflixUtils.failureNotify(error);
       });
     }
   }
 
   deleteSubcategory(id: number) {
-    AlertUtils.warning('Xác nhận', 'Danh mục này sẽ bị khoá').then((result) => {
-      if (result.value) {
-        this.subcategoryService.changeActive(id).subscribe(data => {
-          AlertUtils.toastSuccess('Xoá danh mục thành công');
-          this.rerender();
-        }, error => {
-          AlertUtils.toastError(error);
-        });
-      }
+    NotiflixUtils.showConfirm('Xác nhận', 'Danh mục này sẽ bị khoá', () => {
+      this.subcategoryService.changeActive(id).subscribe(data => {
+        NotiflixUtils.successNotify('Xoá danh mục thành công');
+        this.rerender();
+      });
     });
   }
 
@@ -151,12 +147,10 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subcategory = this.subcategories.find(item => item.id === id);
     if (this.subcategory) {
       if (!this.subcategory.category.actived) {
-        AlertUtils.info('Danh mục cha đã bị khoá', 'Kích hoạt lại danh mục cha?').then((result) => {
-          if (result.value) {
-            this.categoryService.changeActive(this.subcategory.category.id).subscribe(data => {
-              this.changeActive(id);
-            });
-          }
+        NotiflixUtils.showConfirm('Danh mục cha đã bị khoá', 'Kích hoạt lại danh mục cha?', () => {
+          this.categoryService.changeActive(this.subcategory.category.id).subscribe(data => {
+            this.changeActive(id);
+          });
         });
       } else {
         this.changeActive(id);
@@ -166,10 +160,10 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private changeActive(id: number) {
     this.subcategoryService.changeActive(id).subscribe(data => {
-      AlertUtils.toastSuccess('Kích hoạt danh mục thành công');
+      NotiflixUtils.successNotify('Kích hoạt danh mục thành công');
       this.rerender();
     }, error => {
-      AlertUtils.toastError(error);
+      NotiflixUtils.failureNotify(error);
     });
   }
 
