@@ -51,6 +51,7 @@ import {registerLocaleData} from '@angular/common';
 import {defineLocale} from 'ngx-bootstrap/chronos';
 import localeEn from '@angular/common/locales/en';
 import {viLocale} from 'ngx-bootstrap/locale';
+import {TabsModule} from "ngx-bootstrap/tabs";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -59,6 +60,7 @@ defineLocale('vi', viLocale);
   declarations: [
     AppComponent,
     MainComponent,
+    CKEditorComponent,
     LoginComponent,
     HeaderComponent,
     FooterComponent,
@@ -84,7 +86,6 @@ defineLocale('vi', viLocale);
     SubcategoryComponent,
     PromotionComponent,
     ProductComponent,
-    CKEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,12 +96,13 @@ defineLocale('vi', viLocale);
     ReactiveFormsModule,
     BrowserAnimationsModule,
     DataTablesModule,
+    CKEditorModule,
     TooltipModule,
     BsDatepickerModule,
     TimepickerModule,
-    CKEditorModule,
     ModalModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    TabsModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
