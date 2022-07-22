@@ -14,9 +14,9 @@ export class DiscountService {
 
   constructor(private restApi: RestApiService) { }
 
-    getByActiveForDatatable(tableQuery: any, isActive: boolean): Promise<DataTablesResponse> {
+    getByActiveForDatatable(tableQuery: any, isActive: boolean): Observable<DataTablesResponse> {
         const params = new HttpParams().set("isActive", isActive.toString());
-        return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params).toPromise();
+        return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params);
     }
 
     getAll(page: number, size: number, active: Boolean): Observable<any> {

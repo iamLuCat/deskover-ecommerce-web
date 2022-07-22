@@ -43,7 +43,7 @@ export class CategoryComponent implements OnInit {
       processing: true,
       stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.categoryService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
+        this.categoryService.getByActiveForDatatable(dataTablesParameters, this.isActive).subscribe(resp => {
           self.categories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,

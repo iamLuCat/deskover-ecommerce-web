@@ -6,11 +6,12 @@
 >
     <i class="nav-icon {{ menuItem.iconClasses }}"></i>
     <p>{{ menuItem.name }}
+      <span class="right d-flex" [@rotate]="isMenuExtended">
         <i
-            *ngIf="isExpandable && menuItem.children.length > 0"
-            class="right fas fa-angle-right"
-            [@rotate]="isMenuExtended"
+          *ngIf="isExpandable && menuItem.children.length > 0"
+          class="right fas fa-angle-right"
         ></i>
+      </span>
     </p>
 </a>
 <ul class="nav nav-treeview" *ngFor="let item of menuItem.children" [@openClose]="isMenuExtended">

@@ -4,7 +4,7 @@ import {Confirm, Notify} from "notiflix";
 export class NotiflixUtils {
   constructor() { }
 
-  static showConfirm(title: string, message: string, okCallback: Function, cancelCallback: Function = undefined) {
+  static showConfirm(title: string, message: string, okCallback: Function, cancelCallback: Function = () => {}) {
     Confirm.show(
       title,
       message,

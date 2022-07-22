@@ -18,6 +18,7 @@ export const environment = {
     brandApi: BASE_API + '/admin/brands',
     discountApi: BASE_API + '/admin/discounts',
     productApi: BASE_API + '/admin/products',
+    userApi: BASE_API + '/admin/users',
     uploadFileApi: BASE_API + '/admin/upload-file',
   },
 };
