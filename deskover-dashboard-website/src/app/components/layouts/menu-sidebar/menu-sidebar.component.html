@@ -1,35 +1,18 @@
 <!-- Brand Logo -->
 <a [routerLink]="['/']" class="brand-link border-bottom-0">
     <img
-        src="../../../../assets/images/logo/logo-icon.png"
+        src="assets/images/logo/logo-icon.png"
         alt="Deskover"
         class="brand-image img-circle elevation-3"
         style="opacity: 0.8"
     />
     <span class="brand-text text-center">
-      <img src="../../../../assets/images/logo/logo.png" width="200" class="img-fluid" alt="logo">
+      <img src="assets/images/logo/logo.png" width="200" class="img-fluid" alt="logo">
     </span>
 </a>
 
 <!-- Sidebar -->
 <div class="sidebar">
-   <!--  Sidebar user (optional)
-    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-            <img
-                [src]="'assets/images/avatar/default-profile.png'"
-                class="img-circle elevation-2"
-                alt="User Image"
-            />
-        </div>
-        <div class="info">
-            &lt;!&ndash; [routerLink]="['/profile']"
-            <a class="d-block">
-                Xin chào, {{ user.username }}
-            </a>
-        </div>
-    </div>&ndash;&gt;-->
-
     <!-- Sidebar Menu -->
     <nav class="mt-2" style="overflow-y: hidden">
         <ul
@@ -42,6 +25,12 @@
                 *ngFor="let item of menu"
                 [menuItem]="item"
             ></app-menu-item>
+          <li class="nav-item position-absolute" style="bottom: 0.5rem">
+            <a class="nav-link" href="javascript:void(0)" (click)="logout()">
+              <i class="nav-icon fa-solid fa-arrow-right-from-bracket"></i>
+              <p>Đăng xuất</p>
+            </a>
+          </li>
         </ul>
     </nav>
 </div>

@@ -97,6 +97,14 @@ tr, td {
   }
 }
 
+.nav-sidebar {
+  position: unset;
+}
+
+.brand-link.border-bottom-0~.sidebar {
+  height: calc(100% - 8.1rem) !important;
+}
+
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
 .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
   background-color: $primary !important;

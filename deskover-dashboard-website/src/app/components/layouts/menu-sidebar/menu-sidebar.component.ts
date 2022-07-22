@@ -31,6 +31,10 @@ export class MenuSidebarComponent implements OnInit {
     });
     this.user = this.authService.user;
   }
+
+  logout() {
+    this.authService.logout();
+  }
 }
 
 export const MENU = [
