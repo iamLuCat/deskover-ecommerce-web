@@ -19,10 +19,10 @@ import {UploadService} from "@services/upload.service";
 
 @Component({
   selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductsComponent implements OnInit {
   products: Product[];
   product: Product;
   categories: Category[];

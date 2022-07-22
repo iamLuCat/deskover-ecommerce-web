@@ -10,10 +10,10 @@ import {UploadService} from "@services/upload.service";
 
 @Component({
   selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss'],
+  templateUrl: './categories.component.html',
+  styleUrls: ['./categories.component.scss'],
 })
-export class CategoryComponent implements OnInit {
+export class CategoriesComponent implements OnInit {
 
   categories: Category[];
   category: Category = <Category>{};

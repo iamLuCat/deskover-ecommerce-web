@@ -27,17 +27,17 @@ import {MenuSidebarComponent} from "@components/layouts/menu-sidebar/menu-sideba
 import {LoginComponent} from "@components/pages/login/login.component";
 import {FooterComponent} from "@components/layouts/footer/footer.component";
 import {PrivacyPolicyComponent} from "@components/pages/privacy-policy/privacy-policy.component";
-import {SubcategoryComponent} from "@components/home/manage/category/subcategory/subcategory.component";
+import {SubcategoriesComponent} from "@components/home/manage/categories/subcategories/subcategories.component";
 import {LanguageComponent} from "@components/layouts/header/language/language.component";
-import {ProductComponent} from "@components/home/manage/product/product.component";
+import {ProductsComponent} from "@components/home/manage/products/products.component";
 import {ProfileComponent} from "@components/home/profile/profile.component";
-import {CategoryComponent} from "@components/home/manage/category/category.component";
+import {CategoriesComponent} from "@components/home/manage/categories/categories.component";
 import {UserInfoComponent} from "@components/layouts/header/user-info/user-info.component";
 import {ControlSidebarComponent} from "@components/layouts/control-sidebar/control-sidebar.component";
 import {RecoverPasswordComponent} from "@components/pages/recover-password/recover-password.component";
 import {ForgotPasswordComponent} from "@components/pages/forgot-password/forgot-password.component";
-import {BrandComponent} from "@components/home/manage/brand/brand.component";
-import {PromotionComponent} from "@components/home/manage/promotion/promotion.component";
+import {BrandsComponent} from "@components/home/manage/brands/brands.component";
+import {PromotionsComponent} from "@components/home/manage/promotions/promotions.component";
 import {NotificationsComponent} from "@components/layouts/header/notifications/notifications.component";
 import {MessagesComponent} from "@components/layouts/header/messages/messages.component";
 import {DashboardComponent} from "@components/home/dashboard/dashboard.component";
@@ -52,7 +52,7 @@ import {defineLocale} from 'ngx-bootstrap/chronos';
 import localeEn from '@angular/common/locales/en';
 import {viLocale} from 'ngx-bootstrap/locale';
 import {TabsModule} from "ngx-bootstrap/tabs";
-import {UserComponent} from "@components/home/manage/user/user.component";
+import {UsersComponent} from "@components/home/manage/users/users.component";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -82,12 +82,12 @@ defineLocale('vi', viLocale);
     ControlSidebarComponent,
     SelectComponent,
     CheckboxComponent,
-    CategoryComponent,
-    BrandComponent,
-    SubcategoryComponent,
-    PromotionComponent,
-    ProductComponent,
-    UserComponent
+    CategoriesComponent,
+    BrandsComponent,
+    SubcategoriesComponent,
+    PromotionsComponent,
+    ProductsComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

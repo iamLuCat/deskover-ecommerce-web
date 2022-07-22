@@ -6,10 +6,10 @@ import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UsersComponent implements OnInit {
   isActive: boolean = true;
 
   users: User[] = [];
