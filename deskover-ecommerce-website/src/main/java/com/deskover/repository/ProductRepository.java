@@ -60,4 +60,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			Pageable pageable);
 	//app custumer
 	Page<Product> findByActivedOrderByModifiedAtDesc(Boolean active,Pageable Page);
+	
+	Page<Product> findByActivedAndSubCategoryCategoryId(Boolean active,Long categoryId, Pageable Page);
+	
+	Page<Product> findByActivedAndSubCategoryId(Boolean active,Long categoryId, Pageable Page);
+	
+	
 }
