@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
 import {NotiflixUtils} from '@/utils/notiflix-utils';
@@ -12,7 +12,7 @@ import {FormControlDirective} from "@angular/forms";
   templateUrl: './brand.component.html',
   styleUrls: ['./brand.component.scss']
 })
-export class BrandComponent implements OnInit, AfterViewInit, OnDestroy {
+export class BrandComponent implements OnInit {
 
   brands: Brand[];
   brand: Brand = <Brand>{};
@@ -42,7 +42,7 @@ export class BrandComponent implements OnInit, AfterViewInit, OnDestroy {
       processing: true,
       stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.brandService.getByActiveForDatatable(dataTablesParameters, this.isActive).then(resp => {
+        this.brandService.getByActiveForDatatable(dataTablesParameters, this.isActive).subscribe(resp => {
           self.brands = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -59,27 +59,6 @@ export class BrandComponent implements OnInit, AfterViewInit, OnDestroy {
         {data: null, orderable: false, searchable: false,},
       ]
     }
-  }
-
-  ngAfterViewInit() {
-    const self = this;
-
-    let body = $('body');
-    body.on('click', '.btn-edit', function () {
-      const id = $(this).data('brand-id');
-      self.getBrand(id);
-    });
-    body.on('click', '.btn-delete', function () {
-      const id = $(this).data('brand-id');
-      self.deleteBrand(id);
-    });
-    body.on('click', '.btn-active', function () {
-      const id = $(this).data('brand-id');
-      self.activeBrand(id);
-    });
-  }
-
-  ngOnDestroy() {
   }
 
   rerender() {

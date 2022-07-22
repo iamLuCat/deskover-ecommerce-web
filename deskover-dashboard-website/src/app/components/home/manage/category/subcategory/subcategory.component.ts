@@ -1,5 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subject} from "rxjs";
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataTableDirective} from "angular-datatables";
 import {UrlUtils} from "@/utils/url-utils";
 import {Subcategory} from "@/entites/subcategory";
@@ -16,15 +15,15 @@ import {UploadService} from "@services/upload.service";
   templateUrl: './subcategory.component.html',
   styleUrls: ['./subcategory.component.scss'],
 })
-export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SubcategoryComponent implements OnInit {
   subcategories: Subcategory[];
   subcategory: Subcategory = <Subcategory>{};
 
   categories: Category[];
+  categoryId: number = null;
 
   isEdit: boolean = false;
   isActive: boolean = true;
-  categoryId: number = null;
 
   dtOptions: any = {};
 
@@ -54,7 +53,7 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       processing: true,
       stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.subcategoryService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.categoryId).then(resp => {
+        this.subcategoryService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.categoryId).subscribe(resp => {
           self.subcategories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -73,13 +72,6 @@ export class SubcategoryComponent implements OnInit, AfterViewInit, OnDestroy {
         {data: null, orderable: false, searchable: false}
       ]
     }
-  }
-
-  ngAfterViewInit() {
-    const self = this;
-  }
-
-  ngOnDestroy() {
   }
 
   rerender() {

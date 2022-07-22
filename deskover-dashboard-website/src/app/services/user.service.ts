@@ -9,8 +9,8 @@ import {RestApiService} from "@services/rest-api.service";
 @Injectable({
   providedIn: 'root'
 })
-export class BrandService {
-  private url = environment.globalUrl.brandApi;
+export class UserService {
+  private url = environment.globalUrl.userApi;
 
   constructor(private restApi: RestApiService) {
   }
@@ -18,31 +18,6 @@ export class BrandService {
   getByActiveForDatatable(tableQuery: any, isActive: boolean): Observable<DataTablesResponse> {
     const params = new HttpParams().set("isActive", isActive.toString());
     return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params);
-  }
-
-  getAll(page: number, size: number, active: Boolean): Observable<any> {
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString())
-      .set('active', active.toString());
-
-    return this.restApi.getWithParams(this.url, params);
-  }
-
-  getByActive(): Observable<Brand[]> {
-    return this.restApi.get(this.url + "/actived");
-  }
-
-  getById(id: number): Observable<Brand> {
-    return this.restApi.getOne(this.url, id);
-  }
-
-  create(brand: Brand): Observable<Brand> {
-    return this.restApi.post(this.url, brand);
-  }
-
-  update(brand: Brand): Observable<Brand> {
-    return this.restApi.put(this.url, brand);
   }
 
   changeActive(id: number) {

@@ -10,5 +10,6 @@ export const openCloseAnimation = trigger('openClose', [
 
 export const rotateAnimation = trigger('rotate', [
   state('true', style({ transform: 'rotate(90deg)' })),
-  transition('false <=> true', animate(`${TRANSITION_DURATION}ms ease-out`))
+  state('false', style({ transform: 'rotate(0deg)' })),
+  transition('false <=> true', animate(`${TRANSITION_DURATION}ms ease-in`))
 ]);

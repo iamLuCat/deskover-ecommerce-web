@@ -1,1 +1,94 @@
-<p>user works!</p>
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 fw-bold text-uppercase text-primary fw-bold">Quản lý người dùng</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item">
+            <a class="text-decoration-none" [routerLink]="'/'" routerLinkActive="router-link-active">Trang chủ</a>
+          </li>
+          <li class="breadcrumb-item active">Người dùng</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="container-fluid">
+    <div class="card border-primary">
+      <div class="card-header">
+        <div class="row g-2">
+          <div class="col-auto">
+            <label [for]="'filter-active'" class="col-form-label">Trạng thái:</label>
+          </div>
+          <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
+            <select id="filter-active" class="form-select" [(ngModel)]="isActive" (change)="filter()">
+              <option [ngValue]="true">Hoạt động</option>
+              <option [ngValue]="false">Chưa kích hoạt</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive p-3">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
+            <thead class="table-primary">
+            <tr>
+              <th class="align-middle">Ảnh đại diện</th>
+              <th class="align-middle">Tên đăng nhập</th>
+              <th class="align-middle">Họ và tên</th>
+              <th class="align-middle text-center">Ngày cập nhật</th>
+              <th class="align-middle text-center">Cập nhật bởi</th>
+              <th class="align-middle text-center">Lần đăng nhập cuối</th>
+              <th class="align-middle text-end">Công cụ</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="users?.length !== 0">
+            <tr *ngFor="let user of users; let i = index">
+              <td class="align-middle">
+                <img src="{{ user.avatar || 'assets/images/no-image.png' }}" class="img-fluid img-thumbnail img-50">
+              </td>
+              <td class="align-middle">
+                {{ user.username }}
+              </td>
+              <td class="align-middle">
+                {{ user.fullname }}
+              </td>
+              <td class="align-middle text-center">
+                {{ user.modifiedAt | date: 'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ user.modifiedBy }}
+              </td>
+              <td class="align-middle text-center">
+                {{ user.lastLogin | date: 'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-end">
+                <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="changeActive(user)"
+                          placement="top" tooltip="Xoá" container="body">
+                    <i class="fas fa-trash text-danger"></i>
+                  </button>
+                </div>
+                <div *ngIf="!isActive">
+                  <button type="button" class="btn btn-sm bg-success" (click)="changeActive(user)">
+                    Kích hoạt
+                  </button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="users?.length === 0">
+            <tr>
+              <td colspan="7" class="text-center">Không tìm thấy kết quá</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
