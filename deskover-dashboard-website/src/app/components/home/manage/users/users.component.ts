@@ -75,7 +75,7 @@ export class UsersComponent implements OnInit {
 
   changeActive(user: User) {
     if (user.actived) {
-      NotiflixUtils.showConfirm('Xác nhận xoá', 'Tài khoản người dùng sẽ bị vô hiệu hoá', () => {
+      NotiflixUtils.showConfirm('Xác nhận xoá', 'Nguời dùng này sẽ bị khoá', () => {
         this.userService.changeActive(user.id).subscribe(data => {
           NotiflixUtils.successNotify('Huỷ kích hoạt tài khoản thành công');
           this.rerender();
