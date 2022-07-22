@@ -222,7 +222,7 @@
                 <input type="url" class="form-control mb-2" id="video" name="video" [(ngModel)]="product.video"
                        #video="ngModel" placeholder="https://youtu.be/fazEeJYHxTc" pattern="https://.*"/>
                 <div class="ratio ratio-16x9" *ngIf="product.video">
-                  <iframe src="https://www.youtube.com/embed/{{getYoutubeId(product.video)}}?rel=0"
+                  <iframe [src]="getUrlYoutubeEmbed(product.video)"
                           title="YouTube video" allowfullscreen></iframe>
                 </div>
               </div>

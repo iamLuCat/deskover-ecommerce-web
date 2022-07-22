@@ -16,6 +16,7 @@ import {ProductThumbnail} from "@/entites/product-thumbnail";
 import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-product',
@@ -52,7 +53,8 @@ export class ProductsComponent implements OnInit {
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
     private brandService: BrandService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private sanitizer: DomSanitizer
   ) {
     this.newData();
 
@@ -341,11 +343,7 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  getYoutubeId(url: string) {
-    if (url) {
-      return UrlUtils.getYoutubeId(url);
-    } else {
-      return '';
-    }
+  getUrlYoutubeEmbed(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${UrlUtils.getYoutubeId(url)}?rel=0`);
   }
 }
