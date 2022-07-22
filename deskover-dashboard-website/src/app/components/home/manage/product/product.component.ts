@@ -341,6 +341,11 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  test() {
+  getYoutubeId(url: string) {
+    if (url) {
+      return UrlUtils.getYoutubeId(url);
+    } else {
+      return '';
+    }
   }
 }
