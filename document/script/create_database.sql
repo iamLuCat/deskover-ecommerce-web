@@ -12,6 +12,18 @@ USE deskover;
 --------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------
+-- Lưu phiên đăng nhập
+--------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE persistent_logins (
+  username varchar(100) NOT NULL,
+  series varchar(64) NOT NULL,
+  token varchar(64) NOT NULL,
+  last_used datetime(6) NOT NULL,
+  PRIMARY KEY (series)
+);
+
+--------------------------------------------------------------------------------------------------------------
 -- Người quản trị
 --------------------------------------------------------------------------------------------------------------
 
@@ -83,7 +95,7 @@ CREATE TABLE `user` (
   id BIGINT NOT NULL AUTO_INCREMENT,
   username VARCHAR(50) NOT NULL,
   fullname VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-  avatar VARCHAR(128) DEFAULT NULL,
+  avatar VARCHAR(255) DEFAULT NULL,
   last_login TIMESTAMP DEFAULT NULL,
   actived BIT NOT NULL DEFAULT 1,
   verify BIT NOT NULL DEFAULT 0, 
@@ -140,8 +152,8 @@ values 	(1,1,'$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
 CREATE TABLE category (
   id BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-  img  VARCHAR(128) DEFAULT NULL,
-  imgUrl  VARCHAR(128) DEFAULT NULL,
+  img  VARCHAR(255) DEFAULT NULL,
+  imgUrl  VARCHAR(255) DEFAULT NULL,
   `description` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
   actived BIT NOT NULL DEFAULT 1,
@@ -163,8 +175,8 @@ values 	(1,'Laptop','laptop','laptop.svg','http://localhost:8080/img/shop/catego
 CREATE TABLE subcategory (
   id BIGINT NOT NULL AUTO_INCREMENT,
   category_id BIGINT NOT NULL,
-  img  VARCHAR(128) DEFAULT NULL,
-  imgUrl  VARCHAR(128) DEFAULT NULL,
+  img  VARCHAR(255) DEFAULT NULL,
+  imgUrl  VARCHAR(255) DEFAULT NULL,
   `name` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
   slug VARCHAR(50) NOT NULL,
