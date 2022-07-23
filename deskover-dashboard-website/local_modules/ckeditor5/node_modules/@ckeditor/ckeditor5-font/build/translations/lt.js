@@ -1,0 +1,1 @@
+!function(i){const o=i.lt=i.lt||{};o.dictionary=Object.assign(o.dictionary||{},{Big:"Didelis",Default:"Numatyta","Document colors":"","Font Background Color":"Šrifto fono spalva","Font Color":"Šrifto spalva","Font Family":"Šrifto šeima","Font Size":"Šrifto dydis",Huge:"Milžiniškas",Small:"Mažas",Tiny:"Mažytis"})}(window.CKEDITOR_TRANSLATIONS||(window.CKEDITOR_TRANSLATIONS={}));

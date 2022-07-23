@@ -1,6 +1,7 @@
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
-import * as Editor from '../../../build/ckeditor5';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import * as Editor from 'ckeditor5-custom-build/build/ckeditor';
+
 
 @Component({
   selector: 'app-ckeditor',
@@ -32,24 +33,63 @@ export class CKEditorComponent implements OnInit, ControlValueAccessor {
 
   constructor() {
     this.config = {
-      placeholder: 'Product description.....',
       removePlugins: [
         'Title',
-        'CKBox',
-        'CKFinder',
-        'EasyImage',
-        'RealTimeCollaborativeComments',
-        'RealTimeCollaborativeTrackChanges',
-        'RealTimeCollaborativeRevisionHistory',
-        'PresenceList',
-        'Comments',
-        'TrackChanges',
-        'TrackChangesData',
-        'RevisionHistory',
-        'Pagination',
-        'WProofreader',
-        'MathType'
+        'Markdown',
       ],
+      toolbar: {
+        items: [
+          'sourceEditing', '|',
+          'undo', 'redo', '|',
+          'heading', '|',
+          'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+          'findAndReplace', 'selectAll', '-',
+          'bulletedList', 'numberedList', 'todoList', '|',
+          'outdent', 'indent', '|',
+          'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+          'alignment', '|',
+          'specialCharacters', 'horizontalLine', 'pageBreak', '-',
+          'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+        ],
+        shouldNotGroupWhenFull: true,
+      },
+      language: 'vi',
+      image: {
+        toolbar: [
+          'toggleImageCaption', 'imageTextAlternative', "linkImage", '|',
+          'imageStyle:wrapText', 'imageStyle:breakText', '|',
+          "resizeImage"
+        ]
+      },
+      table: {
+        contentToolbar: [
+          'tableRow', 'tableColumn', 'mergeTableCells', '|',
+          'tableProperties', 'tableCellProperties', 'toggleTableCaption', '|',
+        ]
+      },
+      mediaEmbed: {
+        toolbar: [
+          'mediaEmbed'
+        ]
+      },
+      htmlEmbed: {
+        showPreviews: true
+      },
+      fontSize: {
+        options: [10, 12, 14, 'default', 18, 20, 22, 24, 26, 28, 36, 48, 72],
+        supportAllValues: true
+      },
+      mention: {
+        feeds: [
+          {
+            marker: '@',
+            feed: [
+              '@Nguyễn Hoài Minh', '@Phạm Văn Hải', '@Phạm Quang Vũ'
+            ],
+            minimumCharacters: 1
+          }
+        ]
+      },
       heading: {
         options: [
           {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
@@ -60,72 +100,7 @@ export class CKEditorComponent implements OnInit, ControlValueAccessor {
           {model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5'},
           {model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6'}
         ]
-      },
-      image: {
-        toolbar: [
-          'toggleImageCaption', 'imageTextAlternative', '|',
-          'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', 'imageStyle:side', '|',
-          "resizeImage"
-        ]
-      },
-      mediaEmbed: {
-        toolbar: [
-          'mediaEmbed'
-        ]
-      },
-      table: {
-        contentToolbar: [
-          'tableRow', 'tableColumn', 'mergeTableCells', '|',
-          'tableProperties', 'tableCellProperties', 'toggleTableCaption', '|',
-        ]
-      },
-      fontSize: {
-        options: [10, 12, 14, 'default', 18, 20, 22],
-        supportAllValues: true
-      },
-      htmlSupport: {
-        allow: [
-          {
-            name: /.*/,
-            attributes: true,
-            classes: true,
-            styles: true
-          }
-        ]
-      },
-      htmlEmbed: {
-        showPreviews: true
-      },
-      mention: {
-        feeds: [
-          {
-            marker: '@',
-            feed: [
-              '' +
-              '@Nguyễn Hoài Minh', '@Phạm Văn Hải', '@Phạm Quang Vũ'
-            ],
-            minimumCharacters: 1
-          }
-        ]
-      },
-      toolbar: {
-        items: [
-          'findAndReplace', 'selectAll', '|',
-          'heading', '|',
-          'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
-          'bulletedList', 'numberedList', 'todoList', '|',
-          'outdent', 'indent', '|',
-          'undo', 'redo', '|',
-          'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
-          'alignment', '|',
-          'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed',
-          '-',
-          'specialCharacters', 'horizontalLine', 'pageBreak', '|',
-          'textPartLanguage', '|',
-          'sourceEditing'
-        ],
-        shouldNotGroupWhenFull: true,
-      },
+      }
     }
   }
 

@@ -1,0 +1,1 @@
+!function(o){const n=o.ca=o.ca||{};n.dictionary=Object.assign(n.dictionary||{},{Big:"Gran",Default:"Predeterminada","Document colors":"","Font Background Color":"","Font Color":"","Font Family":"Font","Font Size":"Mida de la font",Huge:"Molt gran",Small:"Peita",Tiny:"Molt petita"})}(window.CKEDITOR_TRANSLATIONS||(window.CKEDITOR_TRANSLATIONS={}));
