@@ -52,6 +52,7 @@ import localeEn from '@angular/common/locales/en';
 import {viLocale} from 'ngx-bootstrap/locale';
 import {TabsModule} from "ngx-bootstrap/tabs";
 import {UsersComponent} from "@components/home/manage/users/users.component";
+import { OrdersComponent } from './components/home/manage/orders/orders.component';
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -85,7 +86,8 @@ defineLocale('vi', viLocale);
     SubcategoriesComponent,
     PromotionsComponent,
     ProductsComponent,
-    UsersComponent
+    UsersComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,

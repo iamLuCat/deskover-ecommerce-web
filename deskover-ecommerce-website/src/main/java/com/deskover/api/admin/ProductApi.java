@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@RestController("ProductApiForAdmin")
 @CrossOrigin("*")
 @RequestMapping("v1/api/admin")
 public class ProductApi {

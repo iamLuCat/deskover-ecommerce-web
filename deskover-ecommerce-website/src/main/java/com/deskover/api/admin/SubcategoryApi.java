@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@RestController
+@RestController("SubcategoryApiForAdmin")
 @CrossOrigin("*")
 @RequestMapping("v1/api/admin")
 public class SubcategoryApi {
