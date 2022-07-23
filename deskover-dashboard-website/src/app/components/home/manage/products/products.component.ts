@@ -260,7 +260,7 @@ export class ProductsComponent implements OnInit {
   deleteProduct(id: number) {
     NotiflixUtils.showConfirm('Xác nhận', 'Xoá sản phẩm khỏi danh sách', () => {
       this.productService.changeActive(id).subscribe(data => {
-        NotiflixUtils.successNotify('Xoá danh mục thành công');
+        NotiflixUtils.successNotify('Xoá sản phẩm thành công');
         this.rerender();
       });
     });
@@ -268,7 +268,7 @@ export class ProductsComponent implements OnInit {
 
   activeProduct(id: number) {
     this.productService.changeActive(id).subscribe(data => {
-      NotiflixUtils.successNotify('Kích hoạt danh mục thành công');
+      NotiflixUtils.successNotify('Kích hoạt sản phẩm thành công');
       this.rerender();
     });
   }
