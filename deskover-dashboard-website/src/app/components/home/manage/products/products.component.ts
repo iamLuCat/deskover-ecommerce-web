@@ -61,6 +61,7 @@ export class ProductsComponent implements OnInit {
     this.ckeditorUrl = environment.globalUrl.ckeditor;
     this.ckeditorConfig = {
       language: 'vi',
+      allowedContent: true,
     };
 
     this.newData();
@@ -135,10 +136,31 @@ export class ProductsComponent implements OnInit {
       id: null,
       name: '',
       slug: '',
-      spec: ``,
       description: '',
-      utility: ``,
-      design: ``,
+      spec: `
+        <ul class="list-unstyled fs-sm pb-2">
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">CPU:</span><span>Apple M2</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">RAM:</span><span>8GB</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Card đồ họa:</span><span>8 nhân GPU, 16 nhân Neural Engine</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Ổ cứng</span><span>SSD - 256GB</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Màn hình</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Pin</span><span>52,6 Wh</span></li>
+        </ul>`,
+      design: `
+        <ul class="list-unstyled fs-sm pb-2">
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Kích thước:</span><span>30,41cm-21,5cm-1,13cm</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Trọng lượng:</span><span>1.27 kg</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Chất liệu:</span><span>Vỏ kim loại</span></li>
+        </ul>`,
+      utility: `
+        <ul class="list-unstyled fs-sm pb-2">
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Cổng giao tiếp:</span><span>Cổng HDMI và đầu đọc thẻ SD, USB Type-C</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Wifi:</span><span>802.11ax Wi-Fi 6</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Webcam:</span><span>1080p FaceTime HD camera</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Hệ điều hành:</span><span>MacOS</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Âm thanh:</span><span>Yes</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Bluetooth:</span><span>5.0</span></li>
+        </ul>`,
       other: ``,
       price: null,
       img: '',
@@ -150,7 +172,7 @@ export class ProductsComponent implements OnInit {
         id: null,
       },
       subCategory: <Subcategory>{
-        category: <Category>{}
+        category: null
       },
       productThumbnails: [
         <ProductThumbnail>{thumbnail: ''},
@@ -194,7 +216,7 @@ export class ProductsComponent implements OnInit {
     this.isEdit = false;
     setTimeout(() => {
       this.newData();
-    }, 500);
+    });
     this.openModal(this.productModal);
   }
 
