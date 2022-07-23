@@ -12,10 +12,10 @@ import {UploadService} from "@services/upload.service";
 
 @Component({
   selector: 'app-subcategory',
-  templateUrl: './subcategory.component.html',
-  styleUrls: ['./subcategory.component.scss'],
+  templateUrl: './subcategories.component.html',
+  styleUrls: ['./subcategories.component.scss'],
 })
-export class SubcategoryComponent implements OnInit {
+export class SubcategoriesComponent implements OnInit {
   subcategories: Subcategory[];
   subcategory: Subcategory = <Subcategory>{};
 

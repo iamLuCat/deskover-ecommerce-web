@@ -16,13 +16,15 @@ import {ProductThumbnail} from "@/entites/product-thumbnail";
 import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
+import {DomSanitizer} from "@angular/platform-browser";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductsComponent implements OnInit {
   products: Product[];
   product: Product;
   categories: Category[];
@@ -36,12 +38,13 @@ export class ProductComponent implements OnInit {
   brandIdFilter: number = null;
   uploadedImage: UploadedImage;
 
-  ckeditorValue: string = '';
-
   isEdit: boolean = false;
   isActive: boolean = true;
 
   dtOptions: any = {};
+
+  ckeditorUrl: string;
+  ckeditorConfig: any;
 
   @ViewChild('productModal') productModal: ModalDirective;
   @ViewChild('productForm') productForm: FormControlDirective;
@@ -52,10 +55,16 @@ export class ProductComponent implements OnInit {
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
     private brandService: BrandService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private sanitizer: DomSanitizer
   ) {
-    this.newData();
+    this.ckeditorUrl = environment.globalUrl.ckeditor;
+    this.ckeditorConfig = {
+      language: 'vi',
+      allowedContent: true,
+    };
 
+    this.newData();
     this.getCategories();
     this.getBrands();
   }
@@ -127,54 +136,32 @@ export class ProductComponent implements OnInit {
       id: null,
       name: '',
       slug: '',
-      spec: `
-        <div class="row pt-2">
-          <div class="col-lg-5 col-sm-6">
-            <h3 class="h6">General specs</h3>
-            <ul class="list-unstyled fs-sm pb-2">
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Model:</span><span>Amazfit Smartwatch</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Gender:</span><span>Unisex</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Smartphone app:</span><span>Amazfit Watch</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">OS campitibility:</span><span>Android / iOS</span></li>
-            </ul>
-            <h3 class="h6">Physical specs</h3>
-            <ul class="list-unstyled fs-sm pb-2">
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Shape:</span><span>Rectangular</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Body material:</span><span>Plastics / Ceramics</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Band material:</span><span>Silicone</span></li>
-            </ul>
-            <h3 class="h6">Display</h3>
-            <ul class="list-unstyled fs-sm pb-2">
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display type:</span><span>Color</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display size:</span><span>1.28"</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Screen resolution:</span><span>176 x 176</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Touch screen:</span><span>No</span></li>
-            </ul>
-          </div>
-          <div class="col-lg-5 col-sm-6 offset-lg-1">
-            <h3 class="h6">Functions</h3>
-            <ul class="list-unstyled fs-sm pb-2">
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Phone calls:</span><span>Incoming call notification</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Monitoring:</span><span>Heart rate / Physical activity</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">GPS support:</span><span>Yes</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Sensors:</span><span>Heart rate, Gyroscope, Geomagnetic, Light sensor</span></li>
-            </ul>
-            <h3 class="h6">Battery</h3>
-            <ul class="list-unstyled fs-sm pb-2">
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery:</span><span>Li-Pol</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery capacity:</span><span>190 mAh</span></li>
-            </ul>
-            <h3 class="h6">Dimensions</h3>
-            <ul class="list-unstyled fs-sm pb-2">
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Dimensions:</span><span>195 x 20 mm</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Weight:</span><span>32 g</span></li>
-            </ul>
-          </div>
-        </div>`,
       description: '',
-      utility: '',
-      design: '',
-      other: '',
+      spec: `
+        <ul class="list-unstyled fs-sm pb-2">
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">CPU:</span><span>Apple M2</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">RAM:</span><span>8GB</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Card đồ họa:</span><span>8 nhân GPU, 16 nhân Neural Engine</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Ổ cứng</span><span>SSD - 256GB</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Màn hình</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Pin</span><span>52,6 Wh</span></li>
+        </ul>`,
+      design: `
+        <ul class="list-unstyled fs-sm pb-2">
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Kích thước:</span><span>30,41cm-21,5cm-1,13cm</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Trọng lượng:</span><span>1.27 kg</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Chất liệu:</span><span>Vỏ kim loại</span></li>
+        </ul>`,
+      utility: `
+        <ul class="list-unstyled fs-sm pb-2">
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Cổng giao tiếp:</span><span>Cổng HDMI và đầu đọc thẻ SD, USB Type-C</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Wifi:</span><span>802.11ax Wi-Fi 6</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Webcam:</span><span>1080p FaceTime HD camera</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Hệ điều hành:</span><span>MacOS</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Âm thanh:</span><span>Yes</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Bluetooth:</span><span>5.0</span></li>
+        </ul>`,
+      other: ``,
       price: null,
       img: '',
       modifiedAt: null,
@@ -185,7 +172,7 @@ export class ProductComponent implements OnInit {
         id: null,
       },
       subCategory: <Subcategory>{
-        category: <Category>{}
+        category: null
       },
       productThumbnails: [
         <ProductThumbnail>{thumbnail: ''},
@@ -229,7 +216,7 @@ export class ProductComponent implements OnInit {
     this.isEdit = false;
     setTimeout(() => {
       this.newData();
-    },1000);
+    });
     this.openModal(this.productModal);
   }
 
@@ -246,6 +233,12 @@ export class ProductComponent implements OnInit {
     this.isEdit = true;
     this.getSubcategoriesByCategory();
     this.openModal(this.productModal);
+  }
+
+  copyProduct(productId: number) {
+    this.editProduct(productId);
+    this.isEdit=false;
+    this.product.id = null;
   }
 
   saveProduct(product: Product) {
@@ -279,7 +272,6 @@ export class ProductComponent implements OnInit {
       this.rerender();
     });
   }
-
 
   /* Slugify */
   toSlug(text: string) {
@@ -331,21 +323,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  getThumbnailYoutube(url: string) {
-    if (url) {
-      const youtubeId = UrlUtils.getYoutubeId(url);
-      return `https://img.youtube.com/vi/${youtubeId}/default.jpg`;
-    } else {
-      // return 'https://via.placeholder.com/150x150';
-      return 'assets/images/no-video.png';
-    }
-  }
-
-  getYoutubeId(url: string) {
-    if (url) {
-      return UrlUtils.getYoutubeId(url);
-    } else {
-      return '';
-    }
+  getUrlYoutubeEmbed(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${UrlUtils.getYoutubeId(url)}?rel=0`);
   }
 }

@@ -5,16 +5,16 @@ import {AuthGuard} from '@guards/auth.guard';
 import {NonAuthGuard} from '@guards/non-auth.guard';
 import {DashboardComponent} from "@components/home/dashboard/dashboard.component";
 import {ProfileComponent} from "@components/home/profile/profile.component";
-import {CategoryComponent} from "@components/home/manage/category/category.component";
-import {SubcategoryComponent} from "@components/home/manage/category/subcategory/subcategory.component";
-import {BrandComponent} from "@components/home/manage/brand/brand.component";
-import {PromotionComponent} from "@components/home/manage/promotion/promotion.component";
-import {ProductComponent} from "@components/home/manage/product/product.component";
+import {CategoriesComponent} from "@components/home/manage/categories/categories.component";
+import {SubcategoriesComponent} from "@components/home/manage/categories/subcategories/subcategories.component";
+import {BrandsComponent} from "@components/home/manage/brands/brands.component";
+import {PromotionsComponent} from "@components/home/manage/promotions/promotions.component";
+import {ProductsComponent} from "@components/home/manage/products/products.component";
 import {LoginComponent} from "@components/pages/login/login.component";
 import {ForgotPasswordComponent} from "@components/pages/forgot-password/forgot-password.component";
 import {RecoverPasswordComponent} from "@components/pages/recover-password/recover-password.component";
 import {PrivacyPolicyComponent} from "@components/pages/privacy-policy/privacy-policy.component";
-import {UserComponent} from "@components/home/manage/user/user.component";
+import {UsersComponent} from "@components/home/manage/users/users.component";
 
 const routes: Routes = [
   {
@@ -33,27 +33,27 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: CategoryComponent,
+        component: CategoriesComponent,
       },
       {
         path: 'subcategories',
-        component: SubcategoryComponent,
+        component: SubcategoriesComponent,
       },
       {
         path: 'brands',
-        component: BrandComponent,
+        component: BrandsComponent,
       },
       {
         path: 'promotions',
-        component: PromotionComponent ,
+        component: PromotionsComponent ,
       },
       {
         path: 'products',
-        component: ProductComponent,
+        component: ProductsComponent,
       },
       {
         path: 'users',
-        component: UserComponent,
+        component: UsersComponent,
       },
       {
         path: '',
