@@ -49,6 +49,9 @@ public class UserAddress implements Serializable {
     @Column(name = "email", nullable = false, length = 50)
     private String email;
     
+    @Column(name = "choose")
+    private Boolean choose;
+    
     @Column(name = "actived")
     private Boolean actived;
 
