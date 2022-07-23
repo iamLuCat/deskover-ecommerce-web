@@ -145,7 +145,7 @@
         <form #productForm="ngForm" enctype="multipart/form-data">
           <div class="row">
             <div class="col-12 col-lg-4">
-              <div class="col-12 mb-3">
+              <div class="mb-3">
                 <label class="form-label" [for]="'name'">Tên</label>
                 <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name"
                        #name="ngModel" (keyup)="product.slug=toSlug(product.name)" required/>
@@ -153,7 +153,7 @@
                   <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
                 </div>
               </div>
-              <div class="col-12 mb-3">
+              <div class="mb-3">
                 <label class="form-label" [for]="'slug'">Slug</label>
                 <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug"
                        #slug="ngModel" required/>
@@ -161,7 +161,7 @@
                   <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
                 </div>
               </div>
-              <div class="col-12 mb-3">
+              <div class="mb-3">
                 <label class="form-label" [for]="'brand'">Thương hiệu</label>
                 <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
                         [compareWith]="compareFn" #brand="ngModel" required>
@@ -172,7 +172,7 @@
                   <span *ngIf="brand.errors?.required">Vui lòng chọn thương hiệu</span>
                 </div>
               </div>
-              <div class="col-12 mb-3">
+              <div class="mb-3">
                 <label class="form-label" [for]="'category'">Danh mục cha</label>
                 <select class="form-control" id="category" name="category" [(ngModel)]="category"
                         #categoryEdit="ngModel" [compareWith]="compareFn"
@@ -185,7 +185,7 @@
                   <span *ngIf="categoryEdit.errors?.required">Vui lòng chọn danh mục</span>
                 </div>
               </div>
-              <div class="col-12 mb-3" *ngIf="product.subCategory">
+              <div class="mb-3" *ngIf="product.subCategory">
                 <label class="form-label" [for]="'subCategory'">Danh mục con</label>
                 <select class="form-control" id="subCategory" name="subCategory"
                         [(ngModel)]="product.subCategory" #subCategory="ngModel"
@@ -198,7 +198,7 @@
                   <span *ngIf="subCategory.errors?.required">Vui lòng chọn danh mục con</span>
                 </div>
               </div>
-              <div class="col-12 mb-3">
+              <div class="mb-3">
                 <label [for]="'price'" class="form-label">Giá</label>
                 <input class="form-control" id="price" name="price" type='text' mask="separator" thousandSeparator="."
                        suffix=" VNĐ" [(ngModel)]="product.price" #price="ngModel" required/>
@@ -207,7 +207,7 @@
                   <span *ngIf="price.errors?.required">Vui lòng nhập giá</span>
                 </div>
               </div>
-              <div class="col-12 mb-3">
+              <div class="mb-3">
                 <label [for]="'quantity'" class="form-label">Số lượng</label>
                 <input class="form-control" id="quantity" type='text' mask="separator" name="quantity"
                        thousandSeparator="." [(ngModel)]="product.quantity" #quantity="ngModel"
@@ -217,9 +217,9 @@
                   <span *ngIf="quantity.errors?.required">Vui lòng nhập số lượng</span>
                 </div>
               </div>
-              <div class="col-12 mb-3">
+              <div class="mb-3">
                 <label class="form-label" [for]="'video'">Youtube URL</label>
-                <input type="url" class="form-control mb-2" id="video" name="video" [(ngModel)]="product.video"
+                <input type="url" class="form-control mb-3" id="video" name="video" [(ngModel)]="product.video"
                        #video="ngModel" placeholder="https://youtu.be/fazEeJYHxTc" pattern="https://.*"/>
                 <div class="ratio ratio-16x9" *ngIf="product.video">
                   <iframe [src]="getUrlYoutubeEmbed(product.video)"
@@ -254,26 +254,31 @@
               </div>
               <div class="mb-3">
                 <label class="form-label">Mô tả & Thông số kỹ thuật</label>
-                <tabset type="pills mb-2">
+                <tabset>
                   <tab heading="Mô tả chi tiết">
-                    <app-ckeditor [id]="'description'" [name]="'description'"
-                                  [(ngModel)]="product.description"></app-ckeditor>
+                    <ckeditor [id]="'description'" [name]="'description'"
+                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.description">
+                    </ckeditor>
                   </tab>
                   <tab heading="Thông số kĩ thuật">
-                    <app-ckeditor [id]="'spec'" [name]="'spec'"
-                                  [(ngModel)]="product.spec"></app-ckeditor>
+                    <ckeditor [id]="'spec'" [name]="'spec'"
+                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.spec">
+                    </ckeditor>
                   </tab>
                   <tab heading="Tính năng">
-                    <app-ckeditor [id]="'utility'" [name]="'utility'"
-                                  [(ngModel)]="product.utility"></app-ckeditor>
+                    <ckeditor [id]="'utility'" [name]="'utility'"
+                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.utility">
+                    </ckeditor>
                   </tab>
                   <tab heading="Thiết kế">
-                    <app-ckeditor [id]="'design'" [name]="'design'"
-                                  [(ngModel)]="product.design"></app-ckeditor>
+                    <ckeditor [id]="'design'" [name]="'design'"
+                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.design">
+                    </ckeditor>
                   </tab>
                   <tab heading="Khác">
-                    <app-ckeditor [id]="'other'" [name]="'other'"
-                                  [(ngModel)]="product.other"></app-ckeditor>
+                    <ckeditor [id]="'other'" [name]="'other'"
+                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.other">
+                    </ckeditor>
                   </tab>
                 </tabset>
               </div>

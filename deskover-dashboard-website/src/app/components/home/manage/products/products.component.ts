@@ -17,6 +17,7 @@ import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-product',
@@ -42,6 +43,9 @@ export class ProductsComponent implements OnInit {
 
   dtOptions: any = {};
 
+  ckeditorUrl: string;
+  ckeditorConfig: any;
+
   @ViewChild('productModal') productModal: ModalDirective;
   @ViewChild('productForm') productForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
@@ -54,8 +58,12 @@ export class ProductsComponent implements OnInit {
     private uploadService: UploadService,
     private sanitizer: DomSanitizer
   ) {
-    this.newData();
+    this.ckeditorUrl = environment.globalUrl.ckeditor;
+    this.ckeditorConfig = {
+      language: 'vi',
+    };
 
+    this.newData();
     this.getCategories();
     this.getBrands();
   }
@@ -139,20 +147,16 @@ export class ProductsComponent implements OnInit {
         <ul class="list-unstyled fs-sm pb-2">
           <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery:</span><span>Li-Pol</span></li>
           <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery capacity:</span><span>190 mAh</span></li>
-        </ul>
-        <div class="row pt-2">
-          <div class="col-lg-5 col-sm-6">
-            <h3 class="h6">General specs</h3>
-            <ul class="list-unstyled fs-sm pb-2">
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Model:</span><span>Amazfit Smartwatch</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Gender:</span><span>Unisex</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Smartphone app:</span><span>Amazfit Watch</span></li>
-              <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">OS campitibility:</span><span>Android / iOS</span></li>
-            </ul>
-          </div>
-        </div>`,
+        </ul>`,
       description: '',
-      utility: '',
+      utility: `
+        <h3 class="h6">General specs</h3>
+        <ul class="list-unstyled fs-sm pb-2">
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Model:</span><span>Amazfit Smartwatch</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Gender:</span><span>Unisex</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Smartphone app:</span><span>Amazfit Watch</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">OS campitibility:</span><span>Android / iOS</span></li>
+        </ul>`,
       design: `
         <h3 class="h6">Dimensions</h3>
         <ul class="list-unstyled fs-sm pb-2">

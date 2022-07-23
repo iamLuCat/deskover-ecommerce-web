@@ -7,6 +7,8 @@ export const BASE_URL = 'http://localhost:8080';
 export const environment = {
   production: false,
   globalUrl: {
+    ckeditor: 'https://cdn.ckeditor.com/4.19.1/full/ckeditor.js',
+
     getAvatarUser: BASE_URL + '/img/admin/avatar',
     getProductThumbnail: BASE_API + '/img/shop/products',
 

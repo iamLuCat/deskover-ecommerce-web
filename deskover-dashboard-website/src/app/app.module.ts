@@ -10,9 +10,9 @@ import {StoreModule} from '@ngrx/store';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
-import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import {ModalModule} from "ngx-bootstrap/modal";
 import {NgxMaskModule} from "ngx-mask";
+import {CKEditorModule} from "ckeditor4-angular";
 
 import {AppComponent} from './app.component';
 import {ButtonComponent} from '@components/shared/button/button.component';
@@ -41,7 +41,6 @@ import {PromotionsComponent} from "@components/home/manage/promotions/promotions
 import {NotificationsComponent} from "@components/layouts/header/notifications/notifications.component";
 import {MessagesComponent} from "@components/layouts/header/messages/messages.component";
 import {DashboardComponent} from "@components/home/dashboard/dashboard.component";
-import {CKEditorComponent} from "@components/shared/ckeditor/ckeditor.component";
 
 import {AuthInterceptor} from "@/interceptors/auth-interceptor";
 
@@ -61,7 +60,6 @@ defineLocale('vi', viLocale);
   declarations: [
     AppComponent,
     MainComponent,
-    CKEditorComponent,
     LoginComponent,
     HeaderComponent,
     FooterComponent,
@@ -107,7 +105,7 @@ defineLocale('vi', viLocale);
     TabsModule,
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

@@ -252,16 +252,16 @@ tr, td {
 }
 
 /* CKEditor */
-.ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable),
-.ck.ck-editor__editable.ck-rounded-corners:not(.ck-editor__nested-editable) {
-  border: 1px solid #ced4da;
-  border-radius: 0.375rem;
-}
-
-.ck-rounded-corners .ck.ck-balloon-panel, .ck.ck-balloon-panel.ck-rounded-corners {
-  z-index: 10055 !important;
-
-  &.ck-balloon-panel_with-arrow {
-    z-index: 10056 !important;
-  }
-}
+//.ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable),
+//.ck.ck-editor__editable.ck-rounded-corners:not(.ck-editor__nested-editable) {
+//  border: 1px solid #ced4da;
+//  border-radius: 0.375rem;
+//}
+//
+//.ck-rounded-corners .ck.ck-balloon-panel, .ck.ck-balloon-panel.ck-rounded-corners {
+//  z-index: 10055 !important;
+//
+//  &.ck-balloon-panel_with-arrow {
+//    z-index: 10056 !important;
+//  }
+//}
