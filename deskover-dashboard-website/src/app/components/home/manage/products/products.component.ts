@@ -135,50 +135,11 @@ export class ProductsComponent implements OnInit {
       id: null,
       name: '',
       slug: '',
-      spec: `
-        <h3 class="h6">Display</h3>
-        <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display type:</span><span>Color</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display size:</span><span>1.28"</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Screen resolution:</span><span>176 x 176</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Touch screen:</span><span>No</span></li>
-        </ul>
-        <h3 class="h6">Battery</h3>
-        <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery:</span><span>Li-Pol</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery capacity:</span><span>190 mAh</span></li>
-        </ul>`,
+      spec: ``,
       description: '',
-      utility: `
-        <h3 class="h6">General specs</h3>
-        <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Model:</span><span>Amazfit Smartwatch</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Gender:</span><span>Unisex</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Smartphone app:</span><span>Amazfit Watch</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">OS campitibility:</span><span>Android / iOS</span></li>
-        </ul>`,
-      design: `
-        <h3 class="h6">Dimensions</h3>
-        <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Dimensions:</span><span>195 x 20 mm</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Weight:</span><span>32 g</span></li>
-        </ul>
-        <h3 class="h6">Physical specs</h3>
-        <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Shape:</span><span>Rectangular</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Body material:</span><span>Plastics / Ceramics</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Band material:</span><span>Silicone</span></li>
-        </ul>
-      `,
-      other: `
-        <h3 class="h6">Functions</h3>
-        <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Phone calls:</span><span>Incoming call notification</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Monitoring:</span><span>Heart rate / Physical activity</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">GPS support:</span><span>Yes</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Sensors:</span><span>Heart rate, Gyroscope, Geomagnetic, Light sensor</span></li>
-        </ul>
-      `,
+      utility: ``,
+      design: ``,
+      other: ``,
       price: null,
       img: '',
       modifiedAt: null,
