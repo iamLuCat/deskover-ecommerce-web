@@ -6,14 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.deskover.entity.User;
 import com.deskover.entity.UserAddress;
 import com.deskover.repository.UserAddressRepository;
 import com.deskover.service.UserAddressService;
+import com.deskover.service.UserService;
 
 @Service
 public class UserAddressServiceImpl implements UserAddressService {
 	@Autowired
 	private UserAddressRepository userAddressRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public List<UserAddress> findByUsername(String username) {
@@ -69,6 +74,16 @@ public class UserAddressServiceImpl implements UserAddressService {
 	@Override
 	public UserAddress findByUsernameAndChoose(String username,Boolean choose) {
 		return userAddressRepository.findByUserUsernameAndChoose(username, choose);
+	}
+
+	@Override
+	@Transactional
+	public UserAddress doPostAddAddress(UserAddress userAddress, String username) {
+		User user = userService.findByUsername(username);
+		userAddress.setUser(user);
+		userAddress.setActived(Boolean.FALSE);
+		userAddress.setChoose(Boolean.FALSE);
+		return userAddressRepository.saveAndFlush(userAddress);
 	}
 
 }

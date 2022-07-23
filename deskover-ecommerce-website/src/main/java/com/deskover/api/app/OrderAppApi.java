@@ -28,7 +28,7 @@ public class OrderAppApi {
 			orderService.addOrder(oderResponse, "minhbd");
 			return new ResponseEntity<>(HttpStatus.OK);	
 		} catch (Exception e) {
-            MessageResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
+            MessageResponse error = MessageErrorUtil.message("Thêm mới thất bại", e);
             return ResponseEntity.badRequest().body(error);
 		}
 	

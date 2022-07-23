@@ -1,0 +1,28 @@
+package com.deskover.api.app;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.deskover.service.OrderStatusService;
+
+@RestController
+@RequestMapping("v1/api/custumer")
+public class OrderStatusAppApi {
+	@Autowired
+	private OrderStatusService orderStatusService;
+	
+	@GetMapping("/status")
+	public ResponseEntity<?> doGetAll(){
+		return ResponseEntity.ok(orderStatusService.doGetAll());
+	}
+	
+	@GetMapping("/status/{id}")
+	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
+		return ResponseEntity.ok(orderStatusService.findById(id));
+	}
+
+}

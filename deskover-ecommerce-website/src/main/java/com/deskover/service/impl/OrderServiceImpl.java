@@ -339,9 +339,6 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public void addOrder(Order orderResponse, String username) {
-		
-		System.out.println(orderResponse.getFullName());
-		
 		Order order = mapper.map(orderResponse, Order.class);
 			order.setOrderCode("HD-12321");
 			order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
