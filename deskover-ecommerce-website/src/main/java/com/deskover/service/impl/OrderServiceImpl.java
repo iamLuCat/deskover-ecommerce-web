@@ -2,6 +2,7 @@ package com.deskover.service.impl;
 
 import com.deskover.dto.app.order.OrderDto;
 import com.deskover.dto.app.order.OrderItemDto;
+import com.deskover.dto.app.order.resquest.AddOrderResponse;
 import com.deskover.dto.app.order.resquest.DataOrderResquest;
 import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
 import com.deskover.dto.app.total7dayago.Total7DaysAgo;
@@ -319,10 +320,21 @@ public class OrderServiceImpl implements OrderService {
 		throw new IllegalArgumentException("Đơn hàng code_status = 'C-XN' hoặc 'C-HUY'!!");
 	}
 
-
-
-	
-
-
+	@Override
+	@Transactional
+	public void addOrder(AddOrderResponse addOrderResponse) {
+		try {
+			Order order = repository.saveAndFlush(addOrderResponse.getOrder());
+			addOrderResponse.getItem().forEach((item)->{
+				item.setOrder(order);
+				orderItemRepository.saveAndFlush(item);
+			});
+			OrderDetail orderDetail = mapper.map(order.getOrderDetails(), OrderDetail.class);
+			orderDetail.setOrder(order);
+			orderDetailRepository.saveAndFlush(orderDetail);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 
 }

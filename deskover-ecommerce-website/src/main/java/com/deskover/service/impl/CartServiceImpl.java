@@ -1,9 +1,10 @@
 package com.deskover.service.impl;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.deskover.entity.Cart;
 import com.deskover.entity.Product;
@@ -23,38 +24,69 @@ public class CartServiceImpl implements CartService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
 
 	@Override
 	@Transactional
-	public Cart addToCart(Long userId, Long productId, Integer quantity) {
+	public Cart addToCart(String username, Long productId, Integer quantity) {
+		Product product = productService.findById(productId);
+		
+		if(product==null) {
+			throw new IllegalArgumentException("Không tìm thấy user");
+		}
+		
+		Cart cart = cartRepository.findByProductIdAndUserUsername(productId, username);
+		if(cart == null) {
+			User user = userRepository.findByUsername(username);
+			Cart cartNew = new Cart();
+			cartNew.setProduct(product);
+			cartNew.setUser(user);
+			cartNew.setQuantity(quantity);	
+			cartRepository.saveAndFlush(cartNew);
+			return cart;
+		}
+		if (cart.getQuantity() ==10) {
+			throw new IllegalArgumentException("Giỏ hàng đầy!!");
+		}
+		if(cart.getQuantity()>0) {
+			cart.setQuantity(cart.getQuantity() + quantity);
+			cartRepository.saveAndFlush(cart);
+			return cart;
+		}
+		return null;
+	
+	}
+
+	@Override
+	public List<Cart> doGetAllCartOrder(String username) {
+		return cartRepository.findByUserUsername(username);
+	}
+
+	@Override
+	@Transactional
+	public Cart minusCart(String username, Long productId) {
 		try {
-			Product product = productService.findById(productId);
-			
-			if(product==null) {
-				throw new IllegalArgumentException("Không tìm thấy user");
-			}
-			
-			Cart cart = cartRepository.findByProductIdAndUserId(productId, userId);
-			if(cart == null) {
-				User user = userRepository.getById(userId);
-				Cart cartNew = new Cart();
-				cartNew.setProduct(product);
-				cartNew.setUser(user);
-				cartNew.setQuantity(quantity);	
-				cartRepository.saveAndFlush(cartNew);
-				return cart;
-			}
-			if(cart.getQuantity()>0) {
-				cart.setQuantity(cart.getQuantity() + quantity);
+			Cart cart = cartRepository.findByProductIdAndUserUsername(productId, username);
+			if(cart.getQuantity()>1) {
+				cart.setQuantity(cart.getQuantity()-1);
 				cartRepository.saveAndFlush(cart);
 				return cart;
 			}
-			return null;
+			return cart;
 		} catch (Exception e) {
-			System.out.println(e);
-			throw new IllegalArgumentException("Thêm mới thất bại");
+			throw new IllegalArgumentException("Phương thức không hợp lệ");
 		}
-	
+	}
+
+	@Override
+	@Transactional
+	public void deleteCart(String username, Long productId) {
+		try {
+			Cart cart = cartRepository.findByProductIdAndUserUsername(productId, username);
+			cartRepository.delete(cart);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Phương thức không hợp lệ");
+		}
 	}
 	
 }

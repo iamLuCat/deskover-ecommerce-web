@@ -298,4 +298,25 @@ public class ProductServiceImpl implements ProductService {
 		return products;
 	}
 
+	@Override
+	public Page<Product> getProductByCategoryId(Boolean active, Long categoryId, Optional<Integer> page,
+			Optional<Integer> size) {
+		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
+		Page<Product> products = repo.findByActivedAndSubCategoryCategoryId(active,categoryId,pageable);
+		if(products == null) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+		}
+		return products;
+	}
+
+	@Override
+	public Page<Product> getProductBySubId(Boolean active, Long subId, Optional<Integer> page, Optional<Integer> size) {
+		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
+		Page<Product> products = repo.findByActivedAndSubCategoryId(active,subId,pageable);
+		if(products == null) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+		}
+		return products;
+	}
+
 }

@@ -11,4 +11,5 @@ import com.deskover.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findAll();
 	Page<User> findByActived(Boolean actived, Pageable Page);
+	User findByUsername(String username);
 }
