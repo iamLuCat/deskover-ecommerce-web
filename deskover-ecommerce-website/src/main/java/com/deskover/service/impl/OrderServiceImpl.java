@@ -17,6 +17,7 @@ import com.deskover.repository.OrderStatusReponsitory;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
 import com.deskover.util.QrCodeUtil;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +30,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -335,6 +337,11 @@ public class OrderServiceImpl implements OrderService {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	@Override
+	public Boolean isUniqueOrderNumber(String orderNumber) {
+		return Objects.isNull(repository.findByOrderCode(orderNumber));
 	}
 
 }
