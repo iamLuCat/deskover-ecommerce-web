@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 @AllArgsConstructor
@@ -13,15 +17,17 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "contact")
-public class Contact implements Serializable {
+@Table(name = "user_address")
+public class UserAddress implements Serializable {
     private static final long serialVersionUID = 568706130123470738L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -42,5 +48,8 @@ public class Contact implements Serializable {
 
     @Column(name = "email", nullable = false, length = 50)
     private String email;
+    
+    @Column(name = "actived")
+    private Boolean actived;
 
 }

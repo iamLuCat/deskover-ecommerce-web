@@ -110,24 +110,28 @@ values 	(1,'huynq','Nguyễn Quang Huy',1,'haipv'),
 		(2,'minhbd','Bùi Đức Minh',1,'haipv')
 ;
 
-CREATE TABLE contact (
+CREATE TABLE user_address (
   id BIGINT NOT NULL AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
-  address VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-  province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-  district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-  ward VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-  tel VARCHAR(10) DEFAULT NULL,
+  address VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
+  province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+  district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+  ward VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+  tel VARCHAR(10) NOT NULL,
   email VARCHAR(50) NOT NULL,
+  actived BIT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE KEY UQ_Contact_Tel (tel),
-  UNIQUE KEY UQ_Contact_Email (email),
-  CONSTRAINT FK_Contact_User FOREIGN KEY (user_id) REFERENCES `user`(id)
+  UNIQUE KEY UQ_User_address_Tel (tel),
+  UNIQUE KEY UQ_User_address_Email (email),
+  CONSTRAINT FK_User_address_User FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
 
-insert contact (id,user_id,email)
-values 	(1,1,'huynq2022@gmail.com'),
-		(2,2,'minhbd2022@gmail.com')
+insert user_address (user_id,address,province,district,ward,tel,email,actived)
+values 	(1,'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0123456789','huynq2022@gmail.com',0),
+		(2,'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953980','minhbd2021@gmail.com',1),
+        (2,'Đường D3,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953981','minhbd2022@gmail.com',0),
+        (2,'Đường D4,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953982','minhbd2023@gmail.com',0),
+        (2,'Đường D6,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953983','minhbd2024@gmail.com',0)
 ;
 
 CREATE TABLE user_password (

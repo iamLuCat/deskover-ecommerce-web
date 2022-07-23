@@ -52,7 +52,7 @@ public class User implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private Set<Contact> contacts = new LinkedHashSet<>();
+    private Set<UserAddress> contacts = new LinkedHashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
