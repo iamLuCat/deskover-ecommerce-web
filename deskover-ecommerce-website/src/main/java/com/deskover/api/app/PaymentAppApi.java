@@ -19,6 +19,7 @@ public class PaymentAppApi {
 	@GetMapping("/payment")
 	public ResponseEntity<?> doGetAll(){
 		return ResponseEntity.ok(paymentService.doGetAll());
+	}
 	
 	@GetMapping("/payment/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id){
