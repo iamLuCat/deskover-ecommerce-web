@@ -235,6 +235,12 @@ export class ProductsComponent implements OnInit {
     this.openModal(this.productModal);
   }
 
+  copyProduct(productId: number) {
+    this.editProduct(productId);
+    this.isEdit=false;
+    this.product.id = null;
+  }
+
   saveProduct(product: Product) {
     if (this.isEdit) {
       this.productService.update(product).subscribe(data => {
@@ -266,7 +272,6 @@ export class ProductsComponent implements OnInit {
       this.rerender();
     });
   }
-
 
   /* Slugify */
   toSlug(text: string) {

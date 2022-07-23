@@ -99,6 +99,10 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                  <button type="button" class="btn btn-sm bg-faded-success me-1" placement="top"
+                          tooltip="Sao chép & Tạo mới" (click)="copyProduct(item.id)">
+                    <i class="fa-solid fa-copy text-success"></i>
+                  </button>
                   <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
                           (click)="editProduct(item.id)">
                     <i class="fas fa-pen-square text-info"></i>
@@ -257,27 +261,27 @@
                 <tabset>
                   <tab heading="Mô tả chi tiết">
                     <ckeditor [id]="'description'" [name]="'description'"
-                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.description">
+                              [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.description">
                     </ckeditor>
                   </tab>
                   <tab heading="Thông số kĩ thuật">
                     <ckeditor [id]="'spec'" [name]="'spec'"
-                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.spec">
+                              [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.spec">
                     </ckeditor>
                   </tab>
                   <tab heading="Tính năng">
                     <ckeditor [id]="'utility'" [name]="'utility'"
-                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.utility">
+                              [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.utility">
                     </ckeditor>
                   </tab>
                   <tab heading="Thiết kế">
                     <ckeditor [id]="'design'" [name]="'design'"
-                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.design">
+                              [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.design">
                     </ckeditor>
                   </tab>
                   <tab heading="Khác">
                     <ckeditor [id]="'other'" [name]="'other'"
-                      [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.other">
+                              [editorUrl]="ckeditorUrl" [config]="ckeditorConfig" [(ngModel)]="product.other">
                     </ckeditor>
                   </tab>
                 </tabset>
