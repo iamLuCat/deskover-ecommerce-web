@@ -19,34 +19,33 @@ import java.util.List;
 public class UserApi {
 	@Autowired
 	private UserAddressService contactService;
-	
+
 	@GetMapping("/user/address")
-	public ResponseEntity<?> doGetAddress(){
+	public ResponseEntity<?> doGetAddress() {
 		try {
-//			contactService.findByUsername("minhbd")
-			Order order = new Order();
-			OrderItem orderItem = new OrderItem();
-			List<OrderItem> items = new ArrayList<OrderItem>();
-			items.add(orderItem);
-			OrderDetail detail = new OrderDetail();
-			AddOrderResponse addOrderResponse = new AddOrderResponse();
-			addOrderResponse.setOrder(order);
-			addOrderResponse.setItem(items);
-			addOrderResponse.setAddress(detail);
-			return ResponseEntity.ok(addOrderResponse);
+			// Order order = new Order();
+			// OrderItem orderItem = new OrderItem();
+			// List<OrderItem> items = new ArrayList<OrderItem>();
+			// items.add(orderItem);
+			// OrderDetail detail = new OrderDetail();
+			// AddOrderResponse addOrderResponse = new AddOrderResponse();
+			// addOrderResponse.setOrder(order);
+			// addOrderResponse.setItem(items);
+			// addOrderResponse.setAddress(detail);
+			return ResponseEntity.ok(contactService.findByUsername("minhbd"));
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(),e);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 		}
 	}
-	
+
 	@PutMapping("/user/address/{id}")
-	public ResponseEntity<?> changeActive(@PathVariable("id") Long id){
+	public ResponseEntity<?> changeActive(@PathVariable("id") Long id) {
 		try {
 			contactService.changeActive(id, "minhbd");
 			return ResponseEntity.ok(contactService.findByUsername("minhbd"));
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(),e);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 		}
 	}
-	
+
 }

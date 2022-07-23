@@ -1,29 +1,6 @@
 package com.deskover.service.impl;
 
-import com.deskover.dto.app.order.OrderDto;
-import com.deskover.dto.app.order.OrderItemDto;
-import com.deskover.dto.app.order.resquest.AddOrderResponse;
-import com.deskover.dto.app.order.resquest.DataOrderResquest;
-import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
-import com.deskover.dto.app.total7dayago.Total7DaysAgo;
-import com.deskover.entity.Order;
-import com.deskover.entity.OrderDetail;
-import com.deskover.entity.OrderItem;
-import com.deskover.entity.OrderStatus;
-import com.deskover.repository.OrderDetailRepository;
-import com.deskover.repository.OrderItemRepository;
-import com.deskover.repository.OrderRepository;
-import com.deskover.repository.OrderStatusReponsitory;
-import com.deskover.service.OrderService;
-import com.deskover.util.DecimalFormatUtil;
-import com.deskover.util.QrCodeUtil;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -31,6 +8,35 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.deskover.dto.app.order.OrderDto;
+import com.deskover.dto.app.order.OrderItemDto;
+import com.deskover.dto.app.order.resquest.DataOrderResquest;
+import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
+import com.deskover.dto.app.total7dayago.Total7DaysAgo;
+import com.deskover.entity.Cart;
+import com.deskover.entity.Order;
+import com.deskover.entity.OrderDetail;
+import com.deskover.entity.OrderItem;
+import com.deskover.entity.OrderStatus;
+import com.deskover.entity.UserAddress;
+import com.deskover.repository.CartRepository;
+import com.deskover.repository.OrderDetailRepository;
+import com.deskover.repository.OrderItemRepository;
+import com.deskover.repository.OrderRepository;
+import com.deskover.repository.OrderStatusReponsitory;
+import com.deskover.service.CartService;
+import com.deskover.service.OrderService;
+import com.deskover.service.UserAddressService;
+import com.deskover.util.DecimalFormatUtil;
+import com.deskover.util.MapperUtil;
+import com.deskover.util.QrCodeUtil;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -50,8 +56,16 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderStatusReponsitory orderStatusReponsitory;
     
-//    @Autowired
-//    private Status
+    @Autowired
+    private CartService cartService;
+    
+    @Autowired
+    private CartRepository cartRepository;
+    
+    @Autowired
+    private UserAddressService addressService;
+    
+
 
 	@Override
 	public List<Order> getAll() {
@@ -324,19 +338,32 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Transactional
-	public void addOrder(AddOrderResponse addOrderResponse) {
-		try {
-			Order order = repository.saveAndFlush(addOrderResponse.getOrder());
-			addOrderResponse.getItem().forEach((item)->{
-				item.setOrder(order);
-				orderItemRepository.saveAndFlush(item);
-			});
-			OrderDetail orderDetail = mapper.map(order.getOrderDetails(), OrderDetail.class);
-			orderDetail.setOrder(order);
-			orderDetailRepository.saveAndFlush(orderDetail);
-		} catch (Exception e) {
-			// TODO: handle exception
+	public void addOrder(Order orderResponse, String username) {
+		
+		System.out.println(orderResponse.getFullName());
+		
+		Order order = mapper.map(orderResponse, Order.class);
+			order.setOrderCode("HD-12321");
+			order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		Order orderNew = repository.saveAndFlush(order);
+		
+		List<Cart> cartItem = cartService.doGetAllCartOrder(username);
+		if(cartItem.isEmpty()) {
+			throw new IllegalArgumentException("Giỏ hàng trống");
 		}
+		cartRepository.deleteAll(cartItem);
+		List<OrderItem> orderItems = MapperUtil.mapAll(cartItem, OrderItem.class);
+		orderItems.forEach((item)->{
+			item.setId(null);
+			item.setPrice(item.getProduct().getPrice());
+			item.setOrder(orderNew);
+			orderItemRepository.saveAndFlush(item);
+		});
+		UserAddress address = addressService.findByUsernameAndChoose(username, Boolean.TRUE);
+		OrderDetail orderDetail = mapper.map(address, OrderDetail.class);
+		orderDetail.setId(null);
+		orderDetail.setOrder(orderNew);
+		orderDetailRepository.saveAndFlush(orderDetail);
 	}
 
 	@Override

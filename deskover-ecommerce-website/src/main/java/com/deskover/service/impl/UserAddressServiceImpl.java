@@ -13,11 +13,11 @@ import com.deskover.service.UserAddressService;
 @Service
 public class UserAddressServiceImpl implements UserAddressService {
 	@Autowired
-	private UserAddressRepository contactRepository;
+	private UserAddressRepository userAddressRepository;
 
 	@Override
 	public List<UserAddress> findByUsername(String username) {
-		List<UserAddress> contact = contactRepository.findByUserUsername(username);
+		List<UserAddress> contact = userAddressRepository.findByUserUsername(username);
 		if(contact == null) {
 			throw new IllegalArgumentException("Không có địa chỉ");
 		}
@@ -28,21 +28,47 @@ public class UserAddressServiceImpl implements UserAddressService {
 	@Transactional
 	public void changeActive(Long id, String username) {
 		
-		List<UserAddress> userAddresses = contactRepository.findByUserUsername(username);
-		UserAddress userAddress = contactRepository.getById(id);
+		List<UserAddress> userAddresses = userAddressRepository.findByUserUsername(username);
+		UserAddress userAddress = userAddressRepository.getById(id);
 		if(userAddress == null) {
 			throw new IllegalArgumentException("Không tìm thấy địa chỉ");
 		}
 		userAddresses.forEach((address)->{
 			if(userAddress.getId() == address.getId()) {
 				userAddress.setActived(Boolean.TRUE);
-				contactRepository.saveAndFlush(userAddress);
+				userAddressRepository.saveAndFlush(userAddress);
 			}else if (userAddress.getId() != address.getId()) {
 				address.setActived(Boolean.FALSE);
-				contactRepository.saveAndFlush(address);
+				userAddressRepository.saveAndFlush(address);
 			}
 		}
 		);	
+	}
+
+	@Override
+	@Transactional
+	public void changeChoose(Long id, String username) {
+		List<UserAddress> userAddresses = userAddressRepository.findByUserUsername(username);
+		UserAddress userAddress = userAddressRepository.getById(id);
+		if(userAddress == null) {
+			throw new IllegalArgumentException("Không tìm thấy địa chỉ");
+		}
+		userAddresses.forEach((address)->{
+			if(userAddress.getId() == address.getId()) {
+				userAddress.setChoose(Boolean.TRUE);
+				userAddressRepository.saveAndFlush(userAddress);
+			}else if (userAddress.getId() != address.getId()) {
+				address.setChoose(Boolean.FALSE);
+				userAddressRepository.saveAndFlush(address);
+			}
+		}
+		);
+		
+	}
+
+	@Override
+	public UserAddress findByUsernameAndChoose(String username,Boolean choose) {
+		return userAddressRepository.findByUserUsernameAndChoose(username, choose);
 	}
 
 }
