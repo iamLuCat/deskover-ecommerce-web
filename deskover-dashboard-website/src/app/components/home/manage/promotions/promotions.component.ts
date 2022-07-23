@@ -12,10 +12,10 @@ import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-promotion',
-  templateUrl: './promotion.component.html',
-  styleUrls: ['./promotion.component.scss']
+  templateUrl: './promotions.component.html',
+  styleUrls: ['./promotions.component.scss']
 })
-export class PromotionComponent implements OnInit, AfterViewInit {
+export class PromotionsComponent implements OnInit, AfterViewInit {
   discounts: Discount[];
   discount: Discount = <Discount>{};
   products: Product[];

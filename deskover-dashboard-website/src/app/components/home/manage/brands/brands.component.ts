@@ -9,10 +9,10 @@ import {FormControlDirective} from "@angular/forms";
 
 @Component({
   selector: 'app-brand',
-  templateUrl: './brand.component.html',
-  styleUrls: ['./brand.component.scss']
+  templateUrl: './brands.component.html',
+  styleUrls: ['./brands.component.scss']
 })
-export class BrandComponent implements OnInit {
+export class BrandsComponent implements OnInit {
 
   brands: Brand[];
   brand: Brand = <Brand>{};

@@ -6,10 +6,10 @@ import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UsersComponent implements OnInit {
   isActive: boolean = true;
 
   users: User[] = [];
@@ -75,7 +75,7 @@ export class UserComponent implements OnInit {
 
   changeActive(user: User) {
     if (user.actived) {
-      NotiflixUtils.showConfirm('Xác nhận xoá', 'Tài khoản người dùng sẽ bị vô hiệu hoá', () => {
+      NotiflixUtils.showConfirm('Xác nhận xoá', 'Nguời dùng này sẽ bị khoá', () => {
         this.userService.changeActive(user.id).subscribe(data => {
           NotiflixUtils.successNotify('Huỷ kích hoạt tài khoản thành công');
           this.rerender();
