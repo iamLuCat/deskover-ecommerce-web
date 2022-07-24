@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -204,8 +203,7 @@ public class ProductServiceImpl implements ProductService {
             Long categoryId,
             Long brandId,
             Boolean isDiscount) {
-        DataTablesOutput<Product> products = null;
-        products = repoForDatatables.findAll(input, (Specification<Product>) (root, query, cb) -> {
+        DataTablesOutput<Product> products = repoForDatatables.findAll(input, (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (isActive != null) {
                 predicates.add(cb.equal(root.get("actived"), isActive));
@@ -223,7 +221,7 @@ public class ProductServiceImpl implements ProductService {
                     predicates.add(root.get("discount").isNull());
                 }
             }
-            return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            return cb.and(predicates.toArray(new Predicate[0]));
         });
         if (products.getError() != null) {
             throw new IllegalArgumentException(products.getError());
