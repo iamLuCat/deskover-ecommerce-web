@@ -37,22 +37,19 @@ import java.util.Objects;
 public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
-	private OrderRepository repository;
+	private OrderRepository repo;
 
 	@Autowired
 	private OrderRepoForDatatables repoForDatatables;
-	
+
     @Autowired
-    private ModelMapper mapper;
+    private OrderDetailRepository orderDetailRepo;
     
     @Autowired
-    private OrderDetailRepository orderDetailRepository;
+    private OrderItemRepository orderItemRepo;
     
     @Autowired
-    private OrderItemRepository orderItemRepository;
-    
-    @Autowired
-    private OrderStatusReponsitory orderStatusReponsitory;
+    private OrderStatusReponsitory orderStatusRepo;
     
     @Autowired
     private CartService cartService;
@@ -62,12 +59,13 @@ public class OrderServiceImpl implements OrderService {
     
     @Autowired
     private UserAddressService addressService;
-    
 
+	@Autowired
+	private ModelMapper mapper;
 
 	@Override
 	public List<Order> getAll() {
-		return repository.findAll();
+		return repo.findAll();
 	}
 
 	@Override
@@ -86,8 +84,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getAllOrderStatus(String status) {
-		return repository.findByOrderStatusCode(status);
+	public List<Order> getAllOrderByStatus(String status) {
+		return repo.findByOrderStatusCode(status);
 	}
 	
 	@Override
@@ -99,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
 			LocalDateTime then = now.minusDays(i);
 			Total7DaysAgo day = new Total7DaysAgo();
 			day.setDate(then.format(format));
-			String total = repository.getTotalPrice_Shipping_PerDay(then.getDayOfMonth()+"",
+			String total = repo.getTotalPrice_Shipping_PerDay(then.getDayOfMonth()+"",
 					then.getMonth().getValue()+"",
 					then.getYear()+"",
 					SecurityContextHolder.getContext().getAuthentication().getName(), "GH-TC" );
@@ -125,13 +123,13 @@ public class OrderServiceImpl implements OrderService {
 		
 		DecimalFormat formatter = new DecimalFormat("###,###,###");
 		
-		Order order = repository.findByOrderCodeAndOrderStatusCode(orderCode, status);
+		Order order = repo.findByOrderCodeAndOrderStatusCode(orderCode, status);
 		if(order == null) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 			
 		}
 		OrderDto orderDto = mapper.map(order, OrderDto.class);
-		OrderDetail orderDetail = orderDetailRepository.findByOrder(order);
+		OrderDetail orderDetail = orderDetailRepo.findByOrder(order);
 		
 		orderDto.setAddress(orderDetail.getAddress());
 		orderDto.setProvince(orderDetail.getProvince());
@@ -142,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
 		orderDto.setCode(order.getOrderStatus().getCode());
 		orderDto.setStatus(order.getOrderStatus().getStatus());
 		
-		List<OrderItem> orderItems = orderItemRepository.findByOrderId(order.getId());
+		List<OrderItem> orderItems = orderItemRepo.findByOrderId(order.getId());
 		List<OrderItemDto> itemDtos = new ArrayList<>();
 		
 		for (OrderItem item : orderItems) {
@@ -154,7 +152,7 @@ public class OrderServiceImpl implements OrderService {
 			itemDtos.add(itemDto);
 		}
 		orderDto.setOrderItem(itemDtos);
-		orderDto.setTotalPrice(formatter.format(repository.getTotalOrder(order.getId())));
+		orderDto.setTotalPrice(formatter.format(repo.getTotalOrder(order.getId())));
 		
 	
 		return orderDto;
@@ -165,7 +163,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		DecimalFormat formatter = new DecimalFormat("###,###,###");
 		
-		List<Order> orders = repository.findByModifiedByAndOrderStatusCode(SecurityContextHolder.getContext().getAuthentication().getName(),status);
+		List<Order> orders = repo.findByModifiedByAndOrderStatusCode(SecurityContextHolder.getContext().getAuthentication().getName(),status);
 		if(orders == null) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 			
@@ -174,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		orders.forEach(order->{
 			OrderDto orderDto =  mapper.map(order, OrderDto.class);
-			OrderDetail orderDetail = orderDetailRepository.findByOrder(order);
+			OrderDetail orderDetail = orderDetailRepo.findByOrder(order);
 			
 			orderDto.setAddress(orderDetail.getAddress());
 			orderDto.setProvince(orderDetail.getProvince());
@@ -185,7 +183,7 @@ public class OrderServiceImpl implements OrderService {
 			orderDto.setCode(order.getOrderStatus().getCode());
 			orderDto.setStatus(order.getOrderStatus().getStatus());
 			
-			List<OrderItem> orderItems = orderItemRepository.findByOrderId(order.getId());
+			List<OrderItem> orderItems = orderItemRepo.findByOrderId(order.getId());
 			List<OrderItemDto> itemDtos = new ArrayList<>();
 			
 			for (OrderItem item : orderItems) {
@@ -197,7 +195,7 @@ public class OrderServiceImpl implements OrderService {
 				itemDtos.add(itemDto);
 			}
 			orderDto.setOrderItem(itemDtos);
-			orderDto.setTotalPrice(formatter.format(repository.getTotalOrder(order.getId())));
+			orderDto.setTotalPrice(formatter.format(repo.getTotalOrder(order.getId())));
 			orderDtos.add(orderDto);
 		});
 		DataOrderResquest data = new DataOrderResquest();
@@ -211,7 +209,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		DecimalFormat formatter = new DecimalFormat("###,###,###");
 		
-		List<Order> orders = repository.findByModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		List<Order> orders = repo.findByModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 		if(orders == null) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 			
@@ -220,7 +218,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		orders.forEach(order->{
 			OrderDto orderDto =  mapper.map(order, OrderDto.class);
-			OrderDetail orderDetail = orderDetailRepository.findByOrder(order);
+			OrderDetail orderDetail = orderDetailRepo.findByOrder(order);
 			
 			orderDto.setAddress(orderDetail.getAddress());
 			orderDto.setProvince(orderDetail.getProvince());
@@ -231,7 +229,7 @@ public class OrderServiceImpl implements OrderService {
 			orderDto.setCode(order.getOrderStatus().getCode());
 			orderDto.setStatus(order.getOrderStatus().getStatus());
 			
-			List<OrderItem> orderItems = orderItemRepository.findByOrderId(order.getId());
+			List<OrderItem> orderItems = orderItemRepo.findByOrderId(order.getId());
 			List<OrderItemDto> itemDtos = new ArrayList<>();
 			
 			for (OrderItem item : orderItems) {
@@ -243,7 +241,7 @@ public class OrderServiceImpl implements OrderService {
 				itemDtos.add(itemDto);
 			}
 			orderDto.setOrderItem(itemDtos);
-			orderDto.setTotalPrice(formatter.format(repository.getTotalOrder(order.getId())));
+			orderDto.setTotalPrice(formatter.format(repo.getTotalOrder(order.getId())));
 			orderDtos.add(orderDto);
 		});
 		DataOrderResquest data = new DataOrderResquest();
@@ -255,7 +253,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public String getToTalPricePerMonth() {
 		YearMonth currentTimes = YearMonth.now();
-		return repository.getToTalPricePerMonth(currentTimes.getMonthValue()+"",
+		return repo.getToTalPricePerMonth(currentTimes.getMonthValue()+"",
 				currentTimes.getYear()+"",SecurityContextHolder.getContext().getAuthentication().getName());
 	
 		
@@ -264,7 +262,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public String getCountOrderPerMonth() {
 		YearMonth currentTimes = YearMonth.now();
-		return repository.getCountOrder(currentTimes.getMonthValue()+"",
+		return repo.getCountOrder(currentTimes.getMonthValue()+"",
 				currentTimes.getYear()+"",SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
@@ -272,12 +270,12 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	public void pickupOrder(String orderCode, String code,String note) {
 		try {
-			Order order = repository.findByOrderCode(orderCode);
+			Order order = repo.findByOrderCode(orderCode);
 			if(order == null) {
 				throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 				
 			}
-			OrderStatus status = orderStatusReponsitory.findByCode(code);
+			OrderStatus status = orderStatusRepo.findByCode(code);
 			if(status == null) {
 				throw new IllegalArgumentException("Cập nhập thất bại");
 				
@@ -285,7 +283,7 @@ public class OrderServiceImpl implements OrderService {
 			order.setShipping_note(note);
 			order.setOrderStatus(status);
 			order.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			repository.saveAndFlush(order);
+			repo.saveAndFlush(order);
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Cập nhập đơn hàng thấy bại");
 		}
@@ -296,13 +294,13 @@ public class OrderServiceImpl implements OrderService {
 	public OrderDto findByCode(String orderCode) {
 	DecimalFormat formatter = new DecimalFormat("###,###,###");
 		
-		Order order = repository.findByOrderCode(orderCode);
+		Order order = repo.findByOrderCode(orderCode);
 		if(order == null) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 			
 		}
 		OrderDto orderDto = mapper.map(order, OrderDto.class);
-		OrderDetail orderDetail = orderDetailRepository.findByOrder(order);
+		OrderDetail orderDetail = orderDetailRepo.findByOrder(order);
 		
 		orderDto.setAddress(orderDetail.getAddress());
 		orderDto.setProvince(orderDetail.getProvince());
@@ -313,7 +311,7 @@ public class OrderServiceImpl implements OrderService {
 		orderDto.setCode(order.getOrderStatus().getCode());
 		orderDto.setStatus(order.getOrderStatus().getStatus());
 		
-		List<OrderItem> orderItems = orderItemRepository.findByOrderId(order.getId());
+		List<OrderItem> orderItems = orderItemRepo.findByOrderId(order.getId());
 		List<OrderItemDto> itemDtos = new ArrayList<>();
 		
 		for (OrderItem item : orderItems) {
@@ -325,25 +323,25 @@ public class OrderServiceImpl implements OrderService {
 			itemDtos.add(itemDto);
 		}
 		orderDto.setOrderItem(itemDtos);
-		orderDto.setTotalPrice(formatter.format(repository.getTotalOrder(order.getId())));
+		orderDto.setTotalPrice(formatter.format(repo.getTotalOrder(order.getId())));
 		return orderDto;
 	}
 
 	@Override
 	public Order managerOrder(String orderCode) {
-		Order order = repository.findByOrderCode(orderCode);
+		Order order = repo.findByOrderCode(orderCode);
 		if(order==null) {
 			throw new IllegalArgumentException("Không tìm thấy đơn hàng");
 		}
 		if(order.getOrderStatus().getCode().equals("C-XN")) {
 			order.setQrCode(QrCodeUtil.QrCode(order.getOrderCode(), order.getOrderCode()));
 			order.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			order.setOrderStatus(orderStatusReponsitory.findByCode("C-LH"));
-			return repository.saveAndFlush(order);
+			order.setOrderStatus(orderStatusRepo.findByCode("C-LH"));
+			return repo.saveAndFlush(order);
 		}else if (order.getOrderStatus().getCode().equals("C-HUY")) {
 			order.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			order.setOrderStatus(orderStatusReponsitory.findByCode("HUY"));
-			return repository.saveAndFlush(order);
+			order.setOrderStatus(orderStatusRepo.findByCode("HUY"));
+			return repo.saveAndFlush(order);
 		}
 		throw new IllegalArgumentException("Đơn hàng code_status = 'C-XN' hoặc 'C-HUY'!!");
 	}
@@ -357,7 +355,7 @@ public class OrderServiceImpl implements OrderService {
 		Order order = mapper.map(orderResponse, Order.class);
 			order.setOrderCode("HD-12321");
 			order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		Order orderNew = repository.saveAndFlush(order);
+		Order orderNew = repo.saveAndFlush(order);
 		
 		List<Cart> cartItem = cartService.doGetAllCartOrder(username);
 		if(cartItem.isEmpty()) {
@@ -369,18 +367,23 @@ public class OrderServiceImpl implements OrderService {
 			item.setId(null);
 			item.setPrice(item.getProduct().getPrice());
 			item.setOrder(orderNew);
-			orderItemRepository.saveAndFlush(item);
+			orderItemRepo.saveAndFlush(item);
 		});
 		UserAddress address = addressService.findByUsernameAndChoose(username, Boolean.TRUE);
 		OrderDetail orderDetail = mapper.map(address, OrderDetail.class);
 		orderDetail.setId(null);
 		orderDetail.setOrder(orderNew);
-		orderDetailRepository.saveAndFlush(orderDetail);
+		orderDetailRepo.saveAndFlush(orderDetail);
 	}
 
 	@Override
 	public Boolean isUniqueOrderNumber(String orderNumber) {
-		return Objects.isNull(repository.findByOrderCode(orderNumber));
+		return Objects.isNull(repo.findByOrderCode(orderNumber));
+	}
+
+	@Override
+	public List<OrderStatus> getAllOrderStatus() {
+		return orderStatusRepo.findAll();
 	}
 
 }
