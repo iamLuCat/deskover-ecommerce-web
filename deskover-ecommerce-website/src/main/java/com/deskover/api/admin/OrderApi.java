@@ -5,6 +5,7 @@ import com.deskover.dto.app.order.OrderDto;
 import com.deskover.dto.app.order.resquest.DataOrderResquest;
 import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
 import com.deskover.entity.Order;
+import com.deskover.entity.OrderStatus;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
@@ -42,10 +43,15 @@ public class OrderApi {
 	 * 9.Huỷ đơn
 	 */
 
-	// Order status
+
+	@GetMapping("/order-statuses")
+	public List<OrderStatus> doGetAllOrderStatus() {
+		return orderService.getAllOrderStatus();
+	}
+
 	@GetMapping("/orders")
-	public ResponseEntity<?> doGetOrderStatus(@RequestParam("status") String status) {
-		List<Order> orders = orderService.getAllOrderStatus(status.toUpperCase());
+	public ResponseEntity<?> doGetOrders(@RequestParam("status") String status) {
+		List<Order> orders = orderService.getAllOrderByStatus(status.toUpperCase());
 		if (orders.isEmpty()) {
 			ResponseEntity.notFound().build();
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Không tìm thấy đơn hàng"));

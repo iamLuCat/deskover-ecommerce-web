@@ -4,6 +4,7 @@ import com.deskover.dto.app.order.OrderDto;
 import com.deskover.dto.app.order.resquest.DataOrderResquest;
 import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
 import com.deskover.entity.Order;
+import com.deskover.entity.OrderStatus;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
@@ -15,7 +16,7 @@ public interface OrderService {
 
 	DataTablesOutput<Order> getAllForDatatables(DataTablesInput input, String statusCode);
 
-	List<Order> getAllOrderStatus(String statusCode);
+	List<Order> getAllOrderByStatus(String statusCode);
 
 	OrderDto findByOrderCode(String orderCode, String status);
 	
@@ -38,6 +39,6 @@ public interface OrderService {
 	Order managerOrder(String orderCode);
 
 	Boolean isUniqueOrderNumber(String orderNumber);
-	
-	//Dashboard ADMIN
+
+	List<OrderStatus> getAllOrderStatus();
 }
