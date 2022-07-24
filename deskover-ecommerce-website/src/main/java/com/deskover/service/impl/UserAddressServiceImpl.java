@@ -22,11 +22,20 @@ public class UserAddressServiceImpl implements UserAddressService {
 
 	@Override
 	public List<UserAddress> findByUsername(String username) {
-		List<UserAddress> contact = userAddressRepository.findByUserUsername(username);
-		if(contact == null) {
+		List<UserAddress> listAddress = userAddressRepository.findByUserUsername(username);
+		if(listAddress == null) {
 			throw new IllegalArgumentException("Không có địa chỉ");
 		}
-		return contact;
+//		listAddress.forEach((address)->{
+//			if(address.getActived()) {
+//				address.setChoose(Boolean.TRUE);
+//				userAddressRepository.save(address);
+//			}else if (!address.getActived()) {
+//				address.setChoose(Boolean.FALSE);
+//				userAddressRepository.save(address);
+//			}
+//		});
+		return listAddress;
 	}
 
 	@Override

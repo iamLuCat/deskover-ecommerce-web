@@ -53,6 +53,12 @@ public class OrderServiceImpl implements OrderService {
     private OrderStatusReponsitory orderStatusRepo;
     
     @Autowired
+    private ProductRepository productRepo;
+    
+    @Autowired
+    private UserRepository userRepo;
+    
+    @Autowired
     private CartService cartService;
     
     @Autowired
@@ -351,11 +357,18 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	public void addOrder(Order orderResponse, String username) {
 		String orderCode = "";
-		while (this.isUniqueOrderNumber(OrderNumberUtil.get())) {
-			  orderCode = OrderNumberUtil.get();
+		while (true) {
+			String orderRamdom = OrderNumberUtil.get();
+			if(this.isUniqueOrderNumber(orderRamdom)) {
+				orderCode = orderRamdom;
+				break;
 			}
+			
+		}
+		User user = userRepo.findByUsername(username);
 		Order order = mapper.map(orderResponse, Order.class);
 			order.setOrderCode(orderCode);
+			order.setUser(user);
 			order.setOrderStatus(orderStatusRepo.findByCode("C-XN"));
 			order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		Order orderNew = repo.saveAndFlush(order);
@@ -367,9 +380,15 @@ public class OrderServiceImpl implements OrderService {
 		cartRepository.deleteAll(cartItem);
 		List<OrderItem> orderItems = MapperUtil.mapAll(cartItem, OrderItem.class);
 		orderItems.forEach((item)->{
+			Product product = item.getProduct();
+			if(product.getQuantity() <= 0 ) {
+				throw new IllegalArgumentException("Sản phẩm tạm hết hàng");
+			}
+			product.setQuantity(product.getQuantity() - item.getQuantity());
 			item.setId(null);
 			item.setPrice(item.getProduct().getPrice());
 			item.setOrder(orderNew);
+			productRepo.save(product);
 			orderItemRepo.saveAndFlush(item);
 		});
 		UserAddress address = addressService.findByUsernameAndChoose(username, Boolean.TRUE);

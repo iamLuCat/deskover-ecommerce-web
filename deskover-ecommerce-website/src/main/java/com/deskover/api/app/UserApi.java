@@ -22,9 +22,9 @@ public class UserApi {
 	private UserAddressService contactService;
 
 	@GetMapping("/user/address")
-	public ResponseEntity<?> doGetAddress() {
+	public ResponseEntity<?> doGetAddress(@RequestParam("username") String username) {
 		try {
-			return ResponseEntity.ok(contactService.findByUsername("minhbd"));
+			return ResponseEntity.ok(contactService.findByUsername(username));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 		}
@@ -46,20 +46,20 @@ public class UserApi {
 	}
 	
 	@PutMapping("/user/address/{id}")
-	public ResponseEntity<?> changeActive(@PathVariable("id") Long id) {
+	public ResponseEntity<?> changeActive(@PathVariable("id") Long id, @RequestParam("username") String username) {
 		try {
-			contactService.changeActive(id, "minhbd");
-			return ResponseEntity.ok(contactService.findByUsername("minhbd"));
+			contactService.changeActive(id, username);
+			return ResponseEntity.ok(contactService.findByUsername(username));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 		}
 	}
 	
 	@PutMapping("/user/address-choose/{id}")
-	public ResponseEntity<?> changeChoose(@PathVariable("id") Long id){
+	public ResponseEntity<?> changeChoose(@PathVariable("id") Long id, @RequestParam("username") String username){
 		try {
-			contactService.changeChoose(id, "minhbd");
-			return ResponseEntity.ok(contactService.findByUsername("minhbd"));
+			contactService.changeChoose(id, username);
+			return ResponseEntity.ok(new MessageResponse("Thay đổi thành công"));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(),e);
 		}
