@@ -24,4 +24,9 @@ public class OrderStatusServiceImpl implements OrderStatusService {
 		return orderStatusReponsitory.getById(id);
 	}
 
+	@Override
+	public OrderStatus doGetByStatusCode(String code) {
+		return orderStatusReponsitory.findByCode(code);
+	}
+
 }

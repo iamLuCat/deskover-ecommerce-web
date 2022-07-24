@@ -35,7 +35,7 @@ public interface OrderService {
 
 	void pickupOrder(String orderCode,String code,String note);
 
-	Order managerOrder(String orderCode);
+	Order changeOrderStatusCode(String orderCode);
 
 	Boolean isUniqueOrderNumber(String orderNumber);
 	

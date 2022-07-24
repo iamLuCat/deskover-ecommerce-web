@@ -330,7 +330,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order managerOrder(String orderCode) {
+	public Order changeOrderStatusCode(String orderCode) {
 		Order order = repository.findByOrderCode(orderCode);
 		if(order==null) {
 			throw new IllegalArgumentException("Không tìm thấy đơn hàng");
@@ -353,6 +353,7 @@ public class OrderServiceImpl implements OrderService {
 	public void addOrder(Order orderResponse, String username) {
 		Order order = mapper.map(orderResponse, Order.class);
 			order.setOrderCode("HD-12321");
+			order.setOrderStatus(orderStatusReponsitory.findByCode("C-XN"));
 			order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		Order orderNew = repository.saveAndFlush(order);
 		
