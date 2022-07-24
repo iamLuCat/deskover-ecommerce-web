@@ -62,6 +62,7 @@ export class ProductsComponent implements OnInit {
     this.ckeditorConfig = {
       language: 'vi',
       allowedContent: true,
+      removePlugins: "save"
     };
 
     this.newData();

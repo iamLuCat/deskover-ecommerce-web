@@ -53,7 +53,7 @@ export class SubcategoriesComponent implements OnInit {
       processing: true,
       stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.subcategoryService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.categoryId).subscribe(resp => {
+        this.subcategoryService.getAllForDatatable(dataTablesParameters, this.isActive, this.categoryId).subscribe(resp => {
           self.subcategories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
