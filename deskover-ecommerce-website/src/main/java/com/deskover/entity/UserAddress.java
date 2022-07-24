@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -30,19 +31,28 @@ public class UserAddress implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
+    
+    @NotBlank(message = "Không bỏ trống tên")
+    @Column(name = "fullname", length = 128)
+    private String fullname;
+    
+    @NotBlank(message = "Không bỏ trống địa chỉ")
     @Column(name = "address", length = 128)
     private String address;
 
+    @NotBlank(message = "Không bỏ trống Tỉnh/TP")
     @Column(name = "province", length = 128)
     private String province;
 
+    @NotBlank(message = "Không bỏ trống Quận/Huyện")
     @Column(name = "district", length = 128)
     private String district;
-
+    
+    @NotBlank(message = "Không bỏ trống Phường/Xã")
     @Column(name = "ward", length = 128)
     private String ward;
 
+    @NotBlank(message = "Không bỏ trống số điện thoại")
     @Column(name = "tel", length = 10)
     private String tel;
 

@@ -155,10 +155,10 @@ public class OrderApi {
 		}
 	}
 	
-	@PostMapping("order/manager/{orderCode}")
-	public ResponseEntity<?> test(@PathVariable("orderCode") String orderCode){
+	@PostMapping("/orders/change-status-code/{orderCode}")
+	public ResponseEntity<?> changeOrderStatusCode(@PathVariable("orderCode") String orderCode){
 		try {
-			 return ResponseEntity.ok(orderService.managerOrder(orderCode));
+			 return ResponseEntity.ok(orderService.changeOrderStatusCode(orderCode));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
 		}
