@@ -51,21 +51,21 @@
             </tr>
             </thead>
             <tbody *ngIf="categories?.length !== 0">
-            <tr *ngFor="let item of categories; let i = index">
+            <tr *ngFor="let category of categories; let i = index">
               <td class="align-middle">
-                <img src="{{ item.imgUrl || 'assets/images/no-image.png' }}" class="img-thumbnail img-50">
+                <img src="{{ category.imgUrl || 'assets/images/no-image.png' }}" class="img-thumbnail img-50">
               </td>
               <td class="align-middle">
-                {{ item.name }}
+                {{ category.name }}
               </td>
               <td class="align-middle">
-                {{ item.slug }}
+                {{ category.slug }}
               </td>
               <td class="align-middle">
-                {{ item.description }}
+                {{ category.description }}
               </td>
               <td class="align-middle text-center">
-                {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
+                {{ category.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>
               <!--<td class="align-middle text-center">
                 {{ item.modifiedBy }}
@@ -73,16 +73,16 @@
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
-                          (click)="getCategory(item.id)">
+                          (click)="getCategory(category.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteCategory(item.id)"
+                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteCategory(category)"
                           placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash text-danger"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm bg-success" (click)="activeCategory(item.id)">
+                  <button type="button" class="btn btn-sm bg-success" (click)="activeCategory(category.id)">
                     Kích hoạt
                   </button>
                 </div>

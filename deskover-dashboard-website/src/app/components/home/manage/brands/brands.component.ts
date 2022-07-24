@@ -94,24 +94,20 @@ export class BrandsComponent implements OnInit {
         NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
         this.closeModal();
-      }, error => {
-        NotiflixUtils.failureNotify(error);
       });
     } else {
       this.brandService.create(brand).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
         this.rerender();
         this.closeModal();
-      }, error => {
-        NotiflixUtils.failureNotify(error);
       });
     }
   }
 
-  deleteBrand(id: number) {
-    NotiflixUtils.showConfirm('Xác nhận', 'Các danh mục con liên quan cũng sẽ bị xoá', () => {
-      this.brandService.changeActive(id).subscribe(data => {
-        NotiflixUtils.successNotify('Xoá danh mục thành công');
+  deleteBrand(brand: Brand) {
+    NotiflixUtils.showConfirm('Xác nhận', 'Xoá "' + brand.name + '"?', () => {
+      this.brandService.changeActive(brand.id).subscribe(data => {
+        NotiflixUtils.successNotify('Xoá thương hiệu thành công');
         this.rerender();
       });
     });
