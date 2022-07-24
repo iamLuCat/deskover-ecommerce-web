@@ -13,6 +13,7 @@ import com.deskover.service.OrderService;
 import com.deskover.service.UserAddressService;
 import com.deskover.util.DecimalFormatUtil;
 import com.deskover.util.MapperUtil;
+import com.deskover.util.OrderNumberUtil;
 import com.deskover.util.QrCodeUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -351,6 +352,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public void addOrder(Order orderResponse, String username) {
+		String orderCode = OrderNumberUtil.get();
 		Order order = mapper.map(orderResponse, Order.class);
 			order.setOrderCode("HD-12321");
 			order.setOrderStatus(orderStatusReponsitory.findByCode("C-XN"));
