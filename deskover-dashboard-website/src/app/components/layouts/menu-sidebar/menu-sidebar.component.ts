@@ -81,4 +81,9 @@ export const MENU = [
     path: ['/users'],
     iconClasses: 'fa-duotone fa-users'
   },
+  {
+    name: 'Đơn hàng',
+    path: ['/orders'],
+    iconClasses: 'fa-duotone fa-file-invoice'
+  },
 ];

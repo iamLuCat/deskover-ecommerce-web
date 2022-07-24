@@ -257,9 +257,9 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  deleteProduct(id: number) {
-    NotiflixUtils.showConfirm('Xác nhận', 'Xoá sản phẩm khỏi danh sách', () => {
-      this.productService.changeActive(id).subscribe(data => {
+  deleteProduct(product: Product) {
+    NotiflixUtils.showConfirm('Xác nhận', 'Xoá "' + product.name + '"?', () => {
+      this.productService.changeActive(product.id).subscribe(data => {
         NotiflixUtils.successNotify('Xoá sản phẩm thành công');
         this.rerender();
       });

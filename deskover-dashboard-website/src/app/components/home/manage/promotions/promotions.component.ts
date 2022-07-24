@@ -240,9 +240,9 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
     this.discountModal.hide();
   }
 
-  deleteDiscount(discountId: number) {
-    NotiflixUtils.showConfirm('Xác nhận xoá', 'Khuyến mãi đang áp dụng trên sản phẩm sẽ bị huỷ', () => {
-      this.discountService.changeActive(discountId).subscribe(data => {
+  deleteDiscount(discount: Discount) {
+    NotiflixUtils.showConfirm('Xác nhận xoá', 'Khuyến mãi đang áp dụng trên sản phẩm sẽ bị huỷ!', () => {
+      this.discountService.changeActive(discount.id).subscribe(data => {
         NotiflixUtils.successNotify('Xoá khuyến mãi thành công');
         this.rerender();
       });
