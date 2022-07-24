@@ -76,7 +76,7 @@ public class ProductApi {
     }
 
     @PostMapping("/products/datatables")
-    public ResponseEntity<?> doGetForDatatablesByActive(
+    public ResponseEntity<?> doGetForDatatables(
             @Valid @RequestBody DataTablesInput input,
             @RequestParam("isActive") Optional<Boolean> isActive,
             @RequestParam("categoryId") Optional<Long> categoryId,

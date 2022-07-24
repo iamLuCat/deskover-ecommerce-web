@@ -1,5 +1,29 @@
 package com.deskover.service.impl;
 
+import com.deskover.dto.app.order.OrderDto;
+import com.deskover.dto.app.order.OrderItemDto;
+import com.deskover.dto.app.order.resquest.DataOrderResquest;
+import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
+import com.deskover.dto.app.total7dayago.Total7DaysAgo;
+import com.deskover.entity.*;
+import com.deskover.repository.*;
+import com.deskover.repository.datatables.OrderRepoForDatatables;
+import com.deskover.service.CartService;
+import com.deskover.service.OrderService;
+import com.deskover.service.UserAddressService;
+import com.deskover.util.DecimalFormatUtil;
+import com.deskover.util.MapperUtil;
+import com.deskover.util.QrCodeUtil;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.criteria.Predicate;
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -9,40 +33,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.deskover.dto.app.order.OrderDto;
-import com.deskover.dto.app.order.OrderItemDto;
-import com.deskover.dto.app.order.resquest.DataOrderResquest;
-import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
-import com.deskover.dto.app.total7dayago.Total7DaysAgo;
-import com.deskover.entity.Cart;
-import com.deskover.entity.Order;
-import com.deskover.entity.OrderDetail;
-import com.deskover.entity.OrderItem;
-import com.deskover.entity.OrderStatus;
-import com.deskover.entity.UserAddress;
-import com.deskover.repository.CartRepository;
-import com.deskover.repository.OrderDetailRepository;
-import com.deskover.repository.OrderItemRepository;
-import com.deskover.repository.OrderRepository;
-import com.deskover.repository.OrderStatusReponsitory;
-import com.deskover.service.CartService;
-import com.deskover.service.OrderService;
-import com.deskover.service.UserAddressService;
-import com.deskover.util.DecimalFormatUtil;
-import com.deskover.util.MapperUtil;
-import com.deskover.util.QrCodeUtil;
-
 @Service
 public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private OrderRepository repository;
+
+	@Autowired
+	private OrderRepoForDatatables repoForDatatables;
 	
     @Autowired
     private ModelMapper mapper;
@@ -69,8 +67,22 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> getAll() {
-		// TODO Auto-generated method stub
 		return repository.findAll();
+	}
+
+	@Override
+	public DataTablesOutput<Order> getAllForDatatables(@Valid DataTablesInput input, String statusCode) {
+		DataTablesOutput<Order> orders = repoForDatatables.findAll(input, (root, query, criteriaBuilder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (statusCode != null && !statusCode.isBlank()) {
+				predicates.add(criteriaBuilder.equal(root.get("orderStatus").get("code"), statusCode));
+			}
+			return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+		});
+		if (orders.getError() != null) {
+			throw new IllegalArgumentException(orders.getError());
+		}
+		return orders;
 	}
 
 	@Override

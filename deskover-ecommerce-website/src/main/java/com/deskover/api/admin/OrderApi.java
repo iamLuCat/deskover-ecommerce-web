@@ -1,20 +1,5 @@
 package com.deskover.api.admin;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.app.order.OrderDto;
 import com.deskover.dto.app.order.resquest.DataOrderResquest;
@@ -23,8 +8,20 @@ import com.deskover.entity.Order;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-@RestController
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+
+@RestController("OrderApiForAdmin")
 @CrossOrigin("*")
 @RequestMapping("v1/api/admin")
 public class OrderApi {
@@ -46,7 +43,7 @@ public class OrderApi {
 	 */
 
 	// Order status
-	@GetMapping("/order")
+	@GetMapping("/orders")
 	public ResponseEntity<?> doGetOrderStatus(@RequestParam("status") String status) {
 		List<Order> orders = orderService.getAllOrderStatus(status.toUpperCase());
 		if (orders.isEmpty()) {
@@ -55,8 +52,23 @@ public class OrderApi {
 		}
 		return ResponseEntity.ok(orders);
 	}
+
+	@PostMapping("/orders/datatables")
+	public ResponseEntity<?> doPostOrdersForDatatables(
+			@Valid @RequestBody DataTablesInput input,
+			@RequestParam Optional<String> statusCode) {
+		try {
+			DataTablesOutput<Order> orders = orderService.getAllForDatatables(
+					input,
+					statusCode.orElse(null)
+			);
+			return ResponseEntity.ok(orders);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+		}
+	}
 	
-	@GetMapping("/order/{orderCode}")
+	@GetMapping("/orders/{orderCode}")
 	public ResponseEntity<?> doGetOrderByOrderCode(@PathVariable("orderCode") String orderCode,
 					@RequestParam("status") String status){
 		try {
@@ -71,7 +83,7 @@ public class OrderApi {
 		}
 	}
 	
-	@GetMapping("/order/delivery")
+	@GetMapping("/orders/delivery")
 	public ResponseEntity<?> doGetDelivery(@RequestParam("status") String status){
 		try {
 			DataOrderResquest dtos = orderService.getListOrder(status);
@@ -82,7 +94,7 @@ public class OrderApi {
 		}
 	}
 	
-	@GetMapping("/order/statis")
+	@GetMapping("/orders/status")
 	public ResponseEntity<?> doGetAllByUser(){
 		try {
 			DataOrderResquest dtos = orderService.getListOrderByUser();
@@ -93,7 +105,7 @@ public class OrderApi {
 		}
 	}
 
-	@GetMapping("/order-7days")
+	@GetMapping("/orders-7days")
 	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
 			try {
 				DataTotaPrice7DaysAgo totals = orderService.doGetTotalPrice7DaysAgo();
@@ -103,7 +115,7 @@ public class OrderApi {
 			}
     } 
 	
-	@GetMapping("/order-total-per-month")
+	@GetMapping("/orders-total-per-month")
 	public ResponseEntity<?> doGetPrice() {
 		try {
 			System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -115,7 +127,7 @@ public class OrderApi {
 		}
 	}
 	
-	@GetMapping("/order-count-order-per-month")
+	@GetMapping("/orders-count-order-per-month")
 	public ResponseEntity<?> doGetCountOrder(){
 		try {
 			String countOrder = orderService.getCountOrderPerMonth();
@@ -126,7 +138,7 @@ public class OrderApi {
 		}
 	}
 	
-	@PostMapping("/order/{orderCode}")
+	@PostMapping("/orders/{orderCode}")
 	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status,
 			@RequestParam("note") String note){
 		try {
