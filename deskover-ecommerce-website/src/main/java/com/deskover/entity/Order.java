@@ -65,9 +65,12 @@ public class Order implements Serializable {
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
-    
-    @OneToMany(mappedBy = "order")
-    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+
+//    @OneToMany(mappedBy = "order")
+//    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "order")
+    private OrderDetail orderDetail;
 
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();

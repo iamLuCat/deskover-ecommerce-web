@@ -3,6 +3,7 @@ import {OrderItem} from "@/entites/order-item";
 import {Payment} from "@/entites/payment";
 import {Shipping} from "@/entites/shipping";
 import {OrderStatus} from "@/entites/order-status";
+import {OrderDetail} from "@/entites/order-detail";
 
 export interface Order {
   id: number
@@ -19,4 +20,5 @@ export interface Order {
   createdAt: Date
   modifiedBy: string
   orderItems: OrderItem[]
+  orderDetail: OrderDetail;
 }
