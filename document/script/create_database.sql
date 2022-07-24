@@ -347,7 +347,7 @@ values
         (36,'MacBook Pro 16 2021 M1 Max 32GPU 32GB 1TB Space Gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray','macbook-pro-16-2021-m1-max-32gb-1tb-space-gray.png','http://localhost:8080/img/shop/products/macbook-pro-16-2021-m1-max-32gb-1tb-space-gray.png',null,99000000,3,8,null,'haipv'),
 			-- IMac
 		(37,'iMac 24 2021 M1 7GPU 8GB 256GB MGTF3SA/A - Silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver','imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver.png','http://localhost:8080/img/shop/products/imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver.png',null,33990000,3,8,null,'haipv'),
-		(38,'iMac 24 2021 M1 8GPU 8GB 256GB MGPK3SA/A - Blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue','imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue.png','http://localhost:8080/img/shop/products/imac-24-2021-m1-7gpu-8gb-256gb-mgpk3sa-a-blue.png',null,38990000,3,8,null,'haipv'),
+		(38,'iMac 24 2021 M1 8GPU 8GB 256GB MGPK3SA/A - Blue','imac-24-2021-m1-8gpu-8gb-256gb-mgpk3sa-a-blue','imac-24-2021-m1-8gpu-8gb-256gb-mgpk3sa-a-blue.png','http://localhost:8080/img/shop/products/imac-24-2021-m1-8gpu-8gb-256gb-mgpk3sa-a-blue.png',null,38990000,3,8,null,'haipv'),
 		(39,'iMac 24 2021 M1 8GPU 16GB 512GB Z12R00047 - Silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver','imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver.png','http://localhost:8080/img/shop/products/imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver.png',null,50990000,3,8,null,'haipv'),
 			-- Mac Mini
 		(40,'Mac Mini M1 8GPU 16GB 1TB Z12P000HM','mac-mini-m1-8gpu-16gb-1tb-z12p000hm','mac-mini-m1-8gpu-16gb-1tb-z12p000hm.png','http://localhost:8080/img/shop/products/mac-mini-m1-8gpu-16gb-1tb-z12p000hm.png',null,41990000,3,8,null,'haipv'),
