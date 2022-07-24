@@ -136,7 +136,8 @@
                         <!-- Product-->
                         <div class="col-md-4 col-sm-6 px-2 mb-4" ng-repeat="item in shop.items">
                             <div class="card product-card">
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden"  th:href="@{/shop/item?p={{item.slug}}}"><img src="{{item.imageUrl}}" alt="{{item.slug}}"></a>
+                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden"  th:href="@{/shop/item?p={{item.slug}}}">
+                                    <img src="{{item.imgUrl}}" alt="{{item.slug}}"></a>
                                 <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">{{item.category}}</a>
                                     <h3 class="product-title fs-sm"><a th:href="@{/shop/item?p=item.slug}">{{item.name}}</a></h3>
                                     <div class="d-flex justify-content-between">
@@ -147,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body card-body-hidden">
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Thêm vào giỏ hàng</button>
+                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button" ng-click="cart.add(item)"><i class="ci-cart fs-sm me-1"></i>Thêm vào giỏ hàng</button>
                                     <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal" ng-click="shop.quickView(item.slug)"><i class="ci-eye align-middle me-1"></i>Xem nhanh</a></div>
                                 </div>
                             </div>

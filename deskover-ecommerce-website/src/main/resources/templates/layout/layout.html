@@ -6,7 +6,7 @@
     <th:block th:include="components/header.html :: header"></th:block>
 </head>
 
-<body class="handheld-toolbar-enabled">
+<body class="handheld-toolbar-enabled" ng-controller="mainCtrl">
     <!-- Sign in / sign up modal-->
     <th:block th:replace="components/modal/signin_signup.html :: modal"></th:block>
     <th:block th:replace="${modal_out} ?: ~{}"></th:block>

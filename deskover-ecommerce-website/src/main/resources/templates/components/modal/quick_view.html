@@ -13,7 +13,7 @@
                         <div class="product-gallery">
                             <div class="product-gallery-preview order-sm-2">
                                 <div class="product-gallery-preview-item active" id="first">
-                                    <img class="image-zoom" src="{{shop.item.imageUrl}}" data-zoom="{{shop.item.imageUrl}}" alt="Image">
+                                    <img class="image-zoom" src="{{shop.item.imgUrl}}" data-zoom="{{shop.item.imgUrl}}" alt="Image">
                                     <div class="image-zoom-pane"></div>
                                 </div>
                                 <div class="product-gallery-preview-item" id="a{{$index+1}}" ng-repeat="image in shop.item.thumbsnails track by $index" repeat-directive-quickview>
@@ -23,7 +23,7 @@
                             </div>
                             <div class="product-gallery-thumblist order-sm-1">
                                 <a class="product-gallery-thumblist-item active" href="#first">
-                                    <img src="{{shop.item.imageUrl}}" alt="Product thumb">
+                                    <img src="{{shop.item.imgUrl}}" alt="Product thumb">
                                 </a>
                                 <a class="product-gallery-thumblist-item" href="#a{{$index+1}}" ng-repeat="image in shop.item.thumbsnails track by $index" repeat-directive-quickview>
                                     <img src="{{image}}" alt="Product thumb">
@@ -57,17 +57,35 @@
                                     <label class="fw-medium pb-1" for="product-size">Số lượng</label>
                                 </div>
                                 <div class="mb-3 d-flex align-items-center">
-                                    <select class="form-select me-3" style="width: 5rem;">
+                                    <select class="form-select me-3" style="width: 5rem;" ng-model="cart.select"  ng-init="cart.select='1'">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                     </select>
-                                    <button class="btn btn-primary btn-shadow d-block w-100" type="submit"><i class="ci-cart fs-lg me-2"></i>Thêm vào giỏ hàng</button>
+                                    <button class="btn btn-primary btn-shadow d-block w-100" type="submit" ng-click="cart.addQ(shop.item)"><i class="ci-cart fs-lg me-2" ></i>Thêm vào giỏ hàng</button>
                                 </div>
                             </form>
-                            <h5 class="h6 mb-3 pb-2 border-bottom"><i class="ci-announcement text-muted fs-lg align-middle mt-n1 me-2"></i>Thông tin sản phẩm</h5>
+                            <span ng-if="shop.item.spec">
+                                <h5 class="h6 mb-3 pb-2 border-bottom"><i class="ci-announcement text-muted fs-lg align-middle mt-n1 me-2"></i>Thông tin sản phẩm</h5>
+                                <ul class="list-unstyled fs-sm pb-2">
+                                    <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Model:</span><span>Amazfit Smartwatch</span></li>
+                                    <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Gender:</span><span>Unisex</span></li>
+                                    <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Smartphone app:</span><span>Amazfit Watch</span></li>
+                                    <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">OS campitibility:</span><span>Android / iOS</span></li>
+                                </ul>
+                            </span>
+
+                            <span>
+                                <h5 class="h6 mb-3 pb-2 border-bottom"><i class="ci-announcement text-muted fs-lg align-middle mt-n1 me-2"></i>Thông tin sản phẩm</h5>
+                                <ul class="list-unstyled fs-sm pb-2">
+                                    <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Model:</span><span>Amazfit Smartwatch</span></li>
+                                    <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Gender:</span><span>Unisex</span></li>
+                                    <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Smartphone app:</span><span>Amazfit Watch</span></li>
+                                    <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">OS campitibility:</span><span>Android / iOS</span></li>
+                                </ul>
+                            </span>
                         </div>
                     </div>
                 </div>

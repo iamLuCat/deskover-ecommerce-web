@@ -190,7 +190,7 @@
 }
 
 .lg-toolbar .lg-close:after {
-    content: "\e070"
+    /* content: "\e070" */
 }
 
 .lg-toolbar .lg-download:after {

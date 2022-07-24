@@ -20,7 +20,7 @@
     </div>
     <div id="content">
         <!-- Page Title-->
-        <div class="page-title-overlap bg-dark pt-4">
+        <div class="page-title-overlap bg-dark pt-4" ng-init="cart.initP()">
             <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">
@@ -58,23 +58,23 @@
                                 <div class="col-lg-7 pe-lg-0">
                                     <div class="product-gallery">
                                         <div class="product-gallery-preview order-sm-2">
-                                            <div class="product-gallery-preview-item active" id="a0"><img class="image-zoom" th:src="${product.getImgUrl}" th:data-zoom="${product.getImgUrl}" alt="Product image">
+                                            <div class="product-gallery-preview-item active" id="a0"><img class="image-zoom" th:src="${product.imgUrl}" th:data-zoom="${product.imgUrl}" alt="Product image">
                                                 <div class="image-zoom-pane"></div>
                                             </div>
                                             <th:block th:each="thumbs, i : ${product.thumbsnails}" th:remove="tag">
-                                            <div class="product-gallery-preview-item" th:id="${'a'+(i.index+1)}">
-                                                <img class="image-zoom" th:src="${thumbs}" th:data-zoom="${thumbs}" alt="Product image">
-                                                <div class="image-zoom-pane"></div>
-                                            </div>
+                                                <div class="product-gallery-preview-item" th:id="${'a'+(i.index+1)}">
+                                                    <img class="image-zoom" th:src="${thumbs}" th:data-zoom="${thumbs}" alt="Product image">
+                                                    <div class="image-zoom-pane"></div>
+                                                </div>
                                             </th:block>
-                                            
+
                                         </div>
                                         <div class="product-gallery-thumblist order-sm-1">
-                                            <a class="product-gallery-thumblist-item active" href="#a0"><img th:src="${product.getImgUrl}" alt="Product thumb"></a>
+                                            <a class="product-gallery-thumblist-item active" href="#a0"><img th:src="${product.imgUrl}" alt="Product thumb"></a>
                                             <th:block th:each="thumbs, i : ${product.thumbsnails}">
-                                             <a class="product-gallery-thumblist-item" th:href="${'#a'+(i.index+1)}"><img th:src="${thumbs}" alt="Product thumb"></a>
+                                                <a class="product-gallery-thumblist-item" th:href="${'#a'+(i.index+1)}"><img th:src="${thumbs}" alt="Product thumb"></a>
                                             </th:block>
-                                           
+
                                             <a class="product-gallery-thumblist-item video-item" th:href="${product.video}" th:if="${product.video}">
                                                 <div class="product-gallery-thumblist-item-text"><i class="ci-video"></i>Video</div>
                                             </a>
@@ -89,14 +89,16 @@
                                         </div>
                                         <div class="fs-sm mb-4"><span class="text-heading fw-medium me-1">[[${product.category}]]</span> - <span class="text-muted" id="colorOption">[[${product.subcategory}]]</span></div>
                                         <div class="d-flex align-items-center pt-2 pb-4">
-                                            <select class="form-select me-3" style="width: 5rem;">
+                                            <select class="form-select me-3" style="width: 5rem;" ng-model="cart.select"  ng-init="cart.select='1'">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
                                                 <option value="5">5</option>
                                             </select>
-                                            <button class="btn btn-primary btn-shadow d-block w-100" type="button"><i class="ci-cart fs-lg me-2"></i>Thêm vào giỏ hàng</button>
+                                            <button class="btn btn-primary btn-shadow d-block w-100" type="button" ng-click="cart.addP()">
+                                                <i class="ci-cart fs-lg me-2"></i>Thêm vào giỏ hàng
+                                            </button>
                                         </div>
                                         <div class="d-flex mb-4">
                                             <div class="w-100 me-3">
@@ -134,7 +136,7 @@
                         <!-- Tech specs tab-->
                         <div class="tab-pane fade" id="specs" role="tabpanel">
                             <div class="d-md-flex justify-content-between align-items-start pb-4 mb-4 border-bottom">
-                                <div class="d-flex align-items-center me-md-3"><img th:src="${product.getImg}" width="90" alt="Product thumb">
+                                <div class="d-flex align-items-center me-md-3"><img th:src="${product.imgUrl}" width="90" alt="Product thumb">
                                     <div class="ps-3">
                                         <h6 class="fs-base mb-2">[[${product.name}]]</h6>
                                         <div class="h4 fw-normal text-accent">[[${#numbers.formatInteger(product.price,3,'COMMA')}]]<small> VND</small></div>
@@ -157,13 +159,44 @@
                             </div>
                             <!-- Specs table-->
                             <div class="row pt-2">
-                                [[${product.spec}]]
+                                <div class="col-lg-5 col-sm-6">
+                                    <h3 class="h6">Thông số kỹ thuật</h3>
+                                    <ul class="list-unstyled fs-sm pb-2">
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">CPU:</span><span>Apple M2</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">RAM:</span><span>8GB</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Card đồ họa:</span><span>8 nhân GPU, 16 nhân Neural Engine</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Ổ cứng</span><span>SSD - 256GB</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Màn hình</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Pin</span><span>52,6 Wh</span></li>
+                                    </ul>
+                                    <h3 class="h6">Thiết kế</h3>
+                                    <ul class="list-unstyled fs-sm pb-2">
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Kích thước:</span><span>30,41cm-21,5cm-1,13cm</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Trọng lượng:</span><span>1.27 kg</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Chất liệu:</span><span>Vỏ kim loại</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-5 col-sm-6 offset-lg-1">
+                                    <h3 class="h6">Trang bị</h3>
+                                    <ul class="list-unstyled fs-sm pb-2">
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Cổng giao tiếp</span><span>Cổng HDMI và đầu đọc thẻ SD, USB Type-C</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Wifi:</span><span>802.11ax Wi-Fi 6</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Webcam:</span><span>1080p FaceTime HD camera</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Hệ điều hành:</span><span>MacOS</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Âm thanh:</span><span>Yes</span></li>
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Bluetooth:</span><span>5.0</span></li>
+                                    </ul>
+                                    <h3 class="h6">Thông số khác</h3>
+                                    <ul class="list-unstyled fs-sm pb-2">
+                                        <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Bảo mật:</span><span>Vân tay</span></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <!-- Reviews tab-->
                         <div class="tab-pane fade" id="reviews" role="tabpanel">
                             <div class="d-md-flex justify-content-between align-items-start pb-4 mb-4 border-bottom">
-                                <div class="d-flex align-items-center me-md-3"><img th:src="${product.getImg}" width="90" alt="Product thumb">
+                                <div class="d-flex align-items-center me-md-3"><img th:src="${product.imgUrl}" width="90" alt="Product thumb">
                                     <div class="ps-3">
                                         <h6 class="fs-base mb-2">[[${product.name}]]</h6>
                                         <div class="h4 fw-normal text-accent">[[${#numbers.formatInteger(product.price,3,'COMMA')}]]<small> VND</small></div>
@@ -189,12 +222,8 @@
                                 <div class="col-lg-4 col-md-5">
                                     <h2 class="h3 mb-4">[[${product.totalRating}]] Lượt đánh giá</h2>
                                     <div class="star-rating me-2">
-                                        <i class="ci-star-filled fs-sm text-accent me-1" 
-                                        th:if="${product.averageRating != 0}"
-                                        th:each="i: ${#numbers.sequence(1, product.averageRating)}"></i>
-                                        <i class="ci-star fs-sm text-muted me-1"
-                                        th:if="${product.averageRating == 0}"
-                                        th:each="i: ${#numbers.sequence(1, 5-product.averageRating)}"></i>
+                                        <i class="ci-star-filled fs-sm text-accent me-1" th:if="${product.averageRating != 0}" th:each="i: ${#numbers.sequence(1, product.averageRating)}"></i>
+                                        <i class="ci-star fs-sm text-muted me-1" th:if="${product.averageRating == 0}" th:each="i: ${#numbers.sequence(1, 5-product.averageRating)}"></i>
                                     </div>
                                     <span class="d-inline-block align-middle" th:if="${product.totalRating == 0}">[[${product.averageRating}]] Chưa có điểm đánh giá</span>
                                     <span class="d-inline-block align-middle" th:if="${product.totalRating > 0}">[[${product.averageRating}]] Điểm đánh giá trung bình</span>
@@ -399,6 +428,19 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <!-- Product description-->
+        <div class="container pt-lg-3 pb-4 pb-sm-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="h3 pb-2" align="center" style="text-align: left;"><strong>Macbook Air M1 2020 - Sang trọng, tinh tế, hiệu năng khủng</strong></h2>
+                    <p>Là dòng sản phẩm có thiết kế mỏng nhẹ, sang trọng và tinh tế cùng với đó là giá thành phải chăng nên MacBook Air đã thu hút được đông đảo người dùng yêu thích và lựa chọn. Một trong những phiên bản mới nhất mà khách hàng không thể bỏ qua khi đến với CellphoneS đó là&nbsp;<strong>MacBook Air M1</strong>. Dưới đây là chi tiết về thiết kế, cấu hình của máy.</p>
+                    <h3><strong>Thiết kế tinh tế, chất liệu nhôm bền bỉ</strong></h3>
+                    <p><strong>MacBook Air 2020 M1</strong> mới vẫn luôn tuân thủ triết lý thiết kế với những đường nét đơn nhưng vô cùng sang trọng. Máy có độ mỏng nhẹ chỉ 1,29kg và các cạnh tràn viền khiến thiết bị trở nên đẹp hơn và cao cấp hơn.</p>
+                    <p align="center"><img alt="image" src="https://telecomtalk.info/wp-content/uploads/2020/11/apple-macbook-air-pro-mini-silicon-chipset-m1.jpg"></p>
+                    <p>Vỏ nhôm bên ngoài mang đến sự bền bỉ vượt trội theo thời gian. Các cổng vẫn được thiết kế tương tự như phiên bản trước đó được ra mắt hồi tháng 3 năm 2020.</p>
                 </div>
             </div>
         </div>

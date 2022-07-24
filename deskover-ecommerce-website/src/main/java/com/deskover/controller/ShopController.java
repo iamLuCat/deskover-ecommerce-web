@@ -28,7 +28,7 @@ public class ShopController {
 			Product product = pservice.findBySlug(p);
 			model.addAttribute("product", new ProductModel(product));
 		} catch (Exception e) {
-			 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+			 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 		
 		return "item";
