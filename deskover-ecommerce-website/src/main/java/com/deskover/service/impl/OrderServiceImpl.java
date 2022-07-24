@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemRepository orderItemRepo;
     
     @Autowired
-    private OrderStatusReponsitory orderStatusRepo;
+    private OrderStatusRepository orderStatusRepo;
     
     @Autowired
     private ProductRepository productRepo;

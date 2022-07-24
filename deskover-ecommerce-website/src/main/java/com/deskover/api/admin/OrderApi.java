@@ -44,7 +44,7 @@ public class OrderApi {
 	 */
 
 
-	@GetMapping("/order-statuses")
+	@GetMapping("/orders/statuses")
 	public List<OrderStatus> doGetAllOrderStatus() {
 		return orderService.getAllOrderStatus();
 	}

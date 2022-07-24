@@ -53,7 +53,7 @@ export class SubcategoriesComponent implements OnInit {
       processing: true,
       stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.subcategoryService.getByActiveForDatatable(dataTablesParameters, this.isActive, this.categoryId).subscribe(resp => {
+        this.subcategoryService.getAllForDatatable(dataTablesParameters, this.isActive, this.categoryId).subscribe(resp => {
           self.subcategories = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -109,13 +109,13 @@ export class SubcategoriesComponent implements OnInit {
   saveSubcategory(subcategory: Subcategory) {
     if (!this.isEdit) {
       this.subcategoryService.create(subcategory).subscribe(data => {
-        NotiflixUtils.successNotify('Cập nhật thành công');
+        NotiflixUtils.successNotify('Thêm mới thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
       });
     } else {
       this.subcategoryService.update(subcategory).subscribe(data => {
-        NotiflixUtils.successNotify('Thêm mới thành công');
+        NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
       });

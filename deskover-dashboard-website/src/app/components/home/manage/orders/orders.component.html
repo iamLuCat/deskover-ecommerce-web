@@ -15,3 +15,68 @@
     </div>
   </div>
 </section>
+<section class="content">
+  <div class="container-fluid">
+    <div class="card border-primary">
+      <div class="card-header">
+        <div class="row g-2">
+          <div class="col-auto">
+            <label [for]="'filter-active'" class="col-form-label">Trạng thái:</label>
+          </div>
+          <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
+            <select id="filter-category" class="form-select" [(ngModel)]="orderStatus">
+              <option [ngValue]="null">-- Tất cả --</option>
+              <option *ngFor="let orderStatus of orderStatuses" [ngValue]="orderStatus">{{orderStatus.status}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive p-3">
+          <!--<table datatable [dtOptions]="dtOptions"
+                 class="table table-hover table-sm nowrap w-100">
+            <thead class="table-primary">
+            <tr>
+              <th class="align-middle">Ảnh</th>
+              <th class="align-middle">Tên</th>
+              <th class="align-middle">Slug</th>
+              <th class="align-middle">Mô tả</th>
+              <th class="align-middle">Danh mục cha</th>
+              <th class="align-middle text-center">Ngày cập nhật</th>
+              <th class="align-middle text-end">Công cụ</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="orders?.length !== 0">
+            <tr *ngFor="let subcategory of orders; let i = index">
+              <td class="align-middle">
+                <img src="{{ subcategory.imgUrl || 'assets/images/no-image.png' }}" class="img-fluid img-thumbnail  img-50">
+              </td>
+              <td class="align-middle">
+                {{ subcategory.name }}
+              </td>
+              <td class="align-middle">
+                {{ subcategory.slug }}
+              </td>
+              <td class="align-middle">
+                {{ subcategory.description }}
+              </td>
+              <td class="align-middle">
+                {{ subcategory.category.name }}
+              </td>
+              <td class="align-middle text-center">
+                {{ subcategory.modifiedAt | date: 'dd/MM/yyyy' }}
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="orders?.length === 0">
+            <tr>
+              <td colspan="7" class="text-center">Không tìm thấy kết quá</td>
+            </tr>
+            </tbody>
+          </table>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
