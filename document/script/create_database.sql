@@ -113,6 +113,7 @@ values 	(1,'huynq','Nguyễn Quang Huy',1,'haipv'),
 CREATE TABLE user_address (
   id BIGINT NOT NULL AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
+  fullname VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   address VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
   province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
   district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
@@ -127,12 +128,12 @@ CREATE TABLE user_address (
   CONSTRAINT FK_User_address_User FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
 
-insert user_address (user_id,address,province,district,ward,tel,email,choose,actived)
-values 	(1,'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0123456789','huynq2022@gmail.com',0,0),
-		(2,'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953980','minhbd2021@gmail.com',1,1),
-        (2,'Đường D3,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953981','minhbd2022@gmail.com',0,0),
-        (2,'Đường D4,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953982','minhbd2023@gmail.com',0,0),
-        (2,'Đường D6,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953983','minhbd2024@gmail.com',0,0)
+insert user_address (user_id,fullname,address,province,district,ward,tel,email,choose,actived)
+values 	(1,'Nguyễn Quang Huy','Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0123456789','huynq2022@gmail.com',0,0),
+		(2,'Bùi Đức Minh','Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953980','minhbd2021@gmail.com',1,1),
+        (2,'Bùi Đức Minh','Đường D3,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953981','minhbd2022@gmail.com',0,0),
+        (2,'Bùi Đức Minh','Đường D4,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953982','minhbd2023@gmail.com',0,0),
+        (2,'Bùi Đức Minh','Đường D6,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh','Hồ Chí Minh','Quận 12','Phường Trung Mỹ Tây','0338953983','minhbd2024@gmail.com',0,0)
 ;
 
 CREATE TABLE user_password (

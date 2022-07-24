@@ -9,5 +9,6 @@ public interface UserAddressService {
 	void changeActive(Long id,String username);
 	void changeChoose(Long id, String username);
 	UserAddress findByUsernameAndChoose(String username,Boolean choose);
+	UserAddress doPostAddAddress(UserAddress userAddress,String username);
 	
 }

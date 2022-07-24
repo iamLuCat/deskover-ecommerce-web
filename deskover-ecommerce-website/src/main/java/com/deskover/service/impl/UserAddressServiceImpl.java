@@ -6,22 +6,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.deskover.entity.User;
 import com.deskover.entity.UserAddress;
 import com.deskover.repository.UserAddressRepository;
 import com.deskover.service.UserAddressService;
+import com.deskover.service.UserService;
 
 @Service
 public class UserAddressServiceImpl implements UserAddressService {
 	@Autowired
 	private UserAddressRepository userAddressRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public List<UserAddress> findByUsername(String username) {
-		List<UserAddress> contact = userAddressRepository.findByUserUsername(username);
-		if(contact == null) {
+		List<UserAddress> listAddress = userAddressRepository.findByUserUsername(username);
+		if(listAddress == null) {
 			throw new IllegalArgumentException("Không có địa chỉ");
 		}
-		return contact;
+//		listAddress.forEach((address)->{
+//			if(address.getActived()) {
+//				address.setChoose(Boolean.TRUE);
+//				userAddressRepository.save(address);
+//			}else if (!address.getActived()) {
+//				address.setChoose(Boolean.FALSE);
+//				userAddressRepository.save(address);
+//			}
+//		});
+		return listAddress;
 	}
 
 	@Override
@@ -69,6 +83,16 @@ public class UserAddressServiceImpl implements UserAddressService {
 	@Override
 	public UserAddress findByUsernameAndChoose(String username,Boolean choose) {
 		return userAddressRepository.findByUserUsernameAndChoose(username, choose);
+	}
+
+	@Override
+	@Transactional
+	public UserAddress doPostAddAddress(UserAddress userAddress, String username) {
+		User user = userService.findByUsername(username);
+		userAddress.setUser(user);
+		userAddress.setActived(Boolean.FALSE);
+		userAddress.setChoose(Boolean.FALSE);
+		return userAddressRepository.saveAndFlush(userAddress);
 	}
 
 }

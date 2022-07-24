@@ -13,6 +13,7 @@ import com.deskover.service.OrderService;
 import com.deskover.service.UserAddressService;
 import com.deskover.util.DecimalFormatUtil;
 import com.deskover.util.MapperUtil;
+import com.deskover.util.OrderNumberUtil;
 import com.deskover.util.QrCodeUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,12 @@ public class OrderServiceImpl implements OrderService {
     
     @Autowired
     private OrderStatusRepository orderStatusRepo;
+    
+    @Autowired
+    private ProductRepository productRepo;
+    
+    @Autowired
+    private UserRepository userRepo;
     
     @Autowired
     private CartService cartService;
@@ -328,7 +335,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order managerOrder(String orderCode) {
+	public Order changeOrderStatusCode(String orderCode) {
 		Order order = repo.findByOrderCode(orderCode);
 		if(order==null) {
 			throw new IllegalArgumentException("Không tìm thấy đơn hàng");
@@ -349,11 +356,20 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public void addOrder(Order orderResponse, String username) {
-		
-		System.out.println(orderResponse.getFullName());
-		
+		String orderCode = "";
+		while (true) {
+			String orderRamdom = OrderNumberUtil.get();
+			if(this.isUniqueOrderNumber(orderRamdom)) {
+				orderCode = orderRamdom;
+				break;
+			}
+			
+		}
+		User user = userRepo.findByUsername(username);
 		Order order = mapper.map(orderResponse, Order.class);
-			order.setOrderCode("HD-12321");
+			order.setOrderCode(orderCode);
+			order.setUser(user);
+			order.setOrderStatus(orderStatusRepo.findByCode("C-XN"));
 			order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		Order orderNew = repo.saveAndFlush(order);
 		
@@ -364,9 +380,15 @@ public class OrderServiceImpl implements OrderService {
 		cartRepository.deleteAll(cartItem);
 		List<OrderItem> orderItems = MapperUtil.mapAll(cartItem, OrderItem.class);
 		orderItems.forEach((item)->{
+			Product product = item.getProduct();
+			if(product.getQuantity() <= 0 ) {
+				throw new IllegalArgumentException("Sản phẩm tạm hết hàng");
+			}
+			product.setQuantity(product.getQuantity() - item.getQuantity());
 			item.setId(null);
 			item.setPrice(item.getProduct().getPrice());
 			item.setOrder(orderNew);
+			productRepo.save(product);
 			orderItemRepo.saveAndFlush(item);
 		});
 		UserAddress address = addressService.findByUsernameAndChoose(username, Boolean.TRUE);
