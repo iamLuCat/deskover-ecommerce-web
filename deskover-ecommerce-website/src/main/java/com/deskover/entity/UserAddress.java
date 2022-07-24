@@ -32,6 +32,10 @@ public class UserAddress implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     
+    @NotBlank(message = "Không bỏ trống tên")
+    @Column(name = "fullname", length = 128)
+    private String fullname;
+    
     @NotBlank(message = "Không bỏ trống địa chỉ")
     @Column(name = "address", length = 128)
     private String address;
