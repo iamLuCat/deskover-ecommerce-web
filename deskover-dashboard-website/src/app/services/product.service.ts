@@ -17,7 +17,7 @@ export class ProductService {
   }
 
   getByActiveForDatatable(tableQuery: any, params: HttpParams): Observable<DataTablesResponse> {
-    return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params);
+    return this.restApi.post(this.url + "/datatables", tableQuery, params);
   }
 
   getByActive(): Observable<Product[]> {

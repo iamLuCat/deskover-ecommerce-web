@@ -19,7 +19,7 @@ export class SubcategoryService {
     const params = new HttpParams()
       .set("isActive", isActive.toString())
       .set("categoryId", categoryId ? categoryId.toString() : '');
-    return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params);
+    return this.restApi.post(this.url + "/datatables", tableQuery, params);
   }
 
   getOne(id: number): Observable<Subcategory> {
@@ -30,7 +30,7 @@ export class SubcategoryService {
     const params = new HttpParams()
       .set("isActive", isActive.toString())
       .set("categoryId", categoryId ? categoryId.toString() : '');
-    return this.restApi.getWithParams(this.url, params);
+    return this.restApi.get(this.url, params);
   }
 
   create(subcategory: Subcategory): Observable<Subcategory> {

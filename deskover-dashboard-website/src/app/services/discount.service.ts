@@ -16,7 +16,7 @@ export class DiscountService {
 
     getByActiveForDatatable(tableQuery: any, isActive: boolean): Observable<DataTablesResponse> {
         const params = new HttpParams().set("isActive", isActive.toString());
-        return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params);
+        return this.restApi.post(this.url + "/datatables", tableQuery, params);
     }
 
     getAll(page: number, size: number, active: Boolean): Observable<any> {
@@ -25,7 +25,7 @@ export class DiscountService {
             .set('size', size.toString())
             .set('active', active.toString());
 
-        return this.restApi.getWithParams(this.url, params);
+        return this.restApi.get(this.url, params);
     }
 
     getByActive(): Observable<Discount[]> {
@@ -45,7 +45,7 @@ export class DiscountService {
           .set("productIdToAdd", productIdToAdd ? productIdToAdd.toString() : "")
           .set("productIdToRemove", productIdToRemove ? productIdToRemove.toString() : "");
 
-        return this.restApi.putWithParams(this.url, discount, params);
+        return this.restApi.put(this.url, discount, params);
     }
 
     changeActive(id: number) {

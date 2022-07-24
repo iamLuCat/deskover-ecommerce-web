@@ -11,11 +11,7 @@ export class RestApiService{
   constructor(private httpClient: HttpClient) {
   }
 
-  get(link: string): Observable<any> {
-    return this.httpClient.get(link).pipe(catchError(RestApiService.handleError));
-  }
-
-  getWithParams(link: string, params: HttpParams): Observable<any> {
+  get(link: string, params: HttpParams = null): Observable<any> {
     return this.httpClient.get(link, {params}).pipe(catchError(RestApiService.handleError));
   }
 
@@ -23,23 +19,11 @@ export class RestApiService{
     return this.httpClient.get(link + '/' + id).pipe(catchError(RestApiService.handleError));
   }
 
-  post(link: string, body: any): Observable<any> {
-    return this.httpClient.post(link, body).pipe(catchError(RestApiService.handleError));
-  }
-
-  postWithParams(link: string, body: any, params: HttpParams): Observable<any> {
+  post(link: string, body: any, params: HttpParams = null): Observable<any> {
     return this.httpClient.post(link, body, {params}).pipe(catchError(RestApiService.handleError));
   }
 
-  postWithFile(link: string, formData: FormData): Observable<any> {
-    return this.httpClient.post(link, formData).pipe(catchError(RestApiService.handleError));
-  }
-
-  put(link: string, body: any): Observable<any> {
-    return this.httpClient.put(link, body).pipe(catchError(RestApiService.handleError));
-  }
-
-  putWithParams(link: string, body: any, params: HttpParams): Observable<any> {
+  put(link: string, body: any, params: HttpParams = null): Observable<any> {
     return this.httpClient.put(link, body, {params}).pipe(catchError(RestApiService.handleError));
   }
 

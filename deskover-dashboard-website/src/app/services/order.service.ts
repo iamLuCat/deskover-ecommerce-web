@@ -11,6 +11,6 @@ export class OrderService {
   constructor(private restApi: RestApiService) { }
 
   getOrdersForDatatables(params: any) {
-    return this.restApi.getWithParams(this.url + '/datatables', params);
+    return this.restApi.get(this.url + '/datatables', params);
   }
 }
