@@ -16,6 +16,8 @@ export class OrdersComponent implements OnInit {
   orderStatuses: OrderStatus[];
   orderStatus: OrderStatus = null;
 
+  orderStatusCode: string = null;
+
   dtOptions: any = {};
 
   constructor(private orderService: OrderService) {
@@ -37,7 +39,7 @@ export class OrdersComponent implements OnInit {
       stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
         const params = new HttpParams();
-        params.set('statusCode', this.orderStatus.code);
+        params.set('statusCode', this.orderStatusCode ? this.orderStatusCode : '');
         this.orderService.getOrdersForDatatables(dataTablesParameters, params).subscribe(resp => {
           self.orders = resp.data;
           callback({
@@ -48,9 +50,10 @@ export class OrdersComponent implements OnInit {
         });
       },
       columns: [
-        { data: 'orderCode', title: 'Mã đơn hàng' },
-        { data: 'user.fullname', title: 'Tên khách hàng' },
-
+        { data: 'orderCode'},
+        { data: 'user.fullname'},
+        { data: 'orderDetail.tel'},
+        { data: 'orderDetail.address'},
       ]
     }
   }
