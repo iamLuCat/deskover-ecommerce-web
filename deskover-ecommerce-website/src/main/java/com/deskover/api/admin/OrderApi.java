@@ -82,7 +82,7 @@ public class OrderApi {
 				OrderDto orderDto = orderService.findByCode(orderCode);
 				return ResponseEntity.ok(orderDto);
 			}
-			OrderDto orderDto = orderService.findByOrderCode(orderCode, status);
+			OrderDto orderDto = orderService.getByOrderCode(orderCode, status);
 			return ResponseEntity.ok(orderDto);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));

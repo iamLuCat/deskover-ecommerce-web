@@ -16,9 +16,9 @@ export interface Order {
   note: string
   shipping_note: string
   fullName: string
-  email: any
-  createdAt: Date
+  email: string
+  createdAt: string
   modifiedBy: string
+  orderDetail: OrderDetail
   orderItems: OrderItem[]
-  orderDetail: OrderDetail;
 }

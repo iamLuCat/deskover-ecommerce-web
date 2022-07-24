@@ -32,22 +32,6 @@ public class Order implements Serializable {
     @Column(name = "order_qr_code")
     private String qrCode;
     
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "payment_id")
-    private PaymentMethods payment;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "shipping_id")
-    private ShippingMethods shipping;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id")
-    private OrderStatus orderStatus;
-    
     @Column(name="note")
     private String note;
     
@@ -66,8 +50,27 @@ public class Order implements Serializable {
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
 
-//    @OneToMany(mappedBy = "order")
-//    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+    @Column(name = "unit_price", nullable = false)
+    private Double unitPrice = 0.0;
+
+    @Column(name = "order_quantity", nullable = false)
+    private Integer orderQuantity = 0;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_id")
+    private PaymentMethods payment;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "shipping_id")
+    private ShippingMethods shipping;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id")
+    private OrderStatus orderStatus;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "order")
     private OrderDetail orderDetail;

@@ -18,7 +18,7 @@ public interface OrderService {
 
 	List<Order> getAllOrderByStatus(String statusCode);
 
-	OrderDto findByOrderCode(String orderCode, String status);
+	OrderDto getByOrderCode(String orderCode, String status);
 	
 	OrderDto findByCode(String orderCode);
 	
