@@ -15,7 +15,7 @@ export class SubcategoryService {
 
   constructor(private restApi: RestApiService, private categoryService: CategoryService) { }
 
-  getByActiveForDatatable(tableQuery: any, isActive: boolean, categoryId: number): Observable<DataTablesResponse> {
+  getAllForDatatable(tableQuery: any, isActive: boolean, categoryId: number): Observable<DataTablesResponse> {
     const params = new HttpParams()
       .set("isActive", isActive.toString())
       .set("categoryId", categoryId ? categoryId.toString() : '');
