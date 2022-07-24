@@ -22,6 +22,7 @@ export const environment = {
     productApi: BASE_API + '/admin/products',
     userApi: BASE_API + '/admin/users',
     uploadFileApi: BASE_API + '/admin/upload-file',
+    orderApi: BASE_API + '/admin/orders',
   },
 };
 

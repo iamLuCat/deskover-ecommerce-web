@@ -17,7 +17,7 @@ export class UserService {
 
   getByActiveForDatatable(tableQuery: any, isActive: boolean): Observable<DataTablesResponse> {
     const params = new HttpParams().set("isActive", isActive.toString());
-    return this.restApi.postWithParams(this.url + "/datatables", tableQuery, params);
+    return this.restApi.post(this.url + "/datatables", tableQuery, params);
   }
 
   changeActive(id: number) {

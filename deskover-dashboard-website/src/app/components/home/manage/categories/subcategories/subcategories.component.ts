@@ -109,13 +109,13 @@ export class SubcategoriesComponent implements OnInit {
   saveSubcategory(subcategory: Subcategory) {
     if (!this.isEdit) {
       this.subcategoryService.create(subcategory).subscribe(data => {
-        NotiflixUtils.successNotify('Cập nhật thành công');
+        NotiflixUtils.successNotify('Thêm mới thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
       });
     } else {
       this.subcategoryService.update(subcategory).subscribe(data => {
-        NotiflixUtils.successNotify('Thêm mới thành công');
+        NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
       });
