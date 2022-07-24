@@ -7,16 +7,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageErrorUtil;
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.entity.Order;
 import com.deskover.service.OrderService;
 
-@RestController
+@RestController("OrderApiForClient")
 @RequestMapping("v1/api/custumer")
-public class OrderAppApi {
+public class OrderApi {
 	
 	@Autowired
 	private OrderService orderService;
