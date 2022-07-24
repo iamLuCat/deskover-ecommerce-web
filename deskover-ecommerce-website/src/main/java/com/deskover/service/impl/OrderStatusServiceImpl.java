@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.deskover.entity.OrderStatus;
-import com.deskover.repository.OrderStatusReponsitory;
+import com.deskover.repository.OrderStatusRepository;
 import com.deskover.service.OrderStatusService;
 
 @Service
 public class OrderStatusServiceImpl implements OrderStatusService {
 	@Autowired
-	private OrderStatusReponsitory orderStatusReponsitory;
+	private OrderStatusRepository orderStatusReponsitory;
 
 	@Override
 	public List<OrderStatus> doGetAll() {
