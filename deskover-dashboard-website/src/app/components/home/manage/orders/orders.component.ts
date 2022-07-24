@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Order} from "@/entites/order";
 import {OrderStatus} from "@/entites/order-status";
 import {OrderService} from "@services/order.service";
 import {HttpParams} from "@angular/common/http";
+import {DataTableDirective} from "angular-datatables";
 
 @Component({
   selector: 'app-orders',
@@ -14,11 +15,11 @@ export class OrdersComponent implements OnInit {
   order: Order = null;
 
   orderStatuses: OrderStatus[];
-  orderStatus: OrderStatus = null;
-
   orderStatusCode: string = null;
 
   dtOptions: any = {};
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(private orderService: OrderService) {
     this.getOrderStatuses();
@@ -32,14 +33,12 @@ export class OrdersComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
       responsive: true,
       serverSide: true,
       processing: true,
       stateSave: true,
       ajax: (dataTablesParameters: any, callback) => {
-        const params = new HttpParams();
-        params.set('statusCode', this.orderStatusCode ? this.orderStatusCode : '');
+        const params = new HttpParams().set('statusCode', this.orderStatusCode ? this.orderStatusCode : '');
         this.orderService.getOrdersForDatatables(dataTablesParameters, params).subscribe(resp => {
           self.orders = resp.data;
           callback({
@@ -50,19 +49,25 @@ export class OrdersComponent implements OnInit {
         });
       },
       columns: [
-        { data: 'orderCode'},
-        { data: 'user.fullname'},
-        { data: 'orderDetail.tel'},
-        { data: 'orderDetail.address'},
+        {data: 'orderCode'},
+        {data: 'fullName'},
+        {data: 'orderDetail.tel'},
+        {data: 'orderDetail.address'},
+        {data: 'createdAt'},
+        {data: 'modifiedBy'},
       ]
     }
   }
 
   getOrderStatuses(): void {
     this.orderService.getOrderStatuses().subscribe(data => {
-      console.log(data);
       this.orderStatuses = data;
     });
   }
 
+  applyFilter() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.draw();
+    });
+  }
 }

@@ -24,9 +24,10 @@
             <label [for]="'filter-active'" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
-            <select id="filter-category" class="form-select" [(ngModel)]="orderStatusCode">
+            <select id="filter-category" class="form-select" [(ngModel)]="orderStatusCode" (change)="applyFilter()">
               <option [ngValue]="null">-- Tất cả --</option>
-              <option *ngFor="let orderStatus of orderStatuses" [ngValue]="orderStatus.code">{{orderStatus.status}}</option>
+              <option *ngFor="let orderStatus of orderStatuses"
+                      [ngValue]="orderStatus.code">{{orderStatus.status}}</option>
             </select>
           </div>
         </div>
@@ -38,10 +39,12 @@
                  class="table table-hover table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
-              <th>Mã đơn hàng</th>
-              <th>Tên khách hàng</th>
-              <th>Số điện thoại</th>
-              <th>Địa chỉ</th>
+              <th class="align-middle">Mã đơn hàng</th>
+              <th class="align-middle">Tên khách hàng</th>
+              <th class="align-middle">Địa chỉ</th>
+              <th class="align-middle text-center">Số điện thoại</th>
+              <th class="align-middle text-center">Ngày tạo đơn</th>
+              <th class="align-middle text-center">Cập nhật bởi</th>
             </tr>
             </thead>
             <tbody *ngIf="orders?.length !== 0">
@@ -50,13 +53,19 @@
                 {{ order.orderCode }}
               </td>
               <td class="align-middle">
-                {{ order.user.fullname }}
-              </td>
-              <td class="align-middle">
-                {{ order.orderDetail.tel }}
+                {{ order.fullName }}
               </td>
               <td class="align-middle">
                 {{ order.orderDetail.address }}
+              </td>
+              <td class="align-middle text-center">
+              {{ order.orderDetail.tel }}
+              </td>
+              <td class="align-middle text-center">
+                {{ order.createdAt | date: 'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ order.modifiedBy ? order.modifiedBy : '-' }}
               </td>
             </tr>
             </tbody>

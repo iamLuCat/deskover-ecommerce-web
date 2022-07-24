@@ -494,17 +494,16 @@ CREATE TABLE status_order(
 	UNIQUE KEY UK_payment (`status`)
 );
 
-INSERT status_order(`code`,`status`)
-VALUE	('C-XN','Chờ xác nhận'),
-		('XN-DH','Xác nhận đơn hàng'),
-		('C-LH','Chờ lấy hàng'),
-        ('LH-TC','Lấy hàng thành công'),
-		('LH-TB','Lấy hàng không thành công'),
-        ('DG','Đang giao'),
-        ('GH-TC','Giao hàng thành công'),
-        ('GH-TB','Giao hàng không thành công'),
-        ('C-HUY','Chờ huỷ đơn'),
-        ('HUY','Huỷ đơn');
+INSERT status_order(`id`, `code`,`status`)
+VALUE	(1,'C-XN','Chờ xác nhận'),
+		(2,'C-LH','Chờ lấy hàng'),
+        (3,'LH-TC','Lấy hàng thành công'),
+		(4,'LH-TB','Lấy hàng không thành công'),
+        (5,'DG','Đang giao'),
+        (6,'GH-TC','Giao hàng thành công'),
+        (7,'GH-TB','Giao hàng không thành công'),
+        (8,'C-HUY','Chờ huỷ đơn'),
+        (9,'HUY','Đơn đã huỷ');
 	
 -- Đơn đặt hàng
 CREATE TABLE orders (
@@ -521,6 +520,8 @@ CREATE TABLE orders (
   shipping_note TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified_by VARCHAR(50) DEFAULT NULL,
+  unit_price DOUBLE NOT NULL DEFAULT 0,
+  order_quantity INT NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
   UNIQUE KEY UQ_Order_OrderCode (order_code),
   CONSTRAINT FK_Order_User FOREIGN KEY (user_id) REFERENCES `user` (id),
@@ -530,17 +531,17 @@ CREATE TABLE orders (
 );
 
 
-insert orders (id,order_code,user_id,shipping_id,payment_id,full_name,status_id)
-values 	(1,'HD-11062022',1,1,2,'Nguyễn Quang Huy',1),
-		(2,'HD-12062022',1,2,1,'Nguyễn Quang Huy',2),
-        (3,'HD-13062022',1,1,2,'Nguyễn Quang Huy',3),
-        (4,'HD-14062022',1,1,2,'Nguyễn Quang Huy',4),
-        (5,'HD-15062022',1,1,2,'Nguyễn Quang Huy',5),
-        (6,'HD-16062022',1,1,2,'Bùi Đức Minh',2),
-        (7,'HD-17062022',1,1,2,'Bùi Đức Minh',4),
-        (8,'HD-18062022',1,2,1,'Bùi Đức Minh',3),
-        (9,'HD-19062022',1,2,1,'Bùi Đức Minh',4),
-        (10,'HD-20062022',1,2,1,'Bùi Đức Minh',6)
+insert orders (id,order_code,user_id,shipping_id,payment_id,full_name,status_id, order_quantity, unit_price)
+values 	(1,'HD-11062022',1,1,2,'Nguyễn Quang Huy',1,1,14990000),
+		(2,'HD-12062022',1,2,1,'Nguyễn Quang Huy',2,2,30880000),
+        (3,'HD-13062022',1,1,2,'Nguyễn Quang Huy',2,3,50870000),
+        (4,'HD-14062022',1,1,2,'Nguyễn Quang Huy',3,1,32990000),
+        (5,'HD-15062022',1,1,2,'Nguyễn Quang Huy',4,1,30890000),
+        (6,'HD-16062022',1,1,2,'Bùi Đức Minh',2,1,29990000),
+        (7,'HD-17062022',1,1,2,'Bùi Đức Minh',3,1,24490000),
+        (8,'HD-18062022',1,2,1,'Bùi Đức Minh',2,1,20990000),
+        (9,'HD-19062022',1,2,1,'Bùi Đức Minh',3,2,33480000),
+        (10,'HD-20062022',1,2,1,'Bùi Đức Minh',5,3,52430000)
 ;
 
 -- Chi tiết đơn đặt hàng
