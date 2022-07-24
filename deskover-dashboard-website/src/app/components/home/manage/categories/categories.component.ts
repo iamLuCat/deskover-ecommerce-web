@@ -97,23 +97,19 @@ export class CategoriesComponent implements OnInit {
         NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
         this.closeModal();
-      }, error => {
-        NotiflixUtils.failureNotify(error);
       });
     } else {
       this.categoryService.create(category).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
         this.rerender();
         this.closeModal();
-      }, error => {
-        NotiflixUtils.failureNotify(error);
       });
     }
   }
 
-  deleteCategory(id: number) {
-    NotiflixUtils.showConfirm('Xác nhận', 'Các danh mục con liên quan cũng sẽ bị xoá', () => {
-      this.categoryService.changeActive(id).subscribe(data => {
+  deleteCategory(category: Category) {
+    NotiflixUtils.showConfirm('Xác nhận xoá', 'Các danh mục con thuộc "' + category.name + '" sẽ bị xoá!', () => {
+      this.categoryService.changeActive(category.id).subscribe(data => {
         NotiflixUtils.successNotify('Xoá danh mục thành công');
         this.rerender();
       });

@@ -52,18 +52,18 @@
             </tr>
             </thead>
             <tbody *ngIf="brands?.length !== 0">
-            <tr *ngFor="let item of brands; let i = index">
+            <tr *ngFor="let product of brands; let i = index">
               <td class="align-middle">
-                {{ item.name }}
+                {{ product.name }}
               </td>
               <td class="align-middle">
-                {{ item.slug }}
+                {{ product.slug }}
               </td>
               <td class="align-middle">
-                {{ item.description }}
+                {{ product.description }}
               </td>
               <td class="align-middle text-center">
-                {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
+                {{ product.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>
               <!--<td class="align-middle text-center">
                 {{ item.modifiedBy }}
@@ -71,16 +71,16 @@
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
-                          (click)="getBrand(item.id)">
+                          (click)="getBrand(product.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteBrand(item.id)"
+                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteBrand(product)"
                           placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash text-danger"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm bg-success" (click)="activeBrand(item.id)">
+                  <button type="button" class="btn btn-sm bg-success" (click)="activeBrand(product.id)">
                     Kích hoạt
                   </button>
                 </div>

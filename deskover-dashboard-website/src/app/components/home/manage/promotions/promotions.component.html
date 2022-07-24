@@ -21,7 +21,7 @@
       <div class="card-header">
         <div class="row g-2">
           <div class="col-auto">
-            <label for="filter-discount" class="col-form-label">Trạng thái:</label>
+            <label [for]="'filter-discount'" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-auto">
             <select id="filter-discount" class="form-select" [(ngModel)]="isActive"
@@ -53,41 +53,44 @@
             </tr>
             </thead>
             <tbody *ngIf="discounts?.length !== 0">
-            <tr *ngFor="let item of discounts; let i = index">
+            <tr *ngFor="let discount of discounts; let i = index">
               <td class="align-middle">
-                {{ item.name }}
+                {{ discount.name }}
               </td>
               <td class="align-middle">
-                {{ item.description }}
+                {{ discount.description }}
               </td>
               <td class="align-middle">
-                {{ item.percent }}%
+                {{ discount.percent }}%
               </td>
               <td class="align-middle text-center">
-                {{ item.startDate | date: 'dd/MM/yyyy' }}
+                {{ discount.startDate | date: 'dd/MM/yyyy' }}
               </td>
               <td class="align-middle text-center">
-                {{ item.endDate | date: 'dd/MM/yyyy' }}
+                {{ discount.endDate | date: 'dd/MM/yyyy' }}
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-product btn-sm bg-faded-warning me-1" placement="top"
                           tooltip="Sản phẩm khuyến mãi"
-                          (click)="getProduct(item.id)">
+                          (click)="getProduct(discount.id)">
                     <i class="fas fa-pen-square text-warning"></i>
                   </button>
                   <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
-                          (click)="editDiscount(item.id)">
+                          (click)="editDiscount(discount.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteDiscount(item.id)"
+                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteDiscount(discount)"
                           placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash text-danger"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm bg-success" (click)="activeDiscount(item.id)">
-                    Kích hoạt
+                  <button type="button" class="btn btn-sm" placement="top"
+                          (click)="activeDiscount(discount)"
+                          [ngClass]="isExpired(discount.endDate) ? 'btn-secondary' : 'btn-success'"
+                          [tooltip]="isExpired(discount.endDate) ? 'Đã hết hạn' : 'Kích hoạt'">
+                    <i class="fa-solid" [ngClass]="isExpired(discount.endDate) ? 'fa-ban' : 'fa-toggle-on'"></i>
                   </button>
                 </div>
               </td>
@@ -192,7 +195,7 @@
         <form #discountForm="ngForm">
           <div class="row" *ngIf="discount">
             <div class="col-12 mb-3">
-              <label class="form-label" for="name">Tên</label>
+              <label class="form-label" [for]="'name'">Tên</label>
               <input type="text" class="form-control" id="name" name="name" [(ngModel)]="discount.name"
                      #name="ngModel" required
               /><!--oninput="this.value = Math.abs(this.value)"-->
@@ -201,7 +204,7 @@
               </div>
             </div>
             <div class="col-6 mb-3">
-              <label class="form-label" for="percent">Mức giảm giá</label>
+              <label class="form-label" [for]="'percent'">Mức giảm giá</label>
               <!--oninput="this.value = Math.abs(this.value)"-->
               <input type="number" min="0" max="100" class="form-control" id="percent" name="percent"
                      [(ngModel)]="discount.percent" #percent="ngModel" required
@@ -212,7 +215,7 @@
               </div>
             </div>
             <div class="col-6 mb-3">
-              <label class="form-label" for="discountRangeDate">Thời gian giảm giá</label>
+              <label class="form-label" [for]="'discountRangeDate'">Thời gian giảm giá</label>
               <input type="text" id="discountRangeDate" name="discountRangeDate"
                      placeholder="Ngày bắt đầu - Ngày kết thúc"
                      class="form-control" [bsConfig]="bsConfig" #discountRangeDate="bsDaterangepicker"
@@ -220,17 +223,17 @@
                      [(ngModel)]="discountDateRange">
             </div>
             <div class="col-12 col-md-6 mb-3">
-              <label class="form-label" for="discountStartTime">Giờ bắt đầu</label>
+              <label class="form-label" [for]="'discountStartTime'">Giờ bắt đầu</label>
               <timepicker id="discountStartTime" name="discountStartTime" [(ngModel)]="discountStartTime"
                           [showMinutes]="true" [showSeconds]="true" [showMeridian]="false"></timepicker>
             </div>
             <div class="col-12 col-md-6 ">
-              <label class="form-label" for="discountEndTime">Giờ kết thúc</label>
+              <label class="form-label" [for]="discountEndTime">Giờ kết thúc</label>
               <timepicker id="discountEndTime" name="discountEndTime" [(ngModel)]="discountEndTime"
                           [showMinutes]="true" [showSeconds]="true" [showMeridian]="false"></timepicker>
             </div>
             <div class="col-12 mb-3">
-              <label for="description" class="form-label">Mô tả</label>
+              <label [for]="'description'" class="form-label">Mô tả</label>
               <textarea class="form-control" id="description" rows="3" name="description"
                         [(ngModel)]="discount.description" #description="ngModel"></textarea>
             </div>

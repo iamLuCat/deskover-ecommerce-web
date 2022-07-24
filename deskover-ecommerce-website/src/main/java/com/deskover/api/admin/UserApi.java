@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.Optional;
 
-@RestController
+@RestController("UserApiForAdmin")
 @CrossOrigin("*")
 @RequestMapping("v1/api/admin/users/")
 public class UserApi {

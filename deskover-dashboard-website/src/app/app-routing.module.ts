@@ -15,6 +15,7 @@ import {ForgotPasswordComponent} from "@components/pages/forgot-password/forgot-
 import {RecoverPasswordComponent} from "@components/pages/recover-password/recover-password.component";
 import {PrivacyPolicyComponent} from "@components/pages/privacy-policy/privacy-policy.component";
 import {UsersComponent} from "@components/home/manage/users/users.component";
+import {OrdersComponent} from "@components/home/manage/orders/orders.component";
 
 const routes: Routes = [
   {
@@ -54,6 +55,10 @@ const routes: Routes = [
       {
         path: 'users',
         component: UsersComponent,
+      },
+      {
+        path: 'orders',
+        component: OrdersComponent,
       },
       {
         path: '',

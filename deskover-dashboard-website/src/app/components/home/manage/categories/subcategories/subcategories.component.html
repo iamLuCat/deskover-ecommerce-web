@@ -66,38 +66,38 @@
             </tr>
             </thead>
             <tbody *ngIf="subcategories?.length !== 0">
-            <tr *ngFor="let item of subcategories; let i = index">
+            <tr *ngFor="let subcategory of subcategories; let i = index">
               <td class="align-middle">
-                <img src="{{ item.imgUrl || 'assets/images/no-image.png' }}" class="img-fluid img-thumbnail  img-50">
+                <img src="{{ subcategory.imgUrl || 'assets/images/no-image.png' }}" class="img-fluid img-thumbnail  img-50">
               </td>
               <td class="align-middle">
-                {{ item.name }}
+                {{ subcategory.name }}
               </td>
               <td class="align-middle">
-                {{ item.slug }}
+                {{ subcategory.slug }}
               </td>
               <td class="align-middle">
-                {{ item.description }}
+                {{ subcategory.description }}
               </td>
               <td class="align-middle">
-                {{ item.category.name }}
+                {{ subcategory.category.name }}
               </td>
               <td class="align-middle text-center">
-                {{ item.modifiedAt | date: 'dd/MM/yyyy' }}
+                {{ subcategory.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
-                          (click)="getSubcategory(item.id)">
+                          (click)="getSubcategory(subcategory.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteSubcategory(item.id)"
+                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteSubcategory(subcategory)"
                           placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash text-danger"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm bg-success" (click)="activeSubcategory(item.id)">
+                  <button type="button" class="btn btn-sm bg-success" (click)="activeSubcategory(subcategory.id)">
                     Kích hoạt
                   </button>
                 </div>

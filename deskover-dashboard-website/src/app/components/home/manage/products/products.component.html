@@ -75,45 +75,45 @@
             </tr>
             </thead>
             <tbody *ngIf="products?.length !== 0">
-            <tr *ngFor="let item of products; let i = index">
+            <tr *ngFor="let product of products; let i = index">
               <td class="align-middle">
-                <img src="{{item.imgUrl || 'assets/images/no-image.png'}}" class="img-thumbnail img-50" alt="Product">
+                <img src="{{product.imgUrl || 'assets/images/no-image.png'}}" class="img-thumbnail img-50" alt="Product">
               </td>
               <td class="align-middle">
-                {{ item.name }}
+                {{ product.name }}
               </td>
               <td class="align-middle text-center">
-                {{ item.brand.name }}
+                {{ product.brand.name }}
               </td>
               <td class="align-middle text-center">
-                {{ item.subCategory.name }}
+                {{ product.subCategory.name }}
               </td>
               <td class="align-middle text-center">
-                {{ item.price | currency:'VND' }}
+                {{ product.price | currency:'VND' }}
               </td>
               <td class="align-middle text-center">
-                {{ item.modifiedAt | date:'dd/MM/yyyy' }}
+                {{ product.modifiedAt | date:'dd/MM/yyyy' }}
               </td>
               <td class="align-middle text-center">
-                {{ item.modifiedBy }}
+                {{ product.modifiedBy }}
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm bg-faded-success me-1" placement="top"
-                          tooltip="Sao chép & Tạo mới" (click)="copyProduct(item.id)">
+                          tooltip="Sao chép & Tạo mới" (click)="copyProduct(product.id)">
                     <i class="fa-solid fa-copy text-success"></i>
                   </button>
                   <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
-                          (click)="editProduct(item.id)">
+                          (click)="editProduct(product.id)">
                     <i class="fas fa-pen-square text-info"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteProduct(item.id)"
+                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteProduct(product)"
                           placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash text-danger"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm bg-success" (click)="activeProduct(item.id)">
+                  <button type="button" class="btn btn-sm bg-success" (click)="activeProduct(product.id)">
                     Kích hoạt
                   </button>
                 </div>

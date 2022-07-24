@@ -112,23 +112,19 @@ export class SubcategoriesComponent implements OnInit {
         NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
-      }, error => {
-        NotiflixUtils.failureNotify(error);
       });
     } else {
       this.subcategoryService.update(subcategory).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
         this.rerender();
         this.closeModal(this.subcategoryModal);
-      }, error => {
-        NotiflixUtils.failureNotify(error);
       });
     }
   }
 
-  deleteSubcategory(id: number) {
-    NotiflixUtils.showConfirm('Xác nhận', 'Danh mục này sẽ bị khoá', () => {
-      this.subcategoryService.changeActive(id).subscribe(data => {
+  deleteSubcategory(subcategory: Subcategory) {
+    NotiflixUtils.showConfirm('Xác nhận', 'Xoá "' + subcategory.name + '"?', () => {
+      this.subcategoryService.changeActive(subcategory.id).subscribe(data => {
         NotiflixUtils.successNotify('Xoá danh mục thành công');
         this.rerender();
       });
@@ -154,8 +150,6 @@ export class SubcategoriesComponent implements OnInit {
     this.subcategoryService.changeActive(id).subscribe(data => {
       NotiflixUtils.successNotify('Kích hoạt danh mục thành công');
       this.rerender();
-    }, error => {
-      NotiflixUtils.failureNotify(error);
     });
   }
 

@@ -1,19 +1,18 @@
 package com.deskover.api.app;
 
-import java.util.List;
-
+import com.deskover.entity.Category;
+import com.deskover.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.deskover.entity.Category;
-import com.deskover.service.CategoryService;
+import java.util.List;
 
-@RestController
+@RestController("CategoryApiForClient")
 @RequestMapping("v1/api/custumer")
-public class CategoryAppApi {
+public class CategoryApi {
 	@Autowired
 	private CategoryService categoryService;
 	

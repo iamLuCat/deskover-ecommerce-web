@@ -77,7 +77,7 @@ export class UsersComponent implements OnInit {
     if (user.actived) {
       NotiflixUtils.showConfirm('Xác nhận xoá', 'Nguời dùng này sẽ bị khoá', () => {
         this.userService.changeActive(user.id).subscribe(data => {
-          NotiflixUtils.successNotify('Huỷ kích hoạt tài khoản thành công');
+          NotiflixUtils.successNotify('Khoá tài khoản thành công');
           this.rerender();
         });
       });
