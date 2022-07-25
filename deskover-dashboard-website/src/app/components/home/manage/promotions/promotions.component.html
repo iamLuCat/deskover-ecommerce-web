@@ -147,7 +147,7 @@
         <div class="row g-0">
           <div class="col-12 col-md-6 border-end">
             <div class="table-responsive mb-3 p-3 ps-0">
-              <h5 class="text-uppercase fw-bolder mb-3">Không áp dụng</h5>
+              <h5 class="text-uppercase fw-bolder mb-3">Tất cả sản phẩm</h5>
               <table datatable [dtOptions]="dtAllProductOptions"
                      class="product-table table table-hover table-sm nowrap w-100">
                 <thead class="table-primary">
@@ -176,7 +176,7 @@
           </div>
           <div class="col-12 col-md-6 ">
             <div class="table-responsive mb-3 p-3 pe-0">
-              <h5 class="text-uppercase fw-bolder mb-3">Đang áp dụng</h5>
+              <h5 class="text-uppercase fw-bolder mb-3">Áp dụng khuyến mãi</h5>
               <table datatable [dtOptions]="dtDiscountProductOptions"
                      class="product-table table table-hover table-sm nowrap w-100">
                 <thead class="table-primary">
@@ -209,6 +209,9 @@
           </div>
         </div>
       </div>
+      <!--<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="productDiscountModal.hide()">Đóng</button>
+      </div>-->
     </div>
   </div>
 </div>
