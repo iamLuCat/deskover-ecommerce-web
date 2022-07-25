@@ -34,7 +34,7 @@
 
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh đại diện</th>
@@ -47,7 +47,7 @@
             </tr>
             </thead>
             <tbody *ngIf="users?.length !== 0">
-            <tr *ngFor="let user of users; let i = index">
+            <tr class="table-light" *ngFor="let user of users; let i = index">
               <td class="align-middle">
                 <img src="{{ user.avatar || 'assets/images/no-image.png' }}" class="img-fluid img-thumbnail img-50">
               </td>
@@ -68,9 +68,9 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="changeActive(user)"
+                  <button type="button" class="btn btn-sm btn-danger" (click)="changeActive(user)"
                           placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash text-danger"></i>
+                    <i class="fas fa-trash"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">

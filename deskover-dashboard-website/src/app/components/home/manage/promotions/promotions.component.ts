@@ -101,34 +101,9 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
         {data: 'percent'},
         {data: 'startDate'},
         {data: 'endDate'},
-        {data: null,
-          orderable: false,
-          searchable: false,
-          render: (data, type, full, meta) => {
-            if (self.isActive) {
-              return `
-              <div class="d-flex justify-content-end align-items-center">
-              <a href="javascript:void(0)" class="btn btn-product btn-sm bg-faded-warning me-2" data-id="${data.id}"
-                    title="Sản phẩm" data-toggle="tooltip">
-                    <i class="fa-solid fa-box text-warning"></i>
-                </a>
-                <a href="javascript:void(0)" class="btn btn-edit btn-sm bg-faded-info me-2" data-id="${data.id}"
-                    title="Sửa" data-toggle="tooltip">
-                    <i class="fa fa-pen-square text-info"></i>
-                </a>
-                <a href="javascript:void(0)" class="btn btn-delete btn-sm bg-faded-danger" data-id="${data.id}"
-                    title="Xoá" data-toggle="tooltip">
-                    <i class="fa fa-trash text-danger"></i>
-                </a>
-              </div>
-            `;
-            } else {
-              return `
-               <button type="button" class="btn btn-active btn-sm bg-success" data-id="${data.id}">Kích hoạt</button>`
-            }
-          }
-        },
-      ]
+        {data: null,orderable: false,searchable: false},
+      ],
+      order: [[4, 'desc']],
     };
     self.dtAllProductOptions = {
       language: {
@@ -274,10 +249,10 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
   }
 
   activeDiscount(discount: Discount) {
-    if (this.isExpired(discount.endDate)) {
-      NotiflixUtils.failureNotify('Khuyến mãi đã hết hạn');
-      return;
-    }
+    // if (this.isExpired(discount.endDate)) {
+    //   NotiflixUtils.failureNotify('Khuyến mãi đã hết hạn');
+    //   return;
+    // }
     this.discountService.changeActive(discount.id).subscribe(data => {
       NotiflixUtils.successNotify('Kích hoạt khuyến mãi thành công');
       this.rerenderDiscountTable();

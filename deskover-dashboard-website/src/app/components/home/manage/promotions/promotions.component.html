@@ -33,7 +33,7 @@
           </div>
           <div class="col d-flex align-items-center justify-content-end">
             <button type="button" class="btn bg-faded-accent rounded-pill" (click)="newDiscount()" placement="left"
-                    tooltip="Thêm">
+                    tooltip="Thêm" container="body">
               <i class="fas fa-plus text-accent"></i>
             </button>
           </div>
@@ -41,7 +41,7 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Tên</th>
@@ -53,7 +53,8 @@
             </tr>
             </thead>
             <tbody *ngIf="discounts?.length !== 0">
-            <tr *ngFor="let discount of discounts; let i = index">
+            <tr *ngFor="let discount of discounts; let i = index"
+                [ngClass]="isExpired(discount.endDate) ? 'table-danger' : 'table-light'">
               <td class="align-middle">
                 {{ discount.name }}
               </td>
@@ -71,26 +72,30 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-product btn-sm bg-faded-warning me-1" placement="top"
-                          tooltip="Sản phẩm khuyến mãi"
+                  <button type="button" class="btn btn-product btn-sm btn-warning me-1" placement="top"
+                          tooltip="Sản phẩm khuyến mãi" container="body"
                           (click)="getProduct(discount.id)">
-                    <i class="fas fa-pen-square text-warning"></i>
+                    <i class="fas fa-box"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
-                          (click)="editDiscount(discount.id)">
-                    <i class="fas fa-pen-square text-info"></i>
+                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
+                          container="body" (click)="editDiscount(discount.id)">
+                    <i class="fas fa-pen-square"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteDiscount(discount)"
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteDiscount(discount)"
                           placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash text-danger"></i>
+                    <i class="fas fa-trash"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm" placement="top"
+                  <!--<button type="button" class="btn btn-sm" placement="top" container="body"
                           (click)="activeDiscount(discount)"
                           [ngClass]="isExpired(discount.endDate) ? 'btn-secondary' : 'btn-success'"
                           [tooltip]="isExpired(discount.endDate) ? 'Đã hết hạn' : 'Kích hoạt'">
                     <i class="fa-solid" [ngClass]="isExpired(discount.endDate) ? 'fa-ban' : 'fa-toggle-on'"></i>
+                  </button>-->
+                  <button type="button" class="btn btn-sm btn-success" placement="top" container="body"
+                          (click)="activeDiscount(discount)" tooltip="Kích hoạt">
+                    <i class="fa-solid fa-toggle-on"></i>
                   </button>
                 </div>
               </td>
@@ -129,8 +134,9 @@
             <label [for]="'filter-category'" class="col-form-label">Danh mục:</label>
           </div>
           <div class="col-md-auto col-sm-12 me-3">
-            <select id="filter-category" class="form-select" [(ngModel)]="categoryIdFilter" (change)="rerenderProductTable()">
-              <option [ngValue]="null" >Tất cả</option>
+            <select id="filter-category" class="form-select" [(ngModel)]="categoryIdFilter"
+                    (change)="rerenderProductTable()">
+              <option [ngValue]="null">Tất cả</option>
               <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
             </select>
           </div>

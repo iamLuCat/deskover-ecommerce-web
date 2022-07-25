@@ -50,7 +50,7 @@
           </div>
           <!-- Filter - End -->
           <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
-            <button type="button" class="btn bg-faded-accent w-sm-100 rounded-pill" (click)="newProduct()"
+            <button type="button" class="btn btn-accent w-sm-100 rounded-pill" (click)="newProduct()"
                     placement="left"
                     tooltip="Thêm">
               <i class="fas fa-plus text-accent d-none d-md-inline-block"></i>
@@ -61,7 +61,7 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh</th>
@@ -74,7 +74,7 @@
               <th class="align-middle text-end">Thao tác</th>
             </tr>
             </thead>
-            <tbody *ngIf="products?.length !== 0">
+            <tbody class="table-light" *ngIf="products?.length !== 0">
             <tr *ngFor="let product of products; let i = index">
               <td class="align-middle">
                 <img src="{{product.imgUrl || 'assets/images/no-image.png'}}" class="img-thumbnail img-50" alt="Product">
@@ -99,17 +99,17 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-sm bg-faded-success me-1" placement="top"
+                  <button type="button" class="btn btn-sm btn-success me-1" placement="top"
                           tooltip="Sao chép & Tạo mới" (click)="copyProduct(product.id)">
-                    <i class="fa-solid fa-copy text-success"></i>
+                    <i class="fa-solid fa-copy"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
+                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
                           (click)="editProduct(product.id)">
-                    <i class="fas fa-pen-square text-info"></i>
+                    <i class="fas fa-pen-square"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteProduct(product)"
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteProduct(product)"
                           placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash text-danger"></i>
+                    <i class="fas fa-trash"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">

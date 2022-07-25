@@ -30,7 +30,7 @@
             </select>
           </div>
           <div class="col d-flex align-items-center justify-content-end">
-            <button type="button" class="btn bg-faded-accent rounded-pill" (click)="newCategory()" placement="left"
+            <button type="button" class="btn btn-accent rounded-pill" (click)="newCategory()" placement="left"
                     tooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
@@ -39,7 +39,7 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh</th>
@@ -51,7 +51,7 @@
             </tr>
             </thead>
             <tbody *ngIf="categories?.length !== 0">
-            <tr *ngFor="let category of categories; let i = index">
+            <tr class="table-light" *ngFor="let category of categories; let i = index">
               <td class="align-middle">
                 <img src="{{ category.imgUrl || 'assets/images/no-image.png' }}" class="img-thumbnail img-50">
               </td>
@@ -72,13 +72,13 @@
               </td>-->
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
+                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
                           (click)="getCategory(category.id)">
-                    <i class="fas fa-pen-square text-info"></i>
+                    <i class="fas fa-pen-square"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteCategory(category)"
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteCategory(category)"
                           placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash text-danger"></i>
+                    <i class="fas fa-trash"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">

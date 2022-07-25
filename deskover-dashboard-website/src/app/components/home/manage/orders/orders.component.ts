@@ -37,7 +37,6 @@ export class OrdersComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      responsive: true,
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -55,7 +54,7 @@ export class OrdersComponent implements OnInit {
       columns: [
         {data: 'orderCode'},
         {data: 'fullName'},
-        {data: 'orderQuantity'},
+        {data: 'orderDetail.address'},
         {data: 'unitPrice'},
         {data: 'createdAt'},
         {data: 'modifiedBy'},
@@ -92,13 +91,14 @@ export class OrdersComponent implements OnInit {
 
   /* Order */
   getOrder(order: Order) {
+    this.order = order;
     this.openModal(this.orderDetailModal);
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(
       template,{
-        class: 'modal-lg modal-dialog-centered modal-dialog-scrollable',
+        class: 'modal-xl modal-dialog-centered modal-dialog-scrollable',
         backdrop: 'static',
       },
     );

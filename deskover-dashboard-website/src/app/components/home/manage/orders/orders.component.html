@@ -36,12 +36,12 @@
       <div class="card-body p-0">
         <div class="table-responsive p-3">
           <table datatable [dtOptions]="dtOptions"
-                 class="table table-hover table-sm nowrap w-100">
+                 class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Mã đơn hàng</th>
               <th class="align-middle">Tên khách hàng</th>
-              <th class="align-middle text-center">Số lượng</th>
+              <th class="align-middle">Địa chỉ</th>
               <th class="align-middle text-center">Đơn giá</th>
               <th class="align-middle text-center">Ngày tạo đơn</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
@@ -49,7 +49,7 @@
               <th class="align-middle text-end"></th>
             </tr>
             </thead>
-            <tbody *ngIf="orders?.length !== 0">
+            <tbody class="table-light" *ngIf="orders?.length !== 0">
             <tr *ngFor="let order of orders; let i = index">
               <td class="align-middle">
                 {{ order.orderCode }}
@@ -57,8 +57,8 @@
               <td class="align-middle">
                 {{ order.fullName }}
               </td>
-              <td class="align-middle text-center">
-                {{ order.orderQuantity }}
+              <td class="align-middle">
+                {{ order.orderDetail.address }}
               </td>
               <td class="align-middle text-center">
                 {{ order.unitPrice | number:'1.0-0' }}₫
@@ -74,10 +74,10 @@
                       [ngClass]="colorStatus(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
               </td>
               <td class="align-middle text-end">
-                <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
+                <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
                         container="body"
                         (click)="getOrder(order)">
-                  <i class="fas fa-pen-square text-info"></i>
+                  <i class="fas fa-pen-square"></i>
                 </button>
               </td>
             </tr>
@@ -103,6 +103,37 @@
     </button>
   </div>
   <div class="modal-body">
-    Just a modal with a bunch of words inside, nothing serious.
+    <form #orderForm="ngForm">
+      <div class="row">
+        <div class="col-auto">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="fullname" [value]="order.fullName"
+                   placeholder="example" readonly>
+            <label [for]="'fullname'">Họ và tên</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="address" [value]="order.orderDetail.address"
+                   placeholder="example" readonly>
+            <label [for]="'address'">Địa chỉ</label>
+          </div>
+        </div>
+        <div class="col-auto">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="tel" [value]="order.orderDetail.tel"
+                   placeholder="example" readonly>
+            <label [for]="'tel'">Số điện thoại</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="email" [value]="order.email"
+                   placeholder="example" readonly>
+            <label [for]="'email'">Email</label>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </ng-template>
