@@ -32,6 +32,6 @@ public class UserPassword implements Serializable {
     private String password;
 
     @Column(name = "modified_at", nullable = false)
-    private Instant modifiedAt;
+    private Timestamp modifiedAt;
 
 }
