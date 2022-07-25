@@ -10,7 +10,7 @@ import {StoreModule} from '@ngrx/store';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
-import {ModalModule} from "ngx-bootstrap/modal";
+import {BsModalService, ModalModule} from "ngx-bootstrap/modal";
 import {NgxMaskModule} from "ngx-mask";
 import {CKEditorModule} from "ckeditor4-angular";
 
@@ -108,6 +108,7 @@ defineLocale('vi', viLocale);
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    BsModalService
   ],
   bootstrap: [AppComponent]
 })

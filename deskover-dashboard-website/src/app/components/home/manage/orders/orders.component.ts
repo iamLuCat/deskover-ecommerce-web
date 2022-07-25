@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Order} from "@/entites/order";
 import {OrderStatus} from "@/entites/order-status";
 import {OrderService} from "@services/order.service";
 import {HttpParams} from "@angular/common/http";
 import {DataTableDirective} from "angular-datatables";
+import {BsModalRef, BsModalService, ModalDirective} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-orders',
@@ -19,9 +20,12 @@ export class OrdersComponent implements OnInit {
 
   dtOptions: any = {};
 
-  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+  modalRef?: BsModalRef;
 
-  constructor(private orderService: OrderService) {
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+  @ViewChild('orderDetailModal', {static: false}) orderDetailModal: TemplateRef<any>;
+
+  constructor(private orderService: OrderService, private modalService: BsModalService) {
     this.getOrderStatuses();
   }
 
@@ -51,11 +55,14 @@ export class OrdersComponent implements OnInit {
       columns: [
         {data: 'orderCode'},
         {data: 'fullName'},
-        {data: 'orderDetail.tel'},
-        {data: 'orderDetail.address'},
+        {data: 'orderQuantity'},
+        {data: 'unitPrice'},
         {data: 'createdAt'},
         {data: 'modifiedBy'},
-      ]
+        {data: 'orderStatus.status'},
+        {data: null, orderable: false, searchable: false}
+      ],
+      order: [[6, 'asc']]
     }
   }
 
@@ -69,5 +76,35 @@ export class OrdersComponent implements OnInit {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.draw();
     });
+  }
+
+  colorStatus(statusCode: string) {
+    if (statusCode.includes('-TC')) {
+      return 'bg-success';
+    } else if (statusCode.includes('-TB')) {
+      return 'bg-danger';
+    } else if (statusCode.includes('C-')) {
+      return 'bg-warning';
+    } else {
+      return 'bg-info';
+    }
+  }
+
+  /* Order */
+  getOrder(order: Order) {
+    this.openModal(this.orderDetailModal);
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      template,{
+        class: 'modal-lg modal-dialog-centered modal-dialog-scrollable',
+        backdrop: 'static',
+      },
+    );
+  }
+
+  closeModal() {
+    this.modalRef.hide();
   }
 }

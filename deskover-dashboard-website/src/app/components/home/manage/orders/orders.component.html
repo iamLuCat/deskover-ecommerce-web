@@ -41,10 +41,12 @@
             <tr>
               <th class="align-middle">Mã đơn hàng</th>
               <th class="align-middle">Tên khách hàng</th>
-              <th class="align-middle">Địa chỉ</th>
-              <th class="align-middle text-center">Số điện thoại</th>
+              <th class="align-middle text-center">Số lượng</th>
+              <th class="align-middle text-center">Đơn giá</th>
               <th class="align-middle text-center">Ngày tạo đơn</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
+              <th class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">Trạng thái</th>
+              <th class="align-middle text-end"></th>
             </tr>
             </thead>
             <tbody *ngIf="orders?.length !== 0">
@@ -55,11 +57,11 @@
               <td class="align-middle">
                 {{ order.fullName }}
               </td>
-              <td class="align-middle">
-                {{ order.orderDetail.address }}
+              <td class="align-middle text-center">
+                {{ order.orderQuantity }}
               </td>
               <td class="align-middle text-center">
-              {{ order.orderDetail.tel }}
+                {{ order.unitPrice | number:'1.0-0' }}₫
               </td>
               <td class="align-middle text-center">
                 {{ order.createdAt | date: 'dd/MM/yyyy' }}
@@ -67,11 +69,22 @@
               <td class="align-middle text-center">
                 {{ order.modifiedBy ? order.modifiedBy : '-' }}
               </td>
+              <td class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
+                <span class="badge"
+                      [ngClass]="colorStatus(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
+              </td>
+              <td class="align-middle text-end">
+                <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
+                        container="body"
+                        (click)="getOrder(order)">
+                  <i class="fas fa-pen-square text-info"></i>
+                </button>
+              </td>
             </tr>
             </tbody>
             <tbody *ngIf="orders?.length === 0">
             <tr>
-              <td colspan="7" class="text-center">Không tìm thấy kết quá</td>
+              <td colspan="8" class="text-center">Không tìm thấy kết quá</td>
             </tr>
             </tbody>
           </table>
@@ -80,3 +93,16 @@
     </div>
   </div>
 </section>
+<ng-template #orderDetailModal>
+  <div class="modal-header">
+    <h4 id="order-detail-dialog" class="modal-title pull-left text-primary fw-bold">
+      Chi tiết đơn hàng
+    </h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Just a modal with a bunch of words inside, nothing serious.
+  </div>
+</ng-template>

@@ -14,7 +14,7 @@
         />
       </div>
       <div class="info">
-          Xin chào, {{ user.username }}
+          Xin chào, {{ user?.username }}
       </div>
     </div>
   </ng-container>
@@ -27,10 +27,10 @@
       />
 
       <p>
-        <span>{{ user.fullname }}</span>
+        <span>{{ user?.fullname }}</span>
         <small>
           <span>Ngày đăng ký: &nbsp;</span>
-          <span>{{ user.modifiedAt | date: 'dd/MM/yyyy' }}</span>
+          <span>{{ user?.modifiedAt | date: 'dd/MM/yyyy' }}</span>
         </small>
       </p>
     </li>
