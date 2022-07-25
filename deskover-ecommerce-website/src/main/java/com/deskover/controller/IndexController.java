@@ -32,11 +32,6 @@ public class IndexController {
 		return "item";
 	}
 	
-	@GetMapping("/checkout")
-	public String checkout() {
-		return "item";
-	}
-	
 	@GetMapping("/order")
 	public String order() {
 		return "order";
