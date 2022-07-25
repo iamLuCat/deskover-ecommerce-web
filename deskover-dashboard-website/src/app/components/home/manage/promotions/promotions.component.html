@@ -130,13 +130,17 @@
                 <thead class="table-primary">
                 <tr>
                   <th class="align-middle">Tên</th>
-                  <th class="align-middle text-end">Công cụ</th>
+                  <th class="align-middle text-center">Giá</th>
+                  <th class="align-middle text-end"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let item of products; let i = index">
                   <td class="align-middle">
                     {{ item.name }}
+                  </td>
+                  <td class="align-middle text-center">
+                    {{ item.price | number: '1.0-0' }}₫
                   </td>
                   <td class="align-middle text-end">
                     <button type="button" class="btn btn-sm bg-faded-success" (click)="addProduct(item.id)">
@@ -155,6 +159,8 @@
                 <thead class="table-primary">
                 <tr>
                   <th class="align-middle">Tên</th>
+                  <th class="align-middle text-center">Giá</th>
+                  <th class="align-middle text-center">Giá khuyến mãi</th>
                   <th class="align-middle text-end">Công cụ</th>
                 </tr>
                 </thead>
@@ -162,6 +168,12 @@
                 <tr *ngFor="let item of discountProducts; let i = index">
                   <td class="align-middle">
                     {{ item.name }}
+                  </td>
+                  <td class="align-middle text-center">
+                    {{ item.price | number: '1.0-0' }}₫
+                  </td>
+                  <td class="align-middle text-center">
+                    {{ item.priceSale | number: '1.0-0' }}₫
                   </td>
                   <td class="align-middle text-end">
                     <button type="button" class="btn btn-sm bg-faded-danger" (click)="removeProduct(item.id)">

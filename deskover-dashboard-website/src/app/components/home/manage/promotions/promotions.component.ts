@@ -139,6 +139,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
       },
       columns: [
         {data: 'name'},
+        {data: 'price'},
         {title: 'Công cụ',data: null,orderable: false,searchable: false},
       ]
     };
@@ -168,6 +169,8 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
       },
       columns: [
         {data: 'name'},
+        {data: 'price'},
+        {data: 'priceSale'},
         {title: 'Công cụ',data: null,orderable: false,searchable: false},
       ]
     };

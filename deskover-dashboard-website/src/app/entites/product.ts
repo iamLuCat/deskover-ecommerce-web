@@ -9,6 +9,7 @@ export interface Product {
   slug: string
   description: string
   price: number
+  priceSale: number
   img: string
   imgUrl: string
   quantity: number
