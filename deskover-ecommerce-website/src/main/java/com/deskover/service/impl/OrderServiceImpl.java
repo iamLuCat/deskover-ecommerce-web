@@ -374,6 +374,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = mapper.map(orderResponse, Order.class);
         order.setOrderCode(orderCode);
         order.setUser(user);
+        order.setFullName(user.getUsername());
         order.setOrderStatus(orderStatusRepo.findByCode("C-XN"));
         order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         for (Cart cart : cartItem) {
