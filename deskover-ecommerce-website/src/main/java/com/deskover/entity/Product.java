@@ -40,6 +40,9 @@ public class Product implements Serializable {
     @Column(name = "price")
     private Double price;
 
+    @Column(name = "price_sale")
+    private Double priceSale;
+
     @Lob
     @Column(name = "img")
     private String img;
@@ -111,4 +114,5 @@ public class Product implements Serializable {
     
     @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id)")
     private Integer totalRating;
+
 }
