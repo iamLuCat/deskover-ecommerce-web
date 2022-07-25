@@ -24,7 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.AdminCreateDto;
-import com.deskover.dto.AdminUpdatePassDto;
+import com.deskover.dto.ChangePasswordDto;
 import com.deskover.dto.AdministratorDto;
 import com.deskover.entity.Administrator;
 import com.deskover.service.AdminAuthorityService;
@@ -110,7 +110,7 @@ public class AdministratorApi {
 	}
 
 	@PutMapping("/administrator/password")
-	public ResponseEntity<?> doUpdatePassword(@Valid @RequestBody AdminUpdatePassDto admin, BindingResult result) {
+	public ResponseEntity<?> doUpdatePassword(@Valid @RequestBody ChangePasswordDto admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
 			return ResponseEntity.badRequest().body(errors);
