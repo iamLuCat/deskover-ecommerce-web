@@ -4,52 +4,28 @@ import {Router} from '@angular/router';
 import {RestApiService} from '@services/rest-api.service';
 import {Admin} from "@/entites/admin";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
+import {StorageConstants} from "@/constants/storage-constants";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public user: Admin = null;
-
   constructor(
     private restApiService: RestApiService,
     private router: Router
   ) {
   }
 
-  // Đăng nhập bằng email và mật khẩu, lưu token vào localStorage
-  async login({username, password}) {
-    try {
-      const data = await this.restApiService
-        .post(`${environment.globalUrl.login}`, {
-          username,
-          password
-        })
-        .toPromise();
-      localStorage.setItem('token', data.token);
-      await this.getProfile();
-      await this.router.navigate(['/']);
-    } catch (e) {
-      NotiflixUtils.failureNotify(e);
-    }
+  login(body: any) {
+    return this.restApiService.post(`${environment.globalUrl.login}`, body);
   }
 
-  // Lấy thông tin người dùng
-  async getProfile() {
-    try {
-      this.user = await this.restApiService
-        .get(`${environment.globalUrl.getPrincipal}`)
-        .toPromise();
-    } catch (e) {
-      this.logout();
-      throw e;
-    }
+  getProfile() {
+    return this.restApiService.get(environment.globalUrl.getPrincipal);
   }
 
-  // Đăng xuất
   logout() {
-    localStorage.removeItem('token');
-    this.user = null;
+    localStorage.removeItem(StorageConstants.TOKEN);
     this.router.navigate(['/login']);
   }
 }
