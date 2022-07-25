@@ -19,6 +19,8 @@ export interface Order {
   email: string
   createdAt: string
   modifiedBy: string
+  unitPrice: number
+  orderQuantity: number
   orderDetail: OrderDetail
   orderItems: OrderItem[]
 }

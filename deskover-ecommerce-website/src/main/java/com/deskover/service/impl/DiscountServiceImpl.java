@@ -76,6 +76,7 @@ public class DiscountServiceImpl implements DiscountService {
     public Discount update(Discount discount, Long productIdToAdd, Long productIdToRemove) {
         if (productIdToAdd != null) {
             Product product = productService.findById(productIdToAdd);
+            product.setPriceSale(product.getPrice() - (product.getPrice() * discount.getPercent() / 100));
             product.setDiscount(discount);
             if (productService.save(product) == null) {
                 throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
@@ -84,6 +85,7 @@ public class DiscountServiceImpl implements DiscountService {
 
         if (productIdToRemove != null) {
             Product product = productService.findById(productIdToRemove);
+            product.setPriceSale(null);
             product.setDiscount(null);
             if (productService.save(product) == null) {
                 throw new IllegalArgumentException("Không thể cập nhật sản phẩm");

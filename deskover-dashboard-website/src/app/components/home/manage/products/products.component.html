@@ -89,7 +89,7 @@
                 {{ product.subCategory.name }}
               </td>
               <td class="align-middle text-center">
-                {{ product.price | currency:'VND' }}
+                {{ product.price | number:'1.0-0' }}₫
               </td>
               <td class="align-middle text-center">
                 {{ product.modifiedAt | date:'dd/MM/yyyy' }}
@@ -204,7 +204,7 @@
               </div>
               <div class="mb-3">
                 <label [for]="'price'" class="form-label">Giá</label>
-                <input class="form-control" id="price" name="price" type='text' mask="separator" thousandSeparator="."
+                <input class="form-control" id="price" name="price" type='text' mask="separator" thousandSeparator=","
                        suffix=" VNĐ" [(ngModel)]="product.price" #price="ngModel" required/>
                 <div class="invalid-feedback"
                      *ngIf="price.invalid && (price.dirty || price.touched)">
