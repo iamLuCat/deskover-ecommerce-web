@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.deskover.service.OrderStatusService;
 
 @RestController
-@RequestMapping("v1/api/custumer")
+@RequestMapping("v1/api/customer")
 public class OrderStatusAppApi {
 	@Autowired
 	private OrderStatusService orderStatusService;

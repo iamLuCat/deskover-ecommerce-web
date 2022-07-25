@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @RestController("ProductApiForClient")
-@RequestMapping("v1/api/custumer")
+@RequestMapping("v1/api/customer")
 public class ProductApi {
 
 	@Autowired

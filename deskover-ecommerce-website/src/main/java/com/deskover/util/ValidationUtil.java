@@ -38,4 +38,25 @@ public class ValidationUtil {
         error.setMessage(result);
         return error;
     }
+    public static MessageResponse ConvertValidationErrorsApp(BindingResult bindingResult) {
+        List<MessageResponse> errors = new ArrayList<>();
+        String result = "";
+        Integer i=0;
+        if (bindingResult != null) {
+            bindingResult.getFieldErrors().forEach(results -> {
+                String message = results.getDefaultMessage();
+      
+                MessageResponse error = new MessageResponse();
+                error.setMessage(message);
+                errors.add(error);
+            });
+        }
+        for (MessageResponse validationError : errors) {
+        	i+=1;
+        	result+=" "+i+"."+validationError.getMessage()+"\n";
+		}
+        MessageResponse error = new MessageResponse();
+        error.setMessage(result);
+        return error;
+    }
 }

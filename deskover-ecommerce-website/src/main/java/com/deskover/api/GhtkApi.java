@@ -17,6 +17,7 @@ import com.deskover.constant.UrlConstant;
 import com.deskover.dto.ghtk.entity.FeeGhtk;
 import com.deskover.dto.ghtk.response.AddressResponseData;
 import com.deskover.dto.ghtk.response.FeeResponseData;
+import com.deskover.dto.ghtk.response.OrderResponseData;
 
 import java.util.Objects;
 
@@ -76,22 +77,22 @@ public class GhtkApi {
 	
 	//api đăng đơn hàng
 	
-	/*
-	 * @PostMapping(path= "/shipment/order", consumes = "application/json", produces
-	 * = "application/json") public ResponseEntity<?> doGetGHTK(@RequestBody
-	 * DataGhtk Data) throws Exception{
-	 * 
-	 * String url = UrlConstant.GHTK_ORDER; String token =
-	 * "2C925D6789957674DcC9121bf419Df1a2F7b0BC3";
-	 * 
-	 * HttpHeaders headers = new HttpHeaders();
-	 * headers.setContentType(MediaType.APPLICATION_JSON); headers.set("Token",
-	 * token);
-	 * 
-	 * HttpEntity<DataGhtk> request = new HttpEntity<>(Data, headers); DataGhtk
-	 * response = restTemplate.postForObject(url,request, DataGhtk.class); return
-	 * ResponseEntity.ok(response); }
-	 */
+	
+	  @PostMapping(path= "/shipment/order", consumes = "application/json", produces= "application/json") public ResponseEntity<?> doGetGHTK(
+			  @RequestBody OrderResponseData Data) throws Exception{
+	  
+	  String url = UrlConstant.GHTK_ORDER; 
+	  String token ="2C925D6789957674DcC9121bf419Df1a2F7b0BC3";
+	  
+	  HttpHeaders headers = new HttpHeaders();
+	  headers.setContentType(MediaType.APPLICATION_JSON); headers.set("Token",token);
+	  
+	  HttpEntity<OrderResponseData> request = new HttpEntity<>(Data, headers); 
+	  String response = restTemplate.postForObject(url,request, String.class);
+	  
+	  return ResponseEntity.ok(response); 
+	  }
+	 
 
 	
 }

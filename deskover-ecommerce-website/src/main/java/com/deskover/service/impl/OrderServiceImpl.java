@@ -355,7 +355,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void addOrder(Order orderResponse, String username) {
+    public Order addOrder(Order orderResponse, String username) {
         List<Cart> cartItem = cartService.doGetAllCartOrder(username);
         if (cartItem.isEmpty()) {
             throw new IllegalArgumentException("Giỏ hàng trống");
@@ -402,6 +402,7 @@ public class OrderServiceImpl implements OrderService {
         orderDetail.setId(null);
         orderDetail.setOrder(orderNew);
         orderDetailRepo.saveAndFlush(orderDetail);
+        return order;
     }
 
     @Override
