@@ -107,13 +107,16 @@
     </div>
   </div>
 </section>
-<div bsModal [config]="{backdrop: 'static'}" #productDiscountModal="bs-modal" id="product-discount-modal" class="modal fade" tabindex="-1" role="dialog"
+<div bsModal [config]="{backdrop: 'static'}" #productDiscountModal="bs-modal" id="product-discount-modal"
+     class="modal fade" tabindex="-1" role="dialog"
      aria-labelledby="product-discount-dialog-sizes">
   <div class="modal-dialog modal-fullscreen modal-dialog-scrollable" style="max-height: none;">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 id="product-discount-dialog-sizes" class="modal-title pull-left text-primary fw-bold text-uppercase">
-          {{discount.name}} - Giảm giá {{discount.percent}}%
+        <h4 id="product-discount-dialog-sizes"
+            class="modal-title pull-left text-primary fw-bold text-uppercase d-flex align-items-center">
+          {{discount.name}} <span class="badge bg-faded-danger text-danger ms-2">Giảm {{discount.percent}}%</span>
+          <!--{{discount.name}} <span class="alert alert-danger p-1">{{discount.percent}}%</span>-->
         </h4>
         <button type="button" class="btn-close close pull-right"
                 (click)="productDiscountModal.hide()" aria-label="Close">
@@ -161,7 +164,7 @@
                   <th class="align-middle">Tên</th>
                   <th class="align-middle text-center">Giá</th>
                   <th class="align-middle text-center">Giá khuyến mãi</th>
-                  <th class="align-middle text-end">Công cụ</th>
+                  <th class="align-middle text-end"></th>
                 </tr>
                 </thead>
                 <tbody>

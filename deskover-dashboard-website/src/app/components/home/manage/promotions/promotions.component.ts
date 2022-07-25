@@ -140,7 +140,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
       columns: [
         {data: 'name'},
         {data: 'price'},
-        {title: 'Công cụ',data: null,orderable: false,searchable: false},
+        {data: null,orderable: false,searchable: false},
       ]
     };
     self.dtDiscountProductOptions = {
@@ -171,7 +171,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
         {data: 'name'},
         {data: 'price'},
         {data: 'priceSale'},
-        {title: 'Công cụ',data: null,orderable: false,searchable: false},
+        {data: null,orderable: false,searchable: false},
       ]
     };
   }
