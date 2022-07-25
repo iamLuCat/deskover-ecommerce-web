@@ -124,14 +124,23 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="row g-0">
+        <div class="row g-2">
           <div class="col-md-auto col-sm-12">
-            <label [for]="'filter-brand'" class="col-form-label me-2">Danh mục:</label>
+            <label [for]="'filter-category'" class="col-form-label">Danh mục:</label>
           </div>
-          <div class="col-md-auto col-sm-12">
+          <div class="col-md-auto col-sm-12 me-3">
             <select id="filter-category" class="form-select" [(ngModel)]="categoryIdFilter" (change)="rerenderProductTable()">
               <option [ngValue]="null" >Tất cả</option>
               <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+            </select>
+          </div>
+          <div class="col-md-auto col-sm-12">
+            <label [for]="'filter-brand'" class="col-form-label">Thương hiệu:</label>
+          </div>
+          <div class="col-md-auto col-sm-12">
+            <select id="filter-brand" class="form-select" [(ngModel)]="brandIdFilter" (change)="rerenderProductTable()">
+              <option [ngValue]="null">Tất cả</option>
+              <option *ngFor="let brand of brands" [ngValue]="brand.id">{{brand.name}}</option>
             </select>
           </div>
         </div>

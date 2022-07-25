@@ -12,6 +12,8 @@ import {HttpParams} from "@angular/common/http";
 import {Category} from "@/entites/category";
 import {Subcategory} from "@/entites/subcategory";
 import { CategoryService } from '@services/category.service';
+import {Brand} from "@/entites/brand";
+import {BrandService} from "@services/brand.service";
 
 @Component({
   selector: 'app-promotion',
@@ -28,6 +30,9 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
 
   categories: Category[];
   categoryIdFilter: number = null;
+
+  brands: Brand[];
+  brandIdFilter: number = null;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -49,7 +54,8 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
   constructor(
     private discountService: DiscountService,
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private brandService: BrandService
   ) {
     // Config datepicker ngx-bootstrap
     this.bsConfig = Object.assign({}, {
@@ -63,6 +69,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
     });
 
     this.getCategories();
+    this.getBrands();
   }
 
   ngOnInit() {
@@ -138,7 +145,8 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
         const params = new HttpParams()
           .set("isDiscount", "false")
           .set("isActive", this.isActive ? this.isActive.toString() : "")
-          .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : "");
+          .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : "")
+          .set("brandId", this.brandIdFilter ? this.brandIdFilter.toString() : "");
         this.productService.getByActiveForDatatable(dataTablesParameters, params).subscribe(resp => {
           self.products = resp.data;
           callback({
@@ -169,7 +177,8 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
         const params = new HttpParams()
           .set("isDiscount", "true")
           .set("isActive", this.isActive ? this.isActive.toString() : "")
-          .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : "");
+          .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : "")
+          .set("brandId", this.brandIdFilter ? this.brandIdFilter.toString() : "");
         this.productService.getByActiveForDatatable(dataTablesParameters, params).subscribe(resp => {
           self.discountProducts = resp.data;
           callback({
@@ -306,6 +315,12 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
   getCategories() {
     this.categoryService.getByActive().subscribe(data => {
       this.categories = data;
+    });
+  }
+
+  getBrands() {
+    this.brandService.getByActive().subscribe(data => {
+      this.brands = data;
     });
   }
 }
