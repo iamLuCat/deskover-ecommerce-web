@@ -39,6 +39,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.isAuthLoading = false;
         localStorage.setItem(StorageConstants.TOKEN, data.token);
         this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.isAuthLoading = false;
       }
     });
   }
