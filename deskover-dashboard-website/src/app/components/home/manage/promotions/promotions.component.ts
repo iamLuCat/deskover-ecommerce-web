@@ -9,6 +9,9 @@ import {Product} from "@/entites/product";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {HttpParams} from "@angular/common/http";
+import {Category} from "@/entites/category";
+import {Subcategory} from "@/entites/subcategory";
+import { CategoryService } from '@services/category.service';
 
 @Component({
   selector: 'app-promotion',
@@ -18,9 +21,13 @@ import {HttpParams} from "@angular/common/http";
 export class PromotionsComponent implements OnInit, AfterViewInit {
   discounts: Discount[];
   discount: Discount = <Discount>{};
+
   products: Product[];
   discountProducts: Product[];
   product: Product = <Product>{};
+
+  categories: Category[];
+  categoryIdFilter: number = null;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -42,6 +49,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
   constructor(
     private discountService: DiscountService,
     private productService: ProductService,
+    private categoryService: CategoryService
   ) {
     // Config datepicker ngx-bootstrap
     this.bsConfig = Object.assign({}, {
@@ -53,6 +61,8 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
       adaptivePosition: true,
       minDate: new Date(),
     });
+
+    this.getCategories();
   }
 
   ngOnInit() {
@@ -126,8 +136,9 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
       }],
       ajax: (dataTablesParameters: any, callback) => {
         const params = new HttpParams()
-          .set("isActive", this.isActive.toString())
-          .set("isDiscount", "false");
+          .set("isDiscount", "false")
+          .set("isActive", this.isActive ? this.isActive.toString() : "")
+          .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : "");
         this.productService.getByActiveForDatatable(dataTablesParameters, params).subscribe(resp => {
           self.products = resp.data;
           callback({
@@ -156,8 +167,9 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
       }],
       ajax: (dataTablesParameters: any, callback) => {
         const params = new HttpParams()
-          .set("isActive", this.isActive.toString())
-          .set("isDiscount", "true");
+          .set("isDiscount", "true")
+          .set("isActive", this.isActive ? this.isActive.toString() : "")
+          .set("categoryId", this.categoryIdFilter ? this.categoryIdFilter.toString() : "");
         this.productService.getByActiveForDatatable(dataTablesParameters, params).subscribe(resp => {
           self.discountProducts = resp.data;
           callback({
@@ -183,13 +195,13 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
 
   }
 
-  rerender() {
+  rerenderDiscountTable() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.ajax.reload(null, false);
     });
   }
 
-  filter() {
+  applyFilterDiscount() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.draw();
     });
@@ -239,7 +251,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
         NotiflixUtils.failureNotify(error);
       });
     }
-    this.rerender();
+    this.rerenderDiscountTable();
     this.discountModal.hide();
   }
 
@@ -247,7 +259,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
     NotiflixUtils.showConfirm('Xác nhận xoá', 'Khuyến mãi đang áp dụng trên sản phẩm sẽ bị huỷ!', () => {
       this.discountService.changeActive(discount.id).subscribe(data => {
         NotiflixUtils.successNotify('Xoá khuyến mãi thành công');
-        this.rerender();
+        this.rerenderDiscountTable();
       });
     });
   }
@@ -259,12 +271,17 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
     }
     this.discountService.changeActive(discount.id).subscribe(data => {
       NotiflixUtils.successNotify('Kích hoạt khuyến mãi thành công');
-      this.rerender();
+      this.rerenderDiscountTable();
     });
   }
 
   isExpired(endDate: number): boolean {
     return new Date() > new Date(endDate);
+  }
+
+  /* Product */
+  rerenderProductTable() {
+    $('.product-table').DataTable().ajax.reload(null, false);
   }
 
   getProduct(discountId: number) {
@@ -275,14 +292,20 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
   addProduct(productId: number) {
     this.discountService.update(this.discount, productId, null).subscribe(data => {
       NotiflixUtils.successNotify('Thêm sản phẩm thành công');
-      $('.product-table').DataTable().ajax.reload(null, false);
+      this.rerenderProductTable();
     });
   }
 
   removeProduct(productId: number) {
     this.discountService.update(this.discount, null, productId).subscribe(data => {
       NotiflixUtils.successNotify('Xoá sản phẩm thành công');
-      $('.product-table').DataTable().ajax.reload(null, false);
+      this.rerenderProductTable();
+    });
+  }
+
+  getCategories() {
+    this.categoryService.getByActive().subscribe(data => {
+      this.categories = data;
     });
   }
 }

@@ -25,7 +25,7 @@
           </div>
           <div class="col-auto">
             <select id="filter-discount" class="form-select" [(ngModel)]="isActive"
-                    (change)="filter()">
+                    (change)="applyFilterDiscount()">
               <option [ngValue]="true">Hoạt động</option>
               <option [ngValue]="false">Chưa kích hoạt</option>
             </select>
@@ -123,10 +123,21 @@
           <span aria-hidden="true" class="visually-hidden">&times;</span>
         </button>
       </div>
-      <div class="modal-body p-0">
+      <div class="modal-body">
         <div class="row g-0">
-          <div class="col-12 col-md-6 px-1 border-end">
-            <div class="table-responsive mb-3 p-3">
+          <div class="col-md-auto col-sm-12">
+            <label [for]="'filter-brand'" class="col-form-label me-2">Danh mục:</label>
+          </div>
+          <div class="col-md-auto col-sm-12">
+            <select id="filter-category" class="form-select" [(ngModel)]="categoryIdFilter" (change)="rerenderProductTable()">
+              <option [ngValue]="null" >Tất cả</option>
+              <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row g-0">
+          <div class="col-12 col-md-6 border-end">
+            <div class="table-responsive mb-3 p-3 ps-0">
               <h5 class="text-uppercase fw-bolder mb-3">Không áp dụng</h5>
               <table datatable [dtOptions]="dtAllProductOptions"
                      class="product-table table table-hover table-sm nowrap w-100">
@@ -154,8 +165,8 @@
               </table>
             </div>
           </div>
-          <div class="col-12 col-md-6 px-1">
-            <div class="table-responsive mb-3 p-3">
+          <div class="col-12 col-md-6 ">
+            <div class="table-responsive mb-3 p-3 pe-0">
               <h5 class="text-uppercase fw-bolder mb-3">Đang áp dụng</h5>
               <table datatable [dtOptions]="dtDiscountProductOptions"
                      class="product-table table table-hover table-sm nowrap w-100">
