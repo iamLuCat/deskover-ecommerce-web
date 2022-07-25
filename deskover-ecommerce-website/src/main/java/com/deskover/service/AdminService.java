@@ -1,7 +1,7 @@
 package com.deskover.service;
 
 import com.deskover.dto.AdminCreateDto;
-import com.deskover.dto.AdminUpdatePassDto;
+import com.deskover.dto.ChangePasswordDto;
 import com.deskover.dto.AdministratorDto;
 import com.deskover.entity.Administrator;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ public interface AdminService {
     
     AdministratorDto update(AdministratorDto adminUpdate);
     
-    AdministratorDto updatePassword(AdminUpdatePassDto adminUpdatePass);
+    AdministratorDto updatePassword(ChangePasswordDto adminUpdatePass);
     
     void changeActived(Long id);
     

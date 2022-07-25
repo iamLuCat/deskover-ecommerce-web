@@ -1,7 +1,7 @@
 package com.deskover.service.impl;
 
 import com.deskover.dto.AdminCreateDto;
-import com.deskover.dto.AdminUpdatePassDto;
+import com.deskover.dto.ChangePasswordDto;
 import com.deskover.dto.AdministratorDto;
 import com.deskover.entity.AdminAuthority;
 import com.deskover.entity.Administrator;
@@ -110,8 +110,8 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	@Transactional
-	public AdministratorDto updatePassword(AdminUpdatePassDto adminUpdatePass) {
-		Administrator existsAdmin = this.getById(adminUpdatePass.getId());
+	public AdministratorDto updatePassword(ChangePasswordDto adminUpdatePass) {
+		Administrator existsAdmin = this.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		if (!bcrypt.matches(adminUpdatePass.getOldPassword(), existsAdmin.getPassword())) {
 			throw new IllegalArgumentException("Mật khẩu cũ không đúng");
 		} else {

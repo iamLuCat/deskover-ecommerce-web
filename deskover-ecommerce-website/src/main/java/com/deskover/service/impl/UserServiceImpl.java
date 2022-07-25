@@ -8,21 +8,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.deskover.dto.ChangePasswordDto;
+import com.deskover.dto.UserCreateDto;
 import com.deskover.entity.User;
 import com.deskover.repository.UserRepository;
 import com.deskover.repository.datatables.UserRepoForDatatables;
+import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+	
 	@Autowired
 	UserRepository repo;
 	
 	@Autowired
 	UserRepoForDatatables repoForDatatables;
+	
+	@Autowired
+	UserPasswordService userPasswordService;
 
 	@Override
 	@Transactional
@@ -55,6 +63,36 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findByUsername(String username) {
 		return repo.findByUsername(username);
+	}
+
+	@Override
+	public User create(UserCreateDto userRequest) {
+		if(repo.existsByUsername(userRequest.getUsername())) {
+			throw new IllegalArgumentException("Username này đã tồn tại vui lòng nhập username khác");
+		}
+		if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
+			throw new IllegalArgumentException("Mật khẩu xác nhận không khớp");
+		}else {
+			User createUser = new User();
+			createUser.setUsername(userRequest.getUsername());
+			createUser.setFullname(userRequest.getFullname());
+			createUser.setAvatar(null);
+			createUser.setLastLogin(null);
+			createUser.setActived(Boolean.FALSE);
+			createUser.setVerify(Boolean.FALSE);
+			createUser.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+			createUser.setModifiedBy(null);
+			User createdUser = repo.save(createUser);
+			
+			userPasswordService.create(createdUser, userRequest.getConfirmPassword());
+			
+			return createdUser;
+		}
+	}
+
+	@Override
+	public void updatePassword(String username, ChangePasswordDto userRequest) {
+		userPasswordService.updatePassword(username, userRequest);
 	}
 
 }
