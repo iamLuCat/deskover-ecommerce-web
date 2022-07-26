@@ -100,7 +100,7 @@ public class OrderApi {
 		}
 	}
 	
-	@GetMapping("/orders/status")
+	@GetMapping("/orders/statistical")
 	public ResponseEntity<?> doGetAllByUser(){
 		try {
 			DataOrderResquest dtos = orderService.getListOrderByUser();
