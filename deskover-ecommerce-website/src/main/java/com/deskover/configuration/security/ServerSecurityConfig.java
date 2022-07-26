@@ -38,8 +38,6 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
     
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -47,8 +45,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
         // user for matching credentials
         // Use BCryptPasswordEncoder
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        
+       
     }
 
     @Bean
