@@ -5,6 +5,7 @@ import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {DataTablesResponse} from "@/entites/data-tables-response";
 import {OrderStatus} from "@/entites/order-status";
+import {Order} from "@/entites/order";
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,9 @@ export class OrderService {
 
   getOrderStatuses(): Observable<OrderStatus[]> {
     return this.restApi.get(this.url + '/statuses');
+  }
+
+  getOrder(id: number): Observable<Order> {
+    return this.restApi.get(this.url + '/' + id);
   }
 }

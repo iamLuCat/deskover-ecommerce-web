@@ -45,11 +45,6 @@ tr, td {
 .notiflix-confirm-buttons>a {
   text-decoration: none;
 }
-
-.modal-body, .ck.ck-editor__main>.ck-editor__editable {
-  overflow-x: hidden !important;
-}
-
 .brand-link {
   text-align: center;
 }
@@ -251,13 +246,21 @@ tr, td {
   padding: 0 0.5rem;
 }
 
-/* CKEditor */
+/* Modal & CKEditor */
+.modal-fullscreen {
+  max-height: none;
+}
+
+//.modal-body, .ck.ck-editor__main>.ck-editor__editable {
+//  overflow-x: hidden !important;
+//}
+
 //.ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable),
 //.ck.ck-editor__editable.ck-rounded-corners:not(.ck-editor__nested-editable) {
 //  border: 1px solid #ced4da;
 //  border-radius: 0.375rem;
 //}
-//
+
 //.ck-rounded-corners .ck.ck-balloon-panel, .ck.ck-balloon-panel.ck-rounded-corners {
 //  z-index: 10055 !important;
 //

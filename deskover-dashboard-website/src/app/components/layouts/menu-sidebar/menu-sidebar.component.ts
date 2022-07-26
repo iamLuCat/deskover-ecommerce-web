@@ -29,7 +29,6 @@ export class MenuSidebarComponent implements OnInit {
     this.ui.subscribe((state: UiState) => {
       this.classes = `${BASE_CLASSES} ${state.sidebarSkin}`;
     });
-    this.user = this.authService.user;
   }
 
   logout() {
