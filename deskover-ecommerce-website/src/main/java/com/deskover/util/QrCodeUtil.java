@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
+import com.deskover.constant.PathConstant;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -23,11 +24,10 @@ public class QrCodeUtil {
 			} catch (WriterException e) {
 				e.printStackTrace();
 			}
-		    String outputFile = "src\\main\\resources\\static\\img\\qrcode\\"+name+".png";
+		    String outputFile = PathConstant.QRCODE_IMAGE_STATIC+name+".png";
 		    Path path = FileSystems.getDefault().getPath(outputFile);
 		    try {
 				MatrixToImageWriter.writeToPath(matrix, "PNG", path);
-//				return "img/qrcode/"+name+".png";
 				return name+".png";
 				
 			} catch (IOException e) {

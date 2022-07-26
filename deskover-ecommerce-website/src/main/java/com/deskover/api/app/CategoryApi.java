@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController("CategoryApiForClient")
-@RequestMapping("v1/api/custumer")
+@RequestMapping("v1/api/customer")
 public class CategoryApi {
 	@Autowired
 	private CategoryService categoryService;

@@ -26,7 +26,7 @@ import com.deskover.service.UserService;
 import com.deskover.util.ValidationUtil;
 
 @RestController("UserApiForClient")
-@RequestMapping("v1/api/custumer")
+@RequestMapping("v1/api/customer")
 public class UserApi {
 	@Autowired
 	private UserAddressService contactService;

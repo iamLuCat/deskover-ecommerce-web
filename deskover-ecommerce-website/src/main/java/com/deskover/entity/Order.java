@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -59,11 +62,13 @@ public class Order implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
+    
+    @NotNull(message = "Không bỏ trống phương thức thanh toán")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "payment_id")
     private PaymentMethods payment;
 
+    @NotNull(message = "Không bỏ trống phương thức vận chuyển")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shipping_id")
     private ShippingMethods shipping;
