@@ -31,7 +31,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                     true,
                     true,
                     true,
-                    admin.getAuthorities().stream().map(authority -> new SimpleGrantedAuthority(authority.getRole().getName()))
+                    admin.getAuthorities().stream().map(authority -> new SimpleGrantedAuthority(authority.getRole().getRoleId()))
                             .collect(Collectors.toList())
             );
         } catch (Exception e) {
