@@ -55,7 +55,6 @@ export class OrdersComponent implements OnInit {
         {data: 'orderCode'},
         {data: 'fullName'},
         {data: 'orderDetail.address'},
-        {data: 'unitPrice'},
         {data: 'createdAt'},
         {data: 'modifiedBy'},
         {data: 'orderStatus.status'},
