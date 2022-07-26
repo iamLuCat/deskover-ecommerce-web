@@ -44,8 +44,12 @@
               <th class="align-middle">Địa chỉ</th>
               <!--<th class="align-middle text-center">Đơn giá</th>-->
               <th class="align-middle text-center">Ngày tạo</th>
-              <th class="align-middle text-center">Người duyệt</th>
-              <th class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">Trạng thái</th>
+              <th class="align-middle text-center">
+                Người duyệt
+              </th>
+              <th class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
+                Trạng thái
+              </th>
               <th class="align-middle text-end"></th>
             </tr>
             </thead>
@@ -68,7 +72,7 @@
               </td>
               <td class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
                 <span class="badge"
-                      [ngClass]="colorStatus(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
+                      [ngClass]="setBackgroundByStatus(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
               </td>
               <td class="align-middle text-end">
                 <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
@@ -94,6 +98,7 @@
   <div class="modal-header">
     <h4 id="order-detail-dialog" class="modal-title pull-left text-uppercase text-primary fw-bold">
       {{ order.orderCode }}
+      <span class="badge ms-1" [ngClass]="setBackgroundByStatus(order.orderStatus.code)">{{order.orderStatus.status}}</span>
     </h4>
     <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -173,13 +178,19 @@
               </tr>
               </thead>
               <tbody class="table-light">
-                <tr *ngFor="let orderItem of order.orderItems; let i = index">
-                  <td class="align-middle">{{ orderItem.product.name }}</td>
-                  <td class="align-middle text-center">{{ orderItem.product.price | number:'1.0-0' }}₫</td>
-                  <td class="align-middle text-center">{{ orderItem.quantity }}</td>
-                  <td class="align-middle text-center">
-                    {{ orderItem.product.price * orderItem.quantity | number:'1.0-0' }}₫</td>
-                </tr>
+              <tr *ngFor="let orderItem of order.orderItems; let i = index">
+                <td class="align-middle">
+                  <a [href]="getUrlProductClient(orderItem.product.slug)" class="link-primary text-decoration-none"
+                     target="_blank">
+                    {{ orderItem.product.name }}
+                  </a>
+                </td>
+                <td class="align-middle text-center">{{ orderItem.product.price | number:'1.0-0' }}₫</td>
+                <td class="align-middle text-center">{{ orderItem.quantity }}</td>
+                <td class="align-middle text-center">
+                  {{ orderItem.product.price * orderItem.quantity | number:'1.0-0' }}₫
+                </td>
+              </tr>
               </tbody>
               <tfoot class="table-primary">
               <tr>

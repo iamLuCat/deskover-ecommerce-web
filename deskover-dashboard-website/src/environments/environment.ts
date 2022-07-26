@@ -9,6 +9,8 @@ export const environment = {
   globalUrl: {
     ckeditor: 'https://cdn.ckeditor.com/4.19.1/full/ckeditor.js',
 
+    productItem: BASE_URL + '/shop/item',
+
     getAvatarUser: BASE_URL + '/img/admin/avatar',
     getProductThumbnail: BASE_API + '/img/shop/products',
 
