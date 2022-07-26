@@ -32,6 +32,10 @@ public class UserAddress implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "province_id", nullable = false)
+    private Province province_id;
+    
     @NotBlank(message = "Không bỏ trống tên")
     @Column(name = "fullname", length = 128)
     private String fullname;
