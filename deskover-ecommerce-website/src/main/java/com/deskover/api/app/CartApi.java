@@ -18,7 +18,7 @@ import com.deskover.entity.Cart;
 import com.deskover.service.CartService;
 
 @RestController
-@RequestMapping("v1/api/custumer")
+@RequestMapping("v1/api/customer")
 public class CartApi {
 	
 	@Autowired
