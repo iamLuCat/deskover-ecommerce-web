@@ -37,6 +37,9 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
+    
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -44,6 +47,8 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
         // user for matching credentials
         // Use BCryptPasswordEncoder
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        
     }
 
     @Bean
@@ -78,9 +83,9 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-        	.antMatcher("/v1/api/admin/auth/login")
+        	.antMatcher("/v1/api/admin/auth/login/**")
             .authorizeRequests()
-            	.antMatchers("/v1/api/admin/auth/login")
+            	.antMatchers("/v1/api/admin/auth/login/**")
             		.permitAll()
                 .and()
             .antMatcher("/v1/api/admin/*")

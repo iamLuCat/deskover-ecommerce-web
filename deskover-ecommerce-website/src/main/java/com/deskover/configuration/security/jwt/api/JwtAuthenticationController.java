@@ -39,6 +39,9 @@ public class JwtAuthenticationController {
 	@Autowired
 	private AdminService adminService;
 	
+//	@Autowired
+//	private UserDetailsClientService userDetailsClientService;
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		try {
@@ -59,7 +62,7 @@ public class JwtAuthenticationController {
 		Administrator adminProfile = adminService.getPrincipal(userDetails.getUsername());
 		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthorities()));
 	}
-	
+		
 	private void authenticate(String username, String password) throws Exception {
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 	}
