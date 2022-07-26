@@ -25,7 +25,7 @@
           </div>
           <div class="col-auto">
             <select id="filter-discount" class="form-select" [(ngModel)]="isActive"
-                    (change)="filter()">
+                    (change)="applyFilterDiscount()">
               <option [ngValue]="true">Hoạt động</option>
               <option [ngValue]="false">Chưa kích hoạt</option>
             </select>
@@ -33,7 +33,7 @@
           </div>
           <div class="col d-flex align-items-center justify-content-end">
             <button type="button" class="btn bg-faded-accent rounded-pill" (click)="newDiscount()" placement="left"
-                    tooltip="Thêm">
+                    tooltip="Thêm" container="body">
               <i class="fas fa-plus text-accent"></i>
             </button>
           </div>
@@ -41,7 +41,7 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-sm nowrap w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Tên</th>
@@ -49,11 +49,12 @@
               <th class="align-middle">Mức giảm giá</th>
               <th class="align-middle text-center">Thời gian bắt đầu</th>
               <th class="align-middle text-center">Thời gian kết thúc</th>
-              <th class="align-middle text-end">Công cụ</th>
+              <th class="align-middle text-end"></th>
             </tr>
             </thead>
             <tbody *ngIf="discounts?.length !== 0">
-            <tr *ngFor="let discount of discounts; let i = index">
+            <tr *ngFor="let discount of discounts; let i = index"
+                [ngClass]="isExpired(discount.endDate) ? 'table-danger' : 'table-light'">
               <td class="align-middle">
                 {{ discount.name }}
               </td>
@@ -71,26 +72,30 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-product btn-sm bg-faded-warning me-1" placement="top"
-                          tooltip="Sản phẩm khuyến mãi"
+                  <button type="button" class="btn btn-product btn-sm btn-warning me-1" placement="top"
+                          tooltip="Sản phẩm khuyến mãi" container="body"
                           (click)="getProduct(discount.id)">
-                    <i class="fas fa-pen-square text-warning"></i>
+                    <i class="fas fa-box"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
-                          (click)="editDiscount(discount.id)">
-                    <i class="fas fa-pen-square text-info"></i>
+                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
+                          container="body" (click)="editDiscount(discount.id)">
+                    <i class="fas fa-pen-square"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteDiscount(discount)"
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteDiscount(discount)"
                           placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash text-danger"></i>
+                    <i class="fas fa-trash"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm" placement="top"
+                  <!--<button type="button" class="btn btn-sm" placement="top" container="body"
                           (click)="activeDiscount(discount)"
                           [ngClass]="isExpired(discount.endDate) ? 'btn-secondary' : 'btn-success'"
                           [tooltip]="isExpired(discount.endDate) ? 'Đã hết hạn' : 'Kích hoạt'">
                     <i class="fa-solid" [ngClass]="isExpired(discount.endDate) ? 'fa-ban' : 'fa-toggle-on'"></i>
+                  </button>-->
+                  <button type="button" class="btn btn-sm btn-success" placement="top" container="body"
+                          (click)="activeDiscount(discount)" tooltip="Kích hoạt">
+                    <i class="fa-solid fa-toggle-on"></i>
                   </button>
                 </div>
               </td>
@@ -107,24 +112,48 @@
     </div>
   </div>
 </section>
-<div bsModal [config]="{backdrop: 'static'}" #productDiscountModal="bs-modal" id="product-discount-modal" class="modal fade" tabindex="-1" role="dialog"
+<div bsModal [config]="{backdrop: 'static'}" #productDiscountModal="bs-modal" id="product-discount-modal"
+     class="modal fade" tabindex="-1" role="dialog"
      aria-labelledby="product-discount-dialog-sizes">
   <div class="modal-dialog modal-fullscreen modal-dialog-scrollable" style="max-height: none;">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 id="product-discount-dialog-sizes" class="modal-title pull-left text-primary fw-bold text-uppercase">
-          {{discount.name}} - Giảm giá {{discount.percent}}%
+        <h4 id="product-discount-dialog-sizes"
+            class="modal-title pull-left text-primary fw-bold text-uppercase d-flex align-items-center">
+          {{discount.name}} <span class="badge bg-faded-danger text-danger ms-2">Giảm {{discount.percent}}%</span>
+          <!--{{discount.name}} <span class="alert alert-danger p-1">{{discount.percent}}%</span>-->
         </h4>
         <button type="button" class="btn-close close pull-right"
                 (click)="productDiscountModal.hide()" aria-label="Close">
           <span aria-hidden="true" class="visually-hidden">&times;</span>
         </button>
       </div>
-      <div class="modal-body p-0">
+      <div class="modal-body">
+        <div class="row g-2">
+          <div class="col-md-auto col-sm-12">
+            <label [for]="'filter-category'" class="col-form-label">Danh mục:</label>
+          </div>
+          <div class="col-md-auto col-sm-12 me-3">
+            <select id="filter-category" class="form-select" [(ngModel)]="categoryIdFilter"
+                    (change)="rerenderProductTable()">
+              <option [ngValue]="null">Tất cả</option>
+              <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+            </select>
+          </div>
+          <div class="col-md-auto col-sm-12">
+            <label [for]="'filter-brand'" class="col-form-label">Thương hiệu:</label>
+          </div>
+          <div class="col-md-auto col-sm-12">
+            <select id="filter-brand" class="form-select" [(ngModel)]="brandIdFilter" (change)="rerenderProductTable()">
+              <option [ngValue]="null">Tất cả</option>
+              <option *ngFor="let brand of brands" [ngValue]="brand.id">{{brand.name}}</option>
+            </select>
+          </div>
+        </div>
         <div class="row g-0">
-          <div class="col-12 col-md-6 px-1 border-end">
-            <div class="table-responsive mb-3 p-3">
-              <h5 class="text-uppercase fw-bolder mb-3">Không áp dụng</h5>
+          <div class="col-12 col-md-6 border-end">
+            <div class="table-responsive mb-3 p-3 ps-0">
+              <h5 class="text-uppercase fw-bolder mb-3">Tất cả sản phẩm</h5>
               <table datatable [dtOptions]="dtAllProductOptions"
                      class="product-table table table-hover table-sm nowrap w-100">
                 <thead class="table-primary">
@@ -151,9 +180,9 @@
               </table>
             </div>
           </div>
-          <div class="col-12 col-md-6 px-1">
-            <div class="table-responsive mb-3 p-3">
-              <h5 class="text-uppercase fw-bolder mb-3">Đang áp dụng</h5>
+          <div class="col-12 col-md-6 ">
+            <div class="table-responsive mb-3 p-3 pe-0">
+              <h5 class="text-uppercase fw-bolder mb-3">Áp dụng khuyến mãi</h5>
               <table datatable [dtOptions]="dtDiscountProductOptions"
                      class="product-table table table-hover table-sm nowrap w-100">
                 <thead class="table-primary">
@@ -161,7 +190,7 @@
                   <th class="align-middle">Tên</th>
                   <th class="align-middle text-center">Giá</th>
                   <th class="align-middle text-center">Giá khuyến mãi</th>
-                  <th class="align-middle text-end">Công cụ</th>
+                  <th class="align-middle text-end"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -186,6 +215,9 @@
           </div>
         </div>
       </div>
+      <!--<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="productDiscountModal.hide()">Đóng</button>
+      </div>-->
     </div>
   </div>
 </div>

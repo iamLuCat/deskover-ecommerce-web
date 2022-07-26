@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DateTime} from 'luxon';
 import {AuthService} from "@services/auth.service";
 import {Admin} from "@/entites/admin";
+import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 @Component({
   selector: 'app-user-info',
@@ -15,7 +16,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this.authService.user;
+    this.getProfile();
   }
 
   logout() {
@@ -24,5 +25,17 @@ export class UserInfoComponent implements OnInit {
 
   formatDate(date) {
     return DateTime.fromISO(date).toFormat('dd/MM/yyyy');
+  }
+
+  getProfile() {
+    this.authService.getProfile().subscribe({
+      next: (data) => {
+        this.user = data;
+      },
+      error: (err) => {
+        this.logout();
+        NotiflixUtils.failureNotify('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại');
+      }
+    });
   }
 }

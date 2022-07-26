@@ -1,8 +1,9 @@
+import { StorageConstants } from '@/constants/storage-constants';
 import * as AuthActions from './actions';
 
 const initialState = {
-  isLoggedIn: !!localStorage.getItem('token'),
-  token: localStorage.getItem('token'),
+  isLoggedIn: !!localStorage.getItem(StorageConstants.TOKEN),
+  token: localStorage.getItem(StorageConstants.TOKEN),
 };
 
 export function authReducer(

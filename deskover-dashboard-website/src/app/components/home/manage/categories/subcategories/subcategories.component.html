@@ -40,7 +40,7 @@
             </select>
           </div>
           <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
-            <button type="button" class="btn bg-faded-accent w-sm-100 rounded-pill" (click)="newSubcategory()"
+            <button type="button" class="btn btn-accent w-sm-100 rounded-pill" (click)="newSubcategory()"
                     placement="left"
                     tooltip="Thêm">
               <i class="fas fa-plus text-accent d-none d-md-inline-block"></i>
@@ -53,7 +53,7 @@
       <div class="card-body p-0">
         <div class="table-responsive p-3">
           <table datatable [dtOptions]="dtOptions"
-                 class="table table-hover table-sm nowrap w-100">
+                 class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh</th>
@@ -62,10 +62,10 @@
               <th class="align-middle">Mô tả</th>
               <th class="align-middle">Danh mục cha</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
-              <th class="align-middle text-end">Công cụ</th>
+              <th class="align-middle text-end"></th>
             </tr>
             </thead>
-            <tbody *ngIf="subcategories?.length !== 0">
+            <tbody class="table-light" *ngIf="subcategories?.length !== 0">
             <tr *ngFor="let subcategory of subcategories; let i = index">
               <td class="align-middle">
                 <img src="{{ subcategory.imgUrl || 'assets/images/no-image.png' }}" class="img-fluid img-thumbnail  img-50">
@@ -87,13 +87,13 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
+                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
                           (click)="getSubcategory(subcategory.id)">
-                    <i class="fas fa-pen-square text-info"></i>
+                    <i class="fas fa-pen-square"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteSubcategory(subcategory)"
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteSubcategory(subcategory)"
                           placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash text-danger"></i>
+                    <i class="fas fa-trash"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">

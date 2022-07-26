@@ -1,3 +1,4 @@
+import { StorageConstants } from '@/constants/storage-constants';
 import {Injectable} from '@angular/core';
 import {
     CanActivate,
@@ -24,7 +25,7 @@ export class NonAuthGuard implements CanActivate, CanActivateChild {
         | Promise<boolean | UrlTree>
         | boolean
         | UrlTree {
-        if (!localStorage.getItem('token')) {
+        if (!localStorage.getItem(StorageConstants.TOKEN)) {
             return true;
         }
         this.router.navigate(['/']);

@@ -25,14 +25,23 @@ export class NotiflixUtils {
   }
 
   static successNotify(title: string) {
-    Notify.success(title);
+    Notify.success(title, {
+      showOnlyTheLastOne: true,
+      clickToClose: true,
+    });
   }
 
   static failureNotify(title: string) {
-    Notify.failure(title);
+    Notify.failure(title,{
+      showOnlyTheLastOne: true,
+      clickToClose: true,
+    });
   }
 
   static warningNotify(title: string) {
-    Notify.warning(title);
+    Notify.warning(title,{
+      showOnlyTheLastOne: true,
+      clickToClose: true,
+    });
   }
 }
