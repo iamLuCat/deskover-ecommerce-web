@@ -7,11 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.deskover.dto.UserCreateDto;
-import com.deskover.entity.User;
+import com.deskover.entity.Users;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-	List<User> findAll();
-	Page<User> findByActived(Boolean actived, Pageable Page);
-	User findByUsername(String username);
+public interface UserRepository extends JpaRepository<Users, Long> {
+	List<Users> findAll();
+	Page<Users> findByActived(Boolean actived, Pageable Page);
+	Users findByUsername(String username);
 	Boolean existsByUsername(String username);
 }

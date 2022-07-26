@@ -61,7 +61,7 @@ public class Order implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
     
     @NotNull(message = "Không bỏ trống phương thức thanh toán")
     @ManyToOne(fetch = FetchType.EAGER)

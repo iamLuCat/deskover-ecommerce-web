@@ -26,7 +26,7 @@ public class UserPassword implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @Column(name = "password", nullable = false, length = 60)
     private String password;

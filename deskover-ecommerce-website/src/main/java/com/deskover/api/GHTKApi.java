@@ -1,6 +1,7 @@
 package com.deskover.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.JpaEvaluationContextExtension.JpaRootObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,13 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.constant.UrlConstant;
 import com.deskover.dto.ghtk.entity.FeeGhtk;
 import com.deskover.dto.ghtk.response.AddressResponseData;
 import com.deskover.dto.ghtk.response.FeeResponseData;
 import com.deskover.dto.ghtk.response.MessageResponseGhtk;
 import com.deskover.dto.ghtk.response.OrderResponseData;
+import com.deskover.util.MapperUtil;
 
 import java.util.Objects;
 
@@ -93,16 +97,18 @@ public class GHTKApi {
 	
 	//label_id: mã vận đơn của giao hàng tiết kiệm
 	@PostMapping(path = "/shipment/cancel/{label_id}", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetCancelShipping(@PathVariable("label_id") String label_id) throws Exception {
+	public ResponseEntity<?> doGetCancelShipping(@PathVariable("label_id") String label_id){
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.set("Token", UrlConstant.GHTK_TOKEN);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Token", UrlConstant.GHTK_TOKEN);
-
-		HttpEntity<?> header = new HttpEntity<>(headers);
-		MessageResponseGhtk response = restTemplate.postForObject(UrlConstant.GHTK_CANCEL+label_id, header, MessageResponseGhtk.class);
-
-		return ResponseEntity.ok(response);
+			HttpEntity<?> header = new HttpEntity<>(headers);
+			MessageResponseGhtk response = restTemplate.postForObject(UrlConstant.GHTK_CANCEL+label_id, header, MessageResponseGhtk.class);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {		
+			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));
+		}
 	}
 	
 	

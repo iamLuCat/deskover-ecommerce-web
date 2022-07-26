@@ -5,13 +5,13 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
 import com.deskover.dto.UserCreateDto;
 import com.deskover.dto.ChangePasswordDto;
-import com.deskover.entity.User;
+import com.deskover.entity.Users;
 
 public interface UserService {
 	 void changeActived(Long id);
-	 User findById(Long id);
-	 User findByUsername(String username);
-	 DataTablesOutput<User> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
-	 User create(UserCreateDto userRequest);
+	 Users findById(Long id);
+	 Users findByUsername(String username);
+	 DataTablesOutput<Users> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
+	 Users create(UserCreateDto userRequest);
 	 void updatePassword(String username, ChangePasswordDto userRequest);
 }

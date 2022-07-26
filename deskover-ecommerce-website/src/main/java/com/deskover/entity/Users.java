@@ -21,7 +21,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
+public class Users implements Serializable {
     private static final long serialVersionUID = 7633240970764489447L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

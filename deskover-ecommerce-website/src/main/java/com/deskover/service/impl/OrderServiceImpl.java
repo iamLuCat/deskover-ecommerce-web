@@ -370,7 +370,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
         }
-        User user = userRepo.findByUsername(username);
+        Users user = userRepo.findByUsername(username);
         Order order = mapper.map(orderResponse, Order.class);
         order.setOrderCode(orderCode);
         order.setUser(user);

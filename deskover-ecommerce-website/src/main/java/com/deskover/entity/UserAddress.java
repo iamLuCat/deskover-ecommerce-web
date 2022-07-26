@@ -30,7 +30,7 @@ public class UserAddress implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
     
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "province_id", nullable = false)

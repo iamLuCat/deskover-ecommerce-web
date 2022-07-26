@@ -214,7 +214,7 @@ values (1,1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quậ
         'Phường Trung Mỹ Tây', '0123456789', 'huynq2022@gmail.com', 0, 0),
        (2,1, 'Bùi Đức Minh', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
         'Phường Trung Mỹ Tây', '0338953980', 'minhbd2021@gmail.com', 1, 1),
-       (2,1, 'Bùi Đức Minh', 'Đường D3,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
+       (2,2, 'Bùi Đức Minh', 'Hoàn Kiếm, Hà Nội', 'Hà Nội', 'Hoàn Kiếm',
         'Phường Trung Mỹ Tây', '0338953981', 'minhbd2022@gmail.com', 0, 0),
        (2,1, 'Bùi Đức Minh', 'Đường D4,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
         'Phường Trung Mỹ Tây', '0338953982', 'minhbd2023@gmail.com', 0, 0),
