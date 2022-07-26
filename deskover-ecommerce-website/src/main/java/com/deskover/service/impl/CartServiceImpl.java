@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.deskover.entity.Cart;
 import com.deskover.entity.Product;
-import com.deskover.entity.User;
+import com.deskover.entity.Users;
 import com.deskover.repository.CartRepository;
 import com.deskover.repository.UserRepository;
 import com.deskover.service.CartService;
@@ -37,7 +37,7 @@ public class CartServiceImpl implements CartService {
 		
 		Cart cart = cartRepository.findByProductIdAndUserUsername(productId, username);
 		if(cart == null) {
-			User user = userRepository.findByUsername(username);
+			Users user = userRepository.findByUsername(username);
 			Cart cartNew = new Cart();
 			cartNew.setProduct(product);
 			cartNew.setUser(user);

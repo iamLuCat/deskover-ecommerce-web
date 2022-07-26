@@ -17,7 +17,7 @@ public class FeeResponse implements Serializable {
 	 */
 	private static final long serialVersionUID = 1037548194366540286L;
 	
-	private int fee;
+	private int fee;//phí vận chuyển
 	
-	private boolean delivery;
+	private boolean delivery;// delivery ? Hỗ trợ giao : Chưa hỗ trợ giao
 }

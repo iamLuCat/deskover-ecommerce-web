@@ -115,10 +115,84 @@ values (1, 'huynq', 'Nguyễn Quang Huy', 1, 'haipv'),
        (2, 'minhbd', 'Bùi Đức Minh', 1, 'haipv')
 ;
 
+CREATE TABLE `province`
+(
+    `id`    BIGINT  NOT NULL AUTO_INCREMENT,
+    `_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+    `_code` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+     PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+
+INSERT INTO `province` (`id`, `_name`, `_code`)
+VALUES (1, 'Hồ Chí Minh', 'SG'),
+       (2, 'Hà Nội', 'HN'),
+       (3, 'Đà Nẵng', 'DDN'),
+       (4, 'Bình Dương', 'BD'),
+       (5, 'Đồng Nai', 'DNA'),
+       (6, 'Khánh Hòa', 'KH'),
+       (7, 'Hải Phòng', 'HP'),
+       (8, 'Long An', 'LA'),
+       (9, 'Quảng Nam', 'QNA'),
+       (10, 'Bà Rịa Vũng Tàu', 'VT'),
+       (11, 'Đắk Lắk', 'DDL'),
+       (12, 'Cần Thơ', 'CT'),
+       (13, 'Bình Thuận  ', 'BTH'),
+       (14, 'Lâm Đồng', 'LDD'),
+       (15, 'Thừa Thiên Huế', 'TTH'),
+       (16, 'Kiên Giang', 'KG'),
+       (17, 'Bắc Ninh', 'BN'),
+       (18, 'Quảng Ninh', 'QNI'),
+       (19, 'Thanh Hóa', 'TH'),
+       (20, 'Nghệ An', 'NA'),
+       (21, 'Hải Dương', 'HD'),
+       (22, 'Gia Lai', 'GL'),
+       (23, 'Bình Phước', 'BP'),
+       (24, 'Hưng Yên', 'HY'),
+       (25, 'Bình Định', 'BDD'),
+       (26, 'Tiền Giang', 'TG'),
+       (27, 'Thái Bình', 'TB'),
+       (28, 'Bắc Giang', 'BG'),
+       (29, 'Hòa Bình', 'HB'),
+       (30, 'An Giang', 'AG'),
+       (31, 'Vĩnh Phúc', 'VP'),
+       (32, 'Tây Ninh', 'TNI'),
+       (33, 'Thái Nguyên', 'TN'),
+       (34, 'Lào Cai', 'LCA'),
+       (35, 'Nam Định', 'NDD'),
+       (36, 'Quảng Ngãi', 'QNG'),
+       (37, 'Bến Tre', 'BTR'),
+       (38, 'Đắk Nông', 'DNO'),
+       (39, 'Cà Mau', 'CM'),
+       (40, 'Vĩnh Long', 'VL'),
+       (41, 'Ninh Bình', 'NB'),
+       (42, 'Phú Thọ', 'PT'),
+       (43, 'Ninh Thuận', 'NT'),
+       (44, 'Phú Yên', 'PY'),
+       (45, 'Hà Nam', 'HNA'),
+       (46, 'Hà Tĩnh', 'HT'),
+       (47, 'Đồng Tháp', 'DDT'),
+       (48, 'Sóc Trăng', 'ST'),
+       (49, 'Kon Tum', 'KT'),
+       (50, 'Quảng Bình', 'QB'),
+       (51, 'Quảng Trị', 'QT'),
+       (52, 'Trà Vinh', 'TV'),
+       (53, 'Hậu Giang', 'HGI'),
+       (54, 'Sơn La', 'SL'),
+       (55, 'Bạc Liêu', 'BL'),
+       (56, 'Yên Bái', 'YB'),
+       (57, 'Tuyên Quang', 'TQ'),
+       (58, 'Điện Biên', 'DDB'),
+       (59, 'Lai Châu', 'LCH'),
+       (60, 'Lạng Sơn', 'LS'),
+       (61, 'Hà Giang', 'HG'),
+       (62, 'Bắc Kạn', 'BK'),
+       (63, 'Cao Bằng', 'CB');
+
 CREATE TABLE user_address
 (
     id       BIGINT                                                        NOT NULL AUTO_INCREMENT,
     user_id  BIGINT                                                        NOT NULL,
+    province_id  BIGINT                                                    NOT NULL,
     fullname VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     address  VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
@@ -131,19 +205,20 @@ CREATE TABLE user_address
     PRIMARY KEY (`id`),
     UNIQUE KEY UQ_User_address_Tel (tel),
     UNIQUE KEY UQ_User_address_Email (email),
+    CONSTRAINT FK_User_address_Province FOREIGN KEY (province_id) REFERENCES province(id),
     CONSTRAINT FK_User_address_User FOREIGN KEY (user_id) REFERENCES `user` (id)
 );
 
-insert user_address (user_id, fullname, address, province, district, ward, tel, email, choose, actived)
-values (1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
+insert user_address (user_id,province_id, fullname, address, province, district, ward, tel, email, choose, actived)
+values (1,1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
         'Phường Trung Mỹ Tây', '0123456789', 'huynq2022@gmail.com', 0, 0),
-       (2, 'Bùi Đức Minh', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
+       (2,1, 'Bùi Đức Minh', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
         'Phường Trung Mỹ Tây', '0338953980', 'minhbd2021@gmail.com', 1, 1),
-       (2, 'Bùi Đức Minh', 'Đường D3,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
+       (2,2, 'Bùi Đức Minh', 'Hoàn Kiếm, Hà Nội', 'Hà Nội', 'Hoàn Kiếm',
         'Phường Trung Mỹ Tây', '0338953981', 'minhbd2022@gmail.com', 0, 0),
-       (2, 'Bùi Đức Minh', 'Đường D4,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
+       (2,1, 'Bùi Đức Minh', 'Đường D4,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
         'Phường Trung Mỹ Tây', '0338953982', 'minhbd2023@gmail.com', 0, 0),
-       (2, 'Bùi Đức Minh', 'Đường D6,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
+       (2,1, 'Bùi Đức Minh', 'Đường D6,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
         'Phường Trung Mỹ Tây', '0338953983', 'minhbd2024@gmail.com', 0, 0)
 ;
 
@@ -818,8 +893,8 @@ CREATE TABLE payment_methods
 );
 
 INSERT payment_methods(payment_id, name_payment)
-    VALUE ('MOMO', 'Thanh toán MoMo'),
-    ('NH', 'Thanh toán khi nhận hàng');
+    VALUE ('NH', 'Thanh toán khi nhận hàng'),
+		('VNPAY', 'Thanh toán VNPay');
 
 -- Trạng thái đơn hàng
 CREATE TABLE status_order
@@ -973,85 +1048,6 @@ CREATE TABLE verify
     UNIQUE KEY UQ_Verify_Token (token)
 );
 
-CREATE TABLE `province`
-(
-    `id`    int(10) UNSIGNED NOT NULL,
-    `_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-    `_code` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
-ALTER TABLE `province`
-    ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `province`
-    MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 64;
-
-INSERT INTO `province` (`id`, `_name`, `_code`)
-VALUES (1, 'Hồ Chí Minh', 'SG'),
-       (2, 'Hà Nội', 'HN'),
-       (3, 'Đà Nẵng', 'DDN'),
-       (4, 'Bình Dương', 'BD'),
-       (5, 'Đồng Nai', 'DNA'),
-       (6, 'Khánh Hòa', 'KH'),
-       (7, 'Hải Phòng', 'HP'),
-       (8, 'Long An', 'LA'),
-       (9, 'Quảng Nam', 'QNA'),
-       (10, 'Bà Rịa Vũng Tàu', 'VT'),
-       (11, 'Đắk Lắk', 'DDL'),
-       (12, 'Cần Thơ', 'CT'),
-       (13, 'Bình Thuận  ', 'BTH'),
-       (14, 'Lâm Đồng', 'LDD'),
-       (15, 'Thừa Thiên Huế', 'TTH'),
-       (16, 'Kiên Giang', 'KG'),
-       (17, 'Bắc Ninh', 'BN'),
-       (18, 'Quảng Ninh', 'QNI'),
-       (19, 'Thanh Hóa', 'TH'),
-       (20, 'Nghệ An', 'NA'),
-       (21, 'Hải Dương', 'HD'),
-       (22, 'Gia Lai', 'GL'),
-       (23, 'Bình Phước', 'BP'),
-       (24, 'Hưng Yên', 'HY'),
-       (25, 'Bình Định', 'BDD'),
-       (26, 'Tiền Giang', 'TG'),
-       (27, 'Thái Bình', 'TB'),
-       (28, 'Bắc Giang', 'BG'),
-       (29, 'Hòa Bình', 'HB'),
-       (30, 'An Giang', 'AG'),
-       (31, 'Vĩnh Phúc', 'VP'),
-       (32, 'Tây Ninh', 'TNI'),
-       (33, 'Thái Nguyên', 'TN'),
-       (34, 'Lào Cai', 'LCA'),
-       (35, 'Nam Định', 'NDD'),
-       (36, 'Quảng Ngãi', 'QNG'),
-       (37, 'Bến Tre', 'BTR'),
-       (38, 'Đắk Nông', 'DNO'),
-       (39, 'Cà Mau', 'CM'),
-       (40, 'Vĩnh Long', 'VL'),
-       (41, 'Ninh Bình', 'NB'),
-       (42, 'Phú Thọ', 'PT'),
-       (43, 'Ninh Thuận', 'NT'),
-       (44, 'Phú Yên', 'PY'),
-       (45, 'Hà Nam', 'HNA'),
-       (46, 'Hà Tĩnh', 'HT'),
-       (47, 'Đồng Tháp', 'DDT'),
-       (48, 'Sóc Trăng', 'ST'),
-       (49, 'Kon Tum', 'KT'),
-       (50, 'Quảng Bình', 'QB'),
-       (51, 'Quảng Trị', 'QT'),
-       (52, 'Trà Vinh', 'TV'),
-       (53, 'Hậu Giang', 'HGI'),
-       (54, 'Sơn La', 'SL'),
-       (55, 'Bạc Liêu', 'BL'),
-       (56, 'Yên Bái', 'YB'),
-       (57, 'Tuyên Quang', 'TQ'),
-       (58, 'Điện Biên', 'DDB'),
-       (59, 'Lai Châu', 'LCH'),
-       (60, 'Lạng Sơn', 'LS'),
-       (61, 'Hà Giang', 'HG'),
-       (62, 'Bắc Kạn', 'BK'),
-       (63, 'Cao Bằng', 'CB');
 
 CREATE TABLE `district`
 (

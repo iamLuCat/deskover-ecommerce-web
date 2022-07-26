@@ -32,7 +32,7 @@ public class Cart implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
