@@ -39,8 +39,6 @@ public class JwtAuthenticationController {
 	@Autowired
 	private AdminService adminService;
 	
-//	@Autowired
-//	private UserDetailsClientService userDetailsClientService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -61,6 +59,26 @@ public class JwtAuthenticationController {
 
 		Administrator adminProfile = adminService.getPrincipal(userDetails.getUsername());
 		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthorities()));
+	}
+	
+	@RequestMapping(value = "/login/client", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> createAuthenticationTokenClient(@RequestBody JwtRequest authenticationRequest) throws Exception {
+		try {
+			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+		} catch (DisabledException e) {
+			return  ResponseEntity.badRequest().body(new MessageResponse("Tài khoản đã bị khoá")) ;
+		} catch (BadCredentialsException e) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Tài khoản hoặc mật khẩu không đúng")) ;
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Lỗi hệ thống")) ;
+		}
+
+		final UserDetails userDetails = jwtUserDetailsService
+				.loadUserByUsername(authenticationRequest.getUsername());
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new MessageResponse(token));
 	}
 		
 	private void authenticate(String username, String password) throws Exception {

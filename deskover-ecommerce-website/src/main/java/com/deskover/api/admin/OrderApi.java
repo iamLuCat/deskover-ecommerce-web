@@ -14,6 +14,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @RestController("OrderApiForAdmin")
 @CrossOrigin("*")
+//@PreAuthorize("hasAuthority('CUSTOMER')")
 @RequestMapping("v1/api/admin")
 public class OrderApi {
 	@Autowired
