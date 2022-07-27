@@ -18,7 +18,7 @@ public class UploadFileServiceImpl implements UploadFileService {
 
     @Override
     public void removeTempFolder() {
-        FileUtil.removeFolder(PathConstant.TEMP);
+        FileUtil.removeFolder(PathConstant.TEMP_STATIC);
     }
 
     private UploadFile uploadFile(MultipartFile file, String folderPath) {

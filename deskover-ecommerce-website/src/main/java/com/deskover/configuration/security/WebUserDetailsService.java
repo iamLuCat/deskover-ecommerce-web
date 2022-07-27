@@ -1,7 +1,7 @@
 package com.deskover.configuration.security;
 
-import java.util.List;
-
+import com.deskover.entity.Users;
+import com.deskover.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,8 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.deskover.entity.Users;
-import com.deskover.service.UserService;
+import java.util.List;
 
 @Service
 @Configurable
