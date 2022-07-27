@@ -71,7 +71,11 @@ public class JwtAuthenticationController {
 	
 	@GetMapping("/get-principal")
     public ResponseEntity<?> getProfile() {
-	        // return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		return ResponseEntity.ok(adminService.getPrincipal());
     }
+
+	@GetMapping("/logout")
+	public ResponseEntity<?> logout() {
+		return ResponseEntity.ok(new MessageResponse("Đăng xuất thành công"));
+	}
 }

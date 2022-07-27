@@ -6,6 +6,7 @@ import {ProductThumbnail} from "@/entites/product-thumbnail";
 export interface Product {
   id: number
   name: string
+  weight: number
   slug: string
   description: string
   price: number

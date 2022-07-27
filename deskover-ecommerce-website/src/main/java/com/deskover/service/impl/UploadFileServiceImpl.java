@@ -16,6 +16,11 @@ public class UploadFileServiceImpl implements UploadFileService {
         return uploadFile(file, PathConstant.TEMP);
     }
 
+    @Override
+    public void removeTempFolder() {
+        FileUtil.removeFolder(PathConstant.TEMP_STATIC);
+    }
+
     private UploadFile uploadFile(MultipartFile file, String folderPath) {
         FileUtil.uploadFile(file, PathConstant.STATIC +  folderPath);
         String fileName = file.getOriginalFilename();
