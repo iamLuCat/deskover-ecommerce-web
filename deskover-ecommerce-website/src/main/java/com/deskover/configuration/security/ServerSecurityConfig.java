@@ -1,5 +1,10 @@
 package com.deskover.configuration.security;
 
+import com.deskover.configuration.security.jwt.JwtAuthenticationEntryPoint;
+import com.deskover.configuration.security.jwt.JwtCustomerFilter;
+import com.deskover.configuration.security.jwt.JwtRequestFilter;
+import com.deskover.configuration.security.jwt.JwtUserDetailsService;
+import com.deskover.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +23,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import com.deskover.configuration.security.jwt.JwtAuthenticationEntryPoint;
-import com.deskover.configuration.security.jwt.JwtRequestFilter;
-import com.deskover.configuration.security.jwt.JwtUserDetailsService;
-import com.deskover.configuration.security.jwt.jwtCustomerFilter;
-import com.deskover.util.JwtTokenUtil;
 
 @Configuration
 @EnableWebSecurity
@@ -56,14 +55,13 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		@Autowired
 		private UserDetailsService jwtUserDetailsService;
 
-		
 		@Bean
-		public JwtTokenUtil JwtTokenUtil() {
+		public JwtTokenUtil jwtAdminTokenUtil() {
 			return new JwtTokenUtil();
 		}
 
 		@Bean
-		public JwtUserDetailsService JwtUserDetailsService() {
+		public JwtUserDetailsService jwtAdminDetailsService() {
 			return new JwtUserDetailsService();
 		}
 
@@ -92,12 +90,64 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                		.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 	.exceptionHandling()
                 	.defaultAuthenticationEntryPointFor(jwtAuthenticationEntryPoint,new AntPathRequestMatcher("/v1/api/admin/**"))
-            .and().httpBasic();;
+            .and().httpBasic();
         }
 	}
 
 	@Configuration
 	@Order(2)
+	public static class CustomerSecurityJWTConfiguration extends WebSecurityConfigurerAdapter {
+
+		@Autowired
+		private JwtCustomerFilter jwtCustomerFilter;
+
+		@Autowired
+		private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+		@Autowired
+		private UserDetailsService webUserDetailsService;
+
+		@Bean
+		public JwtTokenUtil jwtCustomerTokenUtil() {
+			return new JwtTokenUtil();
+		}
+
+		@Bean
+		public WebUserDetailsService appUserDetailsService() {
+			return new WebUserDetailsService();
+		}
+
+		@Bean
+		public FilterRegistrationBean<JwtCustomerFilter> jwtCustomerFilterBean() {
+			FilterRegistrationBean<JwtCustomerFilter> registrationBean = new FilterRegistrationBean<>();
+			registrationBean.setFilter(jwtCustomerFilter);
+			registrationBean.addUrlPatterns("/v1/api/customer/*");
+			return registrationBean;
+		}
+
+		@Autowired
+		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+			// configure AuthenticationManager so that it knows from where to load
+			// user for matching credentials
+			// Use BCryptPasswordEncoder
+			auth.userDetailsService(webUserDetailsService).passwordEncoder(passwordEncoder());
+		}
+
+		protected void configure(HttpSecurity http) throws Exception {
+			http.cors().and().csrf().disable()
+				.authorizeRequests()
+					.antMatchers("/v1/api/customer/auth/login/**").permitAll()
+					.antMatchers("/v1/api/customer/**", "/v1/api/customer").authenticated()
+				.and().antMatcher("/v1/api/customer/**")
+					.addFilterBefore(jwtCustomerFilter, UsernamePasswordAuthenticationFilter.class)
+					.exceptionHandling()
+					.defaultAuthenticationEntryPointFor(jwtAuthenticationEntryPoint,new AntPathRequestMatcher("/v1/api/customer/**"))
+				.and().httpBasic();
+		}
+	}
+
+	@Configuration
+	@Order(3)
 	public static class CustomerWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		@Bean
@@ -133,49 +183,6 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .and().sessionManagement()
 	            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		}
-	}
-	
-	@Configuration
-	@Order(3)
-	public static class CustumterSecurityJWTConfiguration extends WebSecurityConfigurerAdapter {
-
-		@Autowired
-		private jwtCustomerFilter jwtCustomerFilter;
-
-		@Autowired
-		private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-		@Autowired
-		private UserDetailsService webUserDetailsService;
-		
-
-		@Bean
-		public FilterRegistrationBean<jwtCustomerFilter> jwtCustomerFilterBean() {
-			FilterRegistrationBean<jwtCustomerFilter> registrationBean = new FilterRegistrationBean<>();
-			registrationBean.setFilter(jwtCustomerFilter);
-			registrationBean.addUrlPatterns("/v1/api/customer/**");
-			return registrationBean;
-		}
-
-		@Autowired
-		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			// configure AuthenticationManager so that it knows from where to load
-			// user for matching credentials
-			// Use BCryptPasswordEncoder
-			auth.userDetailsService(webUserDetailsService).passwordEncoder(passwordEncoder());
-		}
-
-		protected void configure(HttpSecurity http) throws Exception {
-            http.cors().and().csrf().disable()
-            .authorizeRequests()
-            		.antMatchers("/v1/api/customer/auth/login/**").permitAll()
-                	.antMatchers("/v1/api/customer/**", "/v1/api/customer").authenticated()
-            .and().antMatcher("/v1/api/customer/**")
-               		.addFilterBefore(jwtCustomerFilter, UsernamePasswordAuthenticationFilter.class)
-                	.exceptionHandling()
-                	.defaultAuthenticationEntryPointFor(jwtAuthenticationEntryPoint,new AntPathRequestMatcher("/v1/api/customer/**"))
-            .and().httpBasic();;
-        }
 	}
 
 }

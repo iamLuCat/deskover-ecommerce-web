@@ -1,5 +1,10 @@
 package com.deskover.api.app;
 
+import com.deskover.configuration.security.WebUserDetailsService;
+import com.deskover.configuration.security.jwt.entity.JwtRequest;
+import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.service.UserService;
+import com.deskover.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -7,18 +12,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.deskover.configuration.security.WebUserDetailsService;
-import com.deskover.configuration.security.jwt.entity.JwtRequest;
-import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.service.AdminService;
-import com.deskover.util.JwtTokenUtil;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -32,6 +28,9 @@ public class LoginApi {
 	
 	@Autowired
 	private WebUserDetailsService webUserDetailsService;
+
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -54,5 +53,10 @@ public class LoginApi {
 		
 	private void authenticate(String username, String password) throws Exception {
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+	}
+
+	@GetMapping("/get-principal")
+	public ResponseEntity<?> getProfile() {
+		return ResponseEntity.ok(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
 	}
 }

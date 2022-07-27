@@ -32,6 +32,16 @@ public class UploadApi {
         }
     }
 
+    @DeleteMapping("/delete-temp-folder")
+    public ResponseEntity<?> deleteTempFolder() {
+        try {
+            uploadFileService.removeTempFolder();
+            return ResponseEntity.ok(new MessageResponse("Xoá thư mục tạm thành công"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/firebase/upload-file")
     public ResponseEntity<?> uploadFileToFirebase(@RequestParam("file") MultipartFile files) {
         try {
