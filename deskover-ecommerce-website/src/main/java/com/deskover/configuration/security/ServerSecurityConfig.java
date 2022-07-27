@@ -118,7 +118,8 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests()
+			http.cors().and().csrf().disable()
+			.authorizeRequests()
 				.antMatchers("/user").authenticated()
 				.anyRequest().permitAll()
 			.and().formLogin()
@@ -145,8 +146,8 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 		@Autowired
-		private WebUserDetailsService webUserDetailsService;
-
+		private UserDetailsService webUserDetailsService;
+		
 
 		@Bean
 		public FilterRegistrationBean<jwtCustomerFilter> jwtCustomerFilterBean() {
@@ -167,7 +168,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {
             http.cors().and().csrf().disable()
             .authorizeRequests()
-            		.antMatchers("/v1/api/customer/auth/login").permitAll()
+            		.antMatchers("/v1/api/customer/auth/login/**").permitAll()
                 	.antMatchers("/v1/api/customer/**", "/v1/api/customer").authenticated()
             .and().antMatcher("/v1/api/customer/**")
                		.addFilterBefore(jwtCustomerFilter, UsernamePasswordAuthenticationFilter.class)
