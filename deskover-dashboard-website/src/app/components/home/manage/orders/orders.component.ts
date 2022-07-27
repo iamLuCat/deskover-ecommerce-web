@@ -5,6 +5,7 @@ import {OrderService} from "@services/order.service";
 import {HttpParams} from "@angular/common/http";
 import {DataTableDirective} from "angular-datatables";
 import {BsModalRef, BsModalService, ModalDirective} from "ngx-bootstrap/modal";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-orders',
@@ -55,7 +56,6 @@ export class OrdersComponent implements OnInit {
         {data: 'orderCode'},
         {data: 'fullName'},
         {data: 'orderDetail.address'},
-        {data: 'unitPrice'},
         {data: 'createdAt'},
         {data: 'modifiedBy'},
         {data: 'orderStatus.status'},
@@ -77,7 +77,7 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  colorStatus(statusCode: string) {
+  setBackgroundByStatus(statusCode: string) {
     if (statusCode.includes('-TC')) {
       return 'bg-success';
     } else if (statusCode.includes('-TB')) {
@@ -87,6 +87,16 @@ export class OrdersComponent implements OnInit {
     } else {
       return 'bg-info';
     }
+  }
+
+  isPending(statusCode: string) {
+    if(statusCode) {
+      return statusCode.includes('C-');
+    }
+  }
+
+  getUrlProductClient(productSlug: any) {
+    return `${environment.globalUrl.productItem}?p=${productSlug}`;
   }
 
   /* Order */

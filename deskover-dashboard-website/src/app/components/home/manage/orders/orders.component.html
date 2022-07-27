@@ -42,10 +42,14 @@
               <th class="align-middle">Mã đơn hàng</th>
               <th class="align-middle">Tên khách hàng</th>
               <th class="align-middle">Địa chỉ</th>
-              <th class="align-middle text-center">Đơn giá</th>
-              <th class="align-middle text-center">Ngày tạo đơn</th>
-              <th class="align-middle text-center">Cập nhật bởi</th>
-              <th class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">Trạng thái</th>
+              <!--<th class="align-middle text-center">Đơn giá</th>-->
+              <th class="align-middle text-center">Ngày tạo</th>
+              <th class="align-middle text-center">
+                Người duyệt
+              </th>
+              <th class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
+                Trạng thái
+              </th>
               <th class="align-middle text-end"></th>
             </tr>
             </thead>
@@ -61,9 +65,6 @@
                 {{ order.orderDetail.address }}
               </td>
               <td class="align-middle text-center">
-                {{ order.unitPrice | number:'1.0-0' }}₫
-              </td>
-              <td class="align-middle text-center">
                 {{ order.createdAt | date: 'dd/MM/yyyy' }}
               </td>
               <td class="align-middle text-center">
@@ -71,7 +72,7 @@
               </td>
               <td class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
                 <span class="badge"
-                      [ngClass]="colorStatus(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
+                      [ngClass]="setBackgroundByStatus(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
               </td>
               <td class="align-middle text-end">
                 <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
@@ -95,45 +96,112 @@
 </section>
 <ng-template #orderDetailModal>
   <div class="modal-header">
-    <h4 id="order-detail-dialog" class="modal-title pull-left text-primary fw-bold">
-      Chi tiết đơn hàng
+    <h4 id="order-detail-dialog" class="modal-title pull-left text-uppercase text-primary fw-bold">
+      {{ order.orderCode }}
+      <span class="badge ms-1" [ngClass]="setBackgroundByStatus(order.orderStatus.code)">{{order.orderStatus.status}}</span>
     </h4>
     <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form #orderForm="ngForm">
-      <div class="row">
-        <div class="col-auto">
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <h4 class="fs-3">Chi tiết đơn hàng</h4>
+        <form #orderForm="ngForm">
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="fullname" [value]="order.fullName"
-                   placeholder="example" readonly>
-            <label [for]="'fullname'">Họ và tên</label>
+            <input type="text" class="form-control border-0" id="address" placeholder="example" readonly
+                   [value]="order.orderDetail.address">
+            <label [for]="'address'">Địa chỉ giao hàng</label>
           </div>
-        </div>
-        <div class="col">
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="address" [value]="order.orderDetail.address"
-                   placeholder="example" readonly>
-            <label [for]="'address'">Địa chỉ</label>
+            <input type="text" class="form-control border-0" id="payment" placeholder="example" readonly
+                   [value]="order.payment.name_payment">
+            <label [for]="'payment'">Phương thức thanh toán</label>
           </div>
-        </div>
-        <div class="col-auto">
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="tel" [value]="order.orderDetail.tel"
-                   placeholder="example" readonly>
-            <label [for]="'tel'">Số điện thoại</label>
+            <input type="text" class="form-control border-0" id="shipping" placeholder="example" readonly
+                   [value]="order.shipping.name_shipping">
+            <label [for]="'shipping'">Đơn vị vận chuyển</label>
           </div>
-        </div>
-        <div class="col">
           <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="email" [value]="order.email"
-                   placeholder="example" readonly>
-            <label [for]="'email'">Email</label>
+                <textarea class="form-control border-0" placeholder="example" id="note" [value]="order.note || '-'"
+                          readonly></textarea>
+            <label [for]="'note'">Ghi chú (Khách hàng)</label>
+          </div>
+          <div class="form-floating mb-3">
+                <textarea class="form-control border-0" placeholder="example" id="shipping_note"
+                          readonly [value]="order.shipping_note || '-'"></textarea>
+            <label [for]="'shipping_note'">Ghi chú (Đơn vị vận chuyển)</label>
+          </div>
+        </form>
+      </div>
+      <div class="col-12 col-md-8">
+        <div class="customer-order-info">
+          <h4 class="fs-3">Thông tin khách hàng</h4>
+          <form #customerOrderInfo="ngForm">
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control border-0" id="fullname" [value]="order.fullName"
+                         placeholder="example" readonly>
+                  <label [for]="'fullname'">Họ và tên</label>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control border-0" id="tel" [value]="order.orderDetail.tel"
+                         placeholder="example" readonly>
+                  <label [for]="'tel'">Số điện thoại</label>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control border-0" id="email" [value]="order.email || '-'"
+                         placeholder="example" readonly>
+                  <label [for]="'email'">Email</label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="ordered-products">
+          <h4 class="fs-3">Sản phẩm</h4>
+          <div class="table-responsive">
+            <table class="table table-hover table-borderless table-sm nowrap w-100">
+              <thead class="table-primary">
+              <tr>
+                <th class="align-middle">Tên mặt hàng</th>
+                <th class="align-middle text-center">Đơn giá</th>
+                <th class="align-middle text-center">Số lượng</th>
+                <th class="align-middle text-center">Thành tiền</th>
+              </tr>
+              </thead>
+              <tbody class="table-light">
+              <tr *ngFor="let orderItem of order.orderItems; let i = index">
+                <td class="align-middle">
+                  <a [href]="getUrlProductClient(orderItem.product.slug)" class="link-primary text-decoration-none"
+                     target="_blank">
+                    {{ orderItem.product.name }}
+                  </a>
+                </td>
+                <td class="align-middle text-center">{{ orderItem.product.price | number:'1.0-0' }}₫</td>
+                <td class="align-middle text-center">{{ orderItem.quantity }}</td>
+                <td class="align-middle text-center">
+                  {{ orderItem.product.price * orderItem.quantity | number:'1.0-0' }}₫
+                </td>
+              </tr>
+              </tbody>
+              <tfoot class="table-primary">
+              <tr>
+                <td class="align-middle fw-bolder" colspan="3">Tổng tiền</td>
+                <td class="align-middle text-center">{{ order.unitPrice | number:'1.0-0' }}₫</td>
+              </tr>
+              </tfoot>
+            </table>
           </div>
         </div>
       </div>
-    </form>
+    </div>
   </div>
 </ng-template>
