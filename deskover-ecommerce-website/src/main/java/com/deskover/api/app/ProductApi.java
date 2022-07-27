@@ -13,13 +13,13 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @RestController("ProductApiForClient")
-@RequestMapping("v1/api/customer")
+@RequestMapping("v1/api/display")
 public class ProductApi {
 
 	@Autowired
 	private ProductService productService;
 
-	@GetMapping("/display-product-new")
+	@GetMapping("product-new")
 	public ResponseEntity<?> doGetAll(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size) {
 		try {
@@ -30,7 +30,7 @@ public class ProductApi {
 		}
 	}
 
-	@GetMapping("/display-product-category")
+	@GetMapping("product-category")
 	public ResponseEntity<?> doGetProductByCategoryId(@RequestParam("categoryId") Long categoryId,
 			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
 		try {
@@ -41,7 +41,7 @@ public class ProductApi {
 		}
 	}
 
-	@GetMapping("/display-product-subcategory")
+	@GetMapping("product-subcategory")
 	public ResponseEntity<?> doGetProductBySubId(@RequestParam("subId") Long subId,
 			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
 		try {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -36,14 +37,14 @@ public class GHTKApi {
 
 	// api tính phí phận chuyển
 	@PostMapping(path = "/fee", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> Fee(@RequestBody FeeGhtk fee) throws Exception {
+	public ResponseEntity<?> Fee(@RequestBody FeeGhtk fee,@RequestHeader(value="Token") String Token) throws Exception {
 
 		String url = UrlConstant.GHTK_FEE;
 
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Token", UrlConstant.GHTK_TOKEN);
+		headers.set("Token", Token);
 		try {
 			HttpEntity<FeeGhtk> request = new HttpEntity<>(fee, headers);
 			FeeResponseData response = restTemplate.postForObject(url, request, FeeResponseData.class);
@@ -60,14 +61,14 @@ public class GHTKApi {
 
 	// Doanh sách địa chỉ lấy đơn hàng
 	@GetMapping(path = "/shipment/list_address", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetListAddress(@RequestBody AddressResponseData addressResponse) throws Exception {
+	public ResponseEntity<?> doGetListAddress(@RequestBody AddressResponseData addressResponse,@RequestHeader(value="Token") String Token) throws Exception {
 
 		String url = UrlConstant.GHTK_LIST_ADDRESS;
 
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Token", UrlConstant.GHTK_TOKEN);
+		headers.set("Token", Token);
 
 		System.out.println(headers);
 
@@ -83,11 +84,11 @@ public class GHTKApi {
 	// api đăng đơn hàng
 
 	@PostMapping(path = "/shipment/order", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetGHTK(@RequestBody OrderResponseData Data) throws Exception {
-
+	public ResponseEntity<?> doGetGHTK(@RequestBody OrderResponseData Data, @RequestHeader(value="Token") String Token) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
+		
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Token", UrlConstant.GHTK_TOKEN);
+		headers.set("Token", Token);
 
 		HttpEntity<OrderResponseData> request = new HttpEntity<>(Data, headers);
 		String response = restTemplate.postForObject(UrlConstant.GHTK_ORDER, request, String.class);
@@ -97,11 +98,11 @@ public class GHTKApi {
 	
 	//label_id: mã vận đơn của giao hàng tiết kiệm
 	@PostMapping(path = "/shipment/cancel/{label_id}", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetCancelShipping(@PathVariable("label_id") String label_id){
+	public ResponseEntity<?> doGetCancelShipping(@PathVariable("label_id") String label_id,@RequestHeader(value="Token") String Token){
 		try {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
-			headers.set("Token", UrlConstant.GHTK_TOKEN);
+			headers.set("Token", Token);
 
 			HttpEntity<?> header = new HttpEntity<>(headers);
 			MessageResponseGhtk response = restTemplate.postForObject(UrlConstant.GHTK_CANCEL+label_id, header, MessageResponseGhtk.class);

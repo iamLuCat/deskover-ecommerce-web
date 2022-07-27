@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @RestController("UserApiForAdmin")
 @CrossOrigin("*")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 @RequestMapping("v1/api/admin/users/")
 public class UserApi {
 	@Autowired
