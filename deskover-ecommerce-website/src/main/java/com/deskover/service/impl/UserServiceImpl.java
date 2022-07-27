@@ -91,8 +91,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updatePassword(String username, ChangePasswordDto userRequest) {
-		userPasswordService.updatePassword(username, userRequest);
+	public void updatePassword(ChangePasswordDto userRequest) {
+		userPasswordService.updatePassword(SecurityContextHolder.getContextHolderStrategy().getContext().getAuthentication().getName(), userRequest);
 	}
 
 }

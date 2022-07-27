@@ -35,22 +35,22 @@ public class UserApi {
 	UserService userService;
 
 	@GetMapping("/user/address")
-	public ResponseEntity<?> doGetAddress(@RequestParam("username") String username) {
+	public ResponseEntity<?> doGetAddress() {
 		try {
-			return ResponseEntity.ok(contactService.findByUsername(username));
+			return ResponseEntity.ok(contactService.findByUsername());
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 		}
 	}
 	
 	@PostMapping("/user/address")
-	public ResponseEntity<?> doPostAddress(@Valid @RequestBody UserAddress userAddress, BindingResult result, @RequestParam("username") String username){
+	public ResponseEntity<?> doPostAddress(@Valid @RequestBody UserAddress userAddress, BindingResult result ){
 		if (result.hasErrors()) {
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
 		try {
-			contactService.doPostAddAddress(userAddress, username);
+			contactService.doPostAddAddress(userAddress);
 			return ResponseEntity.ok(new MessageResponse("Thêm mới thành công"));
 		} catch (Exception e) {
             MessageResponse error = MessageErrorUtil.message("Thêm mới thất bại", e);
@@ -59,19 +59,19 @@ public class UserApi {
 	}
 	
 	@PutMapping("/user/address/{id}")
-	public ResponseEntity<?> changeActive(@PathVariable("id") Long id, @RequestParam("username") String username) {
+	public ResponseEntity<?> changeActive(@PathVariable("id") Long id) {
 		try {
-			contactService.changeActive(id, username);
-			return ResponseEntity.ok(contactService.findByUsername(username));
+			contactService.changeActive(id);
+			return ResponseEntity.ok(contactService.findByUsername());
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 		}
 	}
 	
 	@PutMapping("/user/address-choose/{id}")
-	public ResponseEntity<?> changeChoose(@PathVariable("id") Long id, @RequestParam("username") String username){
+	public ResponseEntity<?> changeChoose(@PathVariable("id") Long id){
 		try {
-			contactService.changeChoose(id, username);
+			contactService.changeChoose(id);
 			return ResponseEntity.ok(new MessageResponse("Thay đổi thành công"));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(),e);
@@ -93,13 +93,13 @@ public class UserApi {
 	}
 
 	@PutMapping("/user/password")
-	public ResponseEntity<?> updatePassword(@RequestParam("username") String username, @Valid  @RequestBody ChangePasswordDto passwordDto, BindingResult result){
+	public ResponseEntity<?> updatePassword( @Valid  @RequestBody ChangePasswordDto passwordDto, BindingResult result){
 		if(result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
 			return ResponseEntity.badRequest().body(errors);
 		}
 		try {
-			userService.updatePassword(username,passwordDto);
+			userService.updatePassword(passwordDto);
 			return ResponseEntity.ok(new MessageResponse("Cập nhật mật khẩu thành công"));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(),e);

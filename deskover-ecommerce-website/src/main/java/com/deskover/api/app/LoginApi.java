@@ -7,8 +7,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +20,7 @@ import com.deskover.configuration.security.WebUserDetailsService;
 import com.deskover.configuration.security.jwt.entity.JwtRequest;
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.service.AdminService;
+import com.deskover.service.UserService;
 import com.deskover.util.JwtTokenUtil;
 
 @RestController
@@ -33,6 +36,9 @@ public class LoginApi {
 	@Autowired
 	private WebUserDetailsService webUserDetailsService;
 	
+	@Autowired 
+	private UserService userService;
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		try {
@@ -47,6 +53,7 @@ public class LoginApi {
 
 		final UserDetails userDetails = webUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
+		
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 		return ResponseEntity.ok( new MessageResponse(token));
@@ -55,4 +62,11 @@ public class LoginApi {
 	private void authenticate(String username, String password) throws Exception {
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 	}
+	
+	@GetMapping("/get-principal")
+    public ResponseEntity<?> getProfile() {
+	        // return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		System.out.println(SecurityContextHolder.getContext().getAuthentication());
+		return ResponseEntity.ok(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+    }
 }

@@ -355,8 +355,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order addOrder(Order orderResponse, String username) {
-        List<Cart> cartItem = cartService.doGetAllCartOrder(username);
+    public Order addOrder(Order orderResponse) {
+        List<Cart> cartItem = cartService.doGetAllCartOrder();
         if (cartItem.isEmpty()) {
             throw new IllegalArgumentException("Giỏ hàng trống");
         }
@@ -370,7 +370,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
         }
-        Users user = userRepo.findByUsername(username);
+        Users user = userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Order order = mapper.map(orderResponse, Order.class);
         order.setOrderCode(orderCode);
         order.setUser(user);
@@ -397,7 +397,7 @@ public class OrderServiceImpl implements OrderService {
             productRepo.save(product);
             orderItemRepo.saveAndFlush(item);
         });
-        UserAddress address = addressService.findByUsernameAndChoose(username, Boolean.TRUE);
+        UserAddress address = addressService.findByUsernameAndChoose(Boolean.TRUE);
         OrderDetail orderDetail = mapper.map(address, OrderDetail.class);
         orderDetail.setId(null);
         orderDetail.setOrder(orderNew);

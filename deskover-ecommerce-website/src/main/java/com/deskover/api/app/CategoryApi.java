@@ -16,7 +16,7 @@ public class CategoryApi {
 	@Autowired
 	private CategoryService categoryService;
 	
-	@GetMapping("/display-category")
+	@GetMapping("/category")
 	public ResponseEntity<?> doGetAll(){
 		List<Category> category =  categoryService.getByActived(Boolean.TRUE);
 		return ResponseEntity.ok(category);

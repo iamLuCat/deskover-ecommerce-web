@@ -48,6 +48,7 @@ public class OrderApi {
 
 	@GetMapping("/orders/statuses")
 	public List<OrderStatus> doGetAllOrderStatus() {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
 		return orderService.getAllOrderStatus();
 	}
 
@@ -126,7 +127,7 @@ public class OrderApi {
 	@GetMapping("/orders-total-per-month")
 	public ResponseEntity<?> doGetPrice() {
 		try {
-			System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+			
 			String order = orderService.getToTalPricePerMonth();
 			return ResponseEntity.ok(DecimalFormatUtil.FormatDecical(order));
 

@@ -13,5 +13,5 @@ public interface UserService {
 	 Users findByUsername(String username);
 	 DataTablesOutput<Users> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
 	 Users create(UserCreateDto userRequest);
-	 void updatePassword(String username, ChangePasswordDto userRequest);
+	 void updatePassword(ChangePasswordDto userRequest);
 }
