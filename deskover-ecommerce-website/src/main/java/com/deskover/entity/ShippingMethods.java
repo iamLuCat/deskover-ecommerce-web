@@ -33,7 +33,7 @@ public class ShippingMethods implements Serializable {
 	private Long id;
 	
 	@Column(name = "shipping_id")
-	private String shipping_id;
+	private String shippingId;
 	
 	@Column(name ="name_shipping")
 	private String name_shipping;
