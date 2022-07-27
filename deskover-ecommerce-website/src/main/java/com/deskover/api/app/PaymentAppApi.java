@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.deskover.service.PaymentService;
 
 @RestController
-@RequestMapping("v1/api/customer")
+@RequestMapping("v1/api/display")
 public class PaymentAppApi {
 	
 	@Autowired

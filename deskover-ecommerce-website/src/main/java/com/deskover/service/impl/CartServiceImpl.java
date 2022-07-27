@@ -3,6 +3,7 @@ package com.deskover.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,16 +29,16 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	public Cart addToCart(String username, Long productId, Integer quantity) {
+	public Cart addToCart(Long productId, Integer quantity) {
 		Product product = productService.findById(productId);
 		
 		if(product==null) {
 			throw new IllegalArgumentException("Không tìm thấy user");
 		}
 		
-		Cart cart = cartRepository.findByProductIdAndUserUsername(productId, username);
+		Cart cart = cartRepository.findByProductIdAndUserUsername(productId, SecurityContextHolder.getContext().getAuthentication().getName());
 		if(cart == null) {
-			Users user = userRepository.findByUsername(username);
+			Users user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 			Cart cartNew = new Cart();
 			cartNew.setProduct(product);
 			cartNew.setUser(user);
@@ -58,15 +59,16 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public List<Cart> doGetAllCartOrder(String username) {
-		return cartRepository.findByUserUsername(username);
+	public List<Cart> doGetAllCartOrder() {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication());
+		return cartRepository.findByUserUsername("minhbd");
 	}
 
 	@Override
 	@Transactional
-	public Cart minusCart(String username, Long productId) {
+	public Cart minusCart(Long productId) {
 		try {
-			Cart cart = cartRepository.findByProductIdAndUserUsername(productId, username);
+			Cart cart = cartRepository.findByProductIdAndUserUsername(productId, SecurityContextHolder.getContext().getAuthentication().getName());
 			if(cart.getQuantity()>1) {
 				cart.setQuantity(cart.getQuantity()-1);
 				cartRepository.saveAndFlush(cart);
@@ -80,9 +82,9 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	public void deleteCart(String username, Long productId) {
+	public void deleteCart(Long productId) {
 		try {
-			Cart cart = cartRepository.findByProductIdAndUserUsername(productId, username);
+			Cart cart = cartRepository.findByProductIdAndUserUsername(productId, SecurityContextHolder.getContext().getAuthentication().getName());
 			cartRepository.delete(cart);
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Phương thức không hợp lệ");

@@ -34,7 +34,7 @@ public class OrderApi {
 		}
 		try {
 			
-			Order order = orderService.addOrder(oderResponse, "minhbd");
+			Order order = orderService.addOrder(oderResponse);
 			return ResponseEntity.ok(new MessageResponse("Đặt hàng thành công\nMã đơn hàng của bạn là:"+order.getOrderCode()));	
 		} catch (Exception e) {
             MessageResponse error = MessageErrorUtil.message("Thêm mới thất bại", e);

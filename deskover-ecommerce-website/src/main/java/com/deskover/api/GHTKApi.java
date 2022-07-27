@@ -1,7 +1,8 @@
 package com.deskover.api;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.JpaEvaluationContextExtension.JpaRootObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,17 +24,18 @@ import com.deskover.dto.ghtk.entity.FeeGhtk;
 import com.deskover.dto.ghtk.response.AddressResponseData;
 import com.deskover.dto.ghtk.response.FeeResponseData;
 import com.deskover.dto.ghtk.response.MessageResponseGhtk;
-import com.deskover.dto.ghtk.response.OrderResponseData;
-import com.deskover.util.MapperUtil;
-
-import java.util.Objects;
+import com.deskover.entity.Order;
+import com.deskover.service.GHTKService;
 
 @RestController
 @RequestMapping("v1/api/ghtk")
 public class GHTKApi {
 
 	@Autowired
-	RestTemplate restTemplate;
+	private RestTemplate restTemplate;
+	
+	@Autowired
+	private GHTKService ghtkService;
 
 	// api tính phí phận chuyển
 	@PostMapping(path = "/fee", consumes = "application/json", produces = "application/json")
@@ -78,23 +80,31 @@ public class GHTKApi {
 
 		return ResponseEntity.ok(response);
 	}
+	
+	@GetMapping("/shipment/v2")
+	public ResponseEntity<?> doGetAllStatus(@RequestHeader(value="Token") String Token){
+		try {
+			ghtkService.loadOrderStatus(Token);
+			return new  ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(),e);
+		}
 
+	}
 	// Không test api này nhé.
 
 	// api đăng đơn hàng
+	
+	@PostMapping("/shipment/order")
+	public ResponseEntity<?> doPost(@RequestBody Order order,@RequestHeader(value="Token") String Token){
+		try {
+			return ResponseEntity.ok(ghtkService.ShipmentOrder(order, Token));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(),e);
+		}
 
-	@PostMapping(path = "/shipment/order", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetGHTK(@RequestBody OrderResponseData Data, @RequestHeader(value="Token") String Token) throws Exception {
-		HttpHeaders headers = new HttpHeaders();
-		
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Token", Token);
-
-		HttpEntity<OrderResponseData> request = new HttpEntity<>(Data, headers);
-		String response = restTemplate.postForObject(UrlConstant.GHTK_ORDER, request, String.class);
-
-		return ResponseEntity.ok(response);
 	}
+
 	
 	//label_id: mã vận đơn của giao hàng tiết kiệm
 	@PostMapping(path = "/shipment/cancel/{label_id}", consumes = "application/json", produces = "application/json")

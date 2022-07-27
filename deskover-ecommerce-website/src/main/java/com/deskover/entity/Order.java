@@ -58,6 +58,18 @@ public class Order implements Serializable {
 
     @Column(name = "order_quantity", nullable = false)
     private Integer orderQuantity = 0;
+    
+    @Column(name = "label", nullable = false)
+    private String label;
+    
+    @Column(name = "fee", nullable = false)
+    private Double fee;
+    
+    @Column(name = "estimated_pick_time", nullable = false)
+    private String estimated_pick_time;
+    
+    @Column(name = "estimated_deliver_time", nullable = false)
+    private String estimated_deliver_time;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -79,8 +91,10 @@ public class Order implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "order")
     private OrderDetail orderDetail;
+    
+    
 
     @OneToMany(mappedBy = "order")
-    private Set<OrderItem> orderItems = new LinkedHashSet<>();
+    private Set<OrderItem> products = new LinkedHashSet<>();
 
 }

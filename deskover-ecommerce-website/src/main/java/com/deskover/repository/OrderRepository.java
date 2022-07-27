@@ -46,6 +46,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	//Query nornal
 	List<Order> findByOrderStatusCode(String code);
 	
+	List<Order> findByShippingShippingId(String shippingId);
+	
 	List<Order> findByModifiedByAndOrderStatusCode(String modifiedBy, String code);
 	
 	List<Order> findByModifiedBy(String modifiedBy);

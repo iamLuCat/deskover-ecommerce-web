@@ -935,6 +935,10 @@ CREATE TABLE orders
     created_at     TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_by    VARCHAR(50)                                                            DEFAULT NULL,
     unit_price     DOUBLE                                                        NOT NULL DEFAULT 0,
+    label          VARCHAR(128)   												 		DEFAULT NULL, -- Mã Vận đơn Giao hàng tiết kiệm
+    fee			   DOUBLE																DEFAULT NULL,  -- Phí vận chuyển
+    estimated_pick_time VARCHAR(128)  													DEFAULT NULL, -- Dự kiến lấy hàng	
+    estimated_deliver_time VARCHAR(128)  													DEFAULT NULL, -- Dự kiến giao hàng	 
     order_quantity INT                                                           NOT NULL DEFAULT 0,
     PRIMARY KEY (id),
     UNIQUE KEY UQ_Order_OrderCode (order_code),

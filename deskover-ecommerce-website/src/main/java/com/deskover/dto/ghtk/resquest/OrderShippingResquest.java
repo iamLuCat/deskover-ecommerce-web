@@ -1,4 +1,4 @@
-package com.deskover.dto.ghtk.response;
+package com.deskover.dto.ghtk.resquest;
 
 import com.deskover.dto.ghtk.entity.OrderShipping;
 
@@ -11,9 +11,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderShippingResponse {
-	Boolean success;
-	String message;
-	OrderShipping orders;
-	String warning_message;
+public class OrderShippingResquest {
+	private Boolean success;
+	private String message;
+	private OrderShipping order;
+	private String warning_message;
 }

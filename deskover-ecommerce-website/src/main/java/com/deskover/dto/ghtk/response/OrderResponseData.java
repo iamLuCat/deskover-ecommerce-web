@@ -1,7 +1,7 @@
 package com.deskover.dto.ghtk.response;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 import com.deskover.dto.ghtk.entity.OrderGhtk;
 import com.deskover.dto.ghtk.entity.ProductsGhtk;
@@ -23,7 +23,7 @@ public class OrderResponseData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private ArrayList<ProductsGhtk> products;
+	private List<ProductsGhtk> products;
 	private OrderGhtk order;
 	
 

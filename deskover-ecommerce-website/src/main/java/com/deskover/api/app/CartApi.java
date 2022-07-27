@@ -25,16 +25,15 @@ public class CartApi {
 	private CartService cartService;
 	
 	@GetMapping("/cart")
-	public ResponseEntity<?> doGetAllCartOrder(@RequestParam("username") String username){
-		List<Cart> cart = cartService.doGetAllCartOrder(username);
+	public ResponseEntity<?> doGetAllCartOrder(){
+		List<Cart> cart = cartService.doGetAllCartOrder();
 		return ResponseEntity.ok(cart);
 	}
 	
 	@PostMapping("/add-cart")
-	public ResponseEntity<?> doAddToCart(@RequestParam("username") String username, 
-			@RequestParam("productId") Long productId, @RequestParam("quantity") Integer quantity){
+	public ResponseEntity<?> doAddToCart(@RequestParam("productId") Long productId, @RequestParam("quantity") Integer quantity){
 		try {
-			cartService.addToCart(username, productId, quantity);
+			cartService.addToCart(productId, quantity);
 			return ResponseEntity.ok(new MessageResponse("Thêm mới thành công"));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
@@ -42,10 +41,9 @@ public class CartApi {
 	}
 	
 	@PostMapping("/minus-cart")
-	public ResponseEntity<?> doMinusCart(@RequestParam("username") String username, 
-			@RequestParam("productId") Long productId){
+	public ResponseEntity<?> doMinusCart(@RequestParam("productId") Long productId){
 		try {
-			cartService.minusCart(username, productId);
+			cartService.minusCart(productId);
 			return ResponseEntity.ok(new MessageResponse("Thêm mới thành công"));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
@@ -53,10 +51,9 @@ public class CartApi {
 	}
 	
 	@DeleteMapping("cart")
-	public ResponseEntity<?> doDeleteCart(@RequestParam("username") String username, 
-			@RequestParam("productId") Long productId){
+	public ResponseEntity<?> doDeleteCart(@RequestParam("productId") Long productId){
 		try {
-			cartService.deleteCart(username, productId);
+			cartService.deleteCart(productId);
 			return ResponseEntity.ok(new MessageResponse("Xoá thành công"));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);

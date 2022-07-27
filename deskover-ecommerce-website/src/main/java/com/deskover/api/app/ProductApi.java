@@ -19,7 +19,7 @@ public class ProductApi {
 	@Autowired
 	private ProductService productService;
 
-	@GetMapping("product-new")
+	@GetMapping("/product-new")
 	public ResponseEntity<?> doGetAll(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size) {
 		try {
@@ -30,7 +30,7 @@ public class ProductApi {
 		}
 	}
 
-	@GetMapping("product-category")
+	@GetMapping("/product-category")
 	public ResponseEntity<?> doGetProductByCategoryId(@RequestParam("categoryId") Long categoryId,
 			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
 		try {
@@ -41,7 +41,7 @@ public class ProductApi {
 		}
 	}
 
-	@GetMapping("product-subcategory")
+	@GetMapping("/product-subcategory")
 	public ResponseEntity<?> doGetProductBySubId(@RequestParam("subId") Long subId,
 			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
 		try {
@@ -53,7 +53,7 @@ public class ProductApi {
 
 	}
 
-	@GetMapping("/display-product/{id}")
+	@GetMapping("/product/{id}")
 	public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
 		Product product = productService.findById(id);
 		if (product == null) {

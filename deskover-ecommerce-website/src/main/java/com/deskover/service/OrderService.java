@@ -22,7 +22,7 @@ public interface OrderService {
 	
 	OrderDto findByCode(String orderCode);
 	
-	Order addOrder(Order orderResponse, String username);
+	Order addOrder(Order orderResponse);
 	
 	DataOrderResquest getListOrder(String status);
 	
