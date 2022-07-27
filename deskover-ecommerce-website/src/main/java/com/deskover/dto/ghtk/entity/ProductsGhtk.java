@@ -20,6 +20,6 @@ public class ProductsGhtk {
     
     Integer quantity;
     
-    String product_code;;
+    String product_code;
    
 }

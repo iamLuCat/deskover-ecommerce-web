@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController("SubcategoryApiForClient")
-@RequestMapping("v1/api/customer")
+@RequestMapping("v1/api/display")
 public class SubcategoryApi {
 	@Autowired
 	private SubcategoryService subcategoryService;
 	
-	@GetMapping("/display-subcategory")
+	@GetMapping("/subcategory")
 	public ResponseEntity<?> doGetAll(@RequestParam("categoryId") Long categoryId){
 		List<Subcategory> subcategories =  subcategoryService.getAll(Boolean.TRUE, categoryId);
 		return ResponseEntity.ok(subcategories);

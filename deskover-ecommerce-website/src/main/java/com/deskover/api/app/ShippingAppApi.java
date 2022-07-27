@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.deskover.service.ShippingService;
 
 @RestController
-@RequestMapping("v1/api/customer")
+@RequestMapping("v1/api/display")
 public class ShippingAppApi {
 	
 	@Autowired
