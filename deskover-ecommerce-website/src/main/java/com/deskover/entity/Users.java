@@ -55,8 +55,8 @@ public class Users implements Serializable {
     private Set<UserAddress> contacts = new LinkedHashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private Set<UserPassword> userPasswords = new LinkedHashSet<>();
+    @OneToOne(mappedBy = "user")
+    private UserPassword userPassword = new UserPassword();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")

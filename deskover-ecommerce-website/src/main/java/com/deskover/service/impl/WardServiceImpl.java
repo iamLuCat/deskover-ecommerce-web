@@ -1,0 +1,22 @@
+package com.deskover.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.deskover.entity.Ward;
+import com.deskover.repository.WardReponsitory;
+import com.deskover.service.WardService;
+
+@Service
+public class WardServiceImpl implements WardService{
+	@Autowired
+	WardReponsitory repo;
+	
+	@Override
+	public List<Ward> getByDistrictIdAndProvinceId(long districtId, Long provinceId) {
+		return repo.findByDistrictIdAndProvinceId(provinceId, provinceId);
+	}
+
+}
