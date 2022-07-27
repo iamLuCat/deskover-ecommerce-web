@@ -90,7 +90,9 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                		.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 	.exceptionHandling()
                 	.defaultAuthenticationEntryPointFor(jwtAuthenticationEntryPoint,new AntPathRequestMatcher("/v1/api/admin/**"))
-            .and().httpBasic();
+            .and().httpBasic()
+            .and().sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         }
 	}
 
@@ -142,7 +144,9 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 					.addFilterBefore(jwtCustomerFilter, UsernamePasswordAuthenticationFilter.class)
 					.exceptionHandling()
 					.defaultAuthenticationEntryPointFor(jwtAuthenticationEntryPoint,new AntPathRequestMatcher("/v1/api/customer/**"))
-				.and().httpBasic();
+				.and().httpBasic()
+				.and().sessionManagement()
+	            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);;
 		}
 	}
 
@@ -179,9 +183,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		        .failureUrl("/login?error=true")
 		    .and().logout()
 			    .logoutUrl("/user/logout")
-			    .deleteCookies("JSESSIONID")
-	        .and().sessionManagement()
-	            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			    .deleteCookies("JSESSIONID");
 		}
 	}
 
