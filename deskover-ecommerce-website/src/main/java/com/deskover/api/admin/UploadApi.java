@@ -32,7 +32,7 @@ public class UploadApi {
         }
     }
 
-    @DeleteMapping("/delete-temp-folder")
+    @GetMapping("/upload-file/delete-temp-folder")
     public ResponseEntity<?> deleteTempFolder() {
         try {
             uploadFileService.removeTempFolder();

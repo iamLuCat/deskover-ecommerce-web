@@ -111,34 +111,29 @@ public class ProductServiceImpl implements ProductService {
         }
         Product savedProduct = repo.save(product);
 
-        if (product.getProductThumbnails() != null) {
-            int index = 0;
-            for (ProductThumbnail thumbnail : product.getProductThumbnails()) {
-                saveThumbnail(thumbnail, savedProduct, index);
-                index++;
+        int index = 0;
+        for (ProductThumbnail thumbnail : product.getProductThumbnails()) {
+            if (thumbnail != null) {
+                thumbnail.setProduct(product);
+                thumbnail.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+                thumbnail.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+
+                String sourcePathThumbnail = PathConstant.TEMP_STATIC + thumbnail.getThumbnail();
+                System.out.println(FileUtils.getFile(sourcePathThumbnail).getAbsolutePath());
+                System.out.println(FileUtils.getFile(sourcePathThumbnail).exists());
+                if (FileUtils.getFile(sourcePathThumbnail).exists()) {
+                    String destPathThumbnail = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug() + "-" + index;
+                    File imageFileThumbnail = FileUtil.copyFile(sourcePathThumbnail, destPathThumbnail);
+                    thumbnail.setThumbnail(imageFileThumbnail.getName());
+                    thumbnail.setThumbnailUrl(UrlUtil.getImageUrl(imageFileThumbnail.getName(), PathConstant.PRODUCT_IMAGE));
+                }
+                thumbnailRepository.save(thumbnail);
             }
+            index++;
         }
 
         FileUtil.removeFolder(PathConstant.TEMP_STATIC);
         return savedProduct;
-    }
-
-    ProductThumbnail saveThumbnail(ProductThumbnail productThumbnail, Product product, Integer index) {
-        productThumbnail.setProduct(product);
-        productThumbnail.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        productThumbnail.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-
-        if (productThumbnail.getThumbnail() != null &&!productThumbnail.getThumbnail().isBlank()) {
-            String sourcePath = PathConstant.TEMP_STATIC + productThumbnail.getThumbnail();
-            if (FileUtils.getFile(sourcePath).exists()) {
-                String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug() + "-" + index;
-                File thumbnailFile = FileUtil.copyFile(sourcePath, destPath);
-                productThumbnail.setThumbnail(thumbnailFile.getName());
-                productThumbnail.setThumbnailUrl(UrlUtil.getImageUrl(thumbnailFile.getName(), PathConstant.PRODUCT_IMAGE));
-            }
-        }
-
-        return thumbnailRepository.save(productThumbnail);
     }
 
     @Override

@@ -15,4 +15,8 @@ export class UploadService {
   uploadImage(file: File): Observable<UploadedImage> {
     return this.restApi.uploadFile(this.url, file);
   }
+
+  deleteTempFolder() {
+    return this.restApi.get(this.url + '/delete-temp-folder');
+  }
 }
