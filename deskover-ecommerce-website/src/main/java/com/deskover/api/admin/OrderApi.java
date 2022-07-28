@@ -92,6 +92,7 @@ public class OrderApi {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
 	@GetMapping("/orders/delivery")
 	public ResponseEntity<?> doGetDelivery(@RequestParam("status") String status){
 		try {
@@ -103,6 +104,7 @@ public class OrderApi {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
 	@GetMapping("/orders/statistical")
 	public ResponseEntity<?> doGetAllByUser(){
 		try {
@@ -113,7 +115,8 @@ public class OrderApi {
 			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy đơn hàng"));
 		}
 	}
-
+	
+	@PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
 	@GetMapping("/orders-7days")
 	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
 			try {
@@ -124,6 +127,7 @@ public class OrderApi {
 			}
     } 
 	
+	@PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
 	@GetMapping("/orders-total-per-month")
 	public ResponseEntity<?> doGetPrice() {
 		try {
@@ -136,6 +140,7 @@ public class OrderApi {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
 	@GetMapping("/orders-count-order-per-month")
 	public ResponseEntity<?> doGetCountOrder(){
 		try {

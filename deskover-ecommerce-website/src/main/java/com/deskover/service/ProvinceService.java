@@ -6,4 +6,6 @@ import com.deskover.entity.Province;
 
 public interface ProvinceService {
 	List<Province> getAll();
+
+	Province getById(Long id);
 }

@@ -19,4 +19,9 @@ public class ProvinceServiceImpl implements ProvinceService{
 		return repo.findAll();
 	}
 
+	@Override
+	public Province getById(Long id) {
+		return repo.findById(id).orElse(null);
+	}
+
 }

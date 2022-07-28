@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,6 +26,7 @@ import com.deskover.service.UserService;
 import com.deskover.util.ValidationUtil;
 
 @RestController("UserApiForClient")
+@PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
 @RequestMapping("v1/api/customer")
 public class UserApi {
 	@Autowired
@@ -51,6 +52,20 @@ public class UserApi {
         }
 		try {
 			contactService.doPostAddAddress(userAddress);
+			return ResponseEntity.ok(new MessageResponse("Thêm mới thành công"));
+		} catch (Exception e) {
+            MessageResponse error = MessageErrorUtil.message("Thêm mới thất bại", e);
+            return ResponseEntity.badRequest().body(error);
+		}
+	}
+	@PutMapping("/user/address")
+	public ResponseEntity<?> changeAddrees(@Valid @RequestBody UserAddress userAddress, BindingResult result ){
+		if (result.hasErrors()) {
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
+		try {
+			contactService.doPutAddAddress(userAddress);
 			return ResponseEntity.ok(new MessageResponse("Thêm mới thành công"));
 		} catch (Exception e) {
             MessageResponse error = MessageErrorUtil.message("Thêm mới thất bại", e);
