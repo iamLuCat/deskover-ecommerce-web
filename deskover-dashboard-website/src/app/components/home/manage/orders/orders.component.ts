@@ -78,19 +78,19 @@ export class OrdersComponent implements OnInit {
 
   setBackgroundByStatus(statusCode: string) {
     if (statusCode.includes('-TC')) {
-      return 'bg-success';
+      return 'bg-opacity-50 text-dark bg-success';
     } else if (statusCode.includes('-TB')) {
-      return 'bg-danger';
+      return 'bg-opacity-50 text-dark bg-danger';
     } else if (statusCode.includes('C-')) {
-      return 'bg-warning';
+      return 'bg-opacity-50 text-dark bg-warning';
     } else {
-      return 'bg-info';
+      return 'bg-opacity-50 text-dark bg-info';
     }
   }
 
-  isPending(statusCode: string) {
+  isPendingOrder(statusCode: string) {
     if(statusCode) {
-      return statusCode.includes('C-');
+      return statusCode.includes('C-XN');
     }
   }
 

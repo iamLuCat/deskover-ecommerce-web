@@ -75,10 +75,18 @@
                       [ngClass]="setBackgroundByStatus(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
               </td>
               <td class="align-middle text-end">
+                <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
+                        container="body" (click)="getOrder(order)" *ngIf="isPendingOrder(order.orderStatus.code)">
+                  <i class="fa-solid fa-file-circle-check"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary me-1" placement="top" tooltip="Duyệt đơn"
+                        container="body" (click)="getOrder(order)" disabled
+                        *ngIf="!isPendingOrder(order.orderStatus.code) && orderStatusCode == null">
+                  <i class="fa-solid fa-ban"></i>
+                </button>
                 <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
-                        container="body"
-                        (click)="getOrder(order)">
-                  <i class="fas fa-pen-square"></i>
+                        container="body" (click)="getOrder(order)">
+                  <i class="fa-solid fa-file-circle-info"></i>
                 </button>
               </td>
             </tr>
@@ -98,7 +106,8 @@
   <div class="modal-header">
     <h4 id="order-detail-dialog" class="modal-title pull-left text-uppercase text-primary fw-bold">
       {{ order.orderCode }}
-      <span class="badge ms-1" [ngClass]="setBackgroundByStatus(order.orderStatus.code)">{{order.orderStatus.status}}</span>
+      <span class="badge ms-1"
+            [ngClass]="setBackgroundByStatus(order.orderStatus.code)">{{order.orderStatus.status}}</span>
     </h4>
     <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
