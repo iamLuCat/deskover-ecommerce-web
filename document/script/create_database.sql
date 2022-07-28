@@ -210,17 +210,64 @@ CREATE TABLE user_address
     CONSTRAINT FK_User_address_User FOREIGN KEY (user_id) REFERENCES `user` (id)
 );
 
-insert user_address (user_id,province_id, fullname, address, province, district,district_id, ward,ward_id, tel, email, choose, actived)
-values (1,1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',1,
-        'Phường Trung Mỹ Tây',1, '0123456789', 'huynq2022@gmail.com', 0, 0),
-       (2,1, 'Bùi Đức Minh', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',1,
-        'Phường Trung Mỹ Tây',1, '0338953980', 'minhbd2021@gmail.com', 1, 1),
-       (2,2, 'Bùi Đức Minh', 'Hoàn Kiếm, Hà Nội', 'Hà Nội', 'Hoàn Kiếm','1',
-        'Phường Trung Mỹ Tây',1, '0338953981', 'minhbd2022@gmail.com', 0, 0),
-       (2,1, 'Bùi Đức Minh', 'Đường D4,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',1,
-        'Phường Trung Mỹ Tây',1, '0338953982', 'minhbd2023@gmail.com', 0, 0),
-       (2,1, 'Bùi Đức Minh', 'Đường D6,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',1,
-        'Phường Trung Mỹ Tây',1, '0338953983', 'minhbd2024@gmail.com', 0, 0)
+insert user_address (id,user_id,province_id, fullname, address, province, district,district_id, ward,ward_id, tel, email, choose, actived)
+values 
+  (
+    1, 1, 1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 
+    'Hồ Chí Minh', 'Quận 12', 1, 
+    'Phường Trung Mỹ Tây', 1, 
+    '0123456789', 'huynq2022@gmail.com', 
+    1, 1
+  ), 
+  (
+    2, 2, 1, 'Bùi Đức Minh', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+    'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    1, 'Xã An Phú Tây', 1, '0338953980', 
+    'minhbd2021@gmail.com', 1, 
+    1
+  ), 
+  (
+    3, 2, 2, 'Bùi Đức Minh', '123, Phường Cống Vị, Quận Ba Đình, Hà Nội', 
+    'Hà Nội', 'Quận Ba Đình', 
+    25, 'Phường Cống Vị', 327, 
+    '0338953981', 'minhbd2022@gmail.com', 
+    0, 0
+  ), 
+  (
+    4, 2, 11, 'Bùi Đức Minh', '123, Xã Cư Klông, Huyện Krông Năng, Đắk Lắk', 
+    'Đắk Lắk', 'Huyện Krông Năng', 
+    158, 'Xã Cư Klông', 2270, '0338953982', 
+    'minhbd2023@gmail.com', 0, 
+    0
+  ), 
+  (
+    5, 2, 14, 'Bùi Đức Minh', '123, Xã B' 'Lá, Huyện Bảo Lâm, Lâm Đồng', 
+    'Lâm Đồng', 'Huyện Bảo Lâm', 
+    181, 'Xã B' 'Lá', 2539, '0338953983', 
+    'minhbd2024@gmail.com', 0, 
+    0
+  ), 
+  (
+    6, 2, 10, 'Pham Quang Vu', '123, Phường Phước Trung, Thị xã Bà Rịa, Bà Rịa Vũng Tàu', 
+    'Bà Rịa Vũng Tàu', 'Thị xã Bà Rịa', 
+    139, 'Phường Phước Trung', 
+    2062, '0335985331', 'email.email@gmail.com', 
+    0, 0
+  ), 
+  (
+    7, 2, 23, 'Pham Van Hai', '12312, Xã Lộc An, Huyện Lộc Ninh, Bình Phước', 
+    'Bình Phước', 'Huyện Lộc Ninh', 
+    324, 'Xã Lộc An', 5003, '0335956325', 
+    'email2.email@gmail.com', 0, 
+    0
+  ), 
+  (
+    8, 2, 14, 'Nguyen Hoai Minh', '123, Thị trấn Đạ M' 'Ri, Huyện Đạ Huoai, Lâm Đồng', 
+    'Lâm Đồng', 'Huyện Đạ Huoai', 
+    184, 'Thị trấn Đạ M' 'Ri', 
+    2577, '0323555545', 'email3.email@gmail.com', 
+    0, 0
+  );
 ;
 
 CREATE TABLE user_password
