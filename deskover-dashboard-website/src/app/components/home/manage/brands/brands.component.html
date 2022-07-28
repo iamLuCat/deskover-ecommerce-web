@@ -21,7 +21,7 @@
       <div class="card-header">
         <div class="row g-2">
           <div class="col-auto">
-            <label for="filter-brand" class="col-form-label">Trạng thái:</label>
+            <label [for]="'filter-brand'" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-auto">
             <select id="filter-brand" class="form-select" [(ngModel)]="isActive"
@@ -32,7 +32,7 @@
 
           </div>
           <div class="col d-flex align-items-center justify-content-end">
-            <button type="button" class="btn btn-accent rounded-pill" (click)="newBrand()" placement="left"
+            <button type="button" class="btn bg-faded-accent rounded-pill" (click)="newBrand()" placement="left"
                     tooltip="Thêm">
               <i class="fas fa-plus text-accent"></i>
             </button>
@@ -116,7 +116,7 @@
         <form #brandForm="ngForm">
           <div class="row">
             <div class="col-6 mb-3">
-              <label class="form-label" for="name">Tên</label>
+              <label class="form-label" [for]="'name'">Tên</label>
               <input
                 type="text"
                 class="form-control"
@@ -132,7 +132,7 @@
               </div>
             </div>
             <div class="col-6 mb-3">
-              <label class="form-label" for="slug">Slug</label>
+              <label class="form-label" [for]="'slug'">Slug</label>
               <input
                 type="text"
                 class="form-control"
@@ -147,7 +147,7 @@
               </div>
             </div>
             <div class="col-12 mb-3">
-              <label for="description" class="form-label">Mô tả</label>
+              <label [for]="'description'" class="form-label">Mô tả</label>
               <textarea class="form-control" id="description" rows="4" name="description"
                         [(ngModel)]="brand.description" #description="ngModel"></textarea>
 

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Product} from "@/entites/product";
+import {Product, ProductThumbnail} from "@/entites/product";
 import {DataTableDirective} from "angular-datatables";
 import {ProductService} from "@services/product.service";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
@@ -12,7 +12,6 @@ import {ModalDirective} from "ngx-bootstrap/modal";
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
-import {ProductThumbnail} from "@/entites/product-thumbnail";
 import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
@@ -238,11 +237,12 @@ export class ProductsComponent implements OnInit {
 
   copyProduct(productId: number) {
     this.editProduct(productId);
-    this.isEdit=false;
+    this.isEdit = false;
     this.product.id = null;
   }
 
   saveProduct(product: Product) {
+    this.product.weight = this.getWeightFromHtml(this.product.design);
     if (this.isEdit) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
@@ -272,6 +272,20 @@ export class ProductsComponent implements OnInit {
       NotiflixUtils.successNotify('Kích hoạt sản phẩm thành công');
       this.rerender();
     });
+  }
+
+  getWeightFromHtml(html: string): number {
+    const weight = html.match(/<span class="text-muted">Trọng lượng:&nbsp;<\/span>([0-9.]+)&nbsp;(kg|g)/)
+      || html.match(/<span class="text-muted">Trọng lượng: <\/span>([0-9.]+) (kg|g)/)
+      || html.match(/<span class="text-muted">Trọng lượng: <\/span>([0-9.]+)&nbsp;(kg|g)/)
+      || html.match(/<span class="text-muted">Trọng lượng:&nbsp;<\/span>([0-9.]+) (kg|g)/)
+      || html.match(/<span class="text-muted">Trọng lượng:&nbsp;<\/span>([0-9.]+) (kg|g)/);
+
+    if (weight[2] === 'g') {
+      return Number(weight[1]) / 1000;
+    } else {
+      return Number(weight[1]);
+    }
   }
 
   /* Slugify */

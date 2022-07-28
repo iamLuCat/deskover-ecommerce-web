@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -91,8 +89,6 @@ public class Order implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "order")
     private OrderDetail orderDetail;
-    
-    
 
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> products = new LinkedHashSet<>();

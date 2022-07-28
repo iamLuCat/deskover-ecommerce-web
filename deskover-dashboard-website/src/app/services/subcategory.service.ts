@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {RestApiService} from "@services/rest-api.service";
-import {DataTablesResponse} from "@/entites/data-tables-response";
+import {DatatablesResponse} from "@/entites/datatables-response";
 import {Observable} from "rxjs";
 import {Subcategory} from "@/entites/subcategory";
 import {CategoryService} from "@services/category.service";
@@ -15,7 +15,7 @@ export class SubcategoryService {
 
   constructor(private restApi: RestApiService, private categoryService: CategoryService) { }
 
-  getAllForDatatable(tableQuery: any, isActive: boolean, categoryId: number): Observable<DataTablesResponse> {
+  getAllForDatatable(tableQuery: any, isActive: boolean, categoryId: number): Observable<DatatablesResponse> {
     const params = new HttpParams()
       .set("isActive", isActive.toString())
       .set("categoryId", categoryId ? categoryId.toString() : '');

@@ -34,7 +34,6 @@ export class UserInfoComponent implements OnInit {
       },
       error: (err) => {
         this.logout();
-        NotiflixUtils.failureNotify('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại');
       }
     });
   }
