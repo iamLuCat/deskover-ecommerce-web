@@ -221,7 +221,7 @@
                   <span *ngIf="quantity.errors?.required">Vui lòng nhập số lượng</span>
                 </div>
               </div>
-              <div class="mb-3">
+              <!--<div class="mb-3">
                 <label [for]="'weight'" class="form-label">Khối lượng</label>
                 <input class="form-control" id="weight" name="weight" type='text' mask="separator" thousandSeparator=","
                        suffix=" kg" [(ngModel)]="product.weight" #weight="ngModel" required/>
@@ -229,7 +229,7 @@
                      *ngIf="weight.invalid && (weight.dirty || weight.touched)">
                   <span *ngIf="weight.errors?.required">Vui lòng nhập khối lượng</span>
                 </div>
-              </div>
+              </div>-->
               <div class="mb-3">
                 <label class="form-label" [for]="'video'">Youtube URL</label>
                 <input type="url" class="form-control mb-3" id="video" name="video" [(ngModel)]="product.video"
