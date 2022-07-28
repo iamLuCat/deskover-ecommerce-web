@@ -21,6 +21,10 @@ export interface Order {
   modifiedBy: string
   unitPrice: number
   orderQuantity: number
+  label: string
+  fee: number
+  estimated_pick_time: Date
+  estimated_deliver_time:Date
   orderDetail: OrderDetail
   orderItems: OrderItem[]
 }
