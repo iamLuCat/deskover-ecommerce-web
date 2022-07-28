@@ -221,10 +221,11 @@ export class ProductsComponent implements OnInit {
   }
 
   editProduct(id: number) {
+
     this.productService.getById(id).subscribe(data => {
       this.product = data;
       this.category = data.subCategory.category;
-
+      this.getWeightFromHtml(this.product.design);
       if (this.product.productThumbnails.length < 4) {
         this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
       }
@@ -275,11 +276,12 @@ export class ProductsComponent implements OnInit {
   }
 
   getWeightFromHtml(html: string): number {
-    const weight = html.match(/<span class="text-muted">Trọng lượng:&nbsp;<\/span>([0-9.]+)&nbsp;(kg|g)/)
-      || html.match(/<span class="text-muted">Trọng lượng: <\/span>([0-9.]+) (kg|g)/)
-      || html.match(/<span class="text-muted">Trọng lượng: <\/span>([0-9.]+)&nbsp;(kg|g)/)
-      || html.match(/<span class="text-muted">Trọng lượng:&nbsp;<\/span>([0-9.]+) (kg|g)/)
-      || html.match(/<span class="text-muted">Trọng lượng:&nbsp;<\/span>([0-9.]+) (kg|g)/);
+    html = html
+      .replaceAll(/&nbsp;/g, '')
+      .replaceAll(/\s+/g, '')
+
+    const weight = html.match(/<span class="text-muted">Trọng lượng: <\/span>([0-9.]+) (kg|g)/)
+      ?? html.match(/<span class="text-muted">Trọng lượng:<\/span>([0-9.]+)(kg|g)/)
 
     if (weight[2] === 'g') {
       return Number(weight[1]) / 1000;

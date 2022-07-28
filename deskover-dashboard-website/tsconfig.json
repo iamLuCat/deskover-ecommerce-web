@@ -11,7 +11,7 @@
         "moduleResolution": "node",
         "importHelpers": true,
         "target": "es2015",
-        "lib": ["es2018", "dom"],
+        "lib": ["dom", "es2021"],
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "paths": {
