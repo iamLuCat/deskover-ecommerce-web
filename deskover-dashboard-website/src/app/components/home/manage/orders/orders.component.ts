@@ -1,10 +1,9 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Order} from "@/entites/order";
-import {OrderStatus} from "@/entites/order-status";
+import {Order, OrderStatus} from "@/entites/order";
 import {OrderService} from "@services/order.service";
 import {HttpParams} from "@angular/common/http";
 import {DataTableDirective} from "angular-datatables";
-import {BsModalRef, BsModalService, ModalDirective} from "ngx-bootstrap/modal";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {environment} from "../../../../../environments/environment";
 
 @Component({

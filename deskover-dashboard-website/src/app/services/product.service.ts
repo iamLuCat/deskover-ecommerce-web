@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {RestApiService} from "@services/rest-api.service";
-import {DataTablesResponse} from "@/entites/data-tables-response";
+import {DatatablesResponse} from "@/entites/datatables-response";
 import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Product} from "@/entites/product";
@@ -16,7 +16,7 @@ export class ProductService {
   constructor(private restApi: RestApiService) {
   }
 
-  getByActiveForDatatable(tableQuery: any, params: HttpParams): Observable<DataTablesResponse> {
+  getByActiveForDatatable(tableQuery: any, params: HttpParams): Observable<DatatablesResponse> {
     return this.restApi.post(this.url + "/datatables", tableQuery, params);
   }
 

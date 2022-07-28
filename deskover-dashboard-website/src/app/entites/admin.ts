@@ -1,5 +1,3 @@
-import {AdminAuthority} from "@/entites/admin-authority";
-
 export interface Admin {
   id: number
   username: string
@@ -11,3 +9,18 @@ export interface Admin {
   password: string
   authorities: AdminAuthority[]
 }
+
+export interface AdminAuthority {
+  id: number
+  role: AdminRole
+}
+
+export interface AdminRole {
+  id: number
+  name: string
+  description: string
+  modifiedAt: Date
+  modifiedBy: string
+}
+
+

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Product} from "@/entites/product";
+import {Product, ProductThumbnail} from "@/entites/product";
 import {DataTableDirective} from "angular-datatables";
 import {ProductService} from "@services/product.service";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
@@ -12,7 +12,6 @@ import {ModalDirective} from "ngx-bootstrap/modal";
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
-import {ProductThumbnail} from "@/entites/product-thumbnail";
 import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
@@ -243,6 +242,8 @@ export class ProductsComponent implements OnInit {
   }
 
   saveProduct(product: Product) {
+
+
     if (this.isEdit) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
