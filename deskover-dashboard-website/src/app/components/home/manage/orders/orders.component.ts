@@ -60,7 +60,7 @@ export class OrdersComponent implements OnInit {
         {data: 'orderStatus.status'},
         {data: null, orderable: false, searchable: false}
       ],
-      order: [[6, 'asc']]
+      order: [[5, 'asc']],
     }
   }
 
@@ -92,6 +92,9 @@ export class OrdersComponent implements OnInit {
     if(statusCode) {
       return statusCode.includes('C-XN');
     }
+  }
+
+  orderConfirm(order: Order) {
   }
 
   getUrlProductClient(productSlug: any) {

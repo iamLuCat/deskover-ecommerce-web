@@ -76,13 +76,10 @@
               </td>
               <td class="align-middle text-end">
                 <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
-                        container="body" (click)="getOrder(order)" *ngIf="isPendingOrder(order.orderStatus.code)">
+                        container="body"
+                        (click)="getOrder(order)"
+                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode != null">
                   <i class="fa-solid fa-file-circle-check"></i>
-                </button>
-                <button type="button" class="btn btn-sm btn-secondary me-1" placement="top" tooltip="Duyệt đơn"
-                        container="body" (click)="getOrder(order)" disabled
-                        *ngIf="!isPendingOrder(order.orderStatus.code) && orderStatusCode == null">
-                  <i class="fa-solid fa-ban"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
                         container="body" (click)="getOrder(order)">
