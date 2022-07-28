@@ -1,5 +1,12 @@
 package com.deskover.configuration.security.jwt.api;
 
+import com.deskover.configuration.security.jwt.JwtUserDetailsService;
+import com.deskover.configuration.security.jwt.entity.JwtRequest;
+import com.deskover.configuration.security.jwt.entity.JwtResponse;
+import com.deskover.configuration.security.payload.response.MessageResponse;
+import com.deskover.entity.Administrator;
+import com.deskover.service.AdminService;
+import com.deskover.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,20 +16,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.deskover.configuration.security.jwt.JwtUserDetailsService;
-import com.deskover.configuration.security.jwt.entity.JwtRequest;
-import com.deskover.configuration.security.jwt.entity.JwtResponse;
-import com.deskover.configuration.security.payload.response.MessageResponse;
-import com.deskover.entity.Administrator;
-import com.deskover.service.AdminService;
-import com.deskover.util.JwtTokenUtil;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -73,9 +67,4 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> getProfile() {
 		return ResponseEntity.ok(adminService.getPrincipal());
     }
-
-	@GetMapping("/logout")
-	public ResponseEntity<?> logout() {
-		return ResponseEntity.ok(new MessageResponse("Đăng xuất thành công"));
-	}
 }
