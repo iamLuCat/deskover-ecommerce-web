@@ -3,9 +3,8 @@ import {environment} from "../../environments/environment";
 import {RestApiService} from "@services/rest-api.service";
 import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {DataTablesResponse} from "@/entites/data-tables-response";
-import {OrderStatus} from "@/entites/order-status";
-import {Order} from "@/entites/order";
+import {DatatablesResponse} from "@/entites/datatables-response";
+import {Order, OrderStatus} from "@/entites/order";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ export class OrderService {
 
   constructor(private restApi: RestApiService) { }
 
-  getOrdersForDatatables(tableQuery: any, params: HttpParams): Observable<DataTablesResponse> {
+  getOrdersForDatatables(tableQuery: any, params: HttpParams): Observable<DatatablesResponse> {
     return this.restApi.post(this.url + '/datatables', tableQuery, params);
   }
 

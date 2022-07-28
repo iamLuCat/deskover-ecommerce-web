@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RestApiService} from "@services/rest-api.service";
-import {DataTablesResponse} from "@/entites/data-tables-response";
+import {DatatablesResponse} from "@/entites/datatables-response";
 import {environment} from "../../environments/environment";
 import {Category} from "@/entites/category";
 import {Observable} from "rxjs";
@@ -15,7 +15,7 @@ export class CategoryService {
   constructor(private restApi: RestApiService) {
   }
 
-  getByActiveForDatatable(tableQuery: any, isActive: boolean): Observable<DataTablesResponse> {
+  getByActiveForDatatable(tableQuery: any, isActive: boolean): Observable<DatatablesResponse> {
     const params = new HttpParams().set("isActive", isActive.toString());
     return this.restApi.post(this.url + "/datatables", tableQuery, params);
   }

@@ -178,17 +178,17 @@
               </tr>
               </thead>
               <tbody class="table-light">
-              <tr *ngFor="let orderItem of order.orderItems; let i = index">
+              <tr *ngFor="let product of order.products; let i = index">
                 <td class="align-middle">
-                  <a [href]="getUrlProductClient(orderItem.product.slug)" class="link-primary text-decoration-none"
+                  <a [href]="getUrlProductClient(product.product.slug)" class="link-primary text-decoration-none"
                      target="_blank">
-                    {{ orderItem.product.name }}
+                    {{ product.product.name }}
                   </a>
                 </td>
-                <td class="align-middle text-center">{{ orderItem.product.price | number:'1.0-0' }}₫</td>
-                <td class="align-middle text-center">{{ orderItem.quantity }}</td>
+                <td class="align-middle text-center">{{ product.product.price | number:'1.0-0' }}₫</td>
+                <td class="align-middle text-center">{{ product.quantity }}</td>
                 <td class="align-middle text-center">
-                  {{ orderItem.product.price * orderItem.quantity | number:'1.0-0' }}₫
+                  {{ product.product.price * product.quantity | number:'1.0-0' }}₫
                 </td>
               </tr>
               </tbody>

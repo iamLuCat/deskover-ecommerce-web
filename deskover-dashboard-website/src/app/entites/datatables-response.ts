@@ -1,4 +1,4 @@
-export interface DataTablesResponse {
+export interface DatatablesResponse {
   data: any[]
   draw: number
   recordsFiltered: number

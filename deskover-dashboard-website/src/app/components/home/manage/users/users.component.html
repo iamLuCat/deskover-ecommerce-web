@@ -64,7 +64,7 @@
                 {{ user.modifiedBy }}
               </td>
               <td class="align-middle text-center">
-                {{ user.lastLogin | date: 'dd/MM/yyyy' }}
+                {{ user.lastLogin ? (user.lastLogin | date: 'dd/MM/yyyy'): '-' }}
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">

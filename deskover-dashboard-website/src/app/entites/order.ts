@@ -1,9 +1,7 @@
 import {User} from "@/entites/user";
-import {OrderItem} from "@/entites/order-item";
 import {Payment} from "@/entites/payment";
 import {Shipping} from "@/entites/shipping";
-import {OrderStatus} from "@/entites/order-status";
-import {OrderDetail} from "@/entites/order-detail";
+import {Product} from "@/entites/product";
 
 export interface Order {
   id: number
@@ -24,7 +22,31 @@ export interface Order {
   label: string
   fee: number
   estimated_pick_time: Date
-  estimated_deliver_time:Date
+  estimated_deliver_time: Date
   orderDetail: OrderDetail
-  orderItems: OrderItem[]
+  products: OrderItem[]
 }
+
+export interface OrderDetail {
+  id: number
+  address: string
+  province: string
+  district: string
+  ward: string
+  tel: string
+}
+
+export interface OrderItem {
+  id: number;
+  quantity: number;
+  price: number;
+  order: Order;
+  product: Product;
+}
+
+export interface OrderStatus {
+  id: number
+  code: string
+  status: string
+}
+

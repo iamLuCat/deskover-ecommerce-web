@@ -1,7 +1,6 @@
 import {Subcategory} from "@/entites/subcategory";
 import {Brand} from "@/entites/brand";
 import {Discount} from "@/entites/discount";
-import {ProductThumbnail} from "@/entites/product-thumbnail";
 
 export interface Product {
   id: number
@@ -27,3 +26,12 @@ export interface Product {
   discount: Discount
   productThumbnails: ProductThumbnail[]
 }
+
+export interface ProductThumbnail {
+  id: number
+  thumbnail: string
+  thumbnailUrl: string
+  modifiedAt: Date
+  modifiedBy: string
+}
+
