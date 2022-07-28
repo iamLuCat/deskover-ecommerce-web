@@ -16,7 +16,13 @@ public class WardServiceImpl implements WardService{
 	
 	@Override
 	public List<Ward> getByDistrictIdAndProvinceId(long districtId, Long provinceId) {
-		return repo.findByDistrictIdAndProvinceId(provinceId, provinceId);
+		return repo.findByDistrictIdAndProvinceId(districtId, provinceId);
+	}
+
+	@Override
+	public Ward getById(Long id) {
+		// TODO Auto-generated method stub
+		return repo.findById(id).orElse(null);
 	}
 
 }

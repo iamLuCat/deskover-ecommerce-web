@@ -2,6 +2,8 @@ package com.deskover.service.impl;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -90,9 +92,19 @@ public class UserAddressServiceImpl implements UserAddressService {
 	@Transactional
 	public UserAddress doPostAddAddress(UserAddress userAddress) {
 		Users user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		if(userAddressRepository.existsByTel(userAddress.getTel())) {
+			throw new IllegalArgumentException("Số điện thoại đã tồn tại");
+		}
 		userAddress.setUser(user);
 		userAddress.setActived(Boolean.FALSE);
 		userAddress.setChoose(Boolean.FALSE);
+		return userAddressRepository.saveAndFlush(userAddress);
+	}
+
+	@Override
+	public UserAddress doPutAddAddress(@Valid UserAddress userAddress) {
+		Users user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		userAddress.setUser(user);
 		return userAddressRepository.saveAndFlush(userAddress);
 	}
 

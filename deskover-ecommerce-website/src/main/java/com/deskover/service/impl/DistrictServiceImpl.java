@@ -19,6 +19,11 @@ public class DistrictServiceImpl implements DistrictService{
 	public List<District> getByProvinceId(Long provinceId) {
 		return repo.findByProvinceId(provinceId);
 	}
+
+	@Override
+	public District getById(Long id) {
+		return repo.findById(id).orElse(null);
+	}
 	
 
 }

@@ -34,7 +34,7 @@ public class UserAddress implements Serializable {
     
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "province_id", nullable = false)
-    private Province province_id;
+    private Province provinceId;
     
     @NotBlank(message = "Không bỏ trống tên")
     @Column(name = "fullname", length = 128)
@@ -52,9 +52,15 @@ public class UserAddress implements Serializable {
     @Column(name = "district", length = 128)
     private String district;
     
+    @Column(name = "district_id", nullable = false)
+    private Long districtId;
+    
     @NotBlank(message = "Không bỏ trống Phường/Xã")
     @Column(name = "ward", length = 128)
     private String ward;
+    
+    @Column(name = "ward_id", nullable = false)
+    private Long wardId;
 
     @NotBlank(message = "Không bỏ trống số điện thoại")
     @Column(name = "tel", length = 10)

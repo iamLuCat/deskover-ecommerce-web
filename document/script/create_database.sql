@@ -197,29 +197,30 @@ CREATE TABLE user_address
     address  VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    district_id  BIGINT                                                    NOT NULL,
     ward     VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    ward_id  BIGINT                                                    NOT NULL,
     tel      VARCHAR(10)                                                   NOT NULL,
     email    VARCHAR(50)                                                   NOT NULL,
     choose   BIT                                                           NOT NULL DEFAULT 0,
     actived  BIT                                                           NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     UNIQUE KEY UQ_User_address_Tel (tel),
-    UNIQUE KEY UQ_User_address_Email (email),
     CONSTRAINT FK_User_address_Province FOREIGN KEY (province_id) REFERENCES province(id),
     CONSTRAINT FK_User_address_User FOREIGN KEY (user_id) REFERENCES `user` (id)
 );
 
-insert user_address (user_id,province_id, fullname, address, province, district, ward, tel, email, choose, actived)
-values (1,1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
-        'Phường Trung Mỹ Tây', '0123456789', 'huynq2022@gmail.com', 0, 0),
-       (2,1, 'Bùi Đức Minh', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
-        'Phường Trung Mỹ Tây', '0338953980', 'minhbd2021@gmail.com', 1, 1),
-       (2,2, 'Bùi Đức Minh', 'Hoàn Kiếm, Hà Nội', 'Hà Nội', 'Hoàn Kiếm',
-        'Phường Trung Mỹ Tây', '0338953981', 'minhbd2022@gmail.com', 0, 0),
-       (2,1, 'Bùi Đức Minh', 'Đường D4,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
-        'Phường Trung Mỹ Tây', '0338953982', 'minhbd2023@gmail.com', 0, 0),
-       (2,1, 'Bùi Đức Minh', 'Đường D6,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',
-        'Phường Trung Mỹ Tây', '0338953983', 'minhbd2024@gmail.com', 0, 0)
+insert user_address (user_id,province_id, fullname, address, province, district,district_id, ward,ward_id, tel, email, choose, actived)
+values (1,1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',1,
+        'Phường Trung Mỹ Tây',1, '0123456789', 'huynq2022@gmail.com', 0, 0),
+       (2,1, 'Bùi Đức Minh', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',1,
+        'Phường Trung Mỹ Tây',1, '0338953980', 'minhbd2021@gmail.com', 1, 1),
+       (2,2, 'Bùi Đức Minh', 'Hoàn Kiếm, Hà Nội', 'Hà Nội', 'Hoàn Kiếm','1',
+        'Phường Trung Mỹ Tây',1, '0338953981', 'minhbd2022@gmail.com', 0, 0),
+       (2,1, 'Bùi Đức Minh', 'Đường D4,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',1,
+        'Phường Trung Mỹ Tây',1, '0338953982', 'minhbd2023@gmail.com', 0, 0),
+       (2,1, 'Bùi Đức Minh', 'Đường D6,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 'Hồ Chí Minh', 'Quận 12',1,
+        'Phường Trung Mỹ Tây',1, '0338953983', 'minhbd2024@gmail.com', 0, 0)
 ;
 
 CREATE TABLE user_password
