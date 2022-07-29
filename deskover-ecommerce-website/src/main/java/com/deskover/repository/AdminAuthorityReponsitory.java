@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.deskover.entity.AdminAuthority;
-import org.springframework.data.jpa.repository.Query;
 
 public interface AdminAuthorityReponsitory extends JpaRepository<AdminAuthority, Long>{
 	List<AdminAuthority> findByAdminId(Long id);
