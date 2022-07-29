@@ -18,7 +18,7 @@ public class ShippingAppApi {
 	
 	@GetMapping("/shipping")
 	public ResponseEntity<?> doGetAll(){
-		return ResponseEntity.ok(shippingService.doGetAll());
+		return ResponseEntity.ok(shippingService.getAll());
 	}
 	
 	@GetMapping("/shipping /{id}")

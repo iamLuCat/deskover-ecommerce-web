@@ -5,7 +5,7 @@ import java.util.List;
 import com.deskover.entity.ShippingMethods;
 
 public interface ShippingService {
-	List<ShippingMethods> doGetAll();
+	List<ShippingMethods> getAll();
 	ShippingMethods findById(Long id);
 
 }

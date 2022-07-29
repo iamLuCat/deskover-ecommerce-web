@@ -6,6 +6,8 @@ import com.deskover.dto.app.order.resquest.DataOrderResquest;
 import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
 import com.deskover.entity.Order;
 import com.deskover.entity.OrderStatus;
+import com.deskover.entity.PaymentMethods;
+import com.deskover.entity.ShippingMethods;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
@@ -15,7 +17,6 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -48,8 +49,17 @@ public class OrderApi {
 
 	@GetMapping("/orders/statuses")
 	public List<OrderStatus> doGetAllOrderStatus() {
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
 		return orderService.getAllOrderStatus();
+	}
+
+	@GetMapping("/orders/payments")
+	public List<PaymentMethods> doGetAllPayment() {
+		return orderService.getAllPayment();
+	}
+
+	@GetMapping("/orders/shipping-units")
+	public List<ShippingMethods> doGetAllShippingUnit() {
+		return orderService.getAllShippingUnit();
 	}
 
 	@GetMapping("/orders")

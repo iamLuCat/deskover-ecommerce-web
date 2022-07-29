@@ -24,7 +24,7 @@
             <label [for]="'filter-active'" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
-            <select id="filter-category" class="form-select" [(ngModel)]="orderStatusCode" (change)="applyFilter()">
+            <select id="filter-category" class="form-select" [(ngModel)]="orderStatusCode" (change)="refreshOrderTable()">
               <option [ngValue]="null">-- Tất cả --</option>
               <option *ngFor="let orderStatus of orderStatuses"
                       [ngValue]="orderStatus.code">{{orderStatus.status}}</option>
@@ -77,13 +77,19 @@
               <td class="align-middle text-end">
                 <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
                         container="body"
-                        (click)="getOrder(order)"
-                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode != null">
-                  <i class="fa-solid fa-file-circle-check"></i>
+                        (click)="confirmOrder(order)"
+                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode !== null">
+                  <i class="fa-solid fa-circle-check"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-danger me-1" placement="top" tooltip="Huỷ đơn"
+                        container="body"
+                        (click)="cancelOrder(order)"
+                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode !== null">
+                  <i class="fa-solid fa-circle-xmark"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
                         container="body" (click)="getOrder(order)">
-                  <i class="fa-solid fa-file-circle-info"></i>
+                  <i class="fa-solid fa-circle-info"></i>
                 </button>
               </td>
             </tr>
@@ -184,17 +190,17 @@
               </tr>
               </thead>
               <tbody class="table-light">
-              <tr *ngFor="let product of order.products; let i = index">
+              <tr *ngFor="let productItem of order.products; let i = index">
                 <td class="align-middle">
-                  <a [href]="getUrlProductClient(product.product.slug)" class="link-primary text-decoration-none"
-                     target="_blank">
-                    {{ product.product.name }}
+                  <a href="javascript:void(0)" class="link-primary text-decoration-none"
+                     target="_blank" (click)="openProductPage(productItem.product.slug)">
+                    {{ productItem.product.name }}
                   </a>
                 </td>
-                <td class="align-middle text-center">{{ product.product.price | number:'1.0-0' }}₫</td>
-                <td class="align-middle text-center">{{ product.quantity }}</td>
+                <td class="align-middle text-center">{{ productItem.product.price | number:'1.0-0' }}₫</td>
+                <td class="align-middle text-center">{{ productItem.quantity }}</td>
                 <td class="align-middle text-center">
-                  {{ product.product.price * product.quantity | number:'1.0-0' }}₫
+                  {{ productItem.product.price * productItem.quantity | number:'1.0-0' }}₫
                 </td>
               </tr>
               </tbody>
@@ -209,5 +215,13 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-success" (click)="confirmOrder(order)" *ngIf="isPendingOrder(order.orderStatus.code)">
+      Xác nhận đơn
+    </button>
+    <button type="button" class="btn btn-sm btn-danger" (click)="cancelOrder(order)" *ngIf="isPendingOrder(order.orderStatus.code)">
+      Huỷ đơn
+    </button>
   </div>
 </ng-template>

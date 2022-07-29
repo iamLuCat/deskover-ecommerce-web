@@ -8,9 +8,7 @@ import com.deskover.dto.app.total7dayago.Total7DaysAgo;
 import com.deskover.entity.*;
 import com.deskover.repository.*;
 import com.deskover.repository.datatables.OrderRepoForDatatables;
-import com.deskover.service.CartService;
-import com.deskover.service.OrderService;
-import com.deskover.service.UserAddressService;
+import com.deskover.service.*;
 import com.deskover.util.DecimalFormatUtil;
 import com.deskover.util.MapperUtil;
 import com.deskover.util.OrderNumberUtil;
@@ -57,6 +55,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private ShippingService shippingService;
 
     @Autowired
     private CartService cartService;
@@ -413,6 +417,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderStatus> getAllOrderStatus() {
         return orderStatusRepo.findAll();
+    }
+
+    @Override
+    public List<PaymentMethods> getAllPayment() {
+        return paymentService.getAll();
+    }
+
+    @Override
+    public List<ShippingMethods> getAllShippingUnit() {
+        return shippingService.getAll();
     }
 
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderShippingResquest {
+public class OrderShippingRequest {
 	private Boolean success;
 	private String message;
 	private OrderShipping order;

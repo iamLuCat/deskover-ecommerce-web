@@ -6,6 +6,8 @@ export const BASE_URL = 'http://localhost:8080';
 
 export const environment = {
   production: false,
+
+  ghtkToken: '2C925D6789957674DcC9121bf419Df1a2F7b0BC3',
   globalUrl: {
     ckeditor: 'https://cdn.ckeditor.com/4.19.1/full/ckeditor.js',
 
@@ -13,6 +15,8 @@ export const environment = {
 
     getAvatarUser: BASE_URL + '/img/admin/avatar',
     getProductThumbnail: BASE_API + '/img/shop/products',
+
+    ghtkApi: BASE_API + '/ghtk',
 
     login: BASE_API + '/admin/auth/login',
     getPrincipal: BASE_API + '/admin/auth/get-principal',
