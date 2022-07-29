@@ -1,15 +1,8 @@
 package com.deskover.service.impl;
 
-import com.deskover.constant.UrlConstant;
-import com.deskover.dto.ghtk.entity.OrderGhtk;
-import com.deskover.dto.ghtk.entity.ProductsGhtk;
-import com.deskover.dto.ghtk.response.OrderResponseData;
-import com.deskover.dto.ghtk.resquest.OrderShippingRequest;
-import com.deskover.entity.Order;
-import com.deskover.repository.OrderRepository;
-import com.deskover.service.GHTKService;
-import com.deskover.service.OrderStatusService;
-import com.deskover.util.MapperUtil;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +18,7 @@ import com.deskover.dto.ghtk.entity.ProductsGhtk;
 import com.deskover.dto.ghtk.response.AddressResponseData;
 import com.deskover.dto.ghtk.response.FeeResponseData;
 import com.deskover.dto.ghtk.response.OrderResponseData;
-import com.deskover.dto.ghtk.resquest.OrderShippingResquest;
+import com.deskover.dto.ghtk.resquest.OrderShippingRequest;
 import com.deskover.entity.Order;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.GHTKService;

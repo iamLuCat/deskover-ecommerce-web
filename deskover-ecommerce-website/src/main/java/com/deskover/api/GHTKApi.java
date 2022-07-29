@@ -1,7 +1,5 @@
 package com.deskover.api;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -12,7 +10,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,16 +26,11 @@ import org.springframework.web.server.ResponseStatusException;
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.constant.UrlConstant;
 import com.deskover.dto.ghtk.entity.FeeGhtk;
-import com.deskover.dto.ghtk.entity.OrderGhtk;
-import com.deskover.dto.ghtk.entity.ProductsGhtk;
 import com.deskover.dto.ghtk.response.FeeResponseData;
 import com.deskover.dto.ghtk.response.MessageResponseGhtk;
-import com.deskover.dto.ghtk.response.OrderResponseData;
-import com.deskover.dto.ghtk.resquest.OrderShippingResquest;
 import com.deskover.entity.Order;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.GHTKService;
-import com.deskover.util.MapperUtil;
 import com.deskover.util.ValidationUtil;
 
 @RestController
@@ -48,9 +43,6 @@ public class GHTKApi {
 
 	@Autowired
 	private GHTKService ghtkService;
-
-	@Autowired
-	private OrderRepository orderRepository;
 
 	// api tính phí phận chuyển
 	@PostMapping(path = "/fee", consumes = "application/json", produces = "application/json")
@@ -93,7 +85,8 @@ public class GHTKApi {
 	// Không test api này nhé.
 
 	// api đăng đơn hàng
-
+	
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/shipment/order")
 	public ResponseEntity<?> doPost(@Valid @RequestBody Order order, BindingResult result,
 			@RequestHeader(value = "Token") String Token) throws Exception {
@@ -102,7 +95,7 @@ public class GHTKApi {
             return ResponseEntity.badRequest().body(errors);
         }
 	
-		return ResponseEntity.ok(ghtkService.ShipmentOrder(order, Token));
+		return ResponseEntity.ok(ghtkService.shipmentOrder(order, Token));
 
 	}
 

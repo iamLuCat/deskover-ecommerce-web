@@ -3,7 +3,7 @@ package com.deskover.service;
 import com.deskover.dto.ghtk.entity.FeeGhtk;
 import com.deskover.dto.ghtk.response.AddressResponseData;
 import com.deskover.dto.ghtk.response.FeeResponseData;
-import com.deskover.dto.ghtk.resquest.OrderShippingResquest;
+import com.deskover.dto.ghtk.resquest.OrderShippingRequest;
 import com.deskover.entity.Order;
 
 public interface GHTKService {
