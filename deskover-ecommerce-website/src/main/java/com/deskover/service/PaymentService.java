@@ -5,7 +5,7 @@ import java.util.List;
 import com.deskover.entity.PaymentMethods;
 
 public interface PaymentService {
-	List<PaymentMethods> doGetAll();
+	List<PaymentMethods> getAll();
 	PaymentMethods findById(Long id);
 
 }

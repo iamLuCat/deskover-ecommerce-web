@@ -19,8 +19,9 @@ export class RestApiService{
     return this.httpClient.get(link + '/' + id).pipe(catchError(RestApiService.handleError));
   }
 
-  post(link: string, body: any, params: HttpParams = null): Observable<any> {
-    return this.httpClient.post(link, body, {params}).pipe(catchError(RestApiService.handleError));
+  post(link: string, body: any = {}, params: HttpParams = null, options: any = {}): Observable<any> {
+    options.params = params;
+    return this.httpClient.post(link, body, options).pipe(catchError(RestApiService.handleError));
   }
 
   put(link: string, body: any, params: HttpParams = null): Observable<any> {

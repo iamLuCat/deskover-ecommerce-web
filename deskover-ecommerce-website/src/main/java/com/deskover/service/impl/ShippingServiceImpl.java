@@ -15,7 +15,7 @@ public class ShippingServiceImpl implements ShippingService {
 	private ShippingRepository shippingRepository;
 
 	@Override
-	public List<ShippingMethods> doGetAll() {
+	public List<ShippingMethods> getAll() {
 		return shippingRepository.findAll();
 	}
 

@@ -39,6 +39,7 @@ import com.deskover.util.MapperUtil;
 import com.deskover.util.ValidationUtil;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("v1/api/ghtk")
 public class GHTKApi {
 

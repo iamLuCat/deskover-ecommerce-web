@@ -5,6 +5,8 @@ import com.deskover.dto.app.order.resquest.DataOrderResquest;
 import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
 import com.deskover.entity.Order;
 import com.deskover.entity.OrderStatus;
+import com.deskover.entity.PaymentMethods;
+import com.deskover.entity.ShippingMethods;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
@@ -41,4 +43,8 @@ public interface OrderService {
 	Boolean isUniqueOrderNumber(String orderNumber);
 
 	List<OrderStatus> getAllOrderStatus();
+
+	List<PaymentMethods> getAllPayment();
+
+	List<ShippingMethods> getAllShippingUnit();
 }

@@ -18,7 +18,7 @@ public class PaymentAppApi {
 	
 	@GetMapping("/payment")
 	public ResponseEntity<?> doGetAll(){
-		return ResponseEntity.ok(paymentService.doGetAll());
+		return ResponseEntity.ok(paymentService.getAll());
 	}
 	
 	@GetMapping("/payment/{id}")
