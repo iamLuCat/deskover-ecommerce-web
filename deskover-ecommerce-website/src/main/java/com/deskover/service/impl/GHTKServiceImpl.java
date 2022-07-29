@@ -12,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.deskover.constant.UrlConstant;
+import com.deskover.dto.ghtk.entity.FeeGhtk;
 import com.deskover.dto.ghtk.entity.OrderGhtk;
 import com.deskover.dto.ghtk.entity.ProductsGhtk;
+import com.deskover.dto.ghtk.response.AddressResponseData;
+import com.deskover.dto.ghtk.response.FeeResponseData;
 import com.deskover.dto.ghtk.response.OrderResponseData;
 import com.deskover.dto.ghtk.resquest.OrderShippingResquest;
 import com.deskover.entity.Order;
@@ -117,6 +120,26 @@ public class GHTKServiceImpl implements GHTKService {
 		}
 		);
 		
+	}
+
+	@Override
+	public FeeResponseData doGetFee(FeeGhtk fee, String token) throws Exception {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Token", token);
+		HttpEntity<FeeGhtk> request = new HttpEntity<>(fee, headers);
+		FeeResponseData response = restTemplate.postForObject(UrlConstant.GHTK_FEE, request, FeeResponseData.class);
+		return response;	
+	}
+
+	@Override
+	public AddressResponseData doGetAddress(String Token) throws Exception{
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Token", Token);
+		HttpEntity<AddressResponseData> request = new HttpEntity<>(headers);
+		AddressResponseData response = restTemplate.postForObject(UrlConstant.GHTK_LIST_ADDRESS, request, AddressResponseData.class);
+		return response;
 	}
 
 }
