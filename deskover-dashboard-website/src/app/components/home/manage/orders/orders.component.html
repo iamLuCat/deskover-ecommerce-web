@@ -39,6 +39,7 @@
                  class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
+              <th class="align-middle">QR Code</th>
               <th class="align-middle">Mã đơn hàng</th>
               <th class="align-middle">Tên khách hàng</th>
               <th class="align-middle">Địa chỉ</th>
@@ -55,6 +56,9 @@
             </thead>
             <tbody class="table-light" *ngIf="orders?.length !== 0">
             <tr *ngFor="let order of orders; let i = index">
+              <td class="align-middle">
+                <img [src]="order.qrCode ? getQrCode(order.qrCode) : 'assets/images/no-image.png'" class="img-thumbnail img-50">
+              </td>
               <td class="align-middle">
                 {{ order.orderCode }}
               </td>
@@ -78,7 +82,7 @@
                 <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
                         container="body"
                         (click)="confirmOrder(order)"
-                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode !== null">
+                        *ngIf="isPendingOrder(order.orderStatus.code)">
                   <i class="fa-solid fa-circle-check"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-danger me-1" placement="top" tooltip="Huỷ đơn"
@@ -216,12 +220,12 @@
       </div>
     </div>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-sm btn-success" (click)="confirmOrder(order)" *ngIf="isPendingOrder(order.orderStatus.code)">
+  <div class="modal-footer"  *ngIf="isPendingOrder(order.orderStatus.code)">
+    <button type="button" class="btn btn-sm btn-success" (click)="confirmOrder(order)">
       Xác nhận đơn
     </button>
-    <button type="button" class="btn btn-sm btn-danger" (click)="cancelOrder(order)" *ngIf="isPendingOrder(order.orderStatus.code)">
+    <!--<button type="button" class="btn btn-sm btn-danger" (click)="cancelOrder(order)">
       Huỷ đơn
-    </button>
+    </button>-->
   </div>
 </ng-template>

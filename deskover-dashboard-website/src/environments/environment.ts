@@ -13,13 +13,14 @@ export const environment = {
 
     productItem: BASE_URL + '/shop/item',
 
-    getAvatarUser: BASE_URL + '/img/admin/avatar',
-    getProductThumbnail: BASE_API + '/img/shop/products',
-
-    ghtkApi: BASE_API + '/ghtk',
+    avatarUser: BASE_URL + '/img/admin/avatar',
+    productThumbnail: BASE_URL + '/img/shop/products',
+    qrCode : BASE_URL + '/img/qrcode',
 
     login: BASE_API + '/admin/auth/login',
     getPrincipal: BASE_API + '/admin/auth/get-principal',
+
+    ghtkApi: BASE_API + '/ghtk',
     adminApi: BASE_API + '/admin',
     categoryApi: BASE_API + '/admin/categories',
     subcategoryApi: BASE_API + '/admin/subcategories',
