@@ -312,4 +312,14 @@ public class ProductServiceImpl implements ProductService {
 		return products;
 	}
 
+	@Override
+	public Page<Product> doGetProductSale(Optional<Integer> page, Optional<Integer> size) {
+		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
+		Page<Product> products = repo.findByFlashSaleActivedAndDiscountActived(Boolean.TRUE, Boolean.TRUE, pageable);
+		if(products == null) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+		}
+		return products;
+	}
+
 }

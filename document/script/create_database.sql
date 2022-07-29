@@ -428,7 +428,7 @@ CREATE TABLE flash_sale
 );
 
 insert flash_sale (id,`name`,start_date, end_date, actived, modified_by)
-values (1,'Flash Sale Of','2022-11-25 00:00:01', '2022-11-25 23:59:59', 0, 'haipv');
+values (1,'Flash Sale Of','2022-11-25 00:00:01', '2022-11-25 23:59:59', 1, 'haipv');
 
 -- Sản phẩm
 CREATE TABLE product

@@ -65,5 +65,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	Page<Product> findByActivedAndSubCategoryId(Boolean active,Long categoryId, Pageable Page);
 	
+	Page<Product> findByFlashSaleActivedAndDiscountActived(Boolean activeFlashSale, Boolean activeDiscount,Pageable Page);
+	
 	
 }
