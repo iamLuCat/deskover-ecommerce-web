@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -86,7 +87,8 @@ public class Order implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id")
     private OrderStatus orderStatus;
-
+    
+    @Valid
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "order")
     private OrderDetail orderDetail;
 

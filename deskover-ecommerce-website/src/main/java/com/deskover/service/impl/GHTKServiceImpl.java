@@ -39,7 +39,7 @@ public class GHTKServiceImpl implements GHTKService {
 	
 	@Override
 	@Transactional
-	public OrderShippingResquest ShipmentOrder(Order order,String header) {
+	public OrderShippingResquest ShipmentOrder(Order order,String header){
 		
 		List<ProductsGhtk> products = new ArrayList<>();
 		order.getProducts().forEach((product)->{
@@ -75,6 +75,7 @@ public class GHTKServiceImpl implements GHTKService {
 
 		HttpEntity<OrderResponseData> request = new HttpEntity<>(orderResponseData, headers);
 		OrderShippingResquest response = restTemplate.postForObject(UrlConstant.GHTK_ORDER, request, OrderShippingResquest.class);
+		
 		Order orderRepo = orderRepository.getById(order.getId());
 			orderRepo.setLabel(response.getOrder().getLabel());
 			orderRepo.setFee(response.getOrder().getFee());
@@ -82,10 +83,6 @@ public class GHTKServiceImpl implements GHTKService {
 			orderRepo.setEstimated_deliver_time(response.getOrder().getEstimated_deliver_time());
 
 			orderRepository.saveAndFlush(orderRepo);
-		if(!response.getSuccess()) {
-			throw new IllegalArgumentException("Đăng đơn hàng thất bại");
-		}
-		
 		return response;
 	}
 

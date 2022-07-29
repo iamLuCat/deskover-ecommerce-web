@@ -416,6 +416,20 @@ values (1, 'Black Friday', 50, '2022-11-25 00:00:01', '2022-11-25 23:59:59', 0, 
        (4, 'Mừng khai trương', 20, '2022-01-01 00:00:01', '2022-12-30 23:59:59', 1, 'haipv')
 ;
 
+CREATE TABLE flash_sale
+(
+	id              BIGINT                                                     NOT NULL AUTO_INCREMENT,
+   `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
+	start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    actived       BIT                                                          NOT NULL DEFAULT 0,
+    modified_by   VARCHAR(50)                                                  DEFAULT NULL,
+    PRIMARY KEY (id)
+);
+
+insert flash_sale (id,`name`,start_date, end_date, actived, modified_by)
+values (1,'Flash Sale Of','2022-11-25 00:00:01', '2022-11-25 23:59:59', 0, 'haipv');
+
 -- Sản phẩm
 CREATE TABLE product
 (
@@ -438,6 +452,7 @@ CREATE TABLE product
     sub_category_id BIGINT                                                                 DEFAULT NULL,
     brand_id        BIGINT                                                        NOT NULL,
     discount_id     BIGINT                                                                 DEFAULT NULL,
+    
     modified_at     TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_by     VARCHAR(50)                                                            DEFAULT NULL,
     PRIMARY KEY (id),

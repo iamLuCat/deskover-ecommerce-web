@@ -22,7 +22,7 @@ public class OrderResponseData implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-
+	
 	private List<ProductsGhtk> products;
 	private OrderGhtk order;
 	

@@ -2,12 +2,15 @@ package com.deskover.api;
 
 import java.util.Objects;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +28,7 @@ import com.deskover.dto.ghtk.response.FeeResponseData;
 import com.deskover.dto.ghtk.response.MessageResponseGhtk;
 import com.deskover.entity.Order;
 import com.deskover.service.GHTKService;
+import com.deskover.util.ValidationUtil;
 
 @RestController
 @RequestMapping("v1/api/ghtk")
@@ -57,7 +61,7 @@ public class GHTKApi {
 
 	// Doanh sách địa chỉ lấy đơn hàng
 	@GetMapping(path = "/shipment/list_address", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetListAddress(@RequestHeader(value="Token") String Token) throws Exception {
+	public ResponseEntity<?> doGetListAddress( @RequestHeader(value="Token") String Token) throws Exception {
 		
 		return ResponseEntity.ok(ghtkService.doGetAddress(Token));
 	}
@@ -77,13 +81,12 @@ public class GHTKApi {
 	// api đăng đơn hàng
 	
 	@PostMapping("/shipment/order")
-	public ResponseEntity<?> doPost(@RequestBody Order order,@RequestHeader(value="Token") String Token){
-		try {
-			return ResponseEntity.ok(ghtkService.ShipmentOrder(order, Token));
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(),e);
-		}
-
+	public ResponseEntity<?> doPost(@Valid @RequestBody Order order,BindingResult result, @RequestHeader(value="Token") String Token) throws Exception{
+		if (result.hasErrors()) {
+            MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
+		return ResponseEntity.ok(ghtkService.ShipmentOrder(order, Token));
 	}
 
 	
