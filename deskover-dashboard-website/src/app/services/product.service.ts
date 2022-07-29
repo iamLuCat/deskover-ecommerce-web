@@ -5,7 +5,6 @@ import {DatatablesResponse} from "@/entites/datatables-response";
 import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Product} from "@/entites/product";
-import {UploadedImage} from "@/entites/uploaded-image";
 
 @Injectable({
   providedIn: 'root'

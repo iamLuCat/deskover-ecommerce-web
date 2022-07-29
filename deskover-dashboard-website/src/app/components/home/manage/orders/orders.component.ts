@@ -5,6 +5,7 @@ import {HttpParams} from "@angular/common/http";
 import {DataTableDirective} from "angular-datatables";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {environment} from "../../../../../environments/environment";
+import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 @Component({
   selector: 'app-orders',
@@ -60,8 +61,21 @@ export class OrdersComponent implements OnInit {
         {data: 'orderStatus.status'},
         {data: null, orderable: false, searchable: false}
       ],
-      order: [[6, 'asc']]
+      order: [[5, 'asc']],
     }
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      template,{
+        class: 'modal-xl modal-dialog-centered modal-dialog-scrollable',
+        backdrop: 'static',
+      },
+    );
+  }
+
+  closeModal() {
+    this.modalRef.hide();
   }
 
   getOrderStatuses(): void {
@@ -70,7 +84,7 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  applyFilter() {
+  refreshOrderTable() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.draw();
     });
@@ -88,32 +102,44 @@ export class OrdersComponent implements OnInit {
     }
   }
 
+  openProductPage(productSlug: string) {
+    window.open(`${environment.globalUrl.productItem}?p=${productSlug}`, '_blank');
+  }
+
+  getOrder(order: Order) {
+    this.order = order;
+    this.openModal(this.orderDetailModal);
+  }
+
   isPendingOrder(statusCode: string) {
     if(statusCode) {
       return statusCode.includes('C-XN');
     }
   }
 
-  getUrlProductClient(productSlug: any) {
-    return `${environment.globalUrl.productItem}?p=${productSlug}`;
+  confirmOrder(order: Order) {
+    if (order.shipping.shippingId !== 'DKV') {
+      this.orderService.confirmOrder(order).subscribe({
+        next: (data) => {
+          this.orderService.changeOrderStatus(order.orderCode);
+          NotiflixUtils.successNotify(data.message);
+        },
+        error: (err) => {
+          console.log(err);
+          console.log(JSON.parse(err));
+          NotiflixUtils.failureNotify(err.message);
+        }
+      });
+    } else {
+      this.orderService.changeOrderStatus(order.orderCode).subscribe({
+        next: (data) => {
+          NotiflixUtils.successNotify("Đơn hàng đã được xác nhận");
+        }
+      });
+    }
+    this.refreshOrderTable();
   }
 
-  /* Order */
-  getOrder(order: Order) {
-    this.order = order;
-    this.openModal(this.orderDetailModal);
-  }
-
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(
-      template,{
-        class: 'modal-xl modal-dialog-centered modal-dialog-scrollable',
-        backdrop: 'static',
-      },
-    );
-  }
-
-  closeModal() {
-    this.modalRef.hide();
+  cancelOrder(order: Order) {
   }
 }

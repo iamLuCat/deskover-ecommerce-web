@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Objects;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("v1/api/ghtk")
 public class GHTKApi {
 
@@ -87,9 +88,10 @@ public class GHTKApi {
 	@PostMapping("/shipment/order")
 	public ResponseEntity<?> doPost(@RequestBody Order order,@RequestHeader(value="Token") String Token){
 		try {
-			return ResponseEntity.ok(ghtkService.ShipmentOrder(order, Token));
+			return ResponseEntity.ok(ghtkService.shipmentOrder(order, Token));
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(),e);
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
 		}
 
 	}

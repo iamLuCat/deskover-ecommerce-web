@@ -1,5 +1,5 @@
 export interface Shipping {
   id: number
-  shipping_id: string
+  shippingId: string
   name_shipping: string
 }

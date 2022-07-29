@@ -1,8 +1,15 @@
 package com.deskover.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.deskover.constant.UrlConstant;
+import com.deskover.dto.ghtk.entity.OrderGhtk;
+import com.deskover.dto.ghtk.entity.ProductsGhtk;
+import com.deskover.dto.ghtk.response.OrderResponseData;
+import com.deskover.dto.ghtk.resquest.OrderShippingRequest;
+import com.deskover.entity.Order;
+import com.deskover.repository.OrderRepository;
+import com.deskover.service.GHTKService;
+import com.deskover.service.OrderStatusService;
+import com.deskover.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,16 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.deskover.constant.UrlConstant;
-import com.deskover.dto.ghtk.entity.OrderGhtk;
-import com.deskover.dto.ghtk.entity.ProductsGhtk;
-import com.deskover.dto.ghtk.response.OrderResponseData;
-import com.deskover.dto.ghtk.resquest.OrderShippingResquest;
-import com.deskover.entity.Order;
-import com.deskover.repository.OrderRepository;
-import com.deskover.service.GHTKService;
-import com.deskover.service.OrderStatusService;
-import com.deskover.util.MapperUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class GHTKServiceImpl implements GHTKService {
@@ -36,7 +35,7 @@ public class GHTKServiceImpl implements GHTKService {
 	
 	@Override
 	@Transactional
-	public OrderShippingResquest ShipmentOrder(Order order,String header) {
+	public OrderShippingRequest shipmentOrder(Order order, String header) {
 		
 		List<ProductsGhtk> products = new ArrayList<>();
 		order.getProducts().forEach((product)->{
@@ -71,7 +70,7 @@ public class GHTKServiceImpl implements GHTKService {
 			headers.set("Token", header);
 
 		HttpEntity<OrderResponseData> request = new HttpEntity<>(orderResponseData, headers);
-		OrderShippingResquest response = restTemplate.postForObject(UrlConstant.GHTK_ORDER, request, OrderShippingResquest.class);
+		OrderShippingRequest response = restTemplate.postForObject(UrlConstant.GHTK_ORDER, request, OrderShippingRequest.class);
 		Order orderRepo = orderRepository.getById(order.getId());
 			orderRepo.setLabel(response.getOrder().getLabel());
 			orderRepo.setFee(response.getOrder().getFee());
@@ -97,7 +96,7 @@ public class GHTKServiceImpl implements GHTKService {
 						headers.setContentType(MediaType.APPLICATION_JSON);
 						headers.set("Token", header);
 					HttpEntity<?> request = new HttpEntity<>(headers);
-					OrderShippingResquest response = restTemplate.postForObject(UrlConstant.GHTK_FIND_STATUS+order.getLabel(), request, OrderShippingResquest.class);
+					OrderShippingRequest response = restTemplate.postForObject(UrlConstant.GHTK_FIND_STATUS+order.getLabel(), request, OrderShippingRequest.class);
 					if(response.getOrder().getStatus().equals("2")) {
 						order.setOrderStatus(orderStatusService.doGetByStatusCode("C-LH"));
 						orderRepository.saveAndFlush(order);
