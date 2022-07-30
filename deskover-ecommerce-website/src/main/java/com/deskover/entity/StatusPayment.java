@@ -29,8 +29,4 @@ public class StatusPayment implements Serializable {
     @Column(name = "status", nullable = false, length = 50)
     private String status;
 
-
-    @OneToMany(mappedBy = "statusPayment")
-    private Set<Order> orders = new LinkedHashSet<>();
-
 }

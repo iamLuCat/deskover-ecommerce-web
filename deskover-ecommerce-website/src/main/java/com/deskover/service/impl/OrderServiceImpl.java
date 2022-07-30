@@ -438,9 +438,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
 	@Override
-	public void CancelOrder(Order order) {
+	public void cancelOrder(Order orderResponse) {
+		Order order = repo.findById(orderResponse.getId()).orElse(null);
 		List<OrderItem> productsItems = orderItemRepo.findByOrderId(order.getId());
-
 		if(order.getStatusPayment().getCode().equals("C-TT")) {
 			productsItems.forEach((item) -> {
 				Product product = productService.findById(item.getId());
