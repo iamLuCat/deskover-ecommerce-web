@@ -21,5 +21,7 @@ public class AddressResponseData implements Serializable {
 	 */
 	private static final long serialVersionUID = -7550120044273553822L;
 	
+	private Boolean success;
+	private String message;
 	private ArrayList<AddressGhtk> data;
 }

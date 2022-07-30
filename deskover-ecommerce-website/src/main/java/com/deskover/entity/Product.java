@@ -95,6 +95,10 @@ public class Product implements Serializable {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
     
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "flash_sale_id")
+    private FlashSale flashSale;
+    
     @OneToMany(mappedBy = "product")
     private Set<Rating> ratings = new LinkedHashSet<>();
 

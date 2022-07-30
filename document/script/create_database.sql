@@ -416,6 +416,20 @@ values (1, 'Black Friday', 50, '2022-11-25 00:00:01', '2022-11-25 23:59:59', 0, 
        (4, 'Mừng khai trương', 20, '2022-01-01 00:00:01', '2022-12-30 23:59:59', 1, 'haipv')
 ;
 
+CREATE TABLE flash_sale
+(
+	id              BIGINT                                                     NOT NULL AUTO_INCREMENT,
+   `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
+	start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    actived       BIT                                                          NOT NULL DEFAULT 0,
+    modified_by   VARCHAR(50)                                                  DEFAULT NULL,
+    PRIMARY KEY (id)
+);
+
+insert flash_sale (id,`name`,start_date, end_date, actived, modified_by)
+values (1,'Flash Sale Of','2022-11-25 00:00:01', '2022-11-25 23:59:59', 1, 'haipv');
+
 -- Sản phẩm
 CREATE TABLE product
 (
@@ -438,12 +452,14 @@ CREATE TABLE product
     sub_category_id BIGINT                                                                 DEFAULT NULL,
     brand_id        BIGINT                                                        NOT NULL,
     discount_id     BIGINT                                                                 DEFAULT NULL,
+	flash_sale_id     BIGINT                                                                 DEFAULT NULL,
     modified_at     TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_by     VARCHAR(50)                                                            DEFAULT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_Product_SubCategory FOREIGN KEY (sub_category_id) REFERENCES subcategory (id),
     CONSTRAINT FK_Product_Brand FOREIGN KEY (brand_id) REFERENCES brand (id),
-    CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id)
+    CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id),
+    CONSTRAINT FK_Product_Flash_sale FOREIGN KEY (flash_sale_id) REFERENCES flash_sale(id)
 );
 
 insert product (id,weight, `name`, slug, img, img_url, video,`description`,spec,utility,design,other,price, price_sale, sub_category_id, brand_id, discount_id, modified_by)
@@ -482,7 +498,7 @@ values
     3, 1,'Laptop Asus Vivobook OLED A515EA L12033W', 
     'laptop-asus-vivobook-a515ea-l12033w', 
     'laptop-asus-vivobook-a515ea-l12033w.png', 
-    'http://localhost:8080/img/shop/products/laptop-asus-vivobook-a515ea-l12033w.png', 
+    'http://localhost:8080/img/shop/products/laptop-asus-vivobook-a515ea-l12033w.png',
     'https://www.youtube.com/watch?v=ab4TeyIsllE&t', 
     '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 

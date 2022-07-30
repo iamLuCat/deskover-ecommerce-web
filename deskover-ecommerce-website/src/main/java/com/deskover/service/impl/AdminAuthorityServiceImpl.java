@@ -1,7 +1,6 @@
 package com.deskover.service.impl;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.deskover.entity.AdminAuthority;
-import com.deskover.entity.AdminRole;
-import com.deskover.entity.Administrator;
 import com.deskover.repository.AdminAuthorityReponsitory;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminRoleService;

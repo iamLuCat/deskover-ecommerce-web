@@ -33,7 +33,7 @@ public class CartServiceImpl implements CartService {
 		Product product = productService.findById(productId);
 		
 		if(product==null) {
-			throw new IllegalArgumentException("Không tìm thấy user");
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm ");
 		}
 		
 		Cart cart = cartRepository.findByProductIdAndUserUsername(productId, SecurityContextHolder.getContext().getAuthentication().getName());

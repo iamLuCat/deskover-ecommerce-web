@@ -1,12 +1,12 @@
 package com.deskover.dto;
 
-import lombok.*;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Set;
 
-import com.deskover.entity.AdminAuthority;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Setter
 @Getter

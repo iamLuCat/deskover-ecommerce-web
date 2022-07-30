@@ -29,6 +29,17 @@ public class ProductApi {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 		}
 	}
+	
+	@GetMapping("/product-sale")
+	public ResponseEntity<?> doGetProductSale(@RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size) {
+		try {
+			Page<Product> category = productService.doGetProductSale(page, size);
+			return ResponseEntity.ok(category);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+		}
+	}
 
 	@GetMapping("/product-category")
 	public ResponseEntity<?> doGetProductByCategoryId(@RequestParam("categoryId") Long categoryId,

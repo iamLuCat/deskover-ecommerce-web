@@ -1,15 +1,8 @@
 package com.deskover.service.impl;
 
-import com.deskover.constant.UrlConstant;
-import com.deskover.dto.ghtk.entity.OrderGhtk;
-import com.deskover.dto.ghtk.entity.ProductsGhtk;
-import com.deskover.dto.ghtk.response.OrderResponseData;
-import com.deskover.dto.ghtk.resquest.OrderShippingRequest;
-import com.deskover.entity.Order;
-import com.deskover.repository.OrderRepository;
-import com.deskover.service.GHTKService;
-import com.deskover.service.OrderStatusService;
-import com.deskover.util.MapperUtil;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,8 +11,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.deskover.constant.UrlConstant;
+import com.deskover.dto.ghtk.entity.FeeGhtk;
+import com.deskover.dto.ghtk.entity.OrderGhtk;
+import com.deskover.dto.ghtk.entity.ProductsGhtk;
+import com.deskover.dto.ghtk.response.AddressResponseData;
+import com.deskover.dto.ghtk.response.FeeResponseData;
+import com.deskover.dto.ghtk.response.OrderResponseData;
+import com.deskover.dto.ghtk.resquest.OrderShippingRequest;
+import com.deskover.entity.Order;
+import com.deskover.repository.OrderRepository;
+import com.deskover.service.GHTKService;
+import com.deskover.service.OrderStatusService;
+import com.deskover.util.MapperUtil;
 
 @Service
 public class GHTKServiceImpl implements GHTKService {
@@ -78,10 +82,6 @@ public class GHTKServiceImpl implements GHTKService {
 			orderRepo.setEstimated_deliver_time(response.getOrder().getEstimated_deliver_time());
 
 			orderRepository.saveAndFlush(orderRepo);
-		if(!response.getSuccess()) {
-			throw new IllegalArgumentException("Đăng đơn hàng thất bại");
-		}
-		
 		return response;
 	}
 
@@ -116,6 +116,26 @@ public class GHTKServiceImpl implements GHTKService {
 		}
 		);
 		
+	}
+
+	@Override
+	public FeeResponseData doGetFee(FeeGhtk fee, String token) throws Exception {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Token", token);
+		HttpEntity<FeeGhtk> request = new HttpEntity<>(fee, headers);
+		FeeResponseData response = restTemplate.postForObject(UrlConstant.GHTK_FEE, request, FeeResponseData.class);
+		return response;	
+	}
+
+	@Override
+	public AddressResponseData doGetAddress(String Token) throws Exception{
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Token", Token);
+		HttpEntity<AddressResponseData> request = new HttpEntity<>(headers);
+		AddressResponseData response = restTemplate.postForObject(UrlConstant.GHTK_LIST_ADDRESS, request, AddressResponseData.class);
+		return response;
 	}
 
 }

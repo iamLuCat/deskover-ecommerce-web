@@ -57,6 +57,7 @@ public class LoginApi {
 
 	@GetMapping("/get-principal")
 	public ResponseEntity<?> getProfile() {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication());
 		return ResponseEntity.ok(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
 	}
 }

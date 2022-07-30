@@ -59,11 +59,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			List<String> brands,
 			Pageable pageable);
 	//app custumer
-	Page<Product> findByActivedOrderByModifiedAtDesc(Boolean active,Pageable Page);
+	Page<Product> findByActivedAndQuantityGreaterThanOrderByModifiedAtDesc(Boolean active,Long quantity,Pageable Page);
 	
 	Page<Product> findByActivedAndSubCategoryCategoryId(Boolean active,Long categoryId, Pageable Page);
 	
 	Page<Product> findByActivedAndSubCategoryId(Boolean active,Long categoryId, Pageable Page);
+	
+	Page<Product> findByFlashSaleActivedAndDiscountActived(Boolean activeFlashSale, Boolean activeDiscount,Pageable Page);
 	
 	
 }

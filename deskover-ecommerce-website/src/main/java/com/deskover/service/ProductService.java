@@ -52,4 +52,6 @@ public interface ProductService {
 
 	Page<Product> getProductBySubId(Boolean active, Long subId, Optional<Integer> page, Optional<Integer> size);
 
+	Page<Product> doGetProductSale(Optional<Integer> page, Optional<Integer> size);
+
 }
