@@ -47,4 +47,8 @@ public interface OrderService {
 	List<PaymentMethods> getAllPayment();
 
 	List<ShippingMethods> getAllShippingUnit();
+	
+	void cancelOrder(Order orderResponse);
+	
+	void refundMoney(Order order);
 }
