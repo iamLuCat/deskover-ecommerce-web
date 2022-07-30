@@ -93,4 +93,8 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> products = new LinkedHashSet<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_payment_id")
+    private StatusPayment statusPayment;
+
 }
