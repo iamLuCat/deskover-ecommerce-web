@@ -284,7 +284,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Page<Product> getProductByCreateAtDesc(Boolean active, Optional<Integer> page, Optional<Integer> size) {
 		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
-		Page<Product> products = repo.findByActivedOrderByModifiedAtDesc(active,pageable);
+		Page<Product> products = repo.findByActivedAndQuantityGreaterThanOrderByModifiedAtDesc(active,(long) 0,pageable);
 		if(products == null) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 		}

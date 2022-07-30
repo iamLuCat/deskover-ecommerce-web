@@ -52,7 +52,7 @@ public class JwtAuthenticationController {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 			
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 
 		Administrator adminProfile = adminService.getPrincipal(userDetails.getUsername());
 		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthorities()));
@@ -65,6 +65,7 @@ public class JwtAuthenticationController {
 	
 	@GetMapping("/get-principal")
     public ResponseEntity<?> getProfile() {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication());
 		return ResponseEntity.ok(adminService.getPrincipal());
     }
 }
