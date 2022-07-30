@@ -1,5 +1,27 @@
 package com.deskover.api.admin;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.deskover.configuration.security.payload.response.MessageResponse;
 import com.deskover.dto.app.order.OrderDto;
 import com.deskover.dto.app.order.resquest.DataOrderResquest;
@@ -11,18 +33,6 @@ import com.deskover.entity.ShippingMethods;
 import com.deskover.repository.OrderRepository;
 import com.deskover.service.OrderService;
 import com.deskover.util.DecimalFormatUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 
 @RestController("OrderApiForAdmin")
 @CrossOrigin("*")
@@ -33,6 +43,7 @@ public class OrderApi {
 	private OrderService orderService;
 	
 	@Autowired OrderRepository orderRepository;
+	
 	
 	/*
 	 * 1 Chờ xác nhận
@@ -182,5 +193,23 @@ public class OrderApi {
 		}
 	}
 	
-
+	@PutMapping("/orders/cancel")
+	public ResponseEntity<?> cancelOrder(@RequestBody Order order){
+		try {
+			orderService.cancelOrder(order);
+			return ResponseEntity.ok(new MessageResponse("Hủy đơn hàng thành công"));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+		}
+	}
+	
+	@PutMapping("/orders/refund")
+	public ResponseEntity<?> refundMoney(@RequestBody Order order){
+		try {
+			orderService.refundMoney(order);
+			return ResponseEntity.ok(new MessageResponse("Hoàn tiền thành công"));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+		}
+	}
 }
