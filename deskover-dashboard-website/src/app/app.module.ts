@@ -53,6 +53,7 @@ import {viLocale} from 'ngx-bootstrap/locale';
 import {TabsModule} from "ngx-bootstrap/tabs";
 import {UsersComponent} from "@components/home/manage/users/users.component";
 import { OrdersComponent } from '@components/home/manage/orders/orders.component';
+import {LoadingInterceptor} from "@/interceptors/loading-interceptor";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -108,6 +109,7 @@ defineLocale('vi', viLocale);
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     BsModalService
   ],
   bootstrap: [AppComponent]

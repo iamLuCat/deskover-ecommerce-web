@@ -1,7 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {NavigationCancel, NavigationEnd,
-  NavigationError, NavigationStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RouterOutlet} from "@angular/router";
-import {Block, Loading} from "notiflix";
+import {Router, RouterOutlet} from "@angular/router";
 
 @Component({
     selector: 'app-root',
@@ -16,13 +14,13 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        Block.circle('body');
-      } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
-        Block.remove('body');
-      }
-    });
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationStart) {
+    //     Block.circle('body');
+    //   } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+    //     Block.remove('body');
+    //   }
+    // });
 
     // this.router.events.subscribe(
     //   event => {

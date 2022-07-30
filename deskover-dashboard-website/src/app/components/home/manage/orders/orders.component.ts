@@ -6,6 +6,7 @@ import {DataTableDirective} from "angular-datatables";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {environment} from "../../../../../environments/environment";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
+import {Loading} from "notiflix";
 
 @Component({
   selector: 'app-orders',
@@ -53,6 +54,7 @@ export class OrdersComponent implements OnInit {
         });
       },
       columns: [
+        {data: 'qrCode'},
         {data: 'orderCode'},
         {data: 'fullName'},
         {data: 'orderDetail.address'},
@@ -61,13 +63,13 @@ export class OrdersComponent implements OnInit {
         {data: 'orderStatus.status'},
         {data: null, orderable: false, searchable: false}
       ],
-      order: [[5, 'asc']],
+      order: [[6, 'asc']],
     }
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(
-      template,{
+      template, {
         class: 'modal-xl modal-dialog-centered modal-dialog-scrollable',
         backdrop: 'static',
       },
@@ -96,7 +98,10 @@ export class OrdersComponent implements OnInit {
     } else if (statusCode.includes('-TB')) {
       return 'bg-opacity-50 text-dark bg-danger';
     } else if (statusCode.includes('C-')) {
-      return 'bg-opacity-50 text-dark bg-warning';
+      if (statusCode.includes('C-XN')) {
+        return 'bg-opacity-50 text-dark bg-warning';
+      }
+      return 'bg-opacity-50 text-dark bg-secondary';
     } else {
       return 'bg-opacity-50 text-dark bg-info';
     }
@@ -111,35 +116,44 @@ export class OrdersComponent implements OnInit {
     this.openModal(this.orderDetailModal);
   }
 
+  getQrCode(qrCode) {
+    return `${environment.globalUrl.qrCode}/${qrCode}`;
+  }
+
   isPendingOrder(statusCode: string) {
-    if(statusCode) {
+    if (statusCode) {
       return statusCode.includes('C-XN');
     }
+  }
+
+  changeOrderStatus(order: Order, message: string) {
+    this.orderService.changeOrderStatus(order.orderCode).subscribe({
+      next: (order) => {
+        NotiflixUtils.successNotify(message);
+        this.order = order;
+        this.refreshOrderTable();
+        this.closeModal();
+      }
+    });
   }
 
   confirmOrder(order: Order) {
     if (order.shipping.shippingId !== 'DKV') {
       this.orderService.confirmOrder(order).subscribe({
         next: (data) => {
-          this.orderService.changeOrderStatus(order.orderCode);
-          NotiflixUtils.successNotify(data.message);
-        },
-        error: (err) => {
-          console.log(err);
-          console.log(JSON.parse(err));
-          NotiflixUtils.failureNotify(err.message);
+          this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: " + order.shipping.name_shipping);
         }
       });
     } else {
-      this.orderService.changeOrderStatus(order.orderCode).subscribe({
-        next: (data) => {
-          NotiflixUtils.successNotify("Đơn hàng đã được xác nhận");
-        }
-      });
+      this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: " + order.shipping.name_shipping);
     }
-    this.refreshOrderTable();
   }
 
   cancelOrder(order: Order) {
+    this.orderService.cancelOrder(order.label).subscribe({
+      next: (data) => {
+        this.changeOrderStatus(order, "Huỷ đơn hàng thành công");
+      }
+    });
   }
 }
