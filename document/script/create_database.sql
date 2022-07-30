@@ -973,9 +973,9 @@ CREATE TABLE status_payment(
 
 INSERT status_payment(`id`, `code`, `status`)
     VALUE (1, 'C-TT', 'Chưa thanh toán'),
-    (2, 'D-TT', 'Chờ lấy hàng'),
-    (3, 'C-HT', 'Lấy hàng thành công'),
-    (4, 'D-HT', 'Lấy hàng không thành công');
+    (2, 'D-TT', 'Đã thanh toán'),
+    (3, 'C-HT', 'Chưa hoàn tiền'),
+    (4, 'D-HT', 'Đã hoàn tiền');
     
 -- Trạng thái đơn hàng
 CREATE TABLE status_order

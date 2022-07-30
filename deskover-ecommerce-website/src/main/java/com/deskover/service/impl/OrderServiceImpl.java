@@ -13,6 +13,8 @@ import com.deskover.util.DecimalFormatUtil;
 import com.deskover.util.MapperUtil;
 import com.deskover.util.OrderNumberUtil;
 import com.deskover.util.QrCodeUtil;
+
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -74,6 +76,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired 
+    private ProductService productService;
+    
+    @Autowired 
+    private StatusPaymentService statusPaymentService;
+    
     @Override
     public List<Order> getAll() {
         return repo.findAll();
@@ -428,5 +436,50 @@ public class OrderServiceImpl implements OrderService {
     public List<ShippingMethods> getAllShippingUnit() {
         return shippingService.getAll();
     }
+
+	@Override
+	public void CancelOrder(Order order) {
+		List<OrderItem> productsItems = orderItemRepo.findByOrderId(order.getId());
+
+		if(order.getStatusPayment().getCode().equals("C-TT")) {
+			productsItems.forEach((item) -> {
+				Product product = productService.findById(item.getId());
+				if(product == null) {
+					throw new IllegalArgumentException("sản phẩm này không tồn tại");
+				}
+				product.setQuantity(product.getQuantity() + item.getQuantity());
+				productRepo.saveAndFlush(product);
+				
+				OrderStatus status = orderStatusRepo.findByCode("HUY");
+				order.setOrderStatus(status);
+				repo.saveAndFlush(order);
+				
+			});
+		}else if(order.getStatusPayment().getCode().equals("D-TT")){
+			productsItems.forEach((item) -> {
+				Product product = productService.findById(item.getId());
+				if(product == null) {
+					throw new IllegalArgumentException("sản phẩm này không tồn tại");
+				}
+				product.setQuantity(product.getQuantity() + item.getQuantity());
+				productRepo.saveAndFlush(product);
+				
+				OrderStatus status = orderStatusRepo.findByCode("HUY");
+				order.setOrderStatus(status);
+				StatusPayment statusPayment = statusPaymentService.findByCode("C-HT");
+				order.setStatusPayment(statusPayment);
+				repo.saveAndFlush(order);
+			});
+		}
+	}
+
+	@Override
+	public void refundMoney(Order order) {
+		if(order.getStatusPayment().getCode().equals("C-HT")) {
+			StatusPayment statusPayment = statusPaymentService.findByCode("D-HT");
+			order.setStatusPayment(statusPayment);
+			repo.saveAndFlush(order);
+		}
+	}
 
 }
