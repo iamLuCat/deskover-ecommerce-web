@@ -221,7 +221,6 @@ export class ProductsComponent implements OnInit {
   }
 
   editProduct(id: number) {
-
     this.productService.getById(id).subscribe(data => {
       this.product = data;
       this.category = data.subCategory.category;
