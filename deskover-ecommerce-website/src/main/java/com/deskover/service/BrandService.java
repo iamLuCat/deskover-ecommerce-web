@@ -1,11 +1,11 @@
 package com.deskover.service;
 
-import com.deskover.entity.Brand;
-import com.deskover.entity.Category;
+import java.util.List;
+
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import java.util.List;
+import com.deskover.model.entity.database.Brand;
 
 public interface BrandService {
 	List<Brand> getAll();
@@ -13,7 +13,7 @@ public interface BrandService {
 	Brand getById(Long id);
 	Brand getBySlug(String slug);
 	Boolean existsBySlug(String slug);
-	Boolean existsBySlug(Brand brand);
+	Boolean existsByOtherSlug(Brand brand);
 	Brand create(Brand brand);
 	Brand update(Brand brand);
 	void delete(Long id);

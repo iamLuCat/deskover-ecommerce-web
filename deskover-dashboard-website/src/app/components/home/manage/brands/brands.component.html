@@ -44,6 +44,7 @@
           <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
+              <th class="align-middle">Ảnh</th>
               <th class="align-middle">Tên</th>
               <th class="align-middle">Slug</th>
               <th class="align-middle">Mô tả</th>
@@ -52,18 +53,21 @@
             </tr>
             </thead>
             <tbody class="table-light" *ngIf="brands?.length !== 0">
-            <tr *ngFor="let product of brands; let i = index">
+            <tr *ngFor="let brand of brands; let i = index">
               <td class="align-middle">
-                {{ product.name }}
+                <img src="{{ brand.imgUrl || 'assets/images/no-image.png' }}" class="img-50">
               </td>
               <td class="align-middle">
-                {{ product.slug }}
+                {{ brand.name }}
               </td>
               <td class="align-middle">
-                {{ product.description }}
+                {{ brand.slug }}
+              </td>
+              <td class="align-middle">
+                {{ brand.description }}
               </td>
               <td class="align-middle text-center">
-                {{ product.modifiedAt | date: 'dd/MM/yyyy' }}
+                {{ brand.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>
               <!--<td class="align-middle text-center">
                 {{ item.modifiedBy }}
@@ -71,16 +75,16 @@
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                          (click)="getBrand(product.id)">
+                          (click)="getBrand(brand.id)">
                     <i class="fas fa-pen-square"></i>
                   </button>
-                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteBrand(product)"
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteBrand(brand)"
                           placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm bg-success" (click)="activeBrand(product.id)">
+                  <button type="button" class="btn btn-sm bg-success" (click)="activeBrand(brand.id)">
                     Kích hoạt
                   </button>
                 </div>
@@ -115,43 +119,37 @@
       <div class="modal-body">
         <form #brandForm="ngForm">
           <div class="row">
-            <div class="col-6 mb-3">
-              <label class="form-label" [for]="'name'">Tên</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                name="name"
-                [(ngModel)]="brand.name"
-                (keyup)="brand.slug = toSlug(brand.name)"
-                #name="ngModel"
-                required
-              />
-              <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-                <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
+            <div class="col-12 col-md-5">
+              <div class="d-flex justify-content-center align-items-center file-drop-area border rounded-4 mb-3">
+                <img src="{{brand?.imgUrl ?? 'assets/images/no-image.png'}}" class="img-fluid w-100">
+                <input type="file" name="image" class="file-drop-input" accept="image/*"
+                       (change)="selectedImageChanged($event)">
               </div>
             </div>
-            <div class="col-6 mb-3">
-              <label class="form-label" [for]="'slug'">Slug</label>
-              <input
-                type="text"
-                class="form-control"
-                id="slug"
-                name="slug"
-                [(ngModel)]="brand.slug"
-                #slug="ngModel"
-                required
-              />
-              <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
-                <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
+            <div class="col-12 col-md-7">
+              <div class="mb-3">
+                <label class="form-label" [for]="'name'">Tên</label>
+                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="brand.name"
+                       (keyup)="brand.slug = toSlug(brand.name)" #name="ngModel" required/>
+                <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+                  <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" [for]="'slug'">Slug</label>
+                <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="brand.slug"
+                       #slug="ngModel"
+                       required/>
+                <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
+                  <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
+                </div>
               </div>
             </div>
-            <div class="col-12 mb-3">
-              <label [for]="'description'" class="form-label">Mô tả</label>
-              <textarea class="form-control" id="description" rows="4" name="description"
-                        [(ngModel)]="brand.description" #description="ngModel"></textarea>
-
-            </div>
+          </div>
+          <div class="mb-3">
+            <label [for]="'description'" class="form-label">Mô tả</label>
+            <textarea class="form-control" id="description" rows="4" name="description"
+                      [(ngModel)]="brand.description" #description="ngModel"></textarea>
           </div>
         </form>
       </div>

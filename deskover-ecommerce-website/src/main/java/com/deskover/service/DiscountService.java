@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import com.deskover.entity.Discount;
+import com.deskover.model.entity.database.Discount;
 
 public interface DiscountService {
 	

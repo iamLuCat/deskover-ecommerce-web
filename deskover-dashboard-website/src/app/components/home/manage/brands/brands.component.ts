@@ -6,6 +6,7 @@ import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
+import {UploadService} from "@services/upload.service";
 
 @Component({
   selector: 'app-brand',
@@ -26,7 +27,7 @@ export class BrandsComponent implements OnInit {
   @ViewChild('brandForm') brandForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
-  constructor(private brandService: BrandService) {
+  constructor(private brandService: BrandService, private uploadServive: UploadService) {
   }
 
   ngOnInit() {
@@ -52,6 +53,7 @@ export class BrandsComponent implements OnInit {
         });
       },
       columns: [
+        {data: 'imgUrl', orderable: false, searchable: false},
         {data: 'name'},
         {data: 'slug'},
         {data: 'description'},
@@ -134,4 +136,15 @@ export class BrandsComponent implements OnInit {
     this.brandModal.hide();
   }
 
+  selectedImageChanged($event: Event) {
+    const file = $event.target['files'][0];
+    this.uploadServive.uploadImage(file).subscribe(data => {
+      this.brand.imgUrl = data.url;
+      this.brand.img = data.filename;
+    });
+  }
+
+  checkImgUrl(imgUrl: string) {
+
+  }
 }

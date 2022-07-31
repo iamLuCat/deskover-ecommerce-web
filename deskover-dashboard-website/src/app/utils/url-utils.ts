@@ -38,4 +38,12 @@ export class UrlUtils {
       return null;
     }
   }
+
+  // check url is existed using javascript
+  public static isUrlExist(url: string) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status != 404;
+  }
 }

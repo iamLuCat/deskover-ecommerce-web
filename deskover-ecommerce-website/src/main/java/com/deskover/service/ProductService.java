@@ -1,9 +1,10 @@
 package com.deskover.service;
 
-import com.deskover.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+
+import com.deskover.model.entity.database.Product;
 
 import javax.validation.Valid;
 import java.util.List;

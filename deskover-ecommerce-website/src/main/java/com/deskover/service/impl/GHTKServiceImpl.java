@@ -11,19 +11,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.deskover.constant.UrlConstant;
-import com.deskover.dto.ghtk.entity.FeeGhtk;
-import com.deskover.dto.ghtk.entity.OrderGhtk;
-import com.deskover.dto.ghtk.entity.ProductsGhtk;
-import com.deskover.dto.ghtk.response.AddressResponseData;
-import com.deskover.dto.ghtk.response.FeeResponseData;
-import com.deskover.dto.ghtk.response.OrderResponseData;
-import com.deskover.dto.ghtk.resquest.OrderShippingRequest;
-import com.deskover.entity.Order;
-import com.deskover.repository.OrderRepository;
+import com.deskover.model.entity.database.Order;
+import com.deskover.model.entity.database.repository.OrderRepository;
+import com.deskover.model.entity.extend.ghtk.FeeGhtk;
+import com.deskover.model.entity.extend.ghtk.OrderGhtk;
+import com.deskover.model.entity.extend.ghtk.ProductsGhtk;
+import com.deskover.model.entity.extend.ghtk.response.AddressResponseData;
+import com.deskover.model.entity.extend.ghtk.response.FeeResponseData;
+import com.deskover.model.entity.extend.ghtk.response.OrderResponseData;
+import com.deskover.model.entity.extend.ghtk.resquest.OrderShippingRequest;
+import com.deskover.other.constant.UrlConstant;
+import com.deskover.other.util.MapperUtil;
 import com.deskover.service.GHTKService;
 import com.deskover.service.OrderStatusService;
-import com.deskover.util.MapperUtil;
 
 @Service
 public class GHTKServiceImpl implements GHTKService {

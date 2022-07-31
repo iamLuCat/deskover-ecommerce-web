@@ -1,19 +1,24 @@
- package com.deskover.service.impl;
+package com.deskover.service.impl;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.deskover.entity.Brand;
-import com.deskover.repository.BrandRepository;
-import com.deskover.repository.datatables.BrandRepoForDatatables;
+import com.deskover.model.entity.database.Brand;
+import com.deskover.model.entity.database.repository.BrandRepository;
+import com.deskover.model.entity.database.repository.datatable.BrandRepoForDatatables;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
+import com.deskover.other.util.UrlUtil;
 import com.deskover.service.BrandService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
@@ -57,14 +62,19 @@ public class BrandServiceImpl implements BrandService {
         return repo.existsBySlug(slug);
     }
 
-    @Override
     public Boolean existsBySlug(Brand brand) {
+        return existsBySlug(brand.getSlug())
+                || productService.existsBySlug(brand.getSlug())
+                || subcategoryService.existsBySlug(brand.getSlug());
+    }
+
+    @Override
+    public Boolean existsByOtherSlug(Brand brand) {
         Brand brandExists = repo.findBySlug(brand.getSlug());
         return (brandExists != null && !brandExists.getId().equals(brand.getId()))
                 || productService.existsBySlug(brand.getSlug())
                 || subcategoryService.existsBySlug(brand.getSlug());
     }
-
 
     @Override
     @Transactional
@@ -78,19 +88,28 @@ public class BrandServiceImpl implements BrandService {
             }
         }
         brand.setActived(Boolean.TRUE);
-        brand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        brand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        return repo.save(brand);
+        return update(brand);
     }
 
     @Override
     @Transactional
     public Brand update(Brand brand) {
-        if(this.existsBySlug(brand)) {
+        if (this.existsByOtherSlug(brand)) {
             throw new IllegalArgumentException("Slug đã tồn tại");
         }
+
         brand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         brand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        String sourcePath = PathConstant.TEMP_STATIC + brand.getImg();
+        if (FileUtils.getFile(sourcePath).exists()) {
+            String destPath = PathConstant.BRAND_IMAGE_STATIC + brand.getSlug();
+            File imageFile = FileUtil.copyFile(sourcePath, destPath);
+            brand.setImg(imageFile.getName());
+            brand.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.BRAND_IMAGE));
+        }
+        FileUtil.removeFolder(PathConstant.TEMP_STATIC);
+
         return repo.save(brand);
     }
 
@@ -98,7 +117,7 @@ public class BrandServiceImpl implements BrandService {
     @Transactional
     public void delete(Long id) {
         Brand deleteBrand = repo.findById(id).orElse(null);
-        if(deleteBrand == null){
+        if (deleteBrand == null) {
             throw new IllegalArgumentException("Brand này không tồn tại");
         }
         deleteBrand.setModifiedAt(new Timestamp((System.currentTimeMillis())));
@@ -110,15 +129,15 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public void changeActived(Long id) {
         Brand currentBrand = repo.findById(id).orElse(null);
-        if(currentBrand == null){
+        if (currentBrand == null) {
             throw new IllegalArgumentException("Brand này không tồn tại");
         }
-        if(currentBrand.getActived()){
+        if (currentBrand.getActived()) {
             currentBrand.setActived(Boolean.FALSE);
             currentBrand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             currentBrand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             repo.save(currentBrand);
-        }else{
+        } else {
             currentBrand.setActived(Boolean.TRUE);
             currentBrand.setModifiedAt(new Timestamp(System.currentTimeMillis()));
             currentBrand.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -136,9 +155,9 @@ public class BrandServiceImpl implements BrandService {
         return brands;
     }
 
-	@Override
-	public List<Brand> getByActived(Boolean isActive) {
-		return repo.findByActived(isActive);
-	}
+    @Override
+    public List<Brand> getByActived(Boolean isActive) {
+        return repo.findByActived(isActive);
+    }
 
 }

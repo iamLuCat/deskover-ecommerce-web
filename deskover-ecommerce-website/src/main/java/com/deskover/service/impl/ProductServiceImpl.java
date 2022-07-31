@@ -20,17 +20,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.constant.PathConstant;
-import com.deskover.entity.Product;
-import com.deskover.entity.ProductThumbnail;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.ProductThumbnailRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.ProductThumbnail;
+import com.deskover.model.entity.database.repository.ProductRepository;
+import com.deskover.model.entity.database.repository.ProductThumbnailRepository;
+import com.deskover.model.entity.database.repository.datatable.ProductRepoForDatatables;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
+import com.deskover.other.util.UrlUtil;
+import com.deskover.service.BrandService;
 import com.deskover.service.CategoryService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
-import com.deskover.util.FileUtil;
-import com.deskover.util.UrlUtil;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -154,22 +155,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean existsBySlug(String slug) {
-        Product product = repo.findBySlug(slug);
-        return product != null;
-    }
-
-    @Override
     public Product findBySlug(String slug) {
         return repo.findBySlug(slug);
     }
 
     @Override
-    public Boolean existsByOtherSlug(Product product) {
-        Product productExits = repo.findBySlug(product.getSlug());
-        return (productExits != null && !productExits.getId().equals(product.getId()))
-                || subcategoryService.existsBySlug(product.getSlug())
-                || categoryService.existsBySlug(product.getSlug());
+    public Boolean existsBySlug(String slug) {
+        Product product = repo.findBySlug(slug);
+        return product != null;
     }
 
     @Override
@@ -179,6 +172,13 @@ public class ProductServiceImpl implements ProductService {
                 || categoryService.existsBySlug(product.getSlug());
     }
 
+    @Override
+    public Boolean existsByOtherSlug(Product product) {
+        Product productExits = repo.findBySlug(product.getSlug());
+        return (productExits != null && !productExits.getId().equals(product.getId()))
+                || subcategoryService.existsBySlug(product.getSlug())
+                || categoryService.existsBySlug(product.getSlug());
+    }
 
 
     @Override

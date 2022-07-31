@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.entity.OrderStatus;
-import com.deskover.repository.OrderStatusRepository;
+import com.deskover.model.entity.database.OrderStatus;
+import com.deskover.model.entity.database.repository.OrderStatusRepository;
 import com.deskover.service.OrderStatusService;
 
 @Service
