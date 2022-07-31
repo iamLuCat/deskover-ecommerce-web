@@ -1,14 +1,14 @@
 package com.deskover.service.impl;
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.criteria.Predicate;
-import javax.validation.Valid;
-
+import com.deskover.constant.PathConstant;
+import com.deskover.entity.Product;
+import com.deskover.entity.ProductThumbnail;
+import com.deskover.repository.ProductRepository;
+import com.deskover.repository.ProductThumbnailRepository;
+import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.*;
+import com.deskover.util.FileUtil;
+import com.deskover.util.UrlUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,19 +20,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.constant.PathConstant;
-import com.deskover.entity.Product;
-import com.deskover.entity.ProductThumbnail;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.ProductThumbnailRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.BrandService;
-import com.deskover.service.CategoryService;
-import com.deskover.service.DiscountService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
-import com.deskover.util.FileUtil;
-import com.deskover.util.UrlUtil;
+import javax.persistence.criteria.Predicate;
+import javax.validation.Valid;
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -162,22 +156,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean existsBySlug(String slug) {
-        Product product = repo.findBySlug(slug);
-        return product != null;
-    }
-
-    @Override
     public Product findBySlug(String slug) {
         return repo.findBySlug(slug);
     }
 
     @Override
-    public Boolean existsByOtherSlug(Product product) {
-        Product productExits = repo.findBySlug(product.getSlug());
-        return (productExits != null && !productExits.getId().equals(product.getId()))
-                || subcategoryService.existsBySlug(product.getSlug())
-                || categoryService.existsBySlug(product.getSlug());
+    public Boolean existsBySlug(String slug) {
+        Product product = repo.findBySlug(slug);
+        return product != null;
     }
 
     @Override
@@ -187,6 +173,13 @@ public class ProductServiceImpl implements ProductService {
                 || categoryService.existsBySlug(product.getSlug());
     }
 
+    @Override
+    public Boolean existsByOtherSlug(Product product) {
+        Product productExits = repo.findBySlug(product.getSlug());
+        return (productExits != null && !productExits.getId().equals(product.getId()))
+                || subcategoryService.existsBySlug(product.getSlug())
+                || categoryService.existsBySlug(product.getSlug());
+    }
 
 
     @Override
