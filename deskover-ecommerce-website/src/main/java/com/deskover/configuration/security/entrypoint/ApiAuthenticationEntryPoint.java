@@ -18,9 +18,9 @@ import java.util.Map;
 
 
 @Component
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
+public class ApiAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 
-	private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationEntryPoint.class);
+	private static final Logger logger = LoggerFactory.getLogger(ApiAuthenticationEntryPoint.class);
 	private static final long serialVersionUID = 5432270772937069483L;
 
 	@Override

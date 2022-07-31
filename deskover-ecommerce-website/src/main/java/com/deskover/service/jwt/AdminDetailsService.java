@@ -16,7 +16,7 @@ import com.deskover.service.AdminService;
 
 @Service
 @Configurable
-public class JwtUserDetailsService implements UserDetailsService {
+public class AdminDetailsService implements UserDetailsService {
     @Autowired
     private AdminService adminService;
     
@@ -31,7 +31,8 @@ public class JwtUserDetailsService implements UserDetailsService {
                     true,
                     true,
                     true,
-                    admin.getAuthorities().stream().map(authority -> new SimpleGrantedAuthority(authority.getRole().getRoleId()))
+                    admin.getAuthorities().stream()
+                    		.map(authority -> new SimpleGrantedAuthority(authority.getRole().getRoleId()))
                             .collect(Collectors.toList())
             );
         } catch (Exception e) {

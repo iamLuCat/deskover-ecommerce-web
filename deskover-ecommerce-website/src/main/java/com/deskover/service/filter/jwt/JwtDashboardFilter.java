@@ -16,15 +16,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.deskover.other.util.JwtTokenUtil;
-import com.deskover.service.jwt.JwtUserDetailsService;
+import com.deskover.service.jwt.AdminDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Service
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class JwtDashboardFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private JwtUserDetailsService jwtUserDetailsService;
+	private AdminDetailsService adminDetailsService;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -58,7 +58,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		// Once we get the token validate it.
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-			UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+			UserDetails userDetails = this.adminDetailsService.loadUserByUsername(username);
 
 			// if token is valid configure Spring Security to manually set
 			// authentication

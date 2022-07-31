@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @Configurable
-public class WebUserDetailsService implements UserDetailsService {
+public class UsersDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 

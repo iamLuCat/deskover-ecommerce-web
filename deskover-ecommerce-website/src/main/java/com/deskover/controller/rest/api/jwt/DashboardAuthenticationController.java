@@ -1,12 +1,4 @@
-package com.deskover.controller.rest.api.dashboard.jwt;
-
-import com.deskover.model.entity.database.Administrator;
-import com.deskover.model.entity.dto.jwt.JwtRequest;
-import com.deskover.model.entity.dto.jwt.JwtResponse;
-import com.deskover.model.entity.dto.security.payload.MessageResponse;
-import com.deskover.other.util.JwtTokenUtil;
-import com.deskover.service.AdminService;
-import com.deskover.service.jwt.JwtUserDetailsService;
+package com.deskover.controller.rest.api.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,12 +9,25 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.deskover.model.entity.database.Administrator;
+import com.deskover.model.entity.dto.jwt.JwtRequest;
+import com.deskover.model.entity.dto.jwt.JwtResponse;
+import com.deskover.model.entity.dto.security.payload.MessageResponse;
+import com.deskover.other.util.JwtTokenUtil;
+import com.deskover.service.AdminService;
+import com.deskover.service.jwt.AdminDetailsService;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/v1/api/admin/auth")
-public class JwtAuthenticationController {
+public class DashboardAuthenticationController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -30,7 +35,7 @@ public class JwtAuthenticationController {
 	private JwtTokenUtil jwtTokenUtil;
 	
 	@Autowired
-	private JwtUserDetailsService jwtUserDetailsService;
+	private AdminDetailsService adminDetailsService;
 
 	@Autowired
 	private AdminService adminService;
@@ -48,7 +53,7 @@ public class JwtAuthenticationController {
 			return ResponseEntity.badRequest().body(new MessageResponse("Lỗi hệ thống")) ;
 		}
 
-		final UserDetails userDetails = jwtUserDetailsService
+		final UserDetails userDetails = adminDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
