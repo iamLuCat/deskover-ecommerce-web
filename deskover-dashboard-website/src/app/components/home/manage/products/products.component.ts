@@ -139,27 +139,27 @@ export class ProductsComponent implements OnInit {
       description: '',
       spec: `
         <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">CPU:</span><span>Apple M2</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">RAM:</span><span>8GB</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Card đồ họa:</span><span>8 nhân GPU, 16 nhân Neural Engine</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">CPU: </span><span>Apple M2</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">RAM: </span><span>8GB</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Card đồ họa: </span><span>8 nhân GPU, 16 nhân Neural Engine</span></li>
           <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Ổ cứng</span><span>SSD - 256GB</span></li>
           <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Màn hình</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>
           <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Pin</span><span>52,6 Wh</span></li>
         </ul>`,
       design: `
         <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Kích thước:</span><span>30,41cm-21,5cm-1,13cm</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Trọng lượng:</span><span>1.27 kg</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Chất liệu:</span><span>Vỏ kim loại</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Kích thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Trọng lượng: </span><span>1.27 kg</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Chất liệu: </span><span>Vỏ kim loại</span></li>
         </ul>`,
       utility: `
         <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Cổng giao tiếp:</span><span>Cổng HDMI và đầu đọc thẻ SD, USB Type-C</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Wifi:</span><span>802.11ax Wi-Fi 6</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Webcam:</span><span>1080p FaceTime HD camera</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Hệ điều hành:</span><span>MacOS</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Âm thanh:</span><span>Yes</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Bluetooth:</span><span>5.0</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Cổng giao tiếp: </span><span>Cổng HDMI và đầu đọc thẻ SD, USB Type-C</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Webcam: </span><span>1080p FaceTime HD camera</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Hệ điều hành: </span><span>MacOS</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Âm thanh: </span><span>Yes</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Bluetooth: </span><span>5.0</span></li>
         </ul>`,
       other: ``,
       price: null,
@@ -221,11 +221,9 @@ export class ProductsComponent implements OnInit {
   }
 
   editProduct(id: number) {
-
     this.productService.getById(id).subscribe(data => {
       this.product = data;
       this.category = data.subCategory.category;
-      this.getWeightFromHtml(this.product.design);
       if (this.product.productThumbnails.length < 4) {
         this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
       }
@@ -277,16 +275,13 @@ export class ProductsComponent implements OnInit {
 
   getWeightFromHtml(html: string): number {
     html = html
-      .replaceAll(/&nbsp;/g, '')
-      .replaceAll(/\s+/g, '')
+      .replaceAll(/&nbsp;/g, '');
 
-    const weight = html.match(/<span class="text-muted">Trọng lượng: <\/span>([0-9.]+) (kg|g)/)
-      ?? html.match(/<span class="text-muted">Trọng lượng:<\/span>([0-9.]+)(kg|g)/)
-
-    if (weight[2] === 'g') {
-      return Number(weight[1]) / 1000;
+    const weight = html.match(/<span class="text-muted">Trọng lượng:(\s*)<\/span>([0-9.]+)(\s*)(kg|g)/)
+    if (weight[4] === 'g') {
+      return Number(weight[2]) / 1000;
     } else {
-      return Number(weight[1]);
+      return Number(weight[2]);
     }
   }
 

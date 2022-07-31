@@ -17,7 +17,6 @@ export class NotiflixUtils {
         cancelCallback();
       },
       {
-        // button background color
         okButtonBackground: '#1c519d',
         titleColor: '#1c519d',
       }
