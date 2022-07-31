@@ -1,8 +1,18 @@
 import Swal from 'sweetalert2';
-import {Confirm, Notify} from "notiflix";
+import {Confirm, Loading, Notify} from "notiflix";
 
 export class NotiflixUtils {
   constructor() { }
+
+  static showLoading() {
+    Loading.standard({
+      backgroundColor: 'rgba(255,255,255,0.8)',
+    });
+  }
+
+  static removeLoading() {
+    Loading.remove();
+  }
 
   static showConfirm(title: string, message: string, okCallback: Function, cancelCallback: Function = () => {}) {
     Confirm.show(

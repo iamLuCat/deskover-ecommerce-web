@@ -37,9 +37,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 		body.put("message", authException.getMessage());
 		body.put("path", request.getServletPath());
 
-		if (request.getServletPath().contains("/auth")) {
+		/*if (request.getServletPath().contains("/auth")) {
 			body.put("message", "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
-		}
+		}*/
 
 		final ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(response.getOutputStream(), body);

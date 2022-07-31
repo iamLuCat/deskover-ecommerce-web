@@ -39,15 +39,15 @@ export class OrderService {
     return this.restApi.post(this.orderUrl + '/change-status-code/' + orderCode);
   }
 
+  cancelOrder(order: Order): Observable<any> {
+    return this.restApi.post(this.orderUrl + '/cancel', order);
+  }
+
   confirmOrder(order: Order): Observable<any> {
     return this.restApi.post(this.ghtkUrl + '/shipment/order/', order, null,{
       headers: {
         'Token': environment.ghtkToken
       }
     });
-  }
-
-  cancelOrder(label: string): Observable<any> {
-    return this.restApi.post(this.ghtkUrl + '/shipment/cancel/' + label);
   }
 }
