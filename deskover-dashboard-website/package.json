@@ -5,6 +5,7 @@
   "scripts": {
     "start": "ng serve",
     "build": "ng build --configuration production",
+    "buildv2": "ng build --base-href  --configuration production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -70,6 +71,7 @@
     "@typescript-eslint/eslint-plugin": "5.31.0",
     "@typescript-eslint/parser": "5.31.0",
     "admin-lte": "3.2.0",
+    "angular-cli-ghpages": "^1.0.3",
     "eslint": "8.20.0",
     "fs-web": "1.0.1",
     "husky": "8.0.1",
