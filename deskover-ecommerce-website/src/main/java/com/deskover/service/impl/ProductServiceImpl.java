@@ -295,7 +295,7 @@ public class ProductServiceImpl implements ProductService {
 	public Page<Product> getProductByCategoryId(Boolean active, Long categoryId, Optional<Integer> page,
 			Optional<Integer> size) {
 		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
-		Page<Product> products = repo.findByActivedAndSubCategoryCategoryId(active,categoryId,pageable);
+		Page<Product> products = repo.findByActivedAndSubCategoryCategoryIdAndDiscount(active,categoryId,null,pageable);
 		if(products == null) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 		}
@@ -316,8 +316,16 @@ public class ProductServiceImpl implements ProductService {
 	public Page<Product> doGetProductSale(Optional<Integer> page, Optional<Integer> size) {
 		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
 		Page<Product> products = repo.findByFlashSaleActivedAndDiscountActived(Boolean.TRUE, Boolean.TRUE, pageable);
+	
 		if(products == null) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+		}
+		System.out.println(">>>>>>>>>>>>>>>>"+products.getContent().stream().findFirst().get().getFlashSale().getEndDate());
+		 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		 Timestamp timeFlashSale = products.getContent().stream().findFirst().get().getFlashSale().getEndDate();
+		if(timeFlashSale.getTime() < timestamp.getTime()){
+			System.out.println("null>>>>>>>>>>>");
+			return null;
 		}
 		return products;
 	}

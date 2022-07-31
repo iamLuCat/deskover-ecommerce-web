@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.deskover.entity.Discount;
 import com.deskover.entity.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -61,7 +62,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	//app custumer
 	Page<Product> findByActivedAndQuantityGreaterThanOrderByModifiedAtDesc(Boolean active,Long quantity,Pageable Page);
 	
-	Page<Product> findByActivedAndSubCategoryCategoryId(Boolean active,Long categoryId, Pageable Page);
+	Page<Product> findByActivedAndSubCategoryCategoryIdAndDiscount(Boolean active,Long categoryId,Discount discount , Pageable Page);
 	
 	Page<Product> findByActivedAndSubCategoryId(Boolean active,Long categoryId, Pageable Page);
 	
