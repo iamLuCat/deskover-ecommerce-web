@@ -122,7 +122,7 @@ export class OrdersComponent implements OnInit {
 
   isPendingOrder(statusCode: string) {
     if (statusCode) {
-      return statusCode.includes('C-XN');
+      return statusCode === 'C-XN';
     }
   }
 
@@ -130,18 +130,28 @@ export class OrdersComponent implements OnInit {
     this.orderService.changeOrderStatus(order.orderCode).subscribe({
       next: (order) => {
         NotiflixUtils.successNotify(message);
+        NotiflixUtils.removeLoading();
+
         this.order = order;
         this.refreshOrderTable();
         this.closeModal();
+      },
+      error: () => {
+        NotiflixUtils.removeLoading();
       }
     });
   }
 
   confirmOrder(order: Order) {
+    NotiflixUtils.showLoading();
     if (order.shipping.shippingId !== 'DKV') {
       this.orderService.confirmOrder(order).subscribe({
         next: (data) => {
+          NotiflixUtils.removeLoading();
           this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: " + order.shipping.name_shipping);
+        },
+        error: () => {
+          NotiflixUtils.removeLoading();
         }
       });
     } else {
@@ -150,9 +160,13 @@ export class OrdersComponent implements OnInit {
   }
 
   cancelOrder(order: Order) {
-    this.orderService.cancelOrder(order.label).subscribe({
+    NotiflixUtils.showLoading();
+    this.orderService.cancelOrder(order).subscribe({
       next: (data) => {
         this.changeOrderStatus(order, "Huỷ đơn hàng thành công");
+      },
+      error: () => {
+        NotiflixUtils.removeLoading();
       }
     });
   }

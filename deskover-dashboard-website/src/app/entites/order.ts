@@ -11,6 +11,7 @@ export interface Order {
   payment: Payment
   shipping: Shipping
   orderStatus: OrderStatus
+  statusPayment: StatusPayment
   note: string
   shipping_note: string
   fullName: string
@@ -25,6 +26,12 @@ export interface Order {
   estimated_deliver_time: Date
   orderDetail: OrderDetail
   products: OrderItem[]
+}
+
+export interface StatusPayment {
+  id: number
+  code: string
+  status: string
 }
 
 export interface OrderDetail {

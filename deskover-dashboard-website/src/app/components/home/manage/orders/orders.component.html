@@ -30,6 +30,12 @@
                       [ngValue]="orderStatus.code">{{orderStatus.status}}</option>
             </select>
           </div>
+          <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
+            <button type="button" class="btn bg-faded-accent w-sm-100 rounded-pill"
+              (click)="orderStatusCode = 'C-XN'; refreshOrderTable()">
+              <span class="text-accent">Đơn chờ xác nhận</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -82,7 +88,7 @@
                 <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
                         container="body"
                         (click)="confirmOrder(order)"
-                        *ngIf="isPendingOrder(order.orderStatus.code)">
+                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode !== null">
                   <i class="fa-solid fa-circle-check"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-danger me-1" placement="top" tooltip="Huỷ đơn"
