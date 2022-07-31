@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.dto.TotalPrice;
-import com.deskover.repository.OrderRepository;
+import com.deskover.model.entity.database.repository.OrderRepository;
+import com.deskover.model.entity.dto.TotalPrice;
 import com.deskover.service.StatisticService;
 
 @Service

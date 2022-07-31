@@ -3,8 +3,8 @@ package com.deskover.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.entity.StatusPayment;
-import com.deskover.repository.StatusPaymentRepository;
+import com.deskover.model.entity.database.StatusPayment;
+import com.deskover.model.entity.database.repository.StatusPaymentRepository;
 import com.deskover.service.StatusPaymentService;
 
 @Service

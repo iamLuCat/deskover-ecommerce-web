@@ -1,10 +1,10 @@
 package com.deskover.service;
 
-import com.deskover.dto.ghtk.entity.FeeGhtk;
-import com.deskover.dto.ghtk.response.AddressResponseData;
-import com.deskover.dto.ghtk.response.FeeResponseData;
-import com.deskover.dto.ghtk.resquest.OrderShippingRequest;
-import com.deskover.entity.Order;
+import com.deskover.model.entity.database.Order;
+import com.deskover.model.entity.extend.ghtk.FeeGhtk;
+import com.deskover.model.entity.extend.ghtk.response.AddressResponseData;
+import com.deskover.model.entity.extend.ghtk.response.FeeResponseData;
+import com.deskover.model.entity.extend.ghtk.resquest.OrderShippingRequest;
 
 public interface GHTKService {
 	

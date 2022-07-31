@@ -1,15 +1,9 @@
 package com.deskover.service.impl;
 
-import com.deskover.constant.PathConstant;
-import com.deskover.entity.Product;
-import com.deskover.entity.Subcategory;
-import com.deskover.repository.SubcategoryRepository;
-import com.deskover.repository.datatables.SubCategoryRepoForDatatables;
-import com.deskover.service.CategoryService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
-import com.deskover.util.FileUtil;
-import com.deskover.util.UrlUtil;
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -18,9 +12,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.List;
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.Subcategory;
+import com.deskover.model.entity.database.repository.SubcategoryRepository;
+import com.deskover.model.entity.database.repository.datatable.SubCategoryRepoForDatatables;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
+import com.deskover.other.util.UrlUtil;
+import com.deskover.service.CategoryService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {

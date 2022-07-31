@@ -1,10 +1,10 @@
 package com.deskover.service;
 
-import com.deskover.dto.FilterModel;
-import com.deskover.dto.ProductModel;
-import com.deskover.dto.ShopModel;
+import com.deskover.model.entity.dto.ecommerce.Filter;
+import com.deskover.model.entity.dto.ecommerce.ProductDTO;
+import com.deskover.model.entity.dto.ecommerce.Shop;
 
 public interface ShopService {
-	public ShopModel search(FilterModel filter);
-	public ProductModel getProduct(String slug);
+	public Shop search(Filter filter);
+	public ProductDTO getProduct(String slug);
 }

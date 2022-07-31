@@ -1,10 +1,11 @@
 package com.deskover.service.impl;
 
-import com.deskover.entity.AdminRole;
-import com.deskover.repository.AdminRoleRepository;
-import com.deskover.service.AdminRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.deskover.model.entity.database.AdminRole;
+import com.deskover.model.entity.database.repository.AdminRoleRepository;
+import com.deskover.service.AdminRoleService;
 
 @Service
 public class AdminRoleServiceImpl implements AdminRoleService {

@@ -2,7 +2,7 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.entity.District;
+import com.deskover.model.entity.database.District;
 
 public interface DistrictService {
 	List<District> getByProvinceId(Long provinceId);
