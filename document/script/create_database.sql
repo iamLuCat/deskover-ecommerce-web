@@ -373,6 +373,8 @@ CREATE TABLE brand
     id            BIGINT                                                       NOT NULL AUTO_INCREMENT,
     `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI         DEFAULT NULL,
+	img           VARCHAR(255)                                                           DEFAULT NULL,
+    imgUrl        VARCHAR(255)                                                           DEFAULT NULL,
     slug          VARCHAR(50)                                                  NOT NULL,
     actived       BIT                                                          NOT NULL DEFAULT 1,
     modified_at   TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,

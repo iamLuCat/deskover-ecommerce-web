@@ -15,7 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Page<Product> findByActived(Boolean actived, Pageable Page);
 	
 	//Like Name
-	Page<Product> findByNameContaining(String name, Pageable Page);
+	Page<Product> findByNameContainingOrSubCategoryNameContainingOrSubCategoryCategoryNameContainingOrBrandNameContaining(String name,String sub,String cate,String brand, Pageable Page);
 	
 	//Like SubCategory
 	Page<Product> findBySubCategoryNameContaining(String name, Pageable Page);

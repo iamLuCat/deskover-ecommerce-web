@@ -1,14 +1,14 @@
 package com.deskover.service.impl;
 
-import com.deskover.constant.PathConstant;
-import com.deskover.entity.Product;
-import com.deskover.entity.ProductThumbnail;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.ProductThumbnailRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.*;
-import com.deskover.util.FileUtil;
-import com.deskover.util.UrlUtil;
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.criteria.Predicate;
+import javax.validation.Valid;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,13 +20,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Predicate;
-import javax.validation.Valid;
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.deskover.constant.PathConstant;
+import com.deskover.entity.Product;
+import com.deskover.entity.ProductThumbnail;
+import com.deskover.repository.ProductRepository;
+import com.deskover.repository.ProductThumbnailRepository;
+import com.deskover.repository.datatables.ProductRepoForDatatables;
+import com.deskover.service.BrandService;
+import com.deskover.service.CategoryService;
+import com.deskover.service.DiscountService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
+import com.deskover.util.FileUtil;
+import com.deskover.util.UrlUtil;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -61,17 +67,9 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
 
-        Page<Product> pages = repo.findByNameContaining(name, pageable);
+        Page<Product> pages = repo.findByNameContainingOrSubCategoryNameContainingOrSubCategoryCategoryNameContainingOrBrandNameContaining(name,name,name,name,pageable);
         if (!pages.isEmpty()) {
             return pages;
-        }
-        Page<Product> pageSub = repo.findBySubCategoryNameContaining(name, pageable);
-        if (!pageSub.isEmpty()) {
-            return pageSub;
-        }
-        Page<Product> pageCate = repo.findBySubCategoryCategoryNameContaining(name, pageable);
-        if (!pageCate.isEmpty()) {
-            return pageCate;
         }
         throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 
