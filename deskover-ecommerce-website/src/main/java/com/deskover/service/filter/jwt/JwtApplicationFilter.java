@@ -1,9 +1,12 @@
-package com.deskover.service.filter;
+package com.deskover.service.filter.jwt;
 
-import com.deskover.other.util.JwtTokenUtil;
-import com.deskover.service.jwt.WebUserDetailsService;
+import java.io.IOException;
 
-import io.jsonwebtoken.ExpiredJwtException;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,17 +15,16 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.deskover.other.util.JwtTokenUtil;
+import com.deskover.service.jwt.UsersDetailsService;
+
+import io.jsonwebtoken.ExpiredJwtException;
 
 @Service
-public class JwtCustomerFilter extends OncePerRequestFilter {
+public class JwtApplicationFilter extends OncePerRequestFilter {
 	
 	@Autowired
-	private WebUserDetailsService webUserDetailsService;
+	private UsersDetailsService usersDetailsService;
 
 	@Autowired
 	private JwtTokenUtil jwtCustomerTokenUtil;
@@ -54,7 +56,7 @@ public class JwtCustomerFilter extends OncePerRequestFilter {
 		// Once we get the token validate it.
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-			UserDetails userDetails = this.webUserDetailsService.loadUserByUsername(username);
+			UserDetails userDetails = this.usersDetailsService.loadUserByUsername(username);
 
 			// if token is valid configure Spring Security to manually set
 			// authentication
