@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import com.deskover.entity.Subcategory;
+import com.deskover.model.entity.database.Subcategory;
 
 public interface SubcategoryService {
 

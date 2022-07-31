@@ -9,9 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.Users;
-import com.deskover.entity.UserAddress;
-import com.deskover.repository.UserAddressRepository;
+import com.deskover.model.entity.database.UserAddress;
+import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.database.repository.UserAddressRepository;
 import com.deskover.service.UserAddressService;
 import com.deskover.service.UserService;
 

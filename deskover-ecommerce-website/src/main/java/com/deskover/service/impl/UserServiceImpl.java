@@ -11,11 +11,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.deskover.dto.ChangePasswordDto;
-import com.deskover.dto.UserCreateDto;
-import com.deskover.entity.Users;
-import com.deskover.repository.UserRepository;
-import com.deskover.repository.datatables.UserRepoForDatatables;
+import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.database.repository.UserRepository;
+import com.deskover.model.entity.database.repository.datatable.UserRepoForDatatables;
+import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.model.entity.dto.UserCreateDto;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
 

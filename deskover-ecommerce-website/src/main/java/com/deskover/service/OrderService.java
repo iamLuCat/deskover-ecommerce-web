@@ -1,12 +1,13 @@
 package com.deskover.service;
 
-import com.deskover.dto.app.order.OrderDto;
-import com.deskover.dto.app.order.resquest.DataOrderResquest;
-import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
-import com.deskover.entity.Order;
-import com.deskover.entity.OrderStatus;
-import com.deskover.entity.PaymentMethods;
-import com.deskover.entity.ShippingMethods;
+import com.deskover.model.entity.database.Order;
+import com.deskover.model.entity.database.OrderStatus;
+import com.deskover.model.entity.database.PaymentMethods;
+import com.deskover.model.entity.database.ShippingMethods;
+import com.deskover.model.entity.dto.application.DataOrderResquest;
+import com.deskover.model.entity.dto.application.DataTotaPrice7DaysAgo;
+import com.deskover.model.entity.dto.application.OrderDto;
+
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 

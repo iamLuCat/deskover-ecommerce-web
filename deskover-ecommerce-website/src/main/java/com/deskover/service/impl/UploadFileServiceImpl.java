@@ -1,9 +1,10 @@
 package com.deskover.service.impl;
 
-import com.deskover.constant.PathConstant;
-import com.deskover.dto.UploadFile;
+import com.deskover.model.entity.dto.UploadFile;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
 import com.deskover.service.UploadFileService;
-import com.deskover.util.FileUtil;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

@@ -3,9 +3,9 @@ package com.deskover.service;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import com.deskover.dto.UserCreateDto;
-import com.deskover.dto.ChangePasswordDto;
-import com.deskover.entity.Users;
+import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.model.entity.dto.UserCreateDto;
 
 public interface UserService {
 	 void changeActived(Long id);

@@ -7,14 +7,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.dto.ChangePasswordDto;
-import com.deskover.entity.Users;
-import com.deskover.entity.UserPassword;
-import com.deskover.repository.UserPasswordRepository;
+import com.deskover.model.entity.database.UserPassword;
+import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.database.repository.UserPasswordRepository;
+import com.deskover.model.entity.dto.ChangePasswordDto;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
-
-import net.bytebuddy.asm.Advice.Return;
 
 @Service
 public class UserPasswordServiceImpl implements UserPasswordService{

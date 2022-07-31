@@ -2,7 +2,7 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.entity.Cart;
+import com.deskover.model.entity.database.Cart;
 
 public interface CartService {
 	

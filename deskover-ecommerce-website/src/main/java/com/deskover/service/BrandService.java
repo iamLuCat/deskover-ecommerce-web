@@ -1,10 +1,11 @@
 package com.deskover.service;
 
-import com.deskover.entity.Brand;
+import java.util.List;
+
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import java.util.List;
+import com.deskover.model.entity.database.Brand;
 
 public interface BrandService {
 	List<Brand> getAll();

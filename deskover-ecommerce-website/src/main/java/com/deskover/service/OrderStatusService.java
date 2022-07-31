@@ -2,7 +2,7 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.entity.OrderStatus;
+import com.deskover.model.entity.database.OrderStatus;
 
 public interface OrderStatusService {
 	List<OrderStatus> doGetAll();

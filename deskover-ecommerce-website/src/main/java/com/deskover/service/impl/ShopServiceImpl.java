@@ -7,11 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.deskover.dto.FilterModel;
-import com.deskover.dto.ProductModel;
-import com.deskover.dto.ShopModel;
-import com.deskover.entity.Product;
-import com.deskover.repository.ProductRepository;
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.repository.ProductRepository;
+import com.deskover.model.entity.dto.ecommerce.Filter;
+import com.deskover.model.entity.dto.ecommerce.ProductDTO;
+import com.deskover.model.entity.dto.ecommerce.Shop;
 import com.deskover.service.ShopService;
 
 @Service
@@ -21,7 +21,7 @@ public class ShopServiceImpl implements ShopService {
 	private ProductRepository productRepo;
 
 	@Override
-	public ShopModel search(FilterModel filter) {
+	public Shop search(Filter filter) {
 		String keyword = filter.getKeyword();
 		Pageable pageable = PageRequest.of(filter.getCurrentPage(), filter.getItemsPerPage());
 		
@@ -57,13 +57,13 @@ public class ShopServiceImpl implements ShopService {
 		
 		
 		
-		return new ShopModel(products);
+		return new Shop(products);
 	}
 	
 	@Override
-	public ProductModel getProduct(String slug) {
+	public ProductDTO getProduct(String slug) {
 		Product product = productRepo.findBySlug(slug);
-		ProductModel data = new ProductModel(product);
+		ProductDTO data = new ProductDTO(product);
 		
 		return data;
 	}
