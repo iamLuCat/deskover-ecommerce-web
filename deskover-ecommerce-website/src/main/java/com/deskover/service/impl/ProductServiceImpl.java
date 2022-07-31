@@ -26,9 +26,7 @@ import com.deskover.entity.ProductThumbnail;
 import com.deskover.repository.ProductRepository;
 import com.deskover.repository.ProductThumbnailRepository;
 import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.BrandService;
 import com.deskover.service.CategoryService;
-import com.deskover.service.DiscountService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
 import com.deskover.util.FileUtil;
@@ -52,11 +50,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private BrandService brandService;
-
-    @Autowired
-    private DiscountService discountService;
 
     public Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
@@ -66,7 +59,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
-
         Page<Product> pages = repo.findByNameContainingOrSubCategoryNameContainingOrSubCategoryCategoryNameContainingOrBrandNameContaining(name,name,name,name,pageable);
         if (!pages.isEmpty()) {
             return pages;
@@ -74,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
         throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 
     }
-
+    
     @Override
     @Transactional
     public Product create(Product product) {
@@ -327,5 +319,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return products;
 	}
+
+
 
 }

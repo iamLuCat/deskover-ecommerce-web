@@ -14,7 +14,7 @@ public interface ProductService {
 	Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size);
 
 	Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size);
-
+	
 	List<Product> getBySubcategoryId(Long id);
 
 	Product create(Product product);

@@ -50,7 +50,8 @@ public class ProductApi {
                 }
                 return ResponseEntity.ok(products);
             } else {
-                Page<Product> products = productService.getByName(search, number, size);
+            	 Page<Product> products = productService.getByActive(Boolean.TRUE, number, size);
+//                Page<Product> products = productService.getByName(search, number, size);
                 if (products.isEmpty()) {
                     return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
                 }
