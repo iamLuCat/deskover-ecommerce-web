@@ -373,6 +373,8 @@ CREATE TABLE brand
     id            BIGINT                                                       NOT NULL AUTO_INCREMENT,
     `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI         DEFAULT NULL,
+	img           VARCHAR(255)                                                           DEFAULT NULL,
+    imgUrl        VARCHAR(255)                                                           DEFAULT NULL,
     slug          VARCHAR(50)                                                  NOT NULL,
     actived       BIT                                                          NOT NULL DEFAULT 1,
     modified_at   TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -422,13 +424,14 @@ CREATE TABLE flash_sale
    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
 	start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    end_date_format     VARCHAR(128)                                                 NOT NULL,
     actived       BIT                                                          NOT NULL DEFAULT 0,
     modified_by   VARCHAR(50)                                                  DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
-insert flash_sale (id,`name`,start_date, end_date, actived, modified_by)
-values (1,'Flash Sale Of','2022-11-25 00:00:01', '2022-11-25 23:59:59', 1, 'haipv');
+insert flash_sale (id,`name`,start_date, end_date,end_date_format, actived, modified_by)
+values (1,'Flash Sale Of','2022-07-30 23:59:59', '2022-07-30 23:59:59','2022-07-30 23:59:59', 1, 'haipv');
 
 -- Sản phẩm
 CREATE TABLE product

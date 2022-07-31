@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -42,6 +43,14 @@ public class Brand implements Serializable {
 
 	@Column(name = "description", length = 150)
 	private String description;
+	
+    @Lob
+    @Column(name = "img")
+    private String img;
+
+    @Lob
+    @Column(name = "imgUrl")
+    private String imgUrl;
 
 	@NotBlank(message = "Không để trống slug")
 	@Column(name = "slug", nullable = false, length = 50)

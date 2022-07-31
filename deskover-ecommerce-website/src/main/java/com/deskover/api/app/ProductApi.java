@@ -18,6 +18,27 @@ public class ProductApi {
 
 	@Autowired
 	private ProductService productService;
+	
+    @GetMapping("/product")
+    public ResponseEntity<?> doGetAll(@RequestParam("search") String search,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size) {
+        try {
+            if (search.isBlank()) {
+                return ResponseEntity.ok(new MessageResponse("Nhập tên sản phẩm hoặc thương hiệu bạn cần tìm"));
+            } else {
+                Page<Product> products = productService.getByName(search, page, size);
+                if (products.isEmpty()) {
+                    return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
+                }
+                return ResponseEntity.ok(products);
+            }
+        } catch (Exception e) {
+
+            return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
 	@GetMapping("/product-new")
 	public ResponseEntity<?> doGetAll(@RequestParam("page") Optional<Integer> page,
