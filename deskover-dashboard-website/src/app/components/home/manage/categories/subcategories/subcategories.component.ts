@@ -9,6 +9,7 @@ import {Category} from "@/entites/category";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {UploadService} from "@services/upload.service";
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-subcategory',
@@ -18,6 +19,7 @@ import {UploadService} from "@services/upload.service";
 export class SubcategoriesComponent implements OnInit {
   subcategories: Subcategory[];
   subcategory: Subcategory = <Subcategory>{};
+  subcategoryImgPreview: string;
 
   categories: Category[];
   categoryId: number = null;
@@ -94,6 +96,7 @@ export class SubcategoriesComponent implements OnInit {
 
   newSubcategory() {
     this.subcategoryForm.control.reset();
+    this.subcategoryImgPreview = 'assets/images/no-image.png';
     this.isEdit = false;
     this.openModal(this.subcategoryModal);
   }
@@ -101,6 +104,7 @@ export class SubcategoriesComponent implements OnInit {
   getSubcategory(id: number) {
     this.subcategoryService.getOne(id).subscribe(data => {
       this.subcategory = data;
+      this.subcategoryImgPreview = this.getSrc(this.subcategory.img);
       this.isEdit = true;
       this.openModal(this.subcategoryModal);
     });
@@ -176,9 +180,13 @@ export class SubcategoriesComponent implements OnInit {
   selectedImageChanged($event: Event) {
     const file = $event.target['files'][0];
     this.uploadService.uploadImage(file).subscribe(data => {
-      this.subcategory.imgUrl = data.url;
       this.subcategory.img = data.filename;
+      this.subcategoryImgPreview = `${environment.globalUrl.tempFolder}/${data.filename}`;
+      $event.target['value'] = '';
     });
   }
 
+  getSrc(img: string) {
+    return `${environment.globalUrl.subcategoryImg}/${img}`;
+  }
 }

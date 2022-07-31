@@ -60,7 +60,9 @@ public class FileUtil {
             if (targetFile.exists()) {
                 targetFile.delete();
             }
-            FileUtils.copyFile(sourceFile, targetFile);
+            if (!sourceFile.isDirectory()) {
+                FileUtils.copyFile(sourceFile, targetFile);
+            }
             return targetFile;
         } catch (IOException e) {
             e.printStackTrace();

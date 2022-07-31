@@ -7,6 +7,7 @@ import {NotiflixUtils} from '@/utils/notiflix-utils';
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {UploadService} from "@services/upload.service";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-category',
@@ -17,6 +18,7 @@ export class CategoriesComponent implements OnInit {
 
   categories: Category[];
   category: Category = <Category>{};
+  categoryImgPreview: string;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -77,15 +79,16 @@ export class CategoriesComponent implements OnInit {
 
   newCategory() {
     this.categoryForm.control.reset();
-    this.isEdit = false;
     this.category = <Category>{};
+    this.categoryImgPreview = 'assets/images/no-image.png';
+    this.isEdit = false;
     this.openModal(this.categoryModal);
   }
 
   getCategory(id: number) {
     this.categoryService.getById(id).subscribe(data => {
       this.category = data;
-
+      this.categoryImgPreview = this.getSrc(data.img);
       this.isEdit = true;
       this.openModal(this.categoryModal);
     });
@@ -140,8 +143,13 @@ export class CategoriesComponent implements OnInit {
   selectedImageChanged($event: Event) {
     const file = $event.target['files'][0];
     this.uploadService.uploadImage(file).subscribe(data => {
-      this.category.imgUrl = data.url;
       this.category.img = data.filename;
+      this.categoryImgPreview = `${environment.globalUrl.tempFolder}/${data.filename}`;
+      $event.target['value'] = '';
     });
+  }
+
+  getSrc(image: string) {
+    return `${environment.globalUrl.categoryImg}/${image}`;
   }
 }

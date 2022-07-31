@@ -1,14 +1,14 @@
 package com.deskover.service.impl;
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.criteria.Predicate;
-import javax.validation.Valid;
-
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.ProductThumbnail;
+import com.deskover.model.entity.database.repository.ProductRepository;
+import com.deskover.model.entity.database.repository.ProductThumbnailRepository;
+import com.deskover.model.entity.database.repository.datatable.ProductRepoForDatatables;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
+import com.deskover.other.util.UrlUtil;
+import com.deskover.service.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,19 +20,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.ProductThumbnail;
-import com.deskover.model.entity.database.repository.ProductRepository;
-import com.deskover.model.entity.database.repository.ProductThumbnailRepository;
-import com.deskover.model.entity.database.repository.datatable.ProductRepoForDatatables;
-import com.deskover.other.constant.PathConstant;
-import com.deskover.other.util.FileUtil;
-import com.deskover.other.util.UrlUtil;
-import com.deskover.service.BrandService;
-import com.deskover.service.CategoryService;
-import com.deskover.service.DiscountService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
+import javax.persistence.criteria.Predicate;
+import javax.validation.Valid;
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -117,8 +111,6 @@ public class ProductServiceImpl implements ProductService {
                 thumbnail.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 
                 String sourcePathThumbnail = PathConstant.TEMP_STATIC + thumbnail.getThumbnail();
-                System.out.println(FileUtils.getFile(sourcePathThumbnail).getAbsolutePath());
-                System.out.println(FileUtils.getFile(sourcePathThumbnail).exists());
                 if (FileUtils.getFile(sourcePathThumbnail).exists()) {
                     String destPathThumbnail = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug() + "-" + index;
                     File imageFileThumbnail = FileUtil.copyFile(sourcePathThumbnail, destPathThumbnail);

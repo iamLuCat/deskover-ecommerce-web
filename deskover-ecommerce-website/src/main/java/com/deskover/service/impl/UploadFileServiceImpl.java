@@ -14,6 +14,7 @@ public class UploadFileServiceImpl implements UploadFileService {
 
     @Override
     public UploadFile uploadFileToTempFolder(MultipartFile file) {
+        System.out.println(file.getOriginalFilename());
         return uploadFile(file, PathConstant.TEMP);
     }
 

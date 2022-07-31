@@ -26,6 +26,9 @@ import {environment} from "../../../../../environments/environment";
 export class ProductsComponent implements OnInit {
   products: Product[];
   product: Product;
+  productPreviewImg: string;
+  productPreviewThumbnails: string[];
+
   categories: Category[];
   category: Category;
   subcategories: Subcategory[];
@@ -35,7 +38,6 @@ export class ProductsComponent implements OnInit {
 
   categoryIdFilter: number = null;
   brandIdFilter: number = null;
-  uploadedImage: UploadedImage;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -181,6 +183,10 @@ export class ProductsComponent implements OnInit {
         <ProductThumbnail>{thumbnail: ''},
       ],
     };
+    this.productPreviewImg = 'assets/images/no-image.png';
+    this.productPreviewThumbnails = new Array(this.product.productThumbnails.length)
+      .fill('assets/images/no-image.png');
+
     this.category = <Category>{
       id: null,
       name: '',
@@ -213,10 +219,11 @@ export class ProductsComponent implements OnInit {
   /* Product */
   newProduct() {
     this.productForm.control.reset();
-    this.isEdit = false;
     setTimeout(() => {
       this.newData();
     });
+
+    this.isEdit = false;
     this.openModal(this.productModal);
   }
 
@@ -224,20 +231,29 @@ export class ProductsComponent implements OnInit {
     this.productService.getById(id).subscribe(data => {
       this.product = data;
       this.category = data.subCategory.category;
+
+      this.productPreviewImg = this.getSrc(this.product.img);
+      this.productPreviewThumbnails = this.product.productThumbnails.map(item => this.getSrc(item.thumbnail));
       if (this.product.productThumbnails.length < 4) {
-        this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
+        for (let i = this.product.productThumbnails.length; i < 4; i++) {
+          this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
+        }
       }
-      this.product.productThumbnails.sort((a, b) => a.id - b.id);
     });
+
     this.isEdit = true;
     this.getSubcategoriesByCategory();
     this.openModal(this.productModal);
+
+    console.log(this.product);
   }
 
   copyProduct(productId: number) {
     this.editProduct(productId);
     this.isEdit = false;
     this.product.id = null;
+
+    console.log(this.product);
   }
 
   saveProduct(product: Product) {
@@ -245,16 +261,14 @@ export class ProductsComponent implements OnInit {
     if (this.isEdit) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
-        this.rerender();
-        this.closeModal();
       });
     } else {
       this.productService.create(product).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
-        this.rerender();
-        this.closeModal();
       });
     }
+    this.rerender();
+    this.closeModal();
   }
 
   deleteProduct(product: Product) {
@@ -316,23 +330,26 @@ export class ProductsComponent implements OnInit {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 
-
   selectedImageChanged($event: Event) {
     const file = $event.target['files'][0];
     this.uploadService.uploadImage(file).subscribe(data => {
-      this.uploadedImage = data;
-      this.product.imgUrl = this.uploadedImage.url;
-      this.product.img = this.uploadedImage.filename;
+      this.product.img = data.filename;
+      this.productPreviewImg = `${environment.globalUrl.tempFolder}/${data.filename}`;
+      $event.target['value'] = '';
     });
   }
 
   selectedThumbnailChange($event: Event, index: number) {
     const file = $event.target['files'][0];
     this.uploadService.uploadImage(file).subscribe(data => {
-      this.uploadedImage = data;
-      this.product.productThumbnails[index].thumbnailUrl = this.uploadedImage.url;
-      this.product.productThumbnails[index].thumbnail = this.uploadedImage.filename;
+      this.product.productThumbnails[index].thumbnail = data.filename;
+      this.productPreviewThumbnails[index] = `${environment.globalUrl.tempFolder}/${data.filename}`;
+      $event.target['value'] = '';
     });
+  }
+
+  getSrc(image: string) {
+    return `${environment.globalUrl.productImg}/${image}`;
   }
 
   getUrlYoutubeEmbed(url: string) {
