@@ -55,7 +55,7 @@
             <tbody class="table-light" *ngIf="brands?.length !== 0">
             <tr *ngFor="let brand of brands; let i = index">
               <td class="align-middle">
-                <img src="{{ brand.imgUrl || 'assets/images/no-image.png' }}" class="img-50">
+                <img [src]="getSrc(brand.img)" class="img-thumbnail img-50" alt=" ">
               </td>
               <td class="align-middle">
                 {{ brand.name }}
@@ -120,9 +120,9 @@
         <form #brandForm="ngForm">
           <div class="row">
             <div class="col-12 col-md-5">
-              <div class="d-flex justify-content-center align-items-center file-drop-area border rounded-4 mb-3">
-                <img src="{{brand?.imgUrl ?? 'assets/images/no-image.png'}}" class="img-fluid w-100">
-                <input type="file" name="image" class="file-drop-input" accept="image/*"
+              <div class="file-drop-area ratio ratio-1x1 mb-3">
+                <img [src]="brandImgPreview" class="img-fluid img-thumbnail" alt=" ">
+                <input type="file" name="file" class="file-drop-input" accept="image/*"
                        (change)="selectedImageChanged($event)">
               </div>
             </div>
@@ -138,8 +138,7 @@
               <div class="mb-3">
                 <label class="form-label" [for]="'slug'">Slug</label>
                 <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="brand.slug"
-                       #slug="ngModel"
-                       required/>
+                       #slug="ngModel" required/>
                 <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
                   <span *ngIf="slug.errors?.['required']">Vui lòng nhập slug</span>
                 </div>

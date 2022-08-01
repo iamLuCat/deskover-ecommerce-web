@@ -1,21 +1,5 @@
 package com.deskover.controller.rest.api.jwt;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.deskover.model.entity.database.Administrator;
 import com.deskover.model.entity.dto.jwt.JwtRequest;
 import com.deskover.model.entity.dto.jwt.JwtResponse;
@@ -23,6 +7,15 @@ import com.deskover.model.entity.dto.security.payload.MessageResponse;
 import com.deskover.other.util.JwtTokenUtil;
 import com.deskover.service.AdminService;
 import com.deskover.service.jwt.AdminDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -57,8 +50,6 @@ public class DashboardAuthenticationController {
 				.loadUserByUsername(authenticationRequest.getUsername());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
-			
-		
 
 		Administrator adminProfile = adminService.getPrincipal(userDetails.getUsername());
 		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthorities()));
@@ -71,7 +62,6 @@ public class DashboardAuthenticationController {
 	
 	@GetMapping("/get-principal")
     public ResponseEntity<?> getProfile() {
-		System.out.println(SecurityContextHolder.getContext().getAuthentication());
 		return ResponseEntity.ok(adminService.getPrincipal());
     }
 }

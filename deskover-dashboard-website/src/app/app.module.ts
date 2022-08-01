@@ -53,6 +53,7 @@ import {viLocale} from 'ngx-bootstrap/locale';
 import {TabsModule} from "ngx-bootstrap/tabs";
 import {UsersComponent} from "@components/home/manage/users/users.component";
 import {OrdersComponent} from '@components/home/manage/orders/orders.component';
+import { SortByIdPipe } from './pipe/sort-by-id.pipe';
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -87,7 +88,8 @@ defineLocale('vi', viLocale);
     PromotionsComponent,
     ProductsComponent,
     UsersComponent,
-    OrdersComponent
+    OrdersComponent,
+    SortByIdPipe
   ],
   imports: [
     BrowserModule,

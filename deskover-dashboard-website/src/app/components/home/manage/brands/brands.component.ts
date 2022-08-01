@@ -7,6 +7,7 @@ import {BrandService} from "@services/brand.service";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {UploadService} from "@services/upload.service";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-brand',
@@ -14,9 +15,9 @@ import {UploadService} from "@services/upload.service";
   styleUrls: ['./brands.component.scss']
 })
 export class BrandsComponent implements OnInit {
-
   brands: Brand[];
   brand: Brand = <Brand>{};
+  brandImgPreview: string;
 
   isEdit: boolean = false;
   isActive: boolean = true;
@@ -76,16 +77,21 @@ export class BrandsComponent implements OnInit {
   }
 
   newBrand() {
-    this.brandForm.control.reset();
     this.isEdit = false;
+
+    this.brandForm.control.reset();
     this.brand = <Brand>{};
+    this.brandImgPreview = 'assets/images/no-image.png';
+
     this.openModal(this.brandModal);
   }
 
   getBrand(id: number) {
-    this.isEdit = true;
     this.brandService.getById(id).subscribe(data => {
       this.brand = data;
+      this.brandImgPreview = this.getSrc(this.brand.img);
+
+      this.isEdit = true;
       this.openModal(this.brandModal);
     });
   }
@@ -122,12 +128,11 @@ export class BrandsComponent implements OnInit {
     });
   }
 
-  // Slugify
+  /* Utils */
   toSlug(text: string) {
     return UrlUtils.slugify(text);
   }
 
-  // Modal
   openModal(content) {
     this.brandModal.show();
   }
@@ -139,12 +144,14 @@ export class BrandsComponent implements OnInit {
   selectedImageChanged($event: Event) {
     const file = $event.target['files'][0];
     this.uploadServive.uploadImage(file).subscribe(data => {
-      this.brand.imgUrl = data.url;
       this.brand.img = data.filename;
+      this.brandImgPreview = `${environment.globalUrl.tempFolder}/${data.filename}`;
+      $event.target['value'] = '';
     });
+
   }
 
-  checkImgUrl(imgUrl: string) {
-
+  getSrc(image: string) {
+    return `${environment.globalUrl.brandImg}/${image}`;
   }
 }
