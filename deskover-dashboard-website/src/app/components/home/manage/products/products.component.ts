@@ -12,7 +12,6 @@ import {ModalDirective} from "ngx-bootstrap/modal";
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
-import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -218,20 +217,20 @@ export class ProductsComponent implements OnInit {
 
   /* Product */
   newProduct() {
+    this.isCopy = false;
     this.productForm.control.reset();
     setTimeout(() => {
       this.newData();
     });
-
     this.openModal(this.productModal);
   }
 
-  editProduct(id: number, isCopy: boolean = false) {
+  editProduct(id: number) {
     this.productService.getById(id).subscribe(data => {
       this.product = data;
       this.category = data.subCategory.category;
 
-      if(isCopy) {
+      if(this.isCopy) {
         this.product.id = null;
         this.product.name = `${this.product.name} - Copy`;
         this.product.slug = `${this.product.slug}-copy`;
@@ -253,20 +252,24 @@ export class ProductsComponent implements OnInit {
   }
 
   copyProduct(productId: number) {
-    this.editProduct(productId, true);
+    this.isCopy = true;
+    this.editProduct(productId);
   }
 
   saveProduct(product: Product) {
+    let params = new HttpParams().set('isCopy', this.isCopy.toString() || "");
     this.product.weight = this.getWeightFromHtml(this.product.design);
     if (product.id) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
       });
     } else {
-      this.productService.create(product).subscribe(data => {
+      this.productService.create(product, params).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
       });
     }
+
+    this.isCopy = false;
     this.rerender();
     this.closeModal();
   }

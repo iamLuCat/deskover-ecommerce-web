@@ -18,11 +18,13 @@ public interface ProductService {
 
 	List<Product> getBySubcategoryId(Long id);
 
-	Product create(Product product);
-
 	Product changeActive(Long id);
 
+	Product create(Product product, Boolean isCopy);
+
 	Product save(Product product);
+
+	Product save(Product product, Boolean isCopy);
 
 	Product findById(Long id);
 
