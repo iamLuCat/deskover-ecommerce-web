@@ -39,8 +39,8 @@ export class ProductsComponent implements OnInit {
   categoryIdFilter: number = null;
   brandIdFilter: number = null;
 
-  isEdit: boolean = false;
   isActive: boolean = true;
+  isCopy: boolean = false;
 
   dtOptions: any = {};
 
@@ -223,42 +223,42 @@ export class ProductsComponent implements OnInit {
       this.newData();
     });
 
-    this.isEdit = false;
     this.openModal(this.productModal);
   }
 
-  editProduct(id: number) {
+  editProduct(id: number, isCopy: boolean = false) {
     this.productService.getById(id).subscribe(data => {
       this.product = data;
       this.category = data.subCategory.category;
 
-      this.productPreviewImg = this.getSrc(this.product.img);
-      this.productPreviewThumbnails = this.product.productThumbnails.map(item => this.getSrc(item.thumbnail));
+      if(isCopy) {
+        this.product.id = null;
+        this.product.name = `${this.product.name} - Copy`;
+        this.product.slug = `${this.product.slug}-copy`;
+      }
+
       if (this.product.productThumbnails.length < 4) {
         for (let i = this.product.productThumbnails.length; i < 4; i++) {
           this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
         }
       }
+      this.product.productThumbnails.sort((a, b) => a.id - b.id);
+      this.productPreviewImg = this.getSrc(this.product.img);
+      this.productPreviewThumbnails = this.product.productThumbnails.map(item => this.getSrc(item.thumbnail));
+
+      this.getSubcategoriesByCategory();
+      this.openModal(this.productModal);
     });
 
-    this.isEdit = true;
-    this.getSubcategoriesByCategory();
-    this.openModal(this.productModal);
-
-    console.log(this.product);
   }
 
   copyProduct(productId: number) {
-    this.editProduct(productId);
-    this.isEdit = false;
-    this.product.id = null;
-
-    console.log(this.product);
+    this.editProduct(productId, true);
   }
 
   saveProduct(product: Product) {
     this.product.weight = this.getWeightFromHtml(this.product.design);
-    if (this.isEdit) {
+    if (product.id) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
       });

@@ -137,7 +137,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="product-dialog-sizes" class="modal-title pull-left text-uppercase text-primary fw-bold">
-          {{ isEdit ? 'Cập nhật' : 'Thêm' }} sản phẩm
+          {{ product.id ? 'Cập nhật' : 'Thêm' }} sản phẩm
         </h4>
         <button type="button" class="btn-close close pull-right" (click)="closeModal()" aria-label="Close">
           <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -217,10 +217,10 @@
                 <label class="form-label" [for]="'video'">Youtube URL</label>
                 <input type="url" class="form-control mb-3" id="video" name="video" [(ngModel)]="product.video"
                   #video="ngModel" placeholder="https://youtu.be/fazEeJYHxTc" pattern="https://.*" />
-                <div class="ratio ratio-16x9" *ngIf="product.video">
+                <!--<div class="ratio ratio-16x9" *ngIf="product.video">
                   <iframe [src]="getUrlYoutubeEmbed(product.video)"
                           title="YouTube video" allowfullscreen></iframe>
-                </div>
+                </div>-->
               </div>
             </div>
             <div class="col-12 col-lg-8">
@@ -236,7 +236,7 @@
                 <div class="col-12 col-md-6">
                   <label class="form-label">Ảnh mô tả</label>
                   <div class="row row-cols-2 g-3">
-                    <div class="col" *ngFor="let productThumbnail of product.productThumbnails; index as i">
+                    <div class="col" *ngFor="let productThumbnail of product.productThumbnails | sortById; index as i">
                       <div class="file-drop-area p-3 ratio ratio-1x1">
                         <img class="img-fluid img-thumbnail" alt=" "
                           [src]="productPreviewThumbnails[i]">
