@@ -108,7 +108,7 @@ export class OrdersComponent implements OnInit {
   }
 
   openProductPage(productSlug: string) {
-    window.open(`${environment.globalUrl.productItem}?p=${productSlug}`, '_blank');
+    window.open(`${environment.globalUrl.productItemPage}?p=${productSlug}`, '_blank');
   }
 
   getOrder(order: Order) {

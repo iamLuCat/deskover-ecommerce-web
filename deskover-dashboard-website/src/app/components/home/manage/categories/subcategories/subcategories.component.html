@@ -68,7 +68,7 @@
             <tbody class="table-light" *ngIf="subcategories?.length !== 0">
             <tr *ngFor="let subcategory of subcategories; let i = index">
               <td class="align-middle">
-                <img src="{{ subcategory.imgUrl || 'assets/images/no-image.png' }}" class="img-fluid img-thumbnail  img-50">
+                <img [src]="getSrc(subcategory.img)" alt=" " class="img-fluid img-thumbnail img-50">
               </td>
               <td class="align-middle">
                 {{ subcategory.name }}
@@ -132,10 +132,10 @@
       <div class="modal-body">
         <form #subcategoryForm="ngForm">
           <div class="row">
-            <div class="col-12 col-md-5 mb-3">
-              <div class="d-flex justify-content-center align-items-center file-drop-area border rounded-4">
-                <img src="{{subcategory?.imgUrl ?? 'assets/images/no-image.png'}}" class="img-fluid w-100">
-                <input type="file" name="image" class="file-drop-input" accept="image/*"
+            <div class="col-12 col-md-5">
+              <div class="file-drop-area ratio ratio-1x1 mb-3">
+                <img [src]="subcategoryImgPreview" class="img-fluid img-thumbnail" alt=" ">
+                <input type="file" name="file" class="file-drop-input" accept="image/*"
                        (change)="selectedImageChanged($event)">
               </div>
             </div>

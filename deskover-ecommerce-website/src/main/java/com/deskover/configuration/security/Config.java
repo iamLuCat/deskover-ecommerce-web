@@ -1,12 +1,5 @@
 package com.deskover.configuration.security;
 
-import com.deskover.configuration.security.entrypoint.JwtAuthenticationEntryPoint;
-import com.deskover.other.util.JwtTokenUtil;
-import com.deskover.service.filter.JwtCustomerFilter;
-import com.deskover.service.filter.jwt.JwtRequestFilter;
-import com.deskover.service.jwt.JwtUserDetailsService;
-import com.deskover.service.jwt.WebUserDetailsService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,11 +19,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
+import com.deskover.other.util.JwtTokenUtil;
+import com.deskover.service.filter.jwt.JwtApplicationFilter;
+import com.deskover.service.filter.jwt.JwtDashboardFilter;
+import com.deskover.service.jwt.AdminDetailsService;
+import com.deskover.service.jwt.UsersDetailsService;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableSpringConfigured
-public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
+public class Config extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	@Override
@@ -43,19 +43,18 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
-
 	@Configuration
 	@Order(1)
-	public static class AdminSecurityJWTConfiguration extends WebSecurityConfigurerAdapter {
+	public static class DashboardSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		@Autowired
-		private JwtRequestFilter jwtRequestFilter;
+		private JwtDashboardFilter jwtDashboardFilter;
 
 		@Autowired
-		private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+		private ApiAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 		@Autowired
-		private UserDetailsService jwtUserDetailsService;
+		private AdminDetailsService adminDetailsService;
 
 		@Bean
 		public JwtTokenUtil jwtAdminTokenUtil() {
@@ -63,24 +62,21 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 
 		@Bean
-		public JwtUserDetailsService jwtAdminDetailsService() {
-			return new JwtUserDetailsService();
+		public AdminDetailsService jwtAdminDetailsService() {
+			return new AdminDetailsService();
 		}
 
 		@Bean
-		public FilterRegistrationBean<JwtRequestFilter> jwtRequestFilterBean() {
-			FilterRegistrationBean<JwtRequestFilter> registrationBean = new FilterRegistrationBean<>();
-			registrationBean.setFilter(jwtRequestFilter);
+		public FilterRegistrationBean<JwtDashboardFilter> jwtRequestFilterBean() {
+			FilterRegistrationBean<JwtDashboardFilter> registrationBean = new FilterRegistrationBean<>();
+			registrationBean.setFilter(jwtDashboardFilter);
 			registrationBean.addUrlPatterns("/v1/api/admin/*");
 			return registrationBean;
 		}
 
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			// configure AuthenticationManager so that it knows from where to load
-			// user for matching credentials
-			// Use BCryptPasswordEncoder
-			auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+			auth.userDetailsService(adminDetailsService).passwordEncoder(passwordEncoder());
 		}
 
 		protected void configure(HttpSecurity http) throws Exception {
@@ -89,7 +85,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
             		.antMatchers("/v1/api/admin/auth/login").permitAll()
                 	.antMatchers("/v1/api/admin/**", "/v1/api/admin").authenticated()
             .and().antMatcher("/v1/api/admin/**")
-               		.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+               		.addFilterBefore(jwtDashboardFilter, UsernamePasswordAuthenticationFilter.class)
                 	.exceptionHandling()
                 	.defaultAuthenticationEntryPointFor(jwtAuthenticationEntryPoint,new AntPathRequestMatcher("/v1/api/admin/**"))
             .and().httpBasic()
@@ -100,16 +96,16 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Configuration
 	@Order(2)
-	public static class CustomerSecurityJWTConfiguration extends WebSecurityConfigurerAdapter {
+	public static class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		@Autowired
-		private JwtCustomerFilter jwtCustomerFilter;
+		private JwtApplicationFilter jwtApplicationFilter;
 
 		@Autowired
-		private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+		private ApiAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 		@Autowired
-		private UserDetailsService webUserDetailsService;
+		private UsersDetailsService usersDetailsService;
 
 		@Bean
 		public JwtTokenUtil jwtCustomerTokenUtil() {
@@ -117,24 +113,21 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 
 		@Bean
-		public WebUserDetailsService appUserDetailsService() {
-			return new WebUserDetailsService();
+		public UsersDetailsService appUserDetailsService() {
+			return new UsersDetailsService();
 		}
 
 		@Bean
-		public FilterRegistrationBean<JwtCustomerFilter> jwtCustomerFilterBean() {
-			FilterRegistrationBean<JwtCustomerFilter> registrationBean = new FilterRegistrationBean<>();
-			registrationBean.setFilter(jwtCustomerFilter);
+		public FilterRegistrationBean<JwtApplicationFilter> jwtCustomerFilterBean() {
+			FilterRegistrationBean<JwtApplicationFilter> registrationBean = new FilterRegistrationBean<>();
+			registrationBean.setFilter(jwtApplicationFilter);
 			registrationBean.addUrlPatterns("/v1/api/customer/*");
 			return registrationBean;
 		}
 
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			// configure AuthenticationManager so that it knows from where to load
-			// user for matching credentials
-			// Use BCryptPasswordEncoder
-			auth.userDetailsService(webUserDetailsService).passwordEncoder(passwordEncoder());
+			auth.userDetailsService(usersDetailsService).passwordEncoder(passwordEncoder());
 		}
 
 		protected void configure(HttpSecurity http) throws Exception {
@@ -143,7 +136,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 					.antMatchers("/v1/api/customer/auth/login/**").permitAll()
 					.antMatchers("/v1/api/customer/**", "/v1/api/customer").authenticated()
 				.and().antMatcher("/v1/api/customer/**")
-					.addFilterBefore(jwtCustomerFilter, UsernamePasswordAuthenticationFilter.class)
+					.addFilterBefore(jwtApplicationFilter, UsernamePasswordAuthenticationFilter.class)
 					.exceptionHandling()
 					.defaultAuthenticationEntryPointFor(jwtAuthenticationEntryPoint,new AntPathRequestMatcher("/v1/api/customer/**"))
 				.and().httpBasic()
@@ -151,25 +144,25 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);;
 		}
 	}
-
+	
 	@Configuration
 	@Order(3)
 	public static class CustomerWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		@Bean
-		public WebUserDetailsService WebUserDetailsService() {
-			return new WebUserDetailsService();
+		public UsersDetailsService UsersDetailsService() {
+			return new UsersDetailsService();
 		}
 		
 		@Autowired
-		public UserDetailsService webUserDetailsService;
+		public UsersDetailsService usersDetailsService;
 		
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 			// configure AuthenticationManager so that it knows from where to load
 			// user for matching credentials
 			// Use BCryptPasswordEncoder
-			auth.userDetailsService(webUserDetailsService).passwordEncoder(passwordEncoder());
+			auth.userDetailsService(usersDetailsService).passwordEncoder(passwordEncoder());
 		}
 
 		@Override
