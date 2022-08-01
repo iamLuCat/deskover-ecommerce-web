@@ -44,7 +44,7 @@ export class OrderService {
   }
 
   confirmOrder(order: Order): Observable<any> {
-    return this.restApi.post(this.ghtkUrl + '/shipment/order/', order, null,{
+    return this.restApi.post(this.ghtkUrl + '/shipment/order', order, null,{
       headers: {
         'Token': environment.ghtkToken
       }

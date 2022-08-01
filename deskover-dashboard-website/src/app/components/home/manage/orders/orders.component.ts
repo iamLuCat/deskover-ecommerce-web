@@ -58,9 +58,10 @@ export class OrdersComponent implements OnInit {
         {data: 'orderCode'},
         {data: 'fullName'},
         {data: 'orderDetail.address'},
+        {data: 'unitPrice'},
         {data: 'createdAt'},
-        {data: 'modifiedBy'},
         {data: 'orderStatus.status'},
+        {data: 'payment.name_payment'},
         {data: null, orderable: false, searchable: false}
       ],
       order: [[6, 'asc']],
@@ -86,24 +87,36 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  refreshOrderTable() {
+  rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.draw();
     });
   }
 
-  setBackgroundByStatus(statusCode: string) {
+  getClassesByOrder(statusCode: string) {
     if (statusCode.includes('-TC')) {
-      return 'bg-opacity-50 text-dark bg-success';
+      return 'bg-success';
     } else if (statusCode.includes('-TB')) {
-      return 'bg-opacity-50 text-dark bg-danger';
+      return 'bg-danger';
     } else if (statusCode.includes('C-')) {
       if (statusCode.includes('C-XN')) {
-        return 'bg-opacity-50 text-dark bg-warning';
+        return 'bg-warning';
       }
-      return 'bg-opacity-50 text-dark bg-secondary';
+      return 'bg-secondary';
     } else {
-      return 'bg-opacity-50 text-dark bg-info';
+      return 'bg-info';
+    }
+  }
+
+  getClassesByPayment(paymentCode: string) {
+    if (paymentCode === 'C-TT') {
+      return 'text-danger';
+    } else if (paymentCode === 'D-TT') {
+      return 'text-success';
+    } else if (paymentCode === 'C-HT') {
+      return 'text-warning';
+    } else if (paymentCode === 'D-HT') {
+      return 'text-info';
     }
   }
 
@@ -133,7 +146,7 @@ export class OrdersComponent implements OnInit {
         NotiflixUtils.removeLoading();
 
         this.order = order;
-        this.refreshOrderTable();
+        this.rerender();
         this.closeModal();
       },
       error: () => {
@@ -144,7 +157,10 @@ export class OrdersComponent implements OnInit {
 
   confirmOrder(order: Order) {
     NotiflixUtils.showLoading();
-    if (order.shipping.shippingId !== 'DKV') {
+    console.log(order.shipping.shippingId);
+    if (order.shipping.shippingId === 'DKV') {
+      this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: " + order.shipping.name_shipping);
+    } else {
       this.orderService.confirmOrder(order).subscribe({
         next: (data) => {
           NotiflixUtils.removeLoading();
@@ -152,11 +168,12 @@ export class OrdersComponent implements OnInit {
         },
         error: () => {
           NotiflixUtils.removeLoading();
+          return;
         }
       });
-    } else {
-      this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: " + order.shipping.name_shipping);
     }
+    this.orderStatusCode = 'C-LH';
+    this.rerender();
   }
 
   cancelOrder(order: Order) {
