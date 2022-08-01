@@ -17,6 +17,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	//Like Name
 	Page<Product> findByNameContaining(String name, Pageable Page);
 	
+	Page<Product> findByPriceBetweenAndNameContainingAndSubCategoryNameContainingAndSubCategoryCategoryNameContainingAndBrandNameContaining(Double min,Double max,String name,String sub,String cate,String brand, Pageable Page);
+
+	Page<Product> findByPriceBetweenAndActivedAndSubCategoryNameLikeAndSubCategoryCategoryNameLike(Double min,Double max,Boolean active, String sub, String cate,  Pageable Page);
+
 	//Like SubCategory
 	Page<Product> findBySubCategoryNameContaining(String name, Pageable Page);
 	

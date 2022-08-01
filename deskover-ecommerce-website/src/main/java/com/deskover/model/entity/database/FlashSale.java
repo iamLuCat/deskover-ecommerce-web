@@ -9,8 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,18 +34,25 @@ public class FlashSale implements Serializable {
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
-
+    
+    @NotNull(message = "Không bỏ trống ngày tạo")
     @Column(name = "start_date", nullable = false)
     @CreationTimestamp
     private Timestamp startDate;
-
+    
+    @NotNull(message = "Không bỏ trống ngày format")
+    @Column(name = "start_date_format")
+    private String startDateFormat;
+    
+    @NotNull(message = "Không bỏ trống ngày kết thúc")
     @Column(name = "end_date")
     private Timestamp endDate;
     
-    @Column(name = "end_date_format", nullable = false, length = 50)
+    @NotNull(message = "Không bỏ trống ngày kết thúc format")
+    @Column(name = "end_date_format")
     private String endDateFormat;
     
-//    @NotBlank(message = "Không bỏ trống kích hoạt")
+    @NotNull(message = "Không bỏ trống kích hoạt")
     @Column(name = "actived")
     private Boolean actived;
 

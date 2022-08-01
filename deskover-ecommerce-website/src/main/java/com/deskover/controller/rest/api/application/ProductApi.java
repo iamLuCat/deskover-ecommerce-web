@@ -22,7 +22,8 @@ public class ProductApi {
     @GetMapping("/product")
     public ResponseEntity<?> doGetAll(@RequestParam("search") String search,
             @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size) {
+            @RequestParam("size") Optional<Integer> size
+            ) {
         try {
             if (search.isBlank()) {
                 return ResponseEntity.ok(new MessageResponse("Nhập tên sản phẩm hoặc thương hiệu bạn cần tìm"));
@@ -39,7 +40,7 @@ public class ProductApi {
         }
 
     }
-
+   
 	@GetMapping("/product-new")
 	public ResponseEntity<?> doGetAll(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size) {

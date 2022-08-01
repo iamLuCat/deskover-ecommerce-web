@@ -101,18 +101,22 @@ CREATE TABLE `user`
     username    VARCHAR(50)                                                   NOT NULL,
     fullname    VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     avatar      VARCHAR(255)                                                           DEFAULT NULL,
+	email      VARCHAR(128)                                                           NOT NULL,
+    phone      VARCHAR(11)                                                          NOT NULL,
     last_login  TIMESTAMP                                                              DEFAULT NULL,
     actived     BIT                                                           NOT NULL DEFAULT 1,
     verify      BIT                                                           NOT NULL DEFAULT 0,
     modified_at TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_by VARCHAR(50)                                                            DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY UQ_User_Username (username)
+    UNIQUE KEY UQ_User_Username (username),
+    UNIQUE KEY UQ_User_Phone (phone),
+    UNIQUE KEY UQ_User_email (email)
 );
 
-insert `user` (id, username, fullname, verify, modified_by)
-values (1, 'huynq', 'Nguyễn Quang Huy', 1, 'haipv'),
-       (2, 'minhbd', 'Bùi Đức Minh', 1, 'haipv')
+insert `user` (id, username, fullname,email,phone, verify, modified_by)
+values (1, 'huynq', 'Nguyễn Quang Huy','huynq@gmail.com','0901245154', 1, 'haipv'),
+       (2, 'minhbd', 'Bùi Đức Minh','minhbd@gmail.com','0325654589',1, 'haipv')
 ;
 
 CREATE TABLE `province`
@@ -506,6 +510,7 @@ CREATE TABLE flash_sale
 	id              BIGINT                                                     NOT NULL AUTO_INCREMENT,
    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
 	start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	start_date_format     VARCHAR(128)                                                 NOT NULL,
 	end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_date_format     VARCHAR(128)                                                 NOT NULL,
     actived       BIT                                                          NOT NULL DEFAULT 0,
@@ -513,12 +518,11 @@ CREATE TABLE flash_sale
     PRIMARY KEY (id)
 );
 
-insert flash_sale (id,`name`,start_date, end_date,end_date_format, actived, modified_by)
+insert flash_sale (id,`name`,start_date,start_date_format, end_date,end_date_format, actived, modified_by)
 values 
   (
-    1, 'Flash Sale Of', '2022-07-30 23:59:59', 
-    '2022-07-30 23:59:59', '2022-07-30 23:59:59', 
-    1, 'haipv'
+    1, 'Flash Sale Of', '2022-08-05 23:59:59', '2022-08-05 23:59:59',
+    '2022-08-06 23:59:59', '2022-08-06 23:59:59',1, 'haipv'
   );
 
 -- Sản phẩm
