@@ -1,10 +1,13 @@
 package com.deskover.service;
 
-import com.deskover.dto.app.order.OrderDto;
-import com.deskover.dto.app.order.resquest.DataOrderResquest;
-import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
-import com.deskover.entity.Order;
-import com.deskover.entity.OrderStatus;
+import com.deskover.model.entity.database.Order;
+import com.deskover.model.entity.database.OrderStatus;
+import com.deskover.model.entity.database.PaymentMethods;
+import com.deskover.model.entity.database.ShippingMethods;
+import com.deskover.model.entity.dto.application.DataOrderResquest;
+import com.deskover.model.entity.dto.application.DataTotaPrice7DaysAgo;
+import com.deskover.model.entity.dto.application.OrderDto;
+
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
@@ -22,7 +25,7 @@ public interface OrderService {
 	
 	OrderDto findByCode(String orderCode);
 	
-	void addOrder(Order orderResponse, String username);
+	Order addOrder(Order orderResponse);
 	
 	DataOrderResquest getListOrder(String status);
 	
@@ -41,4 +44,12 @@ public interface OrderService {
 	Boolean isUniqueOrderNumber(String orderNumber);
 
 	List<OrderStatus> getAllOrderStatus();
+
+	List<PaymentMethods> getAllPayment();
+
+	List<ShippingMethods> getAllShippingUnit();
+	
+	void cancelOrder(Order orderResponse);
+	
+	void refundMoney(Order order);
 }

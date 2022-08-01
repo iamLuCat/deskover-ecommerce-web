@@ -7,6 +7,7 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {AuthService} from "@services/auth.service";
 import {Admin} from "@/entites/admin";
+import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 const BASE_CLASSES = 'main-header navbar navbar-expand';
 @Component({
@@ -33,11 +34,22 @@ export class HeaderComponent implements OnInit {
         this.searchForm = new FormGroup({
             search: new FormControl(null)
         });
-        this.user = this.authService.user;
+        this.getProfile();
     }
 
     logout() {
         this.authService.logout();
+    }
+
+    getProfile() {
+        this.authService.getProfile().subscribe({
+            next: (data) => {
+                this.user = data;
+            },
+            error: (err) => {
+                this.logout();
+            }
+        });
     }
 
     onToggleMenuSidebar() {

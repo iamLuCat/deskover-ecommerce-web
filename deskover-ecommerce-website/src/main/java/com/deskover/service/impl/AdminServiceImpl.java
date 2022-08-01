@@ -1,16 +1,10 @@
 package com.deskover.service.impl;
 
-import com.deskover.dto.AdminCreateDto;
-import com.deskover.dto.ChangePasswordDto;
-import com.deskover.dto.AdministratorDto;
-import com.deskover.entity.AdminAuthority;
-import com.deskover.entity.Administrator;
-import com.deskover.repository.AdministratorRepository;
-import com.deskover.repository.datatables.AdminRepoForDatatables;
-import com.deskover.service.AdminAuthorityService;
-import com.deskover.service.AdminRoleService;
-import com.deskover.service.AdminService;
-import com.deskover.util.MapperUtil;
+import java.sql.Timestamp;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,10 +15,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import com.deskover.model.entity.database.AdminAuthority;
+import com.deskover.model.entity.database.Administrator;
+import com.deskover.model.entity.database.repository.AdministratorRepository;
+import com.deskover.model.entity.database.repository.datatable.AdminRepoForDatatables;
+import com.deskover.model.entity.dto.AdminCreateDto;
+import com.deskover.model.entity.dto.AdministratorDto;
+import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.other.util.MapperUtil;
+import com.deskover.service.AdminAuthorityService;
+import com.deskover.service.AdminRoleService;
+import com.deskover.service.AdminService;
 
 @Service
 public class AdminServiceImpl implements AdminService {

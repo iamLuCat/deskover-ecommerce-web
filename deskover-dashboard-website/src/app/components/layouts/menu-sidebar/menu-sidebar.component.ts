@@ -29,7 +29,6 @@ export class MenuSidebarComponent implements OnInit {
     this.ui.subscribe((state: UiState) => {
       this.classes = `${BASE_CLASSES} ${state.sidebarSkin}`;
     });
-    this.user = this.authService.user;
   }
 
   logout() {
@@ -77,13 +76,14 @@ export const MENU = [
     iconClasses: 'fa-duotone fa-cart-flatbed-boxes'
   },
   {
-    name: 'Người dùng',
-    path: ['/users'],
-    iconClasses: 'fa-duotone fa-users'
-  },
-  {
     name: 'Đơn hàng',
     path: ['/orders'],
     iconClasses: 'fa-duotone fa-file-invoice'
+  },
+  {
+    header: 'TÀI KHOẢN',
+    name: 'Người dùng',
+    path: ['/users'],
+    iconClasses: 'fa-duotone fa-users'
   },
 ];

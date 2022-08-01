@@ -24,11 +24,17 @@
             <label [for]="'filter-active'" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
-            <select id="filter-category" class="form-select" [(ngModel)]="orderStatusCode" (change)="applyFilter()">
+            <select id="filter-category" class="form-select" [(ngModel)]="orderStatusCode" (change)="refreshOrderTable()">
               <option [ngValue]="null">-- Tất cả --</option>
               <option *ngFor="let orderStatus of orderStatuses"
                       [ngValue]="orderStatus.code">{{orderStatus.status}}</option>
             </select>
+          </div>
+          <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
+            <button type="button" class="btn bg-faded-accent w-sm-100 rounded-pill"
+              (click)="orderStatusCode = 'C-XN'; refreshOrderTable()">
+              <span class="text-accent">Đơn chờ xác nhận</span>
+            </button>
           </div>
         </div>
       </div>
@@ -36,19 +42,29 @@
       <div class="card-body p-0">
         <div class="table-responsive p-3">
           <table datatable [dtOptions]="dtOptions"
-                 class="table table-hover table-sm nowrap w-100">
+                 class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
+              <th class="align-middle">QR Code</th>
               <th class="align-middle">Mã đơn hàng</th>
               <th class="align-middle">Tên khách hàng</th>
               <th class="align-middle">Địa chỉ</th>
-              <th class="align-middle text-center">Số điện thoại</th>
-              <th class="align-middle text-center">Ngày tạo đơn</th>
-              <th class="align-middle text-center">Cập nhật bởi</th>
+              <!--<th class="align-middle text-center">Đơn giá</th>-->
+              <th class="align-middle text-center">Ngày tạo</th>
+              <th class="align-middle text-center">
+                Người duyệt
+              </th>
+              <th class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
+                Trạng thái
+              </th>
+              <th class="align-middle text-end"></th>
             </tr>
             </thead>
-            <tbody *ngIf="orders?.length !== 0">
+            <tbody class="table-light" *ngIf="orders?.length !== 0">
             <tr *ngFor="let order of orders; let i = index">
+              <td class="align-middle">
+                <img [src]="order.qrCode ? getQrCode(order.qrCode) : 'assets/images/no-image.png'" class="img-thumbnail img-50">
+              </td>
               <td class="align-middle">
                 {{ order.orderCode }}
               </td>
@@ -59,19 +75,38 @@
                 {{ order.orderDetail.address }}
               </td>
               <td class="align-middle text-center">
-              {{ order.orderDetail.tel }}
-              </td>
-              <td class="align-middle text-center">
                 {{ order.createdAt | date: 'dd/MM/yyyy' }}
               </td>
               <td class="align-middle text-center">
                 {{ order.modifiedBy ? order.modifiedBy : '-' }}
               </td>
+              <td class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
+                <span class="badge"
+                      [ngClass]="setBackgroundByStatus(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
+              </td>
+              <td class="align-middle text-end">
+                <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
+                        container="body"
+                        (click)="confirmOrder(order)"
+                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode !== null">
+                  <i class="fa-solid fa-circle-check"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-danger me-1" placement="top" tooltip="Huỷ đơn"
+                        container="body"
+                        (click)="cancelOrder(order)"
+                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode !== null">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
+                        container="body" (click)="getOrder(order)">
+                  <i class="fa-solid fa-circle-info"></i>
+                </button>
+              </td>
             </tr>
             </tbody>
             <tbody *ngIf="orders?.length === 0">
             <tr>
-              <td colspan="7" class="text-center">Không tìm thấy kết quá</td>
+              <td colspan="8" class="text-center">Không tìm thấy kết quá</td>
             </tr>
             </tbody>
           </table>
@@ -80,3 +115,123 @@
     </div>
   </div>
 </section>
+<ng-template #orderDetailModal>
+  <div class="modal-header">
+    <h4 id="order-detail-dialog" class="modal-title pull-left text-uppercase text-primary fw-bold">
+      {{ order.orderCode }}
+      <span class="badge ms-1"
+            [ngClass]="setBackgroundByStatus(order.orderStatus.code)">{{order.orderStatus.status}}</span>
+    </h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <h4 class="fs-3">Chi tiết đơn hàng</h4>
+        <form #orderForm="ngForm">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control border-0" id="address" placeholder="example" readonly
+                   [value]="order.orderDetail.address">
+            <label [for]="'address'">Địa chỉ giao hàng</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control border-0" id="payment" placeholder="example" readonly
+                   [value]="order.payment.name_payment">
+            <label [for]="'payment'">Phương thức thanh toán</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control border-0" id="shipping" placeholder="example" readonly
+                   [value]="order.shipping.name_shipping">
+            <label [for]="'shipping'">Đơn vị vận chuyển</label>
+          </div>
+          <div class="form-floating mb-3">
+                <textarea class="form-control border-0" placeholder="example" id="note" [value]="order.note || '-'"
+                          readonly></textarea>
+            <label [for]="'note'">Ghi chú (Khách hàng)</label>
+          </div>
+          <div class="form-floating mb-3">
+                <textarea class="form-control border-0" placeholder="example" id="shipping_note"
+                          readonly [value]="order.shipping_note || '-'"></textarea>
+            <label [for]="'shipping_note'">Ghi chú (Đơn vị vận chuyển)</label>
+          </div>
+        </form>
+      </div>
+      <div class="col-12 col-md-8">
+        <div class="customer-order-info">
+          <h4 class="fs-3">Thông tin khách hàng</h4>
+          <form #customerOrderInfo="ngForm">
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control border-0" id="fullname" [value]="order.fullName"
+                         placeholder="example" readonly>
+                  <label [for]="'fullname'">Họ và tên</label>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control border-0" id="tel" [value]="order.orderDetail.tel"
+                         placeholder="example" readonly>
+                  <label [for]="'tel'">Số điện thoại</label>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control border-0" id="email" [value]="order.email || '-'"
+                         placeholder="example" readonly>
+                  <label [for]="'email'">Email</label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="ordered-products">
+          <h4 class="fs-3">Sản phẩm</h4>
+          <div class="table-responsive">
+            <table class="table table-hover table-borderless table-sm nowrap w-100">
+              <thead class="table-primary">
+              <tr>
+                <th class="align-middle">Tên mặt hàng</th>
+                <th class="align-middle text-center">Đơn giá</th>
+                <th class="align-middle text-center">Số lượng</th>
+                <th class="align-middle text-center">Thành tiền</th>
+              </tr>
+              </thead>
+              <tbody class="table-light">
+              <tr *ngFor="let productItem of order.products; let i = index">
+                <td class="align-middle">
+                  <a href="javascript:void(0)" class="link-primary text-decoration-none"
+                     target="_blank" (click)="openProductPage(productItem.product.slug)">
+                    {{ productItem.product.name }}
+                  </a>
+                </td>
+                <td class="align-middle text-center">{{ productItem.product.price | number:'1.0-0' }}₫</td>
+                <td class="align-middle text-center">{{ productItem.quantity }}</td>
+                <td class="align-middle text-center">
+                  {{ productItem.product.price * productItem.quantity | number:'1.0-0' }}₫
+                </td>
+              </tr>
+              </tbody>
+              <tfoot class="table-primary">
+              <tr>
+                <td class="align-middle fw-bolder" colspan="3">Tổng tiền</td>
+                <td class="align-middle text-center">{{ order.unitPrice | number:'1.0-0' }}₫</td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer"  *ngIf="isPendingOrder(order.orderStatus.code)">
+    <button type="button" class="btn btn-sm btn-success" (click)="confirmOrder(order)">
+      Xác nhận đơn
+    </button>
+    <!--<button type="button" class="btn btn-sm btn-danger" (click)="cancelOrder(order)">
+      Huỷ đơn
+    </button>-->
+  </div>
+</ng-template>

@@ -11,11 +11,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.deskover.dto.ChangePasswordDto;
-import com.deskover.dto.UserCreateDto;
-import com.deskover.entity.User;
-import com.deskover.repository.UserRepository;
-import com.deskover.repository.datatables.UserRepoForDatatables;
+import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.database.repository.UserRepository;
+import com.deskover.model.entity.database.repository.datatable.UserRepoForDatatables;
+import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.model.entity.dto.UserCreateDto;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
 
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void changeActived(Long id) {
-		User user = repo.findById(id).orElse(null);
+		Users user = repo.findById(id).orElse(null);
 		if(user == null) {
 			throw new IllegalArgumentException("Không tìm thấy user");
 		}
@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public DataTablesOutput<User> getByActiveForDatatables(DataTablesInput input, Boolean isActive) {
-		DataTablesOutput<User> Users = repoForDatatables.findAll(input,
+	public DataTablesOutput<Users> getByActiveForDatatables(DataTablesInput input, Boolean isActive) {
+		DataTablesOutput<Users> Users = repoForDatatables.findAll(input,
 				(root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("actived"), isActive));
 		if (Users.getError() != null) {
 			throw new IllegalArgumentException(Users.getError());
@@ -56,24 +56,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findById(Long id) {
+	public Users findById(Long id) {
 		return repo.getById(id);
 	}
 
 	@Override
-	public User findByUsername(String username) {
+	public Users findByUsername(String username) {
 		return repo.findByUsername(username);
 	}
 
 	@Override
-	public User create(UserCreateDto userRequest) {
+	public Users create(UserCreateDto userRequest) {
 		if(repo.existsByUsername(userRequest.getUsername())) {
 			throw new IllegalArgumentException("Username này đã tồn tại vui lòng nhập username khác");
 		}
 		if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
 			throw new IllegalArgumentException("Mật khẩu xác nhận không khớp");
 		}else {
-			User createUser = new User();
+			Users createUser = new Users();
 			createUser.setUsername(userRequest.getUsername());
 			createUser.setFullname(userRequest.getFullname());
 			createUser.setAvatar(null);
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 			createUser.setVerify(Boolean.FALSE);
 			createUser.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 			createUser.setModifiedBy(null);
-			User createdUser = repo.save(createUser);
+			Users createdUser = repo.save(createUser);
 			
 			userPasswordService.create(createdUser, userRequest.getConfirmPassword());
 			
@@ -91,8 +91,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updatePassword(String username, ChangePasswordDto userRequest) {
-		userPasswordService.updatePassword(username, userRequest);
+	public void updatePassword(ChangePasswordDto userRequest) {
+		userPasswordService.updatePassword(SecurityContextHolder.getContextHolderStrategy().getContext().getAuthentication().getName(), userRequest);
 	}
 
 }

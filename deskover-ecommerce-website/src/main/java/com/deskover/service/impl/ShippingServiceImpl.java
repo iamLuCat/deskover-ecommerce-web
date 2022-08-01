@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.entity.ShippingMethods;
-import com.deskover.repository.ShippingRepository;
+import com.deskover.model.entity.database.ShippingMethods;
+import com.deskover.model.entity.database.repository.ShippingRepository;
 import com.deskover.service.ShippingService;
 
 @Service
@@ -15,7 +15,7 @@ public class ShippingServiceImpl implements ShippingService {
 	private ShippingRepository shippingRepository;
 
 	@Override
-	public List<ShippingMethods> doGetAll() {
+	public List<ShippingMethods> getAll() {
 		return shippingRepository.findAll();
 	}
 

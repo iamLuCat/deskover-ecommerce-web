@@ -10,7 +10,7 @@ import {StoreModule} from '@ngrx/store';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
-import {ModalModule} from "ngx-bootstrap/modal";
+import {BsModalService, ModalModule} from "ngx-bootstrap/modal";
 import {NgxMaskModule} from "ngx-mask";
 import {CKEditorModule} from "ckeditor4-angular";
 
@@ -52,7 +52,8 @@ import localeEn from '@angular/common/locales/en';
 import {viLocale} from 'ngx-bootstrap/locale';
 import {TabsModule} from "ngx-bootstrap/tabs";
 import {UsersComponent} from "@components/home/manage/users/users.component";
-import { OrdersComponent } from './components/home/manage/orders/orders.component';
+import {OrdersComponent} from '@components/home/manage/orders/orders.component';
+import { SortByIdPipe } from './pipe/sort-by-id.pipe';
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -87,7 +88,8 @@ defineLocale('vi', viLocale);
     PromotionsComponent,
     ProductsComponent,
     UsersComponent,
-    OrdersComponent
+    OrdersComponent,
+    SortByIdPipe
   ],
   imports: [
     BrowserModule,
@@ -108,6 +110,8 @@ defineLocale('vi', viLocale);
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    // {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    BsModalService
   ],
   bootstrap: [AppComponent]
 })

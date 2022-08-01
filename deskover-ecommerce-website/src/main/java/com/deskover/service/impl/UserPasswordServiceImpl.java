@@ -7,14 +7,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.dto.ChangePasswordDto;
-import com.deskover.entity.User;
-import com.deskover.entity.UserPassword;
-import com.deskover.repository.UserPasswordRepository;
+import com.deskover.model.entity.database.UserPassword;
+import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.database.repository.UserPasswordRepository;
+import com.deskover.model.entity.dto.ChangePasswordDto;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
-
-import net.bytebuddy.asm.Advice.Return;
 
 @Service
 public class UserPasswordServiceImpl implements UserPasswordService{
@@ -27,7 +25,7 @@ public class UserPasswordServiceImpl implements UserPasswordService{
 	UserService userService;
 	
 	@Override
-	public UserPassword create(User user, String password) {
+	public UserPassword create(Users user, String password) {
 		String hashPassword = bcrypt.encode(password);
 		UserPassword userPass = new UserPassword();
 		userPass.setUser(user);
@@ -39,7 +37,7 @@ public class UserPasswordServiceImpl implements UserPasswordService{
 	@Override
 	@Transactional
 	public void updatePassword(String username, ChangePasswordDto updatePasswordUser) {
-		User userRequestUser = userService.findByUsername(username);
+		Users userRequestUser = userService.findByUsername(username);
 		if(userRequestUser == null) {
 			throw new IllegalArgumentException("User này không tồn tại");
 		}
@@ -62,6 +60,15 @@ public class UserPasswordServiceImpl implements UserPasswordService{
 				}
 			}
 		}
+	}
+
+	@Override
+	public UserPassword getPasswordByUsername(String username) {
+		UserPassword userPassword = repo.findByUserUsername(username);
+		if(userPassword==null) {
+			throw new IllegalArgumentException("Không tìm thấy user");
+		}
+		return userPassword;
 	}
 
 }

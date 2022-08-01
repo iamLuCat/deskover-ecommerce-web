@@ -53,7 +53,7 @@
       <div class="card-body p-0">
         <div class="table-responsive p-3">
           <table datatable [dtOptions]="dtOptions"
-                 class="table table-hover table-sm nowrap w-100">
+                 class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh</th>
@@ -62,13 +62,13 @@
               <th class="align-middle">Mô tả</th>
               <th class="align-middle">Danh mục cha</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
-              <th class="align-middle text-end">Công cụ</th>
+              <th class="align-middle text-end"></th>
             </tr>
             </thead>
-            <tbody *ngIf="subcategories?.length !== 0">
+            <tbody class="table-light" *ngIf="subcategories?.length !== 0">
             <tr *ngFor="let subcategory of subcategories; let i = index">
               <td class="align-middle">
-                <img src="{{ subcategory.imgUrl || 'assets/images/no-image.png' }}" class="img-fluid img-thumbnail  img-50">
+                <img [src]="getSrc(subcategory.img)" alt=" " class="img-fluid img-thumbnail img-50">
               </td>
               <td class="align-middle">
                 {{ subcategory.name }}
@@ -87,13 +87,13 @@
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-sm bg-faded-info me-1" placement="top" tooltip="Sửa"
+                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
                           (click)="getSubcategory(subcategory.id)">
-                    <i class="fas fa-pen-square text-info"></i>
+                    <i class="fas fa-pen-square"></i>
                   </button>
-                  <button type="button" class="btn btn-sm bg-faded-danger" (click)="deleteSubcategory(subcategory)"
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteSubcategory(subcategory)"
                           placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash text-danger"></i>
+                    <i class="fas fa-trash"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
@@ -121,7 +121,7 @@
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 id="subcategory-dialog-sizes" class="modal-title pull-left text-primary fw-bold">
+        <h4 id="subcategory-dialog-sizes" class="modal-title pull-left text-uppercase text-primary fw-bold">
           {{ isEdit ? 'Cập nhật' : 'Thêm' }} danh mục
         </h4>
         <button type="button" class="btn-close close pull-right"
@@ -132,10 +132,10 @@
       <div class="modal-body">
         <form #subcategoryForm="ngForm">
           <div class="row">
-            <div class="col-12 col-md-5 mb-3">
-              <div class="d-flex justify-content-center align-items-center file-drop-area border rounded-4">
-                <img src="{{subcategory?.imgUrl ?? 'assets/images/no-image.png'}}" class="img-fluid w-100">
-                <input type="file" name="image" class="file-drop-input" accept="image/*"
+            <div class="col-12 col-md-5">
+              <div class="file-drop-area ratio ratio-1x1 mb-3">
+                <img [src]="subcategoryImgPreview" class="img-fluid img-thumbnail" alt=" ">
+                <input type="file" name="file" class="file-drop-input" accept="image/*"
                        (change)="selectedImageChanged($event)">
               </div>
             </div>

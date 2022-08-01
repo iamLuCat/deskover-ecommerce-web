@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.entity.PaymentMethods;
-import com.deskover.repository.PaymentRepository;
+import com.deskover.model.entity.database.PaymentMethods;
+import com.deskover.model.entity.database.repository.PaymentRepository;
 import com.deskover.service.PaymentService;
 
 @Service
@@ -15,7 +15,7 @@ public class PaymentMethodServiceImpl implements PaymentService {
 	private PaymentRepository paymentRepository;
 
 	@Override
-	public List<PaymentMethods> doGetAll() {
+	public List<PaymentMethods> getAll() {
 		return paymentRepository.findAll();
 	}
 

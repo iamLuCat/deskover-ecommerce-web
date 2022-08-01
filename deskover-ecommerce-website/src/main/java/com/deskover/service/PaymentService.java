@@ -2,10 +2,10 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.entity.PaymentMethods;
+import com.deskover.model.entity.database.PaymentMethods;
 
 public interface PaymentService {
-	List<PaymentMethods> doGetAll();
+	List<PaymentMethods> getAll();
 	PaymentMethods findById(Long id);
 
 }

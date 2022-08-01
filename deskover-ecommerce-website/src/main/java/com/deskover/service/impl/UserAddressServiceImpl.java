@@ -2,13 +2,16 @@ package com.deskover.service.impl;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.entity.User;
-import com.deskover.entity.UserAddress;
-import com.deskover.repository.UserAddressRepository;
+import com.deskover.model.entity.database.UserAddress;
+import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.database.repository.UserAddressRepository;
 import com.deskover.service.UserAddressService;
 import com.deskover.service.UserService;
 
@@ -21,8 +24,8 @@ public class UserAddressServiceImpl implements UserAddressService {
 	private UserService userService;
 
 	@Override
-	public List<UserAddress> findByUsername(String username) {
-		List<UserAddress> listAddress = userAddressRepository.findByUserUsername(username);
+	public List<UserAddress> findByUsername() {
+		List<UserAddress> listAddress = userAddressRepository.findByUserUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		if(listAddress == null) {
 			throw new IllegalArgumentException("Không có địa chỉ");
 		}
@@ -40,9 +43,9 @@ public class UserAddressServiceImpl implements UserAddressService {
 
 	@Override
 	@Transactional
-	public void changeActive(Long id, String username) {
+	public void changeActive(Long id) {
 		
-		List<UserAddress> userAddresses = userAddressRepository.findByUserUsername(username);
+		List<UserAddress> userAddresses = userAddressRepository.findByUserUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		UserAddress userAddress = userAddressRepository.getById(id);
 		if(userAddress == null) {
 			throw new IllegalArgumentException("Không tìm thấy địa chỉ");
@@ -61,8 +64,8 @@ public class UserAddressServiceImpl implements UserAddressService {
 
 	@Override
 	@Transactional
-	public void changeChoose(Long id, String username) {
-		List<UserAddress> userAddresses = userAddressRepository.findByUserUsername(username);
+	public void changeChoose(Long id ) {
+		List<UserAddress> userAddresses = userAddressRepository.findByUserUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		UserAddress userAddress = userAddressRepository.getById(id);
 		if(userAddress == null) {
 			throw new IllegalArgumentException("Không tìm thấy địa chỉ");
@@ -81,17 +84,27 @@ public class UserAddressServiceImpl implements UserAddressService {
 	}
 
 	@Override
-	public UserAddress findByUsernameAndChoose(String username,Boolean choose) {
-		return userAddressRepository.findByUserUsernameAndChoose(username, choose);
+	public UserAddress findByUsernameAndChoose(Boolean choose) {
+		return userAddressRepository.findByUserUsernameAndChoose(SecurityContextHolder.getContext().getAuthentication().getName(), choose);
 	}
 
 	@Override
 	@Transactional
-	public UserAddress doPostAddAddress(UserAddress userAddress, String username) {
-		User user = userService.findByUsername(username);
+	public UserAddress doPostAddAddress(UserAddress userAddress) {
+		Users user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		if(userAddressRepository.existsByTel(userAddress.getTel())) {
+			throw new IllegalArgumentException("Số điện thoại đã tồn tại");
+		}
 		userAddress.setUser(user);
 		userAddress.setActived(Boolean.FALSE);
 		userAddress.setChoose(Boolean.FALSE);
+		return userAddressRepository.saveAndFlush(userAddress);
+	}
+
+	@Override
+	public UserAddress doPutAddAddress(@Valid UserAddress userAddress) {
+		Users user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		userAddress.setUser(user);
 		return userAddressRepository.saveAndFlush(userAddress);
 	}
 

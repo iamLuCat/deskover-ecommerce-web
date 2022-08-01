@@ -1,9 +1,10 @@
 package com.deskover.service;
 
-import com.deskover.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+
+import com.deskover.model.entity.database.Product;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -14,14 +15,16 @@ public interface ProductService {
 	Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size);
 
 	Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size);
-
+	
 	List<Product> getBySubcategoryId(Long id);
-
-	Product create(Product product);
 
 	Product changeActive(Long id);
 
+	Product create(Product product, Boolean isCopy);
+
 	Product save(Product product);
+
+	Product save(Product product, Boolean isCopy);
 
 	Product findById(Long id);
 
@@ -51,5 +54,7 @@ public interface ProductService {
 			Optional<Integer> size);
 
 	Page<Product> getProductBySubId(Boolean active, Long subId, Optional<Integer> page, Optional<Integer> size);
+
+	Page<Product> doGetProductSale(Optional<Integer> page, Optional<Integer> size);
 
 }

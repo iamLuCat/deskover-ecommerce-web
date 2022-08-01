@@ -1,10 +1,11 @@
 package com.deskover.service;
 
-import com.deskover.dto.ChangePasswordDto;
-import com.deskover.entity.User;
-import com.deskover.entity.UserPassword;
+import com.deskover.model.entity.database.UserPassword;
+import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.dto.ChangePasswordDto;
 
 public interface UserPasswordService {
-	UserPassword create(User user,String password);
+	UserPassword create(Users user,String password);
 	void updatePassword(String username,ChangePasswordDto updatePasswordUser);
+	UserPassword getPasswordByUsername(String username);
 }

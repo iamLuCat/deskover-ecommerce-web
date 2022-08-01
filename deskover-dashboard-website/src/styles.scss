@@ -1,3 +1,18 @@
+/* Scrollbar */
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(104, 105, 119, 0.4);
+  border-radius: 20px;
+}
+
 @import "variable";
 @import "bootstrap";
 
@@ -14,23 +29,6 @@
 
 @import "common";
 
-/* width */
-::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: rgba(104, 105, 119, 0.4);
-  border-radius: 20px;
-}
-
 body {
   width: 100vw;
   height: 100vh;
@@ -40,14 +38,6 @@ body {
 
 tr, td {
   white-space: nowrap;
-}
-
-.notiflix-confirm-buttons>a {
-  text-decoration: none;
-}
-
-.modal-body, .ck.ck-editor__main>.ck-editor__editable {
-  overflow-x: hidden !important;
 }
 
 .brand-link {
@@ -113,7 +103,7 @@ tr, td {
 }
 
 .login-page {
-  background-image: url('/assets/images/login-bg.jpg');
+  background-image: url('assets/images/login-bg.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -251,7 +241,15 @@ tr, td {
   padding: 0 0.5rem;
 }
 
-/* CKEditor */
+/* Modal & CKEditor */
+.modal-fullscreen {
+  max-height: none;
+}
+
+//.modal-body, .ck.ck-editor__main>.ck-editor__editable {
+//  overflow-x: hidden !important;
+//}
+//
 //.ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable),
 //.ck.ck-editor__editable.ck-rounded-corners:not(.ck-editor__nested-editable) {
 //  border: 1px solid #ced4da;
@@ -265,3 +263,9 @@ tr, td {
 //    z-index: 10056 !important;
 //  }
 //}
+
+/* Notiflix */
+.notiflix-confirm-buttons>a {
+  text-decoration: none;
+}
+

@@ -2,12 +2,15 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.entity.UserAddress;
+import javax.validation.Valid;
+
+import com.deskover.model.entity.database.UserAddress;
 
 public interface UserAddressService {
-	List<UserAddress> findByUsername(String username);
-	void changeActive(Long id,String username);
-	void changeChoose(Long id, String username);
-	UserAddress findByUsernameAndChoose(String username,Boolean choose);
-	UserAddress doPostAddAddress(UserAddress userAddress,String username);
+	List<UserAddress> findByUsername();
+	void changeActive(Long id);
+	void changeChoose(Long id);
+	UserAddress findByUsernameAndChoose(Boolean choose);
+	UserAddress doPostAddAddress(UserAddress userAddress);
+	UserAddress doPutAddAddress(@Valid UserAddress userAddress);
 }

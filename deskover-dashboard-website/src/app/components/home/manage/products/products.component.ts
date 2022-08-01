@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Product} from "@/entites/product";
+import {Product, ProductThumbnail} from "@/entites/product";
 import {DataTableDirective} from "angular-datatables";
 import {ProductService} from "@services/product.service";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
@@ -12,8 +12,6 @@ import {ModalDirective} from "ngx-bootstrap/modal";
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {FormControlDirective} from "@angular/forms";
-import {ProductThumbnail} from "@/entites/product-thumbnail";
-import {UploadedImage} from "@/entites/uploaded-image";
 import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -27,6 +25,9 @@ import {environment} from "../../../../../environments/environment";
 export class ProductsComponent implements OnInit {
   products: Product[];
   product: Product;
+  productPreviewImg: string;
+  productPreviewThumbnails: string[];
+
   categories: Category[];
   category: Category;
   subcategories: Subcategory[];
@@ -36,10 +37,9 @@ export class ProductsComponent implements OnInit {
 
   categoryIdFilter: number = null;
   brandIdFilter: number = null;
-  uploadedImage: UploadedImage;
 
-  isEdit: boolean = false;
   isActive: boolean = true;
+  isCopy: boolean = false;
 
   dtOptions: any = {};
 
@@ -140,27 +140,27 @@ export class ProductsComponent implements OnInit {
       description: '',
       spec: `
         <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">CPU:</span><span>Apple M2</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">RAM:</span><span>8GB</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Card đồ họa:</span><span>8 nhân GPU, 16 nhân Neural Engine</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">CPU: </span><span>Apple M2</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">RAM: </span><span>8GB</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Card đồ họa: </span><span>8 nhân GPU, 16 nhân Neural Engine</span></li>
           <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Ổ cứng</span><span>SSD - 256GB</span></li>
           <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Màn hình</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>
           <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Pin</span><span>52,6 Wh</span></li>
         </ul>`,
       design: `
         <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Kích thước:</span><span>30,41cm-21,5cm-1,13cm</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Trọng lượng:</span><span>1.27 kg</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Chất liệu:</span><span>Vỏ kim loại</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Kích thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Trọng lượng: </span><span>1.27 kg</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Chất liệu: </span><span>Vỏ kim loại</span></li>
         </ul>`,
       utility: `
         <ul class="list-unstyled fs-sm pb-2">
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Cổng giao tiếp:</span><span>Cổng HDMI và đầu đọc thẻ SD, USB Type-C</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Wifi:</span><span>802.11ax Wi-Fi 6</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Webcam:</span><span>1080p FaceTime HD camera</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Hệ điều hành:</span><span>MacOS</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Âm thanh:</span><span>Yes</span></li>
-          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Bluetooth:</span><span>5.0</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Cổng giao tiếp: </span><span>Cổng HDMI và đầu đọc thẻ SD, USB Type-C</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Webcam: </span><span>1080p FaceTime HD camera</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Hệ điều hành: </span><span>MacOS</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Âm thanh: </span><span>Yes</span></li>
+          <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Bluetooth: </span><span>5.0</span></li>
         </ul>`,
       other: ``,
       price: null,
@@ -182,6 +182,10 @@ export class ProductsComponent implements OnInit {
         <ProductThumbnail>{thumbnail: ''},
       ],
     };
+    this.productPreviewImg = 'assets/images/no-image.png';
+    this.productPreviewThumbnails = new Array(this.product.productThumbnails.length)
+      .fill('assets/images/no-image.png');
+
     this.category = <Category>{
       id: null,
       name: '',
@@ -213,8 +217,8 @@ export class ProductsComponent implements OnInit {
 
   /* Product */
   newProduct() {
+    this.isCopy = false;
     this.productForm.control.reset();
-    this.isEdit = false;
     setTimeout(() => {
       this.newData();
     });
@@ -226,36 +230,48 @@ export class ProductsComponent implements OnInit {
       this.product = data;
       this.category = data.subCategory.category;
 
+      if(this.isCopy) {
+        this.product.id = null;
+        this.product.name = `${this.product.name} - Copy`;
+        this.product.slug = `${this.product.slug}-copy`;
+      }
+
       if (this.product.productThumbnails.length < 4) {
-        this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
+        for (let i = this.product.productThumbnails.length; i < 4; i++) {
+          this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
+        }
       }
       this.product.productThumbnails.sort((a, b) => a.id - b.id);
+      this.productPreviewImg = this.getSrc(this.product.img);
+      this.productPreviewThumbnails = this.product.productThumbnails.map(item => this.getSrc(item.thumbnail));
+
+      this.getSubcategoriesByCategory();
+      this.openModal(this.productModal);
     });
-    this.isEdit = true;
-    this.getSubcategoriesByCategory();
-    this.openModal(this.productModal);
+
   }
 
   copyProduct(productId: number) {
+    this.isCopy = true;
     this.editProduct(productId);
-    this.isEdit=false;
-    this.product.id = null;
   }
 
   saveProduct(product: Product) {
-    if (this.isEdit) {
+    let params = new HttpParams().set('isCopy', this.isCopy.toString() || "");
+    this.product.weight = this.getWeightFromHtml(this.product.design);
+    if (product.id) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
-        this.rerender();
-        this.closeModal();
       });
     } else {
-      this.productService.create(product).subscribe(data => {
+      this.productService.create(product, params).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
-        this.rerender();
-        this.closeModal();
       });
     }
+
+    this.isCopy = false;
+    this.rerender();
+    this.closeModal();
   }
 
   deleteProduct(product: Product) {
@@ -272,6 +288,18 @@ export class ProductsComponent implements OnInit {
       NotiflixUtils.successNotify('Kích hoạt sản phẩm thành công');
       this.rerender();
     });
+  }
+
+  getWeightFromHtml(html: string): number {
+    html = html
+      .replaceAll(/&nbsp;/g, '');
+
+    const weight = html.match(/<span class="text-muted">Trọng lượng:(\s*)<\/span>([0-9.]+)(\s*)(kg|g)/)
+    if (weight[4] === 'g') {
+      return Number(weight[2]) / 1000;
+    } else {
+      return Number(weight[2]);
+    }
   }
 
   /* Slugify */
@@ -305,23 +333,26 @@ export class ProductsComponent implements OnInit {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 
-
   selectedImageChanged($event: Event) {
     const file = $event.target['files'][0];
     this.uploadService.uploadImage(file).subscribe(data => {
-      this.uploadedImage = data;
-      this.product.imgUrl = this.uploadedImage.url;
-      this.product.img = this.uploadedImage.filename;
+      this.product.img = data.filename;
+      this.productPreviewImg = `${environment.globalUrl.tempFolder}/${data.filename}`;
+      $event.target['value'] = '';
     });
   }
 
   selectedThumbnailChange($event: Event, index: number) {
     const file = $event.target['files'][0];
     this.uploadService.uploadImage(file).subscribe(data => {
-      this.uploadedImage = data;
-      this.product.productThumbnails[index].thumbnailUrl = this.uploadedImage.url;
-      this.product.productThumbnails[index].thumbnail = this.uploadedImage.filename;
+      this.product.productThumbnails[index].thumbnail = data.filename;
+      this.productPreviewThumbnails[index] = `${environment.globalUrl.tempFolder}/${data.filename}`;
+      $event.target['value'] = '';
     });
+  }
+
+  getSrc(image: string) {
+    return `${environment.globalUrl.productImg}/${image}`;
   }
 
   getUrlYoutubeEmbed(url: string) {

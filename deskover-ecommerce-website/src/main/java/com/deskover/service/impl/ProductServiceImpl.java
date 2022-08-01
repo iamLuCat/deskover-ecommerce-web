@@ -1,14 +1,15 @@
 package com.deskover.service.impl;
 
-import com.deskover.constant.PathConstant;
-import com.deskover.entity.Product;
-import com.deskover.entity.ProductThumbnail;
-import com.deskover.repository.ProductRepository;
-import com.deskover.repository.ProductThumbnailRepository;
-import com.deskover.repository.datatables.ProductRepoForDatatables;
-import com.deskover.service.*;
-import com.deskover.util.FileUtil;
-import com.deskover.util.UrlUtil;
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.persistence.criteria.Predicate;
+import javax.validation.Valid;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,13 +21,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Predicate;
-import javax.validation.Valid;
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.repository.ProductRepository;
+import com.deskover.model.entity.database.repository.ProductThumbnailRepository;
+import com.deskover.model.entity.database.repository.datatable.ProductRepoForDatatables;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
+import com.deskover.service.CategoryService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -46,11 +49,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private BrandService brandService;
-
-    @Autowired
-    private DiscountService discountService;
 
     public Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
@@ -60,26 +58,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getByName(String name, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
-
-        Page<Product> pages = repo.findByNameContaining(name, pageable);
+        Page<Product> pages = repo.findByNameContainingOrSubCategoryNameContainingOrSubCategoryCategoryNameContainingOrBrandNameContaining(name,name,name,name,pageable);
         if (!pages.isEmpty()) {
             return pages;
-        }
-        Page<Product> pageSub = repo.findBySubCategoryNameContaining(name, pageable);
-        if (!pageSub.isEmpty()) {
-            return pageSub;
-        }
-        Page<Product> pageCate = repo.findBySubCategoryCategoryNameContaining(name, pageable);
-        if (!pageCate.isEmpty()) {
-            return pageCate;
         }
         throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 
     }
-
+    
     @Override
     @Transactional
-    public Product create(Product product) {
+    public Product create(Product product, Boolean isCopy) {
         if (this.existsBySlug(product)) {
             Product productExists = repo.findBySlug(product.getSlug());
             if (productExists != null && !productExists.getActived()) {
@@ -88,13 +77,14 @@ public class ProductServiceImpl implements ProductService {
                 throw new IllegalArgumentException("Slug đã tồn tại");
             }
         }
+
         product.setActived(Boolean.TRUE);
-        return this.save(product);
+        return this.save(product, isCopy);
     }
 
     @Override
     @Transactional
-    public Product save(Product product) {
+    public Product save(Product product, Boolean isCopy) {
         if (this.existsByOtherSlug(product)) {
             throw new IllegalArgumentException("Slug đã tồn tại");
         }
@@ -102,43 +92,46 @@ public class ProductServiceImpl implements ProductService {
         product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         product.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        String sourcePath = PathConstant.TEMP_STATIC + product.getImg();
+        String sourcePath = (isCopy ? PathConstant.PRODUCT_IMAGE_STATIC : PathConstant.TEMP_STATIC) + product.getImg();
         if (FileUtils.getFile(sourcePath).exists()) {
             String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
             product.setImg(imageFile.getName());
-            product.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
+//            product.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
         }
         Product savedProduct = repo.save(product);
 
-        if (product.getProductThumbnails() != null) {
-            int index = 0;
-            for (ProductThumbnail thumbnail : product.getProductThumbnails()) {
-                saveThumbnail(thumbnail, savedProduct, index);
-                index++;
+        AtomicInteger index = new AtomicInteger(1);
+        product.getProductThumbnails().forEach(thumbnail -> {
+            if (thumbnail != null && thumbnail.getThumbnail() != null && !thumbnail.getThumbnail().isBlank()) {
+                if (isCopy) {thumbnail.setId(null);}
+                thumbnail.setProduct(product);
+                thumbnail.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+                thumbnail.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+
+                String sourcePathThumbnail = (isCopy ? PathConstant.PRODUCT_IMAGE_STATIC : PathConstant.TEMP_STATIC)
+                        + thumbnail.getThumbnail();
+                if (FileUtils.getFile(sourcePathThumbnail).exists()) {
+                    String destPathThumbnail = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug()
+                            + "-thumbnail-" + index;
+                    File imageFileThumbnail = FileUtil.copyFile(sourcePathThumbnail, destPathThumbnail);
+                    thumbnail.setThumbnail(imageFileThumbnail.getName());
+//                    thumbnail.setThumbnailUrl(UrlUtil.getImageUrl(imageFileThumbnail.getName(), PathConstant.PRODUCT_IMAGE));
+                }
+                thumbnailRepository.save(thumbnail);
             }
-        }
+            index.getAndIncrement();
+        });
+
 
         FileUtil.removeFolder(PathConstant.TEMP_STATIC);
         return savedProduct;
     }
 
-    ProductThumbnail saveThumbnail(ProductThumbnail productThumbnail, Product product, Integer index) {
-        productThumbnail.setProduct(product);
-        productThumbnail.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        productThumbnail.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-
-        if (productThumbnail.getThumbnail() != null &&!productThumbnail.getThumbnail().isBlank()) {
-            String sourcePath = PathConstant.TEMP_STATIC + productThumbnail.getThumbnail();
-            if (FileUtils.getFile(sourcePath).exists()) {
-                String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug() + "-" + index;
-                File thumbnailFile = FileUtil.copyFile(sourcePath, destPath);
-                productThumbnail.setThumbnail(thumbnailFile.getName());
-                productThumbnail.setThumbnailUrl(UrlUtil.getImageUrl(thumbnailFile.getName(), PathConstant.PRODUCT_IMAGE));
-            }
-        }
-
-        return thumbnailRepository.save(productThumbnail);
+    @Override
+    @Transactional
+    public Product save(Product product) {
+        return this.save(product, false);
     }
 
     @Override
@@ -169,22 +162,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean existsBySlug(String slug) {
-        Product product = repo.findBySlug(slug);
-        return product != null;
-    }
-
-    @Override
     public Product findBySlug(String slug) {
         return repo.findBySlug(slug);
     }
 
     @Override
-    public Boolean existsByOtherSlug(Product product) {
-        Product productExits = repo.findBySlug(product.getSlug());
-        return (productExits != null && !productExits.getId().equals(product.getId()))
-                || subcategoryService.existsBySlug(product.getSlug())
-                || categoryService.existsBySlug(product.getSlug());
+    public Boolean existsBySlug(String slug) {
+        Product product = repo.findBySlug(slug);
+        return product != null;
     }
 
     @Override
@@ -194,6 +179,13 @@ public class ProductServiceImpl implements ProductService {
                 || categoryService.existsBySlug(product.getSlug());
     }
 
+    @Override
+    public Boolean existsByOtherSlug(Product product) {
+        Product productExits = repo.findBySlug(product.getSlug());
+        return (productExits != null && !productExits.getId().equals(product.getId()))
+                || subcategoryService.existsBySlug(product.getSlug())
+                || categoryService.existsBySlug(product.getSlug());
+    }
 
 
     @Override
@@ -286,35 +278,55 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-	@Override
-	public Page<Product> getProductByCreateAtDesc(Boolean active, Optional<Integer> page, Optional<Integer> size) {
-		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
-		Page<Product> products = repo.findByActivedOrderByModifiedAtDesc(active,pageable);
-		if(products == null) {
-			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
-		}
-		return products;
-	}
+    @Override
+    public Page<Product> getProductByCreateAtDesc(Boolean active, Optional<Integer> page, Optional<Integer> size) {
+        Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
+        Page<Product> products = repo.findByActivedAndQuantityGreaterThanOrderByModifiedAtDesc(active, (long) 0, pageable);
+        if (products == null) {
+            throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+        }
+        return products;
+    }
 
-	@Override
-	public Page<Product> getProductByCategoryId(Boolean active, Long categoryId, Optional<Integer> page,
-			Optional<Integer> size) {
-		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
-		Page<Product> products = repo.findByActivedAndSubCategoryCategoryId(active,categoryId,pageable);
-		if(products == null) {
-			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
-		}
-		return products;
-	}
+    @Override
+    public Page<Product> getProductByCategoryId(Boolean active, Long categoryId, Optional<Integer> page,
+                                                Optional<Integer> size) {
+        Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
+        Page<Product> products = repo.findByActivedAndSubCategoryCategoryIdAndDiscount(active, categoryId, null, pageable);
+        if (products == null) {
+            throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+        }
+        return products;
+    }
 
-	@Override
-	public Page<Product> getProductBySubId(Boolean active, Long subId, Optional<Integer> page, Optional<Integer> size) {
-		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
-		Page<Product> products = repo.findByActivedAndSubCategoryId(active,subId,pageable);
-		if(products == null) {
-			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
-		}
-		return products;
-	}
+    @Override
+    public Page<Product> getProductBySubId(Boolean active, Long subId, Optional<Integer> page, Optional<Integer> size) {
+        Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
+        Page<Product> products = repo.findByActivedAndSubCategoryId(active, subId, pageable);
+        if (products == null) {
+            throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+        }
+        return products;
+    }
+
+    @Override
+    public Page<Product> doGetProductSale(Optional<Integer> page, Optional<Integer> size) {
+        Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
+        Page<Product> products = repo.findByFlashSaleActivedAndDiscountActived(Boolean.TRUE, Boolean.TRUE, pageable);
+
+        if (products == null) {
+            throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+        }
+        System.out.println(">>>>>>>>>>>>>>>>" + products.getContent().stream().findFirst().get().getFlashSale().getEndDate());
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Timestamp timeFlashSale = products.getContent().stream().findFirst().get().getFlashSale().getEndDate();
+        if (timeFlashSale.getTime() < timestamp.getTime()) {
+            System.out.println("null>>>>>>>>>>>");
+            return null;
+        }
+        return products;
+    }
+
+
 
 }

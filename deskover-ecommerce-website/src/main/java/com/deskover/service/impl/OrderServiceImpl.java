@@ -1,30 +1,5 @@
 package com.deskover.service.impl;
 
-import com.deskover.dto.app.order.OrderDto;
-import com.deskover.dto.app.order.OrderItemDto;
-import com.deskover.dto.app.order.resquest.DataOrderResquest;
-import com.deskover.dto.app.total7dayago.DataTotaPrice7DaysAgo;
-import com.deskover.dto.app.total7dayago.Total7DaysAgo;
-import com.deskover.entity.*;
-import com.deskover.repository.*;
-import com.deskover.repository.datatables.OrderRepoForDatatables;
-import com.deskover.service.CartService;
-import com.deskover.service.OrderService;
-import com.deskover.service.UserAddressService;
-import com.deskover.util.DecimalFormatUtil;
-import com.deskover.util.MapperUtil;
-import com.deskover.util.OrderNumberUtil;
-import com.deskover.util.QrCodeUtil;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.criteria.Predicate;
-import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -33,6 +8,53 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.criteria.Predicate;
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.deskover.model.entity.database.Cart;
+import com.deskover.model.entity.database.Order;
+import com.deskover.model.entity.database.OrderDetail;
+import com.deskover.model.entity.database.OrderItem;
+import com.deskover.model.entity.database.OrderStatus;
+import com.deskover.model.entity.database.PaymentMethods;
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.ShippingMethods;
+import com.deskover.model.entity.database.StatusPayment;
+import com.deskover.model.entity.database.UserAddress;
+import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.database.repository.CartRepository;
+import com.deskover.model.entity.database.repository.OrderDetailRepository;
+import com.deskover.model.entity.database.repository.OrderItemRepository;
+import com.deskover.model.entity.database.repository.OrderRepository;
+import com.deskover.model.entity.database.repository.OrderStatusRepository;
+import com.deskover.model.entity.database.repository.ProductRepository;
+import com.deskover.model.entity.database.repository.UserRepository;
+import com.deskover.model.entity.database.repository.datatable.OrderRepoForDatatables;
+import com.deskover.model.entity.dto.application.DataOrderResquest;
+import com.deskover.model.entity.dto.application.DataTotaPrice7DaysAgo;
+import com.deskover.model.entity.dto.application.OrderDto;
+import com.deskover.model.entity.dto.application.OrderItemDto;
+import com.deskover.model.entity.dto.application.Total7DaysAgo;
+import com.deskover.other.util.DecimalFormatUtil;
+import com.deskover.other.util.MapperUtil;
+import com.deskover.other.util.OrderNumberUtil;
+import com.deskover.other.util.QrCodeUtil;
+import com.deskover.service.CartService;
+import com.deskover.service.OrderService;
+import com.deskover.service.PaymentService;
+import com.deskover.service.ProductService;
+import com.deskover.service.ShippingService;
+import com.deskover.service.StatusPaymentService;
+import com.deskover.service.UserAddressService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -59,6 +81,12 @@ public class OrderServiceImpl implements OrderService {
     private UserRepository userRepo;
 
     @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private ShippingService shippingService;
+
+    @Autowired
     private CartService cartService;
 
     @Autowired
@@ -70,6 +98,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired 
+    private ProductService productService;
+    
+    @Autowired 
+    private StatusPaymentService statusPaymentService;
+    
     @Override
     public List<Order> getAll() {
         return repo.findAll();
@@ -355,8 +389,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void addOrder(Order orderResponse, String username) {
-        List<Cart> cartItem = cartService.doGetAllCartOrder(username);
+    public Order addOrder(Order orderResponse) {
+        List<Cart> cartItem = cartService.doGetAllCartOrder();
         if (cartItem.isEmpty()) {
             throw new IllegalArgumentException("Giỏ hàng trống");
         }
@@ -370,10 +404,11 @@ public class OrderServiceImpl implements OrderService {
             }
 
         }
-        User user = userRepo.findByUsername(username);
+        Users user = userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Order order = mapper.map(orderResponse, Order.class);
         order.setOrderCode(orderCode);
         order.setUser(user);
+        order.setFullName(user.getUsername());
         order.setOrderStatus(orderStatusRepo.findByCode("C-XN"));
         order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         for (Cart cart : cartItem) {
@@ -396,11 +431,12 @@ public class OrderServiceImpl implements OrderService {
             productRepo.save(product);
             orderItemRepo.saveAndFlush(item);
         });
-        UserAddress address = addressService.findByUsernameAndChoose(username, Boolean.TRUE);
+        UserAddress address = addressService.findByUsernameAndChoose(Boolean.TRUE);
         OrderDetail orderDetail = mapper.map(address, OrderDetail.class);
         orderDetail.setId(null);
         orderDetail.setOrder(orderNew);
         orderDetailRepo.saveAndFlush(orderDetail);
+        return order;
     }
 
     @Override
@@ -412,5 +448,60 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderStatus> getAllOrderStatus() {
         return orderStatusRepo.findAll();
     }
+
+    @Override
+    public List<PaymentMethods> getAllPayment() {
+        return paymentService.getAll();
+    }
+
+    @Override
+    public List<ShippingMethods> getAllShippingUnit() {
+        return shippingService.getAll();
+    }
+
+	@Override
+	public void cancelOrder(Order orderResponse) {
+		Order order = repo.findById(orderResponse.getId()).orElse(null);
+		List<OrderItem> productsItems = orderItemRepo.findByOrderId(order.getId());
+		if(order.getStatusPayment().getCode().equals("C-TT")) {
+			productsItems.forEach((item) -> {
+				Product product = productService.findById(item.getId());
+				if(product == null) {
+					throw new IllegalArgumentException("sản phẩm này không tồn tại");
+				}
+				product.setQuantity(product.getQuantity() + item.getQuantity());
+				productRepo.saveAndFlush(product);
+				
+				OrderStatus status = orderStatusRepo.findByCode("HUY");
+				order.setOrderStatus(status);
+				repo.saveAndFlush(order);
+				
+			});
+		}else if(order.getStatusPayment().getCode().equals("D-TT")){
+			productsItems.forEach((item) -> {
+				Product product = productService.findById(item.getId());
+				if(product == null) {
+					throw new IllegalArgumentException("sản phẩm này không tồn tại");
+				}
+				product.setQuantity(product.getQuantity() + item.getQuantity());
+				productRepo.saveAndFlush(product);
+				
+				OrderStatus status = orderStatusRepo.findByCode("HUY");
+				order.setOrderStatus(status);
+				StatusPayment statusPayment = statusPaymentService.findByCode("C-HT");
+				order.setStatusPayment(statusPayment);
+				repo.saveAndFlush(order);
+			});
+		}
+	}
+
+	@Override
+	public void refundMoney(Order order) {
+		if(order.getStatusPayment().getCode().equals("C-HT")) {
+			StatusPayment statusPayment = statusPaymentService.findByCode("D-HT");
+			order.setStatusPayment(statusPayment);
+			repo.saveAndFlush(order);
+		}
+	}
 
 }
