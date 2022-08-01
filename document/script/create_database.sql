@@ -510,6 +510,7 @@ CREATE TABLE flash_sale
 	id              BIGINT                                                     NOT NULL AUTO_INCREMENT,
    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
 	start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	start_date_format     VARCHAR(128)                                                 NOT NULL,
 	end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_date_format     VARCHAR(128)                                                 NOT NULL,
     actived       BIT                                                          NOT NULL DEFAULT 0,
@@ -517,12 +518,11 @@ CREATE TABLE flash_sale
     PRIMARY KEY (id)
 );
 
-insert flash_sale (id,`name`,start_date, end_date,end_date_format, actived, modified_by)
+insert flash_sale (id,`name`,start_date,start_date_format, end_date,end_date_format, actived, modified_by)
 values 
   (
-    1, 'Flash Sale Of', '2022-07-30 23:59:59', 
-    '2022-07-30 23:59:59', '2022-07-30 23:59:59', 
-    1, 'haipv'
+    1, 'Flash Sale Of', '2022-08-05 23:59:59', '2022-08-05 23:59:59',
+    '2022-08-06 23:59:59', '2022-08-06 23:59:59',1, 'haipv'
   );
 
 -- Sản phẩm
