@@ -99,6 +99,7 @@ public class ProductServiceImpl implements ProductService {
             String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
             product.setImg(imageFile.getName());
+//            product.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
         }
         Product savedProduct = repo.save(product);
 
@@ -117,6 +118,7 @@ public class ProductServiceImpl implements ProductService {
                             + "-thumbnail-" + index;
                     File imageFileThumbnail = FileUtil.copyFile(sourcePathThumbnail, destPathThumbnail);
                     thumbnail.setThumbnail(imageFileThumbnail.getName());
+//                    thumbnail.setThumbnailUrl(UrlUtil.getImageUrl(imageFileThumbnail.getName(), PathConstant.PRODUCT_IMAGE));
                 }
                 thumbnailRepository.save(thumbnail);
             }

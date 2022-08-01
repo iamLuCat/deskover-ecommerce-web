@@ -129,7 +129,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             String destPath = PathConstant.SUBCATEGORY_IMAGE_STATIC + subcategory.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
             subcategory.setImg(imageFile.getName());
-            subcategory.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.SUBCATEGORY_IMAGE));
+//            subcategory.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.SUBCATEGORY_IMAGE));
         }
 
         FileUtil.removeFolder(PathConstant.TEMP_STATIC);

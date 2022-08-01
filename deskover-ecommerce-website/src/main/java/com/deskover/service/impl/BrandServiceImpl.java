@@ -106,7 +106,7 @@ public class BrandServiceImpl implements BrandService {
             String destPath = PathConstant.BRAND_IMAGE_STATIC + brand.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
             brand.setImg(imageFile.getName());
-            brand.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.BRAND_IMAGE));
+//            brand.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.BRAND_IMAGE));
         }
         FileUtil.removeFolder(PathConstant.TEMP_STATIC);
 
