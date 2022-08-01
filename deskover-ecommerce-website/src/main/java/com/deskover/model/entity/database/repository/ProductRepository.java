@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import com.deskover.model.entity.database.Discount;
 import com.deskover.model.entity.database.Product;
 
@@ -70,7 +69,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	Page<Product> findByActivedAndSubCategoryId(Boolean active,Long categoryId, Pageable Page);
 	
+
+	@Query(value = "Select pr From Product pr Where pr.name = ?1")
+	Product getAllByName(String name);
+
+
 	Page<Product> findByFlashSaleActivedAndDiscountActived(Boolean activeFlashSale, Boolean activeDiscount,Pageable Page);
+
 	
 	Page<Product> findByNameContainingOrSubCategoryNameContainingOrSubCategoryCategoryNameContainingOrBrandNameContaining(String name,String sub,String cate,String brand, Pageable Page);
 	

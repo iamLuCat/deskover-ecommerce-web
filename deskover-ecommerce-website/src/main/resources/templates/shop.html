@@ -8,7 +8,7 @@
     )}">
 
 <head>
-    <title>Deskover: tìm kiếm</title>
+    <title>Deskover: tÃ¬m kiáº¿m</title>
 </head>
 
 <body>
@@ -24,14 +24,14 @@
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                            <li class="breadcrumb-item"><a class="text-nowrap" href="index.html"><i class="ci-home"></i>Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a class="text-nowrap" href="index.html"><i class="ci-home"></i>Trang chá»§</a></li>
                             </li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Cửa hàng</li>
+                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Cá»­a hÃ ng</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0">Tìm kiếm</h1>
+                    <h1 class="h3 text-light mb-0">TÃ¬m kiáº¿m</h1>
                 </div>
             </div>
         </div>
@@ -44,13 +44,13 @@
                     <!-- Sidebar-->
                     <div class="offcanvas offcanvas-collapse bg-white w-100 rounded-3 shadow-lg py-1" id="shop-sidebar" style="max-width: 22rem;">
                         <div class="offcanvas-header align-items-center shadow-sm">
-                            <h2 class="h5 mb-0">Bộ lọc</h2>
+                            <h2 class="h5 mb-0">Bá»™ lá»�c</h2>
                             <button class="btn-close ms-auto" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body py-grid-gutter px-lg-grid-gutter">
                             <!-- Categories-->
                             <div class="widget widget-categories mb-4 pb-4 border-bottom">
-                                <h3 class="widget-title">Danh mục</h3>
+                                <h3 class="widget-title">Danh má»¥c</h3>
                                 <div class="accordion mt-n1" id="shop-categories">
                                     <!-- Category-->
                                     <div class="accordion-item" ng-repeat="category in shop.categories" repeat-directive>
@@ -62,7 +62,7 @@
                                                         <input class="widget-filter-search form-control rounded-end" type="text" placeholder="Search"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
                                                     </div>
                                                     <ul class="widget-list widget-filter-list pt-1" style="height: 12rem;" data-simplebar data-simplebar-auto-hide="false">
-                                                        <li class="widget-list-item widget-filter-item"><a class="widget-list-link d-flex justify-content-between align-items-center" href="" ng-click="shop.filter.categoryToggleSelection(category.slug,'')"><span class="widget-filter-item-text">Tất cả</span></a></li>
+                                                        <li class="widget-list-item widget-filter-item"><a class="widget-list-link d-flex justify-content-between align-items-center" href="" ng-click="shop.filter.categoryToggleSelection(category.slug,'')"><span class="widget-filter-item-text">Táº¥t cáº£</span></a></li>
                                                         <li class="widget-list-item widget-filter-item" ng-repeat="subcategory in category.subcategories">
                                                             <a class="widget-list-link d-flex justify-content-between align-items-center" href="" ng-click="shop.filter.categoryToggleSelection('',subcategory.slug)">
                                                                 <span class="widget-filter-item-text">{{subcategory.name}}</span>
@@ -77,17 +77,17 @@
                             </div>
                             <!-- Price range-->
                             <div class="widget mb-4 pb-4 border-bottom">
-                                <h3 class="widget-title">Khoảng giá</h3>
+                                <h3 class="widget-title">Khoáº£ng giÃ¡</h3>
                                 <div class="range-slider" data-start-min="0" data-start-max="50000000" data-min="0" data-max="50000000" data-step="1000">
                                     <div class="range-slider-ui"></div>
                                     <div class="pb-1">
                                         <div class="w-100 mb-2">
-                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">TỪ</span>
+                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">Tá»ª</span>
                                                 <input class="form-control range-slider-value-min" type="text">
                                             </div>
                                         </div>
                                         <div class="w-100">
-                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">ĐẾN</span>
+                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">Ä�áº¾N</span>
                                                 <input class="form-control range-slider-value-max" type="text">
                                             </div>
                                         </div>
@@ -96,7 +96,7 @@
                             </div>
                             <!-- Filter by Brand-->
                             <div class="widget widget-filter mb-4 pb-4 border-bottom">
-                                <h3 class="widget-title">Thương hiệu</h3>
+                                <h3 class="widget-title">ThÆ°Æ¡ng hiá»‡u</h3>
                                 <div class="input-group input-group-sm mb-2">
                                     <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Search"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
                                 </div>
@@ -120,12 +120,12 @@
                             <div class="d-flex align-items-center flex-nowrap me-3 me-sm-4 pb-3">
                                 <label class="text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block" for="sorting">Theo:</label>
                                 <select class="form-select" id="sorting" ng-model="shop.filter.sort" ng-change="shop.loadItems()">
-                                    <option value="1">Giá thấp đến cao</option>
-                                    <option value="2">Giá cao đến thấp</option>
-                                    <option value="3">Đánh giá tốt</option>
-                                    <option value="4">Thứ tự A - Z</option>
-                                    <option value="5">Thứ tự Z - A</option>
-                                </select><span class="fs-sm text-light opacity-75 text-nowrap ms-2 d-none d-md-block">trên {{shop.totalItems}} sản phẩm</span>
+                                    <option value="1">GiÃ¡ tháº¥p Ä‘áº¿n cao</option>
+                                    <option value="2">GiÃ¡ cao Ä‘áº¿n tháº¥p</option>
+                                    <option value="3">Ä�Ã¡nh giÃ¡ tá»‘t</option>
+                                    <option value="4">Thá»© tá»± A - Z</option>
+                                    <option value="5">Thá»© tá»± Z - A</option>
+                                </select><span class="fs-sm text-light opacity-75 text-nowrap ms-2 d-none d-md-block">trÃªn {{shop.totalItems}} sáº£n pháº©m</span>
                             </div>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body card-body-hidden">
-                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button" ng-click="cart.add(item)"><i class="ci-cart fs-sm me-1"></i>Thêm vào giỏ hàng</button>
+                                    <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button" ng-click="cart.add(item)"><i class="ci-cart fs-sm me-1"></i>ThÃªm vÃ o giá»� hÃ ng</button>
                                     <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal" ng-click="shop.quickView(item.slug)"><i class="ci-eye align-middle me-1"></i>Xem nhanh</a></div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                         </div>
                         <div ng-if="shop.items.length == 0">
                             <div class="text-center w-100">
-                                <div>Không tìm thấy sản phẩm nào</div>
+                                <div>KhÃ´ng tÃ¬m tháº¥y sáº£n pháº©m nÃ o</div>
                                 <br>
                                 <img width="500px" th:src="@{/img/not-found.png}" alt="">
                             </div>
@@ -166,7 +166,7 @@
                     <!-- Pagination-->
                     <nav class="d-flex justify-content-between pt-2" aria-label="Page navigation" ng-if="shop.totalPage > 1">
                         <ul class="pagination">
-                            <li class="page-item"><button class="page-link" aria-label="Trở về trước một trang" ng-click="shop.filter.changePage(shop.filter.currentPage-1)"><i class="ci-arrow-left me-2"></i>Về trước</a></li>
+                            <li class="page-item"><button class="page-link" aria-label="Trá»Ÿ vá»� trÆ°á»›c má»™t trang" ng-click="shop.filter.changePage(shop.filter.currentPage-1)"><i class="ci-arrow-left me-2"></i>Vá»� trÆ°á»›c</a></li>
                         </ul>
                         <ul class="pagination">
                             <li class="page-item d-sm-none"><span class="page-link page-link-static">{{shop.filter.currentPage+1}} / {{shop.totalPage}}</span></li>
@@ -176,7 +176,7 @@
                             </li>
                         </ul>
                         <ul class="pagination">
-                            <li class="page-item"><button class="page-link" aria-label="Tiến tới thêm một trang" ng-click="shop.filter.changePage(shop.filter.currentPage+1)">Tiếp theo<i class="ci-arrow-right ms-2"></i></button></li>
+                            <li class="page-item"><button class="page-link" aria-label="Tiáº¿n tá»›i thÃªm má»™t trang" ng-click="shop.filter.changePage(shop.filter.currentPage+1)">Tiáº¿p theo<i class="ci-arrow-right ms-2"></i></button></li>
                         </ul>
                     </nav>
                 </section>

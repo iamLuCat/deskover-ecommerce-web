@@ -1,6 +1,10 @@
 angular
   .module('app', ['ngStorage'])
   .controller('mainCtrl', function ($scope, $http, $localStorage, $location) {
+    $scope.amounts = [];
+    $localStorage.items.forEach(item => {
+      $scope.amounts.push(item.amount);
+    });
     $scope.cart = {
       itemPage: [],
       loadCart() {
@@ -79,6 +83,7 @@ angular
           itemInput.amount = select;
           $localStorage.items.push(itemInput);
         }
+        
       },
       remove(i) {
         var idx = $localStorage.items.indexOf(i);
@@ -88,8 +93,35 @@ angular
         amount(a) {
           if (!a.item.amount) a.item.amount = 1;
         }
-      }
+      },
     }
+    $http({
+	  method : "POST",
+	  url : "checkout",
+	  data : angular.toJson($scope.cart.items),
+	  headers : {
+	    'Content-Type' : 'application/json'
+	  }
+	}).then(function successCallback(response) {
+      
+    }, function errorCallback(response) {
+      
+    });
+
+    $http({
+	  method : "POST",
+	  url : "amounts",
+	  data : angular.toJson($scope.amounts),
+	  headers : {
+	    'Content-Type' : 'application/json'
+	  }
+	}).then(function successCallback(response) {
+      
+    }, function errorCallback(response) {
+      
+    });
+    
+
   }).controller('shopCtrl', function ($scope, $http) {
     $scope.shop = {
       item: [],
@@ -187,7 +219,6 @@ angular
         });
       }
     }
-
   }).directive('repeatDirective', function () {
     return function (scope, element, attrs) {
       if (scope.$last) {
