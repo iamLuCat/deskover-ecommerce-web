@@ -2,6 +2,8 @@ package com.deskover.dto;
 
 import com.deskover.entity.Product;
 import com.deskover.entity.ProductThumbnail;
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,7 +34,6 @@ public class ProductModel {
 		this.thumbsnails = product.getProductThumbnails().stream().map(ProductThumbnail::getThumbnailUrl).collect(Collectors.toList());
 		this.averageRating = product.getAverageRating();
 		this.totalRating = product.getTotalRating();
-		
 		this.item = new ItemModel(product);
 	}
 	

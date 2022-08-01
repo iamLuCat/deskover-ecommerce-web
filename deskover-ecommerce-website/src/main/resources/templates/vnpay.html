@@ -14,6 +14,7 @@
         <!-- Custom styles for this template -->
         <link href="/assets/jumbotron-narrow.css" rel="stylesheet">      
         <script src="/assets/jquery-1.11.3.min.js"></script>
+ 
     </head>
 
     <body>
@@ -23,25 +24,16 @@
 
                 <h3 class="text-muted">VNPAY DESKOVER</h3>
             </div>
-            <h3>Tạo mới đơn hàng</h3>
+            <h3>Thanh toán đơn hàng của bạn với VNPay</h3>
             <div class="table-responsive">
                 <form action="/vnpayajax" id="frmCreateOrder" method="post">        
                     <div class="form-group">
-                        <label for="language">Loại hàng hóa </label>
-                        <select name="ordertype" id="ordertype" class="form-control">
-                            <option value="topup">Nạp tiền điện thoại</option>
-                            <option value="billpayment">Thanh toán hóa đơn</option>
-                            <option value="fashion">Thời trang</option>
-                            <option value="240004">Xe đạp điện 123</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="amount">Số tiền</label>
-                        <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="100000000" min="1" name="amount" type="number" value="10000" />
+                        <label for="amount">Số tiền cần thanh toán</label>
+                        <input class="form-control" th:value = "${total}" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="1000000000" min="1" name="amount" type="number"  />
                     </div>
                     <div class="form-group">
                         <label for="OrderDescription">Nội dung thanh toán</label>
-                        <textarea class="form-control" cols="20" id="vnp_OrderInfo" name="vnp_OrderInfo" rows="2">Thanh toan don hang test</textarea>
+                        <textarea class="form-control" cols="20" id="vnp_OrderInfo" name="vnp_OrderInfo" rows="2">Your order payment has been confirmed by deskover</textarea>
                     </div>
                     <div class="form-group">
                         <label for="bankcode">Ngân hàng</label>

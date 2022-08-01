@@ -65,5 +65,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	Page<Product> findByActivedAndSubCategoryId(Boolean active,Long categoryId, Pageable Page);
 	
+	@Query(value = "Select pr From Product pr Where pr.name = ?1")
+	Product getAllByName(String name);
+
 	
 }

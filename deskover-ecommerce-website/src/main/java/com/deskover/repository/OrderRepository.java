@@ -54,4 +54,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	
 	Order findByOrderCode( String orderCode);
 	
+	@Query(value = "SELECT * FROM orders ORDER BY ID DESC LIMIT 1", nativeQuery = true)
+	Order getlastOrder();
+	
 }
