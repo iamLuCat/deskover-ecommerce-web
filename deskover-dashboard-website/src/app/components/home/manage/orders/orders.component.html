@@ -31,9 +31,13 @@
             </select>
           </div>
           <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
-            <button type="button" class="btn bg-faded-accent w-sm-100 rounded-pill"
-              (click)="orderStatusCode = 'C-XN'; rerender()">
-              <span class="text-accent">Đơn chờ xác nhận</span>
+            <button type="button" class="btn bg-faded-success w-sm-100 rounded-pill me-2"
+                    (click)="orderStatusCode = 'C-XN'; rerender()">
+              <span class="text-success">Đơn chờ xác nhận</span>
+            </button>
+            <button type="button" class="btn bg-faded-danger w-sm-100 rounded-pill"
+                    (click)="orderStatusCode = 'HUY'; rerender()">
+              <span class="text-danger">Đơn huỷ/trả hàng</span>
             </button>
           </div>
         </div>
@@ -61,7 +65,8 @@
             <tbody class="table-light" *ngIf="orders?.length !== 0">
             <tr *ngFor="let order of orders; let i = index">
               <td class="align-middle">
-                <img [src]="order.qrCode ? getQrCode(order.qrCode) : 'assets/images/no-image.png'" class="img-thumbnail img-50">
+                <img [src]="order.qrCode ? getQrCode(order.qrCode) : 'assets/images/no-image.png'"
+                     class="img-thumbnail img-50">
               </td>
               <td class="align-middle">
                 {{ order.orderCode }}
@@ -79,7 +84,7 @@
                 {{ order.createdAt | date: 'dd/MM/yyyy' }}
               </td>
               <td class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
-                <span class="badge bg-opacity-25 text-dark fw-normal fs-6"
+                <span class="badge text-dark bg-opacity-25 fs-6 fw-normal"
                       [ngClass]="getClassesByOrder(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
               </td>
               <td class="align-middle">
@@ -87,16 +92,19 @@
                   [ngClass]="getClassesByPayment(order.statusPayment.code)">{{ order.statusPayment.status }}</span>
               </td>
               <td class="align-middle text-end">
+                <button type="button" class="btn btn-sm btn-warning me-1" placement="top" tooltip="Xác nhận hoàn tiền"
+                        container="body" (click)="refundOrder(order)"
+                        *ngIf="orderStatusCode !== null && isUnpaidOrder(order.statusPayment.code)">
+                  <i class="fa-solid fa-money-bill-transfer"></i>
+                </button>
                 <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
-                        container="body"
-                        (click)="confirmOrder(order)"
-                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode !== null">
+                        container="body" (click)="confirmOrder(order)"
+                        *ngIf="orderStatusCode !== null && isPendingOrder(order.orderStatus.code)">
                   <i class="fa-solid fa-circle-check"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-danger me-1" placement="top" tooltip="Huỷ đơn"
-                        container="body"
-                        (click)="cancelOrder(order)"
-                        *ngIf="isPendingOrder(order.orderStatus.code) && orderStatusCode !== null">
+                        container="body" (click)="cancelOrder(order)"
+                        *ngIf="orderStatusCode !== null && isPendingOrder(order.orderStatus.code)">
                   <i class="fa-solid fa-circle-xmark"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
@@ -228,7 +236,7 @@
       </div>
     </div>
   </div>
-  <div class="modal-footer"  *ngIf="isPendingOrder(order.orderStatus.code)">
+  <div class="modal-footer" *ngIf="isPendingOrder(order.orderStatus.code)">
     <button type="button" class="btn btn-sm btn-success" (click)="confirmOrder(order)">
       Xác nhận đơn
     </button>

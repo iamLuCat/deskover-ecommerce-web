@@ -139,6 +139,12 @@ export class OrdersComponent implements OnInit {
     }
   }
 
+  isUnpaidOrder(statusCode: string) {
+    if (statusCode) {
+      return statusCode === 'C-TT';
+    }
+  }
+
   changeOrderStatus(order: Order, message: string) {
     this.orderService.changeOrderStatus(order.orderCode).subscribe({
       next: (order) => {
@@ -146,8 +152,9 @@ export class OrdersComponent implements OnInit {
         NotiflixUtils.removeLoading();
 
         this.order = order;
+        this.orderStatusCode = 'C-LH';
+
         this.rerender();
-        this.closeModal();
       },
       error: () => {
         NotiflixUtils.removeLoading();
@@ -156,35 +163,56 @@ export class OrdersComponent implements OnInit {
   }
 
   confirmOrder(order: Order) {
-    NotiflixUtils.showLoading();
-    console.log(order.shipping.shippingId);
-    if (order.shipping.shippingId === 'DKV') {
-      this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: " + order.shipping.name_shipping);
-    } else {
-      this.orderService.confirmOrder(order).subscribe({
-        next: (data) => {
-          NotiflixUtils.removeLoading();
-          this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: " + order.shipping.name_shipping);
-        },
-        error: () => {
-          NotiflixUtils.removeLoading();
-          return;
-        }
-      });
-    }
-    this.orderStatusCode = 'C-LH';
-    this.rerender();
+    NotiflixUtils.showConfirm('Xác nhận', 'Duyệt đơn hàng ' + order.orderCode, () => {
+      NotiflixUtils.showLoading();
+      if (order.shipping.shippingId === 'DKV') {
+        this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: "
+          + order.shipping.name_shipping);
+      } else {
+        this.orderService.confirmOrder(order).subscribe({
+          next: (data) => {
+            NotiflixUtils.removeLoading();
+            this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: "
+              + order.shipping.name_shipping);
+          },
+          error: () => {
+            NotiflixUtils.removeLoading();
+          }
+        });
+      }
+    });
   }
 
   cancelOrder(order: Order) {
-    NotiflixUtils.showLoading();
-    this.orderService.cancelOrder(order).subscribe({
-      next: (data) => {
-        this.changeOrderStatus(order, "Huỷ đơn hàng thành công");
-      },
-      error: () => {
-        NotiflixUtils.removeLoading();
-      }
+    NotiflixUtils.showConfirm('Xác nhận', 'Huỷ đơn ' + order.orderCode, () => {
+      NotiflixUtils.showLoading();
+      this.orderService.cancelOrder(order).subscribe({
+        next: (data) => {
+          NotiflixUtils.removeLoading();
+          NotiflixUtils.successNotify("Hủy đơn hàng thành công");
+          this.orderStatusCode = 'HUY';
+          this.rerender();
+        },
+        error: () => {
+          NotiflixUtils.removeLoading();
+        }
+      });
+    });
+  }
+
+  refundOrder(order: Order) {
+    NotiflixUtils.showConfirm('Xác nhận', 'Hoàn tiền đơn ' + order.orderCode, () => {
+      NotiflixUtils.showLoading();
+      this.orderService.cancelOrder(order).subscribe({
+        next: (data) => {
+          NotiflixUtils.removeLoading();
+          NotiflixUtils.successNotify("Hoàn tiền thành công");
+          this.rerender();
+        },
+        error: () => {
+          NotiflixUtils.removeLoading();
+        }
+      });
     });
   }
 }

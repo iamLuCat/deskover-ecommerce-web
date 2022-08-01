@@ -40,7 +40,11 @@ export class OrderService {
   }
 
   cancelOrder(order: Order): Observable<any> {
-    return this.restApi.post(this.orderUrl + '/cancel', order);
+    return this.restApi.put(this.orderUrl + '/cancel', order);
+  }
+
+  refundOrder(order: Order): Observable<any> {
+    return this.restApi.put(this.orderUrl + '/refund', order);
   }
 
   confirmOrder(order: Order): Observable<any> {

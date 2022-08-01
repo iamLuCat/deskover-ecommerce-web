@@ -434,9 +434,9 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void cancelOrder(Order orderResponse) {
 		Order order = repo.getById(orderResponse.getId());
-		List<OrderItem> productsItems = orderItemRepo.findByOrderId(order.getId());
+		List<OrderItem> productItems = orderItemRepo.findByOrderId(order.getId());
 		if(order.getStatusPayment().getCode().equals("C-TT")) {
-			productsItems.forEach((item) -> {
+			productItems.forEach((item) -> {
 				Product product = productService.findById(item.getId());
 				if(product == null) {
 					throw new IllegalArgumentException("Sản phẩm này không tồn tại");
@@ -450,7 +450,7 @@ public class OrderServiceImpl implements OrderService {
 				
 			});
 		} else if(order.getStatusPayment().getCode().equals("D-TT")){
-			productsItems.forEach((item) -> {
+			productItems.forEach((item) -> {
 				Product product = productService.findById(item.getId());
 				if(product == null) {
 					throw new IllegalArgumentException("Sản phẩm này không tồn tại");
