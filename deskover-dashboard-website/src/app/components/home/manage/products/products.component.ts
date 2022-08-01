@@ -292,9 +292,10 @@ export class ProductsComponent implements OnInit {
 
   getWeightFromHtml(html: string): number {
     html = html
-      .replaceAll(/&nbsp;/g, '');
+      .replaceAll(/&nbsp;/g, '').toLowerCase();
 
-    const weight = html.match(/<span class="text-muted">Trọng lượng:(\s*)<\/span>([0-9.]+)(\s*)(kg|g)/)
+    const weight = html.match(/<span class="text-muted">trọng lượng:(\s*)<\/span>([0-9.]+)(\s*)(kg|g|)/)
+      ?? html.match(/<span class="text-muted">trọng lượng:(\s*)<\/span><span>([0-9.]+)(\s*)(kg|g)<\/span>/);
     if (weight[4] === 'g') {
       return Number(weight[2]) / 1000;
     } else {

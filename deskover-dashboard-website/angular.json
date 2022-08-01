@@ -36,8 +36,6 @@
               "node_modules/datatables.net-responsive/js/dataTables.responsive.min.js",
               "node_modules/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js",
               "node_modules/notiflix/dist/notiflix-aio-3.2.5.min.js",
-
-              "src/assets/fonts/fontawesome-pro/js/all.min.js"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
