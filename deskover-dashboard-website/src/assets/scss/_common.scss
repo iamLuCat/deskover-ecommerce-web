@@ -22,8 +22,9 @@
 }
 
 .img-50 {
-  width: 50px !important;
-  height: 50px !important;
+  min-width: 50px;
+  min-height: 50px;
+  width: 50px;
 }
 
 .invalid-feedback {

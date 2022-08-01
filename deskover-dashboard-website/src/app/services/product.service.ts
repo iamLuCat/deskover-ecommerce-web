@@ -27,12 +27,12 @@ export class ProductService {
     return this.restApi.getOne(this.url, id);
   }
 
-  create(product: Product): Observable<Product> {
-    return this.restApi.post(this.url, product);
+  create(product: Product, params: HttpParams = null): Observable<Product> {
+    return this.restApi.post(this.url, product, params);
   }
 
-  update(product: Product): Observable<Product> {
-    return this.restApi.put(this.url, product);
+  update(product: Product, params: HttpParams = null): Observable<Product> {
+    return this.restApi.put(this.url, product, params);
   }
 
   changeActive(id: number) {

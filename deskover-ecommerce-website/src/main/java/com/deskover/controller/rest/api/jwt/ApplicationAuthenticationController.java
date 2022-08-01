@@ -1,10 +1,4 @@
-package com.deskover.controller.rest.api.application;
-
-import com.deskover.model.entity.dto.jwt.JwtRequest;
-import com.deskover.model.entity.dto.security.payload.MessageResponse;
-import com.deskover.other.util.JwtTokenUtil;
-import com.deskover.service.UserService;
-import com.deskover.service.jwt.WebUserDetailsService;
+package com.deskover.controller.rest.api.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,12 +9,23 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.deskover.model.entity.dto.jwt.JwtRequest;
+import com.deskover.model.entity.dto.security.payload.MessageResponse;
+import com.deskover.other.util.JwtTokenUtil;
+import com.deskover.service.UserService;
+import com.deskover.service.jwt.UsersDetailsService;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/v1/api/customer/auth")
-public class LoginApi {
+public class ApplicationAuthenticationController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -28,7 +33,7 @@ public class LoginApi {
 	private JwtTokenUtil jwtTokenUtil;
 	
 	@Autowired
-	private WebUserDetailsService webUserDetailsService;
+	private UsersDetailsService usersDetailsService;
 
 	@Autowired
 	private UserService userService;
@@ -45,7 +50,7 @@ public class LoginApi {
 			return ResponseEntity.badRequest().body(new MessageResponse("Lỗi hệ thống")) ;
 		}
 
-		final UserDetails userDetails = webUserDetailsService
+		final UserDetails userDetails = usersDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
