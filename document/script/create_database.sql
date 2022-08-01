@@ -101,18 +101,22 @@ CREATE TABLE `user`
     username    VARCHAR(50)                                                   NOT NULL,
     fullname    VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     avatar      VARCHAR(255)                                                           DEFAULT NULL,
+	email      VARCHAR(128)                                                           NOT NULL,
+    phone      VARCHAR(11)                                                          NOT NULL,
     last_login  TIMESTAMP                                                              DEFAULT NULL,
     actived     BIT                                                           NOT NULL DEFAULT 1,
     verify      BIT                                                           NOT NULL DEFAULT 0,
     modified_at TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_by VARCHAR(50)                                                            DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY UQ_User_Username (username)
+    UNIQUE KEY UQ_User_Username (username),
+    UNIQUE KEY UQ_User_Phone (phone),
+    UNIQUE KEY UQ_User_email (email)
 );
 
-insert `user` (id, username, fullname, verify, modified_by)
-values (1, 'huynq', 'Nguyễn Quang Huy', 1, 'haipv'),
-       (2, 'minhbd', 'Bùi Đức Minh', 1, 'haipv')
+insert `user` (id, username, fullname,email,phone, verify, modified_by)
+values (1, 'huynq', 'Nguyễn Quang Huy','huynq@gmail.com','0901245154', 1, 'haipv'),
+       (2, 'minhbd', 'Bùi Đức Minh','minhbd@gmail.com','0325654589',1, 'haipv')
 ;
 
 CREATE TABLE `province`

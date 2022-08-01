@@ -7,8 +7,10 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonKey;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -33,6 +35,13 @@ public class Users implements Serializable {
 
     @Column(name = "fullname", nullable = false, length = 128)
     private String fullname;
+    
+    @Email(message = "Email không đúng định dạng")
+    @Column(name = "email")
+    private String email;
+    
+    @Column(name = "phone")
+    private String phone;
 
     @Column(name = "avatar", length = 128)
     private String avatar;
