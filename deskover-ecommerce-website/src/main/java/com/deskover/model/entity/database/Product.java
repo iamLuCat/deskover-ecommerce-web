@@ -47,10 +47,6 @@ public class Product implements Serializable {
     @Column(name = "img")
     private String img;
 
-    @Lob
-    @Column(name = "img_url")
-    private String imgUrl;
-
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 

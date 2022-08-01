@@ -18,7 +18,7 @@ public class ProductDTO {
 		this.slug = product.getSlug();
 		this.price = product.getPrice();
 		this.img = product.getImg();
-		this.imgUrl = product.getImgUrl();
+//		this.imgUrl = product.getImgUrl();
 		this.video = product.getVideo();
 		this.brand = product.getBrand().getName();
 		this.brand_slug = product.getBrand().getSlug();
@@ -30,7 +30,7 @@ public class ProductDTO {
 		this.spec = product.getSpec();
 		this.utility = product.getUtility();
 		this.other = product.getOther();
-		this.thumbsnails = product.getProductThumbnails().stream().map(ProductThumbnail::getThumbnailUrl).collect(Collectors.toList());
+//		this.thumbsnails = product.getProductThumbnails().stream().map(ProductThumbnail::getThumbnailUrl).collect(Collectors.toList());
 		this.averageRating = product.getAverageRating();
 		this.totalRating = product.getTotalRating();
 		
@@ -41,7 +41,7 @@ public class ProductDTO {
 	private String slug;
 	private Double price;
 	private String img;
-	private String imgUrl;
+//	private String imgUrl;
 	private String video;
 	private String brand;
 	private String brand_slug;

@@ -15,7 +15,7 @@ public class SearchItem {
 		this.slug = product.getSlug();
 		this.price = product.getPrice();
 		this.img = product.getImg();
-		this.imgUrl = product.getImgUrl();
+//		this.imgUrl = product.getImgUrl();
 		this.discount = product.getDiscount();
 		this.category = product.getSubCategory().getCategory().getName();
 		this.rating = product.getAverageRating();
@@ -25,7 +25,7 @@ public class SearchItem {
 	private String slug;
 	private Double price;
 	private String img;
-	private String imgUrl;
+//	private String imgUrl;
 	private Discount discount;
 	private String category;
 	private int rating;

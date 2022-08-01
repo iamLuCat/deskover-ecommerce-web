@@ -48,10 +48,6 @@ public class Brand implements Serializable {
     @Column(name = "img")
     private String img;
 
-    @Lob
-    @Column(name = "imgUrl")
-    private String imgUrl;
-
 	@NotBlank(message = "Không để trống slug")
 	@Column(name = "slug", nullable = false, length = 50)
 	private String slug;
