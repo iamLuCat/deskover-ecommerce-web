@@ -47,9 +47,6 @@ public class Subcategory implements Serializable {
 	@Column(name = "img")
 	private String img;
 
-	@Column(name = "imgUrl")
-	private String imgUrl;
-
 	@NotBlank(message = "Không bỏ trống tên")
 	@Column(name = "name")
 	private String name;
