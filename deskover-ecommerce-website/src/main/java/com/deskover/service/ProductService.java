@@ -41,7 +41,8 @@ public interface ProductService {
 			Boolean isActive,
 			Long categoryId,
 			Long brandId,
-			Boolean isDiscount
+			Boolean isDiscount,
+			Boolean isFlashSale
 	);
 
 	void changeDelete(List<Product> products, Boolean isActive);

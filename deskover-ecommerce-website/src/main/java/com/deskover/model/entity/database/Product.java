@@ -76,8 +76,17 @@ public class Product implements Serializable {
     @Column(name = "video")
     private String video;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private Long quantity;
+
+    @Formula(value = "(select coalesce(AVG(r.point), 0) FROM Rating r WHERE r.product_id = id)")
+    private Integer averageRating;
+
+    @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id)")
+    private Integer totalRating;
+
+    @Column(name = "weight")
+    private Double weight;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "discount_id")
@@ -108,14 +117,5 @@ public class Product implements Serializable {
 
     @OneToMany(mappedBy = "product")
     private Set<ProductThumbnail> productThumbnails = new LinkedHashSet<>();
-
-    @Formula(value = "(select coalesce(AVG(r.point), 0) FROM Rating r WHERE r.product_id = id)")
-    private Integer averageRating;
-    
-    @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id)")
-    private Integer totalRating;
-
-    @Column(name = "weight")
-    private Double weight;
 
 }
