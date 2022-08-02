@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Users uploadFile(MultipartFile file) {
-		UploadFile uploadFile = uploadFileService.uploadFileToFolder(file, PathConstant.IMAGE_USER);
+		 UploadFile uploadFile = uploadFileService.uploadFileToFolder(file, PathConstant.IMAGE_USER);
 		 Users users = this.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		 users.setAvatar(uploadFile.getFilename());
 		 return  repo.saveAndFlush(users);

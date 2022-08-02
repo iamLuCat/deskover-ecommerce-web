@@ -3,7 +3,6 @@ package com.deskover.service.impl;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -11,16 +10,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.deskover.model.entity.dto.UploadFile;
 import com.deskover.other.constant.PathConstant;
 import com.deskover.other.util.FileUtil;
-import com.deskover.other.util.FirebaseUtil;
 import com.deskover.service.UploadFileService;
 import com.deskover.service.UserService;
 
 @Service
 public class UploadFileServiceImpl implements UploadFileService {
 	
-	@Autowired
-	private UserService userService;
-
     @Override
     public UploadFile uploadFileToTempFolder(MultipartFile file) {
         System.out.println(file.getOriginalFilename());
@@ -44,8 +39,7 @@ public class UploadFileServiceImpl implements UploadFileService {
     }
     
     private UploadFile uploadFileUser(MultipartFile file, String folderPath) {
-        FileUtil.uploadFileUser(file, PathConstant.STATIC +  folderPath);
-        String fileName = file.getOriginalFilename();
+        String fileName =  FileUtil.uploadFileUser(file, PathConstant.STATIC +  folderPath);
         String fileUrl = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/").path(folderPath).path(fileName)

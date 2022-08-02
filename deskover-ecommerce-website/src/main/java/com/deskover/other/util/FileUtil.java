@@ -89,7 +89,7 @@ public class FileUtil {
         }
     }
     
-    public static void uploadFileUser(MultipartFile file, String folderPath) {
+    public static String uploadFileUser(MultipartFile file, String folderPath) {
         if (file.isEmpty()) {
             throw new IllegalArgumentException("File is empty");
         }
@@ -105,6 +105,8 @@ public class FileUtil {
         File uploadedFile = new File(dir.getAbsolutePath(),fileName.concat(FirebaseUtil.getExtension(file.getOriginalFilename())));
         try {
             file.transferTo(uploadedFile);
+            return uploadedFile.getName();
+            
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
