@@ -51,7 +51,7 @@
           <!-- Filter - End -->
           <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
             <button type="button" class="btn bg-faded-accent w-sm-100 rounded-pill" (click)="newProduct()"
-              placement="left" tooltip="Thêm">
+                    placement="left" tooltip="Thêm">
               <i class="fas fa-plus text-accent d-none d-md-inline-block"></i>
               <span class="d-block text-accent d-inline-block d-md-none">Thêm danh mục</span>
             </button>
@@ -62,67 +62,69 @@
         <div class="table-responsive p-3">
           <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm w-100">
             <thead class="table-primary">
-              <tr>
-                <th class="align-middle">Ảnh</th>
-                <th class="align-middle">Tên</th>
-                <th class="align-middle text-center">Thương hiệu</th>
-                <th class="align-middle text-center">Danh mục</th>
-                <th class="align-middle text-center">Giá</th>
-                <th class="align-middle text-center">Ngày cập nhật</th>
-                <th class="align-middle text-center">Cập nhật bởi</th>
-                <th class="align-middle text-end">Thao tác</th>
-              </tr>
+            <tr>
+              <th class="align-middle">Ảnh</th>
+              <th class="align-middle">Tên</th>
+              <th class="align-middle text-center">Thương hiệu</th>
+              <th class="align-middle text-center">Danh mục</th>
+              <th class="align-middle text-center">Giá</th>
+              <th class="align-middle text-center">Ngày cập nhật</th>
+              <th class="align-middle text-center">Cập nhật bởi</th>
+              <th class="align-middle text-end">Thao tác</th>
+            </tr>
             </thead>
             <tbody class="table-light" *ngIf="products?.length !== 0">
-              <tr *ngFor="let product of products; let i = index">
-                <td class="align-middle">
-                  <img [src]="getSrc(product.img)" class="img-thumbnail img-50" alt=" ">
-                </td>
-                <td class="align-middle">
-                  {{ product.name }}
-                </td>
-                <td class="align-middle text-center">
-                  {{ product.brand.name }}
-                </td>
-                <td class="align-middle text-center">
-                  {{ product.subCategory.name }}
-                </td>
-                <td class="align-middle text-center">
-                  {{ product.price | number:'1.0-0' }}₫
-                </td>
-                <td class="align-middle text-center">
-                  {{ product.modifiedAt | date:'dd/MM/yyyy' }}
-                </td>
-                <td class="align-middle text-center">
-                  {{ product.modifiedBy }}
-                </td>
-                <td class="align-middle text-end">
-                  <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                    <button type="button" class="btn btn-sm btn-success me-1" placement="top"
-                      tooltip="Sao chép & Tạo mới" (click)="copyProduct(product.id)">
-                      <i class="fa-solid fa-copy"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                      (click)="editProduct(product.id)">
-                      <i class="fas fa-pen-square"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-danger" (click)="deleteProduct(product)" placement="top"
-                      tooltip="Xoá" container="body">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                  <div *ngIf="!isActive">
-                    <button type="button" class="btn btn-sm bg-success" (click)="activeProduct(product.id)">
-                      Kích hoạt
-                    </button>
-                  </div>
-                </td>
-              </tr>
+            <tr *ngFor="let product of products; let i = index">
+              <td class="align-middle">
+                <div class="frame frame-50 img-thumbnail">
+                  <img [src]="getSrc(product.img)" class="img-fluid" alt=" ">
+                </div>
+              </td>
+              <td class="align-middle">
+                {{ product.name }}
+              </td>
+              <td class="align-middle text-center">
+                {{ product.brand.name }}
+              </td>
+              <td class="align-middle text-center">
+                {{ product.subCategory.name }}
+              </td>
+              <td class="align-middle text-center">
+                {{ product.price | number:'1.0-0' }}₫
+              </td>
+              <td class="align-middle text-center">
+                {{ product.modifiedAt | date:'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ product.modifiedBy }}
+              </td>
+              <td class="align-middle text-end">
+                <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                  <button type="button" class="btn btn-sm btn-success me-1" placement="top"
+                          tooltip="Sao chép & Tạo mới" (click)="copyProduct(product.id)">
+                    <i class="fa-solid fa-copy"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
+                          (click)="editProduct(product.id)">
+                    <i class="fas fa-pen-square"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteProduct(product)" placement="top"
+                          tooltip="Xoá" container="body">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+                <div *ngIf="!isActive">
+                  <button type="button" class="btn btn-sm bg-success" (click)="activeProduct(product.id)">
+                    Kích hoạt
+                  </button>
+                </div>
+              </td>
+            </tr>
             </tbody>
             <tbody *ngIf="products?.length === 0">
-              <tr>
-                <td colspan="8" class="text-center">Không tìm thấy kết quá</td>
-              </tr>
+            <tr>
+              <td colspan="8" class="text-center">Không tìm thấy kết quá</td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -132,7 +134,7 @@
 </section>
 <!-- Modal - Start -->
 <div bsModal [config]="{backdrop: 'static'}" #productModal="bs-modal" class="modal" tabindex="-1" data-bs-focus="false"
-  role="dialog" aria-labelledby="product-dialog-sizes">
+     role="dialog" aria-labelledby="product-dialog-sizes">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -150,7 +152,7 @@
               <div class="mb-3">
                 <label class="form-label" [for]="'name'">Tên</label>
                 <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name" #name="ngModel"
-                  (keyup)="product.slug=toSlug(product.name)" required />
+                       (keyup)="product.slug=toSlug(product.name)" required/>
                 <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
                   <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
                 </div>
@@ -158,7 +160,7 @@
               <div class="mb-3">
                 <label class="form-label" [for]="'slug'">Slug</label>
                 <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug" #slug="ngModel"
-                  required />
+                       required/>
                 <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
                   <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
                 </div>
@@ -166,7 +168,7 @@
               <div class="mb-3">
                 <label class="form-label" [for]="'brand'">Thương hiệu</label>
                 <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
-                  [compareWith]="compareFn" #brand="ngModel" required>
+                        [compareWith]="compareFn" #brand="ngModel" required>
                   <option value="">-- Chọn thương hiệu --</option>
                   <option *ngFor="let item of brands" [ngValue]="item">{{ item.name }}</option>
                 </select>
@@ -177,19 +179,20 @@
               <div class="mb-3">
                 <label class="form-label" [for]="'category'">Danh mục cha</label>
                 <select class="form-control" id="category" name="category" [(ngModel)]="category"
-                  #categoryEdit="ngModel" [compareWith]="compareFn" (change)="getSubcategoriesByCategory()" required>
+                        #categoryEdit="ngModel" [compareWith]="compareFn" (change)="getSubcategoriesByCategory()"
+                        required>
                   <option value="">-- Chọn danh mục --</option>
                   <option *ngFor="let item of categories" [ngValue]="item">{{ item.name }}</option>
                 </select>
                 <div class="invalid-feedback"
-                  *ngIf="categoryEdit.invalid && (categoryEdit.dirty || categoryEdit.touched)">
+                     *ngIf="categoryEdit.invalid && (categoryEdit.dirty || categoryEdit.touched)">
                   <span *ngIf="categoryEdit.errors?.required">Vui lòng chọn danh mục</span>
                 </div>
               </div>
               <div class="mb-3" *ngIf="product.subCategory">
                 <label class="form-label" [for]="'subCategory'">Danh mục con</label>
                 <select class="form-control" id="subCategory" name="subCategory" [(ngModel)]="product.subCategory"
-                  #subCategory="ngModel" [disabled]="category.id === null" [compareWith]="compareFn" required>
+                        #subCategory="ngModel" [disabled]="category.id === null" [compareWith]="compareFn" required>
                   <option value="">-- Chọn danh mục con --</option>
                   <option *ngFor="let item of subcategories" [ngValue]="item">{{ item.name }}</option>
                 </select>
@@ -200,7 +203,7 @@
               <div class="mb-3">
                 <label [for]="'price'" class="form-label">Giá</label>
                 <input class="form-control" id="price" name="price" type='text' mask="separator" thousandSeparator=","
-                  suffix=" VNĐ" [(ngModel)]="product.price" #price="ngModel" required />
+                       suffix=" VNĐ" [(ngModel)]="product.price" #price="ngModel" required/>
                 <div class="invalid-feedback" *ngIf="price.invalid && (price.dirty || price.touched)">
                   <span *ngIf="price.errors?.required">Vui lòng nhập giá</span>
                 </div>
@@ -208,7 +211,7 @@
               <div class="mb-3">
                 <label [for]="'quantity'" class="form-label">Số lượng</label>
                 <input class="form-control" id="quantity" type='text' mask="separator" name="quantity"
-                  thousandSeparator="." [(ngModel)]="product.quantity" #quantity="ngModel" required />
+                       thousandSeparator="." [(ngModel)]="product.quantity" #quantity="ngModel" required/>
                 <div class="invalid-feedback" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">
                   <span *ngIf="quantity.errors?.required">Vui lòng nhập số lượng</span>
                 </div>
@@ -216,32 +219,35 @@
               <div class="mb-3">
                 <label class="form-label" [for]="'video'">Youtube URL</label>
                 <input type="url" class="form-control mb-3" id="video" name="video" [(ngModel)]="product.video"
-                  #video="ngModel" placeholder="https://youtu.be/fazEeJYHxTc" pattern="https://.*" />
-                <!--<div class="ratio ratio-16x9" *ngIf="product.video">
+                       #video="ngModel" placeholder="https://youtu.be/fazEeJYHxTc" pattern="https://.*"/>
+                <div class="ratio ratio-16x9" *ngIf="product.video">
                   <iframe [src]="getUrlYoutubeEmbed(product.video)"
                           title="YouTube video" allowfullscreen></iframe>
-                </div>-->
+                </div>
               </div>
             </div>
             <div class="col-12 col-lg-8">
               <div class="row mb-3">
                 <div class="col-12 col-md-6 mb-3 mb-md-0">
                   <label class="form-label">Ảnh đại diện</label>
-                  <div class="file-drop-area ratio ratio-1x1">
-                    <img class="img-fluid img-thumbnail" alt=" " [src]="productPreviewImg">
-                    <input type="file" name="image" class="file-drop-input" accept="image/*"
-                      (change)="selectedImageChanged($event)">
+                  <div class="ratio ratio-1x1">
+                    <div class="file-drop-area img-thumbnail">
+                      <img class="img-fluid" alt=" " [src]="productPreviewImg">
+                      <input type="file" name="image" class="file-drop-input" accept="image/*"
+                             (change)="selectedImageChanged($event)">
+                    </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6">
                   <label class="form-label">Ảnh mô tả</label>
                   <div class="row row-cols-2 g-3">
                     <div class="col" *ngFor="let productThumbnail of product.productThumbnails | sortById; index as i">
-                      <div class="file-drop-area p-3 ratio ratio-1x1">
-                        <img class="img-fluid img-thumbnail" alt=" "
-                          [src]="productPreviewThumbnails[i]">
-                        <input type="file" [name]="'productThumbnail' + i" class="file-drop-input" accept="image/*"
-                          (change)="selectedThumbnailChange($event, i)">
+                      <div class="ratio ratio-1x1">
+                        <div class="file-drop-area img-thumbnail">
+                          <img class="img-fluid" alt=" " [src]="productPreviewThumbnails[i]">
+                          <input type="file" [name]="'productThumbnail' + i" class="file-drop-input" accept="image/*"
+                                 (change)="selectedThumbnailChange($event, i)">
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -252,27 +258,27 @@
                 <tabset>
                   <tab heading="Mô tả chi tiết">
                     <ckeditor [id]="'description'" [name]="'description'" [editorUrl]="ckeditorUrl"
-                      [config]="ckeditorConfig" [(ngModel)]="product.description">
+                              [config]="ckeditorConfig" [(ngModel)]="product.description">
                     </ckeditor>
                   </tab>
                   <tab heading="Thông số kĩ thuật">
                     <ckeditor [id]="'spec'" [name]="'spec'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
-                      [(ngModel)]="product.spec">
+                              [(ngModel)]="product.spec">
                     </ckeditor>
                   </tab>
                   <tab heading="Tính năng">
                     <ckeditor [id]="'utility'" [name]="'utility'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
-                      [(ngModel)]="product.utility">
+                              [(ngModel)]="product.utility">
                     </ckeditor>
                   </tab>
                   <tab heading="Thiết kế">
                     <ckeditor [id]="'design'" [name]="'design'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
-                      [(ngModel)]="product.design">
+                              [(ngModel)]="product.design">
                     </ckeditor>
                   </tab>
                   <tab heading="Khác">
                     <ckeditor [id]="'other'" [name]="'other'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
-                      [(ngModel)]="product.other">
+                              [(ngModel)]="product.other">
                     </ckeditor>
                   </tab>
                 </tabset>
@@ -283,7 +289,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" [disabled]="productForm.invalid"
-          (click)="saveProduct(product)">Lưu
+                (click)="saveProduct(product)">Lưu
         </button>
       </div>
     </div>

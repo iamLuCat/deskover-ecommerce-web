@@ -58,9 +58,10 @@ export class OrdersComponent implements OnInit {
         {data: 'orderCode'},
         {data: 'fullName'},
         {data: 'orderDetail.address'},
+        {data: 'unitPrice'},
         {data: 'createdAt'},
-        {data: 'modifiedBy'},
         {data: 'orderStatus.status'},
+        {data: 'payment.name_payment'},
         {data: null, orderable: false, searchable: false}
       ],
       order: [[6, 'asc']],
@@ -86,24 +87,36 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  refreshOrderTable() {
+  rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.draw();
     });
   }
 
-  setBackgroundByStatus(statusCode: string) {
+  getClassesByOrder(statusCode: string) {
     if (statusCode.includes('-TC')) {
-      return 'bg-opacity-50 text-dark bg-success';
+      return 'bg-success';
     } else if (statusCode.includes('-TB')) {
-      return 'bg-opacity-50 text-dark bg-danger';
+      return 'bg-danger';
     } else if (statusCode.includes('C-')) {
       if (statusCode.includes('C-XN')) {
-        return 'bg-opacity-50 text-dark bg-warning';
+        return 'bg-warning';
       }
-      return 'bg-opacity-50 text-dark bg-secondary';
+      return 'bg-secondary';
     } else {
-      return 'bg-opacity-50 text-dark bg-info';
+      return 'bg-info';
+    }
+  }
+
+  getClassesByPayment(paymentCode: string) {
+    if (paymentCode === 'C-TT') {
+      return 'text-danger';
+    } else if (paymentCode === 'D-TT') {
+      return 'text-success';
+    } else if (paymentCode === 'C-HT') {
+      return 'text-warning';
+    } else if (paymentCode === 'D-HT') {
+      return 'text-info';
     }
   }
 
@@ -120,10 +133,12 @@ export class OrdersComponent implements OnInit {
     return `${environment.globalUrl.qrCode}/${qrCode}`;
   }
 
-  isPendingOrder(statusCode: string) {
-    if (statusCode) {
-      return statusCode === 'C-XN';
-    }
+  isPendingOrder(order: Order) {
+      return order.orderStatus.code === 'C-XN';
+  }
+
+  isUnpaidOrder(order: Order) {
+      return order.statusPayment.code === 'C-TT' && order.orderStatus.code === 'HUY';
   }
 
   changeOrderStatus(order: Order, message: string) {
@@ -133,8 +148,9 @@ export class OrdersComponent implements OnInit {
         NotiflixUtils.removeLoading();
 
         this.order = order;
-        this.refreshOrderTable();
-        this.closeModal();
+        this.orderStatusCode = 'C-LH';
+
+        this.rerender();
       },
       error: () => {
         NotiflixUtils.removeLoading();
@@ -143,31 +159,56 @@ export class OrdersComponent implements OnInit {
   }
 
   confirmOrder(order: Order) {
-    NotiflixUtils.showLoading();
-    if (order.shipping.shippingId !== 'DKV') {
-      this.orderService.confirmOrder(order).subscribe({
+    NotiflixUtils.showConfirm('Xác nhận', 'Duyệt đơn hàng ' + order.orderCode, () => {
+      NotiflixUtils.showLoading();
+      if (order.shipping.shippingId === 'DKV') {
+        this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: "
+          + order.shipping.name_shipping);
+      } else {
+        this.orderService.confirmOrder(order).subscribe({
+          next: (data) => {
+            NotiflixUtils.removeLoading();
+            this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: "
+              + order.shipping.name_shipping);
+          },
+          error: () => {
+            NotiflixUtils.removeLoading();
+          }
+        });
+      }
+    });
+  }
+
+  cancelOrder(order: Order) {
+    NotiflixUtils.showConfirm('Xác nhận', 'Huỷ đơn ' + order.orderCode, () => {
+      NotiflixUtils.showLoading();
+      this.orderService.cancelOrder(order).subscribe({
         next: (data) => {
           NotiflixUtils.removeLoading();
-          this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: " + order.shipping.name_shipping);
+          NotiflixUtils.successNotify("Hủy đơn hàng thành công");
+          this.orderStatusCode = 'HUY';
+          this.rerender();
         },
         error: () => {
           NotiflixUtils.removeLoading();
         }
       });
-    } else {
-      this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: " + order.shipping.name_shipping);
-    }
+    });
   }
 
-  cancelOrder(order: Order) {
-    NotiflixUtils.showLoading();
-    this.orderService.cancelOrder(order).subscribe({
-      next: (data) => {
-        this.changeOrderStatus(order, "Huỷ đơn hàng thành công");
-      },
-      error: () => {
-        NotiflixUtils.removeLoading();
-      }
+  refundOrder(order: Order) {
+    NotiflixUtils.showConfirm('Xác nhận', 'Hoàn tiền đơn ' + order.orderCode, () => {
+      NotiflixUtils.showLoading();
+      this.orderService.cancelOrder(order).subscribe({
+        next: (data) => {
+          NotiflixUtils.removeLoading();
+          NotiflixUtils.successNotify("Hoàn tiền thành công");
+          this.rerender();
+        },
+        error: () => {
+          NotiflixUtils.removeLoading();
+        }
+      });
     });
   }
 }

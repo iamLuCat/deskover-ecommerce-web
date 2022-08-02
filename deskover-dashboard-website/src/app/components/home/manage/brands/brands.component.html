@@ -55,7 +55,9 @@
             <tbody class="table-light" *ngIf="brands?.length !== 0">
             <tr *ngFor="let brand of brands; let i = index">
               <td class="align-middle">
-                <img [src]="getSrc(brand.img)" class="img-thumbnail img-50" alt=" ">
+                <div class="frame frame-50 img-thumbnail">
+                  <img [src]="getSrc(brand.img)" class="img-fluid" alt=" ">
+                </div>
               </td>
               <td class="align-middle">
                 {{ brand.name }}
@@ -120,10 +122,12 @@
         <form #brandForm="ngForm">
           <div class="row">
             <div class="col-12 col-md-5">
-              <div class="file-drop-area ratio ratio-1x1 mb-3">
-                <img [src]="brandImgPreview" class="img-fluid img-thumbnail" alt=" ">
-                <input type="file" name="file" class="file-drop-input" accept="image/*"
-                       (change)="selectedImageChanged($event)">
+              <div class="ratio ratio-1x1 mb-3">
+                <div class="file-drop-area img-thumbnail">
+                  <img [src]="brandImgPreview" class="img-fluid" alt=" ">
+                  <input type="file" name="file" class="file-drop-input" accept="image/*"
+                         (change)="selectedImageChanged($event)">
+                </div>
               </div>
             </div>
             <div class="col-12 col-md-7">
