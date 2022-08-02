@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
-    
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,16 +9,28 @@
         <meta name="author" content="">
         <title>Tạo mới đơn hàng</title>
         <!-- Bootstrap core CSS -->
-        <link href="/assets/bootstrap.min.css" rel="stylesheet"/>
+        
         <!-- Custom styles for this template -->
-        <link href="/assets/jumbotron-narrow.css" rel="stylesheet">      
+  
         <script src="/assets/jquery-1.11.3.min.js"></script>
- 
+    	<link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
+        <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
     </head>
-
-    <body>
-
-         <div class="container">
+	<style>
+		.body{
+			background-image: url(/assets/img/pay-bg.png);
+		    background-size:     cover;                      /* <------ */
+		    background-repeat:   no-repeat;
+		    background-position: center center; 
+			height: 750px;
+		}
+		.bg{
+			background-color: lightblue;  
+		  ;
+		}
+	</style>
+    <body class="body">
+         <div class="container bg" style="">
            <div class="header clearfix">
 
                 <h3 class="text-muted">VNPAY DESKOVER</h3>
@@ -84,8 +95,7 @@
             </footer>
         </div>
           
-        <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
-        <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
+        
         <script type="text/javascript">
             $("#frmCreateOrder").submit(function () {
                 var postData = $("#frmCreateOrder").serialize();

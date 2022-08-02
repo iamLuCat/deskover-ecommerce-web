@@ -50,8 +50,9 @@ public class CheckoutController {
 	@Autowired OrderStatusRepository statusRepo;
 	
 	@GetMapping("checkout")
-	public String checkout(Model model) {
+	public String checkout(Model model) {		
 		return "checkout";
+		
 	}
 	
 	@Autowired SessionService sessionService;

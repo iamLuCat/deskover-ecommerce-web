@@ -16,13 +16,7 @@ public class SpringController {
 		
 		@GetMapping("/payment")
 		public String index(Model model) {
-			List<ProductDto>  items = sessionService.get("items");
-			long total = 0;
-			for (ProductDto productDto : items) {
-				total += productDto.getPrice()*productDto.getQuantity();
-			}
-			System.out.println("total:" + total);
-			model.addAttribute("total",total);
+
 			return "vnpay";
 		} 
 }
