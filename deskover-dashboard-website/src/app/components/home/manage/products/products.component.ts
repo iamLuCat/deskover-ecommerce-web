@@ -353,7 +353,7 @@ export class ProductsComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return `${environment.globalUrl.productImg}/${image}`;
+    return image ? `${environment.globalUrl.productImg}/${image}` : 'assets/images/no-image.png';
   }
 
   getUrlYoutubeEmbed(url: string) {

@@ -91,6 +91,6 @@ export class UsersComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return `${environment.globalUrl.userImg}/${image}`;
+    return image ? `${environment.globalUrl.categoryImg}/${image}` : 'assets/images/no-image.png';
   }
 }

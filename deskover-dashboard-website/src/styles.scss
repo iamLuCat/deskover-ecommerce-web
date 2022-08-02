@@ -1,3 +1,18 @@
+/* Scrollbar */
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(104, 105, 119, 0.4);
+  border-radius: 20px;
+}
+
 @import "variable";
 @import "bootstrap";
 
@@ -15,22 +30,6 @@
 @import "~animate.css/animate.min.css";
 
 @import "common";
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(104, 105, 119, 0.4);
-  border-radius: 20px;
-}
-
 
 body {
   width: 100vw;
