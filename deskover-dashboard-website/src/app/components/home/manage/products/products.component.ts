@@ -121,9 +121,13 @@ export class ProductsComponent implements OnInit {
   }
 
   getSubcategoriesByCategory() {
-    this.subcategoryService.getByActive(true, this.category.id).subscribe(data => {
-      this.subcategories = data;
-    });
+    if (this.category) {
+      this.subcategoryService.getByActive(true, this.category.id).subscribe(data => {
+        this.subcategories = data;
+      });
+    } else {
+      this.subcategories = [];
+    }
   }
 
   getBrands() {
@@ -221,6 +225,8 @@ export class ProductsComponent implements OnInit {
     this.productForm.control.reset();
     setTimeout(() => {
       this.newData();
+      this.product.brand = null;
+      this.category = null;
     });
     this.openModal(this.productModal);
   }
@@ -262,16 +268,19 @@ export class ProductsComponent implements OnInit {
     if (product.id) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
+
+        this.closeModal();
+        this.rerender();
       });
     } else {
       this.productService.create(product, params).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
+
+        this.closeModal();
+        this.rerender();
       });
     }
-
     this.isCopy = false;
-    this.rerender();
-    this.closeModal();
   }
 
   deleteProduct(product: Product) {
