@@ -186,7 +186,7 @@ export class SubcategoriesComponent implements OnInit {
     });
   }
 
-  getSrc(image: string) {
-    return image ? `${environment.globalUrl.subcategoryImg}/${image}` : 'assets/images/no-image.png';
+  getSrc(img: string) {
+    return `${environment.globalUrl.subcategoryImg}/${img}`;
   }
 }

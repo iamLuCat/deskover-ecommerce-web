@@ -152,6 +152,6 @@ export class BrandsComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return image ? `${environment.globalUrl.brandImg}/${image}` : 'assets/images/no-image.png';
+    return `${environment.globalUrl.brandImg}/${image}`;
   }
 }
