@@ -15,7 +15,8 @@ export const environment = {
 
     tempFolder: BASE_URL + '/temp',
 
-    userImg: BASE_URL + '/img/admin/avatar',
+    adminImg: BASE_URL + '/img/admin/avatar',
+    userImg: BASE_URL + '/img/shop/account',
     productImg: BASE_URL + '/img/shop/products',
     brandImg: BASE_URL + '/img/shop/brands',
     categoryImg: BASE_URL + '/img/shop/categories',

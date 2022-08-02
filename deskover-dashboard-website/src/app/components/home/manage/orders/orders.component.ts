@@ -133,16 +133,12 @@ export class OrdersComponent implements OnInit {
     return `${environment.globalUrl.qrCode}/${qrCode}`;
   }
 
-  isPendingOrder(statusCode: string) {
-    if (statusCode) {
-      return statusCode === 'C-XN';
-    }
+  isPendingOrder(order: Order) {
+      return order.orderStatus.code === 'C-XN';
   }
 
-  isUnpaidOrder(statusCode: string) {
-    if (statusCode) {
-      return statusCode === 'C-TT';
-    }
+  isUnpaidOrder(order: Order) {
+      return order.statusPayment.code === 'C-TT' && order.orderStatus.code === 'HUY';
   }
 
   changeOrderStatus(order: Order, message: string) {

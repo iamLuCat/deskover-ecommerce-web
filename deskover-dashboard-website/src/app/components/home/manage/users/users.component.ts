@@ -3,6 +3,7 @@ import {UserService} from "@services/user.service";
 import {User} from "@/entites/user";
 import {DataTableDirective} from "angular-datatables";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-user',
@@ -87,5 +88,9 @@ export class UsersComponent implements OnInit {
         this.rerender();
       });
     }
+  }
+
+  getSrc(image: string) {
+    return `${environment.globalUrl.userImg}/${image}`;
   }
 }

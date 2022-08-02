@@ -53,7 +53,9 @@
             <tbody *ngIf="categories?.length !== 0">
             <tr class="table-light" *ngFor="let category of categories; let i = index">
               <td class="align-middle">
-                <img [src]="getSrc(category.img)" alt=" " class="img-thumbnail img-50">
+                <div class="frame frame-50 img-thumbnail">
+                  <img [src]="getSrc(category.img)" alt=" " class="img-fluid">
+                </div>
               </td>
               <td class="align-middle">
                 {{ category.name }}
@@ -118,10 +120,12 @@
         <form #categoryForm="ngForm">
           <div class="row">
             <div class="col-12 col-md-5">
-              <div class="file-drop-area ratio ratio-1x1 mb-3">
-                <img [src]="categoryImgPreview" class="img-fluid img-thumbnail" alt=" ">
-                <input type="file" name="file" class="file-drop-input" accept="image/*"
-                       (change)="selectedImageChanged($event)">
+              <div class="ratio ratio-1x1 mb-3">
+                <div class="file-drop-area img-thumbnail">
+                  <img [src]="categoryImgPreview" class="img-fluid" alt=" ">
+                  <input type="file" name="file" class="file-drop-input" accept="image/*"
+                         (change)="selectedImageChanged($event)">
+                </div>
               </div>
             </div>
             <div class="col-12 col-md-7">
