@@ -71,17 +71,20 @@ public class ProductApi {
     @PostMapping("/products/datatables")
     public ResponseEntity<?> doGetForDatatables(
             @Valid @RequestBody DataTablesInput input,
-            @RequestParam("isActive") Optional<Boolean> isActive,
-            @RequestParam("categoryId") Optional<Long> categoryId,
-            @RequestParam("subcategoryId") Optional<Long> subcategoryId,
-            @RequestParam("brandId") Optional<Long> brandId,
-            @RequestParam("isDiscount") Optional<Boolean> isDiscount) {
+            @RequestParam Optional<Boolean> isActive,
+            @RequestParam Optional<Long> categoryId,
+            @RequestParam Optional<Long> subcategoryId,
+            @RequestParam Optional<Long> brandId,
+            @RequestParam Optional<Boolean> isDiscount,
+            @RequestParam Optional<Boolean> isFlashSale
+            ) {
         DataTablesOutput<Product> output = productService.getByActiveForDatatables(
                 input,
                 isActive.orElse(Boolean.TRUE),
                 categoryId.orElse(null),
                 brandId.orElse(null),
-                isDiscount.orElse(null)
+                isDiscount.orElse(null),
+                isFlashSale.orElse(null)
         );
         return ResponseEntity.ok(output);
     }
