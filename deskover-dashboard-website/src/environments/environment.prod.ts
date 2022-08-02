@@ -7,12 +7,16 @@ export const environment = {
   ghtkToken: '2C925D6789957674DcC9121bf419Df1a2F7b0BC3',
   globalUrl: {
     ckeditor: 'https://cdn.ckeditor.com/4.19.1/full/ckeditor.js',
-
     productItemPage: BASE_URL + '/shop/item',
+    qrCode : BASE_URL + '/img/qrcode',
+
+    tempFolder: BASE_URL + '/temp',
 
     userImg: BASE_URL + '/img/admin/avatar',
     productImg: BASE_URL + '/img/shop/products',
-    qrCode : BASE_URL + '/img/qrcode',
+    brandImg: BASE_URL + '/img/shop/brands',
+    categoryImg: BASE_URL + '/img/shop/categories',
+    subcategoryImg: BASE_URL + '/img/shop/subcategories',
 
     login: BASE_API + '/admin/auth/login',
     getPrincipal: BASE_API + '/admin/auth/get-principal',

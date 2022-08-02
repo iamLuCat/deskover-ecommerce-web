@@ -8,7 +8,7 @@
     )}">
 
 <head>
-  <title>Deskover: Chi Tiết Giỏ Hàng</title>
+  <title>Deskover: Chi Tiáº¿t Giá»� HÃ ng</title>
 </head>
 
 <body>
@@ -33,159 +33,147 @@
         </div>
       </div>
     </div>
+    <form method="post" th:action="@{/ok}" th:object="${addressForm}">
     <div class="container pb-5 mb-2 mb-md-4">
       <div class="row">
         <section class="col-lg-8">
           <div class="d-flex justify-content-between align-items-center pt-3 pb-4 pb-sm-5 mt-1">
-            <h2 class="h6 text-light mb-0">Sản phẩm</h2><a class="btn btn-outline-primary btn-sm ps-2" href="shop-grid-ls.html"><i class="ci-arrow-left me-2"></i>Tiếp tục mua sắm</a>
+            <h2 class="h6 text-light mb-0">Sáº£n pháº©m</h2><a class="btn btn-outline-primary btn-sm ps-2" href="shop-grid-ls.html"><i class="ci-arrow-left me-2"></i>Tiáº¿p tá»¥c mua sáº¯m</a>
         </div>
           <!-- Shipping address-->
-          <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Địa chỉ</h2>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-fn">First Name</label>
-                <input class="form-control" type="text" id="checkout-fn">
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-ln">Last Name</label>
-                <input class="form-control" type="text" id="checkout-ln">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-email">E-mail Address</label>
-                <input class="form-control" type="email" id="checkout-email">
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-phone">Phone Number</label>
-                <input class="form-control" type="text" id="checkout-phone">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-company">Company</label>
-                <input class="form-control" type="text" id="checkout-company">
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-country">Country</label>
-                <select class="form-select" id="checkout-country">
-                  <option>Choose country</option>
-                  <option>Australia</option>
-                  <option>Canada</option>
-                  <option>France</option>
-                  <option>Germany</option>
-                  <option>Switzerland</option>
-                  <option>USA</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-city">Country</label>
-                <select class="form-select" id="checkout-city">
-                  <option>Choose city</option>
-                  <option>Amsterdam</option>
-                  <option>Berlin</option>
-                  <option>Geneve</option>
-                  <option>New York</option>
-                  <option>Paris</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-zip">ZIP Code</label>
-                <input class="form-control" type="text" id="checkout-zip">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-address-1">Address 1</label>
-                <input class="form-control" type="text" id="checkout-address-1">
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label class="form-label" for="checkout-address-2">Address 2</label>
-                <input class="form-control" type="text" id="checkout-address-2">
-              </div>
-            </div>
-          </div>
+          
+	          <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Ä�á»‹a chá»‰</h2>
+	          <div class="row">
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-fn" >Full Name</label>
+	                <input class="form-control" type="text" id="checkout-fn" name="fullname" >
+	              </div>
+	            </div>
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-ln">Last Name</label>
+	                <input class="form-control" type="text" id="checkout-ln">
+	              </div>
+	            </div>
+	          </div>
+	          <div class="row">
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-email">E-mail Address</label>
+	                <input class="form-control" type="email" id="checkout-email" name="email">
+	              </div>
+	            </div>
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-phone">Phone Number</label>
+	                <input class="form-control" type="text" id="checkout-phone" name = "tel">
+	              </div>
+	            </div>
+	          </div>
+	          <div class="row">
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-company">Ward</label>
+	                <input class="form-control" type="text" id="checkout-company" name="ward">
+	              </div>
+	            </div>
+        	    <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-company">District</label>
+	                <input class="form-control" type="text" id="checkout-company" name="district">
+	              </div>
+	            </div>
+	          </div>
+	          <div class="row">
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-city">Country</label>
+	                <select class="form-select" id="checkout-city">
+	                  <option>Choose city</option>
+	                  <option>Amsterdam</option>
+	                  <option>Berlin</option>
+	                  <option>Geneve</option>
+	                  <option>New York</option>
+	                  <option>Paris</option>
+	                </select>
+	              </div>
+	            </div>
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-zip">ZIP Code</label>
+	                <input class="form-control" type="text" id="checkout-zip">
+	              </div>
+	            </div>
+	          </div>
+	          <div class="row">
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-address-1">Province</label>
+	                <input class="form-control" type="text" id="checkout-address-1" name = "province">
+	              </div>
+	            </div>
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-address-2">Address</label>
+	                <input class="form-control" type="text" id="checkout-address-2" name = "address">
+	              </div>
+	            </div>
+	          </div>
           <h6 class="mb-3 py-3 border-bottom">Billing address</h6>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" checked id="same-address">
             <label class="form-check-label" for="same-address">Same as shipping address</label>
           </div>
+         
+          </form>
           <!-- Navigation (desktop)-->
           <div class="d-none d-lg-flex pt-4 mt-3">
-            <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="shop-cart.html"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
-            <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="checkout-shipping.html"><span class="d-none d-sm-inline">Proceed to Shipping</span><span class="d-inline d-sm-none">Next</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
+            <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="/cart"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
+            <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="/payment"><span class="d-none d-sm-inline">Pay On Wallet</span><span class="d-inline d-sm-none">Next</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
           </div>
         </section>
+        
+        
         <!-- Sidebar-->
         <aside class="col-lg-4 pt-4 pt-lg-0 ps-xl-5">
           <div class="bg-white rounded-3 shadow-lg p-4 ms-lg-auto">
             <div class="py-2 px-xl-2">
               <div class="widget mb-3">
                 <h2 class="widget-title text-center">Order summary</h2>
-                <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img src="img/shop/cart/widget/01.jpg" width="64" alt="Product"></a>
-                  <div class="ps-2">
-                    <h6 class="widget-product-title"><a href="shop-single-v1.html">Women Colorblock Sneakers</a></h6>
-                    <div class="widget-product-meta"><span class="text-accent me-2">$150.<small>00</small></span><span class="text-muted">x 1</span></div>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center py-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img src="img/shop/cart/widget/02.jpg" width="64" alt="Product"></a>
-                  <div class="ps-2">
-                    <h6 class="widget-product-title"><a href="shop-single-v1.html">TH Jeans City Backpack</a></h6>
-                    <div class="widget-product-meta"><span class="text-accent me-2">$79.<small>50</small></span><span class="text-muted">x 1</span></div>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center py-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img src="img/shop/cart/widget/03.jpg" width="64" alt="Product"></a>
-                  <div class="ps-2">
-                    <h6 class="widget-product-title"><a href="shop-single-v1.html">3-Color Sun Stash Hat</a></h6>
-                    <div class="widget-product-meta"><span class="text-accent me-2">$22.<small>50</small></span><span class="text-muted">x 1</span></div>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center py-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img src="img/shop/cart/widget/04.jpg" width="64" alt="Product"></a>
-                  <div class="ps-2">
-                    <h6 class="widget-product-title"><a href="shop-single-v1.html">Cotton Polo Regular Fit</a></h6>
-                    <div class="widget-product-meta"><span class="text-accent me-2">$9.<small>00</small></span><span class="text-muted">x 1</span></div>
-                  </div>
+                <div class="widget-cart-item pb-2 border-bottom" ng-repeat="item in cart.items">
+	                <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img ng-src="{{item.imgUrl}}" width="64" alt="Product"></a>
+	                  <div class="ps-2">
+	                    <h6 class="widget-product-title"><a href="shop-single-v1.html">{{item.name}}</a></h6>
+	                    <div class="widget-product-meta"><span class="text-accent me-2">{{item.price|number}} <small>VND</small></span><span class="text-muted">x{{item.amount}}</span></div>
+	                  </div>
+	                </div>
                 </div>
               </div>
               <ul class="list-unstyled fs-sm pb-2 border-bottom">
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Subtotal:</span><span class="text-end">$265.<small>00</small></span></li>
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Shipping:</span><span class="text-end">—</span></li>
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Taxes:</span><span class="text-end">$9.<small>50</small></span></li>
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Discount:</span><span class="text-end">—</span></li>
+                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Subtotal:</span><span class="text-end">{{cart.total|number}}<small> VNĐ </small></span></li>
+                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Shipping:</span><span class="text-end">100,000 <small> VNĐ </small> </span></li>
+                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Taxes:</span><span class="text-end">100,000 <small> VNĐ </small></span></li>
+                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Discount:</span><span class="text-end">0 <small> VNĐ </small></span></li>
               </ul>
-              <h3 class="fw-normal text-center my-4">$274.<small>50</small></h3>
+              <h3  class="fw-normal text-center my-4"> <input type="hidden" readonly style="border: none; outline: none; text-align: center; " th:object="${Total}" name = "Total" value="{{cart.total}}"></h3>
+              <h3  class="fw-normal text-center my-4"> {{cart.total|number}}<small>VNĐ</small></h3>
+              
               <form class="needs-validation" method="post" novalidate>
                 <div class="mb-3">
-                  <input class="form-control" type="text" placeholder="Promo code" required>
+                  <input class="form-control" type="text" placeholder="Promo code" >
                   <div class="invalid-feedback">Please provide promo code.</div>
                 </div>
-                <button class="btn btn-outline-primary d-block w-100" type="submit">Apply promo code</button>
+                <button class="btn btn-outline-primary d-block w-100" type="submit">Apply promo code</button> <br>
               </form>
+              
+              </div>
+              <button  class="btn btn-primary btn-shadow d-block w-100 mt-4"><i class="fs-lg me-2"></i>Checkout <i class="ci-arrow-right mt-sm-0 ms-1"></i></button>
             </div>
-          </div>
-        </aside>
+         </aside>
+         </div>
       </div>
+      </form>
       <!-- Navigation (mobile)-->
       <div class="row d-lg-none">
         <div class="col-lg-8">
@@ -196,8 +184,9 @@
         </div>
       </div>
     </div>
+   
   </div>
-
+	
 
 </body>
 

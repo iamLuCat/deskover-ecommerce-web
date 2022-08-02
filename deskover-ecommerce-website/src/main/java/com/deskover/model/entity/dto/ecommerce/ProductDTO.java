@@ -33,8 +33,10 @@ public class ProductDTO {
 //		this.thumbsnails = product.getProductThumbnails().stream().map(ProductThumbnail::getThumbnailUrl).collect(Collectors.toList());
 		this.averageRating = product.getAverageRating();
 		this.totalRating = product.getTotalRating();
-		
+
+
 		this.item = new SearchItem(product);
+
 	}
 	
 	private String name;
