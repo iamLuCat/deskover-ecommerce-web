@@ -1,16 +1,21 @@
 /* Scrollbar */
+//::-webkit-scrollbar {
+//  height: 5px;
+//  width: 5px;
+//}
+//
+//::-webkit-scrollbar-track {
+//  background: transparent;
+//}
+//
+//::-webkit-scrollbar-thumb {
+//  background: rgba(104, 105, 119, 0.4);
+//  border-radius: 20px;
+//}
+
 ::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
+  width: 0px;
   background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(104, 105, 119, 0.4);
-  border-radius: 20px;
 }
 
 @import "variable";
