@@ -9,11 +9,12 @@ import com.deskover.model.entity.dto.ChangePasswordDto;
 import com.deskover.model.entity.dto.UserCreateDto;
 
 public interface UserService {
-	 void changeActived(Long id);
 	 Users findById(Long id);
 	 Users findByUsername(String username);
 	 DataTablesOutput<Users> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
 	 Users create(UserCreateDto userRequest);
-	 void updatePassword(ChangePasswordDto userRequest);
 	 Users uploadFile(MultipartFile file);
+	 Users update(Users user);
+	 void changeActived(Long id);
+	 void updatePassword(ChangePasswordDto userRequest);
 }
