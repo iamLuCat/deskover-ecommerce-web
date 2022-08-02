@@ -34,7 +34,7 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: CategoriesComponent,
+        loadChildren: () => import('@components/home/manage/categories/categories.module').then(m => m.CategoriesModule)
       },
       {
         path: 'subcategories',
@@ -42,7 +42,7 @@ const routes: Routes = [
       },
       {
         path: 'brands',
-        component: BrandsComponent,
+        loadChildren: () => import('@components/home/manage/brands/brands.module').then(m => m.BrandsModule)
       },
       {
         path: 'promotions',
