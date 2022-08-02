@@ -42,9 +42,8 @@ CREATE TABLE admin_role
 INSERT admin_role (id, role_id, `name`)
 VALUES (1, 'ROLE_ADMIN', 'Quản trị viên'),
        (2, 'ROLE_MANAGER', 'Nhân viên quản lý'),
-       (3, 'ROLE_STAFF', 'Nhân viên'),
-       (4, 'ROLE_WAREHOUSE', 'Nhân viên Kho'),
-       (5, 'ROLE_SHIPPER', 'Nhân viên giao hàng');
+       (3, 'ROLE_SALE', 'Nhân viên bán hàng'),
+       (4, 'ROLE_SHIPPER', 'Nhân viên giao hàng');
 
 CREATE TABLE administrator
 (
@@ -360,8 +359,8 @@ values
   'haipv'
 ), 
 (
-  3, 1, 'Đồ họa - kỹ thuật', 
-  'do-hoa-ky-thuat', 'do-hoa-ky-thuat.png', 
+  3, 1, 'Macbook', 
+  'macbook', 'macbook.png', 
   'haipv'
 ), 
 (
