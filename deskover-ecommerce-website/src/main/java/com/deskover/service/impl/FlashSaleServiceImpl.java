@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class FlashSaleServiceImpl implements FlashSaleService {
 
 	@Autowired
 	private FlashSaleRepoForDatatables repoForDatatables;
+
 
 	@Override
 	public DataTablesOutput<FlashSale> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive) {
@@ -58,8 +60,8 @@ public class FlashSaleServiceImpl implements FlashSaleService {
 
 	@Override
 	public void isCheckActived() {
-		List<FlashSale> listActived = repository.findAllByActived(Boolean.TRUE);
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		List<FlashSale> listActived = repository.findAllByActived(Boolean.TRUE);
 		listActived.forEach((item) -> {
 			if (item.getEndDate().getTime() < currentTime.getTime()) {
 				this.changeActive(item.getId());
@@ -68,19 +70,26 @@ public class FlashSaleServiceImpl implements FlashSaleService {
 		});
 	}
 
+	@Transactional
 	@Override
-	public FlashSale save(FlashSale flashSale) {
+	public FlashSale create(FlashSale flashSale) {
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-		if(flashSale.getStartDate().getDate() < currentTime.getDate() || flashSale.getEndDate().getDate() < flashSale.getStartDate().getDate()) {
+		if (flashSale.getStartDate().getDate() < currentTime.getDate()
+				|| flashSale.getEndDate().getDate() < flashSale.getStartDate().getDate()) {
 			throw new IllegalArgumentException("Ngày bắt đầu hoặc kết thúc không hợp lệ");
-		}else if(flashSale.getStartDate().getDate() == currentTime.getDate()){
-			if(flashSale.getStartDate().getTime() < currentTime.getTime() || flashSale.getEndDate().getTime() < flashSale.getStartDate().getTime()) {
+		} else if (flashSale.getStartDate().getDate() == currentTime.getDate()) {
+			if (currentTime.getTime() > flashSale.getStartDate().getTime()
+					|| flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
 				throw new IllegalArgumentException("Thời gian không hợp lệ");
-			}else {
-				flashSale.setStartDateFormat(flashSale.getStartDate().toString());
-				System.out.println(flashSale.getStartDateFormat());
-				flashSale.setEndDateFormat(flashSale.getEndDateFormat().toString());
-				System.out.println(flashSale.getEndDateFormat());
+			} else {
+				flashSale.setActived(false);
+				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+				return repository.save(flashSale);
+			}
+		} else if (flashSale.getStartDate().getDate() > currentTime.getDate()) {
+			if (flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
+				throw new IllegalArgumentException("Thời gian kết thúc phải > thời gian bắt đầu");
+			} else {
 				flashSale.setActived(false);
 				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 				return repository.save(flashSale);
@@ -89,4 +98,8 @@ public class FlashSaleServiceImpl implements FlashSaleService {
 		return null;
 	}
 
+	@Override
+	public FlashSale getById(Long id) {
+		return repository.findById(id).orElse(null);
+	}
 }

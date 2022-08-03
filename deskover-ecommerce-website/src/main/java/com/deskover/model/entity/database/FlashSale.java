@@ -42,18 +42,10 @@ public class FlashSale implements Serializable {
     @CreationTimestamp
     private Timestamp startDate;
     
-    @NotNull(message = "Không bỏ trống ngày format")
-    @Column(name = "start_date_format")
-    private String startDateFormat;
-    
     @NotNull(message = "Không bỏ trống ngày kết thúc")
     @Column(name = "end_date")
     private Timestamp endDate;
-    
-    @NotNull(message = "Không bỏ trống ngày kết thúc format")
-    @Column(name = "end_date_format")
-    private String endDateFormat;
-    
+  
     @NotNull(message = "Không bỏ trống kích hoạt")
     @Column(name = "actived")
     private Boolean actived;
