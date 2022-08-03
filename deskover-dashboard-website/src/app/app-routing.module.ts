@@ -16,6 +16,7 @@ import {RecoverPasswordComponent} from "@components/pages/recover-password/recov
 import {PrivacyPolicyComponent} from "@components/pages/privacy-policy/privacy-policy.component";
 import {UsersComponent} from "@components/home/manage/users/users.component";
 import {OrdersComponent} from "@components/home/manage/orders/orders.component";
+import {FlashSalesComponent} from "@components/home/manage/flash-sales/flash-sales.component";
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
       {
         path: 'promotions',
         component: PromotionsComponent ,
+      },
+      {
+        path: 'flash-sales',
+        component: FlashSalesComponent ,
       },
       {
         path: 'products',
