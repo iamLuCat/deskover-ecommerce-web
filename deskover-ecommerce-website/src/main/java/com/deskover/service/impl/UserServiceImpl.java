@@ -95,4 +95,6 @@ public class UserServiceImpl implements UserService {
 		userPasswordService.updatePassword(SecurityContextHolder.getContextHolderStrategy().getContext().getAuthentication().getName(), userRequest);
 	}
 
+
+
 }
