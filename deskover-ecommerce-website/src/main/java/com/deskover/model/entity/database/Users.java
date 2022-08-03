@@ -14,13 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.validation.constraints.Email;
+import com.deskover.Notification;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -87,5 +83,8 @@ public class Users implements Serializable {
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Notification> notifications = new LinkedHashSet<>();
 
 }

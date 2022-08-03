@@ -17,11 +17,11 @@ public class Shop {
 	public Shop(Page<Product> items) {
 		this.totalItems = items.getTotalElements();
 		this.totalPage = items.getTotalPages() ;
-		this.items = items.toList().stream().map(product -> new SearchItem(product)).collect(Collectors.toList());
+		this.items = items.toList().stream().map(product -> new Item(product)).collect(Collectors.toList());
 	}
 	
 	private long totalPage;
 	private long totalItems;
 	
-	List<SearchItem> items;
+	List<Item> items;
 }

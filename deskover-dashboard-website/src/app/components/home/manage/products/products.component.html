@@ -169,7 +169,7 @@
                 <label class="form-label" [for]="'brand'">Thương hiệu</label>
                 <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
                         [compareWith]="compareFn" #brand="ngModel" required>
-                  <option value="">-- Chọn thương hiệu --</option>
+                  <option [ngValue]="null">-- Chọn thương hiệu --</option>
                   <option *ngFor="let item of brands" [ngValue]="item">{{ item.name }}</option>
                 </select>
                 <div class="invalid-feedback" *ngIf="brand.invalid && (brand.dirty || brand.touched)">
@@ -181,7 +181,7 @@
                 <select class="form-control" id="category" name="category" [(ngModel)]="category"
                         #categoryEdit="ngModel" [compareWith]="compareFn" (change)="getSubcategoriesByCategory()"
                         required>
-                  <option value="">-- Chọn danh mục --</option>
+                  <option [ngValue]="null">-- Chọn danh mục --</option>
                   <option *ngFor="let item of categories" [ngValue]="item">{{ item.name }}</option>
                 </select>
                 <div class="invalid-feedback"
@@ -192,8 +192,7 @@
               <div class="mb-3" *ngIf="product.subCategory">
                 <label class="form-label" [for]="'subCategory'">Danh mục con</label>
                 <select class="form-control" id="subCategory" name="subCategory" [(ngModel)]="product.subCategory"
-                        #subCategory="ngModel" [disabled]="category.id === null" [compareWith]="compareFn" required>
-                  <option value="">-- Chọn danh mục con --</option>
+                        #subCategory="ngModel" [disabled]="category === null" [compareWith]="compareFn" required>
                   <option *ngFor="let item of subcategories" [ngValue]="item">{{ item.name }}</option>
                 </select>
                 <div class="invalid-feedback" *ngIf="subCategory.invalid && (subCategory.dirty || subCategory.touched)">

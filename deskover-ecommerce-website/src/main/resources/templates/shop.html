@@ -44,7 +44,7 @@
                     <!-- Sidebar-->
                     <div class="offcanvas offcanvas-collapse bg-white w-100 rounded-3 shadow-lg py-1" id="shop-sidebar" style="max-width: 22rem;">
                         <div class="offcanvas-header align-items-center shadow-sm">
-                            <h2 class="h5 mb-0">Bá»™ lá»�c</h2>
+                            <h2 class="h5 mb-0">Bộ lọc</h2>
                             <button class="btn-close ms-auto" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body py-grid-gutter px-lg-grid-gutter">
@@ -77,17 +77,19 @@
                             </div>
                             <!-- Price range-->
                             <div class="widget mb-4 pb-4 border-bottom">
-                                <h3 class="widget-title">Khoảng giá</h3>
+                                <h3 class="widget-title">Khoảng giá 
+                                    <div th:text="${session.sessionValue}">0</div>
+                                </h3>
                                 <div class="range-slider" data-start-min="0" data-start-max="50000000" data-min="0" data-max="50000000" data-step="1000">
                                     <div class="range-slider-ui"></div>
                                     <div class="pb-1">
                                         <div class="w-100 mb-2">
-                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">Từ</span>
+                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">TỪ</span>
                                                 <input class="form-control range-slider-value-min" type="text">
                                             </div>
                                         </div>
                                         <div class="w-100">
-                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">Đến</span>
+                                            <div class="input-group input-group-sm"><span class="input-group-text" style="width: 50px;">ĐẾN</span>
                                                 <input class="form-control range-slider-value-max" type="text">
                                             </div>
                                         </div>
@@ -122,9 +124,15 @@
                                 <select class="form-select" id="sorting" ng-model="shop.filter.sort" ng-change="shop.loadItems()">
                                     <option value="1">Giá thấp đến cao</option>
                                     <option value="2">Giá cao đến thấp</option>
+<<<<<<< HEAD
                                     <option value="3">Danh mục</option>
                                     <option value="4">Thao tác A - Z</option>
                                     <option value="5">Thao tác Z - A</option>
+=======
+                                    <option value="3">Đánh giá tốt</option>
+                                    <option value="4">Thứ tự A - Z</option>
+                                    <option value="5">Thứ tự Z - A</option>
+>>>>>>> 46e5b6fd07f4b0d12d76992bc33b924fca915f77
                                 </select><span class="fs-sm text-light opacity-75 text-nowrap ms-2 d-none d-md-block">trên {{shop.totalItems}} sản phẩm</span>
                             </div>
                         </div>
@@ -136,12 +144,25 @@
                         <!-- Product-->
                         <div class="col-md-4 col-sm-6 px-2 mb-4" ng-repeat="item in shop.items">
                             <div class="card product-card">
+                                <span class="badge bg-danger badge-shadow" ng-if="item.sale">
+                                    <img width="20" height="20" class=" ls-is-cached lazyloaded" alt="Giảm sốc" data-src="https://cdn.tgdd.vn/2020/10/content/icon1-50x50.png" src="https://cdn.tgdd.vn/2020/10/content/icon1-50x50.png">
+                                    Giảm sốc
+                                </span>
+                                
+                                
                                 <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden"  th:href="@{/shop/item?p={{item.slug}}}">
-                                    <img src="{{item.imgUrl}}" alt="{{item.slug}}"></a>
+                                    <img src="{{'/img/shop/products/' + item.imgUrl}}" alt="{{item.slug}}"></a>
                                 <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">{{item.category}}</a>
                                     <h3 class="product-title fs-sm"><a th:href="@{/shop/item?p=item.slug}">{{item.name}}</a></h3>
                                     <div class="d-flex justify-content-between">
-                                        <div class="product-price"><span class="text-accent">{{item.price|number}} <small>VND</small></span></div>
+                                        <div class="product-price" ng-if="!item.sale">
+                                            <span class="text-accent">{{item.price|number}} <small>VND</small></span>
+                                        </div>
+                                        <div class="product-price" ng-if="item.sale">
+                                            <del class="fs-sm text-muted">{{item.price|number}} <small>VND</small></del>
+                                            <br>
+                                            <span class="text-accent">{{item.price_sale|number}} <small>VND</small></span> 
+                                        </div>
                                         <div class="star-rating">
                                             <i class="star-rating-icon ci-star-filled active" ng-repeat="p in [].constructor(item.rating) track by $index"></i>
                                         </div>
@@ -166,7 +187,7 @@
                     <!-- Pagination-->
                     <nav class="d-flex justify-content-between pt-2" aria-label="Page navigation" ng-if="shop.totalPage > 1">
                         <ul class="pagination">
-                            <li class="page-item"><button class="page-link" aria-label="Trá»Ÿ vá»� trÆ°á»›c má»™t trang" ng-click="shop.filter.changePage(shop.filter.currentPage-1)"><i class="ci-arrow-left me-2"></i>Về trước</a></li>
+                            <li class="page-item"><button class="page-link" aria-label="Trở về trước một trang" ng-click="shop.filter.changePage(shop.filter.currentPage-1)"><i class="ci-arrow-left me-2"></i>Về trước</a></li>
                         </ul>
                         <ul class="pagination">
                             <li class="page-item d-sm-none"><span class="page-link page-link-static">{{shop.filter.currentPage+1}} / {{shop.totalPage}}</span></li>
@@ -176,7 +197,7 @@
                             </li>
                         </ul>
                         <ul class="pagination">
-                            <li class="page-item"><button class="page-link" aria-label="Tiáº¿n tá»›i thÃªm má»™t trang" ng-click="shop.filter.changePage(shop.filter.currentPage+1)">Tiếp theo<i class="ci-arrow-right ms-2"></i></button></li>
+                            <li class="page-item"><button class="page-link" aria-label="Tiến tới thêm một trang" ng-click="shop.filter.changePage(shop.filter.currentPage+1)">Tiếp theo<i class="ci-arrow-right ms-2"></i></button></li>
                         </ul>
                     </nav>
                 </section>

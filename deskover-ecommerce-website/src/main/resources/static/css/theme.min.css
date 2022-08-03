@@ -38,7 +38,7 @@
     --bs-danger: #f34770;
     --bs-light: #fff;
     --bs-dark: #373f50;
-    --bs-primary-rgb: 254, 105, 106;
+    --bs-primary-rgb: 28, 81, 157;
     --bs-accent-rgb: 78, 84, 200;
     --bs-secondary-rgb: 243, 245, 249;
     --bs-success-rgb: 66, 214, 151;
@@ -3190,16 +3190,16 @@ fieldset:disabled .btn {
 
 .btn-primary:hover {
     color: #000;
-    background-color: #fe8080;
-    border-color: #fe7879
+    background-color: #133463;
+    border-color: #133463
 }
 
 .btn-check:focus+.btn-primary,
 .btn-primary:focus {
     color: #000;
-    background-color: #fe8080;
-    border-color: #fe7879;
-    box-shadow: unset, 0 0 0 0 rgba(216, 89, 90, .5)
+    background-color: #5d82b7;
+    border-color: #5d82b7;
+    box-shadow: unset, 0 0 0 0 rgba(89, 155, 216, 0.5)
 }
 
 .btn-check:checked+.btn-primary,
@@ -3208,8 +3208,8 @@ fieldset:disabled .btn {
 .btn-primary.active,
 .show>.btn-primary.dropdown-toggle {
     color: #000;
-    background-color: #fe8788;
-    border-color: #fe7879
+    background-color: #1c519d;
+    border-color: #1c519d
 }
 
 .btn-check:checked+.btn-primary:focus,
@@ -3217,7 +3217,7 @@ fieldset:disabled .btn {
 .btn-primary:active:focus,
 .btn-primary.active:focus,
 .show>.btn-primary.dropdown-toggle:focus {
-    box-shadow: unset, 0 0 0 0 rgba(216, 89, 90, .5)
+    box-shadow: unset, 0 0 0 0 rgba(89, 155, 216, 0.5)
 }
 
 .btn-primary:disabled,
@@ -14808,8 +14808,8 @@ input[type=search]::-webkit-search-results-decoration {
 .btn-primary:focus,
 .btn-primary.active,
 .btn-primary.show {
-    border-color: #fe3638;
-    background-color: #fe3638
+    border-color: #133463;
+    background-color: #133463
 }
 
 .btn-accent:hover,
@@ -14982,7 +14982,7 @@ input[type=search]::-webkit-search-results-decoration {
 }
 
 .btn-primary.btn-shadow {
-    box-shadow: 0 .5rem 1.125rem -0.5rem rgba(254, 105, 106, .9)
+    box-shadow: 0 .5rem 1.125rem -0.5rem rgba(78, 84, 200, .9)
 }
 
 .btn-accent.btn-shadow {
@@ -17422,7 +17422,7 @@ a.nav-link:hover .media-tab-media {
 }
 
 .bg-primary.badge-shadow {
-    box-shadow: 0 .5rem 1.125rem -0.275rem rgba(254, 105, 106, .9)
+    box-shadow: 0 .5rem 1.125rem -0.275rem rgba(28, 81, 157, .9)
 }
 
 .bg-accent.badge-shadow {

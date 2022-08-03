@@ -66,9 +66,21 @@ export const MENU = [
     iconClasses: 'fa-duotone fa-copyright'
   },
   {
-    name: 'Khuyến mãi',
-    path: ['/promotions'],
-    iconClasses: 'fa-duotone fa-badge-percent'
+    name: 'Chương trình khuyến mãi',
+    iconClasses: 'fa-duotone fa-badge-percent',
+    children: [
+      {
+        name: 'Giảm giá',
+        path: ['/promotions'],
+        iconClasses: 'fa-duotone fa-circle-dot',
+      },
+
+      {
+        name: 'Flash Sale',
+        path: ['/flash-sales'],
+        iconClasses: 'fa-duotone fa-circle-dot',
+      }
+    ]
   },
   {
     name: 'Sản phẩm',

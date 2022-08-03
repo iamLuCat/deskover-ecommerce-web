@@ -42,9 +42,8 @@ CREATE TABLE admin_role
 INSERT admin_role (id, role_id, `name`)
 VALUES (1, 'ROLE_ADMIN', 'Quản trị viên'),
        (2, 'ROLE_MANAGER', 'Nhân viên quản lý'),
-       (3, 'ROLE_STAFF', 'Nhân viên'),
-       (4, 'ROLE_WAREHOUSE', 'Nhân viên Kho'),
-       (5, 'ROLE_SHIPPER', 'Nhân viên giao hàng');
+       (3, 'ROLE_SALE', 'Nhân viên bán hàng'),
+       (4, 'ROLE_SHIPPER', 'Nhân viên giao hàng');
 
 CREATE TABLE administrator
 (
@@ -66,9 +65,8 @@ VALUES (1, 'minhnh', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd
        (2, 'vupq06', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Quang Vũ', 'haipv'),
        (3, 'haipv', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Văn Hải', 'haipv'),
        (4, 'manager1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Thị Lài', 'haipv'),
-       (5, 'staff1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Tuyết Vân', 'haipv'),
-       (6, 'staffwarehouse1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Văn Mạnh', 'haipv'),
-       (7, 'shipper1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Mạnh Hùng', 'haipv')
+       (5, 'sale1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Tuyết Vân', 'haipv'),
+       (6, 'shipper1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Mạnh Hùng', 'haipv')
 ;
 
 CREATE TABLE admin_authority
@@ -85,12 +83,11 @@ CREATE TABLE admin_authority
 
 INSERT INTO admin_authority (id, role_id, admin_id)
 VALUES (1, 1, 1),
-       (2, 5, 2),
+       (2, 1, 2),
        (3, 1, 3),
        (4, 2, 4),
        (5, 3, 5),
-       (6, 4, 6),
-       (7, 5, 7);
+       (6, 4, 6);
 
 --------------------------------------------------------------------------------------------------------------
 -- Người dùng
@@ -360,8 +357,8 @@ values
   'haipv'
 ), 
 (
-  3, 1, 'Đồ họa - kỹ thuật', 
-  'do-hoa-ky-thuat', 'do-hoa-ky-thuat.png', 
+  3, 1, 'Macbook', 
+  'macbook', 'macbook.png', 
   'haipv'
 ), 
 (
@@ -510,19 +507,17 @@ CREATE TABLE flash_sale
 	id              BIGINT                                                     NOT NULL AUTO_INCREMENT,
    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
 	start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	start_date_format     VARCHAR(128)                                                 NOT NULL,
 	end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    end_date_format     VARCHAR(128)                                                 NOT NULL,
     actived       BIT                                                          NOT NULL DEFAULT 0,
     modified_by   VARCHAR(50)                                                  DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
-insert flash_sale (id,`name`,start_date,start_date_format, end_date,end_date_format, actived, modified_by)
+insert flash_sale (id,`name`,start_date, end_date, actived, modified_by)
 values 
   (
-    1, 'Flash Sale Of', '2022-08-05 23:59:59', '2022-08-05 23:59:59',
-    '2022-08-06 23:59:59', '2022-08-06 23:59:59',1, 'haipv'
+    1, 'Flash Sale Of', '2022-08-05 23:59:59',
+    '2022-08-06 23:59:59',1, 'haipv'
   );
 
 -- Sản phẩm
@@ -1279,7 +1274,7 @@ CREATE TABLE order_detail
 (
     id       BIGINT                                                        NOT NULL AUTO_INCREMENT,
     order_id BIGINT                                                        NOT NULL,
-    address  VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI NOT NULL,
+    address  VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
     district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
     ward     VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
@@ -1320,6 +1315,16 @@ CREATE TABLE cart
 --------------------------------------------------------------------------------------------------------------
 -- Giở hàng
 --------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE Notifications (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255)CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    user_id BIGINT NOT NULL,
+    order_code VARCHAR(255) NOT NULL,
+    is_watched BIT DEFAULT 0,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_notification_user FOREIGN KEY (user_id) REFERENCES user (id)
+);
 
 CREATE TABLE verify
 (
