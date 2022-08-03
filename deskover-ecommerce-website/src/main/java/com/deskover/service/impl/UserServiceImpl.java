@@ -110,4 +110,10 @@ public class UserServiceImpl implements UserService {
 		 return  repo.saveAndFlush(users);
 	}
 
+	@Override
+	@Transactional
+	public Users update(Users user) {
+		return repo.saveAndFlush(user);
+	}
+
 }

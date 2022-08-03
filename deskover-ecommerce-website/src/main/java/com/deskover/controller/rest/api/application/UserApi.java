@@ -116,7 +116,7 @@ public class UserApi {
 			userService.update(user);
 			return ResponseEntity.ok(new MessageResponse("Cập nhập thông tin thành công"));
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(),e);
+			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập thất bại\nVui lòng kiểm tra thông tin"));
 		}
 	}
 
