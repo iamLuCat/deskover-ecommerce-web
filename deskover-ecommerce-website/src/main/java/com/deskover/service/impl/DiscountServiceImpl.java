@@ -1,11 +1,12 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.Discount;
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.repository.DiscountRepository;
-import com.deskover.model.entity.database.repository.datatable.DiscountRepoForDatatables;
-import com.deskover.service.DiscountService;
-import com.deskover.service.ProductService;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -13,11 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import com.deskover.model.entity.database.Discount;
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.repository.DiscountRepository;
+import com.deskover.model.entity.database.repository.datatable.DiscountRepoForDatatables;
+import com.deskover.service.DiscountService;
+import com.deskover.service.ProductService;
 
 @Service
 public class DiscountServiceImpl implements DiscountService {
@@ -112,5 +114,23 @@ public class DiscountServiceImpl implements DiscountService {
         }
         return discount;
     }
+
+	@Override
+	public void isCheckActived() {
+		List<Discount> listActived = repository.findAllByActived(Boolean.TRUE);
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		listActived.forEach((item) -> {
+			if(item.getEndDate().getTime() < currentTime.getTime()) {
+				this.changeActive(item.getId());
+				repository.saveAndFlush(item);
+//				Set<Product> products = item.getProducts();
+//	            for (Product product : products) {
+//	                product.setDiscount(null);
+//	            }
+			}
+		});
+	}
+
+
 
 }

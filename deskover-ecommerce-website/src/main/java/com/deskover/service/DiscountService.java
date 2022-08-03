@@ -22,5 +22,7 @@ public interface DiscountService {
 	Discount findById(Long id);
 
 	DataTablesOutput<Discount> getByActiveForDatatables(@Valid DataTablesInput input, Boolean orElse);
+	
+	void isCheckActived();
 
 }

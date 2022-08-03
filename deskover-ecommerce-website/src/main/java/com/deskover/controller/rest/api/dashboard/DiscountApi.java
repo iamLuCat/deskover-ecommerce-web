@@ -26,40 +26,42 @@ import com.deskover.model.entity.dto.security.payload.MessageResponse;
 import com.deskover.other.util.MessageErrorUtil;
 import com.deskover.other.util.ValidationUtil;
 import com.deskover.service.DiscountService;
+import com.deskover.service.FlashSaleService;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("v1/api/admin")
 public class DiscountApi {
-	
+
 	@Autowired
 	private DiscountService discountService;
-	
+
 	@GetMapping("/discounts")
-	public ResponseEntity<?> doGetAll(){
+	public ResponseEntity<?> doGetAll() {
 		List<Discount> discounts = discountService.findAll();
-		if(discounts.isEmpty()) {
+		if (discounts.isEmpty()) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Không có dữ liệu"));
 		}
 		return ResponseEntity.ok(discounts);
 	}
-	
-    @PostMapping("/discounts/datatables")
-    public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
-        return ResponseEntity.ok(discountService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
-    }
-	
+
+	@PostMapping("/discounts/datatables")
+	public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input,
+			@RequestParam("isActive") Optional<Boolean> isActive) {
+		return ResponseEntity.ok(discountService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
+	}
+
 	@GetMapping("/discounts/{id}")
-	public ResponseEntity<?> doGetDiscountId(@PathVariable("id") Long id){
+	public ResponseEntity<?> doGetDiscountId(@PathVariable("id") Long id) {
 		Discount discounts = discountService.findById(id);
-		if(discounts == null) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy discount id: "+id));
+		if (discounts == null) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy discount id: " + id));
 		}
 		return ResponseEntity.ok(discounts);
 	}
-	
+
 	@PostMapping("/discounts")
-	public ResponseEntity<?> doCreate(@Valid @RequestBody Discount discount,BindingResult result){
+	public ResponseEntity<?> doCreate(@Valid @RequestBody Discount discount, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
 			return ResponseEntity.badRequest().body(errors);
@@ -67,42 +69,41 @@ public class DiscountApi {
 		try {
 			discountService.create(discount);
 			return ResponseEntity.created(null).body(new MessageResponse("Thêm mới thành công"));
-		}catch (Exception e) {
+		} catch (Exception e) {
 			MessageResponse error = MessageErrorUtil.message("Thêm mới thất bại ", e);
 			return ResponseEntity.badRequest().body(error);
 		}
 	}
-	
+
 	@PutMapping("/discounts")
-	public ResponseEntity<?> doUpdate(
-			@RequestBody Discount discount,
+	public ResponseEntity<?> doUpdate(@RequestBody Discount discount,
 			@RequestParam("productIdToAdd") Optional<Long> productIdToAdd,
-			@RequestParam("productIdToRemove") Optional<Long> productIdToRemove
-	){
+			@RequestParam("productIdToRemove") Optional<Long> productIdToRemove) {
 		try {
-			discountService.update(
-					discount,
-					productIdToAdd.orElse(null),
-					productIdToRemove.orElse(null)
-			);
+			discountService.update(discount, productIdToAdd.orElse(null), productIdToRemove.orElse(null));
 			return new ResponseEntity<>(HttpStatus.OK);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			MessageResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
 			return ResponseEntity.badRequest().body(error);
 		}
 	}
-	
+
 	@DeleteMapping("/discounts/{id}")
-    public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
-        try {
-        	Discount discount = discountService.changeActive(id);
-        	if (discount ==null) {
-        		ResponseEntity.ok(new MessageResponse("Không tìm thất Discount id: " +id));
+	public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
+		try {
+			Discount discount = discountService.changeActive(id);
+			if (discount == null) {
+				ResponseEntity.ok(new MessageResponse("Không tìm thất Discount id: " + id));
 			}
-        	return ResponseEntity.ok(discount);
-        } catch (Exception e) {
-        	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
+			return ResponseEntity.ok(discount);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping("/discounts/checkActive")
+	public void doCheckActive() {
+		discountService.isCheckActived();
+	}
 
 }
