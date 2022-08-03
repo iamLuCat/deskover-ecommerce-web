@@ -81,6 +81,11 @@ tr, td {
   }
 }
 
+.user-menu > .dropdown-menu > li.user-header > img {
+  min-height: 90px;
+  min-width: 90px;
+}
+
 @media (min-width: 992px) {
   .sidebar-mini.sidebar-collapse .brand-image {
     display: block;

@@ -2,14 +2,14 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 fw-bold text-uppercase text-primary">Quản lý nhân viên</h1>
+        <h1 class="m-0 fw-bold text-uppercase text-primary fw-bold">Quản lý người dùng</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item">
-            <a class="text-decoration-none" [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
+            <a class="text-decoration-none" [routerLink]="'/'" routerLinkActive="router-link-active">Trang chủ</a>
           </li>
-          <li class="breadcrumb-item active">Quản lý nhân viên</li>
+          <li class="breadcrumb-item active">Người dùng</li>
         </ol>
       </div>
     </div>
@@ -39,15 +39,14 @@
               <th class="align-middle">Ảnh đại diện</th>
               <th class="align-middle">Tên đăng nhập</th>
               <th class="align-middle">Họ và tên</th>
-              <th class="align-middle">Quyền hạn</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
               <th class="align-middle text-center">Lần đăng nhập cuối</th>
               <th class="align-middle text-end"></th>
             </tr>
             </thead>
-            <tbody *ngIf="users?.length !== 0">
-            <tr class="table-light" *ngFor="let user of users; let i = index">
+            <tbody *ngIf="customers?.length !== 0">
+            <tr class="table-light" *ngFor="let user of customers; let i = index">
               <td class="align-middle">
                 <div class="frame frame-50 img-thumbnail">
                   <img [src]="getSrc(user.avatar)" class="img-fluid">
@@ -55,9 +54,6 @@
               </td>
               <td class="align-middle">
                 {{ user.username }}
-              </td>
-              <td class="align-middle">
-                {{ user.fullname }}
               </td>
               <td class="align-middle">
                 {{ user.fullname }}
@@ -72,7 +68,7 @@
                 {{ user.lastLogin ? (user.lastLogin | date: 'dd/MM/yyyy'): '-' }}
               </td>
               <td class="align-middle text-end">
-                <!--<div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm btn-danger" (click)="changeActive(user)"
                           placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash"></i>
@@ -82,11 +78,11 @@
                   <button type="button" class="btn btn-sm bg-success" (click)="changeActive(user)">
                     Kích hoạt
                   </button>
-                </div>-->
+                </div>
               </td>
             </tr>
             </tbody>
-            <tbody *ngIf="users?.length === 0">
+            <tbody *ngIf="customers?.length === 0">
             <tr>
               <td colspan="7" class="text-center">Không tìm thấy kết quá</td>
             </tr>

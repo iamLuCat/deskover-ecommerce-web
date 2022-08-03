@@ -51,10 +51,11 @@ import {defineLocale} from 'ngx-bootstrap/chronos';
 import localeEn from '@angular/common/locales/en';
 import {viLocale} from 'ngx-bootstrap/locale';
 import {TabsModule} from "ngx-bootstrap/tabs";
-import {UsersComponent} from "@components/home/manage/users/users.component";
+import {CustomersComponent} from "@components/home/manage/customers/customers.component";
 import {OrdersComponent} from '@components/home/manage/orders/orders.component';
-import { SortByIdPipe } from './pipe/sort-by-id.pipe';
-import { FlashSalesComponent } from './components/home/manage/flash-sales/flash-sales.component';
+import {SortByIdPipe} from './pipe/sort-by-id.pipe';
+import {FlashSalesComponent} from '@components/home/manage/flash-sales/flash-sales.component';
+import {UsersComponent} from '@components/home/manage/users/users.component';
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -88,10 +89,11 @@ defineLocale('vi', viLocale);
     SubcategoriesComponent,
     PromotionsComponent,
     ProductsComponent,
-    UsersComponent,
+    CustomersComponent,
     OrdersComponent,
     SortByIdPipe,
-    FlashSalesComponent
+    FlashSalesComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

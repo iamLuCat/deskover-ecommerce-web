@@ -62,7 +62,6 @@ public class Administrator implements Serializable {
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
     private Set<AdminAuthority> authorities = new LinkedHashSet<>();
 

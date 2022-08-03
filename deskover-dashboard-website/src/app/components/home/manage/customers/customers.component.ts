@@ -1,28 +1,26 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {CustomerService} from "@services/customer.service";
 import {Customer} from "@/entites/customer";
 import {DataTableDirective} from "angular-datatables";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
 import {environment} from "../../../../../environments/environment";
-import {User} from "@/entites/user";
-import {UserService} from "@services/user.service";
 
 @Component({
-  selector: 'app-staff',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'app-user',
+  templateUrl: './customers.component.html',
+  styleUrls: ['./customers.component.scss']
 })
-export class UsersComponent implements OnInit {
-
+export class CustomersComponent implements OnInit {
   isActive: boolean = true;
 
-  users: User[] = [];
-  user: User = <User>{};
+  customers: Customer[] = [];
+  customer: Customer = <Customer>{};
 
   dtOptions: any = {};
 
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
-  constructor(private userService: UserService) {
+  constructor(private customerService: CustomerService) {
   }
 
   ngOnInit(): void {
@@ -43,8 +41,8 @@ export class UsersComponent implements OnInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.userService.getByActiveForDatatable(dataTablesParameters, this.isActive).subscribe(resp => {
-          self.users = resp.data;
+        this.customerService.getByActiveForDatatable(dataTablesParameters, this.isActive).subscribe(resp => {
+          self.customers = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
@@ -76,24 +74,23 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  /*changeActive(user: User) {
+  changeActive(user: Customer) {
     if (user.actived) {
       NotiflixUtils.showConfirm('Xác nhận xoá', 'Nguời dùng này sẽ bị khoá', () => {
-        this.userService.changeActive(user.id).subscribe(data => {
+        this.customerService.changeActive(user.id).subscribe(data => {
           NotiflixUtils.successNotify('Khoá tài khoản thành công');
           this.rerender();
         });
       });
     } else {
-      this.userService.changeActive(user.id).subscribe(data => {
+      this.customerService.changeActive(user.id).subscribe(data => {
         NotiflixUtils.successNotify('Kích hoạt tài khoản thành công');
         this.rerender();
       });
     }
-  }*/
+  }
 
   getSrc(image: string) {
     return image ? `${environment.globalUrl.categoryImg}/${image}` : 'assets/images/no-image.png';
   }
-
 }
