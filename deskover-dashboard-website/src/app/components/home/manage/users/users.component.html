@@ -29,6 +29,15 @@
               <option [ngValue]="false">Chưa kích hoạt</option>
             </select>
           </div>
+          <div class="col-auto">
+            <label [for]="'filter-active'" class="col-form-label">Quyền hạn:</label>
+          </div>
+          <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
+            <select id="filter-active" class="form-select" [(ngModel)]="roleFilter" (change)="filter()">
+              <option [ngValue]="null">Tất cả</option>
+              <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="card-body p-0">
@@ -46,8 +55,8 @@
               <th class="align-middle text-end"></th>
             </tr>
             </thead>
-            <tbody *ngIf="users?.length !== 0">
-            <tr class="table-light" *ngFor="let user of users; let i = index">
+            <tbody class="table-light" *ngIf="users?.length !== 0">
+            <tr *ngFor="let user of users; let i = index">
               <td class="align-middle">
                 <div class="frame frame-50 img-thumbnail">
                   <img [src]="getSrc(user.avatar)" class="img-fluid">
@@ -60,7 +69,9 @@
                 {{ user.fullname }}
               </td>
               <td class="align-middle">
-                {{ user.fullname }}
+                <span class="badge bg-primary" *ngFor="let authority of user.authorities">
+                  {{ authority.role.name }}
+                </span>
               </td>
               <td class="align-middle text-center">
                 {{ user.modifiedAt | date: 'dd/MM/yyyy' }}
@@ -72,7 +83,7 @@
                 {{ user.lastLogin ? (user.lastLogin | date: 'dd/MM/yyyy'): '-' }}
               </td>
               <td class="align-middle text-end">
-                <!--<div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm btn-danger" (click)="changeActive(user)"
                           placement="top" tooltip="Xoá" container="body">
                     <i class="fas fa-trash"></i>
@@ -82,7 +93,7 @@
                   <button type="button" class="btn btn-sm bg-success" (click)="changeActive(user)">
                     Kích hoạt
                   </button>
-                </div>-->
+                </div>
               </td>
             </tr>
             </tbody>

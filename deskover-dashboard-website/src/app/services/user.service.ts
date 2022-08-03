@@ -17,4 +17,12 @@ export class UserService {
     const params = new HttpParams().set("isActive", isActive.toString());
     return this.restApi.post(this.url + "/datatables", tableQuery, params);
   }
+
+  getRoles(): Observable<any> {
+    return this.restApi.get(this.url + "/roles");
+  }
+
+  changeActive(id: number) {
+    return this.restApi.delete(this.url, id);
+  }
 }

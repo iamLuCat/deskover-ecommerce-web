@@ -74,16 +74,16 @@ export class CustomersComponent implements OnInit {
     });
   }
 
-  changeActive(user: Customer) {
-    if (user.actived) {
+  changeActive(customer: Customer) {
+    if (customer.actived) {
       NotiflixUtils.showConfirm('Xác nhận xoá', 'Nguời dùng này sẽ bị khoá', () => {
-        this.customerService.changeActive(user.id).subscribe(data => {
+        this.customerService.changeActive(customer.id).subscribe(data => {
           NotiflixUtils.successNotify('Khoá tài khoản thành công');
           this.rerender();
         });
       });
     } else {
-      this.customerService.changeActive(user.id).subscribe(data => {
+      this.customerService.changeActive(customer.id).subscribe(data => {
         NotiflixUtils.successNotify('Kích hoạt tài khoản thành công');
         this.rerender();
       });

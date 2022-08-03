@@ -101,6 +101,6 @@ export const MENU = [
   {
     name: 'Nhân viên',
     path: ['/users'],
-    iconClasses: 'fa-duotone fa-file-invoice'
+    iconClasses: 'fa-duotone fa-user-lock'
   },
 ];

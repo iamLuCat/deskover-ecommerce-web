@@ -1,5 +1,6 @@
 package com.deskover.controller.rest.api.dashboard;
 
+import com.deskover.model.entity.database.AdminRole;
 import com.deskover.model.entity.database.Administrator;
 import com.deskover.model.entity.dto.AdminCreateDto;
 import com.deskover.model.entity.dto.AdministratorDto;
@@ -23,7 +24,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("v1/api/admin")
+@RequestMapping("v1/api/admin/users")
 public class AdministratorApi {
 	@Autowired
 	AdminService adminService;
@@ -31,7 +32,12 @@ public class AdministratorApi {
 	@Autowired
 	AdminAuthorityService adminAuthorityService;
 
-	@GetMapping("/users")
+	@GetMapping("/roles")
+	public List<AdminRole> getAllRole() {
+		return adminService.getAllRole();
+	}
+
+	@GetMapping()
 	public ResponseEntity<?> doGetIsActived(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size, @RequestParam("isActive") Optional<Boolean> isActive) {
 		Page<Administrator> Admins = adminService.getByActived(isActive.orElse(Boolean.TRUE), page.orElse(0),
@@ -42,7 +48,7 @@ public class AdministratorApi {
 		return ResponseEntity.ok(Admins);
 	}
 
-	@GetMapping("/users/actived")
+	@GetMapping("/actived")
     public ResponseEntity<?> doGetAllActive() {
         List<Administrator> admins = adminService.getByActived(Boolean.TRUE);
         if (admins.isEmpty()) {
@@ -51,13 +57,13 @@ public class AdministratorApi {
         return ResponseEntity.ok(admins);
     }
 	
-	@PostMapping("/users/datatables")
+	@PostMapping("/datatables")
 	public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input,
 			@RequestParam("isActive") Optional<Boolean> isActive) {
 		return ResponseEntity.ok(adminService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
 	}
 
-	@GetMapping("/users/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
 		try {
 			Administrator admin = adminService.getById(id);
@@ -72,7 +78,7 @@ public class AdministratorApi {
 	
 	}
 
-	@PostMapping("/users")
+	@PostMapping()
 	public ResponseEntity<?> doCreate(@Valid @RequestBody AdminCreateDto admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -86,7 +92,7 @@ public class AdministratorApi {
 		}
 	}
 
-	@PutMapping("/users")
+	@PutMapping()
 	public ResponseEntity<?> doUpdate(@Valid @RequestBody AdministratorDto admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -100,7 +106,7 @@ public class AdministratorApi {
 		}
 	}
 
-	@PutMapping("/users/password")
+	@PutMapping("/password")
 	public ResponseEntity<?> doUpdatePassword(@Valid @RequestBody ChangePasswordDto admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -114,7 +120,7 @@ public class AdministratorApi {
 		}
 	}
 
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
 		try {
 			adminService.changeActived(id);
@@ -124,9 +130,11 @@ public class AdministratorApi {
 		}
 	}
 
-	@PostMapping("/users/authority")
-	public ResponseEntity<?> doChangeRole(@RequestParam(value = "adminId", required = true) Long adminId,
-			@RequestParam(value = "roleId", required = true) Long roleId) {
+	@PostMapping("/authority")
+	public ResponseEntity<?> doChangeRole(
+			@RequestParam(value = "adminId", required = true) Long adminId,
+			@RequestParam(value = "roleId", required = true) Long roleId
+	) {
 		try {
 			adminAuthorityService.changeRole(adminId, roleId);
 			return new ResponseEntity<>(HttpStatus.OK);
