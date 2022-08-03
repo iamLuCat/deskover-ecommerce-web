@@ -54,6 +54,7 @@ import {TabsModule} from "ngx-bootstrap/tabs";
 import {UsersComponent} from "@components/home/manage/users/users.component";
 import {OrdersComponent} from '@components/home/manage/orders/orders.component';
 import { SortByIdPipe } from './pipe/sort-by-id.pipe';
+import { FlashSalesComponent } from './components/home/manage/flash-sales/flash-sales.component';
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -89,7 +90,8 @@ defineLocale('vi', viLocale);
     ProductsComponent,
     UsersComponent,
     OrdersComponent,
-    SortByIdPipe
+    SortByIdPipe,
+    FlashSalesComponent
   ],
   imports: [
     BrowserModule,
