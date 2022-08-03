@@ -1274,7 +1274,7 @@ CREATE TABLE order_detail
 (
     id       BIGINT                                                        NOT NULL AUTO_INCREMENT,
     order_id BIGINT                                                        NOT NULL,
-    address  VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI NOT NULL,
+    address  VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
     district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
     ward     VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
@@ -1315,6 +1315,16 @@ CREATE TABLE cart
 --------------------------------------------------------------------------------------------------------------
 -- Giở hàng
 --------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE Notifications (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255)CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    user_id BIGINT NOT NULL,
+    order_code VARCHAR(255) NOT NULL,
+    is_watched BIT DEFAULT 0,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_notification_user FOREIGN KEY (user_id) REFERENCES user (id)
+);
 
 CREATE TABLE verify
 (

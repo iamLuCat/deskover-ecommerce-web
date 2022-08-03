@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
+import com.deskover.Notification;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -84,5 +85,8 @@ public class Users implements Serializable {
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Notification> notifications = new LinkedHashSet<>();
 
 }
