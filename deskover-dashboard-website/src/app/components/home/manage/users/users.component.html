@@ -49,7 +49,9 @@
             <tbody *ngIf="users?.length !== 0">
             <tr class="table-light" *ngFor="let user of users; let i = index">
               <td class="align-middle">
-                <img src="{{ user.avatar || 'assets/images/no-image.png' }}" class="img-fluid img-thumbnail img-50">
+                <div class="frame frame-50 img-thumbnail">
+                  <img [src]="getSrc(user.avatar)" class="img-fluid">
+                </div>
               </td>
               <td class="align-middle">
                 {{ user.username }}

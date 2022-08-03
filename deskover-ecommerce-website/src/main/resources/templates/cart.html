@@ -8,7 +8,7 @@
     )}">
 
 <head>
-    <title>Deskover: Chi Tiáº¿t Giá»� HÃ ng</title>
+    <title>Deskover: Chi tiết giỏ hàng</title>
 </head>
 
 <body>
@@ -21,15 +21,15 @@
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                            <li class="breadcrumb-item"><a class="text-nowrap" th:href="@{/index}"><i class="ci-home"></i>Trang chá»§</a></li>
-                            <li class="breadcrumb-item text-nowrap"><a th:href="@{/shop}">Cá»­a hÃ ng</a>
+                            <li class="breadcrumb-item"><a class="text-nowrap" th:href="@{/index}"><i class="ci-home"></i>Trang chủ</a></li>
+                            <li class="breadcrumb-item text-nowrap"><a th:href="@{/shop}">Cửa hàng</a>
                             </li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Giá»� hÃ ng</li>
+                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Giỏ hàng</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0">Chi Tiáº¿t Giá»� HÃ ng</h1>
+                    <h1 class="h3 text-light mb-0">Chi tiết giao hàng</h1>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <!-- List of items-->
                 <section class="col-lg-8">
                     <div class="d-flex justify-content-between align-items-center pt-3 pb-4 pb-sm-5 mt-1">
-                        <h2 class="h6 text-light mb-0">Sáº£n pháº©m</h2><a class="btn btn-outline-primary btn-sm ps-2" href="shop-grid-ls.html"><i class="ci-arrow-left me-2"></i>Tiáº¿p tá»¥c mua sáº¯m</a>
+                        <h2 class="h6 text-light mb-0">Sản phẩm</h2><a class="btn btn-outline-primary btn-sm ps-2" href="shop-grid-ls.html"><i class="ci-arrow-left me-2"></i>Tiếp tục mua sắm</a>
                     </div>
                     <!-- Item-->
                     <div class="d-sm-flex justify-content-between align-items-center my-2 pb-3 border-bottom" ng-repeat="item in cart.items">
@@ -46,40 +46,40 @@
                                 <img src="{{item.imgUrl}}" width="160" alt="{{item.slug}}"></a>
                             <div class="pt-2">
                                 <h3 class="product-title fs-base mb-2"><a href="/shop/item?p={{item.slug}}">{{item.name}}</a></h3>
-                                <div class="fs-sm"><span class="text-muted me-2" ng-if="item.category">Danh má»¥c:</span>{{item.category}}</div>
-                                <div class="fs-sm"><span class="text-muted me-2" ng-if="item.subcategory">Loáº¡i:</span>{{item.subcategory}}</div>
+                                <div class="fs-sm"><span class="text-muted me-2" ng-if="item.category">Danh mục:</span>{{item.category}}</div>
+                                <div class="fs-sm"><span class="text-muted me-2" ng-if="item.subcategory">Loại:</span>{{item.subcategory}}</div>
                                 <div class="fs-lg text-accent pt-2">{{item.price|number}} <small>VND</small></div>
                             </div>
                         </div>
                         <div class="pt-2 pt-sm-0 ps-sm-3 mx-auto mx-sm-0 text-center text-sm-start" style="max-width: 9rem;">
-                            <label class="form-label" for="{{item.slug}}">Sá»‘ lÆ°á»£ng</label>
+                            <label class="form-label" for="{{item.slug}}">Số lượng</label>
                             <input class="form-control" type="number" id="{{item.slug}}" min="1" max="5" ng-model="item.amount" ng-keyup="cart.valid.amount(this)">
-                            <button class="btn btn-link px-0 text-danger" type="button" ng-click="cart.remove(item)"><i class="ci-close-circle me-2"></i><span class="fs-sm">XÃ³a</span></button>
+                            <button class="btn btn-link px-0 text-danger" type="button" ng-click="cart.remove(item)"><i class="ci-close-circle me-2"></i><span class="fs-sm">Xóa</span></button>
                         </div>
                     </div>
                     <div class=" my-2 pb-3 border-bottom" ng-if="cart.total == 0">
                         <div class="w-100 align-items-center text-center">
                             <img th:src="@{/img/empty-cart.png}" class="mb-5 mt-5" style="height: 200px;">
                             <h1 class="mt-50 heading-h2">Giá»� hÃ ng cá»§a báº¡n trá»‘ng</h1>
-                            <p class="mt-50 sub-heading-h2">CÃ³ váº» báº¡n chÆ°a thÃªm sáº£n pháº©m nÃ o vÃ o giá»� hÃ ng</p>
+                            <p class="mt-50 sub-heading-h2">Bạn chưa thêm sản phẩm nào vào giỏ hàng</p>
                         </div>
                     </div>
-                    <button class="btn btn-outline-accent d-block w-100 mt-4" type="button"><i class="ci-remove fs-base me-2"></i>XÃ³a táº¥t cáº£</button>
+                    <button class="btn btn-outline-accent d-block w-100 mt-4" type="button"><i class="ci-remove fs-base me-2"></i>Xóa tất cả</button>
                 </section>
                 <!-- Sidebar-->
                 <aside class="col-lg-4 pt-4 pt-lg-0 ps-xl-5">
                     <div class="bg-white rounded-3 shadow-lg p-4">
                         <div class="py-2 px-xl-2">
                             <div class="text-center mb-4 pb-3 border-bottom">
-                                <h2 class="h3 mb-3 pb-1">ThÃ´ng tin</h2>
+                                <h2 class="h3 mb-3 pb-1">Thông tin</h2>
                             </div>
                             <ul class="list-unstyled fs-sm pb-2 border-bottom">
-                                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Tá»•ng tiá»�n:</span><span class="text-end">{{cart.total|number}}<small> VND</small></span></li>
-                                <li class="d-flex justify-content-between align-items-center"><span class="me-2">PhÃ­ váº­n chuyá»ƒn:</span><span class="text-end">â€”</span></li>
-                                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Giáº£m giÃ¡:</span><span class="text-end">â€”</span></li>
+                                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Tổng tiền:</span><span class="text-end">{{cart.total|number}}<small> VND</small></span></li>
+                                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Phí vận chuyển:</span><span class="text-end">â€”</span></li>
+                                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Giảm giá:</span><span class="text-end">â€”</span></li>
                             </ul>
                             <div class="text-center mb-4 pb-3 border-bottom">
-                                <h2 class="h6 mb-3 pb-1">Tá»•ng tiá»�n thanh toÃ¡n</h2>
+                                <h2 class="h6 mb-3 pb-1">Tổng tiền thanh toán</h2>
                                 <h3 class="fw-normal">{{cart.total|number}} <small>VND</small></h3>
                             </div>
                             <div class="accordion" id="order-options">
@@ -137,7 +137,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><a class="btn btn-primary btn-shadow d-block w-100 mt-4" href="/checkout"><i class="ci-card fs-lg me-2"></i>Ä�áº·t hÃ ng</a>
+                            </div><a class="btn btn-primary btn-shadow d-block w-100 mt-4" href="/checkout"><i class="ci-card fs-lg me-2"></i>Giỏ hàng</a>
                         </div>
                     </div>
                 </aside>

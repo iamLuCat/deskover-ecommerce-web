@@ -1,16 +1,21 @@
 /* Scrollbar */
+//::-webkit-scrollbar {
+//  height: 5px;
+//  width: 5px;
+//}
+//
+//::-webkit-scrollbar-track {
+//  background: transparent;
+//}
+//
+//::-webkit-scrollbar-thumb {
+//  background: rgba(104, 105, 119, 0.4);
+//  border-radius: 20px;
+//}
+
 ::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
+  width: 0px;
   background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(104, 105, 119, 0.4);
-  border-radius: 20px;
 }
 
 @import "variable";
@@ -19,6 +24,8 @@
 @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css');
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700');
+
+@import 'assets/fonts/fontawesome-pro/css/all.min.css';
 
 @import '~admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css';
 @import '~admin-lte/dist/css/adminlte.min.css';
@@ -50,7 +57,9 @@ tr, td {
 }
 
 .file-drop-area {
-  position: relative;
+  position: absolute;
+  top: 0;
+  bottom: 0;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   cursor: pointer;
   display: flex;
@@ -83,34 +92,28 @@ tr, td {
   }
 }
 
-.nav-sidebar {
-  position: unset;
+[class*=sidebar-light-] .nav-sidebar>.nav-item>.nav-link.active {
+  box-shadow: none;
 }
 
-.brand-link.border-bottom-0~.sidebar {
-  height: calc(100% - 8.1rem) !important;
+.nav-sidebar {
+  position: unset;
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+
+    .p {
+      white-space: nowrap;
+    }
+  }
+
 }
 
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
 .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
   background-color: $primary !important;
   color: #fff;
-}
-
-.page-item.active .page-link {
-  background-color: $primary !important;
-  border-color: $primary !important;
-}
-
-.login-page {
-  background-image: url('assets/images/login-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.nav-sidebar .nav-link p {
-  white-space: nowrap;
 }
 
 // Sidebar menu animation
@@ -123,6 +126,22 @@ tr, td {
 // Override original AdminLTE transform
 .nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
   transform: none;
+}
+
+.brand-link.border-bottom-0~.sidebar {
+  height: calc(100% - 8.1rem) !important;
+}
+
+.page-item.active .page-link {
+  background-color: $primary !important;
+  border-color: $primary !important;
+}
+
+.login-page {
+  background-image: url('assets/images/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .user-menu > .nav-link {
