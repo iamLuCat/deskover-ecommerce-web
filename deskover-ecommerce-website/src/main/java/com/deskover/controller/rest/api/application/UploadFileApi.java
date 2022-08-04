@@ -29,5 +29,4 @@ public class UploadFileApi {
 	            return ResponseEntity.badRequest().body(e.getMessage());
 	        }
 	    }
-
 }
