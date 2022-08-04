@@ -38,10 +38,10 @@ public class AdminServiceImpl implements AdminService {
     private AdministratorRepository repo;
 
     @Autowired
-    private AdminAuthorityReponsitory adminAuthorityReponsitory;
+    private AdminAuthorityReponsitory authorityRepo;
 
     @Autowired
-    private AdminRoleRepository adminRoleRepository;
+    private AdminRoleRepository roleRepo;
 
     @Autowired
     private AdminAuthorityService adminAuthorityService;
@@ -54,7 +54,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<AdminRole> getAllRole() {
-        return adminRoleRepository.findAll();
+        return roleRepo.findAll();
     }
 
     @Override
@@ -123,6 +123,24 @@ public class AdminServiceImpl implements AdminService {
 
         Administrator adminUpdated = repo.saveAndFlush(entityAdmin);
         return MapperUtil.map(adminUpdated, AdministratorDto.class);
+    }
+
+    @Override
+    @Transactional
+    public Administrator save(Administrator admin) {
+        if (admin.getId() == null) {
+            if (repo.existsByUsername(admin.getUsername())) {
+                throw new IllegalArgumentException("Username này đã tồn tại");
+            }
+        } else {
+            AdminAuthority authority = authorityRepo.findById(admin.getAuthority().getId()).orElse(null);
+            assert authority != null;
+            authority.setRole(admin.getAuthority().getRole());
+            admin.setAuthority(authority);
+        }
+        admin.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        admin.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        return repo.save(admin);
     }
 
     @Override
@@ -223,4 +241,5 @@ public class AdminServiceImpl implements AdminService {
         admin.setLastLogin(new Timestamp(System.currentTimeMillis()));
         repo.saveAndFlush(admin);
     }
+
 }
