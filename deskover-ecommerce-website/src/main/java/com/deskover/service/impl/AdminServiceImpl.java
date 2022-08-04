@@ -199,7 +199,6 @@ public class AdminServiceImpl implements AdminService {
             if (isActive != null) {
                 predicates.add(cb.equal(root.get("actived"), isActive));
             }
-
             if (roleId != null) {
                 predicates.add(cb.equal(root.get("authority").get("role").get("id"), roleId));
             }

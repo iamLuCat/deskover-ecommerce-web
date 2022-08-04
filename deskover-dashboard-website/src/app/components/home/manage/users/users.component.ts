@@ -127,8 +127,9 @@ export class UsersComponent implements OnInit {
   }
 
   /* Utils */
-  isAdmin(user: User): boolean {
-    return user.authority.role.roleId === 'ROLE_ADMIN';
+  isCurrentUser(user: User): boolean {
+    // return user.authority.role.roleId === 'ROLE_ADMIN';
+    return user.id === this.currentUser.id;
   }
 
   compareFn(c1: any, c2: any): boolean {

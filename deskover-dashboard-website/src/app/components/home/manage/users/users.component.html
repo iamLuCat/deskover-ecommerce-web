@@ -70,7 +70,7 @@
               </td>
               <td class="align-middle">
                 <select class="form-select form-select-table"
-                        [disabled]="isAdmin(user)" [compareWith]="compareFn"
+                        [disabled]="isCurrentUser(user)" [compareWith]="compareFn"
                         [(ngModel)]="user.authority.role" (change)="saveUser(user)">
                   <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
                 </select>
@@ -143,12 +143,13 @@
             <div class="col-12 col-md-7">
               <div class="mb-3">
                 <label class="form-label" [for]="'name'">Tên</label>
-                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.username" #name="ngModel" required/>
+                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.username"
+                       #name="ngModel" required/>
                 <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
                   <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
                 </div>
               </div>
-<<<<<<< HEAD
+              <<<<<<< HEAD
               <div class="mb-3">
                 <label class="form-label" [for]="'fullname'">Họ và tên</label>
                 <input type="text" class="form-control" id="fullname" name="fullname" [(ngModel)]="user.fullname"
@@ -170,7 +171,7 @@
               <label class="form-label" [for]="'category'">Vai trò</label>
               <select id="category" class="form-select" name="category"
                       [(ngModel)]="user.authority.role"
-                      [disabled]="isAdmin(user)"
+                      [disabled]="isCurrentUser(user)"
                       [compareWith]="compareFn" #category="ngModel" required>
                 <option value="null">-- Chọn vai trò --</option>
                 <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
@@ -178,8 +179,6 @@
               <div class="invalid-feedback" *ngIf="category.invalid && (category.dirty || category.touched)">
                 <span *ngIf="category.errors?.['required']">Vui lòng chọn quyền hạn</span>
               </div>
-=======
->>>>>>> parent of 6aceb176 (Fix UI)
             </div>
           </div>
         </form>
