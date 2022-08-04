@@ -6,7 +6,6 @@ import com.deskover.model.entity.dto.UploadFile;
 
 public interface UploadFileService {
     UploadFile uploadFileToTempFolder(MultipartFile file);
-    UploadFile uploadFileToFolder(MultipartFile file,String folderPath);
     void removeTempFolder();
 
 }
