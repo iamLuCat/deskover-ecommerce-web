@@ -1120,13 +1120,6 @@ CREATE TABLE rating
     CONSTRAINT FK_Rating_Product FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
-insert into rating(id,product_id,fullname,phone,point,content)
-values
-(1,1,'Nguyễn Quang Huy','0345678910',5,'sản phẩm xài rất tốt'),
-(2,1,'Bùi đức minh','0349789256',4,'sản phẩm tốt'),
-(3,1,'Nguyễn Hoài Minh','0328801569',3,'sản phẩm tạm ổn'),
-(4,1,'Phạm Văn Hải','0345678109',2,'sản phẩm khá tệ, thái độ phục vụ không tốt'),
-(5,1,'Phạm Quang Vũ','0345678911',1,'sản phẩm rất tệ');
 --------------------------------------------------------------------------------------------------------------
 -- Đặt hàng
 --------------------------------------------------------------------------------------------------------------

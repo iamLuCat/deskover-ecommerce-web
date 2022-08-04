@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.deskover.model.entity.dto.ProductDto;
+
 import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.database.OrderDetail;
 import com.deskover.model.entity.database.OrderItem;
@@ -21,8 +23,8 @@ import com.deskover.model.entity.database.OrderStatus;
 import com.deskover.model.entity.database.PaymentMethods;
 import com.deskover.model.entity.database.Product;
 import com.deskover.model.entity.database.ShippingMethods;
-import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.UserAddress;
+import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.repository.OrderDetailRepository;
 import com.deskover.model.entity.database.repository.OrderItemRepository;
 import com.deskover.model.entity.database.repository.OrderRepository;
@@ -31,9 +33,10 @@ import com.deskover.model.entity.database.repository.PaymentRepository;
 import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.database.repository.ShippingRepository;
 import com.deskover.model.entity.database.repository.UserRepository;
+import com.deskover.model.entity.dto.ProductDto;
+import com.deskover.other.util.OrderNumberUtil;
 import com.deskover.service.SessionService;
 import com.deskover.service.ShopService;
-import com.deskover.other.util.OrderNumberUtil;
 
 
 

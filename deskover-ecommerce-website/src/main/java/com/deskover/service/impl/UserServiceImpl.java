@@ -10,12 +10,16 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.database.repository.datatable.UserRepoForDatatables;
 import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.model.entity.dto.UploadFile;
 import com.deskover.model.entity.dto.UserCreateDto;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.service.UploadFileService;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
 
@@ -24,13 +28,16 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 	
 	@Autowired
-	UserRepository repo;
+	private UserRepository repo;
 	
 	@Autowired
-	UserRepoForDatatables repoForDatatables;
+	private UserRepoForDatatables repoForDatatables;
 	
 	@Autowired
-	UserPasswordService userPasswordService;
+	private UserPasswordService userPasswordService;
+	
+	@Autowired
+	private UploadFileService uploadFileService;
 
 	@Override
 	@Transactional
@@ -95,6 +102,18 @@ public class UserServiceImpl implements UserService {
 		userPasswordService.updatePassword(SecurityContextHolder.getContextHolderStrategy().getContext().getAuthentication().getName(), userRequest);
 	}
 
+	@Override
+	public Users uploadFile(MultipartFile file) {
+		 UploadFile uploadFile = uploadFileService.uploadFileToFolder(file, PathConstant.IMAGE_USER);
+		 Users users = this.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		 users.setAvatar(uploadFile.getFilename());
+		 return  repo.saveAndFlush(users);
+	}
 
+	@Override
+	@Transactional
+	public Users update(Users user) {
+		return repo.saveAndFlush(user);
+	}
 
 }
