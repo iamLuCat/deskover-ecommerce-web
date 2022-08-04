@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.model.entity.database.UserAddress;
+import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.dto.ChangePasswordDto;
 import com.deskover.model.entity.dto.UserCreateDto;
 import com.deskover.model.entity.dto.security.payload.MessageResponse;
@@ -66,7 +67,7 @@ public class UserApi {
         }
 		try {
 			contactService.doPutAddAddress(userAddress);
-			return ResponseEntity.ok(new MessageResponse("Thêm mới thành công"));
+			return ResponseEntity.ok(new MessageResponse("Sửa thành công"));
 		} catch (Exception e) {
             MessageResponse error = MessageErrorUtil.message("Thêm mới thất bại", e);
             return ResponseEntity.badRequest().body(error);
@@ -77,7 +78,7 @@ public class UserApi {
 	public ResponseEntity<?> changeActive(@PathVariable("id") Long id) {
 		try {
 			contactService.changeActive(id);
-			return ResponseEntity.ok(contactService.findByUsername());
+			return ResponseEntity.ok(new MessageResponse("Cập nhập thành công"));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 		}
@@ -93,6 +94,7 @@ public class UserApi {
 		}
 	}
 	
+	
 	@PostMapping("/user")
 	public ResponseEntity<?> create(@Valid  @RequestBody UserCreateDto userCreateDto, BindingResult result){
 		if(result.hasErrors()) {
@@ -104,6 +106,17 @@ public class UserApi {
 			return ResponseEntity.ok(new MessageResponse("Thêm mới thành công"));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(),e);
+		}
+	}
+	
+	@PutMapping("/user")
+	public ResponseEntity<?> doPutUpdate(@RequestBody Users user){
+		
+		try {
+			userService.update(user);
+			return ResponseEntity.ok(new MessageResponse("Cập nhập thông tin thành công"));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập thất bại\nVui lòng kiểm tra thông tin"));
 		}
 	}
 

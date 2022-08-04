@@ -11,8 +11,10 @@ public class BrandDTO {
 	public BrandDTO(Brand brand) {
 		this.name = brand.getName();
 		this.slug = brand.getSlug();
+		this.imgUrl = brand.getImg();
 	}
 	
 	private String name;
 	private String slug;
+	private String imgUrl;
 }
