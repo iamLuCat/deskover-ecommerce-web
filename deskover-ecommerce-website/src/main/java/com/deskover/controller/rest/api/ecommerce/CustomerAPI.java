@@ -23,7 +23,7 @@ import com.deskover.service.CategoryService;
 import com.deskover.service.ShopService;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api/v1/ecommerce/")
 public class CustomerAPI {
 	
 	@Autowired
