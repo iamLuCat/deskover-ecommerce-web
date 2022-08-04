@@ -51,7 +51,7 @@ public class Administrator implements Serializable {
 
     /*@OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
     private Set<AdminAuthority> authorities = new LinkedHashSet<>();*/
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "admin")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "admin", cascade = CascadeType.ALL)
     private AdminAuthority authority;
 
     @Column(name = "modified_by", length = 50)

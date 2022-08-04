@@ -81,16 +81,17 @@ public class AdministratorApi {
 	}
 
 	@PutMapping()
-	public ResponseEntity<?> doUpdate(@Valid @RequestBody AdministratorDto admin, BindingResult result) {
+	public ResponseEntity<?> doUpdate(@Valid @RequestBody Administrator admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
 			return ResponseEntity.badRequest().body(errors);
 		}
 		try {
-			AdministratorDto adminUpdated = adminService.update(admin);
+			Administrator adminUpdated = adminService.save(admin);
 			return ResponseEntity.ok().body(adminUpdated);
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
 		}
 	}
 

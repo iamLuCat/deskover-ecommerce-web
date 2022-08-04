@@ -41,7 +41,7 @@ public class UserAddress implements Serializable {
     private String fullname;
     
     @NotBlank(message = "Không bỏ trống địa chỉ")
-    @Column(name = "address")
+    @Column(name = "address", length = 128)
     private String address;
 
     @NotBlank(message = "Không bỏ trống Tỉnh/TP")
