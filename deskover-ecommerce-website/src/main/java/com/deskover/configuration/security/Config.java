@@ -154,11 +154,6 @@ public class Config extends WebSecurityConfigurerAdapter {
 			return new UsersDetailsService();
 		}
 		
-		@Bean
-		public SuccessHandler SuccessHandler() {
-			return new SuccessHandler();
-		}
-		
 		@Autowired
 		public UsersDetailsService usersDetailsService;
 		
