@@ -5,7 +5,6 @@ import com.deskover.model.entity.database.Administrator;
 import com.deskover.model.entity.dto.AdminCreateDto;
 import com.deskover.model.entity.dto.AdministratorDto;
 import com.deskover.model.entity.dto.ChangePasswordDto;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -27,7 +26,9 @@ public interface AdminService {
     AdministratorDto create(AdminCreateDto adminRequest);
     
     AdministratorDto update(AdministratorDto adminUpdate);
-    
+
+    Administrator save(Administrator adminUpdate);
+
     AdministratorDto updatePassword(ChangePasswordDto adminUpdatePass);
     
     void changeActived(Long id);

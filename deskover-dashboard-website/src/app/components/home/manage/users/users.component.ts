@@ -73,7 +73,7 @@ export class UsersComponent implements OnInit {
         {data: 'lastLogin'},
         {data: null, orderable: false, searchable: false}
       ],
-      order: [[3, 'desc']],
+      order: [[4, 'desc']],
     }
   }
 
@@ -112,7 +112,15 @@ export class UsersComponent implements OnInit {
   }
 
   saveUser(user: User) {
-
+    if (user.id) {
+      this.userService.update(user).subscribe(data => {
+        this.closeModal();
+        NotiflixUtils.successNotify('Cập nhật thành công');
+        this.rerender();
+      }).add(() => {
+        this.user = <User>{};
+      });
+    }
   }
 
   /* Utils */

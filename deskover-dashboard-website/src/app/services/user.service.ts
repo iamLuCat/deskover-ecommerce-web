@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {DatatablesResponse} from "@/entites/datatables-response";
 import {HttpParams} from "@angular/common/http";
 import {RestApiService} from "@services/rest-api.service";
+import {User, UserRole} from "@/entites/user";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,12 @@ export class UserService {
     return this.restApi.post(this.url + "/datatables", tableQuery, params);
   }
 
-  getRoles(): Observable<any> {
+  getRoles(): Observable<UserRole[]> {
     return this.restApi.get(this.url + "/roles");
+  }
+
+  update(user: User): Observable<User> {
+    return this.restApi.put(this.url, user);
   }
 
   changeActive(id: number) {
