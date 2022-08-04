@@ -3,8 +3,8 @@ export interface Discount {
   name: string
   description: string
   percent: number
-  startDate: number
-  endDate: number
+  startDate: Date
+  endDate: Date
   modifiedAt: Date
   modifiedBy: string
   actived: boolean

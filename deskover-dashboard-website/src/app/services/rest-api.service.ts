@@ -45,6 +45,9 @@ export class RestApiService{
       if (error.status === 0) {
         errorMessage = 'Máy chủ không phản hồi!';
       }
+      if (error.status === 401) {
+
+      }
     } else {
       errorMessage = `Error Code: ${error.status} - Message: ${error.message}`;
     }

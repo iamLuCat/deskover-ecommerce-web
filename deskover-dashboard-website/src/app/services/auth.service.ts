@@ -2,14 +2,16 @@ import {environment} from '../../environments/environment';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {RestApiService} from '@services/rest-api.service';
-import {User} from "@/entites/user";
-import {NotiflixUtils} from "@/utils/notiflix-utils";
 import {StorageConstants} from "@/constants/storage-constants";
+import {User} from "@/entites/user";
+import {firstValueFrom, lastValueFrom} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  public user: User = null;
+
   constructor(
     private restApiService: RestApiService,
     private router: Router
@@ -22,6 +24,15 @@ export class AuthService {
 
   getProfile() {
     return this.restApiService.get(environment.globalUrl.getPrincipal);
+  }
+
+  async getProfile2() {
+    try {
+      this.user = await lastValueFrom(this.restApiService.get(environment.globalUrl.getPrincipal));
+    } catch (error) {
+      this.logout();
+      throw error;
+    }
   }
 
   logout() {

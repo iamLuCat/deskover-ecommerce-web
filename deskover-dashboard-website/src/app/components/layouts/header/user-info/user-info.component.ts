@@ -16,7 +16,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProfile();
+    this.user = this.authService.user;
   }
 
   logout() {
@@ -25,16 +25,5 @@ export class UserInfoComponent implements OnInit {
 
   formatDate(date) {
     return DateTime.fromISO(date).toFormat('dd/MM/yyyy');
-  }
-
-  getProfile() {
-    this.authService.getProfile().subscribe({
-      next: (data) => {
-        this.user = data;
-      },
-      error: (err) => {
-        this.logout();
-      }
-    });
   }
 }

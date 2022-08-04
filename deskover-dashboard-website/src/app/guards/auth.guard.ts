@@ -26,12 +26,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    return this.getProfile();
 
-    if (localStorage.getItem(StorageConstants.TOKEN)) {
-      return true;
-    }
-    this.router.navigate(['/login']);
-    return false;
   }
 
   canActivateChild(
@@ -43,5 +39,18 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | boolean
     | UrlTree {
     return this.canActivate(next, state);
+  }
+
+  async getProfile() {
+    if (this.authService.user) {
+      return true;
+    }
+
+    try {
+      await this.authService.getProfile2();
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
