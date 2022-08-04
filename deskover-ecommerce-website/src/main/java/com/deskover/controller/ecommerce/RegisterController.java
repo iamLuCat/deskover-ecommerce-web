@@ -30,7 +30,7 @@ public class RegisterController {
 
 	@PostMapping("/register")
 	public String postRegister(Model model,@ModelAttribute("register") UserCreateDto newUser, BindingResult result )  {
-		userService.create(newUser);
+		userService.create1(newUser);
 		return "/shop";
 	}
 	

@@ -14,4 +14,5 @@ public interface UserService {
 	 DataTablesOutput<Users> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
 	 Users create(UserCreateDto userRequest);
 	 void updatePassword(ChangePasswordDto userRequest);
+	 Users create1(UserCreateDto userRequest);
 }

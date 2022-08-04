@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +42,7 @@ public class UserPassword implements Serializable {
     private String password;
 
     @Column(name = "modified_at", nullable = false)
+    @CreationTimestamp
     private Timestamp modifiedAt;
 
 }

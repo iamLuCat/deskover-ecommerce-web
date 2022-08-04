@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.deskover.model.entity.database.UserPassword;
 import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.database.repository.datatable.UserRepoForDatatables;
@@ -87,6 +88,34 @@ public class UserServiceImpl implements UserService {
 			
 			userPasswordService.create(createdUser, userRequest.getConfirmPassword());
 			
+			return createdUser;
+		}
+	}
+	
+	@Override
+	public Users create1(UserCreateDto userRequest) {
+		if(repo.existsByUsername(userRequest.getUsername())) {
+			throw new IllegalArgumentException("Username này đã tồn tại vui lòng nhập username khác");
+		}
+		if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
+			throw new IllegalArgumentException("Mật khẩu xác nhận không khớp");
+		}else {
+			Users createUser = new Users();
+			createUser.setUsername(userRequest.getUsername());
+			createUser.setFullname(userRequest.getFullname());
+			createUser.setEmail(userRequest.getUsername());
+			createUser.setPhone("0000000000");
+			createUser.setAvatar(null);
+			createUser.setLastLogin(null);
+			createUser.setActived(Boolean.FALSE);
+			createUser.setVerify(Boolean.FALSE);
+			createUser.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+			createUser.setModifiedBy("haipv");
+			UserPassword us = new UserPassword();
+			us.setPassword(bcrypt.encode(userRequest.getConfirmPassword()) );
+			us.setUser(createUser);
+			createUser.setUserPassword(us);
+			Users createdUser = repo.save(createUser);
 			return createdUser;
 		}
 	}

@@ -70,7 +70,7 @@ public class Users implements Serializable {
     private Set<UserAddress> contacts = new LinkedHashSet<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
     private UserPassword userPassword = new UserPassword();
     
     @JsonIgnore
