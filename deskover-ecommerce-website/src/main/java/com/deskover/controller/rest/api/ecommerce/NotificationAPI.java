@@ -17,10 +17,10 @@ public class NotificationAPI {
 	@Autowired
 	private NotificationService notificationService;
 	
-	@GetMapping("/notify/{userId}")
-	public ResponseEntity<?> getNotifications(@PathVariable("userId") Long userId){
+	@GetMapping("/notify")
+	public ResponseEntity<?> getNotifications(){
 		try {
-			return ResponseEntity.ok(notificationService.getAllNotifyOfUserId(userId));
+			return ResponseEntity.ok(notificationService.getAllNotifyOfUserId());
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

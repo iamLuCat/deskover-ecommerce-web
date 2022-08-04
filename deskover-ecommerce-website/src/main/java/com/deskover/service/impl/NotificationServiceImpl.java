@@ -3,6 +3,7 @@ package com.deskover.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.deskover.model.entity.database.Notification;
@@ -33,7 +34,7 @@ public class NotificationServiceImpl implements NotificationService{
 	}
 
 	@Override
-	public List<Notification> getAllNotifyOfUserId(Long id) {
-		return repository.findByUserId(id);
+	public List<Notification> getAllNotifyOfUserId() {
+		return repository.findByUserUsernameOrderByCreatedAtDesc(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 }

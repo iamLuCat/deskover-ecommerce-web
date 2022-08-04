@@ -1,6 +1,7 @@
 package com.deskover.model.entity.database;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -45,5 +48,9 @@ public class Notification implements Serializable {
 
     @Column(name = "is_watched")
     private Boolean isWatched;
+    
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Timestamp createdAt;
 
 }

@@ -1,12 +1,15 @@
 package com.deskover.service.impl;
 
+import com.deskover.model.entity.database.FlashSale;
 import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.repository.FlashSaleRepository;
 import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.database.repository.ProductThumbnailRepository;
 import com.deskover.model.entity.database.repository.datatable.ProductRepoForDatatables;
 import com.deskover.other.constant.PathConstant;
 import com.deskover.other.util.FileUtil;
 import com.deskover.service.CategoryService;
+import com.deskover.service.FlashSaleService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
 import org.apache.commons.io.FileUtils;
@@ -46,6 +49,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private CategoryService categoryService;
+    
+    @Autowired
+    private FlashSaleService flashSaleService;
+    
+    @Autowired
+    private FlashSaleRepository flashSaleRepository;
 
 
     public Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size) {
@@ -288,7 +297,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getProductByCreateAtDesc(Boolean active, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
-        Page<Product> products = repo.findByActivedAndQuantityGreaterThanOrderByModifiedAtDesc(active, (long) 0, pageable);
+        Page<Product> products = repo.findByActivedAndAndDiscountAndQuantityGreaterThanOrderByModifiedAtDesc(active,null, (long) 0, pageable);
         if (products == null) {
             throw new IllegalArgumentException("Không tìm thấy sản phẩm");
         }
@@ -320,14 +329,16 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> doGetProductSale(Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
         Page<Product> products = repo.findByFlashSaleActivedAndDiscountActived(Boolean.TRUE, Boolean.TRUE, pageable);
-
-        if (products == null) {
-            throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+        if (products.getContent().isEmpty()) {
+            return null;
         }
         System.out.println(">>>>>>>>>>>>>>>>" + products.getContent().stream().findFirst().get().getFlashSale().getEndDate());
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Timestamp timeFlashSale = products.getContent().stream().findFirst().get().getFlashSale().getEndDate();
         if (timeFlashSale.getTime() < timestamp.getTime()) {
+        	FlashSale flashSale = flashSaleService.getById(products.getContent().stream().findFirst().get().getFlashSale().getId());
+        	flashSale.setActived(Boolean.FALSE);
+        	flashSaleRepository.saveAndFlush(flashSale);
             System.out.println("null>>>>>>>>>>>");
             return null;
         }
