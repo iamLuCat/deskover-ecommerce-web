@@ -2,14 +2,14 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 fw-bold text-uppercase text-primary">Quản lý nhân viên</h1>
+        <h1 class="m-0 fw-bold text-uppercase text-primary fw-bold">Quản lý người dùng</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item">
-            <a class="text-decoration-none" [routerLink]="['/']" routerLinkActive="router-link-active">Trang chủ</a>
+            <a class="text-decoration-none" [routerLink]="'/'" routerLinkActive="router-link-active">Trang chủ</a>
           </li>
-          <li class="breadcrumb-item active">Quản lý nhân viên</li>
+          <li class="breadcrumb-item active">Người dùng</li>
         </ol>
       </div>
     </div>
@@ -24,18 +24,9 @@
             <label [for]="'filter-active'" class="col-form-label">Trạng thái:</label>
           </div>
           <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
-            <select id="filter-active" class="form-select" [(ngModel)]="isActive" (change)="rerender()">
+            <select id="filter-active" class="form-select" [(ngModel)]="isActive" (change)="filter()">
               <option [ngValue]="true">Hoạt động</option>
               <option [ngValue]="false">Chưa kích hoạt</option>
-            </select>
-          </div>
-          <div class="col-auto">
-            <label [for]="'filter-active'" class="col-form-label">Vai trò:</label>
-          </div>
-          <div class="col-md-auto col-sm-12 mt-0 mt-md-2">
-            <select id="filter-active" class="form-select" [(ngModel)]="roleFilter" (change)="rerender()">
-              <option [ngValue]="null">Tất cả</option>
-              <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
             </select>
           </div>
         </div>
@@ -45,17 +36,16 @@
           <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
-              <th class="align-middle">Ảnh</th>
+              <th class="align-middle">Ảnh đại diện</th>
               <th class="align-middle">Họ và tên</th>
-              <th class="align-middle">Vai trò</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
               <th class="align-middle text-center">Lần đăng nhập cuối</th>
               <th class="align-middle text-end"></th>
             </tr>
             </thead>
-            <tbody class="table-light" *ngIf="users?.length !== 0">
-            <tr *ngFor="let user of users; let i = index">
+            <tbody *ngIf="customers?.length !== 0">
+            <tr class="table-light" *ngFor="let user of customers; let i = index">
               <td class="align-middle">
                 <div class="frame frame-50 img-thumbnail">
                   <img [src]="getSrc(user.avatar)" class="img-fluid">
@@ -64,13 +54,6 @@
               <td class="align-middle">
                 {{ user.fullname }}
               </td>
-              <td class="align-middle">
-                <!--<span class="badge bg-primary">{{ user.authority.role.name }}</span>-->
-                <select class="form-select form-select-table"
-                        [(ngModel)]="user.authority.role.name" (change)="updateRole()">
-                  <option *ngFor="let role of roles" [ngValue]="role.name">{{role.name}}</option>
-                </select>
-              </td>
               <td class="align-middle text-center">
                 {{ user.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>
@@ -78,7 +61,7 @@
                 {{ user.modifiedBy }}
               </td>
               <td class="align-middle text-center">
-                {{ user.lastLogin ? (user.lastLogin | date: 'dd/MM/yyyy HH:mm:ss'): '-' }}
+                {{ user.lastLogin ? (user.lastLogin | date: 'dd/MM/yyyy'): '-' }}
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
@@ -95,7 +78,7 @@
               </td>
             </tr>
             </tbody>
-            <tbody *ngIf="users?.length === 0">
+            <tbody *ngIf="customers?.length === 0">
             <tr>
               <td colspan="7" class="text-center">Không tìm thấy kết quá</td>
             </tr>

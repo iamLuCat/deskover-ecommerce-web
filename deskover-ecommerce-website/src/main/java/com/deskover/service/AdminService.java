@@ -1,5 +1,6 @@
 package com.deskover.service;
 
+import com.deskover.model.entity.database.AdminRole;
 import com.deskover.model.entity.database.Administrator;
 import com.deskover.model.entity.dto.AdminCreateDto;
 import com.deskover.model.entity.dto.AdministratorDto;
@@ -12,7 +13,9 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import java.util.List;
 
 public interface AdminService {
-	
+
+    List<AdminRole> getAllRole();
+
     Administrator getById(Long id);
     
     Administrator getByUsername(String username);
@@ -39,5 +42,7 @@ public interface AdminService {
     
     DataTablesOutput<Administrator> getAllForDatatables(DataTablesInput input);
     
-    DataTablesOutput<Administrator> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
+    DataTablesOutput<Administrator> getByActiveForDatatables(DataTablesInput input, Boolean isActive, Long roleId);
+
+    void updateLastLogin(String username);
 }
