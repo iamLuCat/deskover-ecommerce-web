@@ -1,21 +1,5 @@
-/* Scrollbar */
-/*::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(104, 105, 119, 0.4);
-  border-radius: 20px;
-}*/
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-}
+@import "variable";
+@import "bootstrap";
 
 @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css');
@@ -30,15 +14,33 @@
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 @import "~animate.css/animate.min.css";
 
-@import "variable";
-@import "bootstrap";
 @import "common";
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(104, 105, 119, 0.4);
+  border-radius: 20px;
+}
+
 
 body {
   width: 100vw;
   height: 100vh;
   font-family: 'Source Sans Pro', sans-serif;
   overflow: auto;
+}
+
+tr, td {
+  white-space: nowrap;
 }
 
 .brand-link {
@@ -75,11 +77,6 @@ body {
   }
 }
 
-.user-menu > .dropdown-menu > li.user-header > img {
-  min-height: 90px;
-  min-width: 90px;
-}
-
 @media (min-width: 992px) {
   .sidebar-mini.sidebar-collapse .brand-image {
     display: block;
@@ -91,44 +88,18 @@ body {
   }
 }
 
-[class*=sidebar-light-] .nav-sidebar>.nav-item>.nav-link.active {
-  box-shadow: none;
-}
-
 .nav-sidebar {
   position: unset;
+}
 
-  .nav-link {
-    display: flex;
-    align-items: center;
-
-    .p {
-      white-space: nowrap;
-    }
-  }
-
+.brand-link.border-bottom-0~.sidebar {
+  height: calc(100% - 8.1rem) !important;
 }
 
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
 .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
   background-color: $primary !important;
   color: #fff;
-}
-
-// Sidebar menu animation
-// Needed for open/close menu animation for menus with child nodes
-.nav .nav-item:not(.menu-open) > .ng-trigger-openClose,
-.nav .nav-item > .ng-trigger-openClose.ng-animating {
-  overflow: hidden;
-  display: block;
-}
-// Override original AdminLTE transform
-.nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
-  transform: none;
-}
-
-.brand-link.border-bottom-0~.sidebar {
-  height: calc(100% - 8.1rem) !important;
 }
 
 .page-item.active .page-link {
@@ -141,6 +112,22 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.nav-sidebar .nav-link p {
+  white-space: nowrap;
+}
+
+// Sidebar menu animation
+// Needed for open/close menu animation for menus with child nodes
+.nav .nav-item:not(.menu-open) > .ng-trigger-openClose,
+.nav .nav-item > .ng-trigger-openClose.ng-animating {
+  overflow: hidden;
+  display: block;
+}
+// Override original AdminLTE transform
+.nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
+  transform: none;
 }
 
 .user-menu > .nav-link {

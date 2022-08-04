@@ -1,4 +1,4 @@
-import {Customer} from "@/entites/customer";
+import {User} from "@/entites/user";
 import {Payment} from "@/entites/payment";
 import {Shipping} from "@/entites/shipping";
 import {Product} from "@/entites/product";
@@ -7,7 +7,7 @@ export interface Order {
   id: number
   orderCode: string
   qrCode: string
-  user: Customer
+  user: User
   payment: Payment
   shipping: Shipping
   orderStatus: OrderStatus

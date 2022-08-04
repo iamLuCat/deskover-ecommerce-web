@@ -2,11 +2,12 @@ import {AppState} from '@/store/state';
 import {ToggleControlSidebar, ToggleSidebarMenu} from '@/store/ui/actions';
 import {UiState} from '@/store/ui/state';
 import {Component, HostBinding, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormGroup, FormControl} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {AuthService} from "@services/auth.service";
-import {User} from "@/entites/user";
+import {Admin} from "@/entites/admin";
+import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 const BASE_CLASSES = 'main-header navbar navbar-expand';
 @Component({
@@ -18,7 +19,7 @@ export class HeaderComponent implements OnInit {
     @HostBinding('class') classes: string = BASE_CLASSES;
     public ui: Observable<UiState>;
     public searchForm: FormGroup;
-    public user: User;
+    public user: Admin;
 
     constructor(
         private authService: AuthService,

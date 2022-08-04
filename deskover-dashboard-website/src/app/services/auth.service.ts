@@ -2,7 +2,7 @@ import {environment} from '../../environments/environment';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {RestApiService} from '@services/rest-api.service';
-import {User} from "@/entites/user";
+import {Admin} from "@/entites/admin";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
 import {StorageConstants} from "@/constants/storage-constants";
 

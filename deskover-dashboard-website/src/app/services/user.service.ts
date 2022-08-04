@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
-import {Observable} from "rxjs";
 import {DatatablesResponse} from "@/entites/datatables-response";
 import {HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {Brand} from "@/entites/brand";
 import {RestApiService} from "@services/rest-api.service";
 
 @Injectable({
@@ -11,14 +12,12 @@ import {RestApiService} from "@services/rest-api.service";
 export class UserService {
   private url = environment.globalUrl.userApi;
 
-  constructor(private restApi: RestApiService) { }
-
-  getByActiveForDatatable(tableQuery: any, params: HttpParams): Observable<DatatablesResponse> {
-    return this.restApi.post(this.url + "/datatables", tableQuery, params);
+  constructor(private restApi: RestApiService) {
   }
 
-  getRoles(): Observable<any> {
-    return this.restApi.get(this.url + "/roles");
+  getByActiveForDatatable(tableQuery: any, isActive: boolean): Observable<DatatablesResponse> {
+    const params = new HttpParams().set("isActive", isActive.toString());
+    return this.restApi.post(this.url + "/datatables", tableQuery, params);
   }
 
   changeActive(id: number) {

@@ -6,6 +6,7 @@ import {DataTableDirective} from "angular-datatables";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {environment} from "../../../../../environments/environment";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
+import {Loading} from "notiflix";
 
 @Component({
   selector: 'app-orders',

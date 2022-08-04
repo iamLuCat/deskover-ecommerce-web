@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DateTime} from 'luxon';
 import {AuthService} from "@services/auth.service";
-import {User} from "@/entites/user";
+import {Admin} from "@/entites/admin";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 @Component({
@@ -10,7 +10,7 @@ import {NotiflixUtils} from "@/utils/notiflix-utils";
   styleUrls: ['./user-info.component.scss']
 })
 export class UserInfoComponent implements OnInit {
-  public user: User;
+  public user: Admin;
 
   constructor(private authService: AuthService) {
   }

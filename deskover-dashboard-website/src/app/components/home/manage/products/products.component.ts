@@ -78,6 +78,7 @@ export class ProductsComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
+      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -120,13 +121,9 @@ export class ProductsComponent implements OnInit {
   }
 
   getSubcategoriesByCategory() {
-    if (this.category) {
-      this.subcategoryService.getByActive(true, this.category.id).subscribe(data => {
-        this.subcategories = data;
-      });
-    } else {
-      this.subcategories = [];
-    }
+    this.subcategoryService.getByActive(true, this.category.id).subscribe(data => {
+      this.subcategories = data;
+    });
   }
 
   getBrands() {
@@ -224,8 +221,6 @@ export class ProductsComponent implements OnInit {
     this.productForm.control.reset();
     setTimeout(() => {
       this.newData();
-      this.product.brand = null;
-      this.category = null;
     });
     this.openModal(this.productModal);
   }
@@ -267,19 +262,16 @@ export class ProductsComponent implements OnInit {
     if (product.id) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
-
-        this.closeModal();
-        this.rerender();
       });
     } else {
       this.productService.create(product, params).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
-
-        this.closeModal();
-        this.rerender();
       });
     }
+
     this.isCopy = false;
+    this.rerender();
+    this.closeModal();
   }
 
   deleteProduct(product: Product) {
@@ -361,7 +353,7 @@ export class ProductsComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return image ? `${environment.globalUrl.productImg}/${image}` : 'assets/images/no-image.png';
+    return `${environment.globalUrl.productImg}/${image}`;
   }
 
   getUrlYoutubeEmbed(url: string) {

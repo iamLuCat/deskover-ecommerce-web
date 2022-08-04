@@ -81,6 +81,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
       responsive: false,
+      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true, // sau khi refresh sẽ giữ lại dữ liệu đã filter, sort và paginate
@@ -108,6 +109,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
+      lengthMenu: [10, 25, 50, 100],
       serverSide: true,
       processing: true,
       columnDefs: [{
