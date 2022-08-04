@@ -19,18 +19,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
-import com.deskover.other.util.JwtTokenUtil;
-import com.deskover.service.filter.jwt.JwtApplicationFilter;
-import com.deskover.service.filter.jwt.JwtDashboardFilter;
-import com.deskover.service.jwt.AdminDetailsService;
-import com.deskover.service.jwt.UsersDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -165,9 +157,6 @@ public class Config extends WebSecurityConfigurerAdapter {
 		
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			// configure AuthenticationManager so that it knows from where to load
-			// user for matching credentials
-			// Use BCryptPasswordEncoder
 			auth.userDetailsService(usersDetailsService).passwordEncoder(passwordEncoder());
 		}
 
@@ -175,13 +164,13 @@ public class Config extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.cors().and().csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/user").authenticated()
+				.antMatchers("/user").hasAnyRole("CUSTOMER")
 				.anyRequest().permitAll()
 			.and().formLogin()
 				.loginPage("/login")
 		        .loginProcessingUrl("/user/login")
 		        .defaultSuccessUrl("/index", true)
-		        .failureUrl("/login?error=true")
+		        .failureHandler(null)
 		    .and().logout()
 			    .logoutUrl("/user/logout")
 			    .deleteCookies("JSESSIONID");

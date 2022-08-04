@@ -15,4 +15,6 @@ public interface FlashSaleService {
 	FlashSale create(FlashSale flashSale);
 	
 	FlashSale getById(Long id);
+	
+	FlashSale getFlashSale();
 }
