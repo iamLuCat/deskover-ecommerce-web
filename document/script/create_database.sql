@@ -1322,6 +1322,7 @@ CREATE TABLE Notifications (
     user_id BIGINT NOT NULL,
     order_code VARCHAR(255) NOT NULL,
     is_watched BIT DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     CONSTRAINT fk_notification_user FOREIGN KEY (user_id) REFERENCES user (id)
 );
