@@ -27,9 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -65,7 +63,7 @@ public class AdminServiceImpl implements AdminService {
         if (admin == null) {
             throw new IllegalArgumentException("Không tìm thấy user: " + id);
         }
-        admin.setAuthorities(adminAuthorityService.getByAdminId(admin.getId()));
+        /*admin.setAuthorities(adminAuthorityService.getByAdminId(admin.getId()));*/
         return admin;
     }
 
@@ -104,9 +102,10 @@ public class AdminServiceImpl implements AdminService {
         defaultAuthority.setAdmin(adminCreated);
         defaultAuthority.setRole(adminRoleService.getByRoleId("ROLE_STAFF"));
         AdminAuthority authorityDefault = adminAuthorityService.create(defaultAuthority);
-        Set<AdminAuthority> authorities = new LinkedHashSet<AdminAuthority>();
+        /*Set<AdminAuthority> authorities = new LinkedHashSet<AdminAuthority>();
         authorities.add(authorityDefault);
-        adminCreated.setAuthorities(authorities);
+        adminCreated.setAuthority(authorities);*/
+        adminCreated.setAuthority(authorityDefault);
 
         return MapperUtil.map(entityAdmin, AdministratorDto.class);
     }
@@ -193,14 +192,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public DataTablesOutput<Administrator> getByActiveForDatatables(DataTablesInput input, Boolean isActive) {
-        String searchValue = input.getSearch().getValue();
-
+    public DataTablesOutput<Administrator> getByActiveForDatatables(DataTablesInput input, Boolean isActive, Long roleId) {
         DataTablesOutput<Administrator> administrator = repoForDatatables.findAll(input, (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (isActive != null) {
                 predicates.add(cb.equal(root.get("actived"), isActive));
+            }
+
+            if (roleId != null) {
+                predicates.add(cb.equal(root.get("authority").get("role").get("id"), roleId));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
@@ -214,5 +215,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Administrator> getByActived(Boolean isActive) {
         return repo.findByActived(isActive);
+    }
+
+    @Override
+    public void updateLastLogin(String username) {
+        Administrator admin = repo.findByUsername(username);
+        admin.setLastLogin(new Timestamp(System.currentTimeMillis()));
+        repo.saveAndFlush(admin);
     }
 }

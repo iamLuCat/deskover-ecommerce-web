@@ -29,7 +29,7 @@ export const environment = {
     brandApi: BASE_API + '/admin/brands',
     discountApi: BASE_API + '/admin/discounts',
     productApi: BASE_API + '/admin/products',
-    customerApi: BASE_API + '/admin/users',
+    customerApi: BASE_API + '/admin/customers',
     uploadFileApi: BASE_API + '/admin/upload-file',
     orderApi: BASE_API + '/admin/orders',
     userApi: BASE_API + '/admin/users',

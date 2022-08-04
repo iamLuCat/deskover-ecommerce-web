@@ -1,7 +1,7 @@
 package com.deskover.service.jwt;
 
-import java.util.stream.Collectors;
-
+import com.deskover.model.entity.database.Administrator;
+import com.deskover.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,8 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.deskover.model.entity.database.Administrator;
-import com.deskover.service.AdminService;
+import java.util.Collections;
 
 @Service
 @Configurable
@@ -31,9 +30,10 @@ public class AdminDetailsService implements UserDetailsService {
                     true,
                     true,
                     true,
-                    admin.getAuthorities().stream()
+                    /*admin.getAuthorities().stream()
                     		.map(authority -> new SimpleGrantedAuthority(authority.getRole().getRoleId()))
-                            .collect(Collectors.toList())
+                            .collect(Collectors.toList())*/
+                    Collections.singleton(new SimpleGrantedAuthority(admin.getAuthority().getRole().getRoleId()))
             );
         } catch (Exception e) {
             throw new UsernameNotFoundException("User not found with username: " + username);

@@ -37,7 +37,6 @@
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh đại diện</th>
-              <th class="align-middle">Tên đăng nhập</th>
               <th class="align-middle">Họ và tên</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
@@ -51,9 +50,6 @@
                 <div class="frame frame-50 img-thumbnail">
                   <img [src]="getSrc(user.avatar)" class="img-fluid">
                 </div>
-              </td>
-              <td class="align-middle">
-                {{ user.username }}
               </td>
               <td class="align-middle">
                 {{ user.fullname }}

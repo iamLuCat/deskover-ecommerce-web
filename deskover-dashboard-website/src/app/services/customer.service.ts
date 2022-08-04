@@ -15,8 +15,7 @@ export class CustomerService {
   constructor(private restApi: RestApiService) {
   }
 
-  getByActiveForDatatable(tableQuery: any, isActive: boolean): Observable<DatatablesResponse> {
-    const params = new HttpParams().set("isActive", isActive.toString());
+  getByActiveForDatatable(tableQuery: any, params: HttpParams): Observable<DatatablesResponse> {
     return this.restApi.post(this.url + "/datatables", tableQuery, params);
   }
 

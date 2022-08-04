@@ -10,8 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -51,8 +49,10 @@ public class Administrator implements Serializable {
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
-    private Set<AdminAuthority> authorities = new LinkedHashSet<>();
+    /*@OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
+    private Set<AdminAuthority> authorities = new LinkedHashSet<>();*/
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "admin")
+    private AdminAuthority authority;
 
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;

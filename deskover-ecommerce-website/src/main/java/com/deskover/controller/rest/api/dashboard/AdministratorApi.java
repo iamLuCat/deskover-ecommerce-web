@@ -31,12 +31,6 @@ public class AdministratorApi {
 
 	@Autowired
 	AdminAuthorityService adminAuthorityService;
-
-	@GetMapping("/roles")
-	public List<AdminRole> getAllRole() {
-		return adminService.getAllRole();
-	}
-
 	@GetMapping()
 	public ResponseEntity<?> doGetIsActived(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size, @RequestParam("isActive") Optional<Boolean> isActive) {
@@ -56,12 +50,6 @@ public class AdministratorApi {
         }
         return ResponseEntity.ok(admins);
     }
-	
-	@PostMapping("/datatables")
-	public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input,
-			@RequestParam("isActive") Optional<Boolean> isActive) {
-		return ResponseEntity.ok(adminService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
-	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
@@ -142,5 +130,25 @@ public class AdministratorApi {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
+
+	@GetMapping("/roles")
+	public List<AdminRole> getAllRole() {
+		return adminService.getAllRole();
+	}
+
+
+	@PostMapping("/datatables")
+	public ResponseEntity<?> doGetForDatatablesByActive(
+			@Valid @RequestBody DataTablesInput input,
+			@RequestParam Optional<Boolean> isActive,
+			@RequestParam Optional<Long> roleId
+	) {
+		return ResponseEntity.ok(adminService.getByActiveForDatatables(
+				input,
+				isActive.orElse(Boolean.TRUE),
+				roleId.orElse(null)
+		));
+	}
+
 
 }

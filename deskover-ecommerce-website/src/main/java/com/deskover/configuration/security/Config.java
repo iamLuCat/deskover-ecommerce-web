@@ -1,5 +1,11 @@
 package com.deskover.configuration.security;
 
+import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
+import com.deskover.other.util.JwtTokenUtil;
+import com.deskover.service.filter.jwt.JwtApplicationFilter;
+import com.deskover.service.filter.jwt.JwtDashboardFilter;
+import com.deskover.service.jwt.AdminDetailsService;
+import com.deskover.service.jwt.UsersDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -17,14 +23,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
-import com.deskover.configuration.security.handler.ecommerce.SuccessHandler;
-import com.deskover.other.util.JwtTokenUtil;
-import com.deskover.service.filter.jwt.JwtApplicationFilter;
-import com.deskover.service.filter.jwt.JwtDashboardFilter;
-import com.deskover.service.jwt.AdminDetailsService;
-import com.deskover.service.jwt.UsersDetailsService;
 
 @Configuration
 @EnableWebSecurity

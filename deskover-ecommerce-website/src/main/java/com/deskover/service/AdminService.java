@@ -42,5 +42,7 @@ public interface AdminService {
     
     DataTablesOutput<Administrator> getAllForDatatables(DataTablesInput input);
     
-    DataTablesOutput<Administrator> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
+    DataTablesOutput<Administrator> getByActiveForDatatables(DataTablesInput input, Boolean isActive, Long roleId);
+
+    void updateLastLogin(String username);
 }

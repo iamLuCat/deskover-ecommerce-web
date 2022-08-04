@@ -4,6 +4,7 @@ import {NotiflixUtils} from "@/utils/notiflix-utils";
 import {environment} from "../../../../../environments/environment";
 import {User, UserRole} from "@/entites/user";
 import {UserService} from "@services/user.service";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-staff',
@@ -28,37 +29,38 @@ export class UsersComponent implements OnInit {
     this.getRoles();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     const self = this;
 
-    this.dtOptions = {
+    self.dtOptions = {
       pagingType: 'full_numbers',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true,
       columnDefs: [{
-        "defaultContent": "-",
+        "defaultContent": "",
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.userService.getByActiveForDatatable(dataTablesParameters, this.isActive).subscribe(resp => {
+        const params = new HttpParams()
+          .set("isActive", this.isActive.toString())
+          .set("roleId", this.roleFilter ? this.roleFilter.id.toString() : '');
+        this.userService.getByActiveForDatatable(dataTablesParameters, params).subscribe(resp => {
           self.users = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
-            data: resp.data
+            data: []
           });
         });
       },
       columns: [
         {data: 'avatar', orderable: false, searchable: false},
-        {data: 'username'},
         {data: 'fullname'},
-        {data: 'authorities'},
+        {data: 'authority.role.name'},
         {data: 'modifiedAt'},
         {data: 'modifiedBy'},
         {data: 'lastLogin'},
@@ -71,12 +73,6 @@ export class UsersComponent implements OnInit {
   rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.ajax.reload(null, false);
-    });
-  }
-
-  filter() {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.draw();
     });
   }
 
@@ -106,4 +102,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  updateRole() {
+
+  }
 }

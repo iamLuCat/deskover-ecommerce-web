@@ -4,6 +4,7 @@ import {Customer} from "@/entites/customer";
 import {DataTableDirective} from "angular-datatables";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
 import {environment} from "../../../../../environments/environment";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-user',
@@ -31,8 +32,6 @@ export class CustomersComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
-      responsive: true,
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -41,7 +40,8 @@ export class CustomersComponent implements OnInit {
         "targets": "_all",
       }],
       ajax: (dataTablesParameters: any, callback) => {
-        this.customerService.getByActiveForDatatable(dataTablesParameters, this.isActive).subscribe(resp => {
+        const params = new HttpParams().set("isActive", this.isActive.toString());
+        this.customerService.getByActiveForDatatable(dataTablesParameters, params).subscribe(resp => {
           self.customers = resp.data;
           callback({
             recordsTotal: resp.recordsTotal,
@@ -52,7 +52,6 @@ export class CustomersComponent implements OnInit {
       },
       columns: [
         {data: 'avatar', orderable: false, searchable: false},
-        {data: 'username'},
         {data: 'fullname'},
         {data: 'modifiedAt'},
         {data: 'modifiedBy'},

@@ -8,7 +8,7 @@ export interface User {
   actived: boolean
   avatar: string
   password: string
-  authorities: UserAuthority[]
+  authority: UserAuthority
   roles: string
 }
 
