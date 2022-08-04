@@ -127,28 +127,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public Administrator save(Administrator admin) {
-        if (admin.getId() == null) {
-            if (repo.existsByUsername(admin.getUsername())) {
-                throw new IllegalArgumentException("Username này đã tồn tại");
-            }
-        } else {
-            Administrator adminExist = repo.findByUsername(admin.getUsername());
-            if (repo.existsByUsername(admin.getUsername()) && !adminExist.getId().equals(admin.getId())) {
-                throw new IllegalArgumentException("Username này đã tồn tại");
-            }
-            AdminAuthority authority = authorityRepo.findById(admin.getAuthority().getId()).orElse(null);
-            assert authority != null;
-            authority.setRole(admin.getAuthority().getRole());
-            admin.setAuthority(authority);
-        }
-        admin.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        admin.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        return repo.save(admin);
-    }
-
-    @Override
-    @Transactional
     public AdministratorDto updatePassword(ChangePasswordDto adminUpdatePass) {
         Administrator existsAdmin = this.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (!passwordEncoder.matches(adminUpdatePass.getOldPassword(), existsAdmin.getPassword())) {
@@ -244,6 +222,28 @@ public class AdminServiceImpl implements AdminService {
         Administrator admin = repo.findByUsername(username);
         admin.setLastLogin(new Timestamp(System.currentTimeMillis()));
         repo.saveAndFlush(admin);
+    }
+
+    @Override
+    @Transactional
+    public Administrator save(Administrator admin) {
+        if (admin.getId() == null) {
+            if (repo.existsByUsername(admin.getUsername())) {
+                throw new IllegalArgumentException("Username này đã tồn tại");
+            }
+        } else {
+            Administrator adminExist = repo.findByUsername(admin.getUsername());
+            if (repo.existsByUsername(admin.getUsername()) && !adminExist.getId().equals(admin.getId())) {
+                throw new IllegalArgumentException("Username này đã tồn tại");
+            }
+            AdminAuthority authority = authorityRepo.findById(admin.getAuthority().getId()).orElse(null);
+            assert authority != null;
+            authority.setRole(admin.getAuthority().getRole());
+            admin.setAuthority(authority);
+        }
+        admin.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        admin.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        return repo.save(admin);
     }
 
 }

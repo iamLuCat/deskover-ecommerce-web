@@ -8,6 +8,7 @@ import {HttpParams} from "@angular/common/http";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {UploadService} from "@services/upload.service";
+import {AuthService} from "@services/auth.service";
 
 @Component({
   selector: 'app-staff',
@@ -18,6 +19,8 @@ export class UsersComponent implements OnInit {
   @ViewChild("userModal") userModal: ModalDirective;
   @ViewChild('userForm') userForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+
+  currentUser: User;
 
   users: User[] = [];
   user: User = <User>{};
@@ -31,7 +34,8 @@ export class UsersComponent implements OnInit {
 
   dtOptions: any = {};
 
-  constructor(private userService: UserService, private uploadServive: UploadService) {
+  constructor(private userService: UserService, private uploadServive: UploadService, private authService: AuthService) {
+    this.currentUser = this.authService.user;
     this.getRoles();
   }
 
@@ -72,8 +76,7 @@ export class UsersComponent implements OnInit {
         {data: 'modifiedBy'},
         {data: 'lastLogin'},
         {data: null, orderable: false, searchable: false}
-      ],
-      order: [[4, 'desc']],
+      ]
     }
   }
 
@@ -107,7 +110,6 @@ export class UsersComponent implements OnInit {
 
   editUser(user: User) {
     this.user = user;
-    this.avatarPreview = this.getSrc(this.user.avatar);
     this.openModal();
   }
 
@@ -124,10 +126,17 @@ export class UsersComponent implements OnInit {
   }
 
   /* Utils */
+<<<<<<< HEAD
+  isAdmin(user: User): boolean {
+    return user.authority.role.roleId === 'ROLE_ADMIN';
+  }
+
   compareFn(c1: any, c2: any): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 
+=======
+>>>>>>> parent of 6aceb176 (Fix UI)
   openModal() {
     this.userModal.show();
   }

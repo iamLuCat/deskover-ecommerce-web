@@ -85,7 +85,7 @@ export class BrandsComponent implements OnInit {
     this.openModal(this.brandModal);
   }
 
-  editBrand(brand: Brand) {
+  getBrand(brand: Brand) {
     this.brand = brand;
     this.brandImgPreview = this.getSrc(this.brand.img);
 
