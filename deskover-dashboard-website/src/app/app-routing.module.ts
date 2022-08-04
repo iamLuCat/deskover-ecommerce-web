@@ -14,9 +14,10 @@ import {LoginComponent} from "@components/pages/login/login.component";
 import {ForgotPasswordComponent} from "@components/pages/forgot-password/forgot-password.component";
 import {RecoverPasswordComponent} from "@components/pages/recover-password/recover-password.component";
 import {PrivacyPolicyComponent} from "@components/pages/privacy-policy/privacy-policy.component";
-import {UsersComponent} from "@components/home/manage/users/users.component";
+import {CustomersComponent} from "@components/home/manage/customers/customers.component";
 import {OrdersComponent} from "@components/home/manage/orders/orders.component";
 import {FlashSalesComponent} from "@components/home/manage/flash-sales/flash-sales.component";
+import {UsersComponent} from "@components/home/manage/users/users.component";
 
 const routes: Routes = [
   {
@@ -47,23 +48,27 @@ const routes: Routes = [
       },
       {
         path: 'promotions',
-        component: PromotionsComponent ,
+        component: PromotionsComponent,
       },
       {
         path: 'flash-sales',
-        component: FlashSalesComponent ,
+        component: FlashSalesComponent,
       },
       {
         path: 'products',
         component: ProductsComponent,
       },
       {
-        path: 'users',
-        component: UsersComponent,
-      },
-      {
         path: 'orders',
         component: OrdersComponent,
+      },
+      {
+        path: 'customers',
+        component: CustomersComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
       },
       {
         path: '',

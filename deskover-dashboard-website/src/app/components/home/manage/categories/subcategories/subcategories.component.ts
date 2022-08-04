@@ -49,7 +49,6 @@ export class SubcategoriesComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
       responsive: true,
       serverSide: true,
       processing: true,

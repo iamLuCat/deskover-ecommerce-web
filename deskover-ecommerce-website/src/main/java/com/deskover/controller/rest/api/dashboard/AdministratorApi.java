@@ -1,27 +1,6 @@
 package com.deskover.controller.rest.api.dashboard;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
+import com.deskover.model.entity.database.AdminRole;
 import com.deskover.model.entity.database.Administrator;
 import com.deskover.model.entity.dto.AdminCreateDto;
 import com.deskover.model.entity.dto.AdministratorDto;
@@ -30,17 +9,29 @@ import com.deskover.model.entity.dto.security.payload.MessageResponse;
 import com.deskover.other.util.ValidationUtil;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("v1/api/admin")
+@CrossOrigin("*")
+@RequestMapping("v1/api/admin/users")
 public class AdministratorApi {
 	@Autowired
 	AdminService adminService;
 
 	@Autowired
 	AdminAuthorityService adminAuthorityService;
-
-	@GetMapping("/administrator")
+	@GetMapping()
 	public ResponseEntity<?> doGetIsActived(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size, @RequestParam("isActive") Optional<Boolean> isActive) {
 		Page<Administrator> Admins = adminService.getByActived(isActive.orElse(Boolean.TRUE), page.orElse(0),
@@ -51,7 +42,7 @@ public class AdministratorApi {
 		return ResponseEntity.ok(Admins);
 	}
 
-	@GetMapping("/administrator/actived")
+	@GetMapping("/actived")
     public ResponseEntity<?> doGetAllActive() {
         List<Administrator> admins = adminService.getByActived(Boolean.TRUE);
         if (admins.isEmpty()) {
@@ -59,14 +50,8 @@ public class AdministratorApi {
         }
         return ResponseEntity.ok(admins);
     }
-	
-	@PostMapping("/administrator/datatables")
-	public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input,
-			@RequestParam("isActive") Optional<Boolean> isActive) {
-		return ResponseEntity.ok(adminService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
-	}
 
-	@GetMapping("/administrator/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
 		try {
 			Administrator admin = adminService.getById(id);
@@ -81,7 +66,7 @@ public class AdministratorApi {
 	
 	}
 
-	@PostMapping("/administrator")
+	@PostMapping()
 	public ResponseEntity<?> doCreate(@Valid @RequestBody AdminCreateDto admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -95,7 +80,7 @@ public class AdministratorApi {
 		}
 	}
 
-	@PutMapping("/administrator")
+	@PutMapping()
 	public ResponseEntity<?> doUpdate(@Valid @RequestBody AdministratorDto admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -109,7 +94,7 @@ public class AdministratorApi {
 		}
 	}
 
-	@PutMapping("/administrator/password")
+	@PutMapping("/password")
 	public ResponseEntity<?> doUpdatePassword(@Valid @RequestBody ChangePasswordDto admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -123,7 +108,7 @@ public class AdministratorApi {
 		}
 	}
 
-	@DeleteMapping("/administrator/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
 		try {
 			adminService.changeActived(id);
@@ -133,9 +118,11 @@ public class AdministratorApi {
 		}
 	}
 
-	@PostMapping("/administrator/authority")
-	public ResponseEntity<?> doChangeRole(@RequestParam(value = "adminId", required = true) Long adminId,
-			@RequestParam(value = "roleId", required = true) Long roleId) {
+	@PostMapping("/authority")
+	public ResponseEntity<?> doChangeRole(
+			@RequestParam(value = "adminId", required = true) Long adminId,
+			@RequestParam(value = "roleId", required = true) Long roleId
+	) {
 		try {
 			adminAuthorityService.changeRole(adminId, roleId);
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -143,5 +130,25 @@ public class AdministratorApi {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
+
+	@GetMapping("/roles")
+	public List<AdminRole> getAllRole() {
+		return adminService.getAllRole();
+	}
+
+
+	@PostMapping("/datatables")
+	public ResponseEntity<?> doGetForDatatablesByActive(
+			@Valid @RequestBody DataTablesInput input,
+			@RequestParam Optional<Boolean> isActive,
+			@RequestParam Optional<Long> roleId
+	) {
+		return ResponseEntity.ok(adminService.getByActiveForDatatables(
+				input,
+				isActive.orElse(Boolean.TRUE),
+				roleId.orElse(null)
+		));
+	}
+
 
 }

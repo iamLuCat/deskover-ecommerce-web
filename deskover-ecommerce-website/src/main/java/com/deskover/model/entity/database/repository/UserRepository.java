@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.deskover.model.entity.database.Users;
+import com.deskover.model.entity.dto.UserCreateDto;
 
 public interface UserRepository extends JpaRepository<Users, Long> {
 	List<Users> findAll();

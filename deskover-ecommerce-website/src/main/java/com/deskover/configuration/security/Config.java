@@ -1,5 +1,11 @@
 package com.deskover.configuration.security;
 
+import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
+import com.deskover.other.util.JwtTokenUtil;
+import com.deskover.service.filter.jwt.JwtApplicationFilter;
+import com.deskover.service.filter.jwt.JwtDashboardFilter;
+import com.deskover.service.jwt.AdminDetailsService;
+import com.deskover.service.jwt.UsersDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -14,12 +20,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
-//import com.deskover.configuration.security.handler.ecommerce.SuccessHandler;
 import com.deskover.other.util.JwtTokenUtil;
 import com.deskover.service.filter.jwt.JwtApplicationFilter;
 import com.deskover.service.filter.jwt.JwtDashboardFilter;
@@ -154,16 +160,14 @@ public class Config extends WebSecurityConfigurerAdapter {
 			return new UsersDetailsService();
 		}
 		
-//		@Bean
-//		public SuccessHandler SuccessHandler() {
-//			return new SuccessHandler();
-//		}
-		
 		@Autowired
 		public UsersDetailsService usersDetailsService;
 		
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+			// configure AuthenticationManager so that it knows from where to load
+			// user for matching credentials
+			// Use BCryptPasswordEncoder
 			auth.userDetailsService(usersDetailsService).passwordEncoder(passwordEncoder());
 		}
 
@@ -171,13 +175,13 @@ public class Config extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.cors().and().csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/user").hasAnyRole("CUSTOMER")
+				.antMatchers("/user").authenticated()
 				.anyRequest().permitAll()
 			.and().formLogin()
 				.loginPage("/login")
 		        .loginProcessingUrl("/user/login")
 		        .defaultSuccessUrl("/index", true)
-		        .failureHandler(null)
+		        .failureUrl("/login?error=true")
 		    .and().logout()
 			    .logoutUrl("/user/logout")
 			    .deleteCookies("JSESSIONID");

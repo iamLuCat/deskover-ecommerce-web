@@ -1,25 +1,21 @@
 /* Scrollbar */
-//::-webkit-scrollbar {
-//  height: 5px;
-//  width: 5px;
-//}
-//
-//::-webkit-scrollbar-track {
-//  background: transparent;
-//}
-//
-//::-webkit-scrollbar-thumb {
-//  background: rgba(104, 105, 119, 0.4);
-//  border-radius: 20px;
-//}
+/*::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
 
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(104, 105, 119, 0.4);
+  border-radius: 20px;
+}*/
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent;
 }
-
-@import "variable";
-@import "bootstrap";
 
 @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css');
@@ -34,6 +30,8 @@
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 @import "~animate.css/animate.min.css";
 
+@import "variable";
+@import "bootstrap";
 @import "common";
 
 body {
@@ -41,10 +39,6 @@ body {
   height: 100vh;
   font-family: 'Source Sans Pro', sans-serif;
   overflow: auto;
-}
-
-tr, td {
-  white-space: nowrap;
 }
 
 .brand-link {
@@ -79,6 +73,11 @@ tr, td {
     cursor: pointer;
     z-index: 2;
   }
+}
+
+.user-menu > .dropdown-menu > li.user-header > img {
+  min-height: 90px;
+  min-width: 90px;
 }
 
 @media (min-width: 992px) {

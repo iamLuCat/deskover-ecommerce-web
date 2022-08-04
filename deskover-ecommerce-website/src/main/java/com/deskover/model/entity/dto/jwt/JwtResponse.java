@@ -1,14 +1,12 @@
 package com.deskover.model.entity.dto.jwt;
 
-import java.io.Serializable;
-import java.util.Set;
-
 import com.deskover.model.entity.database.AdminAuthority;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -19,5 +17,6 @@ public class JwtResponse implements Serializable {
 	private String token;
 	private String fullname;
 	private String avatar;
-	private Set<AdminAuthority> authorities;
+	/*private Set<AdminAuthority> authorities;*/
+	private AdminAuthority authority;
 }
