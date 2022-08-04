@@ -110,6 +110,7 @@ export class UsersComponent implements OnInit {
 
   editUser(user: User) {
     this.user = user;
+    this.avatarPreview = this.getSrc(this.user.avatar);
     this.openModal();
   }
 
@@ -126,7 +127,6 @@ export class UsersComponent implements OnInit {
   }
 
   /* Utils */
-<<<<<<< HEAD
   isAdmin(user: User): boolean {
     return user.authority.role.roleId === 'ROLE_ADMIN';
   }
@@ -135,8 +135,6 @@ export class UsersComponent implements OnInit {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 
-=======
->>>>>>> parent of 6aceb176 (Fix UI)
   openModal() {
     this.userModal.show();
   }
