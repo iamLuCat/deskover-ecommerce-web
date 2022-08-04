@@ -1,35 +1,16 @@
 angular
-  .module('app', ['ngStorage', 'ngSweetAlert2'])
-  .controller('mainCtrl', function ($scope, $http, $localStorage, $window, $sessionStorage) {
+  .module('app', ['ngStorage'])
+  .controller('mainCtrl', function ($scope, $http, $localStorage, $location) {
     $scope.amounts = [];
     $localStorage.items.forEach(item => {
       $scope.amounts.push(item.amount);
     });
-    $scope.search = {
-      select: new URL(location.href).searchParams.get('c'),
-      init() {
-        $http({
-          method: 'GET',
-          url: '/api/v1/ecommerce/category/all'
-        }).then(function successCallback(response) {
-          $scope.search.categories = response.data;
-        }, function errorCallback(response) {
-          console.error(response.statusText);
-        });
-      }
-    }
-
-    $scope.changePage = async function (p) {
-      await delete $sessionStorage.filter;
-      $window.location.href = p;
-    }
-
     $scope.cart = {
       itemPage: [],
       loadCart() {
         $http({
           method: 'GET',
-          url: '/api/v1/ecommerce/user/cart'
+          url: '/api/user/cart'
         }).then(function successCallback(response) {
           $scope.shop.brands = response.data;
         }, function errorCallback(response) {
@@ -44,7 +25,7 @@ angular
       initP() {
         $http({
           method: 'GET',
-          url: '/api/v1/ecommerce/product/item',
+          url: '/api/product/item',
           params: { s: location.search.substring(3) }
         }).then(function successCallback(resp) {
           console.log(resp.data.item);
@@ -75,13 +56,6 @@ angular
         var item = $localStorage.items.find(item => item.slug == i.slug);
         if (item) {
           if (item.amount <= 5) item.amount++;
-          swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Your work has been saved',
-            showConfirmButton: false,
-            timer: 1500
-          })
         }
         else {
           i.amount = 1;
@@ -97,15 +71,6 @@ angular
         else {
           $scope.cart.itemPage.amount = select;
           $localStorage.items.push($scope.cart.itemPage);
-
-          swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Your work has been saved',
-            showConfirmButton: false,
-            timer: 1500
-          })
-
         }
       },
       addQ(itemInput) {
@@ -118,7 +83,7 @@ angular
           itemInput.amount = select;
           $localStorage.items.push(itemInput);
         }
-
+        
       },
       remove(i) {
         var idx = $localStorage.items.indexOf(i);
@@ -131,41 +96,41 @@ angular
       },
     }
     $http({
-      method: "POST",
-      url: "checkout",
-      data: angular.toJson($scope.cart.items),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function successCallback(response) {
-
+	  method : "POST",
+	  url : "checkout",
+	  data : angular.toJson($scope.cart.items),
+	  headers : {
+	    'Content-Type' : 'application/json'
+	  }
+	}).then(function successCallback(response) {
+      
     }, function errorCallback(response) {
-
+      
     });
 
     $http({
-      method: "POST",
-      url: "amounts",
-      data: angular.toJson($scope.amounts),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function successCallback(response) {
-
+	  method : "POST",
+	  url : "amounts",
+	  data : angular.toJson($scope.amounts),
+	  headers : {
+	    'Content-Type' : 'application/json'
+	  }
+	}).then(function successCallback(response) {
+      
     }, function errorCallback(response) {
-
+      
     });
+    
 
-
-  }).controller('shopCtrl', function ($scope, $http, $sessionStorage) {
+  }).controller('shopCtrl', function ($scope, $http) {
     $scope.shop = {
       item: [],
       items: [],
       filter: {
-        keyword: document.querySelector('#keyword').value,
-        category: new URL(location.href).searchParams.get('c') ? new URL(location.href).searchParams.get('c') : '',
-        subcategory: new URL(location.href).searchParams.get('s') ? new URL(location.href).searchParams.get('s') : '',
-        brands: new URL(location.href).searchParams.get('b') ? new Array(new URL(location.href).searchParams.get('b')) : [],
+        keyword: '',
+        category: "",
+        subcategory: "",
+        brands: [],
         minPrice: 0,
         maxPrice: 9999999999,
         currentPage: 0,
@@ -208,7 +173,7 @@ angular
       loadDatabase() {
         $http({
           method: 'GET',
-          url: '/api/v1/ecommerce/category/all'
+          url: '/api/category/all'
         }).then(function successCallback(response) {
           $scope.shop.categories = response.data;
         }, function errorCallback(response) {
@@ -216,25 +181,15 @@ angular
         });
         $http({
           method: 'GET',
-          url: '/api/v1/ecommerce/brand/all'
+          url: '/api/brand/all'
         }).then(function successCallback(response) {
           $scope.shop.brands = response.data;
         }, function errorCallback(response) {
           console.error(response.statusText);
         });
-        if ($sessionStorage.filter) {
-          this.filter.category = $sessionStorage.filter.category;
-          this.filter.subcategory = $sessionStorage.filter.subcategory;
-          this.filter.brands = $sessionStorage.filter.brands;
-          this.filter.minPrice = $sessionStorage.filter.minPrice;
-          this.filter.maxPrice = $sessionStorage.filter.maxPrice;
-          this.filter.currentPage = $sessionStorage.filter.currentPage;
-          this.filter.itemsPerPage = $sessionStorage.filter.itemsPerPage;
-          this.filter.sort = $sessionStorage.filter.sort;
-        }
       },
       loadItems() {
-        $http.post("/api/v1/ecommerce/shop/search", this.filter)
+        $http.post("/api/shop/search", this.filter)
           .then(resp => {
             this.items = resp.data.items;
             this.totalPage = resp.data.totalPage;
@@ -248,12 +203,11 @@ angular
           }).catch(err => {
             console.error(err)
           })
-        $sessionStorage.filter = this.filter
       },
       quickView(slug) {
         $http({
           method: 'GET',
-          url: '/api/v1/ecommerce/product/item',
+          url: '/api/product/item',
           params: { s: slug }
         }).then(function successCallback(resp) {
           $scope.shop.item = resp.data;
@@ -312,21 +266,6 @@ angular
                 }
               })
             }(e)
-        }, 500)
-
-      }
-    };
-  }).directive('repeatDirectiveCategory', function () {
-    return function (scope, element, attrs) {
-      if (scope.$last) {
-        setTimeout(() => {
-          for (var o = document.querySelectorAll('[data-bs-toggle="select"]'), e = 0; e < o.length; e++) ! function (e) {
-            for (var t = o[e].querySelectorAll(".dropdown-item"), r = o[e].querySelector(".dropdown-toggle-label"), n = o[e].querySelector('input[type="hidden"]'), a = 0; a < t.length; a++) t[a].addEventListener("click", function (e) {
-              e.preventDefault();
-              e = this.querySelector(".dropdown-item-label").innerText;
-              r.innerText = e, null !== n && (n.value = e)
-            })
-          }(e)
         }, 500)
 
       }

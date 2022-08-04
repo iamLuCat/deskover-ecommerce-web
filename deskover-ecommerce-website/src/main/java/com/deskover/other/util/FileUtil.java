@@ -1,7 +1,6 @@
 package com.deskover.other.util;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -84,29 +83,6 @@ public class FileUtil {
         File uploadedFile = new File(dir.getAbsolutePath(), file.getOriginalFilename());
         try {
             file.transferTo(uploadedFile);
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
-    
-    public static String uploadFileUser(MultipartFile file, String folderPath) {
-        if (file.isEmpty()) {
-            throw new IllegalArgumentException("File is empty");
-        }
-
-        File dir = new File(folderPath);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        
-        String fileName = file.getOriginalFilename();
-        fileName = SecurityContextHolder.getContext().getAuthentication().getName();
-        
-        File uploadedFile = new File(dir.getAbsolutePath(),fileName.concat(FirebaseUtil.getExtension(file.getOriginalFilename())));
-        try {
-            file.transferTo(uploadedFile);
-            return uploadedFile.getName();
-            
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }

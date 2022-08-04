@@ -127,7 +127,7 @@ public class OrderApi {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
+	@PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
 	@GetMapping("/orders-7days")
 	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
 			try {
@@ -138,7 +138,7 @@ public class OrderApi {
 			}
     } 
 	
-	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
+	@PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
 	@GetMapping("/orders-total-per-month")
 	public ResponseEntity<?> doGetPrice() {
 		try {

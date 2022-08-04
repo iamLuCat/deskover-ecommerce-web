@@ -19,11 +19,10 @@ public class CategoryDTO {
 			SubcategoryDTO subcategoryModel = new SubcategoryDTO(subcategory);
 			subcategories.add(subcategoryModel);
 		});
-		this.img = category.getImg();
 	}
 	
 	private String name;
 	private String slug;
 	private List<SubcategoryDTO> subcategories;
-	private String img;
+	
 }
