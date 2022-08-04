@@ -81,6 +81,7 @@ public class Users implements Serializable {
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Notification> notifications = new LinkedHashSet<>();
 
