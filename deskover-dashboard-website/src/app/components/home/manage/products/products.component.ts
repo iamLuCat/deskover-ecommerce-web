@@ -234,12 +234,7 @@ export class ProductsComponent implements OnInit {
   editProduct(product: Product) {
     this.product = product;
     this.category = product.subCategory.category;
-
-    if(this.isCopy) {
-      this.product.id = null;
-      this.product.name = `${this.product.name} - Copy`;
-      this.product.slug = `${this.product.slug}-copy`;
-    }
+    this.product.id = this.isCopy ? null : product.id;
 
     if (this.product.productThumbnails.length < 4) {
       for (let i = this.product.productThumbnails.length; i < 4; i++) {
