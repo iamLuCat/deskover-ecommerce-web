@@ -26,7 +26,6 @@ import com.deskover.model.entity.dto.security.payload.MessageResponse;
 import com.deskover.other.util.MessageErrorUtil;
 import com.deskover.other.util.ValidationUtil;
 import com.deskover.service.DiscountService;
-import com.deskover.service.FlashSaleService;
 
 @RestController
 @CrossOrigin("*")

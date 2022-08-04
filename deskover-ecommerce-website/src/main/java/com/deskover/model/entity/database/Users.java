@@ -15,7 +15,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
-import com.deskover.Notification;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -70,10 +69,6 @@ public class Users implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<UserAddress> contacts = new LinkedHashSet<>();
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "user")
-    private UserPassword userPassword = new UserPassword();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
