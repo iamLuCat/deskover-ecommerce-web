@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layout/layout :: layout(  
         ~{::title},
         ~{::modal_out},
         ~{::modal_in},
         ~{::#handheld},
         ~{::#content}
     )}">
-
 <head>
-    <title>Deskover - Máy tinh, Điện thoại, Phụ kiện</title>
+    <title>Title of About Page</title>
 </head>
-
 <body id="content">
     <div id="modal_out">
 
@@ -18,210 +17,7 @@
     <div id="modal_in">
     </div>
     <div id="content" th:remove="tag">
-        <section class="bg-secondary py-4 pt-md-5">
-            <div class="container py-xl-2">
-                <div class="row">
-                    <!-- Slider     -->
-                    <div class="col-xl-9 pt-xl-4 order-xl-2">
-                        <div class="tns-carousel">
-                            <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 1, &quot;controls&quot;: false, &quot;loop&quot;: false}">
-                                <div>
-                                    <div class="row align-items-center">
-                                        <div class="col-md-6 order-md-2">
-                                            <img class="d-block mx-auto" src="https://laptopre.vn/upload/category/image-16191662852.png" alt="Gaming laptop" style="min-width:100px;">
-                                        </div>
-                                        <div class="col-lg-5 col-md-6 offset-lg-1 order-md-1 pt-4 pb-md-4 text-center text-md-start">
-                                            <h2 class="fw-light pb-1 from-bottom">Bộ sưu tập </h2>
-                                            <h1 class="display-4 from-bottom delay-1">Laptop Gaming</h1>
-                                            <h5 class="fw-light pb-3 from-bottom delay-2">Gaming hết mình</h5>
-                                            <div class="d-table scale-up delay-4 mx-auto mx-md-0"><a class="btn btn-primary btn-shadow" ng-click="changePage('/shop?s=gaming')">Chiến ngay<i class="ci-arrow-right ms-2 me-n1"></i></a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="row align-items-center">
-                                        <div class="col-md-6 order-md-2"><img class="d-block mx-auto" th:src="@{/img/index/mac-family.png}" alt="VR Collection"></div>
-                                        <div class="col-lg-5 col-md-6 offset-lg-1 order-md-1 pt-4 pb-md-4 text-center text-md-start">
-                                            <h2 class="fw-light pb-1 from-start">Đẳng cấp vượt trội </h2>
-                                            <h1 class="display-4 from-start delay-1">
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/833px-Apple_logo_black.svg.png" alt="" style="max-height: 55px;">
-                                                Apple
-                                            </h1>
-                                            <h5 class="fw-light pb-3 from-start delay-2">
-                                                Mọi thứ nằm trong tầm tay
-                                            </h5>
-                                            <div class="d-table scale-up delay-4 mx-auto mx-md-0">
-                                                <a class="btn btn-primary btn-shadow" href="#" ng-click="changePage('/shop?b=apple')">Xem thêm<i class="ci-arrow-right ms-2 me-n1"></i></a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="row align-items-center">
-                                        <div class="col-md-6 order-md-2"><img class="d-block mx-auto" src="https://merchandising-assets.bestbuy.ca/bltc8653f66842bff7f/blte2f0aa84cfd0c632/62e206ec34f523580f10b8f8/wi-20220729-feature-fg-rogers-student-plans-m.png?width=150p&quality=80&auto=webp" alt="VR Collection"></div>
-                                        <div class="col-lg-5 col-md-6 offset-lg-1 order-md-1 pt-4 pb-md-4 text-center text-md-start">
-                                            <h2 class="fw-light pb-1 scale-up">Sắm ngay</h2>
-                                            <h1 class="display-4 scale-up delay-1">Smartphones</h1>
-                                            <h5 class="fw-light pb-3 scale-up delay-2"></h5>
-                                            <div class="d-table scale-up delay-4 mx-auto mx-md-0"><a class="btn btn-primary btn-shadow" href="#" ng-click="changePage('/shop?c=dien-thoai')">Sắm ngay<i class="ci-arrow-right ms-2 me-n1"></i></a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Banner group-->
-                    <div class="col-xl-3 order-xl-1 pt-4 mt-3 mt-xl-0 pt-xl-0">
-                        <div class="table-responsive" data-simplebar>
-                            <div class="d-flex d-xl-block"><a class="d-flex align-items-center bg-faded-info rounded-3 pt-2 ps-2 mb-4 me-4 me-xl-0" href="#" style="min-width: 16rem;" ng-click="changePage('/shop?c=may-tinh-bang')"><img src="https://brmotorolanew.vtexassets.com/arquivos/ids/161114/2021_Moto-Tab-G70--1-._Design_Modernist-Teal.png?v=637818443806770000" width="125" alt="Banner">
-                                    <div class="py-4 px-2">
-                                        <h5 class="mb-2"><span class="fw-light"></span>Máy Tính<span class="fw-light"></span><br>Bảng</h5>
-                                        <div class="text-info fs-sm">Xem ngay<i class="ci-arrow-right fs-xs ms-1"></i></div>
-                                    </div>
-                                </a><a class="d-flex align-items-center bg-faded-warning rounded-3 pt-2 ps-2 mb-4 me-4 me-xl-0" href="#" style="min-width: 16rem;" ng-click="changePage('/shop?s=dong-ho-thong-minh')"><img src="https://ozrobotics.com/wp-content/uploads/2021/11/cubittofficial-CT2pros2-pink-front._1080x.png" width="125" alt="Banner">
-                                    <div class="py-4 px-2">
-                                        <h5 class="mb-2"><span class="fw-light">Đồng hồ</span><br>Thông Minh<br><span class="fw-light"></span></h5>
-                                        <div class="text-warning fs-sm">Mua ngay<i class="ci-arrow-right fs-xs ms-1"></i></div>
-                                    </div>
-                                </a><a class="d-flex align-items-center bg-faded-success rounded-3 pt-2 ps-2 mb-4" href="#" style="min-width: 16rem;" ng-click="changePage('/shop?c=phu-kien')"><img src="img/home/banners/banner-sm03.png" width="125" alt="Banner">
-                                    <div class="py-4 px-2">
-                                        <h5 class="mb-2"><span class="fw-light">Phụ kiện </span><br>Giá Sốc<span class="fw-light"></span><br></h5>
-                                        <div class="text-success fs-sm">Lướt ngay<i class="ci-arrow-right fs-xs ms-1"></i></div>
-                                    </div>
-                                </a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Brands carousel-->
-        <section class="container mb-5 mt-5">
-            <div class="tns-carousel border-end">
-                <div class="tns-carousel-inner" data-carousel-options="{ &quot;nav&quot;: false, &quot;controls&quot;: false, &quot;autoplay&quot;: true, &quot;autoplayTimeout&quot;: 4000, &quot;loop&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;360&quot;:{&quot;items&quot;:2},&quot;600&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:4}} }">
-                    <div th:each="b : ${br}">
-                        <a class="d-block bg-white border py-4 py-sm-5 px-2" style="margin-right: -.0625rem;" th:ng-dblclick="'changePage(\'/shop?b='+${b.slug}+'\')'">
-                            <img class="d-block mx-auto" th:src="@{'/img/shop/brands/' + ${b.imgUrl}}" style="width: auto; height: 70px;" alt="Brand">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Products grid (Trending products)-->
-        <section class="container pt-5 pb-5 bg-dark">
-            <!-- Heading-->
-            <div class="text-center"> 
-                <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/flashsale/fb1088de81e42c4e538967ec12cb5caa.png" alt="">  
-                <h2 class="h4 text-white">
-                    Chỉ trong thời gian
-              </h2>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-4 offset-md-4 d-flex justify-content-center">
-                    <div class="countdown py-2 h4 text-dark" th:data-countdown="${fs.end}">
-                        <div class="countdown-days bg-white p-2 rounded"><span class="countdown-value">0</span>
-                            <span class="countdown-label text-muted"></span></div>
-                        <div class="countdown-hours bg-white p-2 rounded"><span class="countdown-value">0</span><span class="countdown-label text-muted"></span></div>
-                        <div class="countdown-hours p-2 text-white">:</div>
-                        <div class="countdown-minutes bg-white p-2 rounded"><span class="countdown-value">0</span><span class="countdown-label text-muted"></span></div>
-                        <div class="countdown-hours p-2 text-white">:</div>
-                        <div class="countdown-seconds bg-white p-2 rounded"><span class="countdown-value">0</span><span class="countdown-label text-muted"></span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="tns-carousel tns-controls-static tns-controls-outside">
-                <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: true, &quot;nav&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 18},&quot;768&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 20}, &quot;1100&quot;:{&quot;items&quot;:4, &quot;gutter&quot;: 30}}}">
-                    <!-- Product-->
-                    <div th:each="item : ${list1}">
-                        <div class="card product-card card-static">
-                            <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button>
-                            <a class="card-img-top d-block overflow-hidden" th:href="@{/shop/item(p=${item.slug})}">
-                                <img th:src="@{'/img/shop/products/' + ${item.imgUrl}}" alt="Product">
-                            </a>
-                            <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">[[${item.category}]]</a>
-                                <h3 class="product-title fs-sm"><a th:href="@{/shop/item(p=${item.slug})}">[[${item.name}]]</a></h3>
-                                <div class="d-flex justify-content-between">
-                                    <div class="product-price"><span class="text-accent">[[${#numbers.formatInteger(item.price,3,'COMMA')}]] <small>VND</small></span></div>
-                                    <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-half active"></i><i class="star-rating-icon ci-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Product widgets-->
-        <section class="container pb-4 pb-md-5 mt-5">
-            <h2 class="h3 text-center pb-4 fw-bold">Gợi ý sản phảm</h2>
-            <div class="row">
-                <!-- Bestsellers-->
-                <div class="col-md-4 col-sm-6 mb-2 py-3">
-                    <div class="widget">
-                        <h3 class="widget-title fw-bold">Đánh Giá Cao</h3>
-                        <div class="d-flex align-items-center pb-2 border-bottom" th:each="item : ${list1}">
-                            <a class="d-block flex-shrink-0" th:href="@{/shop/item(p=${item.slug})}">
-                                <img th:src="@{'/img/shop/products/' + ${item.imgUrl}}" width="64" alt="Product">
-                            </a>
-                            <div class="ps-2">
-                                <h6 class="widget-product-title"><a th:href="@{/shop/item(p=${item.slug})}">[[${item.name}]]</a></h6>
-                                <div class="widget-product-meta" th:if="${!item.sale}">
-                                    <span class="text-accent">[[${#numbers.formatInteger(item.price,3,'COMMA')}]]<small> VND</small></span>
-                                    <br>    
-                                </div>
-                                <div class="widget-product-meta"  th:if="${item.sale}">
-                                    <span class="text-accent">[[${#numbers.formatInteger(item.price_sale,3,'COMMA')}]]<small> VND</small></span> 
-                                    <del class="fs-sm text-muted">[[${#numbers.formatInteger(item.price,3,'COMMA')}]]<small>VND</small></del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- New arrivals-->
-                <div class="col-md-4 col-sm-6 mb-2 py-3">
-                    <div class="widget">
-                        <h3 class="widget-title fw-bold">Giá Giảm Nhiều</h3>
-                        <div class="d-flex align-items-center pb-2 border-bottom" th:each="item : ${list2}">
-                            <a class="d-block flex-shrink-0" th:href="@{/shop/item(p=${item.slug})}">
-                                <img th:src="@{'/img/shop/products/' + ${item.imgUrl}}" width="64" alt="Product">
-                            </a>
-                            <div class="ps-2">
-                                <h6 class="widget-product-title"><a th:href="@{/shop/item(p=${item.slug})}">[[${item.name}]]</a></h6>
-                                <div class="widget-product-meta" th:if="${!item.sale}">
-                                    <span class="text-accent">[[${#numbers.formatInteger(item.price,3,'COMMA')}]]<small> VND</small></span>
-                                    <br>    
-                                </div>
-                                <div class="widget-product-meta"  th:if="${item.sale}">
-                                    <span class="text-accent">[[${#numbers.formatInteger(item.price_sale,3,'COMMA')}]]<small> VND</small></span> 
-                                    <del class="fs-sm text-muted">[[${#numbers.formatInteger(item.price,3,'COMMA')}]]<small>VND</small></del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Top rated-->
-                <div class="col-md-4 col-sm-6 mb-2 py-3">
-                    <div class="widget">
-                        <h3 class="widget-title fw-bold">Được Mua Nhiều</h3>
-                        <div class="d-flex align-items-center pb-2 border-bottom" th:each="item : ${list3}">
-                            <a class="d-block flex-shrink-0" th:href="@{/shop/item(p=${item.slug})}">
-                                <img th:src="@{'/img/shop/products/' + ${item.imgUrl}}" width="64" alt="Product">
-                            </a>
-                            <div class="ps-2">
-                                <h6 class="widget-product-title"><a th:href="@{/shop/item(p=${item.slug})}">[[${item.name}]]</a></h6>
-                                <div class="widget-product-meta" th:if="${!item.sale}">
-                                    <span class="text-accent">[[${#numbers.formatInteger(item.price,3,'COMMA')}]]<small> VND</small></span>
-                                    <br>    
-                                </div>
-                                <div class="widget-product-meta"  th:if="${item.sale}">
-                                    <span class="text-accent">[[${#numbers.formatInteger(item.price_sale,3,'COMMA')}]]<small> VND</small></span> 
-                                    <del class="fs-sm text-muted">[[${#numbers.formatInteger(item.price,3,'COMMA')}]]<small>VND</small></del>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+
     </div>
     <div id="handheld" th:remove="tag">
         <!-- Toolbar for handheld devices (Shop)-->
@@ -232,5 +28,4 @@
         </div>
     </div>
 </body>
-
 </html>

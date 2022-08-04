@@ -84,9 +84,6 @@ public class Product implements Serializable {
 
     @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id)")
     private Integer totalRating;
-    
-    @Formula(value = "(select coalesce(SUM(o.quantity), 0) FROM order_item o WHERE o.product_id = id)")
-    private Integer totalSold;
 
     @Column(name = "weight")
     private Double weight;

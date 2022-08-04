@@ -6,9 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import com.deskover.model.entity.database.Discount;
-import com.deskover.model.entity.database.FlashSale;
 import com.deskover.model.entity.database.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -33,8 +31,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Product findBySlug(String slug);
 	
 	List<Product> findBySubCategoryId(Long id);
-	
-	List<Product> findByFlashSale(FlashSale flashSale);
 
 	@Query(value = "SELECT p FROM Product p "
 			+ "WHERE p.name LIKE %?1% "
@@ -52,7 +48,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			List<String> brands);
 	
 	@Query(value = "SELECT p FROM Product p "
-			+ "WHERE CONCAT(p.name, p.description, p.brand.name, p.subCategory.name, p.subCategory.category.name) LIKE %?1% "
+			+ "WHERE p.name LIKE %?1% "
 			+ "AND p.subCategory.category.slug LIKE %?2% "
 			+ "AND p.subCategory.slug LIKE %?3% "
 			+ "AND p.price BETWEEN ?4 AND ?5 "
@@ -66,19 +62,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			Double maxPrice,
 			List<String> brands,
 			Pageable pageable);
-	
-	@Query(value = "SELECT p FROM Product p "
-			+ "WHERE p.subCategory.category.id = ?1 "
-			+ "AND p.actived = 1" ,
-			nativeQuery = false)
-	Page<Product> getProductBasedOnCategoryID(Long category, Pageable Page);
-	
-	@Query(value = "SELECT p FROM Product p "
-			+ "WHERE p.actived = 1 ",
-			nativeQuery = false)
-	Page<Product> getProduct(Pageable Page);
-	
-	
 	//app custumer
 	Page<Product> findByActivedAndQuantityGreaterThanOrderByModifiedAtDesc(Boolean active,Long quantity,Pageable Page);
 	

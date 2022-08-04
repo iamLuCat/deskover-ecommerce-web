@@ -14784,7 +14784,7 @@ input[type=search]::-webkit-search-results-decoration {
 }
 
 .btn-primary.btn-shadow {
-    box-shadow: 0 .5rem 1.125rem -0.5rem rgba(105, 179, 254, .9)
+    box-shadow: 0 .5rem 1.125rem -0.5rem rgba(254, 105, 106, .9)
 }
 
 .btn-accent.btn-shadow {

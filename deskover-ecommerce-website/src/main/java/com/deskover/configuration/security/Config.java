@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -158,6 +159,9 @@ public class Config extends WebSecurityConfigurerAdapter {
 		
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+			// configure AuthenticationManager so that it knows from where to load
+			// user for matching credentials
+			// Use BCryptPasswordEncoder
 			auth.userDetailsService(usersDetailsService).passwordEncoder(passwordEncoder());
 		}
 
@@ -165,13 +169,13 @@ public class Config extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.cors().and().csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/user").hasAnyRole("CUSTOMER")
+				.antMatchers("/user").authenticated()
 				.anyRequest().permitAll()
 			.and().formLogin()
 				.loginPage("/login")
 		        .loginProcessingUrl("/user/login")
 		        .defaultSuccessUrl("/index", true)
-		        .failureHandler(null)
+		        .failureUrl("/login?error=true")
 		    .and().logout()
 			    .logoutUrl("/user/logout")
 			    .deleteCookies("JSESSIONID");

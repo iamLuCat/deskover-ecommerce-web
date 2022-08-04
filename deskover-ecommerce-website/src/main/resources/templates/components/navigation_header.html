@@ -18,12 +18,10 @@
                                         <li><a class="dropdown-item" th:href="@{/tracking}">
                                                         <i class="ci-truck text-muted me-2"></i>Tra cứu đơn hàng </a>
                                         </li>
-                                        <li><a class="dropdown-item" th:href="@{/user/logout}" sec:authorize="isAuthenticated()">
-                                                        <i class="ci-sign-out me-2"></i>Đăng xuất </a></li>
                                 </ul>
                         </div>
                         <div class="d-none d-md-block ms-3 text-nowrap">
-                                <a class="topbar-link d-none d-md-inline-block" th:href="@{/wishlist}" sec:authorize="isAuthenticated()">
+                                <a class="topbar-link d-none d-md-inline-block" th:href="@{/wishlist}">
                                         <i class="ci-heart mt-n1"></i>Yêu thích (3)
                                 </a>
                                 <a class="topbar-link ms-3 ps-3 border-start border-light d-none d-md-inline-block" th:href="@{/comparison}">
@@ -31,9 +29,6 @@
                                 </a>
                                 <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/tracking}">
                                         <i class="ci-truck mt-n1"></i>Tra cứu đơn hàng
-                                </a>
-                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/user/logout}" sec:authorize="isAuthenticated()">
-                                        <i class="ci-sign-out me-2"></i>Đăng xuất
                                 </a>
                         </div>
                 </div>
@@ -43,36 +38,31 @@
                 <div class="navbar navbar-expand-lg navbar-light">
                         <div class="container"><a class="navbar-brand d-none d-sm-block me-3 flex-shrink-0" th:href="@{/}"><img th:src="@{/img/logo/full.png}" width="142" alt="Deskover"></a><a class="navbar-brand d-sm-none me-2" href="index.html"><img th:src="@{/img/logo/full.png}" width="142" alt="Deskover"></a>
                                 <!-- Search-->
-                                <form class="input-group d-none d-lg-flex flex-nowrap mx-4" action="/shop" ng-init="search.init()" id="searchForm">
-                                        <i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                                        <input class="form-control rounded-start w-100" id="keyword" name="k" th:value="${param.k}" type="text" placeholder="Bạn muốn mua gì hôm nay ?">
-                                        <select class="form-select flex-shrink-0" style="width: 10.5rem;" name="c">
-                                                <option value="">Tất cả</option>
-                                                <option ng-repeat="category in search.categories" ng-selected="category.slug==search.select" value="{{category.slug}}">{{category.name}}</option>
+                                <div class="input-group d-none d-lg-flex flex-nowrap mx-4"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                        <input class="form-control rounded-start w-100" type="text" placeholder="What do you need to buy ?">
+                                        <select class="form-select flex-shrink-0" style="width: 10.5rem;">
+                                                <option>All</option>
+                                                <option>Computers</option>
+                                                <option>Smartphones</option>
+                                                <option>TV, Video, Audio</option>
+                                                <option>Cameras</option>
+                                                <option>Headphones</option>
+                                                <option>Wearables</option>
+                                                <option>Printers</option>
+                                                <option>Video Games</option>
+                                                <option>Home Music</option>
+                                                <option>Data Storage</option>
                                         </select>
-                                        <input type="submit" hidden />
-                                </form>
-                                <script>
-                                        $('#searchForm').submit(function () {
-                                                sessionStorage.removeItem(sessionStorage.key('ngStorage-filter'));
-                                                return true;
-                                        });
-                                </script>
+                                </div>
                                 <!-- Toolbar-->
                                 <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
                                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button><a class="navbar-tool navbar-stuck-toggler" href="#"><span class="navbar-tool-tooltip">Toggle
                                                         menu</span>
                                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-menu"></i></div>
                                         </a>
-                                        <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="#signin-modal" data-bs-toggle="modal" sec:authorize="isAnonymous()">
+                                        <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="#signin-modal" data-bs-toggle="modal">
                                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
-                                                <div class="navbar-tool-text ms-n3"><small>Đăng nhập</small>Tài khoản</div>
-                                        </a>
-                                        <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" th:href="@{/user}" sec:authorize="isAuthenticated()">
-                                                <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
-                                                <div class="navbar-tool-text ms-n3">
-                                                        <small>Tài khoản</small>
-                                                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                                                <div class="navbar-tool-text ms-n3"><small>Login</small>Account
                                                 </div>
                                         </a>
                                         <div class="navbar-tool dropdown ms-3" ng-init="cart.init()">
@@ -81,7 +71,7 @@
                                                 <a class="navbar-tool-text" href="shop-cart.html"><small>Giỏ hàng</small>{{cart.total|number}} VND</a>
                                                 <!-- Cart dropdown-->
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                        <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;" ng-if="cart.count > 0">
+                                                        <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;" ng-if="{{cart.count > 0}}">
                                                                 <div style="height: 15rem;" data-simplebar data-simplebar-auto-hide="false">
                                                                         <div class="widget-cart-item pb-2 border-bottom" ng-repeat="item in cart.items">
                                                                                 <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true" ng-click="cart.remove(item)">&times;</span></button>
@@ -104,9 +94,9 @@
                                                                         <a class="btn btn-outline-secondary btn-sm w-100" th:href="@{/cart}">Chi tiết giỏ hàng<i class="ci-arrow-right ms-1 me-n1"></i></a>
                                                                 </div><a class="btn btn-primary btn-sm d-block w-100" th:href="@{/checkout}"><i class="ci-card me-2 fs-base align-middle"></i>Đặt hàng</a>
                                                         </div>
-                                                        <div class="woocommerce-mini-cart__empty-message pt-2 text-center" ng-if="cart.count <= 0">
+                                                        <div class="woocommerce-mini-cart__empty-message pt-2 text-center">
                                                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACcCAIAAAB3FTesAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDMxMDBDQzcwRTEyMTFFQTlDN0JDNTAzRUUyMzIxMDMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDMxMDBDQzgwRTEyMTFFQTlDN0JDNTAzRUUyMzIxMDMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozMkIwRDVENDBFMEYxMUVBOUM3QkM1MDNFRTIzMjEwMyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0MzEwMENDNjBFMTIxMUVBOUM3QkM1MDNFRTIzMjEwMyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pk3kXrQAABTwSURBVHja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" width="40" class="d-inline-block mb-2" alt="Empty cart">
-                                                                <p class="text-muted font-size-sm mb-0">Giỏ hàng trống</p>
+                                                                <p class="text-muted font-size-sm mb-0">No products in the cart.</p>
                                                         </div>
                                                 </div>
                                         </div>
@@ -122,27 +112,983 @@
                                         </div>
                                         <!-- Departments menu-->
                                         <ul class="navbar-nav navbar-mega-nav pe-lg-2 me-lg-2">
-                                                <li class="nav-item dropdown">
-                                                        <a class="nav-link dropdown-toggle ps-lg-0" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                                                <i class="ci-menu align-middle mt-n1 me-2"></i>Danh mục sản phẩm
-                                                        </a>
+                                                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle ps-lg-0" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ci-menu align-middle mt-n1 me-2"></i>Category</a>
                                                         <ul class="dropdown-menu">
-                                                                <li class="dropdown mega-dropdown" ng-repeat="category in search.categories" repeat-directive-category>
-                                                                        <a class="dropdown-item dropdown-toggle" href="#" ng-dblclick="changePage('/shop?c='+category.slug)" data-bs-toggle="dropdown">
-                                                                                <img class="opacity-60 fs-lg mt-n1 me-2" src="/img/shop/categories/{{category.img}}" alt="icon" style="max-width: 30px;">{{category.name}}</a>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-laptop opacity-60 fs-lg mt-n1 me-2"></i>Computers
+                                                                                &amp;
+                                                                                Accessories</a>
                                                                         <div class="dropdown-menu p-0">
                                                                                 <div class="d-flex flex-wrap flex-sm-nowrap px-2">
                                                                                         <div class="mega-dropdown-column pt-4 pb-0 py-sm-4 px-3">
                                                                                                 <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Computers
+                                                                                                        </h6>
                                                                                                         <ul class="widget-list">
-                                                                                                                <li class="widget-list-item pb-1" ng-repeat="sub in category.subcategories">
-                                                                                                                        <a class="widget-list-link" href="#" ng-click="changePage('/shop?s='+sub.slug)">{{sub.name}}</a>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Laptops
+                                                                                                                                &amp;
+                                                                                                                                Tablets</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Desktop
+                                                                                                                                Computers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Computer
+                                                                                                                                External
+                                                                                                                                Components</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Computer
+                                                                                                                                Internal
+                                                                                                                                Components</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Networking
+                                                                                                                                Products
+                                                                                                                                (NAS)</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Single
+                                                                                                                                Board
+                                                                                                                                Computers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Desktop
+                                                                                                                                Barebones</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column py-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Accessories
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Monitors</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Bags,
+                                                                                                                                Cases
+                                                                                                                                &amp;
+                                                                                                                                Sleeves</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Batteries</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Charges
+                                                                                                                                &amp;
+                                                                                                                                Adapters</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Cooling
+                                                                                                                                Pads</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Mounts</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Replacement
+                                                                                                                                Screens</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Security
+                                                                                                                                Locks</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Stands</a>
                                                                                                                 </li>
                                                                                                         </ul>
                                                                                                 </div>
                                                                                         </div>
                                                                                         <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
-                                                                                                <a class="d-block mb-2" href="#" ng-click="changePage('/shop?c='+category.slug)"><img src="/img/shop/categories/{{category.img}}" alt="{{category.slug}}"></a>
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/07.jpg" alt="Computers &amp; Accessories"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$149.<small>80</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </li>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-mobile opacity-60 fs-lg mt-n1 me-2"></i>Smartphones
+                                                                                &amp;
+                                                                                Tablets</a>
+                                                                        <div class="dropdown-menu p-0">
+                                                                                <div class="d-flex flex-wrap flex-md-nowrap px-2">
+                                                                                        <div class="mega-dropdown-column pt-4 pb-0 py-sm-4 px-3">
+                                                                                                <div class="widget widget-links mb-3">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Smartphones
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Apple
+                                                                                                                                iPhone</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Android
+                                                                                                                                Smartphones</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Phablets</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base">
+                                                                                                                Tablets
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Apple
+                                                                                                                                iPad</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Android
+                                                                                                                                Tablets</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Tablets
+                                                                                                                                with
+                                                                                                                                Keyboard</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column py-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Accessories
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Accessory
+                                                                                                                                Kits</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Batteries
+                                                                                                                                &amp;
+                                                                                                                                Battery
+                                                                                                                                Packs</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Cables</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Car
+                                                                                                                                Accessories</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Charges
+                                                                                                                                &amp;
+                                                                                                                                Power
+                                                                                                                                Adapters</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">FM
+                                                                                                                                Transmitters</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Lens
+                                                                                                                                Attachments</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Mounts
+                                                                                                                                &amp;
+                                                                                                                                Stands</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Repair
+                                                                                                                                Kits</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Replacement
+                                                                                                                                Parts</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Styluses</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/09.jpg" alt="Smartphones &amp; Tablets"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$127.<small>00</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </li>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-monitor opacity-60 fs-lg mt-n1 me-2"></i>TV,
+                                                                                Video &amp; Audio</a>
+                                                                        <div class="dropdown-menu p-0">
+                                                                                <div class="d-flex flex-wrap flex-md-nowrap px-2">
+                                                                                        <div class="mega-dropdown-column pt-4 pb-0 py-sm-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Television
+                                                                                                                &amp;
+                                                                                                                Video
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">TV
+                                                                                                                                Sets</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Home
+                                                                                                                                Theater
+                                                                                                                                Systems</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">DVD
+                                                                                                                                Players
+                                                                                                                                &amp;
+                                                                                                                                Recorders</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Blue-ray
+                                                                                                                                Players
+                                                                                                                                &amp;
+                                                                                                                                Recorders</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">HD
+                                                                                                                                DVD
+                                                                                                                                Players
+                                                                                                                                &amp;
+                                                                                                                                Recorders</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">DVD-VCR
+                                                                                                                                Combos</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">DTV
+                                                                                                                                Converters</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">AV
+                                                                                                                                Receivers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">AV
+                                                                                                                                Amplifiers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Projectors</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Projection
+                                                                                                                                Screens</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Satelite
+                                                                                                                                Television</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column pt-0 pb-4 py-sm-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">TV-DTD
+                                                                                                                                Combos</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Sound
+                                                                                                                                Systems</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Home
+                                                                                                                                Cinema
+                                                                                                                                Systems</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Streaming
+                                                                                                                                Media
+                                                                                                                                Players</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">VCRs</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Video
+                                                                                                                                Glasses</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Lens
+                                                                                                                                Attachments</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/08.jpg" alt="TV, Video &amp; Audio"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$78.<small>00</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </li>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-camera opacity-60 fs-lg mt-n1 me-2"></i>Cameras,
+                                                                                Photo &amp;
+                                                                                Video</a>
+                                                                        <div class="dropdown-menu p-0">
+                                                                                <div class="d-flex flex-wrap flex-md-nowrap px-2">
+                                                                                        <div class="mega-dropdown-column pt-4 pb-0 py-sm-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Cameras
+                                                                                                                &amp;
+                                                                                                                Lenses
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Point
+                                                                                                                                &amp;
+                                                                                                                                Shoot
+                                                                                                                                Digital
+                                                                                                                                Cameras</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">DSLR
+                                                                                                                                Cameras</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Mirrorless
+                                                                                                                                Cameras</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Body
+                                                                                                                                Mounted
+                                                                                                                                Cameras</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Camcorders</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Camcorder
+                                                                                                                                Lenses</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Camera
+                                                                                                                                Lenses</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Macro
+                                                                                                                                &amp;
+                                                                                                                                Ringlight
+                                                                                                                                Flashes</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Shoe
+                                                                                                                                Mount
+                                                                                                                                Flashes</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Tripods
+                                                                                                                                &amp;
+                                                                                                                                Monopods</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Video
+                                                                                                                                Studio</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column py-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Accessories
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Bags
+                                                                                                                                &amp;
+                                                                                                                                Cases</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Binoculars
+                                                                                                                                &amp;
+                                                                                                                                Scopes</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Batteries
+                                                                                                                                &amp;
+                                                                                                                                Chargers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Cables
+                                                                                                                                &amp;
+                                                                                                                                Cords</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Camcorder
+                                                                                                                                Accessories</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Cleaning
+                                                                                                                                Equipment</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Protector
+                                                                                                                                Foils</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Filters
+                                                                                                                                &amp;
+                                                                                                                                Accessories</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Remote
+                                                                                                                                Controls</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Rain
+                                                                                                                                Covers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Viewfinders</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/10.jpg" alt="Cameras, Photo &amp; Video"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$210.<small>00</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </li>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-earphones opacity-60 fs-lg mt-n1 me-2"></i>Headphones</a>
+                                                                        <div class="dropdown-menu p-0">
+                                                                                <div class="d-flex flex-wrap flex-md-nowrap px-2">
+                                                                                        <div class="mega-dropdown-column pt-4 pb-0 py-sm-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Headphones
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Earbud
+                                                                                                                                Headphones</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Over-Ear
+                                                                                                                                Headphones</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">On-Ear
+                                                                                                                                Headphones</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Bluetooth
+                                                                                                                                Headphones</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Sports
+                                                                                                                                &amp;
+                                                                                                                                Fitness
+                                                                                                                                Headphones</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Noise-Cancelling
+                                                                                                                                Headphones</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column py-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Accessories
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Cases
+                                                                                                                                &amp;
+                                                                                                                                Sleeves</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Cables
+                                                                                                                                &amp;
+                                                                                                                                Cords</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Ear
+                                                                                                                                Pads</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Repair
+                                                                                                                                Kits</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Cleaning
+                                                                                                                                Equipment</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/11.jpg" alt="Headphones"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$35.<small>99</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </li>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-watch opacity-60 fs-lg mt-n1 me-2"></i>Wearable
+                                                                                Electronics</a>
+                                                                        <div class="dropdown-menu p-0">
+                                                                                <div class="d-flex flex-wrap flex-md-nowrap px-2">
+                                                                                        <div class="mega-dropdown-column py-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Gadgets
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Smartwatches</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Fitness
+                                                                                                                                Trackers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Smart
+                                                                                                                                Glasses</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Rings</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Virtual
+                                                                                                                                Reality</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Clips,
+                                                                                                                                Arm
+                                                                                                                                &amp;
+                                                                                                                                Wristbands</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Accessories</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/12.jpg" alt="Wearable Electronics"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$79.<small>50</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </li>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-printer opacity-60 fs-lg mt-n1 me-2"></i>Printers
+                                                                                &amp; Ink</a>
+                                                                        <div class="dropdown-menu p-0">
+                                                                                <div class="d-flex flex-wrap flex-md-nowrap px-2">
+                                                                                        <div class="mega-dropdown-column pt-4 pb-0 py-sm-4 px-3">
+                                                                                                <div class="widget widget-links mb-3">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                By type
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">All-in-One</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Copying</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Faxing</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Photo
+                                                                                                                                Printing</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Printing
+                                                                                                                                Only</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Scanning</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Scanners
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Business
+                                                                                                                                Card
+                                                                                                                                Scanners</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Document
+                                                                                                                                Scanners</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Flatbed
+                                                                                                                                &amp;
+                                                                                                                                Photo
+                                                                                                                                Scanners</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Slide
+                                                                                                                                &amp;
+                                                                                                                                Negative
+                                                                                                                                Scanners</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column py-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base">
+                                                                                                                Printers
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Dot
+                                                                                                                                Matrix
+                                                                                                                                Printers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Inkjet
+                                                                                                                                Printers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Label
+                                                                                                                                Printers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Laser
+                                                                                                                                Printers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Photo
+                                                                                                                                Printers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Wide
+                                                                                                                                Format
+                                                                                                                                Printers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Plotter
+                                                                                                                                Printers</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/13.jpg" alt="Printers &amp; Ink"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$54.<small>00</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </li>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-joystick opacity-60 fs-lg mt-n1 me-2"></i>Video
+                                                                                Games</a>
+                                                                        <div class="dropdown-menu p-0">
+                                                                                <div class="d-flex flex-wrap flex-md-nowrap px-2">
+                                                                                        <div class="mega-dropdown-column pt-4 pb-0 py-sm-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Games
+                                                                                                                &amp;
+                                                                                                                Hardware
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Video
+                                                                                                                                Games</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">PlayStation
+                                                                                                                                4</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">PlayStation
+                                                                                                                                3</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Xbox
+                                                                                                                                One</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Xbox
+                                                                                                                                360</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Nintendo
+                                                                                                                                Switch</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Wii
+                                                                                                                                U</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Wii</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">PC</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Mac</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Nintendo
+                                                                                                                                3DS
+                                                                                                                                &amp;
+                                                                                                                                2DS</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Nintendo
+                                                                                                                                DS</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column pt-0 pb-4 py-sm-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">PlayStation
+                                                                                                                                Vita</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Sony
+                                                                                                                                PSP</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Retro
+                                                                                                                                Gaming</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Microconsoles</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Accessories</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Digital
+                                                                                                                                Games</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/14.jpg" alt="Video Games"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$19.<small>00</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </li>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-speaker opacity-60 fs-lg mt-n1 me-2"></i>Speakers
+                                                                                &amp; Home
+                                                                                Music</a>
+                                                                        <div class="dropdown-menu p-0">
+                                                                                <div class="d-flex flex-wrap flex-md-nowrap px-2">
+                                                                                        <div class="mega-dropdown-column pt-4 pb-0 py-sm-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Speakers
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Bluetooth
+                                                                                                                                Speakers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Bookshelf
+                                                                                                                                Speakers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Ceiling
+                                                                                                                                &amp;
+                                                                                                                                In-Wall
+                                                                                                                                Speakers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Center-Channel
+                                                                                                                                Speakers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Floorstanding
+                                                                                                                                Speakers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Outdoor
+                                                                                                                                Speakers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Satellite
+                                                                                                                                Speakers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Sound
+                                                                                                                                Bars</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Subwoofers</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Surround
+                                                                                                                                Sound
+                                                                                                                                Systems</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column py-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Home
+                                                                                                                Audio
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Home
+                                                                                                                                Theater</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Wireless
+                                                                                                                                &amp;
+                                                                                                                                Streaming
+                                                                                                                                Audio</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Stereo
+                                                                                                                                System
+                                                                                                                                Components</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Compact
+                                                                                                                                Radios
+                                                                                                                                &amp;
+                                                                                                                                Stereos</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Home
+                                                                                                                                Audio
+                                                                                                                                Accessories</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/16.jpg" alt="Speakers &amp; Home Music"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$43.<small>00</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </li>
+                                                                <li class="dropdown mega-dropdown"><a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-server opacity-60 fs-lg mt-n1 me-2"></i>HDD/SSD
+                                                                                Data Storage</a>
+                                                                        <div class="dropdown-menu p-0">
+                                                                                <div class="d-flex flex-wrap flex-md-nowrap px-2">
+                                                                                        <div class="mega-dropdown-column py-4 px-3">
+                                                                                                <div class="widget widget-links">
+                                                                                                        <h6 class="fs-base mb-3">
+                                                                                                                Data
+                                                                                                                Storage
+                                                                                                        </h6>
+                                                                                                        <ul class="widget-list">
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">External
+                                                                                                                                Hard
+                                                                                                                                Drives</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">External
+                                                                                                                                Solid
+                                                                                                                                State
+                                                                                                                                Drives</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">External
+                                                                                                                                Zip
+                                                                                                                                Drives</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Floppy
+                                                                                                                                &amp;
+                                                                                                                                Tape
+                                                                                                                                Drives</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Internal
+                                                                                                                                Hard
+                                                                                                                                Drives</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Internal
+                                                                                                                                Solid
+                                                                                                                                State
+                                                                                                                                Drives</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">Network
+                                                                                                                                Attached
+                                                                                                                                Storage</a>
+                                                                                                                </li>
+                                                                                                                <li class="widget-list-item pb-1">
+                                                                                                                        <a class="widget-list-link" href="#">USB
+                                                                                                                                Flash
+                                                                                                                                Drives</a>
+                                                                                                                </li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="mega-dropdown-column d-none d-lg-block py-4 text-center">
+                                                                                                <a class="d-block mb-2" href="#"><img src="img/shop/departments/15.jpg" alt="HDD/SSD Data Storage"></a>
+                                                                                                <div class="fs-sm mb-3">
+                                                                                                        Starting from
+                                                                                                        <span class='fw-medium'>$21.<small>60</small></span>
+                                                                                                </div><a class="btn btn-primary btn-shadow btn-sm" href="#">See
+                                                                                                        offers<i class="ci-arrow-right fs-xs ms-1"></i></a>
                                                                                         </div>
                                                                                 </div>
                                                                         </div>
@@ -153,13 +1099,16 @@
                                         <!-- Primary menu-->
                                         <ul class="navbar-nav">
                                                 <li class="nav-item active">
-                                                        <a class="nav-link dropdown-toggle" th:href="@{/index}">Trang chủ</a>
+                                                        <a class="nav-link dropdown-toggle" href="#">Home</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                        <a class="nav-link dropdown-toggle" href="#">Về chúng tôi</a>
+                                                        <a class="nav-link dropdown-toggle" href="#">Items</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                        <a class="nav-link dropdown-toggle" href="#">Địa chỉ</a>
+                                                        <a class="nav-link dropdown-toggle" href="#">About Us</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                        <a class="nav-link dropdown-toggle" href="#">Contact Us</a>
                                                 </li>
                                         </ul>
                                 </div>

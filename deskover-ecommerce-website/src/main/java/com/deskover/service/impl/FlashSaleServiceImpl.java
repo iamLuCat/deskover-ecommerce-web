@@ -102,10 +102,4 @@ public class FlashSaleServiceImpl implements FlashSaleService {
 	public FlashSale getById(Long id) {
 		return repository.findById(id).orElse(null);
 	}
-	
-	
-	@Override
-	public FlashSale getFlashSale() {
-		return repository.findFirstByActived(true);
-	}
 }
