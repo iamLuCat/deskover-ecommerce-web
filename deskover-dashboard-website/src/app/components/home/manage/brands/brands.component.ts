@@ -39,7 +39,6 @@ export class BrandsComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -86,14 +85,12 @@ export class BrandsComponent implements OnInit {
     this.openModal(this.brandModal);
   }
 
-  getBrand(id: number) {
-    this.brandService.getById(id).subscribe(data => {
-      this.brand = data;
-      this.brandImgPreview = this.getSrc(this.brand.img);
+  getBrand(brand: Brand) {
+    this.brand = brand;
+    this.brandImgPreview = this.getSrc(this.brand.img);
 
-      this.isEdit = true;
-      this.openModal(this.brandModal);
-    });
+    this.isEdit = true;
+    this.openModal(this.brandModal);
   }
 
   saveBrand(brand: Brand) {
@@ -152,6 +149,6 @@ export class BrandsComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return `${environment.globalUrl.brandImg}/${image}`;
+    return image ? `${environment.globalUrl.tempFolder}/${image}` : 'assets/images/no-image.png';
   }
 }

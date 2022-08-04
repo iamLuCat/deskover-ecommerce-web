@@ -40,7 +40,6 @@ export class CategoriesComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -85,13 +84,11 @@ export class CategoriesComponent implements OnInit {
     this.openModal(this.categoryModal);
   }
 
-  getCategory(id: number) {
-    this.categoryService.getById(id).subscribe(data => {
-      this.category = data;
-      this.categoryImgPreview = this.getSrc(data.img);
-      this.isEdit = true;
-      this.openModal(this.categoryModal);
-    });
+  getCategory(category: Category) {
+    this.category = category;
+    this.categoryImgPreview = this.getSrc(category.img);
+    this.isEdit = true;
+    this.openModal(this.categoryModal);
   }
 
   saveCategory(category: Category) {
@@ -150,6 +147,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return `${environment.globalUrl.categoryImg}/${image}`;
+    return image ? `${environment.globalUrl.categoryImg}/${image}` : 'assets/images/no-image.png';
   }
 }

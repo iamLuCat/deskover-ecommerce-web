@@ -7,10 +7,7 @@
     <i class="nav-icon {{ menuItem.iconClasses }}"></i>
     <p>{{ menuItem.name }}
       <span class="right d-flex" [@rotate]="isMenuExtended">
-        <i
-          *ngIf="isExpandable && menuItem.children.length > 0"
-          class="right fas fa-angle-right"
-        ></i>
+        <i *ngIf="isExpandable && menuItem.children.length > 0" class="right fas fa-angle-right m-0"></i>
       </span>
     </p>
 </a>

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DateTime} from 'luxon';
 import {AuthService} from "@services/auth.service";
-import {Admin} from "@/entites/admin";
+import {User} from "@/entites/user";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
 
 @Component({
@@ -10,13 +10,13 @@ import {NotiflixUtils} from "@/utils/notiflix-utils";
   styleUrls: ['./user-info.component.scss']
 })
 export class UserInfoComponent implements OnInit {
-  public user: Admin;
+  public user: User;
 
   constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    this.getProfile();
+    this.user = this.authService.user;
   }
 
   logout() {
@@ -25,16 +25,5 @@ export class UserInfoComponent implements OnInit {
 
   formatDate(date) {
     return DateTime.fromISO(date).toFormat('dd/MM/yyyy');
-  }
-
-  getProfile() {
-    this.authService.getProfile().subscribe({
-      next: (data) => {
-        this.user = data;
-      },
-      error: (err) => {
-        this.logout();
-      }
-    });
   }
 }

@@ -33,7 +33,7 @@ public class AdministratorApi {
 	AdminAuthorityService adminAuthorityService;
 	@GetMapping()
 	public ResponseEntity<?> doGetIsActived(@RequestParam("page") Optional<Integer> page,
-			@RequestParam("size") Optional<Integer> size, @RequestParam("isActive") Optional<Boolean> isActive) {
+											@RequestParam("size") Optional<Integer> size, @RequestParam("isActive") Optional<Boolean> isActive) {
 		Page<Administrator> Admins = adminService.getByActived(isActive.orElse(Boolean.TRUE), page.orElse(0),
 				size.orElse(1));
 		if (Admins.isEmpty()) {
@@ -43,13 +43,13 @@ public class AdministratorApi {
 	}
 
 	@GetMapping("/actived")
-    public ResponseEntity<?> doGetAllActive() {
-        List<Administrator> admins = adminService.getByActived(Boolean.TRUE);
-        if (admins.isEmpty()) {
-            return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
-        }
-        return ResponseEntity.ok(admins);
-    }
+	public ResponseEntity<?> doGetAllActive() {
+		List<Administrator> admins = adminService.getByActived(Boolean.TRUE);
+		if (admins.isEmpty()) {
+			return ResponseEntity.ok(new MessageResponse("Not Found Category Activated"));
+		}
+		return ResponseEntity.ok(admins);
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> doGetProfile(@PathVariable("id") Long id) {
@@ -62,8 +62,8 @@ public class AdministratorApi {
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
 		}
-		
-	
+
+
 	}
 
 	@PostMapping()
@@ -81,16 +81,17 @@ public class AdministratorApi {
 	}
 
 	@PutMapping()
-	public ResponseEntity<?> doUpdate(@Valid @RequestBody AdministratorDto admin, BindingResult result) {
+	public ResponseEntity<?> doUpdate(@Valid @RequestBody Administrator admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
 			return ResponseEntity.badRequest().body(errors);
 		}
 		try {
-			AdministratorDto adminUpdated = adminService.update(admin);
+			Administrator adminUpdated = adminService.save(admin);
 			return ResponseEntity.ok().body(adminUpdated);
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
 		}
 	}
 

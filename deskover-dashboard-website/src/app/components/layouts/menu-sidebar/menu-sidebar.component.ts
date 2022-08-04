@@ -43,7 +43,7 @@ export const MENU = [
     iconClasses: 'fa-duotone fa-gauge-max'
   },
   {
-    header: 'QUẢN LÝ',
+    header: 'SẢN PHẨM',
     name: 'Danh mục',
     iconClasses: 'fa-duotone fa-layer-group',
     children: [
@@ -66,9 +66,21 @@ export const MENU = [
     iconClasses: 'fa-duotone fa-copyright'
   },
   {
-    name: 'Khuyến mãi',
-    path: ['/promotions'],
-    iconClasses: 'fa-duotone fa-badge-percent'
+    name: 'Chương trình khuyến mãi',
+    iconClasses: 'fa-duotone fa-badge-percent',
+    children: [
+      {
+        name: 'Giảm giá',
+        path: ['/promotions'],
+        iconClasses: 'fa-duotone fa-circle-dot',
+      },
+
+      {
+        name: 'Flash Sale',
+        path: ['/flash-sales'],
+        iconClasses: 'fa-duotone fa-circle-dot',
+      }
+    ]
   },
   {
     name: 'Sản phẩm',
@@ -83,7 +95,12 @@ export const MENU = [
   {
     header: 'TÀI KHOẢN',
     name: 'Người dùng',
-    path: ['/users'],
+    path: ['/customers'],
     iconClasses: 'fa-duotone fa-users'
+  },
+  {
+    name: 'Nhân viên',
+    path: ['/users'],
+    iconClasses: 'fa-duotone fa-user-lock'
   },
 ];

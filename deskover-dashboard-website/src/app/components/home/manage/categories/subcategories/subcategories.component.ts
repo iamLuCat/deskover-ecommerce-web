@@ -49,7 +49,6 @@ export class SubcategoriesComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
       responsive: true,
       serverSide: true,
       processing: true,
@@ -101,13 +100,11 @@ export class SubcategoriesComponent implements OnInit {
     this.openModal(this.subcategoryModal);
   }
 
-  getSubcategory(id: number) {
-    this.subcategoryService.getOne(id).subscribe(data => {
-      this.subcategory = data;
-      this.subcategoryImgPreview = this.getSrc(this.subcategory.img);
-      this.isEdit = true;
-      this.openModal(this.subcategoryModal);
-    });
+  getSubcategory(subcategory: Subcategory) {
+    this.subcategory = subcategory;
+    this.subcategoryImgPreview = this.getSrc(this.subcategory.img);
+    this.isEdit = true;
+    this.openModal(this.subcategoryModal);
   }
 
   saveSubcategory(subcategory: Subcategory) {
@@ -186,7 +183,7 @@ export class SubcategoriesComponent implements OnInit {
     });
   }
 
-  getSrc(img: string) {
-    return `${environment.globalUrl.subcategoryImg}/${img}`;
+  getSrc(image: string) {
+    return image ? `${environment.globalUrl.subcategoryImg}/${image}` : 'assets/images/no-image.png';
   }
 }

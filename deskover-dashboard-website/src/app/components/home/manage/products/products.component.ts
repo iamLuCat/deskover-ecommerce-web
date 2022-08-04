@@ -78,7 +78,6 @@ export class ProductsComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true,
@@ -109,7 +108,8 @@ export class ProductsComponent implements OnInit {
         {data: 'modifiedAt'},
         {data: 'modifiedBy'},
         {data: null, orderable: false, searchable: false,},
-      ]
+      ],
+      order: [5, 'desc']
     }
   }
 
@@ -121,9 +121,13 @@ export class ProductsComponent implements OnInit {
   }
 
   getSubcategoriesByCategory() {
-    this.subcategoryService.getByActive(true, this.category.id).subscribe(data => {
-      this.subcategories = data;
-    });
+    if (this.category) {
+      this.subcategoryService.getByActive(true, this.category.id).subscribe(data => {
+        this.subcategories = data;
+      });
+    } else {
+      this.subcategories = [];
+    }
   }
 
   getBrands() {
@@ -221,39 +225,43 @@ export class ProductsComponent implements OnInit {
     this.productForm.control.reset();
     setTimeout(() => {
       this.newData();
+      this.product.brand = null;
+      this.category = null;
     });
     this.openModal(this.productModal);
   }
 
-  editProduct(id: number) {
-    this.productService.getById(id).subscribe(data => {
-      this.product = data;
-      this.category = data.subCategory.category;
+  editProduct(product: Product) {
+    this.product = product;
+    this.category = product.subCategory.category;
 
-      if(this.isCopy) {
-        this.product.id = null;
-        this.product.name = `${this.product.name} - Copy`;
-        this.product.slug = `${this.product.slug}-copy`;
+    if(this.isCopy) {
+      this.product.id = null;
+      this.product.name = `${this.product.name} - Copy`;
+      this.product.slug = `${this.product.slug}-copy`;
+    }
+
+    if (this.product.productThumbnails.length < 4) {
+      for (let i = this.product.productThumbnails.length; i < 4; i++) {
+        this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
       }
+    }
+    this.product.productThumbnails.sort((a, b) => a.id - b.id);
+    this.productPreviewImg = this.getSrc(this.product.img);
+    this.productPreviewThumbnails = this.product.productThumbnails.map(item => this.getSrc(item.thumbnail));
 
-      if (this.product.productThumbnails.length < 4) {
-        for (let i = this.product.productThumbnails.length; i < 4; i++) {
-          this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
-        }
-      }
-      this.product.productThumbnails.sort((a, b) => a.id - b.id);
-      this.productPreviewImg = this.getSrc(this.product.img);
-      this.productPreviewThumbnails = this.product.productThumbnails.map(item => this.getSrc(item.thumbnail));
-
-      this.getSubcategoriesByCategory();
-      this.openModal(this.productModal);
-    });
-
+    this.getSubcategoriesByCategory();
+    this.openModal(this.productModal);
   }
 
-  copyProduct(productId: number) {
+  updateProduct(product: Product) {
+    this.isCopy = false;
+    this.editProduct(product);
+  }
+
+  copyProduct(product: Product) {
     this.isCopy = true;
-    this.editProduct(productId);
+    this.editProduct(product);
   }
 
   saveProduct(product: Product) {
@@ -262,16 +270,18 @@ export class ProductsComponent implements OnInit {
     if (product.id) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
+
+        this.closeModal();
+        this.rerender();
       });
     } else {
       this.productService.create(product, params).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
+
+        this.closeModal();
+        this.rerender();
       });
     }
-
-    this.isCopy = false;
-    this.rerender();
-    this.closeModal();
   }
 
   deleteProduct(product: Product) {
@@ -353,7 +363,7 @@ export class ProductsComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return `${environment.globalUrl.productImg}/${image}`;
+    return image ? `${environment.globalUrl.productImg}/${image}` : 'assets/images/no-image.png';
   }
 
   getUrlYoutubeEmbed(url: string) {

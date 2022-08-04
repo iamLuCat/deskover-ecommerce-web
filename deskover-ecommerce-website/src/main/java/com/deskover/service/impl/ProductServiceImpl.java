@@ -1,15 +1,12 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.FlashSale;
 import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.repository.FlashSaleRepository;
 import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.database.repository.ProductThumbnailRepository;
 import com.deskover.model.entity.database.repository.datatable.ProductRepoForDatatables;
 import com.deskover.other.constant.PathConstant;
 import com.deskover.other.util.FileUtil;
 import com.deskover.service.CategoryService;
-import com.deskover.service.FlashSaleService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
 import org.apache.commons.io.FileUtils;
@@ -49,12 +46,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private CategoryService categoryService;
-    
-    @Autowired
-    private FlashSaleService flashSaleService;
-    
-    @Autowired
-    private FlashSaleRepository flashSaleRepository;
 
 
     public Page<Product> getByActive(Boolean isActive, Optional<Integer> page, Optional<Integer> size) {
@@ -72,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
         throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 
     }
-    
+
     @Override
     @Transactional
     public Product create(Product product, Boolean isCopy) {
@@ -104,7 +95,6 @@ public class ProductServiceImpl implements ProductService {
             String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
             product.setImg(imageFile.getName());
-//            product.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
         }
         Product savedProduct = repo.save(product);
 
@@ -123,7 +113,6 @@ public class ProductServiceImpl implements ProductService {
                             + "-thumbnail-" + index;
                     File imageFileThumbnail = FileUtil.copyFile(sourcePathThumbnail, destPathThumbnail);
                     thumbnail.setThumbnail(imageFileThumbnail.getName());
-//                    thumbnail.setThumbnailUrl(UrlUtil.getImageUrl(imageFileThumbnail.getName(), PathConstant.PRODUCT_IMAGE));
                 }
                 thumbnailRepository.save(thumbnail);
             }
@@ -291,13 +280,12 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("Không tìm thấy sản phẩm");
         }
         subcategoryService.changeActive(product.getSubCategory().getId());
-
     }
 
     @Override
     public Page<Product> getProductByCreateAtDesc(Boolean active, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
-        Page<Product> products = repo.findByActivedAndAndDiscountAndQuantityGreaterThanOrderByModifiedAtDesc(active,null, (long) 0, pageable);
+        Page<Product> products = repo.findByActivedAndAndDiscountAndQuantityGreaterThanOrderByModifiedAtDesc(active, null, (long) 0, pageable);
         if (products == null) {
             throw new IllegalArgumentException("Không tìm thấy sản phẩm");
         }
@@ -329,22 +317,18 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> doGetProductSale(Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
         Page<Product> products = repo.findByFlashSaleActivedAndDiscountActived(Boolean.TRUE, Boolean.TRUE, pageable);
-        if (products.getContent().isEmpty()) {
-            return null;
+
+        if (products == null) {
+            throw new IllegalArgumentException("Không tìm thấy sản phẩm");
         }
         System.out.println(">>>>>>>>>>>>>>>>" + products.getContent().stream().findFirst().get().getFlashSale().getEndDate());
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Timestamp timeFlashSale = products.getContent().stream().findFirst().get().getFlashSale().getEndDate();
         if (timeFlashSale.getTime() < timestamp.getTime()) {
-        	FlashSale flashSale = flashSaleService.getById(products.getContent().stream().findFirst().get().getFlashSale().getId());
-        	flashSale.setActived(Boolean.FALSE);
-        	flashSaleRepository.saveAndFlush(flashSale);
             System.out.println("null>>>>>>>>>>>");
             return null;
         }
         return products;
     }
-
-
 
 }

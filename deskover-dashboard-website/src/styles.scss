@@ -1,5 +1,21 @@
-@import "variable";
-@import "bootstrap";
+/* Scrollbar */
+/*::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(104, 105, 119, 0.4);
+  border-radius: 20px;
+}*/
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
 
 @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css');
@@ -14,33 +30,15 @@
 @import '~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 @import "~animate.css/animate.min.css";
 
+@import "variable";
+@import "bootstrap";
 @import "common";
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(104, 105, 119, 0.4);
-  border-radius: 20px;
-}
-
 
 body {
   width: 100vw;
   height: 100vh;
   font-family: 'Source Sans Pro', sans-serif;
   overflow: auto;
-}
-
-tr, td {
-  white-space: nowrap;
 }
 
 .brand-link {
@@ -77,6 +75,11 @@ tr, td {
   }
 }
 
+.user-menu > .dropdown-menu > li.user-header > img {
+  min-height: 90px;
+  min-width: 90px;
+}
+
 @media (min-width: 992px) {
   .sidebar-mini.sidebar-collapse .brand-image {
     display: block;
@@ -88,34 +91,28 @@ tr, td {
   }
 }
 
-.nav-sidebar {
-  position: unset;
+[class*=sidebar-light-] .nav-sidebar>.nav-item>.nav-link.active {
+  box-shadow: none;
 }
 
-.brand-link.border-bottom-0~.sidebar {
-  height: calc(100% - 8.1rem) !important;
+.nav-sidebar {
+  position: unset;
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+
+    .p {
+      white-space: nowrap;
+    }
+  }
+
 }
 
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
 .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
   background-color: $primary !important;
   color: #fff;
-}
-
-.page-item.active .page-link {
-  background-color: $primary !important;
-  border-color: $primary !important;
-}
-
-.login-page {
-  background-image: url('assets/images/login-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.nav-sidebar .nav-link p {
-  white-space: nowrap;
 }
 
 // Sidebar menu animation
@@ -128,6 +125,22 @@ tr, td {
 // Override original AdminLTE transform
 .nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
   transform: none;
+}
+
+.brand-link.border-bottom-0~.sidebar {
+  height: calc(100% - 8.1rem) !important;
+}
+
+.page-item.active .page-link {
+  background-color: $primary !important;
+  border-color: $primary !important;
+}
+
+.login-page {
+  background-image: url('assets/images/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .user-menu > .nav-link {
