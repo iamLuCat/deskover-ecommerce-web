@@ -8,7 +8,6 @@ public class PathConstant {
     public static String BRAND_IMAGE = "img/shop/brands/";
     public static String SUBCATEGORY_IMAGE = "img/shop/subcategories/";
     public static String IMAGE_QRCODE = "img/qrcode/";
-    public static String IMAGE_USER = "img/user/";
 
     public static String TEMP_STATIC = PathConstant.STATIC + PathConstant.TEMP;
     public static String PRODUCT_IMAGE_STATIC = PathConstant.STATIC + PathConstant.PRODUCT_IMAGE;
