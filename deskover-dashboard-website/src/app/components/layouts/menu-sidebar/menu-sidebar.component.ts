@@ -43,7 +43,7 @@ export const MENU = [
     iconClasses: 'fa-duotone fa-gauge-max'
   },
   {
-    header: 'QUẢN LÝ',
+    header: 'SẢN PHẨM',
     name: 'Danh mục',
     iconClasses: 'fa-duotone fa-layer-group',
     children: [
@@ -95,7 +95,12 @@ export const MENU = [
   {
     header: 'TÀI KHOẢN',
     name: 'Người dùng',
-    path: ['/users'],
+    path: ['/customers'],
     iconClasses: 'fa-duotone fa-users'
+  },
+  {
+    name: 'Nhân viên',
+    path: ['/users'],
+    iconClasses: 'fa-duotone fa-user-lock'
   },
 ];

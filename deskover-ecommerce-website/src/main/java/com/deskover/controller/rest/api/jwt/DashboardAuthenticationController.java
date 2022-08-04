@@ -53,7 +53,10 @@ public class DashboardAuthenticationController {
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
 		Administrator adminProfile = adminService.getPrincipal(userDetails.getUsername());
-		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthorities()));
+		adminService.updateLastLogin(userDetails.getUsername());
+
+		/*return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthorities()));*/
+		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthority()));
 	}
 	
 		

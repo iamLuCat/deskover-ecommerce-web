@@ -23,9 +23,7 @@ public class DeskoverEcommerceWebsiteApplication {
             System.out.println("Your current Hostname : " + hostname);
  
         } catch (UnknownHostException e) {
- 
             e.printStackTrace();
-           
         }
 	}
 	
