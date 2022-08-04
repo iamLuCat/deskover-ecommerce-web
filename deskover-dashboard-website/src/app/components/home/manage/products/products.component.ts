@@ -108,7 +108,8 @@ export class ProductsComponent implements OnInit {
         {data: 'modifiedAt'},
         {data: 'modifiedBy'},
         {data: null, orderable: false, searchable: false,},
-      ]
+      ],
+      order: [5, 'desc']
     }
   }
 
@@ -230,35 +231,37 @@ export class ProductsComponent implements OnInit {
     this.openModal(this.productModal);
   }
 
-  editProduct(id: number) {
-    this.productService.getById(id).subscribe(data => {
-      this.product = data;
-      this.category = data.subCategory.category;
+  editProduct(product: Product) {
+    this.product = product;
+    this.category = product.subCategory.category;
 
-      if(this.isCopy) {
-        this.product.id = null;
-        this.product.name = `${this.product.name} - Copy`;
-        this.product.slug = `${this.product.slug}-copy`;
+    if(this.isCopy) {
+      this.product.id = null;
+      this.product.name = `${this.product.name} - Copy`;
+      this.product.slug = `${this.product.slug}-copy`;
+    }
+
+    if (this.product.productThumbnails.length < 4) {
+      for (let i = this.product.productThumbnails.length; i < 4; i++) {
+        this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
       }
+    }
+    this.product.productThumbnails.sort((a, b) => a.id - b.id);
+    this.productPreviewImg = this.getSrc(this.product.img);
+    this.productPreviewThumbnails = this.product.productThumbnails.map(item => this.getSrc(item.thumbnail));
 
-      if (this.product.productThumbnails.length < 4) {
-        for (let i = this.product.productThumbnails.length; i < 4; i++) {
-          this.product.productThumbnails.push(<ProductThumbnail>{thumbnail: ''});
-        }
-      }
-      this.product.productThumbnails.sort((a, b) => a.id - b.id);
-      this.productPreviewImg = this.getSrc(this.product.img);
-      this.productPreviewThumbnails = this.product.productThumbnails.map(item => this.getSrc(item.thumbnail));
-
-      this.getSubcategoriesByCategory();
-      this.openModal(this.productModal);
-    });
-
+    this.getSubcategoriesByCategory();
+    this.openModal(this.productModal);
   }
 
-  copyProduct(productId: number) {
+  updateProduct(product: Product) {
+    this.isCopy = false;
+    this.editProduct(product);
+  }
+
+  copyProduct(product: Product) {
     this.isCopy = true;
-    this.editProduct(productId);
+    this.editProduct(product);
   }
 
   saveProduct(product: Product) {
@@ -279,7 +282,6 @@ export class ProductsComponent implements OnInit {
         this.rerender();
       });
     }
-    this.isCopy = false;
   }
 
   deleteProduct(product: Product) {

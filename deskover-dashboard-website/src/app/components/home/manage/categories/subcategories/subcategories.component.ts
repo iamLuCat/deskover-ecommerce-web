@@ -100,13 +100,11 @@ export class SubcategoriesComponent implements OnInit {
     this.openModal(this.subcategoryModal);
   }
 
-  getSubcategory(id: number) {
-    this.subcategoryService.getOne(id).subscribe(data => {
-      this.subcategory = data;
-      this.subcategoryImgPreview = this.getSrc(this.subcategory.img);
-      this.isEdit = true;
-      this.openModal(this.subcategoryModal);
-    });
+  getSubcategory(subcategory: Subcategory) {
+    this.subcategory = subcategory;
+    this.subcategoryImgPreview = this.getSrc(this.subcategory.img);
+    this.isEdit = true;
+    this.openModal(this.subcategoryModal);
   }
 
   saveSubcategory(subcategory: Subcategory) {

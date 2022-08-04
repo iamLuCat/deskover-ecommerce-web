@@ -84,13 +84,11 @@ export class CategoriesComponent implements OnInit {
     this.openModal(this.categoryModal);
   }
 
-  getCategory(id: number) {
-    this.categoryService.getById(id).subscribe(data => {
-      this.category = data;
-      this.categoryImgPreview = this.getSrc(data.img);
-      this.isEdit = true;
-      this.openModal(this.categoryModal);
-    });
+  getCategory(category: Category) {
+    this.category = category;
+    this.categoryImgPreview = this.getSrc(category.img);
+    this.isEdit = true;
+    this.openModal(this.categoryModal);
   }
 
   saveCategory(category: Category) {

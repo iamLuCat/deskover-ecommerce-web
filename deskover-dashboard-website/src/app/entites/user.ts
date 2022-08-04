@@ -9,17 +9,19 @@ export interface User {
   avatar: string
   password: string
   authority: UserAuthority
-  roles: string
 }
 
 export interface UserAuthority {
   id: number
   role: UserRole
+  modifiedAt: Date
+  modifiedBy: string
 }
 
 export interface UserRole {
   id: number
   name: string
+  roleId:string
   description: string
   modifiedAt: Date
   modifiedBy: string

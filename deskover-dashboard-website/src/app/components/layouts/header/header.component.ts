@@ -33,22 +33,11 @@ export class HeaderComponent implements OnInit {
         this.searchForm = new FormGroup({
             search: new FormControl(null)
         });
-        this.getProfile();
+        this.user = this.authService.user;
     }
 
     logout() {
         this.authService.logout();
-    }
-
-    getProfile() {
-        this.authService.getProfile().subscribe({
-            next: (data) => {
-                this.user = data;
-            },
-            error: (err) => {
-                this.logout();
-            }
-        });
     }
 
     onToggleMenuSidebar() {

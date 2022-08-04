@@ -28,14 +28,14 @@ public class Administrator implements Serializable {
     @NotBlank(message = "Không được bỏ trống username")
     @Column(name = "username", nullable = false, length = 50)
     private String username;
-    
+
     @Column(name = "password", nullable = false)
     private String password;
 
     @NotBlank(message = "Không được bỏ trống fullname")
     @Column(name = "fullname", nullable = false, length = 128)
     private String fullname;
-    
+
     @Column(name = "avatar", length = 128)
     private String avatar;
 
@@ -51,7 +51,7 @@ public class Administrator implements Serializable {
 
     /*@OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
     private Set<AdminAuthority> authorities = new LinkedHashSet<>();*/
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "admin")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "admin", cascade = CascadeType.ALL)
     private AdminAuthority authority;
 
     @Column(name = "modified_by", length = 50)

@@ -85,14 +85,12 @@ export class BrandsComponent implements OnInit {
     this.openModal(this.brandModal);
   }
 
-  getBrand(id: number) {
-    this.brandService.getById(id).subscribe(data => {
-      this.brand = data;
-      this.brandImgPreview = this.getSrc(this.brand.img);
+  getBrand(brand: Brand) {
+    this.brand = brand;
+    this.brandImgPreview = this.getSrc(this.brand.img);
 
-      this.isEdit = true;
-      this.openModal(this.brandModal);
-    });
+    this.isEdit = true;
+    this.openModal(this.brandModal);
   }
 
   saveBrand(brand: Brand) {

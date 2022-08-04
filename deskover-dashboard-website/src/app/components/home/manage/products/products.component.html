@@ -101,11 +101,11 @@
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm btn-success me-1" placement="top"
-                          tooltip="Sao chép & Tạo mới" (click)="copyProduct(product.id)">
+                          tooltip="Sao chép & Tạo mới" (click)="copyProduct(product)">
                     <i class="fa-solid fa-copy"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                          (click)="editProduct(product.id)">
+                          (click)="updateProduct(product)">
                     <i class="fas fa-pen-square"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-danger" (click)="deleteProduct(product)" placement="top"
