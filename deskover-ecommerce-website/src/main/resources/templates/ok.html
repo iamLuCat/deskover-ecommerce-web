@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
-        ~{::title},
-        ~{::modal_out},
-        ~{::modal_in},
-        ~{::#handheld},
-        ~{::#content}
-    )}">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <title>Deskover: Chi tiết giỏ hàng</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>OK</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,900" rel="stylesheet">
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" th:href="@{/css/theme.error.css}" />
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
 </head>
+
 <body>
-    <div id="modal_out"></div>
-    <div id="modal_in"></div>
-    <div id="content">
-	  <div class="container pb-5 mb-sm-4">
-	     <div class="pt-5">
-	       <div class="card py-3 mt-sm-3">
-	         <div class="card-body text-center">
-	           <h2 class="h4 pb-3">Thank you for your order!</h2>
-	           <p class="fs-sm mb-2">Your order has been placed and will be processed as soon as possible.</p>
-	           <p class="fs-sm mb-2">Make sure you make note of your order number, which is <span class='fw-medium'>34VB5540K83.</span></p>
-	           <p class="fs-sm">You will be receiving an email shortly with confirmation of your order. <u>You can now:</u></p><a class="btn btn-secondary mt-3 me-3" href="/shop">Go back shopping</a><a class="btn btn-primary mt-3" href="order-tracking.html"><i class="ci-location"></i>&nbsp;Track order</a>
-	         </div>
-	       </div>
-	     </div>
-	  </div>
-	</div>
+	ok
+
 </body>
+
 </html>

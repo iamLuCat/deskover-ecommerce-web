@@ -7,16 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.deskover.model.entity.database.Brand;
-import com.deskover.model.entity.database.FlashSale;
 import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.repository.BrandRepository;
-import com.deskover.model.entity.database.repository.FlashSaleRepository;
 import com.deskover.model.entity.database.repository.ProductRepository;
-import com.deskover.model.entity.dto.ecommerce.BrandDTO;
 import com.deskover.model.entity.dto.ecommerce.Filter;
-import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
-import com.deskover.model.entity.dto.ecommerce.Item;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
 import com.deskover.model.entity.dto.ecommerce.Shop;
 import com.deskover.service.ShopService;
@@ -74,50 +67,4 @@ public class ShopServiceImpl implements ShopService {
 		
 		return data;
 	}
-
-	@Override
-	public List<Item> getRecommendList(Long category) {
-		Page<Product> items = productRepo.getProductBasedOnCategoryID(category, PageRequest.of(0,20));
-		
-		return items.toList().stream().map(product -> new Item(product)).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<Item> get4TopRate() {
-		Page<Product> items = productRepo.getProduct(PageRequest.of(0, 4, Sort.by("averageRating").descending()));
-		
-		return items.toList().stream().map(product -> new Item(product)).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<Item> get4TopSale() {
-		Page<Product> items = productRepo.getProduct(PageRequest.of(0, 4, Sort.by("priceSale").descending()));
-		
-		return items.toList().stream().map(product -> new Item(product)).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<Item> get4TopSold() {
-		Page<Product> items = productRepo.getProduct(PageRequest.of(0, 4, Sort.by("totalSold").descending()));
-		
-		return items.toList().stream().map(product -> new Item(product)).collect(Collectors.toList());
-	}
-
-	/*
-	 * @Override public FlashSaleDTO getFlashSale() { FlashSale fs =
-	 * flashSaleRepo.findFirstByActived(true); List<Product> products =
-	 * productRepo.findByFlashSale(fs); FlashSaleDTO flashsale = new
-	 * FlashSaleDTO(fs); flashsale.setItems(products.stream().map(product -> new
-	 * Item(product)).collect(Collectors.toList()));
-	 * 
-	 * return new FlashSaleDTO(fs); }
-	 */
-
-	@Override
-	public List<BrandDTO> getListBrand() {
-		List<Brand> b = brandRepo.findByActived(true);
-		
-		return b.stream().map(brand -> new BrandDTO(brand)).collect(Collectors.toList());
-	}
-
 }
