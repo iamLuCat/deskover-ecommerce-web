@@ -65,20 +65,20 @@
                 {{ discount.percent }}%
               </td>
               <td class="align-middle text-center">
-                {{ discount.startDate | date: 'dd/MM/yyyy' }}
+                {{ discount.startDate | date: 'dd/MM/yyyy, hh:mm:ss aa' }}
               </td>
               <td class="align-middle text-center">
-                {{ discount.endDate | date: 'dd/MM/yyyy' }}
+                {{ discount.endDate | date: 'dd/MM/yyyy, hh:mm:ss aa' }}
               </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-product btn-sm btn-warning me-1" placement="top"
                           tooltip="Sản phẩm khuyến mãi" container="body"
-                          (click)="getProduct(discount.id)">
+                          (click)="editProduct(discount)">
                     <i class="fas fa-box"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                          container="body" (click)="editDiscount(discount.id)">
+                          container="body" (click)="editDiscount(discount)">
                     <i class="fas fa-pen-square"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-danger" (click)="deleteDiscount(discount)"
@@ -87,12 +87,6 @@
                   </button>
                 </div>
                 <div *ngIf="!isActive">
-                  <!--<button type="button" class="btn btn-sm" placement="top" container="body"
-                          (click)="activeDiscount(discount)"
-                          [ngClass]="isExpired(discount.endDate) ? 'btn-secondary' : 'btn-success'"
-                          [tooltip]="isExpired(discount.endDate) ? 'Đã hết hạn' : 'Kích hoạt'">
-                    <i class="fa-solid" [ngClass]="isExpired(discount.endDate) ? 'fa-ban' : 'fa-toggle-on'"></i>
-                  </button>-->
                   <button type="button" class="btn btn-sm btn-success" placement="top" container="body"
                           (click)="activeDiscount(discount)" tooltip="Kích hoạt">
                     <i class="fa-solid fa-toggle-on"></i>
@@ -238,7 +232,7 @@
       <div class="modal-body">
         <form #discountForm="ngForm">
           <div class="row" *ngIf="discount">
-            <div class="col-12 mb-3">
+            <div class="col-12 col-md-9 mb-3">
               <label class="form-label" [for]="'name'">Tên</label>
               <input type="text" class="form-control" id="name" name="name" [(ngModel)]="discount.name"
                      #name="ngModel" required
@@ -247,7 +241,7 @@
                 <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
               </div>
             </div>
-            <div class="col-6 mb-3">
+            <div class="col-12 col-md-3 mb-3">
               <label class="form-label" [for]="'percent'">Mức giảm giá</label>
               <!--oninput="this.value = Math.abs(this.value)"-->
               <input type="number" min="0" max="100" class="form-control" id="percent" name="percent"
@@ -258,27 +252,16 @@
                 <span *ngIf="percent.errors?.min || percent.errors?.max">Mức giảm giá không hợp lệ (0-100)</span>
               </div>
             </div>
-            <div class="col-6 mb-3">
+            <div class="col-12 mb-3">
               <label class="form-label" [for]="'discountRangeDate'">Thời gian giảm giá</label>
               <input type="text" id="discountRangeDate" name="discountRangeDate"
-                     placeholder="Ngày bắt đầu - Ngày kết thúc"
+                     placeholder="dd/MM/yyyy, hh:mm:ss - dd/MM/yyyy, hh:mm:ss"
                      class="form-control" [bsConfig]="bsConfig" #discountRangeDate="bsDaterangepicker"
-                     bsDaterangepicker
-                     [(ngModel)]="discountDateRange">
-            </div>
-            <div class="col-12 col-md-6 mb-3">
-              <label class="form-label" [for]="'discountStartTime'">Giờ bắt đầu</label>
-              <timepicker id="discountStartTime" name="discountStartTime" [(ngModel)]="discountStartTime"
-                          [showMinutes]="true" [showSeconds]="true" [showMeridian]="false"></timepicker>
-            </div>
-            <div class="col-12 col-md-6 ">
-              <label class="form-label" [for]="discountEndTime">Giờ kết thúc</label>
-              <timepicker id="discountEndTime" name="discountEndTime" [(ngModel)]="discountEndTime"
-                          [showMinutes]="true" [showSeconds]="true" [showMeridian]="false"></timepicker>
+                     bsDaterangepicker [(ngModel)]="discountDateRange">
             </div>
             <div class="col-12 mb-3">
               <label [for]="'description'" class="form-label">Mô tả</label>
-              <textarea class="form-control" id="description" rows="3" name="description"
+              <textarea class="form-control" id="description" rows="9" name="description"
                         [(ngModel)]="discount.description" #description="ngModel"></textarea>
             </div>
           </div>

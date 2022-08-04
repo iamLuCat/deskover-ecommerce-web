@@ -46,12 +46,13 @@
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh</th>
+              <th class="align-middle">Tài khoản</th>
               <th class="align-middle">Họ và tên</th>
               <th class="align-middle">Vai trò</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
               <th class="align-middle text-center">Lần đăng nhập cuối</th>
-              <th class="align-middle text-end"></th>
+              <th class="align-middle"></th>
             </tr>
             </thead>
             <tbody class="table-light" *ngIf="users?.length !== 0">
@@ -62,12 +63,15 @@
                 </div>
               </td>
               <td class="align-middle">
+                {{ user.username }}
+              </td>
+              <td class="align-middle">
                 {{ user.fullname }}
               </td>
               <td class="align-middle">
                 <!--<span class="badge bg-primary">{{ user.authority.role.name }}</span>-->
                 <select class="form-select form-select-table"
-                        [(ngModel)]="user.authority.role.name" (change)="updateRole()">
+                        [(ngModel)]="user.authority.role.name" (change)="saveUser(user)">
                   <option *ngFor="let role of roles" [ngValue]="role.name">{{role.name}}</option>
                 </select>
               </td>
@@ -78,13 +82,17 @@
                 {{ user.modifiedBy }}
               </td>
               <td class="align-middle text-center">
-                {{ user.lastLogin ? (user.lastLogin | date: 'dd/MM/yyyy HH:mm:ss'): '-' }}
+                {{ user.lastLogin ? (user.lastLogin | date: 'dd/MM/yyyy HH:mm:ss') : '-' }}
               </td>
-              <td class="align-middle text-end">
+              <td class="align-middle">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
+                          (click)="editUser(user)">
+                    <i class="fas fa-pen-square"></i>
+                  </button>
                   <button type="button" class="btn btn-sm btn-danger" (click)="changeActive(user)"
                           placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash"></i>
+                    <i class="fa-solid fa-ban"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
@@ -97,7 +105,7 @@
             </tbody>
             <tbody *ngIf="users?.length === 0">
             <tr>
-              <td colspan="7" class="text-center">Không tìm thấy kết quá</td>
+              <td colspan="8" class="text-center">Không tìm thấy kết quá</td>
             </tr>
             </tbody>
           </table>
@@ -106,3 +114,50 @@
     </div>
   </div>
 </section>
+<!-- Modal -->
+<div bsModal [config]="{backdrop: 'static'}" #userModal="bs-modal" id="brand-modal" class="modal fade" tabindex="-1"
+     data-bs-focus="false" role="dialog" aria-labelledby="user-dialog">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="user-dialog" class="modal-title pull-left text-uppercase text-primary fw-bold">
+          {{ user.id ? 'Cập nhật' : 'Thêm' }} nhân viên
+        </h4>
+        <button type="button" class="btn-close close pull-right"
+                (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #userForm="ngForm">
+          <div class="row">
+            <div class="col-12 col-md-5">
+              <div class="ratio ratio-1x1 mb-3">
+                <div class="file-drop-area img-thumbnail">
+                  <img [src]="avatarPreview" class="img-fluid" alt=" ">
+                  <input type="file" name="file" class="file-drop-input" accept="image/*"
+                         (change)="selectedImageChanged($event)">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-7">
+              <div class="mb-3">
+                <label class="form-label" [for]="'name'">Tên</label>
+                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.username" #name="ngModel" required/>
+                <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+                  <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" [disabled]="userForm.invalid"
+                (click)="saveUser(user);">Lưu
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal - End -->

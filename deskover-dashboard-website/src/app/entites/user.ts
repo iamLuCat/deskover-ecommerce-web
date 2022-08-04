@@ -9,7 +9,6 @@ export interface User {
   avatar: string
   password: string
   authority: UserAuthority
-  roles: string
 }
 
 export interface UserAuthority {

@@ -67,7 +67,7 @@
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm btn-danger" (click)="changeActive(user)"
                           placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash"></i>
+                    <i class="fa-solid fa-ban"></i>
                   </button>
                 </div>
                 <div *ngIf="!isActive">
@@ -80,7 +80,7 @@
             </tbody>
             <tbody *ngIf="customers?.length === 0">
             <tr>
-              <td colspan="7" class="text-center">Không tìm thấy kết quá</td>
+              <td colspan="6" class="text-center">Không tìm thấy kết quá</td>
             </tr>
             </tbody>
           </table>

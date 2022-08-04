@@ -5,6 +5,9 @@ import {environment} from "../../../../../environments/environment";
 import {User, UserRole} from "@/entites/user";
 import {UserService} from "@services/user.service";
 import {HttpParams} from "@angular/common/http";
+import {ModalDirective} from "ngx-bootstrap/modal";
+import {FormControlDirective} from "@angular/forms";
+import {UploadService} from "@services/upload.service";
 
 @Component({
   selector: 'app-staff',
@@ -12,8 +15,13 @@ import {HttpParams} from "@angular/common/http";
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
+  @ViewChild("userModal") userModal: ModalDirective;
+  @ViewChild('userForm') userForm: FormControlDirective;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+
   users: User[] = [];
   user: User = <User>{};
+  avatarPreview: any;
 
   roles: UserRole[] = [];
   role: UserRole = <UserRole>{};
@@ -23,9 +31,7 @@ export class UsersComponent implements OnInit {
 
   dtOptions: any = {};
 
-  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
-
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private uploadServive: UploadService) {
     this.getRoles();
   }
 
@@ -59,6 +65,7 @@ export class UsersComponent implements OnInit {
       },
       columns: [
         {data: 'avatar', orderable: false, searchable: false},
+        {data: 'username'},
         {data: 'fullname'},
         {data: 'authority.role.name'},
         {data: 'modifiedAt'},
@@ -66,7 +73,7 @@ export class UsersComponent implements OnInit {
         {data: 'lastLogin'},
         {data: null, orderable: false, searchable: false}
       ],
-      order: [[3, 'asc']],
+      order: [[3, 'desc']],
     }
   }
 
@@ -92,17 +99,40 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  getSrc(image: string) {
-    return image ? `${environment.globalUrl.categoryImg}/${image}` : 'assets/images/no-image.png';
-  }
-
   getRoles() {
     this.userService.getRoles().subscribe(data => {
       this.roles = data;
     });
   }
 
-  updateRole() {
+  editUser(user: User) {
+    this.user = user;
+    this.openModal();
+  }
 
+  saveUser(user: User) {
+
+  }
+
+  /* Utils */
+  openModal() {
+    this.userModal.show();
+  }
+
+  closeModal() {
+    this.userModal.hide();
+  }
+
+  getSrc(image: string) {
+    return image ? `${environment.globalUrl.userImg}/${image}` : 'assets/images/no-image.png';
+  }
+
+  selectedImageChanged($event: Event) {
+    const file = $event.target['files'][0];
+    this.uploadServive.uploadImage(file).subscribe(data => {
+      this.user.avatar = data.filename;
+      this.avatarPreview = `${environment.globalUrl.tempFolder}/${data.filename}`;
+      $event.target['value'] = '';
+    });
   }
 }
