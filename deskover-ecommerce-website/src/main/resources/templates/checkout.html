@@ -10,7 +10,6 @@
 <head>
   <title>Deskover: Chi tiết giỏ hàng</title>
 </head>
-
 <body>
   <div id="modal_out"></div>
   <div id="modal_in"></div>
@@ -33,14 +32,14 @@
         </div>
       </div>
     </div>
+    <!-- Address form -->
     <form method="post" th:action="@{/ok}" th:object="${addressForm}">
     <div class="container pb-5 mb-2 mb-md-4">
       <div class="row">
         <section class="col-lg-8">
           <div class="d-flex justify-content-between align-items-center pt-3 pb-4 pb-sm-5 mt-1">
-            <h2 class="h6 text-light mb-0">Sản phẩm</h2><a class="btn btn-outline-primary btn-sm ps-2" href="shop-grid-ls.html"><i class="ci-arrow-left me-2"></i>Tiếp tục mua sắm</a>
-        </div>
-          <!-- Shipping address-->       
+            <h2 class="h6 text-light mb-0">Sản phẩm</h2><a class="btn btn-outline-primary btn-sm ps-2" href="shop-grid-ls.html"><i class="ci-arrow-left me-2"></i>Tiếp tục mua sắm</a> </div>
+         	  <!-- Shipping address-->       
 	          <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Địa chỉ</h2>
 	          <div class="row">
 	            <div class="col-sm-6">
@@ -119,18 +118,8 @@
 	              </div>
 	            </div>
 	          </div>
-          <h6 class="mb-3 py-3 border-bottom">Billing address</h6>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" checked id="same-address">
-            <label class="form-check-label" for="same-address">Same as shipping address</label>
-          </div>
-         
-          </form>
-          <!-- Navigation (desktop)-->
-          <div class="d-none d-lg-flex pt-4 mt-3">
-            <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="/cart"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
-            <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="/payment"><span class="d-none d-sm-inline">Pay On Wallet</span><span class="d-inline d-sm-none">Next</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
-          </div>
+	          <!-- Shipping address-->  
+	          <hr>
         </section>
         <!-- Sidebar-->
         <aside class="col-lg-4 pt-4 pt-lg-0 ps-xl-5">
@@ -155,7 +144,6 @@
               </ul>
               <h3  class="fw-normal text-center my-4"> <input type="hidden" readonly style="border: none; outline: none; text-align: center; " th:object="${Total}" name = "Total" value="{{cart.total}}"></h3>
               <h3  class="fw-normal text-center my-4"> {{cart.total|number}}<small>VNĐ</small></h3>
-              
               <form class="needs-validation" method="post" novalidate>
                 <div class="mb-3">
                   <input class="form-control" type="text" placeholder="Promo code" >
@@ -163,7 +151,6 @@
                 </div>
                 <button class="btn btn-outline-primary d-block w-100" type="submit">Apply promo code</button> <br>
               </form>
-              
               </div>
               <button  class="btn btn-primary btn-shadow d-block w-100 mt-4"><i class="fs-lg me-2"></i>Checkout <i class="ci-arrow-right mt-sm-0 ms-1"></i></button>
             </div>
@@ -171,6 +158,71 @@
          </div>
       </div>
       </form>
+      <div class="container pb-5 mb-2 mb-md-4">
+      <div class="row">
+	  <section class="col-lg-8">
+		  <h2 class="h6 pb-3 mb-2 ">Choose payment method</h2>
+	      <div class="accordion mb-2 "  id="payment-method">
+	      <div class="accordion-item ">
+	        <h3 class="accordion-header"><a class="accordion-button" href="#card" data-bs-toggle="collapse"><i class="ci-card fs-lg me-2 mt-n1 align-middle"></i>Pay with ATM credit cards (VNPay) </a></h3>
+	        <div class="accordion-collapse collapse hide" id="card" data-bs-parent="#payment-method">
+	          <div class="accordion-body">
+	            <p class="fs-sm">We accept following credit cards:&nbsp;&nbsp;<img class="d-inline-block align-middle" src="img/cards.png" width="187" alt="Cerdit Cards"></p>
+	            <div class="credit-card-wrapper"></div>
+	           <form action="/vnpayajax" id="frmCreateOrder" method="post">        
+	            <div class="form-group">
+	                <label for="amount" class="form-label">Tổng số tiền cần thanh toán</label>
+	                <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="100000000" min="1" name="amount" type="number" value="{{cart.total}}" />
+	            </div>
+	            <div class="form-group">
+	                <label class="form-label" for="OrderDescription">Nội dung thanh toán</label>
+	                <textarea class="form-control" cols="20" id="vnp_OrderInfo" name="vnp_OrderInfo" rows="2" placeholder="Nhập nội dung cho đơn hàng của bạn"></textarea>
+	            </div>
+	            <div class="form-group">
+	                <label class="form-label" for="bankcode">Ngân hàng</label>
+	                <select name="bankcode" id="bankcode" class="form-control">
+	                    <option value="">Không chọn </option>
+	                    <option value="VNPAYQR">VNPAYQR</option>
+	                    <option value="MBAPP">MBAPP</option>
+	                    <option value= "INTCARD">INTCARD</option>
+	                    <option value= "VNBANK">VNBANK</option>
+	                    <option value= "VNPAYEWALLET">VNPAYEWALLET</option> 
+	                    <option value="NCB">  	Ngan hang NCB</option>
+	                    <option value="SACOMBANK">Ngan hang SacomBank  </option>
+	                    <option value="EXIMBANK"> 	Ngan hang EximBank </option>
+	                    <option value="MSBANK"> 	Ngan hang MSBANK </option>
+	                    <option value="NAMABANK"> 	Ngan hang NamABank </option>
+	                    <option value="VISA">  	Thanh toan qua VISA/MASTER</option>
+	                    <option value="VNMART">  	Vi dien tu VnMart</option>
+	                    <option value="VIETINBANK">Ngan hang Vietinbank  </option>
+	                    <option value="VIETCOMBANK"> 	Ngan hang VCB </option>
+	                    <option value="HDBANK">Ngan hang HDBank</option>
+	                    <option value="DONGABANK">  	Ngan hang Dong A</option>
+	                    <option value="TPBANK"> 	Ngân hàng TPBank </option>
+	                    <option value="OJB">  	Ngân hàng OceanBank</option>
+	                    <option value="BIDV"> Ngân hàng BIDV </option>
+	                    <option value="TECHCOMBANK"> 	Ngân hàng Techcombank </option>
+	                    <option value="VPBANK"> 	Ngan hang VPBank </option>
+	                    <option value="AGRIBANK"> 	Ngan hang Agribank </option>
+	                    <option value="MBBANK"> 	Ngan hang MBBank </option>
+	                    <option value="ACB"> Ngan hang ACB </option>
+	                    <option value="OCB"> Ngan hang OCB </option>
+	                </select>
+	                
+	            </div>
+	            <button type="submit" class="btn btn-default  btn btn-outline-primary d-block w-100 mt-0">Pay on wallet</button>
+	       	  </form>  
+	          </div>
+	        </div>
+	      </div>
+	      </div>   
+	      <!-- Navigation (desktop)-->
+	      <div class="d-none d-lg-flex pt-4 mt-3 container pb-5 mb-2 mb-md-4 ">
+	        <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="/cart"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
+	        <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100"><span class="d-none d-sm-inline">Process checkout</span><span class="d-inline d-sm-none">Next</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
+	      </div>
+	  </section>
+	  </div>
       <!-- Navigation (mobile)-->
       <div class="row d-lg-none">
         <div class="col-lg-8">
@@ -181,10 +233,11 @@
         </div>
       </div>
     </div>
-   
-  </div>
-	
-
+    </div>
 </body>
-
 </html>
+<script src="/assets/main.js"></script>
+     
+
+
+    

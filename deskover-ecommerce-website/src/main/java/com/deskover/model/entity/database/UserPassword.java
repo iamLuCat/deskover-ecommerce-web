@@ -3,6 +3,7 @@ package com.deskover.model.entity.database;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +42,7 @@ public class UserPassword implements Serializable {
     private String password;
 
     @Column(name = "modified_at", nullable = false)
+    @CreationTimestamp
     private Timestamp modifiedAt;
 
 }
