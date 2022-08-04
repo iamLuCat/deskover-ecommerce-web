@@ -170,7 +170,7 @@
                 <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
                         [compareWith]="compareFn" #brand="ngModel" required>
                   <option [ngValue]="null">-- Chọn thương hiệu --</option>
-                  <option *ngFor="let item of brands" [ngValue]="item">{{ item.name }}</option>
+                  <option *ngFor="let brand of brands" [ngValue]="brand">{{ brand.name }}</option>
                 </select>
                 <div class="invalid-feedback" *ngIf="brand.invalid && (brand.dirty || brand.touched)">
                   <span *ngIf="brand.errors?.required">Vui lòng chọn thương hiệu</span>
@@ -182,7 +182,7 @@
                         #categoryEdit="ngModel" [compareWith]="compareFn" (change)="getSubcategoriesByCategory()"
                         required>
                   <option [ngValue]="null">-- Chọn danh mục --</option>
-                  <option *ngFor="let item of categories" [ngValue]="item">{{ item.name }}</option>
+                  <option *ngFor="let category of categories" [ngValue]="category">{{ category.name }}</option>
                 </select>
                 <div class="invalid-feedback"
                      *ngIf="categoryEdit.invalid && (categoryEdit.dirty || categoryEdit.touched)">
@@ -193,7 +193,7 @@
                 <label class="form-label" [for]="'subCategory'">Danh mục con</label>
                 <select class="form-control" id="subCategory" name="subCategory" [(ngModel)]="product.subCategory"
                         #subCategory="ngModel" [disabled]="category === null" [compareWith]="compareFn" required>
-                  <option *ngFor="let item of subcategories" [ngValue]="item">{{ item.name }}</option>
+                  <option *ngFor="let subcategory of subcategories" [ngValue]="subcategory">{{ subcategory.name }}</option>
                 </select>
                 <div class="invalid-feedback" *ngIf="subCategory.invalid && (subCategory.dirty || subCategory.touched)">
                   <span *ngIf="subCategory.errors?.required">Vui lòng chọn danh mục con</span>

@@ -128,7 +128,7 @@
           <span aria-hidden="true" class="visually-hidden">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body pb-0">
         <form #userForm="ngForm">
           <div class="row">
             <div class="col-12 col-md-5">
@@ -140,13 +140,41 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 col-md-7">
+            <div class="col-12 col-md-7 d-block d-md-flex flex-column justify-content-center">
               <div class="mb-3">
-                <label class="form-label" [for]="'name'">Tên</label>
-                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.username" #name="ngModel" required/>
-                <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-                  <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
+                <label class="form-label" [for]="'username'">Tên đăng nhập</label>
+                <input type="text" class="form-control" id="username" name="username" [(ngModel)]="user.username"
+                       #username="ngModel" required/>
+                <div class="invalid-feedback" *ngIf="username.invalid && (username.dirty || username.touched)">
+                  <span *ngIf="username.errors?.['required']">Vui lòng nhập tên đăng nhập</span>
                 </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" [for]="'fullname'">Họ và tên</label>
+                <input type="text" class="form-control" id="fullname" name="fullname" [(ngModel)]="user.fullname"
+                       #fullname="ngModel" required/>
+                <div class="invalid-feedback" *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)">
+                  <span *ngIf="fullname.errors?.['required']">Vui lòng nhập tên đăng nhập</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mb-3" *ngIf="!user.id">
+              <label class="form-label" [for]="'password'">Mật khẩu</label>
+              <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password"
+                     #password="ngModel" required/>
+              <div class="invalid-feedback" *ngIf="password.invalid && (password.dirty || password.touched)">
+                <span *ngIf="password.errors?.['required']">Vui lòng nhập tên đăng nhập</span>
+              </div>
+            </div>
+            <div class="col-12 mb-3" *ngIf="user.authority">
+              <label class="form-label" [for]="'category'">Vai trò</label>
+              <select id="category" class="form-select" name="category" [(ngModel)]="user.authority.role"
+                      [compareWith]="compareFn" #category="ngModel" required>
+                <option value="null">-- Chọn vai trò --</option>
+                <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="category.invalid && (category.dirty || category.touched)">
+                <span *ngIf="category.errors?.['required']">Vui lòng chọn một danh mục</span>
               </div>
             </div>
           </div>
