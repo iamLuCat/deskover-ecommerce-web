@@ -1,17 +1,21 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.dto.UploadFile;
-import com.deskover.other.constant.PathConstant;
-import com.deskover.other.util.FileUtil;
-import com.deskover.service.UploadFileService;
+import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.deskover.model.entity.dto.UploadFile;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
+import com.deskover.service.UploadFileService;
+import com.deskover.service.UserService;
+
 @Service
 public class UploadFileServiceImpl implements UploadFileService {
-
+	
     @Override
     public UploadFile uploadFileToTempFolder(MultipartFile file) {
         System.out.println(file.getOriginalFilename());
@@ -33,4 +37,21 @@ public class UploadFileServiceImpl implements UploadFileService {
                 .toUriString();
         return new UploadFile(fileUrl, fileName);
     }
+    
+    private UploadFile uploadFileUser(MultipartFile file, String folderPath) {
+        String fileName =  FileUtil.uploadFileUser(file, PathConstant.STATIC +  folderPath);
+        String fileUrl = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/").path(folderPath).path(fileName)
+                .build()
+                .toUriString();
+        return new UploadFile(fileUrl, fileName);
+    }
+
+	@Override
+	@Transactional
+	public UploadFile uploadFileToFolder(MultipartFile file, String folderPath) {
+//		fileName = SecurityContextHolder.getContext().getAuthentication().getName().concat(FirebaseUtil.getExtension(fileName));
+		return this.uploadFileUser(file, folderPath);
+	}
 }

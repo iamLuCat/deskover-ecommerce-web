@@ -35,7 +35,7 @@ public class ProductDTO {
 		this.totalRating = product.getTotalRating();
 
 
-		this.item = new SearchItem(product);
+		this.item = new Item(product);
 
 	}
 	
@@ -58,5 +58,5 @@ public class ProductDTO {
 	private List<String> thumbsnails;
 	private Integer averageRating; 
 	private Integer totalRating;
-	private SearchItem item;
+	private Item item;
 }
