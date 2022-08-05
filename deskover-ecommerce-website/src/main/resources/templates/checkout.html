@@ -65,36 +65,33 @@
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-phone">Phone Number</label>
-	                <input class="form-control" type="text" id="checkout-phone" name = "tel">
+	                <input ng-model="form.tel" class="form-control" type="text" id="checkout-phone" name = "tel">
 	              </div>
 	            </div>
 	          </div>
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-company">Ward</label>
-	                <input class="form-control" type="text" id="checkout-company" name="ward">
+	                <label class="form-label" for="checkout-city" >Province</label>
+	                <select name="province" class="form-select" id="checkout-city" ng-model="form.province" ng-change="change()">
+	                  <option ng-selected="form.province == item.name" ng-repeat="item in province" ng-value="item.name">{{item.name}}</option>
+	                </select>
 	              </div>
 	            </div>
         	    <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-company">District</label>
-	                <input class="form-control" type="text" id="checkout-company" name="district">
+	                <select name="district" class="form-select" id="checkout-city" ng-model="form.district" ng-change="change2()">
+	                  <option name = "district" ng-selected="form.district == item.name" ng-repeat="item in district" ng-value="item.name">{{item.name}}</option>
+	                </select>
 	              </div>
 	            </div>
 	          </div>
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-city">Country</label>
-	                <select class="form-select" id="checkout-city">
-	                  <option>Choose city</option>
-	                  <option>Amsterdam</option>
-	                  <option>Berlin</option>
-	                  <option>Geneve</option>
-	                  <option>New York</option>
-	                  <option>Paris</option>
-	                </select>
+	                <label class="form-label" for="checkout-address-2">Address</label>
+	                <input class="form-control" type="text" id="checkout-address-2" name = "address">
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
@@ -107,14 +104,14 @@
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-address-1">Province</label>
-	                <input class="form-control" type="text" id="checkout-address-1" name = "province">
+	                <label class="form-label" for="checkout-address-1">Country</label>
+	                <input class="form-control" type="text" id="checkout-address-1" name = "country">
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-address-2">Address</label>
-	                <input class="form-control" type="text" id="checkout-address-2" name = "address">
+	                <label class="form-label" for="checkout-company">Ward</label>
+	                <input class="form-control" type="text" id="checkout-company" name="ward">
 	              </div>
 	            </div>
 	          </div>
@@ -138,12 +135,12 @@
               </div>
               <ul class="list-unstyled fs-sm pb-2 border-bottom">
                 <li class="d-flex justify-content-between align-items-center"><span class="me-2">Subtotal:</span><span class="text-end">{{cart.total|number}}<small> VNĐ </small></span></li>
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Shipping:</span><span class="text-end">100,000 <small> VNĐ </small> </span></li>
+                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Shipping:</span><span class="text-end">{{ship.fee.fee|number}} <small> VNĐ </small> </span></li>
                 <li class="d-flex justify-content-between align-items-center"><span class="me-2">Taxes:</span><span class="text-end">100,000 <small> VNĐ </small></span></li>
                 <li class="d-flex justify-content-between align-items-center"><span class="me-2">Discount:</span><span class="text-end">0 <small> VNĐ </small></span></li>
               </ul>
-              <h3  class="fw-normal text-center my-4"> <input type="hidden" readonly style="border: none; outline: none; text-align: center; " th:object="${Total}" name = "Total" value="{{cart.total}}"></h3>
-              <h3  class="fw-normal text-center my-4"> {{cart.total|number}}<small>VNĐ</small></h3>
+              <h3  class="fw-normal text-center my-4"> <input type="hidden" readonly style="border: none; outline: none; text-align: center; " th:object="${Total}" name = "Total" value="{{cart.total + ship.fee.fee}}"></h3>
+              <h3  class="fw-normal text-center my-4"> {{cart.total + ship.fee.fee |number}}<small>VNĐ</small></h3>
               <form class="needs-validation" method="post" novalidate>
                 <div class="mb-3">
                   <input class="form-control" type="text" placeholder="Promo code" >
@@ -227,7 +224,7 @@
       <div class="row d-lg-none">
         <div class="col-lg-8">
           <div class="d-flex pt-4 mt-3">
-            <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="shop-cart.html"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
+            <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="/cart"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
             <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="checkout-shipping.html"><span class="d-none d-sm-inline">Proceed to Shipping</span><span class="d-inline d-sm-none">Next</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
           </div>
         </div>
@@ -236,6 +233,11 @@
     </div>
 </body>
 </html>
+
+
+
+
+
 <script src="/assets/main.js"></script>
      
 

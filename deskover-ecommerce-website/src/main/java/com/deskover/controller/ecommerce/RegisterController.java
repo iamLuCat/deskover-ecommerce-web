@@ -31,7 +31,7 @@ public class RegisterController {
 	@PostMapping("/register")
 	public String postRegister(Model model,@ModelAttribute("register") UserCreateDto newUser, BindingResult result )  {
 		userService.create1(newUser);
-		return "/shop";
+		model.addAttribute("msg" , "Đăng kí thành công");
+		return "/login";
 	}
-	
 }

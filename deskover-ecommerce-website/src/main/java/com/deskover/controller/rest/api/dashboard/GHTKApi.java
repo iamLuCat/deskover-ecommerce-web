@@ -31,14 +31,14 @@ public class GHTKApi {
 
 	// api tính phí phận chuyển
 	@PostMapping(path = "/fee", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> doGetFee(@RequestBody FeeGhtk fee, @RequestHeader(value = "Token") String Token)
+	public ResponseEntity<?> doGetFee(@RequestBody FeeGhtk fee)
 			throws Exception {
 		try {
-			FeeResponseData response = ghtkService.doGetFee(fee, Token);
+			FeeResponseData response = ghtkService.doGetFee(fee, "2C925D6789957674DcC9121bf419Df1a2F7b0BC3");
 			if (Objects.requireNonNull(response).getFee() == null) {
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_JSON);
-				headers.set("Token", Token);
+				headers.set("Token",  "2C925D6789957674DcC9121bf419Df1a2F7b0BC3");
 				HttpEntity<FeeGhtk> request = new HttpEntity<>(fee, headers);
 				ResponseEntity<String> errorRequest = restTemplate.postForEntity(UrlConstant.GHTK_FEE, request,
 						String.class);
