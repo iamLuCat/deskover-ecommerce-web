@@ -27,7 +27,9 @@ public class Item {
 		if(Objects.isNull(product.getDiscount()))
 			return;
 		Timestamp current = new Timestamp(System.currentTimeMillis());
-		if((product.getDiscount().getStartDate().compareTo(current)<= 0) && (product.getDiscount().getEndDate().compareTo(current)>= 0))
+		if((!Objects.isNull(this.price_sale)) && (this.price_sale > 0)
+				&& (product.getDiscount().getStartDate().compareTo(current)<= 0) 
+				&& (product.getDiscount().getEndDate().compareTo(current)>= 0))
 			this.sale = true;
 	}
 	

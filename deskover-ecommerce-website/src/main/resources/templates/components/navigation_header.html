@@ -86,10 +86,10 @@
                                                                         <div class="widget-cart-item pb-2 border-bottom" ng-repeat="item in cart.items">
                                                                                 <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true" ng-click="cart.remove(item)">&times;</span></button>
                                                                                 <div class="d-flex align-items-center">
-                                                                                        <a class="d-block flex-shrink-0" href="shop-single-v2.html"><img ng-src="{{item.imgUrl}}" width="64" alt="Product"></a>
+                                                                                        <a class="d-block flex-shrink-0" href="/shop/item?p={{item.slug}}"><img ng-src="/img/shop/products/{{item.imgUrl}}" width="64" alt="Product"></a>
                                                                                         <div class="ps-2">
                                                                                                 <h6 class="widget-product-title">
-                                                                                                        <a href="shop-single-v2.html">{{item.name}}</a>
+                                                                                                        <a href="/shop/item?p={{item.slug}}">{{item.name}}</a>
                                                                                                 </h6>
                                                                                                 <div class="widget-product-meta">
                                                                                                         <span class="text-accent me-2">{{item.price|number}} <small>VND</small></span><span class="text-muted">x{{item.amount}}</span>
