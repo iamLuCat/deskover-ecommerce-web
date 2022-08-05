@@ -189,6 +189,7 @@ public class OrderApi {
 			orderService.cancelOrder(order);
 			return ResponseEntity.ok(new MessageResponse("Hủy đơn hàng thành công"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
 		}
 	}
