@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
@@ -72,4 +74,16 @@ public class IndexController {
 		
 		return "redirect:/index";
 	}
+	
+	@GetMapping("/ok")
+	public String ok() {
+		return "ok";
+	}
+	
+	@RequestMapping("/invoice")
+	public String invoice() {
+		return "invoice";
+	}
+		
+		
 }

@@ -212,17 +212,24 @@ angular
 	$scope.change2 = function(){
 	    var item = angular.copy($scope.form);
 	    var url = `${host}/v1/api/ghtk/fee`;
+	    var newTemp = $filter("filter")($scope.province, {name: $scope.form.province});
+    	var pid =  newTemp[0].id;
+    	newTemp = $filter("filter")($scope.district, {name: $scope.form.district});
+    	var did =  newTemp[0].id;
 	    $http.post(url, item).then(resp => {
 			$scope.ship = resp.data;
 	    }).catch(error => {
 	        console.log("Error",error)
-	    })
+	    });
+	    $http.get(`${host}/v0/client/ward?provinceId=${pid}&districtId=${did}`).then(resp => {
+        	$scope.ward = resp.data;
+	    }).catch(error => { })
     }
+    
 	$http.get(`${host}/v0/client/province`).then(resp => {
         $scope.province = resp.data;
-    }).catch(error => {
-        console.log("Error",error)
-    })
+    }).catch(error => { })
+
     $scope.change = function(){
     	var newTemp = $filter("filter")($scope.province, {name: $scope.form.province});
     	var id =  newTemp[0].id;
@@ -230,11 +237,13 @@ angular
 	    $http.get(url).then(resp => {
 			$scope.district = resp.data;
 	        console.log("Success", resp)
-	    }).catch(error => {
-	        console.log("Error",error)
-	    })
+	    }).catch(error => { })
     }
-    
+    $scope.address = function(){
+    	address ="Tỉnh: "+ $scope.form.province+", Xã: " + $scope.form.district +", Đường: "+$scope.form.ward + ", Số nhà: " + $scope.number + " , Việt Nam";
+    	$scope.address.address = address;
+    }
+
 
   }).controller('shopCtrl', function ($scope, $http, $sessionStorage) {
     $scope.shop = {

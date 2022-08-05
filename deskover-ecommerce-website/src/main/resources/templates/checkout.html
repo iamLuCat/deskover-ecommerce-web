@@ -44,27 +44,13 @@
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-fn" >Full Name</label>
+	                <label class="form-label" for="checkout-fn" >Họ và tên</label>
 	                <input class="form-control" type="text" id="checkout-fn" name="fullname" >
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-ln">Last Name</label>
-	                <input class="form-control" type="text" id="checkout-ln">
-	              </div>
-	            </div>
-	          </div>
-	          <div class="row">
-	            <div class="col-sm-6">
-	              <div class="mb-3">
-	                <label class="form-label" for="checkout-email">E-mail Address</label>
-	                <input class="form-control" type="email" id="checkout-email" name="email">
-	              </div>
-	            </div>
-	            <div class="col-sm-6">
-	              <div class="mb-3">
-	                <label class="form-label" for="checkout-phone">Phone Number</label>
+	                <label class="form-label" for="checkout-phone">Số điện thoại</label>
 	                <input ng-model="form.tel" class="form-control" type="text" id="checkout-phone" name = "tel">
 	              </div>
 	            </div>
@@ -72,7 +58,21 @@
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-city" >Province</label>
+	                <label class="form-label" for="checkout-email">Địa chỉ Email</label>
+	                <input class="form-control" type="email" id="checkout-email" name="email">
+	              </div>
+	            </div>
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-zip">Số Nhà</label>
+	                <input class="form-control" type="text" id="checkout-zip" name = "number" ng-model="number">
+	              </div>
+	            </div>
+	          </div>
+	          <div class="row">
+	            <div class="col-sm-6">
+	              <div class="mb-3">
+	                <label class="form-label" for="checkout-city" >Tỉnh</label>
 	                <select name="province" class="form-select" id="checkout-city" ng-model="form.province" ng-change="change()">
 	                  <option ng-selected="form.province == item.name" ng-repeat="item in province" ng-value="item.name">{{item.name}}</option>
 	                </select>
@@ -80,7 +80,7 @@
 	            </div>
         	    <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-company">District</label>
+	                <label class="form-label" for="checkout-company">Xã/ Huyện</label>
 	                <select name="district" class="form-select" id="checkout-city" ng-model="form.district" ng-change="change2()">
 	                  <option name = "district" ng-selected="form.district == item.name" ng-repeat="item in district" ng-value="item.name">{{item.name}}</option>
 	                </select>
@@ -90,31 +90,20 @@
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-address-2">Address</label>
-	                <input class="form-control" type="text" id="checkout-address-2" name = "address">
+	              	<label class="form-label" for="checkout-company">Đường</label>
+	                <select name="ward" class="form-select" id="checkout-city" ng-model="form.ward" ng-change="address()">
+	                  <option name = "ward" ng-selected="form.ward == item.name" ng-repeat="item in ward" ng-value="item.name">{{item.name}}</option>
+	                </select>
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-zip">ZIP Code</label>
-	                <input class="form-control" type="text" id="checkout-zip">
+	                <label class="form-label" for="checkout-address-2">Địa chỉ</label>
+	                <input readonly="False" class="form-control" type="text" id="checkout-address-2" name = "address" ng-model="address.address">
 	              </div>
 	            </div>
 	          </div>
-	          <div class="row">
-	            <div class="col-sm-6">
-	              <div class="mb-3">
-	                <label class="form-label" for="checkout-address-1">Country</label>
-	                <input class="form-control" type="text" id="checkout-address-1" name = "country">
-	              </div>
-	            </div>
-	            <div class="col-sm-6">
-	              <div class="mb-3">
-	                <label class="form-label" for="checkout-company">Ward</label>
-	                <input class="form-control" type="text" id="checkout-company" name="ward">
-	              </div>
-	            </div>
-	          </div>
+	          
 	          <!-- Shipping address-->  
 	          <hr>
         </section>
@@ -123,7 +112,7 @@
           <div class="bg-white rounded-3 shadow-lg p-4 ms-lg-auto">
             <div class="py-2 px-xl-2">
               <div class="widget mb-3">
-                <h2 class="widget-title text-center">Order summary</h2>
+                <h2 class="widget-title text-center">Đơn hàng của bạn</h2>
                 <div class="widget-cart-item pb-2 border-bottom" ng-repeat="item in cart.items">
 	                <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img ng-src="/img/shop/products/{{item.imgUrl}}" width="64" alt="Product"></a>
 	                  <div class="ps-2">
@@ -134,42 +123,42 @@
                 </div>
               </div>
               <ul class="list-unstyled fs-sm pb-2 border-bottom">
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Subtotal:</span><span class="text-end">{{cart.total|number}}<small> VNĐ </small></span></li>
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Shipping:</span><span class="text-end">{{ship.fee.fee|number}} <small> VNĐ </small> </span></li>
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Taxes:</span><span class="text-end">100,000 <small> VNĐ </small></span></li>
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Discount:</span><span class="text-end">0 <small> VNĐ </small></span></li>
+                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Tạm tính:</span><span class="text-end">{{cart.total|number}}<small> VNĐ </small></span></li>
+                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Phí Ship:</span><span class="text-end">{{ship.fee.fee|number}} <small> VNĐ </small> </span></li>
+                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Giảm giá:</span><span class="text-end">0 <small> VNĐ </small></span></li>
               </ul>
               <h3  class="fw-normal text-center my-4"> <input type="hidden" readonly style="border: none; outline: none; text-align: center; " th:object="${Total}" name = "Total" value="{{cart.total + ship.fee.fee}}"></h3>
               <h3  class="fw-normal text-center my-4"> {{cart.total + ship.fee.fee |number}}<small>VNĐ</small></h3>
               <form class="needs-validation" method="post" novalidate>
                 <div class="mb-3">
                   <input class="form-control" type="text" placeholder="Promo code" >
-                  <div class="invalid-feedback">Please provide promo code.</div>
+                  <div class="invalid-feedback">Nhập mã giảm giá nếu có.</div>
                 </div>
-                <button class="btn btn-outline-primary d-block w-100" type="submit">Apply promo code</button> <br>
+                <button class="btn btn-outline-primary d-block w-100" type="submit">Áp dụng promo code</button> <br>
               </form>
               </div>
-              <button  class="btn btn-primary btn-shadow d-block w-100 mt-4"><i class="fs-lg me-2"></i>Checkout <i class="ci-arrow-right mt-sm-0 ms-1"></i></button>
+              <button  class="btn btn-primary btn-shadow d-block w-100 mt-4"><i class="fs-lg me-2"></i>Đặt hàng <i class="ci-arrow-right mt-sm-0 ms-1"></i></button>
             </div>
          </aside>
          </div>
       </div>
+      <a href="/test">post</a>
       </form>
       <div class="container pb-5 mb-2 mb-md-4">
       <div class="row">
 	  <section class="col-lg-8">
-		  <h2 class="h6 pb-3 mb-2 ">Choose payment method</h2>
+		  <h2 class="h6 pb-3 mb-2 ">Chọn phương thức thanh toán</h2>
 	      <div class="accordion mb-2 "  id="payment-method">
 	      <div class="accordion-item ">
-	        <h3 class="accordion-header"><a class="accordion-button" href="#card" data-bs-toggle="collapse"><i class="ci-card fs-lg me-2 mt-n1 align-middle"></i>Pay with ATM credit cards (VNPay) </a></h3>
+	        <h3 class="accordion-header"><a class="accordion-button" href="#card" data-bs-toggle="collapse"><i class="ci-card fs-lg me-2 mt-n1 align-middle"></i>Thanh toán bằng thẻ ATM (Qua VNPay) </a></h3>
 	        <div class="accordion-collapse collapse hide" id="card" data-bs-parent="#payment-method">
 	          <div class="accordion-body">
-	            <p class="fs-sm">We accept following credit cards:&nbsp;&nbsp;<img class="d-inline-block align-middle" src="img/cards.png" width="187" alt="Cerdit Cards"></p>
+	            <p class="fs-sm">Thanh toán bằng credit card hoặc những thẻ sau:&nbsp;&nbsp;<img class="d-inline-block align-middle" src="img/cards.png" width="187" alt="Cerdit Cards"></p>
 	            <div class="credit-card-wrapper"></div>
 	           <form action="/vnpayajax" id="frmCreateOrder" method="post">        
 	            <div class="form-group">
 	                <label for="amount" class="form-label">Tổng số tiền cần thanh toán</label>
-	                <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="100000000" min="1" name="amount" type="number" value="{{cart.total}}" />
+	                <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="100000000" min="1" name="amount" type="number" value="{{cart.total + ship.fee.fee}}" />
 	            </div>
 	            <div class="form-group">
 	                <label class="form-label" for="OrderDescription">Nội dung thanh toán</label>
@@ -204,8 +193,7 @@
 	                    <option value="MBBANK"> 	Ngan hang MBBank </option>
 	                    <option value="ACB"> Ngan hang ACB </option>
 	                    <option value="OCB"> Ngan hang OCB </option>
-	                </select>
-	                
+	                </select> 
 	            </div>
 	            <button type="submit" class="btn btn-default  btn btn-outline-primary d-block w-100 mt-0">Pay on wallet</button>
 	       	  </form>  
