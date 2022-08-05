@@ -18856,18 +18856,18 @@ html:not([dir=rtl]) .range-slider-ui.noUi-horizontal .noUi-handle {
 .product-badge>i {
     margin-top: -0.125rem;
     margin-right: .25rem;
-    font-size: 1.2em;
+    font-size: 1.5em;
     vertical-align: middle
 }
 
 .product-badge.product-available {
-    background-color: #42d697;
+    background-color:  rgba(var(--bs-danger-rgb), var(--bs-bg-opacity));
     color: #fff
 }
 
 .product-badge.product-available::after {
     border-color: rgba(66, 214, 151, 0);
-    border-bottom-color: #29bc7d
+    border-bottom-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity));
 }
 
 .product-badge.product-not-available {

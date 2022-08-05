@@ -54,13 +54,7 @@ public class IndexController {
 	
 	@GetMapping("/shop")
 	public String shop(HttpServletRequest request) {
-		System.out.println(request.getSession().getAttribute("ngStorage-filter"));
 		return "shop";
-	}
-	
-	@GetMapping("/item")
-	public String shopDetail() {
-		return "item";
 	}
 	
 	@GetMapping("/order")
@@ -68,16 +62,7 @@ public class IndexController {
 		return "order";
 	}
 	
-	@GetMapping("/user")
-	public String user() {
-		return "user";
-	}
-	
-	@GetMapping("/compare")
-	public String compare() {
-		return "compare";
-	}
-	
+
 	@GetMapping("/login")
 	public String login() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
