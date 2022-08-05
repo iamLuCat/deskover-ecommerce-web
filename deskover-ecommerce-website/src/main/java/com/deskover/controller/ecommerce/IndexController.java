@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
-
+import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
 import com.deskover.service.ShopService;
 
@@ -38,10 +38,10 @@ public class IndexController {
 		model.addAttribute("list2", listItem2);
 		model.addAttribute("list3", listItem3);
 		
-//		FlashSaleDTO fs = shopService.getFlashSale();
+		FlashSaleDTO fs = shopService.getFlashSale();
 		List<BrandDTO> brands = shopService.getListBrand();
 		
-//		model.addAttribute("fs", fs);
+		model.addAttribute("fs", fs);
 		model.addAttribute("br", brands);
 		
 		return "index";
@@ -86,10 +86,5 @@ public class IndexController {
 		}
 		
 		return "redirect:/index";
-	}
-	
-	@GetMapping("/ok")
-	public String ok() {
-		return "ok";
 	}
 }

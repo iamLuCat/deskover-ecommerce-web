@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import com.deskover.model.entity.database.Brand;
 import com.deskover.model.entity.database.FlashSale;
 import com.deskover.model.entity.database.Product;
@@ -17,7 +18,7 @@ import com.deskover.model.entity.database.repository.FlashSaleRepository;
 import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
 import com.deskover.model.entity.dto.ecommerce.Filter;
-//import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
+import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
 import com.deskover.model.entity.dto.ecommerce.Shop;
@@ -105,15 +106,15 @@ public class ShopServiceImpl implements ShopService {
 		return items.toList().stream().map(product -> new Item(product)).collect(Collectors.toList());
 	}
 
-	/*
-	 * @Override public FlashSaleDTO getFlashSale() { FlashSale fs =
-	 * flashSaleRepo.findFirstByActived(true); List<Product> products =
-	 * productRepo.findByFlashSale(fs); FlashSaleDTO flashsale = new
-	 * FlashSaleDTO(fs); flashsale.setItems(products.stream().map(product -> new
-	 * Item(product)).collect(Collectors.toList()));
-	 * 
-	 * return new FlashSaleDTO(fs); }
-	 */
+	@Override
+	public FlashSaleDTO getFlashSale() {
+		FlashSale fs = flashSaleRepo.findFirstByActived(true);
+		List<Product> products = productRepo.findByFlashSale(fs);
+		FlashSaleDTO flashsale = new FlashSaleDTO(fs);
+		flashsale.setItems(products.stream().map(product -> new Item(product)).collect(Collectors.toList()));
+		
+		return new FlashSaleDTO(fs);
+	}
 
 	@Override
 	public List<BrandDTO> getListBrand() {

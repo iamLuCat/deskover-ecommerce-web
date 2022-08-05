@@ -1,9 +1,14 @@
 package com.deskover.service.impl;
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.List;
-
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.Subcategory;
+import com.deskover.model.entity.database.repository.SubcategoryRepository;
+import com.deskover.model.entity.database.repository.datatable.SubCategoryRepoForDatatables;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
+import com.deskover.service.CategoryService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -12,16 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.Subcategory;
-import com.deskover.model.entity.database.repository.SubcategoryRepository;
-import com.deskover.model.entity.database.repository.datatable.SubCategoryRepoForDatatables;
-import com.deskover.other.constant.PathConstant;
-import com.deskover.other.util.FileUtil;
-import com.deskover.other.util.UrlUtil;
-import com.deskover.service.CategoryService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService {
@@ -110,9 +108,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             }
         }
         subcategory.setActived(true);
-        subcategory.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        subcategory.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-        return repo.save(subcategory);
+        return this.update(subcategory);
     }
 
     @Override
@@ -129,10 +125,9 @@ public class SubcategoryServiceImpl implements SubcategoryService {
             String destPath = PathConstant.SUBCATEGORY_IMAGE_STATIC + subcategory.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
             subcategory.setImg(imageFile.getName());
-//            subcategory.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.SUBCATEGORY_IMAGE));
         }
-
         FileUtil.removeFolder(PathConstant.TEMP_STATIC);
+
         return repo.save(subcategory);
     }
 

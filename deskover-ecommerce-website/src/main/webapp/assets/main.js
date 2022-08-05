@@ -1,4 +1,3 @@
-// VNpay Post data
 $("#frmCreateOrder").submit(function () {
     var postData = $("#frmCreateOrder").serialize();
     var submitUrl = $("#frmCreateOrder").attr("action");
@@ -22,4 +21,3 @@ $("#frmCreateOrder").submit(function () {
     });
     return false;
 });
-

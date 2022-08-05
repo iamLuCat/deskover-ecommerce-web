@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
         throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 
     }
-    
+
     @Override
     @Transactional
     public Product create(Product product, Boolean isCopy) {
@@ -95,7 +95,6 @@ public class ProductServiceImpl implements ProductService {
             String destPath = PathConstant.PRODUCT_IMAGE_STATIC + product.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
             product.setImg(imageFile.getName());
-//            product.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.PRODUCT_IMAGE));
         }
         Product savedProduct = repo.save(product);
 
@@ -114,7 +113,6 @@ public class ProductServiceImpl implements ProductService {
                             + "-thumbnail-" + index;
                     File imageFileThumbnail = FileUtil.copyFile(sourcePathThumbnail, destPathThumbnail);
                     thumbnail.setThumbnail(imageFileThumbnail.getName());
-//                    thumbnail.setThumbnailUrl(UrlUtil.getImageUrl(imageFileThumbnail.getName(), PathConstant.PRODUCT_IMAGE));
                 }
                 thumbnailRepository.save(thumbnail);
             }
@@ -282,13 +280,12 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("Không tìm thấy sản phẩm");
         }
         subcategoryService.changeActive(product.getSubCategory().getId());
-
     }
 
     @Override
     public Page<Product> getProductByCreateAtDesc(Boolean active, Optional<Integer> page, Optional<Integer> size) {
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8));
-        Page<Product> products = repo.findByActivedAndQuantityGreaterThanOrderByModifiedAtDesc(active, (long) 0, pageable);
+        Page<Product> products = repo.findByActivedAndAndDiscountAndQuantityGreaterThanOrderByModifiedAtDesc(active, null, (long) 0, pageable);
         if (products == null) {
             throw new IllegalArgumentException("Không tìm thấy sản phẩm");
         }
@@ -333,7 +330,5 @@ public class ProductServiceImpl implements ProductService {
         }
         return products;
     }
-
-
 
 }

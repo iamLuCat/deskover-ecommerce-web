@@ -10,8 +10,7 @@ import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {HttpParams} from "@angular/common/http";
 import {Category} from "@/entites/category";
-import {Subcategory} from "@/entites/subcategory";
-import { CategoryService } from '@services/category.service';
+import {CategoryService} from '@services/category.service';
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 
@@ -43,8 +42,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
 
   bsConfig?: Partial<BsDatepickerConfig>;
   discountDateRange: Date[] = [new Date(), new Date()];
-  discountStartTime: Date = new Date();
-  discountEndTime: Date = new Date();
+  bsInlineRangeValue: Date[] = [new Date(), new Date()];
 
   @ViewChild('discountModal') discountModal: ModalDirective;
   @ViewChild('productDiscountModal') productDiscountModal: ModalDirective;
@@ -60,12 +58,13 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
     // Config datepicker ngx-bootstrap
     this.bsConfig = Object.assign({}, {
       containerClass: 'theme-dark-blue',
-      withTimepicker: false,
+      withTimepicker: true,
+      adaptivePosition: false,
+      isAnimated: true,
       locale: 'vi',
-      rangeInputFormat: 'DD/MM/YYYY',
-      dateInputFormat: 'DD/MM/YYYY',
-      adaptivePosition: true,
-      minDate: new Date(),
+      rangeInputFormat: 'DD/MM/YYYY, hh:mm:ss A',
+      dateInputFormat: 'DD/MM/YYYY, hh:mm:ss A',
+      minDate: new Date()
     });
 
     this.getCategories();
@@ -81,7 +80,6 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
       responsive: false,
-      lengthMenu: [5, 10, 25, 50, 100],
       serverSide: true,
       processing: true,
       stateSave: true, // sau khi refresh sẽ giữ lại dữ liệu đã filter, sort và paginate
@@ -109,7 +107,6 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [10, 25, 50, 100],
       serverSide: true,
       processing: true,
       columnDefs: [{
@@ -193,50 +190,43 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
 
   newDiscount() {
     this.discountForm.control.reset();
+    this.discount = <Discount>{};
+    this.discountDateRange = [new Date(), new Date()];
 
     this.isEdit = false;
-    this.discount = <Discount>{};
-
-    this.discountDateRange = [new Date(), new Date()];
-    this.discountStartTime = new Date();
-    this.discountEndTime = new Date();
-
     this.discountModal.show();
   }
 
-  getDiscount(discountId: number) {
-    this.discountService.getById(discountId).subscribe(data => {
-      this.discount = data;
-      this.discountDateRange = [new Date(this.discount.startDate), new Date(this.discount.endDate)];
-      this.discountStartTime = new Date(this.discount.startDate);
-      this.discountEndTime = new Date(this.discount.endDate);
-    });
+  getDiscount(discount: Discount) {
+    this.discount = discount;
+    this.discountDateRange = [new Date(this.discount.startDate), new Date(this.discount.endDate)];
   }
 
-  editDiscount(discountId: number) {
+  editDiscount(discount: Discount) {
     this.isEdit = true;
-    this.getDiscount(discountId);
+    this.getDiscount(discount);
     this.discountModal.show();
   }
 
   saveDiscount(discount: Discount) {
-    this.discount.startDate = this.discountDateRange[0].setTime(this.discountStartTime.getTime());
-    this.discount.endDate = this.discountDateRange[1].setTime(this.discountEndTime.getTime());
+    discount.startDate = this.discountDateRange[0];
+    discount.endDate = this.discountDateRange[1];
+
     if (this.isEdit) {
       this.discountService.update(discount).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
-      }, error => {
-        NotiflixUtils.failureNotify(error);
+
+        this.discountModal.hide();
+        this.rerenderDiscountTable();
       });
     } else {
       this.discountService.create(discount).subscribe(data => {
         NotiflixUtils.successNotify('Thêm mới thành công');
-      }, error => {
-        NotiflixUtils.failureNotify(error);
+
+        this.discountModal.hide();
+        this.rerenderDiscountTable();
       });
     }
-    this.rerenderDiscountTable();
-    this.discountModal.hide();
   }
 
   deleteDiscount(discount: Discount) {
@@ -249,18 +239,14 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
   }
 
   activeDiscount(discount: Discount) {
-    // if (this.isExpired(discount.endDate)) {
-    //   NotiflixUtils.failureNotify('Khuyến mãi đã hết hạn');
-    //   return;
-    // }
     this.discountService.changeActive(discount.id).subscribe(data => {
       NotiflixUtils.successNotify('Kích hoạt khuyến mãi thành công');
       this.rerenderDiscountTable();
     });
   }
 
-  isExpired(endDate: number): boolean {
-    return new Date() > new Date(endDate);
+  isExpired(endDate: Date): boolean {
+    return new Date() > endDate;
   }
 
   /* Product */
@@ -268,8 +254,8 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
     $('.product-table').DataTable().ajax.reload(null, false);
   }
 
-  getProduct(discountId: number) {
-    this.getDiscount(discountId);
+  editProduct(discount: Discount) {
+    this.getDiscount(discount);
     this.productDiscountModal.show();
   }
 

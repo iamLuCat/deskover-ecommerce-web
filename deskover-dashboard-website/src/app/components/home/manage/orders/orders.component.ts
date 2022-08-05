@@ -6,7 +6,6 @@ import {DataTableDirective} from "angular-datatables";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {environment} from "../../../../../environments/environment";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
-import {Loading} from "notiflix";
 
 @Component({
   selector: 'app-orders',
@@ -104,7 +103,7 @@ export class OrdersComponent implements OnInit {
       }
       return 'bg-secondary';
     } else {
-      return 'bg-info';
+      return 'bg-primary';
     }
   }
 
@@ -116,7 +115,7 @@ export class OrdersComponent implements OnInit {
     } else if (paymentCode === 'C-HT') {
       return 'text-warning';
     } else if (paymentCode === 'D-HT') {
-      return 'text-info';
+      return 'text-primary';
     }
   }
 
@@ -125,7 +124,7 @@ export class OrdersComponent implements OnInit {
   }
 
   getOrder(order: Order) {
-    this.order = order;
+    this.order = Object.assign({}, order);
     this.openModal(this.orderDetailModal);
   }
 
@@ -134,11 +133,11 @@ export class OrdersComponent implements OnInit {
   }
 
   isPendingOrder(order: Order) {
-      return order.orderStatus.code === 'C-XN';
+      return order.orderStatus?.code === 'C-XN';
   }
 
   isUnpaidOrder(order: Order) {
-      return order.statusPayment.code === 'C-TT' && order.orderStatus.code === 'HUY';
+      return order.statusPayment?.code === 'C-TT' && order.orderStatus?.code === 'HUY';
   }
 
   changeOrderStatus(order: Order, message: string) {
@@ -186,7 +185,6 @@ export class OrdersComponent implements OnInit {
         next: (data) => {
           NotiflixUtils.removeLoading();
           NotiflixUtils.successNotify("Hủy đơn hàng thành công");
-          this.orderStatusCode = 'HUY';
           this.rerender();
         },
         error: () => {

@@ -57,6 +57,9 @@ public class ProductApi {
 			@RequestParam("size") Optional<Integer> size) {
 		try {
 			Page<Product> category = productService.doGetProductSale(page, size);
+			if(category == null) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
 			return ResponseEntity.ok(category);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);

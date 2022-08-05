@@ -75,7 +75,7 @@
                 {{ order.fullName }}
               </td>
               <td class="align-middle">
-                {{ order.orderDetail.address }}
+                {{ order.orderDetail?.address }}
               </td>
               <td class="align-middle text-center">
                 {{ order.unitPrice | number:'1.0-0' }}₫
@@ -85,17 +85,17 @@
               </td>
               <td class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
                 <span class="badge text-dark bg-opacity-25"
-                      [ngClass]="getClassesByOrder(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
+                      [ngClass]="getClassesByOrder(order.orderStatus?.code)">{{ order.orderStatus?.status }}</span>
               </td>
               <td class="align-middle">
                 <span
-                  [ngClass]="getClassesByPayment(order.statusPayment.code)">{{ order.statusPayment.status }}</span>
+                  [ngClass]="getClassesByPayment(order.statusPayment?.code)">{{ order.statusPayment?.status }}</span>
               </td>
               <td class="align-middle text-end">
                 <button type="button" class="btn btn-sm btn-warning me-1" placement="top" tooltip="Xác nhận hoàn tiền"
                         container="body" (click)="refundOrder(order)"
                         *ngIf="orderStatusCode !== null && isUnpaidOrder(order)">
-                  <i class="fa-solid fa-money-bill-transfer"></i>
+                  <i class="fa-solid fa-hand-holding-dollar"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
                         container="body" (click)="confirmOrder(order)"
@@ -107,7 +107,7 @@
                         *ngIf="orderStatusCode !== null && isPendingOrder(order)">
                   <i class="fa-solid fa-circle-xmark"></i>
                 </button>
-                <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Chi tiết đơn hàng"
+                <button type="button" class="btn btn-sm btn-primary me-1" placement="top" tooltip="Chi tiết đơn hàng"
                         container="body" (click)="getOrder(order)">
                   <i class="fa-solid fa-circle-info"></i>
                 </button>
@@ -143,17 +143,17 @@
         <form #orderForm="ngForm">
           <div class="form-floating mb-3">
             <input type="text" class="form-control border-0" id="address" placeholder="example" readonly
-                   [value]="order.orderDetail.address">
+                   [value]="order.orderDetail?.address">
             <label [for]="'address'">Địa chỉ giao hàng</label>
           </div>
           <div class="form-floating mb-3">
             <input type="text" class="form-control border-0" id="payment" placeholder="example" readonly
-                   [value]="order.payment.name_payment">
+                   [value]="order.payment?.name_payment">
             <label [for]="'payment'">Phương thức thanh toán</label>
           </div>
           <div class="form-floating mb-3">
             <input type="text" class="form-control border-0" id="shipping" placeholder="example" readonly
-                   [value]="order.shipping.name_shipping">
+                   [value]="order.shipping?.name_shipping">
             <label [for]="'shipping'">Đơn vị vận chuyển</label>
           </div>
           <div class="form-floating mb-3">
@@ -182,7 +182,7 @@
               </div>
               <div class="col-12 col-md-4">
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control border-0" id="tel" [value]="order.orderDetail.tel"
+                  <input type="text" class="form-control border-0" id="tel" [value]="order.orderDetail?.tel"
                          placeholder="example" readonly>
                   <label [for]="'tel'">Số điện thoại</label>
                 </div>
@@ -213,14 +213,14 @@
               <tr *ngFor="let productItem of order.products; let i = index">
                 <td class="align-middle">
                   <a href="javascript:void(0)" class="link-primary text-decoration-none"
-                     target="_blank" (click)="openProductPage(productItem.product.slug)">
-                    {{ productItem.product.name }}
+                     target="_blank" (click)="openProductPage(productItem.product?.slug)">
+                    {{ productItem.product?.name }}
                   </a>
                 </td>
-                <td class="align-middle text-center">{{ productItem.product.price | number:'1.0-0' }}₫</td>
+                <td class="align-middle text-center">{{ productItem.product?.price | number:'1.0-0' }}₫</td>
                 <td class="align-middle text-center">{{ productItem.quantity }}</td>
                 <td class="align-middle text-center">
-                  {{ productItem.product.price * productItem.quantity | number:'1.0-0' }}₫
+                  {{ productItem.product?.price * productItem.quantity | number:'1.0-0' }}₫
                 </td>
               </tr>
               </tbody>
@@ -240,8 +240,8 @@
     <button type="button" class="btn btn-sm btn-success" (click)="confirmOrder(order)">
       Xác nhận đơn
     </button>
-    <!--<button type="button" class="btn btn-sm btn-danger" (click)="cancelOrder(order)">
+    <button type="button" class="btn btn-sm btn-danger" (click)="cancelOrder(order)">
       Huỷ đơn
-    </button>-->
+    </button>
   </div>
 </ng-template>

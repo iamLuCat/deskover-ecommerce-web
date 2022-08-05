@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,8 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
-//import com.deskover.configuration.security.handler.ecommerce.SuccessHandler;
 import com.deskover.other.util.JwtTokenUtil;
 import com.deskover.service.filter.jwt.JwtApplicationFilter;
 import com.deskover.service.filter.jwt.JwtDashboardFilter;
@@ -153,11 +152,6 @@ public class Config extends WebSecurityConfigurerAdapter {
 		public UsersDetailsService UsersDetailsService() {
 			return new UsersDetailsService();
 		}
-		
-//		@Bean
-//		public SuccessHandler SuccessHandler() {
-//			return new SuccessHandler();
-//		}
 		
 		@Autowired
 		public UsersDetailsService usersDetailsService;

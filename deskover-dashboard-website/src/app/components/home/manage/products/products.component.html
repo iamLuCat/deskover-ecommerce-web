@@ -60,7 +60,7 @@
       </div>
       <div class="card-body p-0">
         <div class="table-responsive p-3">
-          <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm w-100">
+          <table datatable [dtOptions]="dtOptions" class="table table-hover table-borderless table-sm nowrap w-100">
             <thead class="table-primary">
             <tr>
               <th class="align-middle">Ảnh</th>
@@ -101,11 +101,11 @@
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm btn-success me-1" placement="top"
-                          tooltip="Sao chép & Tạo mới" (click)="copyProduct(product.id)">
+                          tooltip="Sao chép & Tạo mới" (click)="copyProduct(product)">
                     <i class="fa-solid fa-copy"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                          (click)="editProduct(product.id)">
+                          (click)="updateProduct(product)">
                     <i class="fas fa-pen-square"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-danger" (click)="deleteProduct(product)" placement="top"

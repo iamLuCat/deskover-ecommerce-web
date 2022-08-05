@@ -82,7 +82,7 @@
                 {{ subcategory.description }}
               </td>
               <td class="align-middle">
-                {{ subcategory.category.name }}
+                {{ subcategory.category?.name }}
               </td>
               <td class="align-middle text-center">
                 {{ subcategory.modifiedAt | date: 'dd/MM/yyyy' }}
@@ -90,7 +90,7 @@
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                          (click)="getSubcategory(subcategory.id)">
+                          (click)="editSubcategory(subcategory)">
                     <i class="fas fa-pen-square"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-danger" (click)="deleteSubcategory(subcategory)"
@@ -118,8 +118,9 @@
   </div>
 </section>
 <!-- Modal - Start -->
-<div bsModal [config]="{backdrop: 'static'}" #subcategoryModal="bs-modal" class="modal fade" tabindex="-1" data-bs-focus="false">
-     role="dialog" aria-labelledby="subcategory-dialog-sizes">
+<div bsModal [config]="{backdrop: 'static'}" #subcategoryModal="bs-modal" class="modal fade" tabindex="-1"
+     data-bs-focus="false">
+  role="dialog" aria-labelledby="subcategory-dialog-sizes">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content">
       <div class="modal-header">
@@ -164,9 +165,9 @@
           </div>
           <div class="mb-3">
             <label class="form-label" [for]="'category'">Danh mục cha</label>
-            <select id="category" class="custom-select" name="category" [(ngModel)]="subcategory.category" [compareWith]="compareFn"
-                    #category="ngModel" required>
-              <option value="">-- Chọn danh mục cha --</option>
+            <select id="category" class="custom-select" name="category" [(ngModel)]="subcategory.category"
+                    [compareWith]="compareFn" #category="ngModel" required>
+              <option [ngValue]="null">-- Chọn danh mục cha --</option>
               <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
             </select>
             <div class="invalid-feedback" *ngIf="category.invalid && (category.dirty || category.touched)">
@@ -183,7 +184,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" [disabled]="subcategoryForm.invalid"
-                (click)="saveSubcategory(subcategory);">Lưu</button>
+                (click)="saveSubcategory(subcategory);">Lưu
+        </button>
       </div>
     </div>
   </div>

@@ -49,7 +49,6 @@ export class SubcategoriesComponent implements OnInit {
       language: {
         url: "//cdn.datatables.net/plug-ins/1.12.0/i18n/vi.json"
       },
-      lengthMenu: [5, 10, 25, 50, 100],
       responsive: true,
       serverSide: true,
       processing: true,
@@ -96,18 +95,17 @@ export class SubcategoriesComponent implements OnInit {
 
   newSubcategory() {
     this.subcategoryForm.control.reset();
+    this.subcategory.category = null;
     this.subcategoryImgPreview = 'assets/images/no-image.png';
     this.isEdit = false;
     this.openModal(this.subcategoryModal);
   }
 
-  getSubcategory(id: number) {
-    this.subcategoryService.getOne(id).subscribe(data => {
-      this.subcategory = data;
-      this.subcategoryImgPreview = this.getSrc(this.subcategory.img);
-      this.isEdit = true;
-      this.openModal(this.subcategoryModal);
-    });
+  editSubcategory(subcategory: Subcategory) {
+    this.subcategory = Object.assign({}, subcategory);
+    this.subcategoryImgPreview = this.getSrc(this.subcategory.img);
+    this.isEdit = true;
+    this.openModal(this.subcategoryModal);
   }
 
   saveSubcategory(subcategory: Subcategory) {

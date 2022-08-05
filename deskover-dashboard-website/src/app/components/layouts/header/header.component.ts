@@ -2,12 +2,11 @@ import {AppState} from '@/store/state';
 import {ToggleControlSidebar, ToggleSidebarMenu} from '@/store/ui/actions';
 import {UiState} from '@/store/ui/state';
 import {Component, HostBinding, OnInit} from '@angular/core';
-import {FormGroup, FormControl} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {AuthService} from "@services/auth.service";
-import {Admin} from "@/entites/admin";
-import {NotiflixUtils} from "@/utils/notiflix-utils";
+import {User} from "@/entites/user";
 
 const BASE_CLASSES = 'main-header navbar navbar-expand';
 @Component({
@@ -19,7 +18,7 @@ export class HeaderComponent implements OnInit {
     @HostBinding('class') classes: string = BASE_CLASSES;
     public ui: Observable<UiState>;
     public searchForm: FormGroup;
-    public user: Admin;
+    public user: User;
 
     constructor(
         private authService: AuthService,
@@ -34,22 +33,11 @@ export class HeaderComponent implements OnInit {
         this.searchForm = new FormGroup({
             search: new FormControl(null)
         });
-        this.getProfile();
+        this.user = this.authService.user;
     }
 
     logout() {
         this.authService.logout();
-    }
-
-    getProfile() {
-        this.authService.getProfile().subscribe({
-            next: (data) => {
-                this.user = data;
-            },
-            error: (err) => {
-                this.logout();
-            }
-        });
     }
 
     onToggleMenuSidebar() {

@@ -126,7 +126,6 @@ public class CategoryServiceImpl implements CategoryService {
             String destPath = PathConstant.CATEGORY_IMAGE_STATIC + category.getSlug();
             File imageFile = FileUtil.copyFile(sourcePath, destPath);
             category.setImg(imageFile.getName());
-//            category.setImgUrl(UrlUtil.getImageUrl(imageFile.getName(), PathConstant.CATEGORY_IMAGE));
         }
         FileUtil.removeFolder(PathConstant.TEMP_STATIC);
 

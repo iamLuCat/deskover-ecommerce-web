@@ -1,7 +1,6 @@
 package com.deskover.service.impl;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -11,13 +10,17 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.deskover.model.entity.database.UserPassword;
 import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.database.repository.datatable.UserRepoForDatatables;
 import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.model.entity.dto.UploadFile;
 import com.deskover.model.entity.dto.UserCreateDto;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.OrderNumberUtil;
+import com.deskover.service.UploadFileService;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
 
@@ -26,13 +29,18 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 	
 	@Autowired
-	UserRepository repo;
+	private UserRepository repo;
 	
 	@Autowired
-	UserRepoForDatatables repoForDatatables;
+	private UserRepoForDatatables repoForDatatables;
 	
 	@Autowired
-	UserPasswordService userPasswordService;
+	private UserPasswordService userPasswordService;
+	
+	@Autowired
+	private UploadFileService uploadFileService;
+	
+	@Autowired OrderNumberUtil number;
 
 	@Override
 	@Transactional
@@ -104,18 +112,19 @@ public class UserServiceImpl implements UserService {
 			createUser.setUsername(userRequest.getUsername());
 			createUser.setFullname(userRequest.getFullname());
 			createUser.setEmail(userRequest.getUsername());
-			createUser.setPhone("0000000000");
+			createUser.setPhone(Integer.toString(number.gernerateNumber()) );
 			createUser.setAvatar(null);
 			createUser.setLastLogin(null);
 			createUser.setActived(Boolean.FALSE);
 			createUser.setVerify(Boolean.FALSE);
 			createUser.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			createUser.setModifiedBy("haipv");
-			UserPassword us = new UserPassword();
-			us.setPassword(bcrypt.encode(userRequest.getConfirmPassword()) );
-			us.setUser(createUser);
-			createUser.setUserPassword(us);
+			createUser.setModifiedBy(null);
+			
 			Users createdUser = repo.save(createUser);
+			userPasswordService.create(createdUser, userRequest.getConfirmPassword());
+			
+			
+				
 			return createdUser;
 		}
 	}
@@ -125,6 +134,18 @@ public class UserServiceImpl implements UserService {
 		userPasswordService.updatePassword(SecurityContextHolder.getContextHolderStrategy().getContext().getAuthentication().getName(), userRequest);
 	}
 
+	@Override
+	public Users uploadFile(MultipartFile file) {
+		 UploadFile uploadFile = uploadFileService.uploadFileToFolder(file, PathConstant.IMAGE_USER);
+		 Users users = this.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		 users.setAvatar(uploadFile.getFilename());
+		 return  repo.saveAndFlush(users);
+	}
 
+	@Override
+	@Transactional
+	public Users update(Users user) {
+		return repo.saveAndFlush(user);
+	}
 
 }

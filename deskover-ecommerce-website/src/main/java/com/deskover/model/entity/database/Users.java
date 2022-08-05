@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,9 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import com.deskover.Notification;
+
 import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,7 +52,7 @@ public class Users implements Serializable {
 
     @Column(name = "avatar", length = 128)
     private String avatar;
-    
+
     @Column(name = "modified_at", nullable = false)
     @CreationTimestamp
     private Timestamp modifiedAt;
@@ -70,10 +71,6 @@ public class Users implements Serializable {
     private Set<UserAddress> contacts = new LinkedHashSet<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
-    private UserPassword userPassword = new UserPassword();
-    
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new LinkedHashSet<>();
 
@@ -84,6 +81,7 @@ public class Users implements Serializable {
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Notification> notifications = new LinkedHashSet<>();
 

@@ -8,6 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -47,6 +50,7 @@ public class Order implements Serializable {
     private String email;
 
     @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
 
     @Column(name = "modified_by", length = 50)

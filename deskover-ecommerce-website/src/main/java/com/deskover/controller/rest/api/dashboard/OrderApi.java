@@ -127,7 +127,7 @@ public class OrderApi {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
+	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
 	@GetMapping("/orders-7days")
 	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
 			try {
@@ -138,7 +138,7 @@ public class OrderApi {
 			}
     } 
 	
-	@PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
+	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
 	@GetMapping("/orders-total-per-month")
 	public ResponseEntity<?> doGetPrice() {
 		try {
@@ -189,6 +189,7 @@ public class OrderApi {
 			orderService.cancelOrder(order);
 			return ResponseEntity.ok(new MessageResponse("Hủy đơn hàng thành công"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
 		}
 	}

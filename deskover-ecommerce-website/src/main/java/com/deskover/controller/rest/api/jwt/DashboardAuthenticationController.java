@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,7 +53,10 @@ public class DashboardAuthenticationController {
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
 		Administrator adminProfile = adminService.getPrincipal(userDetails.getUsername());
-		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthorities()));
+		adminService.updateLastLogin(userDetails.getUsername());
+
+		/*return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthorities()));*/
+		return ResponseEntity.ok(new JwtResponse(token, adminProfile.getFullname(),adminProfile.getAvatar(),adminProfile.getAuthority()));
 	}
 	
 		
@@ -62,6 +66,7 @@ public class DashboardAuthenticationController {
 	
 	@GetMapping("/get-principal")
     public ResponseEntity<?> getProfile() {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication());
 		return ResponseEntity.ok(adminService.getPrincipal());
     }
 }
