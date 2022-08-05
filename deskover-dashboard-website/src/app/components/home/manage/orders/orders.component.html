@@ -27,7 +27,7 @@
             <select id="filter-category" class="form-select" [(ngModel)]="orderStatusCode" (change)="rerender()">
               <option [ngValue]="null">-- Tất cả --</option>
               <option *ngFor="let orderStatus of orderStatuses"
-                      [ngValue]="orderStatus.code">{{orderStatus.status}}</option>
+                      [ngValue]="orderStatus?.code">{{orderStatus.status}}</option>
             </select>
           </div>
           <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
@@ -75,7 +75,7 @@
                 {{ order.fullName }}
               </td>
               <td class="align-middle">
-                {{ order.orderDetail.address }}
+                {{ order.orderDetail?.address }}
               </td>
               <td class="align-middle text-center">
                 {{ order.unitPrice | number:'1.0-0' }}₫
@@ -85,11 +85,11 @@
               </td>
               <td class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
                 <span class="badge text-dark bg-opacity-25"
-                      [ngClass]="getClassesByOrder(order.orderStatus.code)">{{ order.orderStatus.status }}</span>
+                      [ngClass]="getClassesByOrder(order.orderStatus?.code)">{{ order.orderStatus?.status }}</span>
               </td>
               <td class="align-middle">
                 <span
-                  [ngClass]="getClassesByPayment(order.statusPayment.code)">{{ order.statusPayment.status }}</span>
+                  [ngClass]="getClassesByPayment(order.statusPayment?.code)">{{ order.statusPayment?.status }}</span>
               </td>
               <td class="align-middle text-end">
                 <button type="button" class="btn btn-sm btn-warning me-1" placement="top" tooltip="Xác nhận hoàn tiền"
@@ -130,7 +130,7 @@
     <h4 id="order-detail-dialog" class="modal-title pull-left text-uppercase text-primary fw-bold">
       {{ order.orderCode }}
       <span class="badge ms-1"
-            [ngClass]="getClassesByOrder(order.orderStatus.code)">{{order.orderStatus.status}}</span>
+            [ngClass]="getClassesByOrder(order.orderStatus?.code)">{{order.orderStatus?.status}}</span>
     </h4>
     <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>

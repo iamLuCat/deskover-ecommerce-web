@@ -133,11 +133,11 @@ export class OrdersComponent implements OnInit {
   }
 
   isPendingOrder(order: Order) {
-      return order.orderStatus.code === 'C-XN';
+      return order.orderStatus?.code === 'C-XN';
   }
 
   isUnpaidOrder(order: Order) {
-      return order.statusPayment.code === 'C-TT' && order.orderStatus.code === 'HUY';
+    return order.statusPayment?.code === 'C-TT' && order.orderStatus?.code === 'HUY';
   }
 
   changeOrderStatus(order: Order, message: string) {
