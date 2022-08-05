@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.database.OrderDetail;
 import com.deskover.model.entity.database.OrderItem;
@@ -37,7 +34,6 @@ import com.deskover.model.entity.database.repository.ShippingRepository;
 import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.dto.ProductDto;
 import com.deskover.other.util.OrderNumberUtil;
-import com.deskover.service.PngService;
 import com.deskover.service.SessionService;
 import com.deskover.service.ShopService;
 
@@ -128,14 +124,5 @@ public class CheckoutController {
 		return "ok";
 	}
 	
-	@Autowired PngService pngservice;
-	
-	@RequestMapping("/test")
-	@ResponseBody
-	public String test(Model model) {
-		pngservice.png();
-
-		return "ok";
-	}
 	
 }
