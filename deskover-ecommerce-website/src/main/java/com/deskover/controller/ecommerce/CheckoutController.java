@@ -52,7 +52,7 @@ public class CheckoutController {
 	@Autowired OrderStatusRepository statusRepo;
 	@Autowired OrderNumberUtil orderCode;
 	@Autowired SessionService sessionService;
-	
+
 	@GetMapping("checkout")
 	public String checkout(Model model) {
 		return "checkout";
