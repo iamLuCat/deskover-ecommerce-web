@@ -123,6 +123,8 @@ public class GHTKServiceImpl implements GHTKService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Token", token);
+		fee.setPick_province("TP. Hồ Chí Minh");
+		fee.setPick_district("Quận 3");
 		HttpEntity<FeeGhtk> request = new HttpEntity<>(fee, headers);
 		FeeResponseData response = restTemplate.postForObject(UrlConstant.GHTK_FEE, request, FeeResponseData.class);
 		return response;	

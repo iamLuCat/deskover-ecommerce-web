@@ -44,7 +44,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			@Param("year") String year);
 	
 	//Query nornal
-	List<Order> findByOrderStatusCode(String code);
+	List<Order> findByOrderStatusCode(String statusCode);
+	
+	List<Order> findByOrderStatusCodeAndUserUsernameOrderByCreatedAtDesc(String statusCode, String username);
+	
+	List<Order> findByUserUsernameOrderByCreatedAtDesc(String username);
 	
 	List<Order> findByShippingShippingId(String shippingId);
 	
@@ -53,6 +57,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Order> findByModifiedBy(String modifiedBy);
 	
 	Order findByOrderCodeAndOrderStatusCode( String orderCode,  String status);
+	
+	Order findByOrderCodeAndUserUsername(String orderCode,  String username);
 	
 	Order findByOrderCode( String orderCode);
 	

@@ -6,4 +6,5 @@ import com.deskover.model.entity.database.PaymentMethods;
 
 public interface PaymentRepository extends JpaRepository<PaymentMethods, Long> {
 
+
 }

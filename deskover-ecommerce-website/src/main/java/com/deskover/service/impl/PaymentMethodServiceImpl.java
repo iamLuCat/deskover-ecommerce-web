@@ -23,4 +23,6 @@ public class PaymentMethodServiceImpl implements PaymentService {
 	public PaymentMethods findById(Long id) {
 		return paymentRepository.getById(id);
 	}
+
+
 }

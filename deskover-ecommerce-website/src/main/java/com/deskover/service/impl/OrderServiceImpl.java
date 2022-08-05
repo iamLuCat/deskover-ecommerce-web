@@ -331,7 +331,7 @@ public class OrderServiceImpl implements OrderService {
 		
 //          Gửi thông báo cho khách hàng
 			Notification notify = new Notification();
-				notify.setTitle("Đơn hàng " + order.getOrderCode() + status.getStatus());
+				notify.setTitle("Đơn hàng " + order.getOrderCode() + status.getStatus().toLowerCase());
 				notify.setUser(order.getUser());
 				notify.setOrderCode(order.getOrderCode());
 				notify.setIsWatched(Boolean.FALSE);
@@ -431,6 +431,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setUser(user);
 		order.setFullName(user.getFullname());
 		order.setOrderStatus(orderStatusRepo.findByCode("C-XN"));
+		order.setStatusPayment(statusPaymentService.findByCode("C-TT"));
 		order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		for (Cart cart : cartItem) {
 			order.setUnitPrice(order.getUnitPrice() + (cart.getProduct().getPrice() * cart.getQuantity()));
@@ -452,7 +453,11 @@ public class OrderServiceImpl implements OrderService {
 			productRepo.save(product);
 			orderItemRepo.saveAndFlush(item);
 		});
+		
 		UserAddress address = addressService.findByUsernameAndChoose(Boolean.TRUE);
+		orderNew.setFullName(address.getFullname());
+		repo.saveAndFlush(order);
+		
 		OrderDetail orderDetail = mapper.map(address, OrderDetail.class);
 		orderDetail.setId(null);
 		orderDetail.setOrder(orderNew);
@@ -544,5 +549,22 @@ public class OrderServiceImpl implements OrderService {
 			repo.saveAndFlush(order);
 		}
 	}
+
+	@Override
+	public Order finByOrderCodeAndUsername(String orderCode) {
+		return repo.findByOrderCodeAndUserUsername(orderCode, SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+
+	@Override
+	public List<Order> findByStatusCode(String statusCode) {
+		return repo.findByOrderStatusCodeAndUserUsernameOrderByCreatedAtDesc(statusCode,SecurityContextHolder.getContext().getAuthentication().getName() );
+	}
+
+	@Override
+	public List<Order> getAllByUser() {
+		return repo.findByUserUsernameOrderByCreatedAtDesc(SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+
+
 
 }
