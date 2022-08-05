@@ -125,7 +125,7 @@
               <div class="widget mb-3">
                 <h2 class="widget-title text-center">Order summary</h2>
                 <div class="widget-cart-item pb-2 border-bottom" ng-repeat="item in cart.items">
-	                <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img ng-src="{{item.imgUrl}}" width="64" alt="Product"></a>
+	                <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img ng-src="/img/shop/products/{{item.imgUrl}}" width="64" alt="Product"></a>
 	                  <div class="ps-2">
 	                    <h6 class="widget-product-title"><a href="shop-single-v1.html">{{item.name}}</a></h6>
 	                    <div class="widget-product-meta"><span class="text-accent me-2">{{item.price|number}} <small>VND</small></span><span class="text-muted">x{{item.amount}}</span></div>

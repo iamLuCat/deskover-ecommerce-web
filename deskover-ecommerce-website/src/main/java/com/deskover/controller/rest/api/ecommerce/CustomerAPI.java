@@ -1,5 +1,6 @@
 package com.deskover.controller.rest.api.ecommerce;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.deskover.model.entity.database.Brand;
 import com.deskover.model.entity.database.Category;
+import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
 import com.deskover.model.entity.dto.ecommerce.CategoryDTO;
 import com.deskover.model.entity.dto.ecommerce.Filter;
+import com.deskover.model.entity.dto.ecommerce.FormReview;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
+import com.deskover.model.entity.dto.ecommerce.Reviewer;
 import com.deskover.model.entity.dto.ecommerce.Shop;
 import com.deskover.service.BrandService;
 import com.deskover.service.CategoryService;
+import com.deskover.service.RatingService;
 import com.deskover.service.ShopService;
+import com.deskover.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/ecommerce/")
@@ -34,6 +40,12 @@ public class CustomerAPI {
 	
 	@Autowired
 	private ShopService shopService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private RatingService ratingService;
 	
 	@GetMapping("category/all")
 	public List<CategoryDTO> getAllCategory(){
@@ -65,6 +77,23 @@ public class CustomerAPI {
 	@GetMapping("product/item")
 	public ProductDTO search(@RequestParam String s){
 		return shopService.getProduct(s);
+	}
+	
+	@GetMapping("product/review")
+	public Reviewer getReviewer(@RequestParam Integer c, @RequestParam String s){
+		return shopService.getReviewer(s, c);
+	}
+	
+	@PostMapping("product/review")
+	public void postReviewer(@RequestBody FormReview f, Principal principal){
+		
+		try {
+			Users user = userService.findByUsername(principal.getName());
+			f.setName(user.getFullname());
+			f.setEmail(user.getEmail());
+		} catch (Exception e) {}
+		
+		ratingService.postReview(f);
 	}
 	
 }

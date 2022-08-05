@@ -13,14 +13,17 @@ import org.springframework.stereotype.Service;
 import com.deskover.model.entity.database.Brand;
 import com.deskover.model.entity.database.FlashSale;
 import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.Rating;
 import com.deskover.model.entity.database.repository.BrandRepository;
 import com.deskover.model.entity.database.repository.FlashSaleRepository;
 import com.deskover.model.entity.database.repository.ProductRepository;
+import com.deskover.model.entity.database.repository.RatingRepository;
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
 import com.deskover.model.entity.dto.ecommerce.Filter;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
+import com.deskover.model.entity.dto.ecommerce.Reviewer;
 import com.deskover.model.entity.dto.ecommerce.Shop;
 import com.deskover.service.ShopService;
 
@@ -35,6 +38,9 @@ public class ShopServiceImpl implements ShopService {
 
 	@Autowired
 	private BrandRepository brandRepo;
+	
+	@Autowired
+	private RatingRepository ratingRepo;
 	
 	@Override
 	public Shop search(Filter filter) {
@@ -121,5 +127,11 @@ public class ShopServiceImpl implements ShopService {
 		List<Brand> b = brandRepo.findByActived(true);
 		
 		return b.stream().map(brand -> new BrandDTO(brand)).collect(Collectors.toList());
+	}
+	
+	@Override
+	public Reviewer getReviewer(String slug, Integer page) {
+		Page<Rating> ratings = ratingRepo.getRating(slug, PageRequest.of(page, 4, Sort.by("modifiedAt").descending()));
+		return new Reviewer(ratings);
 	}
 }

@@ -68,6 +68,26 @@ angular
         });
         return total;
       },
+      get sumSale() {
+        var total = 0;
+        $localStorage.items.forEach(item => {
+          if(item.sale){
+            total += (item.price - item.price_sale) * item.amount;
+          }
+        });
+        return total;
+      },
+      get sumAll() {
+        var total = 0;
+        $localStorage.items.forEach(item => {
+          if(item.sale){
+            total += item.price_sale * item.amount;
+          }else{
+            total += item.price * item.amount;
+          }
+        });
+        return total;
+      },
       add(i) {
         console.log(i)
         var item = $localStorage.items.find(item => item.slug == i.slug);
@@ -87,13 +107,12 @@ angular
         }
       },
       addP() {
-        var select = parseInt($scope.cart.select)
         var item = $localStorage.items.find(i => i.slug == $scope.cart.itemPage.slug);
         if (item) {
-          if (item.amount + select <= 5) item.amount += select;
+          if (item.amount + 1 <= 5) item.amount += 1;
         }
         else {
-          $scope.cart.itemPage.amount = select;
+          $scope.cart.itemPage.amount = 1;
           $localStorage.items.push($scope.cart.itemPage);
 
           swal.fire({
@@ -121,6 +140,23 @@ angular
       remove(i) {
         var idx = $localStorage.items.indexOf(i);
         if (idx > -1) $localStorage.items.splice(idx, 1);
+        swal.fire({
+          position: 'top-end',
+          title: 'Đã xóa hàng hóa khỏi giỏ hàng',
+          showConfirmButton: false,
+          timer: 1500,
+          toast: true
+        })
+      },
+      removeAll() {
+        $localStorage.items = []
+        swal.fire({
+          position: 'top-end',
+          title: 'Đã xóa hết hàng hóa khỏi giỏ hàng',
+          showConfirmButton: false,
+          timer: 1500,
+          toast: true
+        })
       },
       valid: {
         amount(a) {
@@ -187,7 +223,7 @@ angular
     }).catch(error => {
         console.log("Error",error)
     })
-   $scope.change = function(){
+    $scope.change = function(){
     	var newTemp = $filter("filter")($scope.province, {name: $scope.form.province});
     	var id =  newTemp[0].id;
 	    var url = `${host}/v0/client/district?provinceId=${id}`;
@@ -303,6 +339,67 @@ angular
           console.log(resp.data)
         }, function errorCallback(resp) {
           console.error(resp.statusText);
+        });
+      }
+    }
+  }).controller('reviewCtrl',function($scope, $http){
+    $scope.review = {
+      content: [],
+      totalPage: 0,
+      currentPage: 0,
+      changePage(p){
+        console.log(p)
+        if(p >= this.totalPage) return;
+        else if (p < 0) return;
+        this.currentPage = p;
+        this.loadDatabase();
+      },
+      init() {
+        this.loadDatabase();
+      },
+      loadDatabase() {
+        $http({
+          method: 'GET',
+          url: '/api/v1/ecommerce/product/review',
+          params: { 
+            c: this.currentPage,
+            s: new URL(location.href).searchParams.get('p'), 
+          }
+        }).then(function successCallback(resp) {
+          $scope.review.totalPage = resp.data.totalPage;
+          $scope.review.content = resp.data.reviews;
+          console.log(resp.data);
+        }, function errorCallback(resp) {
+          console.error(resp.statusText);
+        });
+      }
+    }
+
+    $scope.submitReview = {
+      submited: false,
+      form: {
+        product: new URL(location.href).searchParams.get('p'),
+        email: '',
+        name: '',
+        point: '',
+        content: ''
+      },
+      submit(f){
+        if(f.$invalid) return;
+        console.log(this.form)
+        $http.post('/api/v1/ecommerce/product/review', this.form)
+        .then(function successCallback(resp) {
+          $scope.submitReview.submited = true;
+          $scope.review.loadDatabase();
+        }, function errorCallback(resp) {
+          swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: 'Có lỗi xảy ra',
+            showConfirmButton: false,
+            timer: 1500,
+            toast: true
+          })
         });
       }
     }
