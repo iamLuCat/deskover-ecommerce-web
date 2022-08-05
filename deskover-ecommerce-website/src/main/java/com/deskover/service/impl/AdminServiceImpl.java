@@ -230,13 +230,28 @@ public class AdminServiceImpl implements AdminService {
             if (repo.existsByUsername(admin.getUsername())) {
                 throw new IllegalArgumentException("Username này đã tồn tại");
             }
+            AdminRole role = roleRepo.findByRoleId(admin.getAuthority().getRole().getRoleId());
+
+            admin.setAuthority(null);
+            Administrator newAdmin = repo.save(admin);
+
+            AdminAuthority authority = new AdminAuthority();
+            authority.setRole(role);
+            authority.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+            authority.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+            authority.setAdmin(newAdmin);
+            authorityRepo.save(authority);
+
+            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+            admin.setActived(Boolean.TRUE);
+            admin.setId(newAdmin.getId());
+            admin.setAuthority(authority);
         } else {
             Administrator adminExist = repo.findByUsername(admin.getUsername());
             if (repo.existsByUsername(admin.getUsername()) && !adminExist.getId().equals(admin.getId())) {
                 throw new IllegalArgumentException("Username này đã tồn tại");
             }
-            AdminAuthority authority = authorityRepo.findById(admin.getAuthority().getId()).orElse(null);
-            assert authority != null;
+            AdminAuthority authority = authorityRepo.findById(admin.getAuthority().getId()).get();
             authority.setRole(admin.getAuthority().getRole());
             admin.setAuthority(authority);
         }
