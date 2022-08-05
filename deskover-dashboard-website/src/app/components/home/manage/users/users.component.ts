@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataTableDirective} from "angular-datatables";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
 import {environment} from "../../../../../environments/environment";
-import {User, UserRole} from "@/entites/user";
+import {User, UserAuthority, UserRole} from "@/entites/user";
 import {UserService} from "@services/user.service";
 import {HttpParams} from "@angular/common/http";
 import {ModalDirective} from "ngx-bootstrap/modal";
@@ -36,6 +36,11 @@ export class UsersComponent implements OnInit {
 
   constructor(private userService: UserService, private uploadServive: UploadService, private authService: AuthService) {
     this.currentUser = this.authService.user;
+    this.user = <User>{
+      authority: <UserAuthority>{
+        role: <UserRole>{}
+      }
+    };
     this.getRoles();
   }
 
@@ -108,9 +113,20 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  newUser() {
+    this.userForm.control.reset();
+    this.user = <User>{
+      authority: <UserAuthority>{
+        role: null
+      }
+    };
+    this.avatarPreview = 'assets/images/no-image.png';
+    this.openModal();
+  }
+
   editUser(user: User) {
     this.user = user;
-    this.avatarPreview = this.getSrc(this.user.avatar);
+    this.avatarPreview = this.user.avatar ? this.getSrc(this.user.avatar) : 'assets/images/no-image.png';
     this.openModal();
   }
 

@@ -84,8 +84,8 @@ export class CategoriesComponent implements OnInit {
     this.openModal(this.categoryModal);
   }
 
-  getCategory(category: Category) {
-    this.category = category;
+  editCategory(category: Category) {
+    this.category = Object.assign({}, category);
     this.categoryImgPreview = this.getSrc(category.img);
     this.isEdit = true;
     this.openModal(this.categoryModal);

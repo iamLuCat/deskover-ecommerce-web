@@ -1,17 +1,14 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import javax.persistence.criteria.Predicate;
-import javax.validation.Valid;
-
+import com.deskover.model.entity.database.*;
+import com.deskover.model.entity.database.repository.*;
+import com.deskover.model.entity.database.repository.datatable.OrderRepoForDatatables;
+import com.deskover.model.entity.dto.application.*;
+import com.deskover.other.util.DecimalFormatUtil;
+import com.deskover.other.util.MapperUtil;
+import com.deskover.other.util.OrderNumberUtil;
+import com.deskover.other.util.QrCodeUtil;
+import com.deskover.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -20,43 +17,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.model.entity.database.Cart;
-import com.deskover.model.entity.database.Notification;
-import com.deskover.model.entity.database.Order;
-import com.deskover.model.entity.database.OrderDetail;
-import com.deskover.model.entity.database.OrderItem;
-import com.deskover.model.entity.database.OrderStatus;
-import com.deskover.model.entity.database.PaymentMethods;
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.ShippingMethods;
-import com.deskover.model.entity.database.StatusPayment;
-import com.deskover.model.entity.database.UserAddress;
-import com.deskover.model.entity.database.Users;
-import com.deskover.model.entity.database.repository.CartRepository;
-import com.deskover.model.entity.database.repository.OrderDetailRepository;
-import com.deskover.model.entity.database.repository.OrderItemRepository;
-import com.deskover.model.entity.database.repository.OrderRepository;
-import com.deskover.model.entity.database.repository.OrderStatusRepository;
-import com.deskover.model.entity.database.repository.ProductRepository;
-import com.deskover.model.entity.database.repository.UserRepository;
-import com.deskover.model.entity.database.repository.datatable.OrderRepoForDatatables;
-import com.deskover.model.entity.dto.application.DataOrderResquest;
-import com.deskover.model.entity.dto.application.DataTotaPrice7DaysAgo;
-import com.deskover.model.entity.dto.application.OrderDto;
-import com.deskover.model.entity.dto.application.OrderItemDto;
-import com.deskover.model.entity.dto.application.Total7DaysAgo;
-import com.deskover.other.util.DecimalFormatUtil;
-import com.deskover.other.util.MapperUtil;
-import com.deskover.other.util.OrderNumberUtil;
-import com.deskover.other.util.QrCodeUtil;
-import com.deskover.service.CartService;
-import com.deskover.service.NotificationService;
-import com.deskover.service.OrderService;
-import com.deskover.service.PaymentService;
-import com.deskover.service.ProductService;
-import com.deskover.service.ShippingService;
-import com.deskover.service.StatusPaymentService;
-import com.deskover.service.UserAddressService;
+import javax.persistence.criteria.Predicate;
+import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -81,7 +51,6 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private UserRepository userRepo;
-
 	@Autowired
 	private PaymentService paymentService;
 
@@ -498,15 +467,16 @@ public class OrderServiceImpl implements OrderService {
 				}
 				product.setQuantity(product.getQuantity() + item.getQuantity());
 				productRepo.saveAndFlush(product);
-				
-				OrderStatus status = orderStatusRepo.findByCode("HUY");
-				order.setOrderStatus(status);
-				repo.saveAndFlush(order);
-				
 			});
+
 			OrderStatus status = orderStatusRepo.findByCode("HUY");
 			order.setOrderStatus(status);
+
+			StatusPayment statusPayment = statusPaymentService.findByCode("D-HT");
+			order.setStatusPayment(statusPayment);
+
 			repo.saveAndFlush(order);
+
 			if(!status.getCode().equals("LH-TB") || !status.getCode().equals("C-HUY" )){
 //	          Gửi thông báo cho khách hàng
 				Notification notify = new Notification();

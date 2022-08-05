@@ -95,13 +95,14 @@ export class SubcategoriesComponent implements OnInit {
 
   newSubcategory() {
     this.subcategoryForm.control.reset();
+    this.subcategory.category = null;
     this.subcategoryImgPreview = 'assets/images/no-image.png';
     this.isEdit = false;
     this.openModal(this.subcategoryModal);
   }
 
-  getSubcategory(subcategory: Subcategory) {
-    this.subcategory = subcategory;
+  editSubcategory(subcategory: Subcategory) {
+    this.subcategory = Object.assign({}, subcategory);
     this.subcategoryImgPreview = this.getSrc(this.subcategory.img);
     this.isEdit = true;
     this.openModal(this.subcategoryModal);

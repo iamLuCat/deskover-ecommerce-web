@@ -21,8 +21,7 @@ export class CustomersComponent implements OnInit {
 
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
-  constructor(private customerService: CustomerService) {
-  }
+  constructor(private customerService: CustomerService) {}
 
   ngOnInit(): void {
     const self = this;

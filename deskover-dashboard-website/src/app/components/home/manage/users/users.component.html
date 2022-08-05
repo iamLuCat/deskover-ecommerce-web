@@ -38,6 +38,13 @@
               <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
             </select>
           </div>
+          <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
+            <button type="button" class="btn bg-faded-accent w-sm-100 rounded-pill" (click)="newUser()"
+                    placement="left" tooltip="Thêm">
+              <i class="fas fa-plus text-accent d-none d-md-inline-block"></i>
+              <span class="d-block text-accent d-inline-block d-md-none">Thêm nhân viên</span>
+            </button>
+          </div>
         </div>
       </div>
       <div class="card-body p-0">
@@ -153,7 +160,7 @@
                 <input type="text" class="form-control" id="fullname" name="fullname" [(ngModel)]="user.fullname"
                        #fullname="ngModel" required/>
                 <div class="invalid-feedback" *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)">
-                  <span *ngIf="fullname.errors?.['required']">Vui lòng nhập tên đăng nhập</span>
+                  <span *ngIf="fullname.errors?.['required']">Vui lòng nhập họ và tên</span>
                 </div>
               </div>
             </div>
@@ -162,16 +169,16 @@
               <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password"
                      #password="ngModel" required/>
               <div class="invalid-feedback" *ngIf="password.invalid && (password.dirty || password.touched)">
-                <span *ngIf="password.errors?.['required']">Vui lòng nhập tên đăng nhập</span>
+                <span *ngIf="password.errors?.['required']">Vui lòng nhập mật khẩu</span>
               </div>
             </div>
-            <div class="col-12 mb-3" *ngIf="user.authority">
+            <div class="col-12 mb-3">
               <label class="form-label" [for]="'category'">Vai trò</label>
               <select id="category" class="form-select" name="category"
                       [(ngModel)]="user.authority.role"
                       [disabled]="isCurrentUser(user)"
                       [compareWith]="compareFn" #category="ngModel" required>
-                <option value="null">-- Chọn vai trò --</option>
+                <option [ngValue]="null">-- Chọn vai trò --</option>
                 <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
               </select>
               <div class="invalid-feedback" *ngIf="category.invalid && (category.dirty || category.touched)">

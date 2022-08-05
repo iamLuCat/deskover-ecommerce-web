@@ -74,7 +74,6 @@ export const MENU = [
         path: ['/promotions'],
         iconClasses: 'fa-duotone fa-circle-dot',
       },
-
       {
         name: 'Flash Sale',
         path: ['/flash-sales'],
