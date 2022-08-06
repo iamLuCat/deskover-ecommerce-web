@@ -1,25 +1,25 @@
-<div class="nav-header" *ngIf="menuItem.header">{{ menuItem.header }}</div>
-<a
+<div class="nav-header" *ngIf="menuItem.header && hasPermissions(menuItem.permissions)">{{ menuItem.header }}</div>
+<a  class="nav-link"
     (click)="handleMainMenuAction()"
-    class="nav-link"
     [ngClass]="{active: isMainActive || isOneOfChildrenActive}"
+    *ngIf="hasPermissions(menuItem.permissions)"
 >
-    <i class="nav-icon {{ menuItem.iconClasses }}"></i>
-    <p>{{ menuItem.name }}
+    <i class="nav-icon {{ menuItem.icon }}"></i>
+    <p>{{ menuItem.label }}
       <span class="right d-flex" [@rotate]="isMenuExtended">
         <i *ngIf="isExpandable && menuItem.children.length > 0" class="right fas fa-angle-right m-0"></i>
       </span>
     </p>
 </a>
 <ul class="nav nav-treeview" *ngFor="let item of menuItem.children" [@openClose]="isMenuExtended">
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="hasPermissions(menuItem.permissions)">
         <a
             [routerLink]="item.path"
             [routerLinkActive]="'active'"
             class="nav-link"
         >
-            <i class="nav-icon {{ item.iconClasses }}"></i>
-            <p>{{ item.name }}</p>
+            <i class="nav-icon {{ item.icon }}"></i>
+            <p>{{ item.label }}</p>
         </a>
     </li>
 </ul>

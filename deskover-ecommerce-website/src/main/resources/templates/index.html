@@ -8,7 +8,7 @@
     )}">
 
 <head>
-    <title>Deskover - Máy tinh, Điện thoại, Phụ kiện</title>
+    <title>Deskover - Máy tính, điện thoại, phụ kiện</title>
 </head>
 
 <body id="content">
@@ -62,7 +62,7 @@
                                             <h2 class="fw-light pb-1 scale-up">Sắm ngay</h2>
                                             <h1 class="display-4 scale-up delay-1">Smartphones</h1>
                                             <h5 class="fw-light pb-3 scale-up delay-2"></h5>
-                                            <div class="d-table scale-up delay-4 mx-auto mx-md-0"><a class="btn btn-primary btn-shadow" href="#" ng-click="changePage('/shop?c=dien-thoai')">Sắm ngay<i class="ci-arrow-right ms-2 me-n1"></i></a></div>
+                                            <div class="d-table scale-up delay-4 mx-auto mx-md-0"><a class="btn btn-primary btn-shadow" href="#" ng-click="changePage('/shop?c=dien-thoai')">Sắm ngay ngay<i class="ci-arrow-right ms-2 me-n1"></i></a></div>
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                         <div class="table-responsive" data-simplebar>
                             <div class="d-flex d-xl-block"><a class="d-flex align-items-center bg-faded-info rounded-3 pt-2 ps-2 mb-4 me-4 me-xl-0" href="#" style="min-width: 16rem;" ng-click="changePage('/shop?c=may-tinh-bang')"><img src="https://brmotorolanew.vtexassets.com/arquivos/ids/161114/2021_Moto-Tab-G70--1-._Design_Modernist-Teal.png?v=637818443806770000" width="125" alt="Banner">
                                     <div class="py-4 px-2">
-                                        <h5 class="mb-2"><span class="fw-light"></span>Máy Tính<span class="fw-light"></span><br>Bảng</h5>
+                                        <h5 class="mb-2"><span class="fw-light"></span>Máy tính<span class="fw-light"></span><br>Bảng</h5>
                                         <div class="text-info fs-sm">Xem ngay<i class="ci-arrow-right fs-xs ms-1"></i></div>
                                     </div>
                                 </a><a class="d-flex align-items-center bg-faded-warning rounded-3 pt-2 ps-2 mb-4 me-4 me-xl-0" href="#" style="min-width: 16rem;" ng-click="changePage('/shop?s=dong-ho-thong-minh')"><img src="https://ozrobotics.com/wp-content/uploads/2021/11/cubittofficial-CT2pros2-pink-front._1080x.png" width="125" alt="Banner">
@@ -152,12 +152,12 @@
         </section>
         <!-- Product widgets-->
         <section class="container pb-4 pb-md-5 mt-5">
-            <h2 class="h3 text-center pb-4 fw-bold">Gợi ý sản phảm</h2>
+            <h2 class="h3 text-center pb-4 fw-bold">Gợi Ý sản phẩm</h2>
             <div class="row">
                 <!-- Bestsellers-->
                 <div class="col-md-4 col-sm-6 mb-2 py-3">
                     <div class="widget">
-                        <h3 class="widget-title fw-bold">Đánh Giá Cao</h3>
+                        <h3 class="widget-title fw-bold">Đánh giá Cao</h3>
                         <div class="d-flex align-items-center pb-2 border-bottom" th:each="item : ${list1}">
                             <a class="d-block flex-shrink-0" th:href="@{/shop/item(p=${item.slug})}">
                                 <img th:src="@{'/img/shop/products/' + ${item.imgUrl}}" width="64" alt="Product">
@@ -179,7 +179,7 @@
                 <!-- New arrivals-->
                 <div class="col-md-4 col-sm-6 mb-2 py-3">
                     <div class="widget">
-                        <h3 class="widget-title fw-bold">Giá Giảm Nhiều</h3>
+                        <h3 class="widget-title fw-bold">Giá giảm nhiều</h3>
                         <div class="d-flex align-items-center pb-2 border-bottom" th:each="item : ${list2}">
                             <a class="d-block flex-shrink-0" th:href="@{/shop/item(p=${item.slug})}">
                                 <img th:src="@{'/img/shop/products/' + ${item.imgUrl}}" width="64" alt="Product">
@@ -201,7 +201,7 @@
                 <!-- Top rated-->
                 <div class="col-md-4 col-sm-6 mb-2 py-3">
                     <div class="widget">
-                        <h3 class="widget-title fw-bold">Được Mua Nhiều</h3>
+                        <h3 class="widget-title fw-bold">Được mua nhiều</h3>
                         <div class="d-flex align-items-center pb-2 border-bottom" th:each="item : ${list3}">
                             <a class="d-block flex-shrink-0" th:href="@{/shop/item(p=${item.slug})}">
                                 <img th:src="@{'/img/shop/products/' + ${item.imgUrl}}" width="64" alt="Product">

@@ -49,6 +49,8 @@
               <th class="align-middle">Mức giảm giá</th>
               <th class="align-middle text-center">Thời gian bắt đầu</th>
               <th class="align-middle text-center">Thời gian kết thúc</th>
+              <th class="align-middle text-center">Ngày cập nhật</th>
+              <th class="align-middle text-center">Cập nhật bởi</th>
               <th class="align-middle text-end"></th>
             </tr>
             </thead>
@@ -70,27 +72,35 @@
               <td class="align-middle text-center">
                 {{ discount.endDate | date: 'dd/MM/yyyy, hh:mm:ss aa' }}
               </td>
+              <td class="align-middle text-center">
+                {{ discount.modifiedAt | date: 'dd/MM/yyyy' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ discount.modifiedBy }}
+              </td>
               <td class="align-middle text-end">
-                <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
-                  <button type="button" class="btn btn-product btn-sm btn-warning me-1" placement="top"
-                          tooltip="Sản phẩm khuyến mãi" container="body"
-                          (click)="editProduct(discount)">
-                    <i class="fas fa-box"></i>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                          container="body" (click)="editDiscount(discount)">
-                    <i class="fas fa-pen-square"></i>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteDiscount(discount)"
-                          placement="top" tooltip="Xoá" container="body">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-                <div *ngIf="!isActive">
-                  <button type="button" class="btn btn-sm btn-success" placement="top" container="body"
-                          (click)="activeDiscount(discount)" tooltip="Kích hoạt">
-                    <i class="fa-solid fa-toggle-on"></i>
-                  </button>
+                <button type="button" class="btn btn-product btn-sm btn-warning me-1" placement="top"
+                        tooltip="Sản phẩm khuyến mãi" container="body"
+                        (click)="editProduct(discount)" *ngIf="isActive">
+                  <i class="fas fa-box"></i>
+                </button>
+                <div *ngIf="hasRole()" class="d-inline-block">
+                  <div *ngIf="isActive" class="d-inline-block">
+                    <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
+                            container="body" (click)="editDiscount(discount)">
+                      <i class="fas fa-pen-square"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="deleteDiscount(discount)"
+                            placement="top" tooltip="Xoá" container="body">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                  <div *ngIf="!isActive">
+                    <button type="button" class="btn btn-sm btn-success" placement="top" container="body"
+                            (click)="activeDiscount(discount)" tooltip="Kích hoạt">
+                      <i class="fa-solid fa-toggle-on"></i>
+                    </button>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -154,7 +164,7 @@
                 <tr>
                   <th class="align-middle">Tên</th>
                   <th class="align-middle text-center">Giá</th>
-                  <th class="align-middle text-end"></th>
+                  <th class="align-middle text-end" *ngIf="hasRole()"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -165,7 +175,7 @@
                   <td class="align-middle text-center">
                     {{ item.price | number: '1.0-0' }}₫
                   </td>
-                  <td class="align-middle text-end">
+                  <td class="align-middle text-end" *ngIf="hasRole()">
                     <button type="button" class="btn btn-sm bg-faded-success" (click)="addProduct(item.id)">
                       <i class="fas fa-plus text-success"></i>
                     </button>
@@ -184,7 +194,7 @@
                   <th class="align-middle">Tên</th>
                   <th class="align-middle text-center">Giá</th>
                   <th class="align-middle text-center">Giá khuyến mãi</th>
-                  <th class="align-middle text-end"></th>
+                  <th class="align-middle text-end" *ngIf="hasRole()"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -198,7 +208,7 @@
                   <td class="align-middle text-center">
                     {{ item.priceSale | number: '1.0-0' }}₫
                   </td>
-                  <td class="align-middle text-end">
+                  <td class="align-middle text-end" *ngIf="hasRole()">
                     <button type="button" class="btn btn-sm bg-faded-danger" (click)="removeProduct(item.id)">
                       <i class="fas fa-trash text-danger"></i>
                     </button>

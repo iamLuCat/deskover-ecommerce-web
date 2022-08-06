@@ -26,7 +26,7 @@ import java.util.Optional;
 
 @RestController("OrderApiForAdmin")
 @CrossOrigin("*")
-//@PreAuthorize("hasAuthority('CUSTOMER')")
+@PreAuthorize("hasAnyRole('ADMIN', 'SHIPPER')")
 @RequestMapping("v1/api/admin")
 public class OrderApi {
 	@Autowired
@@ -87,7 +87,7 @@ public class OrderApi {
 			return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@GetMapping("/orders/{orderCode}")
 	public ResponseEntity<?> doGetOrderByOrderCode(@PathVariable("orderCode") String orderCode,
 					@RequestParam("status") String status){
@@ -103,7 +103,7 @@ public class OrderApi {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
+	@PreAuthorize("hasRole('SHIPPER')")
 	@GetMapping("/orders/delivery")
 	public ResponseEntity<?> doGetDelivery(@RequestParam("status") String status){
 		try {
@@ -115,7 +115,7 @@ public class OrderApi {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
+	@PreAuthorize("hasRole('SHIPPER')")
 	@GetMapping("/orders/statistical")
 	public ResponseEntity<?> doGetAllByUser(){
 		try {
@@ -127,7 +127,7 @@ public class OrderApi {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
+	@PreAuthorize("hasRole('SHIPPER')")
 	@GetMapping("/orders-7days")
 	public ResponseEntity<?> doGetTotalPrice7DaysAgo(){
 			try {
@@ -138,7 +138,7 @@ public class OrderApi {
 			}
     } 
 	
-	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
+	@PreAuthorize("hasRole('SHIPPER')")
 	@GetMapping("/orders-total-per-month")
 	public ResponseEntity<?> doGetPrice() {
 		try {
@@ -151,7 +151,7 @@ public class OrderApi {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_SHIPPER')")
+	@PreAuthorize("hasRole('SHIPPER')")
 	@GetMapping("/orders-count-order-per-month")
 	public ResponseEntity<?> doGetCountOrder(){
 		try {
@@ -162,7 +162,8 @@ public class OrderApi {
 			return ResponseEntity.ok("0");
 		}
 	}
-	
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/orders/{orderCode}")
 	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status,
 			@RequestParam("note") String note){
@@ -173,7 +174,8 @@ public class OrderApi {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cập nhập đơn hàng thất bại"));
 		}
 	}
-	
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/orders/change-status-code/{orderCode}")
 	public ResponseEntity<?> changeOrderStatusCode(@PathVariable("orderCode") String orderCode){
 		try {
@@ -182,17 +184,20 @@ public class OrderApi {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
 		}
 	}
-	
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/orders/cancel")
 	public ResponseEntity<?> cancelOrder(@RequestBody Order order){
 		try {
 			orderService.cancelOrder(order);
 			return ResponseEntity.ok(new MessageResponse("Hủy đơn hàng thành công"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
 		}
 	}
-	
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/orders/refund")
 	public ResponseEntity<?> refundMoney(@RequestBody Order order){
 		try {

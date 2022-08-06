@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -29,15 +31,18 @@ import lombok.Setter;
 @Table(name = "rating")
 public class Rating implements Serializable {
     private static final long serialVersionUID = -8794052286728363397L;
+    
+    
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "fullname", nullable = false)
     private String fullname;
 
-    @Column(name = "phone", length = 10)
-    private String phone;
+    @Column(name = "email", length = 10)
+    private String email;
 
     @Column(name = "point", nullable = false)
     private Integer point;

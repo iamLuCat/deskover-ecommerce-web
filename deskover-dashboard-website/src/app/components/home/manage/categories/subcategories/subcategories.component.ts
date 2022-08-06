@@ -10,6 +10,8 @@ import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {UploadService} from "@services/upload.service";
 import {environment} from "../../../../../../environments/environment";
+import {PermissionContants} from "@/constants/permission-contants";
+import {AuthService} from "@services/auth.service";
 
 @Component({
   selector: 'app-subcategory',
@@ -37,6 +39,7 @@ export class SubcategoriesComponent implements OnInit {
     private subcategoryService: SubcategoryService,
     private categoryService: CategoryService,
     private uploadService: UploadService,
+    private authService: AuthService
   ) {
     this.getCategories();
   }
@@ -70,7 +73,11 @@ export class SubcategoriesComponent implements OnInit {
         {data: 'description'},
         {data: 'category.name'},
         {data: 'modifiedAt'},
-        {data: null, orderable: false, searchable: false}
+        {data: 'modifiedBy'},
+        {
+          data: null, orderable: false, searchable: false,
+          // visible: self.hasAdminRole()
+        }
       ]
     }
   }
@@ -95,13 +102,14 @@ export class SubcategoriesComponent implements OnInit {
 
   newSubcategory() {
     this.subcategoryForm.control.reset();
+    this.subcategory.category = null;
     this.subcategoryImgPreview = 'assets/images/no-image.png';
     this.isEdit = false;
     this.openModal(this.subcategoryModal);
   }
 
-  getSubcategory(subcategory: Subcategory) {
-    this.subcategory = subcategory;
+  editSubcategory(subcategory: Subcategory) {
+    this.subcategory = Object.assign({}, subcategory);
     this.subcategoryImgPreview = this.getSrc(this.subcategory.img);
     this.isEdit = true;
     this.openModal(this.subcategoryModal);
@@ -185,5 +193,11 @@ export class SubcategoriesComponent implements OnInit {
 
   getSrc(image: string) {
     return image ? `${environment.globalUrl.subcategoryImg}/${image}` : 'assets/images/no-image.png';
+  }
+
+  hasAdminRole() {
+    return this.authService.hasPermissions([
+      PermissionContants.ADMIN
+    ]);
   }
 }

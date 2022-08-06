@@ -84,10 +84,10 @@
                 {{ product.name }}
               </td>
               <td class="align-middle text-center">
-                {{ product.brand.name }}
+                {{ product.brand?.name }}
               </td>
               <td class="align-middle text-center">
-                {{ product.subCategory.name }}
+                {{ product.subCategory?.name }}
               </td>
               <td class="align-middle text-center">
                 {{ product.price | number:'1.0-0' }}₫

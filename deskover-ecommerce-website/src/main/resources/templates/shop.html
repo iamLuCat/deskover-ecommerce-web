@@ -158,7 +158,13 @@
                                             <span class="text-accent">{{item.price_sale|number}} <small>VND</small></span> 
                                         </div>
                                         <div class="star-rating">
-                                            <i class="star-rating-icon ci-star-filled active" ng-repeat="p in [].constructor(item.rating) track by $index"></i>
+                                            <br ng-if="item.sale>0">
+                                            <span ng-repeat="p in [].constructor(item.rating) track by $index">
+                                                <i class="star-rating-icon ci-star-filled active"></i>
+                                            </span>
+                                            <span  ng-repeat="p in [].constructor(5-item.rating) track by $index">
+                                                <i class="star-rating-icon ci-star"></i>
+                                            </span>                                   
                                         </div>
                                     </div>
                                 </div>

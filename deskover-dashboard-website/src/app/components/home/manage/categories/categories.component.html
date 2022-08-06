@@ -47,6 +47,7 @@
               <th class="align-middle">Slug</th>
               <th class="align-middle">Mô tả</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
+              <th class="align-middle text-center">Cập nhật bởi</th>
               <th class="align-middle text-end"></th>
             </tr>
             </thead>
@@ -69,13 +70,13 @@
               <td class="align-middle text-center">
                 {{ category.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>
-              <!--<td class="align-middle text-center">
-                {{ item.modifiedBy }}
-              </td>-->
+              <td class="align-middle text-center">
+                {{ category.modifiedBy }}
+              </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                          (click)="getCategory(category)">
+                          (click)="editCategory(category)">
                     <i class="fas fa-pen-square"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-danger" (click)="deleteCategory(category)"

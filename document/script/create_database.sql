@@ -42,7 +42,7 @@ CREATE TABLE admin_role
 INSERT admin_role (id, role_id, `name`)
 VALUES (1, 'ROLE_ADMIN', 'Quản trị viên'),
        (2, 'ROLE_MANAGER', 'Nhân viên quản lý'),
-       (3, 'ROLE_SALE', 'Nhân viên bán hàng'),
+       (3, 'ROLE_SELLER', 'Nhân viên bán hàng'),
        (4, 'ROLE_SHIPPER', 'Nhân viên giao hàng');
 
 CREATE TABLE administrator
@@ -1027,6 +1027,22 @@ values
 );
 
 
+--------------------------------------------------------------------------------------------------------------
+-- Yêu thích
+--------------------------------------------------------------------------------------------------------------
+CREATE TABLE wishlist
+(
+    id         	BIGINT NOT NULL AUTO_INCREMENT,
+    user_id     BIGINT DEFAULT NULL,
+    product_id 	BIGINT NOT NULL,
+	actived   	BIT NOT NULL DEFAULT 1,
+    modified_at TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT FK_Wishlist_Product FOREIGN KEY (product_id) REFERENCES product (id),
+    CONSTRAINT FK_Wishlist_Users FOREIGN KEY (user_id) REFERENCES `user` (id)
+);
+
+
 -- Thumbnail of products
 CREATE TABLE product_thumbnail
 (
@@ -1111,7 +1127,7 @@ CREATE TABLE rating
     id          BIGINT                                                        NOT NULL AUTO_INCREMENT,
     product_id  BIGINT                                                        NOT NULL,
     fullname    VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    phone       VARCHAR(10)                                                            DEFAULT NULL,
+    email       VARCHAR(10)                                                            DEFAULT NULL,
     `point`     INT                                                           NOT NULL,
     content     TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                                                                  DEFAULT NULL,
     actived     BIT                                                           NOT NULL DEFAULT 1,

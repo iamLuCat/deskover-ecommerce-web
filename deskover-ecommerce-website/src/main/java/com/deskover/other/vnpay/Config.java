@@ -14,8 +14,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 
-import org.thymeleaf.templatemode.TemplateMode;
-
 
 public class Config {
 

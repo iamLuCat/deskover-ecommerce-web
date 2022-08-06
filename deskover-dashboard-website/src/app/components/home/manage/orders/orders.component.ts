@@ -6,6 +6,8 @@ import {DataTableDirective} from "angular-datatables";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {environment} from "../../../../../environments/environment";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
+import {AuthService} from "@services/auth.service";
+import {PermissionContants} from "@/constants/permission-contants";
 
 @Component({
   selector: 'app-orders',
@@ -26,7 +28,7 @@ export class OrdersComponent implements OnInit {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
   @ViewChild('orderDetailModal', {static: false}) orderDetailModal: TemplateRef<any>;
 
-  constructor(private orderService: OrderService, private modalService: BsModalService) {
+  constructor(private orderService: OrderService, private modalService: BsModalService, private authService: AuthService) {
     this.getOrderStatuses();
   }
 
@@ -103,7 +105,7 @@ export class OrdersComponent implements OnInit {
       }
       return 'bg-secondary';
     } else {
-      return 'bg-info';
+      return 'bg-primary';
     }
   }
 
@@ -115,7 +117,7 @@ export class OrdersComponent implements OnInit {
     } else if (paymentCode === 'C-HT') {
       return 'text-warning';
     } else if (paymentCode === 'D-HT') {
-      return 'text-info';
+      return 'text-primary';
     }
   }
 
@@ -124,7 +126,7 @@ export class OrdersComponent implements OnInit {
   }
 
   getOrder(order: Order) {
-    this.order = order;
+    this.order = Object.assign({}, order);
     this.openModal(this.orderDetailModal);
   }
 
@@ -137,7 +139,7 @@ export class OrdersComponent implements OnInit {
   }
 
   isUnpaidOrder(order: Order) {
-    return order.statusPayment?.code === 'C-TT' && order.orderStatus?.code === 'HUY';
+      return order.statusPayment?.code === 'C-TT' && order.orderStatus?.code === 'HUY';
   }
 
   changeOrderStatus(order: Order, message: string) {
@@ -185,7 +187,6 @@ export class OrdersComponent implements OnInit {
         next: (data) => {
           NotiflixUtils.removeLoading();
           NotiflixUtils.successNotify("Hủy đơn hàng thành công");
-          this.orderStatusCode = 'HUY';
           this.rerender();
         },
         error: () => {
@@ -209,5 +210,12 @@ export class OrdersComponent implements OnInit {
         }
       });
     });
+  }
+
+  hasRole() {
+    return this.authService.hasPermissions([
+      PermissionContants.ADMIN,
+      PermissionContants.MANAGER,
+    ]);
   }
 }

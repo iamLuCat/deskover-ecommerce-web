@@ -38,7 +38,7 @@ public class GHTKApi {
 			if (Objects.requireNonNull(response).getFee() == null) {
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_JSON);
-				headers.set("Token", "2C925D6789957674DcC9121bf419Df1a2F7b0BC3");
+				headers.set("Token",  "2C925D6789957674DcC9121bf419Df1a2F7b0BC3");
 				HttpEntity<FeeGhtk> request = new HttpEntity<>(fee, headers);
 				ResponseEntity<String> errorRequest = restTemplate.postForEntity(UrlConstant.GHTK_FEE, request,
 						String.class);

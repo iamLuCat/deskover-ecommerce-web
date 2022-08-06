@@ -49,6 +49,7 @@
               <th class="align-middle">Slug</th>
               <th class="align-middle">Mô tả</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
+              <th class="align-middle text-center">Cập nhật bởi</th>
               <th class="align-middle text-end"></th>
             </tr>
             </thead>
@@ -71,13 +72,13 @@
               <td class="align-middle text-center">
                 {{ brand.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>
-              <!--<td class="align-middle text-center">
-                {{ item.modifiedBy }}
-              </td>-->
+              <td class="align-middle text-center">
+                {{ brand.modifiedBy }}
+              </td>
               <td class="align-middle text-end">
                 <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
                   <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                          (click)="getBrand(brand)">
+                          (click)="editBrand(brand)">
                     <i class="fas fa-pen-square"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-danger" (click)="deleteBrand(brand)"
@@ -95,7 +96,7 @@
             </tbody>
             <tbody *ngIf="brands?.length === 0">
             <tr>
-              <td colspan="5" class="text-center">Không tìm thấy kết quá</td>
+              <td [colSpan]="7" class="text-center">Không tìm thấy kết quá</td>
             </tr>
             </tbody>
           </table>
@@ -105,7 +106,8 @@
   </div>
 </section>
 <!-- Modal -->
-<div bsModal [config]="{backdrop: 'static'}" #brandModal="bs-modal" id="brand-modal" class="modal fade" tabindex="-1" data-bs-focus="false"
+<div bsModal [config]="{backdrop: 'static'}" #brandModal="bs-modal" id="brand-modal" class="modal fade" tabindex="-1"
+     data-bs-focus="false"
      role="dialog" aria-labelledby="brand-dialog-sizes">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content">

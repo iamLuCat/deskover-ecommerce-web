@@ -2,10 +2,10 @@ package com.deskover.controller.rest.api.dashboard;
 
 import com.deskover.model.entity.database.AdminRole;
 import com.deskover.model.entity.database.Administrator;
-import com.deskover.model.entity.dto.AdminCreateDto;
 import com.deskover.model.entity.dto.AdministratorDto;
 import com.deskover.model.entity.dto.ChangePasswordDto;
 import com.deskover.model.entity.dto.security.payload.MessageResponse;
+import com.deskover.other.util.MessageErrorUtil;
 import com.deskover.other.util.ValidationUtil;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminService;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("v1/api/admin/users")
 public class AdministratorApi {
 	@Autowired
@@ -67,16 +69,17 @@ public class AdministratorApi {
 	}
 
 	@PostMapping()
-	public ResponseEntity<?> doCreate(@Valid @RequestBody AdminCreateDto admin, BindingResult result) {
+	public ResponseEntity<?> doCreate(@Valid @RequestBody Administrator admin, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
 			return ResponseEntity.badRequest().body(errors);
 		}
 		try {
-			AdministratorDto adminCreated = adminService.create(admin);
+			Administrator adminCreated = adminService.save(admin);
 			return ResponseEntity.ok().body(adminCreated);
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body(MessageErrorUtil.message(e.getMessage(), e));
 		}
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,12 @@ import java.util.Optional;
 
 @RestController("CategoryApiForAdmin")
 @CrossOrigin("*")
+@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SELLER')")
 @RequestMapping("v1/api/admin")
 public class CategoryApi {
 
     @Autowired
     CategoryService categoryService;
-
 
     @GetMapping("/categories")
     public ResponseEntity<?> doGetIsActived(
@@ -60,6 +61,7 @@ public class CategoryApi {
         return ResponseEntity.ok(Objects.requireNonNullElseGet(category, () -> new MessageResponse("Not Found Category")));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @PostMapping("/categories")
     public ResponseEntity<?> doPostCreate(@Valid @RequestBody Category category, BindingResult result) {
         if (result.hasErrors()) {
@@ -74,6 +76,7 @@ public class CategoryApi {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @PutMapping("/categories")
     public ResponseEntity<?> updateCategory(@Valid @RequestBody Category category, BindingResult result) {
         if (result.hasErrors()) {
@@ -89,6 +92,7 @@ public class CategoryApi {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
         try {
