@@ -14,42 +14,37 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import java.util.List;
 
 public interface OrderService {
-
-	List<Order> getAll();
-
 	DataTablesOutput<Order> getAllForDatatables(DataTablesInput input, String statusCode);
-
-	List<Order> getAllOrderByStatus(String statusCode);
-
-	OrderDto getByOrderCode(String orderCode, String status);
 	
+	OrderDto getByOrderCode(String orderCode, String status);
 	OrderDto findByCode(String orderCode);
 	
+	DataOrderResquest getListOrder(String status);
+	DataOrderResquest getListOrderByUser();
+	DataTotaPrice7DaysAgo doGetTotalPrice7DaysAgo();
+	
+	String getToTalPricePerMonth();
+	String getCountOrderPerMonth();
+	
+	Order finByOrderCodeAndUsername(String orderCode);
+	Order changeOrderStatusCode(String orderCode);
 	Order addOrder(Order orderResponse);
 	
-	DataOrderResquest getListOrder(String status);
-	
-	DataOrderResquest getListOrderByUser();
-
-	String getToTalPricePerMonth();
-	
-	String getCountOrderPerMonth();
-
-	DataTotaPrice7DaysAgo doGetTotalPrice7DaysAgo();
-
-	void pickupOrder(String orderCode,String code,String note);
-
-	Order changeOrderStatusCode(String orderCode);
-
-	Boolean isUniqueOrderNumber(String orderNumber);
-
 	List<OrderStatus> getAllOrderStatus();
-
 	List<PaymentMethods> getAllPayment();
-
 	List<ShippingMethods> getAllShippingUnit();
+	List<Order> findByStatusCode(String statusCode);
+	List<Order> getAllByUser();
+	List<Order> getAllOrderByStatus(String statusCode);
+	List<Order> getAll();
 	
 	void cancelOrder(Order orderResponse);
-	
 	void refundMoney(Order order);
+	void pickupOrder(String orderCode,String code,String note);
+	
+	Boolean isUniqueOrderNumber(String orderNumber);
+
+
+	
+
 }
