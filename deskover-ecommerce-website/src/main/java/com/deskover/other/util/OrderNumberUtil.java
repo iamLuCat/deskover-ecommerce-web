@@ -1,12 +1,7 @@
 package com.deskover.other.util;
 
 import java.util.Random;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import com.deskover.service.OrderService;
 
 @Component
 public class OrderNumberUtil {

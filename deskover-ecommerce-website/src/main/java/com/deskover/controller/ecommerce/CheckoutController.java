@@ -51,6 +51,7 @@ public class CheckoutController {
 	@Autowired ShippingRepository shippingRepo;
 	@Autowired PaymentRepository paymentRepo;
 	@Autowired OrderStatusRepository statusRepo;
+	@Autowired OrderNumberUtil orderCode;
 	
 	@GetMapping("checkout")
 	public String checkout(Model model) {
@@ -74,8 +75,6 @@ public class CheckoutController {
 		sessionService.set("items", items);
 		return "ok";
 	}
-	
-	@Autowired OrderNumberUtil orderCode;
 
 	@PostMapping("/ok")
 	public String checkout1(@ModelAttribute("addressForm") @Valid UserAddress entity, Errors errors, @ModelAttribute("Total") String total ) {

@@ -19,6 +19,7 @@ import com.deskover.model.entity.dto.ChangePasswordDto;
 import com.deskover.model.entity.dto.UploadFile;
 import com.deskover.model.entity.dto.UserCreateDto;
 import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.OrderNumberUtil;
 import com.deskover.service.UploadFileService;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
@@ -38,6 +39,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UploadFileService uploadFileService;
+	
+	@Autowired OrderNumberUtil number;
 
 	@Override
 	@Transactional
@@ -93,6 +96,35 @@ public class UserServiceImpl implements UserService {
 			
 			userPasswordService.create(createdUser, userRequest.getConfirmPassword());
 			
+			return createdUser;
+		}
+	}
+	
+	@Override
+	public Users create1(UserCreateDto userRequest) {
+		if(repo.existsByUsername(userRequest.getUsername())) {
+			throw new IllegalArgumentException("Username này đã tồn tại vui lòng nhập username khác");
+		}
+		if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
+			throw new IllegalArgumentException("Mật khẩu xác nhận không khớp");
+		}else {
+			Users createUser = new Users();
+			createUser.setUsername(userRequest.getUsername());
+			createUser.setFullname(userRequest.getFullname());
+			createUser.setEmail(userRequest.getUsername());
+			createUser.setPhone(Integer.toString(number.gernerateNumber()) );
+			createUser.setAvatar(null);
+			createUser.setLastLogin(null);
+			createUser.setActived(Boolean.FALSE);
+			createUser.setVerify(Boolean.FALSE);
+			createUser.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+			createUser.setModifiedBy(null);
+			
+			Users createdUser = repo.save(createUser);
+			userPasswordService.create(createdUser, userRequest.getConfirmPassword());
+			
+			
+				
 			return createdUser;
 		}
 	}

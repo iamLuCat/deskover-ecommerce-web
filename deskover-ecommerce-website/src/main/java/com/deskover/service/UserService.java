@@ -13,6 +13,7 @@ public interface UserService {
 	 Users findByUsername(String username);
 	 DataTablesOutput<Users> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
 	 Users create(UserCreateDto userRequest);
+	 Users create1(UserCreateDto userRequest);
 	 Users uploadFile(MultipartFile file);
 	 Users update(Users user);
 	 void changeActived(Long id);

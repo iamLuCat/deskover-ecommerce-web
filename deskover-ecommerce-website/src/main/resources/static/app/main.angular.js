@@ -1,6 +1,6 @@
 angular
   .module('app', ['ngStorage', 'ngSweetAlert2'])
-  .controller('mainCtrl', function ($scope, $http, $localStorage, $window, $sessionStorage) {
+  .controller('mainCtrl', function ($scope, $http, $localStorage, $window, $sessionStorage, $filter) {
     $scope.amounts = [];
     $localStorage.items.forEach(item => {
       $scope.amounts.push(item.amount);
@@ -18,12 +18,10 @@ angular
         });
       }
     }
-
     $scope.changePage = async function (p) {
       await delete $sessionStorage.filter;
       $window.location.href = p;
     }
-
     $scope.cart = {
       itemPage: [],
       loadCart() {
@@ -171,14 +169,13 @@ angular
       url: "checkout",
       data: angular.toJson($scope.cart.items),
       headers: {
-        'Content-Type': 'application/json'
+        'consumes': 'application/json'
       }
     }).then(function successCallback(response) {
 
     }, function errorCallback(response) {
 
     });
-
     $http({
       method: "POST",
       url: "amounts",
@@ -186,12 +183,58 @@ angular
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(function successCallback(response) {
-
-    }, function errorCallback(response) {
-
+    }).then(function (response) {
+    }, function (response) {
     });
-
+    let host = "http://localhost:8080";
+    $scope.form = {
+        "id": "a4",
+        "pick_name": "HCM-nội thành",
+        "pick_address": "590 CMT8 P.11",
+        "pick_province": "TP. Hồ Chí Minh",
+        "pick_district": "Quận 3",
+        "pick_ward": "Phường 1",
+        "pick_tel": "0911222333",
+        "address": "123 nguyễn chí thanh",
+        "ward": "Phường Bến Nghé",
+        "hamlet": "Khác",
+        "is_freeship": "1",
+        "pick_date": "2016-09-30",
+        "pick_money": 47000,
+        "note": "Khối lượng tính cước tối đa: 1.00 kg",
+        "value": 3000000,
+        "transport": "fly",
+        "pick_option":"cod",      
+        "deliver_option" : "xteam",  
+        "pick_session" : 2,
+        "tags": [ 1]
+	}
+	$scope.change2 = function(){
+	    var item = angular.copy($scope.form);
+	    var url = `${host}/v1/api/ghtk/fee`;
+	    $http.post(url, item).then(resp => {
+			$scope.ship = resp.data;
+	    }).catch(error => {
+	        console.log("Error",error)
+	    })
+    }
+	$http.get(`${host}/v0/client/province`).then(resp => {
+        $scope.province = resp.data;
+    }).catch(error => {
+        console.log("Error",error)
+    })
+    $scope.change = function(){
+    	var newTemp = $filter("filter")($scope.province, {name: $scope.form.province});
+    	var id =  newTemp[0].id;
+	    var url = `${host}/v0/client/district?provinceId=${id}`;
+	    $http.get(url).then(resp => {
+			$scope.district = resp.data;
+	        console.log("Success", resp)
+	    }).catch(error => {
+	        console.log("Error",error)
+	    })
+    }
+    
 
   }).controller('shopCtrl', function ($scope, $http, $sessionStorage) {
     $scope.shop = {
