@@ -535,6 +535,26 @@ public class OrderServiceImpl implements OrderService {
 		return repo.findByUserUsernameOrderByCreatedAtDesc(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
+	@Override
+	@Transactional
+	public void cancelOrderByUserAndOrderCode(String orderCode) {
+		Order order = repo.findByOrderCodeAndUserUsername(orderCode, SecurityContextHolder.getContext().getAuthentication().getName());
+		if(order == null) {
+			throw new IllegalArgumentException("Không tìm thấy đơn hàng");
+		}
+		order.setOrderStatus(orderStatusRepo.findByCode("C-HUY"));
+		repo.saveAndFlush(order);
+		
+		Notification notify = new Notification();
+		notify.setTitle("Trạng thái đơn hàng "+order.getOrderCode()+": Chờ huỷ");
+		notify.setUser(order.getUser());
+		notify.setOrderCode(order.getOrderCode());
+		notify.setIsWatched(Boolean.FALSE);
+		notificationService.sendNotify(notify);
+		
+		
+	}
+
 
 
 }

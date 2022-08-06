@@ -37,4 +37,10 @@ public class NotificationServiceImpl implements NotificationService{
 	public List<Notification> getAllNotifyOfUserId() {
 		return repository.findByUserUsernameOrderByCreatedAtDesc(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
+	
+
+	@Override
+	public List<Notification> getAllNotifyByOrderCode(String orderCode) {
+		return repository.findByUserUsernameAndOrderCodeOrderByCreatedAtAsc(SecurityContextHolder.getContext().getAuthentication().getName(), orderCode);
+	}
 }

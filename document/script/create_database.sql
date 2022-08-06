@@ -7,6 +7,12 @@ CREATE DATABASE deskover;
 
 USE deskover;
 
+SELECT table_schema deskover,
+sum( data_length + index_length ) / 1024 / 1024 "DB size in MB",
+sum( data_free )/ 1024 / 1024 "free/reclaimable space in MB"
+FROM information_schema.TABLES
+GROUP BY table_schema;
+
 --------------------------------------------------------------------------------------------------------------
 -- Tạo bảng
 --------------------------------------------------------------------------------------------------------------
