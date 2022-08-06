@@ -28,9 +28,6 @@ public class Wishlist implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
-
     @Column(name = "actived", nullable = false)
     private Boolean actived;
 
