@@ -27,7 +27,7 @@ public interface AdminService {
 
     AdministratorDto update(AdministratorDto adminUpdate);
 
-    Administrator save(Administrator adminUpdate);
+    Administrator save(Administrator admin);
 
     AdministratorDto updatePassword(ChangePasswordDto adminUpdatePass);
 
