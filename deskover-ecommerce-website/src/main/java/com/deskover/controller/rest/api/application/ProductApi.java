@@ -62,7 +62,7 @@ public class ProductApi {
 			}
 			return ResponseEntity.ok(category);
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+			return null;
 		}
 	}
 

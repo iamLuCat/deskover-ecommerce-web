@@ -8,4 +8,5 @@ import com.deskover.model.entity.database.Notification;
 
 public interface NotificationRepository extends JpaRepository<Notification, Long>{
 	List<Notification> findByUserUsernameOrderByCreatedAtDesc(String username);
+	List<Notification> findByUserUsernameAndOrderCodeOrderByCreatedAtAsc(String username,String orderCode);
 }
