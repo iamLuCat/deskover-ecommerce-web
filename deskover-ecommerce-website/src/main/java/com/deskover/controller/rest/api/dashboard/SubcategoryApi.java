@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @RestController("SubcategoryApiForAdmin")
 @CrossOrigin("*")
-@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SELLER')")
 @RequestMapping("v1/api/admin")
 public class SubcategoryApi {
     @Autowired
@@ -53,6 +53,7 @@ public class SubcategoryApi {
                 categoryId.orElse(null)));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @PostMapping("/subcategories")
     public ResponseEntity<?> doPostCreate(@Valid @RequestBody Subcategory subcategory, BindingResult result) {
         if (result.hasErrors()) {
@@ -67,6 +68,7 @@ public class SubcategoryApi {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @PutMapping("/subcategories")
     public ResponseEntity<?> updateSubcategory(@RequestBody Subcategory subcategory) {
         try {
@@ -77,6 +79,7 @@ public class SubcategoryApi {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @DeleteMapping("/subcategories/{id}")
     public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
         try {

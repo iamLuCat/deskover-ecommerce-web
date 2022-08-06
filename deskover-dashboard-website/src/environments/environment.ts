@@ -1,5 +1,6 @@
-export const BASE_API = 'http://localhost:8080/v1/api';
 export const BASE_URL = 'http://localhost:8080';
+// export const BASE_URL = 'https://deskover-deloy.herokuapp.com';
+export const BASE_API = BASE_URL + '/v1/api';
 
 export const environment = {
   production: false,
@@ -12,7 +13,7 @@ export const environment = {
 
     tempFolder: BASE_URL + '/temp',
 
-    userImg: BASE_URL + '/img/admin/avatar',
+    userImg: BASE_URL + '/img/admin',
     customerImg: BASE_URL + '/img/shop/account',
     productImg: BASE_URL + '/img/shop/products',
     brandImg: BASE_URL + '/img/shop/brands',

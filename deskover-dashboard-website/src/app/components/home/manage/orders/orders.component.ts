@@ -6,6 +6,8 @@ import {DataTableDirective} from "angular-datatables";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {environment} from "../../../../../environments/environment";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
+import {AuthService} from "@services/auth.service";
+import {PermissionContants} from "@/constants/permission-contants";
 
 @Component({
   selector: 'app-orders',
@@ -26,7 +28,7 @@ export class OrdersComponent implements OnInit {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
   @ViewChild('orderDetailModal', {static: false}) orderDetailModal: TemplateRef<any>;
 
-  constructor(private orderService: OrderService, private modalService: BsModalService) {
+  constructor(private orderService: OrderService, private modalService: BsModalService, private authService: AuthService) {
     this.getOrderStatuses();
   }
 
@@ -208,5 +210,12 @@ export class OrdersComponent implements OnInit {
         }
       });
     });
+  }
+
+  hasRole() {
+    return this.authService.hasPermissions([
+      PermissionContants.ADMIN,
+      PermissionContants.MANAGER,
+    ]);
   }
 }

@@ -2,66 +2,78 @@ import {Component, HostBinding, Input, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 import {openCloseAnimation, rotateAnimation} from './menu-item.animations';
+import {MenuItem} from "@components/layouts/menu-sidebar/menu-sidebar.component";
+import {AuthService} from "@services/auth.service";
+import {User} from "@/entites/user";
 
 @Component({
-    selector: 'app-menu-item',
-    templateUrl: './menu-item.component.html',
-    styleUrls: ['./menu-item.component.scss'],
-    animations: [openCloseAnimation, rotateAnimation]
+  selector: 'app-menu-item',
+  templateUrl: './menu-item.component.html',
+  styleUrls: ['./menu-item.component.scss'],
+  animations: [openCloseAnimation, rotateAnimation]
 })
 export class MenuItemComponent implements OnInit {
-    @Input() menuItem: any = null;
-    public isExpandable: boolean = false;
-    @HostBinding('class.nav-item') isNavItem: boolean = true;
-    @HostBinding('class.menu-open') isMenuExtended: boolean = false;
-    public isMainActive: boolean = false;
-    public isOneOfChildrenActive: boolean = false;
+  @Input() menuItem: MenuItem = null;
+  public isExpandable: boolean = false;
+  @HostBinding('class.nav-item') isNavItem: boolean = true;
+  @HostBinding('class.menu-open') isMenuExtended: boolean = false;
+  public isMainActive: boolean = false;
+  public isOneOfChildrenActive: boolean = false;
 
-    constructor(private router: Router) {}
+  public user: User;
 
-    ngOnInit(): void {
-        if (
-            this.menuItem &&
-            this.menuItem.children &&
-            this.menuItem.children.length > 0
-        ) {
-            this.isExpandable = true;
-        }
-        this.calculateIsActive(this.router.url);
-        this.router.events
-            .pipe(filter((event) => event instanceof NavigationEnd))
-            .subscribe((event: NavigationEnd) => {
-                this.calculateIsActive(event.url);
-            });
+  constructor(private router: Router, private authService: AuthService) {
+    this.user = this.authService.user;
+  }
+
+  ngOnInit(): void {
+    if (
+      this.menuItem &&
+      this.menuItem.children &&
+      this.menuItem.children.length > 0
+    ) {
+      this.isExpandable = true;
     }
+    this.calculateIsActive(this.router.url);
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.calculateIsActive(event.url);
+      });
 
-    public handleMainMenuAction() {
-        if (this.isExpandable) {
-            this.toggleMenu();
-            return;
-        }
-        this.router.navigate(this.menuItem.path);
-    }
+  }
 
-    public toggleMenu() {
-        this.isMenuExtended = !this.isMenuExtended;
+  public handleMainMenuAction() {
+    if (this.isExpandable) {
+      this.toggleMenu();
+      return;
     }
+    this.router.navigate(this.menuItem.path);
+  }
 
-    public calculateIsActive(url: string) {
-        this.isMainActive = false;
-        this.isOneOfChildrenActive = false;
-        if (this.isExpandable) {
-            this.menuItem.children.forEach((item) => {
-                if (item.path[0] === url) {
-                    this.isOneOfChildrenActive = true;
-                    this.isMenuExtended = true;
-                }
-            });
-        } else if (this.menuItem.path[0] === url) {
-            this.isMainActive = true;
+  public toggleMenu() {
+    this.isMenuExtended = !this.isMenuExtended;
+  }
+
+  public calculateIsActive(url: string) {
+    this.isMainActive = false;
+    this.isOneOfChildrenActive = false;
+    if (this.isExpandable) {
+      this.menuItem.children.forEach((item) => {
+        if (item.path[0] === url) {
+          this.isOneOfChildrenActive = true;
+          this.isMenuExtended = true;
         }
-        if (!this.isMainActive && !this.isOneOfChildrenActive) {
-            this.isMenuExtended = false;
-        }
+      });
+    } else if (this.menuItem.path[0] === url) {
+      this.isMainActive = true;
     }
+    if (!this.isMainActive && !this.isOneOfChildrenActive) {
+      this.isMenuExtended = false;
+    }
+  }
+
+  hasPermissions(permissions: string[]): boolean {
+    return this.authService.hasPermissions(permissions);
+  }
 }

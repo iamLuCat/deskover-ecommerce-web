@@ -13,6 +13,8 @@ import {Category} from "@/entites/category";
 import {CategoryService} from '@services/category.service';
 import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
+import {PermissionContants} from "@/constants/permission-contants";
+import {AuthService} from "@services/auth.service";
 
 @Component({
   selector: 'app-promotion',
@@ -53,7 +55,8 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
     private discountService: DiscountService,
     private productService: ProductService,
     private categoryService: CategoryService,
-    private brandService: BrandService
+    private brandService: BrandService,
+    private authService: AuthService
   ) {
     // Config datepicker ngx-bootstrap
     this.bsConfig = Object.assign({}, {
@@ -99,7 +102,9 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
         {data: 'percent'},
         {data: 'startDate'},
         {data: 'endDate'},
-        {data: null,orderable: false,searchable: false},
+        {data: 'modifiedAt'},
+        {data: 'modifiedBy'},
+        {data: null, orderable: false,searchable: false},
       ],
       order: [[4, 'desc']],
     };
@@ -131,7 +136,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
       columns: [
         {data: 'name'},
         {data: 'price'},
-        {data: null,orderable: false,searchable: false},
+        {data: null,orderable: false,searchable: false, visible: self.hasRole()},
       ]
     };
     self.dtDiscountProductOptions = {
@@ -164,7 +169,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
         {data: 'name'},
         {data: 'price'},
         {data: 'priceSale'},
-        {data: null,orderable: false,searchable: false},
+        {data: null, orderable: false,searchable: false, visible: self.hasRole()},
       ]
     };
   }
@@ -283,5 +288,12 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
     this.brandService.getByActive().subscribe(data => {
       this.brands = data;
     });
+  }
+
+  hasRole() {
+    return this.authService.hasPermissions([
+      PermissionContants.ADMIN,
+      PermissionContants.MANAGER,
+    ]);
   }
 }
