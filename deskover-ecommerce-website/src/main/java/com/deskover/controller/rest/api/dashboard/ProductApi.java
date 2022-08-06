@@ -99,7 +99,7 @@ public class ProductApi {
             return ResponseEntity.badRequest().body(errors);
         }
         try {
-            productService.create(product, isCopy.orElse(Boolean.FALSE));
+            productService.save(product, isCopy.orElse(Boolean.FALSE));
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
