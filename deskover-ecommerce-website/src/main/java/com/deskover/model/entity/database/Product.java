@@ -145,4 +145,7 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product")
     private Set<ProductThumbnail> productThumbnails = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "product")
+    private Set<Wishlist> wishlists = new LinkedHashSet<>();
+
 }
