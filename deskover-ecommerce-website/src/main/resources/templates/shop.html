@@ -100,7 +100,8 @@
                             <div class="widget widget-filter mb-4 pb-4 border-bottom">
                                 <h3 class="widget-title">Thương hiệu</h3>
                                 <div class="input-group input-group-sm mb-2">
-                                    <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Search"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
+                                    <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Search">
+                                    <i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
                                 </div>
                                 <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
                                     <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1" ng-repeat="brand in shop.brands">
@@ -144,7 +145,10 @@
                                 </span>
                                 
                                 
-                                <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden"  th:href="@{/shop/item?p={{item.slug}}}">
+                                <button class="btn-wishlist btn-sm" ng-class="wishlist.list.includes(item.slug) ? 'bg-danger' : ''"  ng-click="wishlist.change(item.slug)" sec:authorize="isAuthenticated()">
+                                    <i aria-hidden="true" ng-class="wishlist.list.includes(item.slug) ? 'fa fa-heart text-light' : 'fa fa-heart-o'"></i>
+                                </button>
+                                <a class="card-img-top d-block overflow-hidden"  th:href="@{/shop/item?p={{item.slug}}}">
                                     <img src="{{'/img/shop/products/' + item.imgUrl}}" alt="{{item.slug}}"></a>
                                 <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">{{item.category}}</a>
                                     <h3 class="product-title fs-sm"><a th:href="@{/shop/item?p=item.slug}">{{item.name}}</a></h3>

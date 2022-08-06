@@ -1,10 +1,33 @@
 angular
   .module('app', ['ngStorage', 'ngSweetAlert2'])
   .controller('mainCtrl', function ($scope, $http, $localStorage, $window, $sessionStorage, $filter) {
+    $scope.wishlist = {
+      list: [],
+      change(p) {
+        $http.post('/api/v1/ecommerce/product/wishlist', p)
+        .then(function successCallback(resp) {
+          $scope.wishlist.list = resp.data;
+        }, function errorCallback(resp) {
+        });
+      },
+      init(){
+        $http({
+          method: 'GET',
+          url: '/api/v1/ecommerce/product/wishlist',
+        }).then(function successCallback(resp) {
+          $scope.wishlist.list = resp.data;
+        });
+      }
+    }
+    $scope.wishlist.init();
+
+
     $scope.amounts = [];
-    $localStorage.items.forEach(item => {
-      $scope.amounts.push(item.amount);
-    });
+    if($localStorage.items){
+      $localStorage.items.forEach(item => {
+        $scope.amounts.push(item.amount);
+      });
+    }
     $scope.search = {
       select: new URL(location.href).searchParams.get('c'),
       init() {
@@ -92,14 +115,24 @@ angular
         console.log(i)
         var item = $localStorage.items.find(item => item.slug == i.slug);
         if (item) {
-          if (item.amount <= 5) item.amount++;
-          swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Your work has been saved',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          if (item.amount <= 5) {
+            item.amount++;
+            swal.fire({
+              position: 'top-end',
+              title: 'Hàng hóa đã được thêm vào giỏ hàng',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }else{
+            swal.fire({
+              position: 'top-end',
+              icon: 'warning',
+              title: 'Đã vượt mức cho phép ',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+          
         }
         else {
           i.amount = 1;
@@ -469,5 +502,5 @@ angular
 
       }
     };
-  })
+  }).filter('trustHtml', function($sce) { return $sce.trustAsHtml; });
 

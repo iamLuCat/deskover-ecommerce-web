@@ -11,6 +11,7 @@ import com.deskover.model.entity.dto.UserCreateDto;
 public interface UserService {
 	 Users findById(Long id);
 	 Users findByUsername(String username);
+	 Users findUser(String username);
 	 DataTablesOutput<Users> getByActiveForDatatables(DataTablesInput input, Boolean isActive);
 	 Users create(UserCreateDto userRequest);
 	 Users create1(UserCreateDto userRequest);
@@ -18,4 +19,5 @@ public interface UserService {
 	 Users update(Users user);
 	 void changeActived(Long id);
 	 void updatePassword(ChangePasswordDto userRequest);
+	 void updateTimestamp(Users user);
 }
