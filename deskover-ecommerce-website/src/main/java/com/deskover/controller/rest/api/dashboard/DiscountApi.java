@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@PreAuthorize("hasAnyRole('ADMIN', 'SELLER', 'MANAGER')")
+@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SELLER')")
 @RequestMapping("v1/api/admin/discounts")
 public class DiscountApi {
 
