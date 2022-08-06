@@ -4,6 +4,8 @@ import {Component, HostBinding, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {AuthService} from "@services/auth.service";
+import {PermissionContants} from "@/constants/permission-contants";
+import {User} from "@/entites/user";
 
 const BASE_CLASSES = 'main-sidebar elevation-4';
 
@@ -15,13 +17,14 @@ const BASE_CLASSES = 'main-sidebar elevation-4';
 export class MenuSidebarComponent implements OnInit {
   @HostBinding('class') classes: string = BASE_CLASSES;
   public ui: Observable<UiState>;
-  public user: any;
-  public menu = MENU;
+  public user: User;
+  public menu: MenuItem[] = MENU;
 
   constructor(
     public authService: AuthService,
     private store: Store<AppState>
   ) {
+    this.user = this.authService.user;
   }
 
   ngOnInit() {
@@ -36,70 +39,126 @@ export class MenuSidebarComponent implements OnInit {
   }
 }
 
-export const MENU = [
+export interface MenuItem {
+  header?: string;
+  label: string;
+  icon: string;
+  path?: string[];
+  children?: MenuItem[];
+  permissions?: string[];
+}
+
+export const MENU: MenuItem[] = [
   {
-    name: 'Bảng điều khiển',
+    label: 'Trang chủ',
     path: ['/'],
-    iconClasses: 'fa-duotone fa-gauge-max'
+    icon: 'fa-duotone fa-gauge-max',
+    permissions: [PermissionContants.ALL]
   },
   {
     header: 'SẢN PHẨM',
-    name: 'Danh mục',
-    iconClasses: 'fa-duotone fa-layer-group',
+    label: 'Danh mục',
+    icon: 'fa-duotone fa-layer-group',
+    permissions: [
+      PermissionContants.ADMIN,
+      PermissionContants.MANAGER
+    ],
     children: [
       {
-        name: 'Danh mục chính',
+        label: 'Danh mục chính',
         path: ['/categories'],
-        iconClasses: 'fa-duotone fa-circle-dot',
+        icon: 'fa-duotone fa-circle-dot',
+        permissions: [
+          PermissionContants.ADMIN,
+          PermissionContants.MANAGER
+        ],
       },
 
       {
-        name: 'Danh mục con',
+        label: 'Danh mục con',
         path: ['/subcategories'],
-        iconClasses: 'fa-duotone fa-circle-dot',
+        icon: 'fa-duotone fa-circle-dot',
+        permissions: [
+          PermissionContants.ADMIN,
+          PermissionContants.MANAGER
+        ],
       }
     ]
   },
   {
-    name: 'Thương hiệu',
+    label: 'Thương hiệu',
     path: ['/brands'],
-    iconClasses: 'fa-duotone fa-copyright'
+    icon: 'fa-duotone fa-copyright',
+    permissions: [
+      PermissionContants.ADMIN,
+      PermissionContants.MANAGER
+    ],
   },
   {
-    name: 'Chương trình khuyến mãi',
-    iconClasses: 'fa-duotone fa-badge-percent',
+    label: 'Chương trình khuyến mãi',
+    icon: 'fa-duotone fa-badge-percent',
+    permissions: [
+      PermissionContants.ADMIN,
+      PermissionContants.MANAGER,
+      PermissionContants.SELLER
+    ],
     children: [
       {
-        name: 'Giảm giá',
+        label: 'Giảm giá',
         path: ['/promotions'],
-        iconClasses: 'fa-duotone fa-circle-dot',
+        icon: 'fa-duotone fa-circle-dot',
+        permissions: [
+          PermissionContants.ADMIN,
+          PermissionContants.MANAGER,
+          PermissionContants.SELLER
+        ],
       },
       {
-        name: 'Flash Sale',
+        label: 'Flash Sale',
         path: ['/flash-sales'],
-        iconClasses: 'fa-duotone fa-circle-dot',
+        icon: 'fa-duotone fa-circle-dot',
+        permissions: [
+          PermissionContants.ADMIN,
+          PermissionContants.MANAGER,
+          PermissionContants.SELLER
+        ],
       }
     ]
   },
   {
-    name: 'Sản phẩm',
+    label: 'Sản phẩm',
     path: ['/products'],
-    iconClasses: 'fa-duotone fa-cart-flatbed-boxes'
+    icon: 'fa-duotone fa-cart-flatbed-boxes',
+    permissions: [
+      PermissionContants.ADMIN,
+      PermissionContants.MANAGER,
+      PermissionContants.SELLER
+    ],
   },
   {
-    name: 'Đơn hàng',
+    label: 'Đơn hàng',
     path: ['/orders'],
-    iconClasses: 'fa-duotone fa-file-invoice'
+    icon: 'fa-duotone fa-file-invoice',
+    permissions: [
+      PermissionContants.ADMIN,
+      PermissionContants.SHIPPER
+    ],
   },
   {
     header: 'TÀI KHOẢN',
-    name: 'Người dùng',
+    label: 'Người dùng',
     path: ['/customers'],
-    iconClasses: 'fa-duotone fa-users'
+    icon: 'fa-duotone fa-users',
+    permissions: [
+      PermissionContants.ADMIN
+    ],
   },
   {
-    name: 'Nhân viên',
+    label: 'Nhân viên',
     path: ['/users'],
-    iconClasses: 'fa-duotone fa-user-lock'
+    icon: 'fa-duotone fa-user-lock',
+    permissions: [
+      PermissionContants.ADMIN
+    ],
   },
 ];

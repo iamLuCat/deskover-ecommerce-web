@@ -1,35 +1,26 @@
 package com.deskover.controller.rest.api.dashboard;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.deskover.model.entity.database.Brand;
 import com.deskover.model.entity.database.repository.BrandRepository;
 import com.deskover.model.entity.dto.security.payload.MessageResponse;
 import com.deskover.other.util.ValidationUtil;
 import com.deskover.service.BrandService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("v1/api/admin")
+@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SELLER')")
+@RequestMapping("v1/api/admin/brands")
 public class BrandApi {
 
     @Autowired
@@ -38,13 +29,13 @@ public class BrandApi {
     @Autowired
     BrandRepository repo;
 
-    @GetMapping("/brands")
+    @GetMapping()
     public ResponseEntity<?> doGetAll() {
         List<Brand> listBrand = service.getAll();
         return ResponseEntity.ok(listBrand);
     }
 
-    @GetMapping("/brands/actived")
+    @GetMapping("/actived")
     public ResponseEntity<?> doGetAllBrandIsActived() {
         List<Brand> listBrand = service.getAllBrandIsActived();
         if (listBrand == null) {
@@ -53,7 +44,7 @@ public class BrandApi {
         return ResponseEntity.ok(listBrand);
     }
 
-    @GetMapping("/brands/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> doGetById(@PathVariable("id") Long id) {
         Brand brand = service.getById(id);
         if (brand == null) {
@@ -62,7 +53,8 @@ public class BrandApi {
         return ResponseEntity.ok(brand);
     }
 
-    @PostMapping("/brands")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PostMapping()
     public ResponseEntity<?> doCreate(@Valid @RequestBody Brand brand, BindingResult result) {
         if(result.hasErrors()){
             MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -76,7 +68,8 @@ public class BrandApi {
         }
     }
 
-    @PutMapping("/brands")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PutMapping()
     public ResponseEntity<?> doUpdate(@RequestBody Brand brand) {
         try {
             Brand brandUpdated = service.update(brand);
@@ -86,12 +79,13 @@ public class BrandApi {
         }
     }
 
-    @PostMapping("/brands/datatables")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PostMapping("/datatables")
     public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input, @RequestParam("isActive") Optional<Boolean> isActive) {
         return ResponseEntity.ok(service.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
     }
 
-    @DeleteMapping("/brands/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> doChangeActive(@PathVariable("id") Long id) {
         try {
             service.changeActived(id);

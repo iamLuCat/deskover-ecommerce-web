@@ -23,7 +23,7 @@ export class UsersComponent implements OnInit {
   currentUser: User;
 
   users: User[] = [];
-  user: User = <User>{};
+  user: User;
   avatarPreview: any;
 
   roles: UserRole[] = [];
@@ -125,7 +125,7 @@ export class UsersComponent implements OnInit {
   }
 
   editUser(user: User) {
-    this.user = user;
+    this.user = Object.assign({}, user);
     this.avatarPreview = this.user.avatar ? this.getSrc(this.user.avatar) : 'assets/images/no-image.png';
     this.openModal();
   }
@@ -136,8 +136,12 @@ export class UsersComponent implements OnInit {
         this.closeModal();
         NotiflixUtils.successNotify('Cập nhật thành công');
         this.rerender();
-      }).add(() => {
-        this.user = <User>{};
+      });
+    } else {
+      this.userService.create(user).subscribe(data => {
+        this.closeModal();
+        NotiflixUtils.successNotify('Thêm mới thành công');
+        this.rerender();
       });
     }
   }
@@ -145,7 +149,7 @@ export class UsersComponent implements OnInit {
   /* Utils */
   isCurrentUser(user: User): boolean {
     // return user.authority.role.roleId === 'ROLE_ADMIN';
-    return user.id === this.currentUser.id;
+    return user.id === this.currentUser?.id;
   }
 
   compareFn(c1: any, c2: any): boolean {

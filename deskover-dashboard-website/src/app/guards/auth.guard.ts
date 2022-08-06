@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
 import {
+  ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
-  ActivatedRouteSnapshot,
+  Router,
   RouterStateSnapshot,
-  UrlTree,
-  Router
+  UrlTree
 } from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthService} from "@services/auth.service";
-import {StorageConstants} from "@/constants/storage-constants";
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +46,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
 
     try {
-      await this.authService.getProfile2();
+      await this.authService.getProfile();
       return true;
     } catch (error) {
       return false;

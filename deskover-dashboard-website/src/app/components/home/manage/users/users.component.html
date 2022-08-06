@@ -76,7 +76,7 @@
                 {{ user.fullname }}
               </td>
               <td class="align-middle">
-                <select class="form-select form-select-table"
+                <select class="form-select form-select-table" *ngIf="user.authority"
                         [disabled]="isCurrentUser(user)" [compareWith]="compareFn"
                         [(ngModel)]="user.authority.role" (change)="saveUser(user)">
                   <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
@@ -149,10 +149,10 @@
             <div class="col-12 col-md-7">
               <div class="mb-3">
                 <label class="form-label" [for]="'name'">Tên</label>
-                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.username"
+                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.username" [disabled]="isCurrentUser(user)"
                        #name="ngModel" required/>
                 <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-                  <span *ngIf="name.errors?.['required']">Vui lòng nhập tên</span>
+                  <span *ngIf="name.errors?.['required']">Vui lòng nhập tên tài khoản</span>
                 </div>
               </div>
               <div class="mb-3">

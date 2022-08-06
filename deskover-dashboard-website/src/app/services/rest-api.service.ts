@@ -38,14 +38,19 @@ export class RestApiService{
     return this.httpClient.post(link, formData);
   }
 
-  public handleError(error: any) {
+  public handleError = (error: Response | any) => {
     let errorMessage = 'Unknown error!';
     if (error instanceof HttpErrorResponse) {
       errorMessage = error.error.message;
       if (error.status === 0) {
         errorMessage = 'Máy chủ không phản hồi!';
       }
+      if (error.status === 403) {
+        errorMessage = 'Bạn không có quyền truy cập!';
+        this.router.navigate(['/dashboard']);
+      }
       if (error.status === 401) {
+        errorMessage = 'Token đã hết hạn!';
         this.router.navigate(['/login']);
       }
     } else {

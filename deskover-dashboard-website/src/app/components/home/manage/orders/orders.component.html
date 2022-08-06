@@ -92,21 +92,23 @@
                   [ngClass]="getClassesByPayment(order.statusPayment?.code)">{{ order.statusPayment?.status }}</span>
               </td>
               <td class="align-middle text-end">
-                <button type="button" class="btn btn-sm btn-warning me-1" placement="top" tooltip="Xác nhận hoàn tiền"
-                        container="body" (click)="refundOrder(order)"
-                        *ngIf="orderStatusCode !== null && isUnpaidOrder(order)">
-                  <i class="fa-solid fa-hand-holding-dollar"></i>
-                </button>
-                <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
-                        container="body" (click)="confirmOrder(order)"
-                        *ngIf="orderStatusCode !== null && isPendingOrder(order)">
-                  <i class="fa-solid fa-circle-check"></i>
-                </button>
-                <button type="button" class="btn btn-sm btn-danger me-1" placement="top" tooltip="Huỷ đơn"
-                        container="body" (click)="cancelOrder(order)"
-                        *ngIf="orderStatusCode !== null && isPendingOrder(order)">
-                  <i class="fa-solid fa-circle-xmark"></i>
-                </button>
+                <div class="d-inline-block" *ngIf="orderStatusCode && hasRole()">
+                  <button type="button" class="btn btn-sm btn-warning me-1" placement="top" tooltip="Xác nhận hoàn tiền"
+                          container="body" (click)="refundOrder(order)"
+                          *ngIf="isUnpaidOrder(order)">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
+                          container="body" (click)="confirmOrder(order)"
+                          *ngIf="isPendingOrder(order)">
+                    <i class="fa-solid fa-circle-check"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-danger me-1" placement="top" tooltip="Huỷ đơn"
+                          container="body" (click)="cancelOrder(order)"
+                          *ngIf="isPendingOrder(order)">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                  </button>
+                </div>
                 <button type="button" class="btn btn-sm btn-primary me-1" placement="top" tooltip="Chi tiết đơn hàng"
                         container="body" (click)="getOrder(order)">
                   <i class="fa-solid fa-circle-info"></i>
@@ -236,7 +238,7 @@
       </div>
     </div>
   </div>
-  <div class="modal-footer" *ngIf="isPendingOrder(order)">
+  <div class="modal-footer" *ngIf="isPendingOrder(order) && hasRole()">
     <button type="button" class="btn btn-sm btn-success" (click)="confirmOrder(order)">
       Xác nhận đơn
     </button>

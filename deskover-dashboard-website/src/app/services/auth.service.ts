@@ -5,6 +5,7 @@ import {RestApiService} from '@services/rest-api.service';
 import {StorageConstants} from "@/constants/storage-constants";
 import {User} from "@/entites/user";
 import {firstValueFrom, lastValueFrom} from "rxjs";
+import {PermissionContants} from "@/constants/permission-contants";
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +23,7 @@ export class AuthService {
     return this.restApiService.post(`${environment.globalUrl.login}`, body);
   }
 
-  getProfile() {
-    return this.restApiService.get(environment.globalUrl.getPrincipal);
-  }
-
-  async getProfile2() {
+  async getProfile() {
     try {
       this.user = await lastValueFrom(this.restApiService.get(environment.globalUrl.getPrincipal));
     } catch (error) {
@@ -35,8 +32,19 @@ export class AuthService {
     }
   }
 
+  hasPermissions(permissions: string[]) {
+    if (!this.user) {
+      return false;
+    }
+    if(permissions.some(permission => permission === PermissionContants.ALL)) {
+      return true
+    }
+    return permissions.some(permission => permission === this.user.authority.role.roleId);
+  }
+
   logout() {
     localStorage.removeItem(StorageConstants.TOKEN);
+    this.user = null;
     this.router.navigate(['/login']);
   }
 }

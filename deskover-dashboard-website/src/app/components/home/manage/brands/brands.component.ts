@@ -1,3 +1,4 @@
+import {environment} from "../../../../../environments/environment";
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UrlUtils} from "@/utils/url-utils";
 import {DataTableDirective} from "angular-datatables";
@@ -7,7 +8,8 @@ import {BrandService} from "@services/brand.service";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {UploadService} from "@services/upload.service";
-import {environment} from "../../../../../environments/environment";
+import {PermissionContants} from "@/constants/permission-contants";
+import {AuthService} from '@services/auth.service';
 
 @Component({
   selector: 'app-brand',
@@ -28,7 +30,11 @@ export class BrandsComponent implements OnInit {
   @ViewChild('brandForm') brandForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
-  constructor(private brandService: BrandService, private uploadServive: UploadService) {}
+  constructor(
+    private brandService: BrandService,
+    private uploadServive: UploadService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     const self = this;
@@ -57,7 +63,11 @@ export class BrandsComponent implements OnInit {
         {data: 'slug'},
         {data: 'description'},
         {data: 'modifiedAt'},
-        {data: null, orderable: false, searchable: false,},
+        {data: 'modifiedBy'},
+        {
+          data: null, orderable: false, searchable: false,
+          // visible: self.hasAdminRole(),
+        },
       ]
     }
   }
@@ -150,5 +160,11 @@ export class BrandsComponent implements OnInit {
 
   getSrc(image: string) {
     return image ? `${environment.globalUrl.brandImg}/${image}` : 'assets/images/no-image.png';
+  }
+
+  hasAdminRole() {
+    return this.authService.hasPermissions([
+      PermissionContants.ADMIN
+    ]);
   }
 }

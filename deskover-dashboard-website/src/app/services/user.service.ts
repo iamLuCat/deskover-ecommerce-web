@@ -26,6 +26,10 @@ export class UserService {
     return this.restApi.put(this.url, user);
   }
 
+  create(user: User): Observable<User> {
+    return this.restApi.post(this.url, user);
+  }
+
   changeActive(id: number) {
     return this.restApi.delete(this.url, id);
   }
