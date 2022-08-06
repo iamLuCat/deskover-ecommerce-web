@@ -24,10 +24,7 @@
                         </div>
                         <div class="d-none d-md-block ms-3 text-nowrap">
                                 <a class="topbar-link d-none d-md-inline-block" th:href="@{/wishlist}" sec:authorize="isAuthenticated()">
-                                        <i class="ci-heart mt-n1"></i>Yêu thích (3)
-                                </a>
-                                <a class="topbar-link ms-3 ps-3 border-start border-light d-none d-md-inline-block" th:href="@{/comparison}">
-                                        <i class="ci-compare mt-n1"></i>So sánh (3)
+                                        <i class="ci-heart mt-n1"></i>Yêu thích ({{wishlist.list.length}})
                                 </a>
                                 <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/tracking}">
                                         <i class="ci-truck mt-n1"></i>Tra cứu đơn hàng
@@ -86,7 +83,7 @@
                                                                         <div class="widget-cart-item pb-2 border-bottom" ng-repeat="item in cart.items">
                                                                                 <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true" ng-click="cart.remove(item)">&times;</span></button>
                                                                                 <div class="d-flex align-items-center">
-                                                                                        <a class="d-block flex-shrink-0" href="/shop/item?p={{item.slug}}"><img ng-src="/img/shop/products/{{item.imgUrl}}" width="64" alt="Product"></a>
+                                                                                        <a class="d-block flex-shrink-0" href="/shop/item?p={{item.slug}}"><img ng-src="{{item.imgUrl}}" width="64" alt="Product"></a>
                                                                                         <div class="ps-2">
                                                                                                 <h6 class="widget-product-title">
                                                                                                         <a href="/shop/item?p={{item.slug}}">{{item.name}}</a>

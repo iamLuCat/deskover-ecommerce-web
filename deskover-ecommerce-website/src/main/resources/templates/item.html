@@ -101,17 +101,24 @@
                                         </div>
                                         <div class="fs-sm mb-4"><span class="text-heading fw-medium me-1">[[${product.category}]]</span> - <span class="text-muted" id="colorOption">[[${product.subcategory}]]</span></div>
 
-                                        <div class="d-flex align-items-center pt-2 pb-4">
+                                        <div class="d-flex align-items-center pt-2 pb-4" sec:authorize="isAuthenticated()">
+                                            <span class="col-10 px-0" >
+                                                <button class="btn btn-primary btn-shadow d-block w-100" type="button" ng-click="cart.addP()">
+                                                    <i class="ci-cart fs-lg me-2"></i>Thêm vào giỏ hàng
+                                                </button>
+                                            </span>
+                                            <span class="col-2 d-flex justify-content-end">
+                                                <button class="btn btn-secondary btn-icon" type="button" data-bs-toggle="tooltip" title="" data-bs-original-title="Thêm vào yêu thích" ng-class="wishlist.list.includes(cart.itemPage.slug) ? 'bg-danger' : ''" ng-click="wishlist.change(cart.itemPage.slug)">
+                                                    <i class="" ng-class="wishlist.list.includes(cart.itemPage.slug) ? 'fa fa-heart text-light' : 'fa fa-heart-o'"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex align-items-center row" sec:authorize="isAnonymous()">
                                             <button class="btn btn-primary btn-shadow d-block w-100" type="button" ng-click="cart.addP()">
                                                 <i class="ci-cart fs-lg me-2"></i>Thêm vào giỏ hàng
                                             </button>
                                         </div>
-                                        <div class="d-flex mb-4">
-                                            <div class="w-100 me-3" sec:authorize="isAuthenticated()">
-                                                <button class="btn btn-secondary d-block w-100" type="button"><i class="ci-heart fs-lg me-2"></i>
-                                                    <span class='d-none d-sm-inline'>Thêm vào </span>yêu thích</button>
-                                            </div>
-                                        </div>
+
                                         <!-- Product panels-->
                                         <div class="accordion mb-4" id="productPanels">
                                             <div class="accordion-item">
