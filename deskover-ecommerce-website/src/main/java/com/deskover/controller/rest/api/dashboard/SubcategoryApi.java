@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @RestController("SubcategoryApiForAdmin")
 @CrossOrigin("*")
+@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
 @RequestMapping("v1/api/admin")
 public class SubcategoryApi {
     @Autowired
@@ -64,7 +66,6 @@ public class SubcategoryApi {
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @PutMapping("/subcategories")
     public ResponseEntity<?> updateSubcategory(@RequestBody Subcategory subcategory) {

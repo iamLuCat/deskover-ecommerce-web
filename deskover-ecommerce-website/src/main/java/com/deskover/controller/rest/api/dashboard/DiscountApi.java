@@ -1,41 +1,32 @@
 package com.deskover.controller.rest.api.dashboard;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.deskover.model.entity.database.Discount;
 import com.deskover.model.entity.dto.security.payload.MessageResponse;
 import com.deskover.other.util.MessageErrorUtil;
 import com.deskover.other.util.ValidationUtil;
 import com.deskover.service.DiscountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("v1/api/admin")
+@PreAuthorize("hasAnyRole('ADMIN', 'SELLER', 'MANAGER')")
+@RequestMapping("v1/api/admin/discounts")
 public class DiscountApi {
 
 	@Autowired
 	private DiscountService discountService;
 
-	@GetMapping("/discounts")
+	@GetMapping()
 	public ResponseEntity<?> doGetAll() {
 		List<Discount> discounts = discountService.findAll();
 		if (discounts.isEmpty()) {
@@ -44,13 +35,13 @@ public class DiscountApi {
 		return ResponseEntity.ok(discounts);
 	}
 
-	@PostMapping("/discounts/datatables")
+	@PostMapping("/datatables")
 	public ResponseEntity<?> doGetForDatatablesByActive(@Valid @RequestBody DataTablesInput input,
 			@RequestParam("isActive") Optional<Boolean> isActive) {
 		return ResponseEntity.ok(discountService.getByActiveForDatatables(input, isActive.orElse(Boolean.TRUE)));
 	}
 
-	@GetMapping("/discounts/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> doGetDiscountId(@PathVariable("id") Long id) {
 		Discount discounts = discountService.findById(id);
 		if (discounts == null) {
@@ -59,7 +50,8 @@ public class DiscountApi {
 		return ResponseEntity.ok(discounts);
 	}
 
-	@PostMapping("/discounts")
+	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+	@PostMapping()
 	public ResponseEntity<?> doCreate(@Valid @RequestBody Discount discount, BindingResult result) {
 		if (result.hasErrors()) {
 			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
@@ -74,7 +66,8 @@ public class DiscountApi {
 		}
 	}
 
-	@PutMapping("/discounts")
+	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+	@PutMapping()
 	public ResponseEntity<?> doUpdate(@RequestBody Discount discount,
 			@RequestParam("productIdToAdd") Optional<Long> productIdToAdd,
 			@RequestParam("productIdToRemove") Optional<Long> productIdToRemove) {
@@ -87,7 +80,8 @@ public class DiscountApi {
 		}
 	}
 
-	@DeleteMapping("/discounts/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> doDelete(@PathVariable("id") Long id) {
 		try {
 			Discount discount = discountService.changeActive(id);
@@ -100,7 +94,7 @@ public class DiscountApi {
 		}
 	}
 
-	@GetMapping("/discounts/checkActive")
+	@GetMapping("/checkActive")
 	public void doCheckActive() {
 		discountService.isCheckActived();
 	}

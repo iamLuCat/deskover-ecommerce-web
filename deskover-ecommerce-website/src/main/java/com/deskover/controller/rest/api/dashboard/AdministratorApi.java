@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("v1/api/admin/users")
 public class AdministratorApi {
 	@Autowired
