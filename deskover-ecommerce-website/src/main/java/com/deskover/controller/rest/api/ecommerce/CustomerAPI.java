@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -92,6 +93,16 @@ public class CustomerAPI {
 			f.setName(user.getFullname());
 			f.setEmail(user.getEmail());
 		} catch (Exception e) {}
+		
+		ratingService.postReview(f);
+	}
+	
+	@PostMapping("product/wishlist")
+	@PreAuthorize("hasRole('ROLE_CUSTOMER')")
+	public void addWishlist(@RequestBody FormReview f, Principal principal){
+		Users user = userService.findByUsername(principal.getName());
+		f.setName(user.getFullname());
+		f.setEmail(user.getEmail());
 		
 		ratingService.postReview(f);
 	}

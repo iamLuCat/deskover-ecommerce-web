@@ -41,8 +41,8 @@ public class Rating implements Serializable {
     @Column(name = "fullname", nullable = false)
     private String fullname;
 
-    @Column(name = "phone", length = 10)
-    private String phone;
+    @Column(name = "email", length = 10)
+    private String email;
 
     @Column(name = "point", nullable = false)
     private Integer point;
