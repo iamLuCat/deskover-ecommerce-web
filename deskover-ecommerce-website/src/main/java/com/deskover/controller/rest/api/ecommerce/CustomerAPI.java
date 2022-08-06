@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.model.entity.database.Brand;
 import com.deskover.model.entity.database.Category;
@@ -28,6 +29,9 @@ import com.deskover.service.CategoryService;
 import com.deskover.service.RatingService;
 import com.deskover.service.ShopService;
 import com.deskover.service.UserService;
+import com.deskover.service.WishlistService;
+
+import net.bytebuddy.implementation.bytecode.Throw;
 
 @RestController
 @RequestMapping("/api/v1/ecommerce/")
@@ -47,6 +51,9 @@ public class CustomerAPI {
 	
 	@Autowired
 	private RatingService ratingService;
+	
+	@Autowired
+	private WishlistService wishlistService;
 	
 	@GetMapping("category/all")
 	public List<CategoryDTO> getAllCategory(){
@@ -98,13 +105,21 @@ public class CustomerAPI {
 	}
 	
 	@PostMapping("product/wishlist")
-	@PreAuthorize("hasRole('ROLE_CUSTOMER')")
-	public void addWishlist(@RequestBody FormReview f, Principal principal){
-		Users user = userService.findByUsername(principal.getName());
-		f.setName(user.getFullname());
-		f.setEmail(user.getEmail());
-		
-		ratingService.postReview(f);
+	public List<String> postWishlist(@RequestBody String p, Principal principal){
+		try {
+			return wishlistService.setWishlist(p, principal.getName());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	@GetMapping("product/wishlist")
+	public List<String> getWishlist(Principal principal){
+		try {
+			return wishlistService.getWishlist(principal.getName());
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 }

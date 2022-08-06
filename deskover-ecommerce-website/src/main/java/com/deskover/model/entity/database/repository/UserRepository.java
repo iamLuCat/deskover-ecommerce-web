@@ -13,4 +13,5 @@ public interface UserRepository extends JpaRepository<Users, Long> {
 	Page<Users> findByActived(Boolean actived, Pageable Page);
 	Users findByUsername(String username);
 	Boolean existsByUsername(String username);
+	Users findByUsernameOrEmailOrPhone(String username, String email, String phone);
 }

@@ -27,8 +27,9 @@ public class UsersDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            Users user = userService.findByUsername(username);
-            UserPassword userPassword = passwordService.getPasswordByUsername(username);
+            Users user = userService.findUser(username.trim());
+            UserPassword userPassword = passwordService.getPasswordByUsername(user.getUsername());
+            userService.updateTimestamp(user);
             return new User(
             		user.getUsername(),
             		userPassword.getPassword(),
@@ -41,7 +42,6 @@ public class UsersDetailsService implements UserDetailsService {
         } catch (Exception e) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-
     }
 
 }
