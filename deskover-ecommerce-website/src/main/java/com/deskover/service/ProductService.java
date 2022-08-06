@@ -20,8 +20,6 @@ public interface ProductService {
 
 	Product changeActive(Long id);
 
-	Product create(Product product, Boolean isCopy);
-
 	Product save(Product product);
 
 	Product save(Product product, Boolean isCopy);

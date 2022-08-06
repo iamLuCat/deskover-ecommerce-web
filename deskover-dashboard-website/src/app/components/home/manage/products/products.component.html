@@ -70,7 +70,7 @@
               <th class="align-middle text-center">Giá</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
-              <th class="align-middle text-end">Thao tác</th>
+              <th class="align-middle text-end"></th>
             </tr>
             </thead>
             <tbody class="table-light" *ngIf="products?.length !== 0">
@@ -99,14 +99,14 @@
                 {{ product.modifiedBy }}
               </td>
               <td class="align-middle text-end">
-                <div *ngIf="isActive" class="d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
+                        *ngIf="isActive" (click)="updateProduct(product)">
+                  <i class="fas fa-pen-square"></i>
+                </button>
+                <div *ngIf="isActive && hasRole()" class="d-inline-block">
                   <button type="button" class="btn btn-sm btn-success me-1" placement="top"
                           tooltip="Sao chép & Tạo mới" (click)="copyProduct(product)">
                     <i class="fa-solid fa-copy"></i>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" tooltip="Sửa"
-                          (click)="updateProduct(product)">
-                    <i class="fas fa-pen-square"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-danger" (click)="deleteProduct(product)" placement="top"
                           tooltip="Xoá" container="body">
@@ -139,7 +139,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="product-dialog-sizes" class="modal-title pull-left text-uppercase text-primary fw-bold">
-          {{ product.id ? 'Cập nhật' : 'Thêm' }} sản phẩm
+          {{ product.id && !isCopy ? 'Cập nhật' : 'Thêm' }} sản phẩm
         </h4>
         <button type="button" class="btn-close close pull-right" (click)="closeModal()" aria-label="Close">
           <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -147,146 +147,148 @@
       </div>
       <div class="modal-body">
         <form #productForm="ngForm" enctype="multipart/form-data">
-          <div class="row">
-            <div class="col-12 col-lg-4">
-              <div class="mb-3">
-                <label class="form-label" [for]="'name'">Tên</label>
-                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name" #name="ngModel"
-                       (keyup)="product.slug=toSlug(product.name)" required/>
-                <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
-                  <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label" [for]="'slug'">Slug</label>
-                <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug" #slug="ngModel"
-                       required/>
-                <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
-                  <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label" [for]="'brand'">Thương hiệu</label>
-                <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
-                        [compareWith]="compareFn" #brand="ngModel" required>
-                  <option [ngValue]="null">-- Chọn thương hiệu --</option>
-                  <option *ngFor="let item of brands" [ngValue]="item">{{ item.name }}</option>
-                </select>
-                <div class="invalid-feedback" *ngIf="brand.invalid && (brand.dirty || brand.touched)">
-                  <span *ngIf="brand.errors?.required">Vui lòng chọn thương hiệu</span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label" [for]="'category'">Danh mục cha</label>
-                <select class="form-control" id="category" name="category" [(ngModel)]="category"
-                        #categoryEdit="ngModel" [compareWith]="compareFn" (change)="getSubcategoriesByCategory()"
-                        required>
-                  <option [ngValue]="null">-- Chọn danh mục --</option>
-                  <option *ngFor="let item of categories" [ngValue]="item">{{ item.name }}</option>
-                </select>
-                <div class="invalid-feedback"
-                     *ngIf="categoryEdit.invalid && (categoryEdit.dirty || categoryEdit.touched)">
-                  <span *ngIf="categoryEdit.errors?.required">Vui lòng chọn danh mục</span>
-                </div>
-              </div>
-              <div class="mb-3" *ngIf="product.subCategory">
-                <label class="form-label" [for]="'subCategory'">Danh mục con</label>
-                <select class="form-control" id="subCategory" name="subCategory" [(ngModel)]="product.subCategory"
-                        #subCategory="ngModel" [disabled]="category === null" [compareWith]="compareFn" required>
-                  <option *ngFor="let item of subcategories" [ngValue]="item">{{ item.name }}</option>
-                </select>
-                <div class="invalid-feedback" *ngIf="subCategory.invalid && (subCategory.dirty || subCategory.touched)">
-                  <span *ngIf="subCategory.errors?.required">Vui lòng chọn danh mục con</span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label [for]="'price'" class="form-label">Giá</label>
-                <input class="form-control" id="price" name="price" type='text' mask="separator" thousandSeparator=","
-                       suffix=" VNĐ" [(ngModel)]="product.price" #price="ngModel" required/>
-                <div class="invalid-feedback" *ngIf="price.invalid && (price.dirty || price.touched)">
-                  <span *ngIf="price.errors?.required">Vui lòng nhập giá</span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label [for]="'quantity'" class="form-label">Số lượng</label>
-                <input class="form-control" id="quantity" type='text' mask="separator" name="quantity"
-                       thousandSeparator="." [(ngModel)]="product.quantity" #quantity="ngModel" required/>
-                <div class="invalid-feedback" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">
-                  <span *ngIf="quantity.errors?.required">Vui lòng nhập số lượng</span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label" [for]="'video'">Youtube URL</label>
-                <input type="url" class="form-control mb-3" id="video" name="video" [(ngModel)]="product.video"
-                       #video="ngModel" placeholder="https://youtu.be/fazEeJYHxTc" pattern="https://.*"/>
-                <div class="ratio ratio-16x9" *ngIf="product.video">
-                  <iframe [src]="getUrlYoutubeEmbed(product.video)"
-                          title="YouTube video" allowfullscreen></iframe>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-8">
-              <div class="row mb-3">
-                <div class="col-12 col-md-6 mb-3 mb-md-0">
-                  <label class="form-label">Ảnh đại diện</label>
-                  <div class="ratio ratio-1x1">
-                    <div class="file-drop-area img-thumbnail">
-                      <img class="img-fluid" alt=" " [src]="productPreviewImg">
-                      <input type="file" name="image" class="file-drop-input" accept="image/*"
-                             (change)="selectedImageChanged($event)">
-                    </div>
+          <fieldset [disabled]="!hasRole()">
+            <div class="row">
+              <div class="col-12 col-lg-4">
+                <div class="mb-3">
+                  <label class="form-label" [for]="'name'">Tên</label>
+                  <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name" #name="ngModel"
+                         (keyup)="product.slug=toSlug(product.name)" required/>
+                  <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+                    <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
                   </div>
                 </div>
-                <div class="col-12 col-md-6">
-                  <label class="form-label">Ảnh mô tả</label>
-                  <div class="row row-cols-2 g-3">
-                    <div class="col" *ngFor="let productThumbnail of product.productThumbnails | sortById; index as i">
-                      <div class="ratio ratio-1x1">
-                        <div class="file-drop-area img-thumbnail">
-                          <img class="img-fluid" alt=" " [src]="productPreviewThumbnails[i]">
-                          <input type="file" [name]="'productThumbnail' + i" class="file-drop-input" accept="image/*"
-                                 (change)="selectedThumbnailChange($event, i)">
+                <div class="mb-3">
+                  <label class="form-label" [for]="'slug'">Slug</label>
+                  <input type="text" class="form-control" id="slug" name="slug" [(ngModel)]="product.slug" #slug="ngModel"
+                         required/>
+                  <div class="invalid-feedback" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
+                    <span *ngIf="slug.errors?.required">Vui lòng nhập slug sản phẩm</span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" [for]="'brand'">Thương hiệu</label>
+                  <select class="form-control" id="brand" name="brand" [(ngModel)]="product.brand"
+                          [compareWith]="compareFn" #brand="ngModel" required>
+                    <option [ngValue]="null">-- Chọn thương hiệu --</option>
+                    <option *ngFor="let item of brands" [ngValue]="item">{{ item.name }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="brand.invalid && (brand.dirty || brand.touched)">
+                    <span *ngIf="brand.errors?.required">Vui lòng chọn thương hiệu</span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" [for]="'category'">Danh mục cha</label>
+                  <select class="form-control" id="category" name="category" [(ngModel)]="category"
+                          #categoryEdit="ngModel" [compareWith]="compareFn" (change)="getSubcategoriesByCategory()"
+                          required>
+                    <option [ngValue]="null">-- Chọn danh mục --</option>
+                    <option *ngFor="let item of categories" [ngValue]="item">{{ item.name }}</option>
+                  </select>
+                  <div class="invalid-feedback"
+                       *ngIf="categoryEdit.invalid && (categoryEdit.dirty || categoryEdit.touched)">
+                    <span *ngIf="categoryEdit.errors?.required">Vui lòng chọn danh mục</span>
+                  </div>
+                </div>
+                <div class="mb-3" *ngIf="product.subCategory">
+                  <label class="form-label" [for]="'subCategory'">Danh mục con</label>
+                  <select class="form-control" id="subCategory" name="subCategory" [(ngModel)]="product.subCategory"
+                          #subCategory="ngModel" [disabled]="category === null" [compareWith]="compareFn" required>
+                    <option *ngFor="let item of subcategories" [ngValue]="item">{{ item.name }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="subCategory.invalid && (subCategory.dirty || subCategory.touched)">
+                    <span *ngIf="subCategory.errors?.required">Vui lòng chọn danh mục con</span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label [for]="'price'" class="form-label">Giá</label>
+                  <input class="form-control" id="price" name="price" type='text' mask="separator" thousandSeparator=","
+                         suffix=" VNĐ" [(ngModel)]="product.price" #price="ngModel" required/>
+                  <div class="invalid-feedback" *ngIf="price.invalid && (price.dirty || price.touched)">
+                    <span *ngIf="price.errors?.required">Vui lòng nhập giá</span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label [for]="'quantity'" class="form-label">Số lượng</label>
+                  <input class="form-control" id="quantity" type='text' mask="separator" name="quantity"
+                         thousandSeparator="." [(ngModel)]="product.quantity" #quantity="ngModel" required/>
+                  <div class="invalid-feedback" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">
+                    <span *ngIf="quantity.errors?.required">Vui lòng nhập số lượng</span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" [for]="'video'">Youtube URL</label>
+                  <input type="url" class="form-control mb-3" id="video" name="video" [(ngModel)]="product.video"
+                         #video="ngModel" placeholder="https://youtu.be/fazEeJYHxTc" pattern="https://.*"/>
+                  <div class="ratio ratio-16x9" *ngIf="product.video">
+                    <iframe [src]="getUrlYoutubeEmbed(product.video)"
+                            title="YouTube video" allowfullscreen></iframe>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-8">
+                <div class="row mb-3">
+                  <div class="col-12 col-md-6 mb-3 mb-md-0">
+                    <label class="form-label">Ảnh đại diện</label>
+                    <div class="ratio ratio-1x1">
+                      <div class="file-drop-area img-thumbnail">
+                        <img class="img-fluid" alt=" " [src]="productPreviewImg">
+                        <input type="file" name="image" class="file-drop-input" accept="image/*"
+                               (change)="selectedImageChanged($event)">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Ảnh mô tả</label>
+                    <div class="row row-cols-2 g-3">
+                      <div class="col" *ngFor="let productThumbnail of product.productThumbnails | sortById; index as i">
+                        <div class="ratio ratio-1x1">
+                          <div class="file-drop-area img-thumbnail">
+                            <img class="img-fluid" alt=" " [src]="productPreviewThumbnails[i]">
+                            <input type="file" [name]="'productThumbnail' + i" class="file-drop-input" accept="image/*"
+                                   (change)="selectedThumbnailChange($event, i)">
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Mô tả & Thông số kỹ thuật</label>
-                <tabset>
-                  <tab heading="Mô tả chi tiết">
-                    <ckeditor [id]="'description'" [name]="'description'" [editorUrl]="ckeditorUrl"
-                              [config]="ckeditorConfig" [(ngModel)]="product.description">
-                    </ckeditor>
-                  </tab>
-                  <tab heading="Thông số kĩ thuật">
-                    <ckeditor [id]="'spec'" [name]="'spec'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
-                              [(ngModel)]="product.spec">
-                    </ckeditor>
-                  </tab>
-                  <tab heading="Tính năng">
-                    <ckeditor [id]="'utility'" [name]="'utility'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
-                              [(ngModel)]="product.utility">
-                    </ckeditor>
-                  </tab>
-                  <tab heading="Thiết kế">
-                    <ckeditor [id]="'design'" [name]="'design'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
-                              [(ngModel)]="product.design">
-                    </ckeditor>
-                  </tab>
-                  <tab heading="Khác">
-                    <ckeditor [id]="'other'" [name]="'other'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
-                              [(ngModel)]="product.other">
-                    </ckeditor>
-                  </tab>
-                </tabset>
+                <div class="mb-3">
+                  <label class="form-label">Mô tả & Thông số kỹ thuật</label>
+                  <tabset>
+                    <tab heading="Mô tả chi tiết">
+                      <ckeditor [id]="'description'" [name]="'description'" [editorUrl]="ckeditorUrl"
+                                [config]="ckeditorConfig" [readOnly]="!hasRole()" [(ngModel)]="product.description">
+                      </ckeditor>
+                    </tab>
+                    <tab heading="Thông số kĩ thuật">
+                      <ckeditor [id]="'spec'" [name]="'spec'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
+                                 [readOnly]="!hasRole()" [(ngModel)]="product.spec">
+                      </ckeditor>
+                    </tab>
+                    <tab heading="Tính năng">
+                      <ckeditor [id]="'utility'" [name]="'utility'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
+                                 [readOnly]="!hasRole()" [(ngModel)]="product.utility">
+                      </ckeditor>
+                    </tab>
+                    <tab heading="Thiết kế">
+                      <ckeditor [id]="'design'" [name]="'design'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
+                                 [readOnly]="!hasRole()" [(ngModel)]="product.design">
+                      </ckeditor>
+                    </tab>
+                    <tab heading="Khác">
+                      <ckeditor [id]="'other'" [name]="'other'" [editorUrl]="ckeditorUrl" [config]="ckeditorConfig"
+                                 [readOnly]="!hasRole()" [(ngModel)]="product.other">
+                      </ckeditor>
+                    </tab>
+                  </tabset>
+                </div>
               </div>
             </div>
-          </div>
+          </fieldset>
         </form>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" *ngIf="hasRole()">
         <button type="button" class="btn btn-outline-primary" [disabled]="productForm.invalid"
                 (click)="saveProduct(product)">Lưu
         </button>

@@ -16,6 +16,8 @@ import {HttpParams} from "@angular/common/http";
 import {UploadService} from "@services/upload.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {environment} from "../../../../../environments/environment";
+import {PermissionContants} from "@/constants/permission-contants";
+import {AuthService} from "@services/auth.service";
 
 @Component({
   selector: 'app-product',
@@ -56,7 +58,8 @@ export class ProductsComponent implements OnInit {
     private subcategoryService: SubcategoryService,
     private brandService: BrandService,
     private uploadService: UploadService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authService: AuthService,
   ) {
     this.ckeditorUrl = environment.globalUrl.ckeditor;
     this.ckeditorConfig = {
@@ -232,9 +235,8 @@ export class ProductsComponent implements OnInit {
   }
 
   editProduct(product: Product) {
-    this.product = product;
+    this.product = Object.assign({}, product);
     this.category = product.subCategory.category;
-    this.product.id = this.isCopy ? null : product.id;
 
     if (this.product.productThumbnails.length < 4) {
       for (let i = this.product.productThumbnails.length; i < 4; i++) {
@@ -262,7 +264,7 @@ export class ProductsComponent implements OnInit {
   saveProduct(product: Product) {
     let params = new HttpParams().set('isCopy', this.isCopy.toString() || "");
     this.product.weight = this.getWeightFromHtml(this.product.design);
-    if (product.id) {
+    if (product.id && !this.isCopy) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');
 
@@ -363,5 +365,12 @@ export class ProductsComponent implements OnInit {
 
   getUrlYoutubeEmbed(url: string) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${UrlUtils.getYoutubeId(url)}?rel=0`);
+  }
+
+  hasRole() {
+    return this.authService.hasPermissions([
+      PermissionContants.ADMIN,
+      PermissionContants.MANAGER,
+    ]);
   }
 }

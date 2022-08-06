@@ -66,25 +66,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product create(Product product, Boolean isCopy) {
-        if (this.existsBySlug(product)) {
-            Product productExists = repo.findBySlug(product.getSlug());
-            if (productExists != null && !productExists.getActived()) {
-                product.setId(productExists.getId());
-            } else {
+    public Product save(Product product, Boolean isCopy) {
+        if (isCopy) {product.setId(null);}
+        if (product.getId() == null) {
+            if (this.existsBySlug(product)) {
+                Product productExists = repo.findBySlug(product.getSlug());
+                if (productExists != null && !productExists.getActived()) {
+                    product.setId(productExists.getId());
+                } else {
+                    throw new IllegalArgumentException("Slug đã tồn tại");
+                }
+            }
+            product.setActived(Boolean.TRUE);
+        } else {
+            if (this.existsByOtherSlug(product)) {
                 throw new IllegalArgumentException("Slug đã tồn tại");
             }
-        }
-
-        product.setActived(Boolean.TRUE);
-        return this.save(product, isCopy);
-    }
-
-    @Override
-    @Transactional
-    public Product save(Product product, Boolean isCopy) {
-        if (this.existsByOtherSlug(product)) {
-            throw new IllegalArgumentException("Slug đã tồn tại");
         }
 
         product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
