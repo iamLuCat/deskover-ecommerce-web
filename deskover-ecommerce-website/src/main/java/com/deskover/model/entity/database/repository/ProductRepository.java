@@ -85,7 +85,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Page<Product> findByActivedAndSubCategoryCategoryId(Boolean active,Long categoryId, Pageable Page);
 	
 	Page<Product> findByActivedAndSubCategoryId(Boolean active,Long categoryId, Pageable Page);
-
+	
+	Page<Product> findByActivedAndAndDiscountActivedAndFlashSaleAndQuantityGreaterThan(Boolean productActive, Boolean discountActice, FlashSale flashSale, Long quantity, Pageable Page);
+	
 	@Query(value = "Select pr From Product pr Where pr.name = ?1")
 	Product getAllByName(String name);
 
