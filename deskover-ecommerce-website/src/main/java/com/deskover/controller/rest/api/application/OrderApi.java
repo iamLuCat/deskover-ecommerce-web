@@ -30,6 +30,7 @@ public class OrderApi {
 	@Autowired
 	private OrderService orderService;
 	
+	// Tìm đơn hàng theo statusCode.
 	@GetMapping("/order")
 	public ResponseEntity<?> doGetAllByUser(@RequestParam("statusCode") String statusCode){
 		try {
@@ -74,10 +75,18 @@ public class OrderApi {
 	}
 	
 	@PostMapping("/order/cancel/{orderCode}")
-	public ResponseEntity<?> doPostCancelOrder(@PathVariable("orderCode") String orderCode){
+	public ResponseEntity<?> doPostCancelOrder(@PathVariable("orderCode") String orderCode, 
+			@RequestParam("statusOrder") String statusOrder){
 		try {
-			 orderService.cancelOrderByUserAndOrderCode(orderCode);
-			return ResponseEntity.ok(new MessageResponse("Đơn hàng của bạn trạng thái chờ huỷ"));	
+			if(statusOrder.equals("C-HUY")){
+				 orderService.cancelOrderByUserAndOrderCode(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Đơn hàng của bạn trạng thái chờ huỷ"));
+			} 
+			if (statusOrder.equals("CANCEL-C-HUY")) {
+				orderService.cancelOrderByUserAndOrderCode(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Cập nhập đơn hàng thành công"));
+			}
+			return ResponseEntity.ok(new MessageResponse("Đơn hàng sai trạng thái"));		
 		} catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
 		}
