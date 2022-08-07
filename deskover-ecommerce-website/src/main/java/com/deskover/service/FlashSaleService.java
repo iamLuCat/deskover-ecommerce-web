@@ -6,7 +6,6 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
 import com.deskover.model.entity.database.FlashSale;
-import com.deskover.model.entity.dto.FlashSaleDto;
 public interface FlashSaleService {
     DataTablesOutput<FlashSale> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive);
 
@@ -14,7 +13,12 @@ public interface FlashSaleService {
 	
 	FlashSale create(FlashSale flashSale);
 	
+	void delete(Long id);
+	
+	FlashSale updateProductToFlashSale(FlashSale discount, Long productIdToAdd, Long productIdToRemove);
+	
 	FlashSale getById(Long id);
 	
 	FlashSale getFlashSale();
+	
 }
