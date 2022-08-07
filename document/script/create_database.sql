@@ -449,11 +449,17 @@ VALUES (1, 'ROLE_ADMIN', 'Quản trị viên'),
 -- administrator
 INSERT administrator (id, username, `password`, fullname, modified_by)
 VALUES (1, 'minhnh', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Hoài Minh', 'haipv'),
-       (2, 'vupq06', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Quang Vũ', 'haipv'),
+       (2, 'vupq', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Quang Vũ', 'haipv'),
        (3, 'haipv', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Văn Hải', 'haipv'),
        (4, 'manager1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Thị Lài', 'haipv'),
-       (5, 'sale1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Tuyết Vân', 'haipv'),
-       (6, 'shipper1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Mạnh Hùng', 'haipv')
+       (5, 'manager2', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Tuyết Vân', 'haipv'),
+       (6, 'manager3', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Mạnh Hùng', 'haipv'),
+       (7, 'seller1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Đặng Nguyễn Tấn Tài', 'haipv'),
+       (8, 'seller2', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Đăng Trình', 'haipv'),
+       (9, 'seller3', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Tiến Công', 'haipv'),
+       (10, 'shipper1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Lê Gia Phú', 'haipv'),
+       (11, 'shipper2', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Trầm Bảo Tấn Phát', 'haipv'),
+       (12, 'shipper3', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Võ Hùng Dương', 'haipv')
 ;
 
 -- admin_authority
@@ -462,13 +468,72 @@ VALUES (1, 1, 1),
        (2, 1, 2),
        (3, 1, 3),
        (4, 2, 4),
-       (5, 3, 5),
-       (6, 4, 6);
+       (5, 2, 5),
+       (6, 2, 6),
+       (7, 3, 7),
+       (8, 3, 8),
+       (9, 3, 9),
+       (10, 4, 10),
+       (11, 4, 11),
+       (12, 4, 12);
        
 -- user
 insert `user` (id, username, fullname,email,phone, verify, modified_by)
 values (1, 'huynq', 'Nguyễn Quang Huy','huynq@gmail.com','0901245154', 1, 'haipv'),
-       (2, 'minhbd', 'Bùi Đức Minh','minhbd@gmail.com','0325654589',1, 'haipv')
+       (2, 'minhbd', 'Bùi Đức Minh','minhbd@gmail.com','0325654589',1, 'haipv'),
+       (3, 'tramnhn', 'Nguyễn Hoàng Ngọc Trâm','tramnhn@gmail.com','0367269110',1, 'haipv'),
+       (4, 'vinhnq', 'Nguyễn Quang Vinh','vinhnq@gmail.com','0362944607',1, 'haipv'),
+       (5, 'haltt', 'Lê Thị Thúy Hà','haltt@gmail.com','0049496923',1, 'haipv'),
+       
+       (6, 'hnnt', 'Nguyễn Ngọc Thiên Hồng','hnnt@gmail.com','06516353929',1, 'haipv'),
+       (7, 'tuanla', 'Lê Anh Tuấn','tuanla@gmail.com','0732486615',1, 'haipv'),
+       (8, 'nhint', 'Ngô Trúc Nhi','nhint@gmail.com','0377429663',1, 'haipv'),
+       (9, 'khanhtq', 'Trần Quang Khánh','khanhtq@gmail.com','0922451893',1, 'haipv'),
+       (10, 'nhact', 'Châu Thanh Nha','nhact@gmail.com','0251472879',1, 'haipv'),
+       
+       (11, 'thula', 'Lê Anh Thư','thula@gmail.com','0439557214', 1, 'haipv'),
+       (12, 'trinhltd', 'Lê Thị Diễm Trinh','trinhltd@gmail.com','0178300137',1, 'haipv'),
+       (13, 'uyenltt', 'Lê Trịnh Tố Uyên','uyenltt@gmail.com','0786560052',1, 'haipv'),
+       (14, 'oanhhtn', 'Huỳnh Thị Ngọc Oanh','oanhhtn@gmail.com','0950683234',1, 'haipv'),
+       (15, 'haoln', 'Lê Nhật Hào','haoln@gmail.com','0959243897',1, 'haipv'),
+       (16, 'bichct', 'Cao Thị Bích','bichct@gmail.com','0897834824',1, 'haipv'),
+       (17, 'ngadt', 'Đàm Thái Ngà','ngadt@gmail.com','0325654598',1, 'haipv'),
+       (18, 'dungnt', 'Nguyễn Thái Dũng','dungnt@gmail.com','0465111222',1, 'haipv'),
+       (19, 'truongbx', 'Bùi Xuân Trường','truongbx@gmail.com','0844216576',1, 'haipv'),
+       (20, 'nhannh', 'Nguyễn Hữu Nhân','nhannh@gmail.com','0817308468',1, 'haipv'),
+       
+       (21, 'thaolt', 'Lê Thúy Thảo','thaolt@gmail.com','0506736797', 1, 'haipv'),
+       (22, 'nhitty', 'Trương Thị Yến Nhi','nhitty@gmail.com','0268585633',1, 'haipv'),
+       (23, 'nhink', 'Nguyễn Khánh Nhi','nhink@gmail.com','0746941463',1, 'haipv'),
+       (24, 'phatnh', 'Nguyễn Hoài Phát','phatnh@gmail.com','0752752626',1, 'haipv'),
+       (25, 'duyndq', 'Nguyễn Đào Quốc Duy','duyndq@gmail.com','0254243194',1, 'haipv'),
+       (26, 'ducbv', 'Bùi Văn Đức','ducbv@gmail.com','0834353589',1, 'haipv'),
+       (27, 'duongnv', 'Nguyễn Văn Dương','duongnv@gmail.com','0805330196',1, 'haipv'),
+       (28, 'binhnv', 'Nguyễn Văn Bình','binhnv@gmail.com','0504870300',1, 'haipv'),
+       (29, 'hungvt', 'Võ Tấn Hùng','hungvt@gmail.com','0349986866',1, 'haipv'),
+       (30, 'nguyennht', 'Nguyễn Hoàng Thảo Nguyên','nguyennht@gmail.com','0684558376',1, 'haipv'),
+       
+       (31, 'thanhltl', 'Lê Thị Lan Thanh','thanhltl@gmail.com','0562761690', 1, 'haipv'),
+       (32, 'phucptt', 'Phan Trương Trường Phúc','phucptt@gmail.com','0790672484',1, 'haipv'),
+       (33, 'thunpta', 'Nguyễn Phạm Thị Anh Thư','thunpta@gmail.com','0876985706',1, 'haipv'),
+       (34, 'hattt', 'Trần Thị Thanh Hà','hattt@gmail.com','0214746754',1, 'haipv'),
+       (35, 'datvt', 'Võ Tấn Đạt','datvt@gmail.com','0677379771',1, 'haipv'),
+       (36, 'canhlt', 'Lưu Tấn Cảnh','canhlt@gmail.com','0207749571',1, 'haipv'),
+       (37, 'thinhnhd', 'Ngô Hoàng Duy Thịnh','thinhnhd@gmail.com','0507445229',1, 'haipv'),
+       (38, 'khoith', 'Trần Huy Khôi','khoith@gmail.com','0922438058',1, 'haipv'),
+       (39, 'tranttq', 'Trần Thị Quế Trân','tranttq@gmail.com','0619726677',1, 'haipv'),
+       (40, 'hiennt', 'Nguyễn Thảo Hiền','hiennt@gmail.com','0232399440',1, 'haipv'),
+       
+       (41, 'hanlg', 'Lê Gia Hân','hanlg@gmail.com','0239473462', 1, 'haipv'),
+       (42, 'nhanpm', 'Phạm Minh Nhân','nhanpm@gmail.com','0133134828',1, 'haipv'),
+       (43, 'anhnh', 'Nguyễn Hữu Anh','anhnh@gmail.com','0638596920',1, 'haipv'),
+       (44, 'phucnt', 'Nguyễn Thanh Phúc','phucnt@gmail.com','0456646039',1, 'haipv'),
+       (45, 'vuvt', 'Võ Tuấn Vũ','vuvt@gmail.com','0772615642',1, 'haipv'),
+       (46, 'donght', 'Hoàng Thế Đồng','donght@gmail.com','0596695631',1, 'haipv'),
+       (47, 'tramcnk', 'Châu Ngọc Kiều Trâm','tramcnk@gmail.com','0695979582',1, 'haipv'),
+       (48, 'baopg', 'Phạm Gia Bảo','baopg@gmail.com','0330892799',1, 'haipv'),
+       (49, 'haolc', 'Lương Chí Hào','haolc@gmail.com','0194754247',1, 'haipv'),
+       (50, 'dunglht', 'Lai Hoàng Tấn Dũng','dunglht@gmail.com','0524284413',1, 'haipv')
 ;
 
 -- province
@@ -601,7 +666,59 @@ values
 -- user_password
 insert user_password (id, user_id, `password`)
 values (1, 1, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
-       (2, 2, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i')
+       (2, 2, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (3, 3, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (4, 4, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (5, 5, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (6, 6, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (7, 7, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (8, 8, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (9, 9, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (10, 10, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       
+       (11, 11, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (12, 12, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (13, 13, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (14, 14, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (15, 15, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (16, 16, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (17, 17, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (18, 18, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (19, 19, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (20, 20, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       
+       (21, 21, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (22, 22, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (23, 23, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (24, 24, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (25, 25, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (26, 26, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (27, 27, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (28, 28, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (29, 29, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (30, 30, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       
+       (31, 31, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (32, 32, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (33, 33, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (34, 34, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (35, 35, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (36, 36, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (37, 37, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (38, 38, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (39, 39, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (40, 40, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       
+       (41, 41, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (42, 42, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (43, 43, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (44, 44, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (45, 45, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (46, 46, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (47, 47, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (48, 48, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (49, 49, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (50, 50, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i')
 ;
 
 -- category
@@ -701,7 +818,7 @@ values
 );
 
 -- brand
-insert brand (id, `name`, slug, img ,modified_by)
+insert brand (id, `name`, slug, img , modified_by)
 values 
 (
   1, 'Asus', 'asus', 'asus.png', 'haipv'
@@ -716,8 +833,7 @@ values
   4, 'Msi', 'msi', 'msi.png', 'haipv'
 ), 
 (
-  5, 'Lenovo', 'lenovo', 'lenovo.png', 
-  'haipv'
+  5, 'Lenovo', 'lenovo', 'lenovo.png', 'haipv'
 ), 
 (
 6, 'Hp', 'hp', 'hp.png', 'haipv'
@@ -732,8 +848,7 @@ values
   9, 'Oppo', 'oppo', 'oppo.png', 'haipv'
 ), 
 (
-  10, 'Samsung', 'samssung', 'samsung.png', 
-  'haipv'
+  10, 'Samsung', 'samssung', 'samsung.png', 'haipv'
 );
 
 -- discount
@@ -765,7 +880,7 @@ values
   );
   
 -- products
-insert product (id,weight, `name`, slug, img, video,`description`,spec,utility,design,other,price, price_sale, sub_category_id, brand_id, discount_id, modified_by)
+insert product (id, weight, `name`, slug, img, video, `description`, spec, utility, design, other, price, price_sale, sub_category_id, brand_id, discount_id, modified_by)
 values
     -- asus
     -- laptop-van-phong
@@ -1349,11 +1464,12 @@ values (1, 'HD-11062022', 1, 1, 2, 1,'Nguyễn Quang Huy', 1, 1, 14990000),
        (3, 'HD-13062022', 1, 1, 2, 1,'Nguyễn Quang Huy', 2, 3, 50870000),
        (4, 'HD-14062022', 1, 1, 2, 2,'Nguyễn Quang Huy', 3, 1, 32990000),
        (5, 'HD-15062022', 1, 1, 2, 1,'Nguyễn Quang Huy', 4, 1, 30890000),
-       (6, 'HD-16062022', 1, 1, 2, 2,'Bùi Đức Minh', 2, 1, 29990000),
-       (7, 'HD-17062022', 1, 1, 2, 1,'Bùi Đức Minh', 3, 1, 24490000),
-       (8, 'HD-18062022', 1, 2, 1, 2,'Bùi Đức Minh', 2, 1, 20990000),
-       (9, 'HD-19062022', 1, 2, 1, 1,'Bùi Đức Minh', 3, 2, 33480000),
-       (10, 'HD-20062022', 1, 2, 1, 2,'Bùi Đức Minh', 5, 3, 52430000)
+       
+       (6, 'HD-16062022', 2, 1, 2, 2,'Bùi Đức Minh', 2, 1, 29990000),
+       (7, 'HD-17062022', 2, 1, 2, 1,'Bùi Đức Minh', 3, 1, 24490000),
+       (8, 'HD-18062022', 2, 2, 1, 2,'Bùi Đức Minh', 2, 1, 20990000),
+       (9, 'HD-19062022', 2, 2, 1, 1,'Bùi Đức Minh', 3, 2, 33480000),
+       (10, 'HD-20062022',2, 2, 1, 2,'Bùi Đức Minh', 5, 3, 52430000)
 ;
 
 -- order_item
@@ -1380,17 +1496,18 @@ values
 ;
 
 -- order_detail
-insert order_detail (id, order_id, address, tel)
-values (1, 1, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),
-       (2, 2, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),                    
-       (3, 3, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),
-       (4, 4, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),
-       (5, 5, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),
-       (6, 6, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921'),
-       (7, 7, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921'),
-       (8, 8, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921'),
-       (9, 9, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921'),
-       (10, 10, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921')
+insert order_detail (id, order_id, province, district, ward, address, tel)
+values (1, 1, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
+       (2, 2, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),                    
+       (3, 3, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
+       (4, 4, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
+       (5, 5, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
+       
+       (6, 6, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
+       (7, 7, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
+       (8, 8, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
+       (9, 9, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
+       (10, 10, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921')
 ;
 
 -- district
