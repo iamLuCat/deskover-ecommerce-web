@@ -50,10 +50,12 @@ public interface ProductService {
 	Page<Product>  getProductByCreateAtDesc(Boolean active,Optional<Integer> page, Optional<Integer> size);
 
 	Page<Product> getProductByCategoryId(Boolean active, Long categoryId, Optional<Integer> page,
-			Optional<Integer> size);
+			Optional<Integer> size, String keySort);
 
-	Page<Product> getProductBySubId(Boolean active, Long subId, Optional<Integer> page, Optional<Integer> size);
+	Page<Product> getProductBySubId(Boolean active, Long subId, Optional<Integer> page, Optional<Integer> size, String keySort);
 
 	Page<Product> doGetProductSale(Optional<Integer> page, Optional<Integer> size);
+
+	Page<Product> doGetProductDiscount(Optional<Integer> page, Optional<Integer> size, String keySort);
 
 }

@@ -44,7 +44,7 @@ public interface OrderService {
 	
 	Boolean isUniqueOrderNumber(String orderNumber);
 
-	void cancelOrderByUserAndOrderCode(String orderCode);
+	void cancelOrderByUserAndOrderCode(String orderCode,String statusOrder);
 
 
 	

@@ -18,29 +18,27 @@ public class ProductApi {
 
 	@Autowired
 	private ProductService productService;
-	
-    @GetMapping("/product")
-    public ResponseEntity<?> doGetAll(@RequestParam("search") String search,
-            @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size
-            ) {
-        try {
-            if (search.isBlank()) {
-                return ResponseEntity.ok(new MessageResponse("Nhập tên sản phẩm hoặc thương hiệu bạn cần tìm"));
-            } else {
-                Page<Product> products = productService.getByName(search, page, size);
-                if (products.isEmpty()) {
-                    return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
-                }
-                return ResponseEntity.ok(products);
-            }
-        } catch (Exception e) {
 
-            return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+	@GetMapping("/product")
+	public ResponseEntity<?> doGetAll(@RequestParam("search") String search,
+			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+		try {
+			if (search.isBlank()) {
+				return ResponseEntity.ok(new MessageResponse("Nhập tên sản phẩm hoặc thương hiệu bạn cần tìm"));
+			} else {
+				Page<Product> products = productService.getByName(search, page, size);
+				if (products.isEmpty()) {
+					return ResponseEntity.badRequest().body(new MessageResponse("Không tìm thấy sản phẩm"));
+				}
+				return ResponseEntity.ok(products);
+			}
+		} catch (Exception e) {
 
-    }
-   
+			return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
 	@GetMapping("/product-new")
 	public ResponseEntity<?> doGetAll(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size) {
@@ -51,13 +49,13 @@ public class ProductApi {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 		}
 	}
-	
+
 	@GetMapping("/product-sale")
 	public ResponseEntity<?> doGetProductSale(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size) {
 		try {
 			Page<Product> category = productService.doGetProductSale(page, size);
-			if(category == null) {
+			if (category == null) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			}
 			return ResponseEntity.ok(category);
@@ -65,12 +63,29 @@ public class ProductApi {
 			return null;
 		}
 	}
+	
+	@GetMapping("/product-discount")
+	public ResponseEntity<?> doGetProductDiscount(
+			@RequestParam("page") Optional<Integer> page, 
+			@RequestParam("size") Optional<Integer> size,
+			@RequestParam("keySort") String keySort) {
+		try {
+			Page<Product> category = productService.doGetProductDiscount(page, size, keySort);
+			return ResponseEntity.ok(category);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+		}
+	}
+	
+	
 
 	@GetMapping("/product-category")
 	public ResponseEntity<?> doGetProductByCategoryId(@RequestParam("categoryId") Long categoryId,
-			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
+			@RequestParam("keySort") String keySort) {
 		try {
-			Page<Product> category = productService.getProductByCategoryId(Boolean.TRUE, categoryId, page, size);
+			Page<Product> category = productService.getProductByCategoryId(Boolean.TRUE, categoryId, page, size,
+					keySort);
 			return ResponseEntity.ok(category);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
@@ -79,9 +94,10 @@ public class ProductApi {
 
 	@GetMapping("/product-subcategory")
 	public ResponseEntity<?> doGetProductBySubId(@RequestParam("subId") Long subId,
-			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
+			@RequestParam("keySort") String keySort) {
 		try {
-			Page<Product> category = productService.getProductBySubId(Boolean.TRUE, subId, page, size);
+			Page<Product> category = productService.getProductBySubId(Boolean.TRUE, subId, page, size,keySort);
 			return ResponseEntity.ok(category);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
