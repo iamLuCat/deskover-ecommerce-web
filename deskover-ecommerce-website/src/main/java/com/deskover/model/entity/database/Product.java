@@ -1,6 +1,8 @@
 package com.deskover.model.entity.database;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -126,7 +128,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-//    @JsonIgnore
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "flash_sale_id")
     private FlashSale flashSale;

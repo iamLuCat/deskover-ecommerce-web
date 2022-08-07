@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -47,7 +48,7 @@ public class FlashSale implements Serializable {
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
     
-    @JsonIgnore
+	@JsonIgnore
     @OneToMany(mappedBy = "flashSale")
     private Set<Product> products = new LinkedHashSet<>();
 
