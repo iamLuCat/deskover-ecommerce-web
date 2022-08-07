@@ -3,13 +3,14 @@ package com.deskover.service;
 import java.util.List;
 
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
+import com.deskover.model.entity.dto.ecommerce.CartLocal;
 import com.deskover.model.entity.dto.ecommerce.Filter;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
-import com.deskover.model.entity.dto.ecommerce.RatingDTO;
 import com.deskover.model.entity.dto.ecommerce.Reviewer;
 import com.deskover.model.entity.dto.ecommerce.Shop;
+import com.deskover.service.impl.CartDTO;
 
 public interface ShopService {
 	public Shop search(Filter filter);
@@ -23,4 +24,9 @@ public interface ShopService {
 	
 	public List<BrandDTO> getListBrand();
 	public Reviewer getReviewer(String slug, Integer page);
+	
+	public List<CartDTO> getCart(List<CartLocal> list, String username);
+	public List<CartDTO> deleteCart(String slug, String username);
+	public void deleteAllCart(String username);
+	List<CartDTO> updateCart(CartLocal item, String username);
 }
