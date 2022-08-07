@@ -20,7 +20,7 @@
     </div>
     <div id="content">
         <!-- Page Title-->
-        <div class="page-title-overlap bg-dark pt-4" ng-init="cart.initP()">
+        <div class="page-title-overlap bg-dark pt-4" ng-init="cart.initItemPage()">
             <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">
@@ -103,9 +103,7 @@
 
                                         <div class="d-flex align-items-center pt-2 pb-4" sec:authorize="isAuthenticated()">
                                             <span class="col-10 px-0" >
-                                                <button class="btn btn-primary btn-shadow d-block w-100" type="button" ng-click="cart.addP()">
-                                                    <i class="ci-cart fs-lg me-2"></i>Thêm vào giỏ hàng
-                                                </button>
+                                                <button class="btn btn-primary btn-shadow d-block w-100" type="submit" ng-click="cart.addP()"><i class="ci-cart fs-lg me-2" ></i>Thêm vào giỏ hàng</button>
                                             </span>
                                             <span class="col-2 d-flex justify-content-end">
                                                 <button class="btn btn-secondary btn-icon" type="button" data-bs-toggle="tooltip" title="" data-bs-original-title="Thêm vào yêu thích" ng-class="wishlist.list.includes(cart.itemPage.slug) ? 'bg-danger' : ''" ng-click="wishlist.change(cart.itemPage.slug)">
@@ -113,12 +111,9 @@
                                                 </button>
                                             </span>
                                         </div>
-                                        <div class="d-flex align-items-center row" sec:authorize="isAnonymous()">
-                                            <button class="btn btn-primary btn-shadow d-block w-100" type="button" ng-click="cart.addP()">
-                                                <i class="ci-cart fs-lg me-2"></i>Thêm vào giỏ hàng
-                                            </button>
+                                        <div class="d-flex align-items-center pt-2 pb-4" sec:authorize="isAnonymous()">
+                                            <button class="btn btn-primary btn-shadow d-block w-100" type="submit" ng-click="cart.addP()"><i class="ci-cart fs-lg me-2" ></i>Thêm vào giỏ hàng</button>
                                         </div>
-
                                         <!-- Product panels-->
                                         <div class="accordion mb-4" id="productPanels">
                                             <div class="accordion-item">
