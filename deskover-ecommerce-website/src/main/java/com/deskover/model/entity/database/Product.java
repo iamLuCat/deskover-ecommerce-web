@@ -126,7 +126,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "flash_sale_id")
     private FlashSale flashSale;
