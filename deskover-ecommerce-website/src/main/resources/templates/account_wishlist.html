@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
-        ~{::title},
-        ~{::modal},
-        ~{::#content}
+    ~{::title},
+    ~{::modal_out},
+    ~{::modal_in},
+    ~{::#handheld},
+    ~{::#content}
     )}">
 
 <head>
@@ -20,19 +22,19 @@
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                            <li class="breadcrumb-item"><a class="text-nowrap" th:href="@{/index}"><i class="ci-home"></i>Home</a></li>
-                            <li class="breadcrumb-item text-nowrap"><a th:href="@{/account}">Account</a>
+                            <li class="breadcrumb-item"><a class="text-nowrap" th:href="@{/index}"><i class="ci-home"></i>Trang chủ</a></li>
+                            <li class="breadcrumb-item text-nowrap"><a th:href="@{/account}">Tài khoản</a>
                             </li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page">WishList</li>
+                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Yêu thích</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0">WishList</h1>
+                    <h1 class="h3 text-light mb-0">Danh sách yêu thích</h1>
                 </div>
             </div>
         </div>
-        <div class="container pb-5 mb-2 mb-md-4">
+        <div class="container pb-5 mb-2 mb-md-4" ng-init="wishlist.page.init()">
             <div class="row">
                 <!-- Sidebar-->
                 <aside th:replace="components/user_sidebar.html :: component"></aside>
@@ -41,50 +43,57 @@
                 <section class="col-lg-8">
                     <!-- Toolbar-->
                     <div class="d-none d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
-                        <h6 class="fs-base text-light mb-0"></h6><a class="btn btn-primary btn-sm" href="account-signin.html"><i class="ci-sign-out me-2"></i>Logout</a>
+                        <h6 class="fs-base text-light mb-0"></h6><a class="btn btn-primary btn-sm" href="/user/logout"><i class="ci-sign-out me-2"></i></a>
                     </div>
                     <!-- Wishlist-->
                     <!-- Item-->
-                    <div class="d-sm-flex justify-content-between mt-lg-4 mb-4 pb-3 pb-sm-2 border-bottom">
-                        <div class="d-block d-sm-flex align-items-start text-center text-sm-start"><a class="d-block flex-shrink-0 mx-auto me-sm-4" href="shop-single-v1.html" style="width: 10rem;"><img src="img/shop/cart/02.jpg" alt="Product"></a>
+                    <div class="d-sm-flex justify-content-between mt-4" ng-repeat="item in wishlist.page.list">
+                        <div class="d-block d-sm-flex align-items-start text-center text-sm-start">
+                            <a class="d-block flex-shrink-0 mx-auto me-sm-4" href="shop-single-v1.html" style="width: 10rem;">
+                            <img src="/img/shop/products/{{item.imgUrl}}" alt="Product"></a>
                             <div class="pt-2">
-                                <h3 class="product-title fs-base mb-2"><a href="shop-single-v1.html">TH Jeans City Backpack</a></h3>
-                                <div class="fs-sm"><span class="text-muted me-2">Brand:</span>Tommy Hilfiger</div>
-                                <div class="fs-sm"><span class="text-muted me-2">Color:</span>Khaki</div>
-                                <div class="fs-lg text-accent pt-2">$79.<small>50</small></div>
+                                <h3 class="product-title fs-base mb-2"><a href="/shop/item?p={{item.slug}}">{{item.name}}</a></h3>
+                                <div class="fs-sm"><span class="text-muted me-2">{{item.category}}</span></div>
+                                <div class="product-price" ng-if="!item.sale">
+                                    <span class="text-accent">{{item.price|number}} <small>VND</small></span>
+                                </div>
+                                <div class="product-price" ng-if="item.sale">
+                                    <del class="fs-sm text-muted">{{item.price|number}} <small>VND</small></del>
+                                    <br>
+                                    <span class="text-accent">{{item.price_sale|number}} <small>VND</small></span> 
+                                </div>
                             </div>
                         </div>
                         <div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
-                            <button class="btn btn-outline-danger btn-sm" type="button"><i class="ci-trash me-2"></i>Remove</button>
+                            <button class="btn btn-outline-danger btn-sm" type="button" ng-click="wishlist.page.remove(item.slug)"><i class="ci-trash me-2"></i>Xóa</button>
                         </div>
                     </div>
-                    <!-- Item-->
-                    <div class="d-sm-flex justify-content-between my-4 pb-3 pb-sm-2 border-bottom">
-                        <div class="d-block d-sm-flex align-items-start text-center text-sm-start"><a class="d-block flex-shrink-0 mx-auto me-sm-4" href="shop-single-v1.html" style="width: 10rem;"><img src="img/shop/cart/03.jpg" alt="Product"></a>
-                            <div class="pt-2">
-                                <h3 class="product-title fs-base mb-2"><a href="shop-single-v1.html">3-Color Sun Stash Hat</a></h3>
-                                <div class="fs-sm"><span class="text-muted me-2">Brand:</span>The North Face</div>
-                                <div class="fs-sm"><span class="text-muted me-2">Color:</span>Pink / Beige / Dark blue</div>
-                                <div class="fs-lg text-accent pt-2">$22.<small>50</small></div>
-                            </div>
-                        </div>
-                        <div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
-                            <button class="btn btn-outline-danger btn-sm" type="button"><i class="ci-trash me-2"></i>Remove</button>
-                        </div>
-                    </div>
-                    <!-- Item-->
-                    <div class="d-sm-flex justify-content-between mt-4">
-                        <div class="d-block d-sm-flex align-items-start text-center text-sm-start"><a class="d-block flex-shrink-0 mx-auto me-sm-4" href="shop-single-v1.html" style="width: 10rem;"><img src="img/shop/cart/04.jpg" alt="Product"></a>
-                            <div class="pt-2">
-                                <h3 class="product-title fs-base mb-2"><a href="shop-single-v1.html">Cotton Polo Regular Fit</a></h3>
-                                <div class="fs-sm"><span class="text-muted me-2">Size:</span>42</div>
-                                <div class="fs-sm"><span class="text-muted me-2">Color:</span>Light blue</div>
-                                <div class="fs-lg text-accent pt-2">$9.<small>00</small></div>
-                            </div>
-                        </div>
-                        <div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
-                            <button class="btn btn-outline-danger btn-sm" type="button"><i class="ci-trash me-2"></i>Remove</button>
-                        </div>
+                    <!-- Pagination: with icons -->
+                    <div class="d-flex justify-content-center align-items-center text-center" ng-if="wishlist.page.totalPage>1">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <button class="page-link" aria-label="Previous" ng-click="wishlist.page.changePage(wishlist.page.currentPage-1)">
+                                        <i class="ci-arrow-left"></i>
+                                    </button>
+                                </li>
+                                <li class="page-item d-sm-none">
+                                    <span class="page-link page-link-static">{{review.currentPage+1}} / {{review.totalPage}}</span>
+                                </li>
+                                <li class="page-item d-none d-sm-block" aria-current="page" ng-repeat="p in [].constructor(wishlist.page.totalPage) track by $index" ng-class="wishlist.page.currentPage === $index ? 'active':''">
+                                    <button class="page-link" ng-if="wishlist.page.currentPage != $index" ng-click="wishlist.page.changePage($index)">{{$index+1}}</button>
+                                    <span class="page-link" ng-if="wishlist.page.currentPage === $index" >
+                                        {{$index+1}}
+                                        <span class="visually-hidden">(current)</span>
+                                    </span>
+                                </li>
+                                <li class="page-item">
+                                    <button href="#" class="page-link" aria-label="Next" ng-click="wishlist.page.changePage(wishlist.page.currentPage+1)">
+                                        <i class="ci-arrow-right"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </section>
             </div>

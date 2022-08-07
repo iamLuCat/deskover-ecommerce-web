@@ -6,12 +6,15 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.deskover.model.entity.database.Wishlist;
 import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.database.repository.WishlistRepository;
+import com.deskover.model.entity.dto.ecommerce.WishlistDTO;
 
 @Component
 public class WishlistServiceImpl implements WishlistService {
@@ -45,6 +48,17 @@ public class WishlistServiceImpl implements WishlistService {
 	@Override
 	public List<String> getWishlist(String name) {
 		return repo.findWishlist(name).stream().map(w -> w.getProduct().getSlug()).collect(Collectors.toList());
+	}
+
+	@Override
+	public WishlistDTO getWishlist(String name, Integer p) {
+		Page<Wishlist> pWishlist = repo.findWishlist(name, PageRequest.of(p, 4));
+		if(pWishlist.getTotalPages() - 1 < p) {
+			p = pWishlist.getTotalPages() - 1;
+			pWishlist = repo.findWishlist(name, PageRequest.of(p, 4));
+		}
+		
+		return new WishlistDTO(pWishlist, p);
 	}
 
 }
