@@ -11,17 +11,18 @@
     </div>
     <div class="d-lg-block collapse" id="account-menu">
       <div class="bg-secondary px-4 py-3">
-        <h3 class="fs-sm mb-0 text-muted">Management</h3>
+        <h3 class="fs-sm mb-0 text-muted">Quản lý</h3>
       </div>
       <ul class="list-unstyled mb-0">
-        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" th:classappend="${#httpServletRequest.requestURI == '/account/order'} ? 'active' : ''" th:href="@{/account/order}"><i class="ci-bag opacity-60 me-2"></i>Order<span class="fs-sm text-muted ms-auto">1</span></a></li>
-        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" th:classappend="${#httpServletRequest.requestURI == '/account/wishlist'} ? 'active' : ''" th:href="@{/account/wishlist}"><i class="ci-heart opacity-60 me-2"></i>Wishlist<span class="fs-sm text-muted ms-auto">3</span></a></li>
+        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" th:classappend="${#httpServletRequest.requestURI == '/account/order'} ? 'active' : ''" th:href="@{/account/order}"><i class="ci-bag opacity-60 me-2"></i>Danh sách đơn hàng<span class="fs-sm text-muted ms-auto">1</span></a></li>
+        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" th:classappend="${#httpServletRequest.requestURI == '/account/wishlist'} ? 'active' : ''" th:href="@{/account/wishlist}"><i class="ci-heart opacity-60 me-2"></i>Danh sách yêu thích<span class="fs-sm text-muted ms-auto">{{wishlist.list.length}}</span></a></li>
       </ul>
       <div class="bg-secondary px-4 py-3">
-        <h3 class="fs-sm mb-0 text-muted">Account Setting</h3>
+        <h3 class="fs-sm mb-0 text-muted">Cài đặt</h3>
       </div>
       <ul class="list-unstyled mb-0">
-        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" th:classappend="${#httpServletRequest.requestURI == '/account/profile'} ? 'active' : ''" th:href="@{/account/profile}"><i class="ci-user opacity-60 me-2"></i>Account Profile</a></li>
+        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" th:classappend="${#httpServletRequest.requestURI == '/account/profile'} ? 'active' : ''" th:href="@{/account/profile}"><i class="ci-user opacity-60 me-2"></i>Thay đổi thông tin</a></li>
+        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" th:classappend="${#httpServletRequest.requestURI == '/account/profile'} ? 'active' : ''" th:href="@{/account/profile}"><i class="ci-user opacity-60 me-2"></i>Thay đổi mật khẩu</a></li>
       </ul>
     </div>
   </div>

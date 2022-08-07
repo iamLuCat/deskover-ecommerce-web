@@ -11,23 +11,27 @@
                         </div>
                         <div class="topbar-text dropdown d-md-none ms-auto"><a class="topbar-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Mở rộng</a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" th:href="@{/wishlist}">
+                                        <li><a class="dropdown-item" th:href="@{/account/wishlist}">
                                                         <i class="ci-heart text-muted me-2"></i>Yêu thích (3)</a></li>
-                                        <li><a class="dropdown-item" th:href="@{/comparison}">
-                                                        <i class="ci-compare text-muted me-2"></i>So sánh (3)</a></li>
-                                        <li><a class="dropdown-item" th:href="@{/tracking}">
-                                                        <i class="ci-truck text-muted me-2"></i>Tra cứu đơn hàng </a>
+                                        <li><a class="dropdown-item" th:href="@{/tracking}" sec:authorize="isAnonymous()">
+                                                        <i class="ci-truck text-muted me-2" ></i>Tra cứu đơn hàng </a>
+                                        </li>
+                                        <li><a class="dropdown-item" th:href="@{/tracking}"  sec:authorize="isAuthenticated()">
+                                                        <i class="ci-bag text-muted me-2"></i>Danh sách đơn hàng</a>
                                         </li>
                                         <li><a class="dropdown-item" th:href="@{/user/logout}" sec:authorize="isAuthenticated()">
                                                         <i class="ci-sign-out me-2"></i>Đăng xuất </a></li>
                                 </ul>
                         </div>
                         <div class="d-none d-md-block ms-3 text-nowrap">
-                                <a class="topbar-link d-none d-md-inline-block" th:href="@{/wishlist}" sec:authorize="isAuthenticated()">
+                                <a class="topbar-link d-none d-md-inline-block" th:href="@{/account/wishlist}" sec:authorize="isAuthenticated()">
                                         <i class="ci-heart mt-n1"></i>Yêu thích ({{wishlist.list.length}})
                                 </a>
-                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/tracking}">
+                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/tracking}" sec:authorize="isAnonymous()">
                                         <i class="ci-truck mt-n1"></i>Tra cứu đơn hàng
+                                </a>
+                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" sec:authorize="isAuthenticated()" th:href="@{/user/order}">
+                                        <i class="ci-bag mt-n1"></i>Danh sách đơn hàng
                                 </a>
                                 <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/user/logout}" sec:authorize="isAuthenticated()">
                                         <i class="ci-sign-out me-2"></i>Đăng xuất
@@ -75,7 +79,7 @@
                                         <div class="navbar-tool dropdown ms-3" ng-init="cart.init()">
                                                 <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" th:href="@{/cart}">
                                                         <span class="navbar-tool-label">{{cart.count}}</span><i class="navbar-tool-icon ci-cart"></i></a>
-                                                <a class="navbar-tool-text" href="shop-cart.html"><small>Giỏ hàng</small>{{cart.total|number}} VND</a>
+                                                <a class="navbar-tool-text" th:href="@{/cart}"><small>Giỏ hàng</small>{{cart.total|number}} VND</a>
                                                 <!-- Cart dropdown-->
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                         <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;" ng-if="cart.count > 0">
@@ -83,7 +87,7 @@
                                                                         <div class="widget-cart-item pb-2 border-bottom" ng-repeat="item in cart.items">
                                                                                 <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true" ng-click="cart.remove(item)">&times;</span></button>
                                                                                 <div class="d-flex align-items-center">
-                                                                                        <a class="d-block flex-shrink-0" href="/shop/item?p={{item.slug}}"><img ng-src="{{item.imgUrl}}" width="64" alt="Product"></a>
+                                                                                        <a class="d-block flex-shrink-0" href="/shop/item?p={{item.slug}}"><img ng-src="{{'/img/shop/products/' + item.imgUrl}}" width="64" alt="Product"></a>
                                                                                         <div class="ps-2">
                                                                                                 <h6 class="widget-product-title">
                                                                                                         <a href="/shop/item?p={{item.slug}}">{{item.name}}</a>
