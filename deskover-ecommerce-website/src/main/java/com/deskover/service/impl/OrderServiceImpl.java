@@ -461,8 +461,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void cancelOrder(Order orderResponse) {
-		Order order = repo.getById(orderResponse.getId());
+	public void cancelOrder(String orderCode) {
+		Order order = repo.findByOrderCode(orderCode);
 		List<OrderItem> productItems = orderItemRepo.findByOrderId(order.getId());
 		if(order.getStatusPayment().getCode().equals("C-TT")) {
 			productItems.forEach((item) -> {
@@ -477,8 +477,8 @@ public class OrderServiceImpl implements OrderService {
 			OrderStatus status = orderStatusRepo.findByCode("HUY");
 			order.setOrderStatus(status);
 
-			StatusPayment statusPayment = statusPaymentService.findByCode("D-HT");
-			order.setStatusPayment(statusPayment);
+			/*StatusPayment statusPayment = statusPaymentService.findByCode("D-HT");
+			order.setStatusPayment(statusPayment);*/
 
 			repo.saveAndFlush(order);
 
@@ -512,7 +512,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void refundMoney(Order order) {
+	public void refundMoney(String orderCode) {
+		Order order = repo.findByOrderCode(orderCode);
 		if(order.getStatusPayment().getCode().equals("C-HT")) {
 			StatusPayment statusPayment = statusPaymentService.findByCode("D-HT");
 			order.setStatusPayment(statusPayment);

@@ -38,9 +38,9 @@ public interface OrderService {
 	List<Order> getAllOrderByStatus(String statusCode);
 	List<Order> getAll();
 	
-	void cancelOrder(Order orderResponse);
-	void refundMoney(Order order);
-	void pickupOrder(String orderCode,String code,String note);
+	void cancelOrder(String orderCode);
+	void refundMoney(String orderCode);
+	void pickupOrder(String orderCode,String code, String note);
 	
 	Boolean isUniqueOrderNumber(String orderNumber);
 
