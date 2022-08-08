@@ -1,5 +1,6 @@
 package com.deskover.model.entity.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,7 @@ public class FlashSale implements Serializable {
     @Column(name = "modified_by", length = 50)
     private String modifiedBy;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "flashSale")
     private Set<Product> products = new LinkedHashSet<>();
 
