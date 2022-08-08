@@ -61,20 +61,20 @@ angular
     $scope.wishlist.init();
 
     $scope.amounts = [];
-<<<<<<< HEAD
+
     $localStorage.items.forEach(item => {
       $scope.amounts.push(item.amount);
     });
     
     $scope.ship = $localStorage.ship;
     
-=======
+
     if ($localStorage.items) {
       $localStorage.items.forEach(item => {
         $scope.amounts.push(item.amount);
       });
     }
->>>>>>> cff0378a33aa398c9cff61e5712aca16d713e984
+
     $scope.search = {
       select: new URL(location.href).searchParams.get('c'),
       init() {
@@ -363,6 +363,7 @@ angular
     }).then(function successCallback(response) {
 
     }, function errorCallback(response) { });
+    
     $http({
       method: "POST",
       url: "amounts",
@@ -377,7 +378,6 @@ angular
         $scope.province = resp.data;
     }).catch(error => { })
     $scope.form = {
-<<<<<<< HEAD
         "id": "a4",
         "pick_name": "HCM-nội thành",
         "pick_address": "590 CMT8 P.11",
@@ -430,7 +430,7 @@ angular
     	address ="Tỉnh: "+ $scope.form.province+", Xã: " + $scope.form.district +", Đường: "+$scope.form.ward + ", Số nhà: " + $scope.number + " , Việt Nam";
     	$scope.address.address = address;
     }
-=======
+	$scope.form = {
       "id": "a4",
       "pick_name": "HCM-nội thành",
       "pick_address": "590 CMT8 P.11",
@@ -453,19 +453,31 @@ angular
       "tags": [1]
     }
     $scope.change2 = function () {
-      var item = angular.copy($scope.form);
-      var url = `${host}/v1/api/ghtk/fee`;
-      $http.post(url, item).then(resp => {
-        $scope.ship = resp.data;
-      }).catch(error => {
-        console.log("Error", error)
-      })
+	    var item = angular.copy($scope.form);
+	    var url = `${host}/v1/api/ghtk/fee`;
+	    var newTemp = $filter("filter")($scope.province, {name: $scope.form.province});
+    	var pid =  newTemp[0].id;
+    	newTemp = $filter("filter")($scope.district, {name: $scope.form.district});
+    	var did =  newTemp[0].id;
+	    $http.post(url, item).then(resp => {
+		    $localStorage.ship = resp.data;
+			$scope.ship = resp.data;
+	    }).catch(error => {
+	        console.log("Error",error)
+	    });
+	    $http.get(`${host}/v0/client/ward?provinceId=${pid}&districtId=${did}`).then(resp => {
+        	$scope.ward = resp.data;
+	    }).catch(error => { })
     }
     $http.get(`${host}/v0/client/province`).then(resp => {
       $scope.province = resp.data;
     }).catch(error => {
       console.log("Error", error)
     })
+    $scope.address = function(){
+    	address ="Tỉnh: "+ $scope.form.province+", Xã: " + $scope.form.district +", Đường: "+$scope.form.ward + ", Số nhà: " + $scope.number + " , Việt Nam";
+    	$scope.address.address = address;
+    }
     $scope.change = function () {
       var newTemp = $filter("filter")($scope.province, { name: $scope.form.province });
       var id = newTemp[0].id;
@@ -478,8 +490,6 @@ angular
       })
     }
 
-
->>>>>>> cff0378a33aa398c9cff61e5712aca16d713e984
   }).controller('shopCtrl', function ($scope, $http, $sessionStorage) {
     $scope.shop = {
       item: [],

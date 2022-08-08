@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.database.OrderDetail;
 import com.deskover.model.entity.database.OrderItem;
@@ -33,6 +37,7 @@ import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.database.repository.ShippingRepository;
 import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.dto.ProductDto;
+import com.deskover.other.util.MailUtil;
 import com.deskover.other.util.OrderNumberUtil;
 import com.deskover.service.SessionService;
 import com.deskover.service.ShopService;
@@ -52,6 +57,7 @@ public class CheckoutController {
 	@Autowired OrderStatusRepository statusRepo;
 	@Autowired OrderNumberUtil orderCode;
 	@Autowired SessionService sessionService;
+	@Autowired MailUtil mailservice;
 
 	@GetMapping("checkout")
 	public String checkout(Model model) {
@@ -66,11 +72,13 @@ public class CheckoutController {
 	
 	@PostMapping("/checkout")
 	public String checkout2(@RequestBody List<ProductDto> items, Model model) {
-		List<Integer> amounts =  sessionService.get("amount");
-		for (int i = 0; i < amounts.size(); i++) {
-			items.get(i).setQuantity((long)amounts.get(i));
-		}
-		sessionService.set("items", items);
+		try {
+			List<Integer> amounts =  sessionService.get("amount");
+			for (int i = 0; i < amounts.size(); i++) {
+				items.get(i).setQuantity((long)amounts.get(i));
+				sessionService.set("items", items);
+			}
+		} catch (Exception e) { }
 		return "ok";
 	}
 
@@ -103,9 +111,9 @@ public class CheckoutController {
 		Order order = orderRepo.getlastOrder();
 		orderAddress.setOrder(order);
 		orderAddress.setAddress(entity.getAddress());
-		orderAddress.setProvince(entity.getProvince());
-		orderAddress.setDistrict(entity.getDistrict());
-		orderAddress.setWard(entity.getWard());
+		orderAddress.setProvince("1");
+		orderAddress.setDistrict("1");
+		orderAddress.setWard("1");
 		orderAddress.setTel(entity.getTel());
 		addressRepo.save(orderAddress);  
 		
@@ -119,10 +127,15 @@ public class CheckoutController {
 			orderItem.setPrice(product.getPrice());
 			orderItemRepo.save(orderItem);
 		}
-		
 		System.out.println("Save Succesfull!");
 		return "ok";
 	}
 	
+	@RequestMapping("/send")
+	@ResponseBody
+	public String sendmail() throws MessagingException {
+		mailservice.push("minhdbps14733@fpt.edu.vn", "masdasdasdasd", "asdasdasdasdm");
+		return "ok";
+	}
 	
 }
