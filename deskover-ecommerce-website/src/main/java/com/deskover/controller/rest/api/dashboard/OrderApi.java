@@ -186,10 +186,10 @@ public class OrderApi {
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping("/orders/cancel")
-	public ResponseEntity<?> cancelOrder(@RequestBody Order order){
+	@PutMapping("/orders/cancel/{orderCode}")
+	public ResponseEntity<?> cancelOrder(@PathVariable String orderCode){
 		try {
-			orderService.cancelOrder(order);
+			orderService.cancelOrder(orderCode);
 			return ResponseEntity.ok(new MessageResponse("Hủy đơn hàng thành công"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -198,12 +198,13 @@ public class OrderApi {
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping("/orders/refund")
-	public ResponseEntity<?> refundMoney(@RequestBody Order order){
+	@PutMapping("/orders/refund/{orderCode}")
+	public ResponseEntity<?> refundMoney(@PathVariable String orderCode){
 		try {
-			orderService.refundMoney(order);
+			orderService.refundMoney(orderCode);
 			return ResponseEntity.ok(new MessageResponse("Hoàn tiền thành công"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
 		}
 	}

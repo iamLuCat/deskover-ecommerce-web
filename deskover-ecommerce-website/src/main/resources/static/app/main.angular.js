@@ -1,13 +1,80 @@
 angular
   .module('app', ['ngStorage', 'ngSweetAlert2'])
   .controller('mainCtrl', function ($scope, $http, $localStorage, $window, $sessionStorage, $filter) {
+    $scope.wishlist = {
+      list: [],
+      change(p) {
+        $http.post('/api/v1/ecommerce/product/wishlist', p)
+          .then(function successCallback(resp) {
+            $scope.wishlist.list = resp.data;
+          }, function errorCallback(resp) {
+          });
+      },
+      init() {
+        $http({
+          method: 'GET',
+          url: '/api/v1/ecommerce/product/wishlist',
+        }).then(function successCallback(resp) {
+          $scope.wishlist.list = resp.data;
+        });
+      },
+      page: {
+        list: [],
+        totalPage: 0,
+        currentPage: 0,
+        changePage(p) {
+          console.log(p)
+          if (p >= this.totalPage) return;
+          else if (p < 0) return;
+          this.currentPage = p;
+          this.loadDatabase();
+        },
+        init() {
+          this.loadDatabase();
+        },
+        loadDatabase() {
+          $http({
+            method: 'GET',
+            url: '/api/v1/ecommerce/product/wishlist/page',
+            params: {
+              c: this.currentPage
+            }
+          }).then(function successCallback(resp) {
+            $scope.wishlist.page.totalPage = resp.data.totalPage;
+            $scope.wishlist.page.currentPage = resp.data.currentPage;
+            $scope.wishlist.page.list = resp.data.items;
+            console.log(resp.data);
+          }, function errorCallback(resp) {
+            console.error(resp);
+          });
+        },
+        remove(p) {
+          $http.post('/api/v1/ecommerce/product/wishlist', p)
+            .then(function successCallback(resp) {
+              $scope.wishlist.list = resp.data;
+              $scope.wishlist.page.loadDatabase();
+            }, function errorCallback(resp) {
+            });
+        }
+      }
+    }
+    $scope.wishlist.init();
+
     $scope.amounts = [];
+<<<<<<< HEAD
     $localStorage.items.forEach(item => {
       $scope.amounts.push(item.amount);
     });
     
     $scope.ship = $localStorage.ship;
     
+=======
+    if ($localStorage.items) {
+      $localStorage.items.forEach(item => {
+        $scope.amounts.push(item.amount);
+      });
+    }
+>>>>>>> cff0378a33aa398c9cff61e5712aca16d713e984
     $scope.search = {
       select: new URL(location.href).searchParams.get('c'),
       init() {
@@ -22,11 +89,23 @@ angular
       }
     }
     $scope.changePage = async function (p) {
-      await delete $sessionStorage.filter;
+      delete $sessionStorage.filter;
       $window.location.href = p;
     }
     $scope.cart = {
       itemPage: [],
+      initItemPage() {
+        $http({
+          method: 'GET',
+          url: '/api/v1/ecommerce/product/item',
+          params: { s: new URL(location.href).searchParams.get('p') }
+        }).then(function successCallback(resp) {
+          $scope.cart.itemPage = resp.data;
+          console.log(resp.data)
+        }, function errorCallback(resp) {
+          console.error(resp.statusText);
+        });
+      },
       loadCart() {
         $http({
           method: 'GET',
@@ -41,18 +120,27 @@ angular
         if (!$localStorage.items) {
           $localStorage.items = [];
         }
+        this.initP();
       },
       initP() {
-        $http({
-          method: 'GET',
-          url: '/api/v1/ecommerce/product/item',
-          params: { s: location.search.substring(3) }
-        }).then(function successCallback(resp) {
-          console.log(resp.data.item);
-          $scope.cart.itemPage = resp.data.item;
-        }, function errorCallback(resp) {
-          console.error(resp.statusText);
-        });
+        $http.post('/api/v1/ecommerce/user/cart', $scope.cart.list)
+          .then(async function successCallback(resp) {
+            $localStorage.items = [];
+            resp.data.forEach(i => {
+              i.item.amount = i.quantity;
+              $localStorage.items.push(i.item);
+              console.log(i)
+            })
+          }, function errorCallback(resp) {
+          });
+      },
+      get list() {
+        return $localStorage.items.map(i => {
+          return {
+            slug: i.slug,
+            quantity: i.amount
+          }
+        })
       },
       get items() {
         return $localStorage.items;
@@ -74,7 +162,7 @@ angular
       get sumSale() {
         var total = 0;
         $localStorage.items.forEach(item => {
-          if(item.sale){
+          if (item.sale) {
             total += (item.price - item.price_sale) * item.amount;
           }
         });
@@ -83,9 +171,9 @@ angular
       get sumAll() {
         var total = 0;
         $localStorage.items.forEach(item => {
-          if(item.sale){
+          if (item.sale) {
             total += item.price_sale * item.amount;
-          }else{
+          } else {
             total += item.price * item.amount;
           }
         });
@@ -95,54 +183,131 @@ angular
         console.log(i)
         var item = $localStorage.items.find(item => item.slug == i.slug);
         if (item) {
-          if (item.amount <= 5) item.amount++;
-          swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Your work has been saved',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          if (item.amount < 5) {
+            item.amount++;
+            swal.fire({
+              position: 'top-end',
+              title: 'Hàng hóa đã được thêm vào giỏ hàng',
+              showConfirmButton: false,
+              timer: 1500,
+              toast: true
+            })
+          } else {
+            swal.fire({
+              position: 'top-end',
+              icon: 'warning',
+              title: 'Đã vượt mức cho phép ',
+              showConfirmButton: false,
+              timer: 1500,
+              toast: true
+            })
+          }
+
         }
         else {
           i.amount = 1;
           $localStorage.items.push(i);
+          swal.fire({
+            position: 'top-end',
+            title: 'Hàng hóa đã được thêm vào giỏ hàng',
+            showConfirmButton: false,
+            timer: 1500,
+            toast: true
+          })
         }
+        this.addL(i);
       },
       addP() {
         var item = $localStorage.items.find(i => i.slug == $scope.cart.itemPage.slug);
         if (item) {
-          if (item.amount + 1 <= 5) item.amount += 1;
+          if (item.amount + 1 <= 5){ 
+            item.amount += 1;
+            swal.fire({
+              position: 'top-end',
+              title: 'Hàng hóa đã được thêm vào giỏ hàng',
+              showConfirmButton: false,
+              timer: 1500,
+              toast: true
+            })
+          } else {
+            swal.fire({
+              position: 'top-end',
+              icon: 'warning',
+              title: 'Đã vượt mức cho phép ',
+              showConfirmButton: false,
+              timer: 1500,
+              toast: true
+            })
+          }
         }
         else {
           $scope.cart.itemPage.amount = 1;
           $localStorage.items.push($scope.cart.itemPage);
-
           swal.fire({
             position: 'top-end',
-            icon: 'success',
-            title: 'Your work has been saved',
+            title: 'Hàng hóa đã được thêm vào giỏ hàng',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
+            toast: true
           })
-
         }
+        this.addL(item);
       },
       addQ(itemInput) {
-        var select = parseInt($scope.cart.select)
         var item = $localStorage.items.find(i => i.slug == itemInput.slug);
         if (item) {
-          if (item.amount + select <= 5) item.amount += select;
+          if (item.amount + 1 <= 5) {
+            item.amount += 1;
+            swal.fire({
+              position: 'top-end',
+              title: 'Hàng hóa đã được thêm vào giỏ hàng',
+              showConfirmButton: false,
+              timer: 1500,
+              toast: true
+            })
+          } else {
+            swal.fire({
+              position: 'top-end',
+              icon: 'warning',
+              title: 'Đã vượt mức cho phép ',
+              showConfirmButton: false,
+              timer: 1500,
+              toast: true
+            })
+          }
         }
         else {
-          itemInput.amount = select;
+          itemInput.amount = 1;
           $localStorage.items.push(itemInput);
+          swal.fire({
+            position: 'top-end',
+            title: 'Hàng hóa đã được thêm vào giỏ hàng',
+            showConfirmButton: false,
+            timer: 1500,
+            toast: true
+          })
         }
-
+        this.addL(itemInput);
+      },
+      addL(i){
+        $http.post('/api/v1/ecommerce/user/cart/update', {
+          slug: i.slug,
+          quantity: i.amount
+        })
+          .then(async function successCallback(resp) {
+            $localStorage.items = [];
+            resp.data.forEach(i => {
+              i.item.amount = i.quantity;
+              $localStorage.items.push(i.item);
+              console.log(i)
+            })
+          }, function errorCallback(resp) {
+          });
       },
       remove(i) {
         var idx = $localStorage.items.indexOf(i);
         if (idx > -1) $localStorage.items.splice(idx, 1);
+        this.removeP(i);
         swal.fire({
           position: 'top-end',
           title: 'Đã xóa hàng hóa khỏi giỏ hàng',
@@ -151,8 +316,21 @@ angular
           toast: true
         })
       },
+      removeP(i) {
+        $http.delete('/api/v1/ecommerce/user/cart/' + i.slug)
+          .then(async function successCallback(resp) {
+            $localStorage.items = [];
+            resp.data.forEach(i => {
+              i.item.amount = i.quantity;
+              $localStorage.items.push(i.item);
+              console.log(i)
+            })
+          }, function errorCallback(resp) {
+          });
+      },
       removeAll() {
         $localStorage.items = []
+        this.removeAllp();
         swal.fire({
           position: 'top-end',
           title: 'Đã xóa hết hàng hóa khỏi giỏ hàng',
@@ -160,6 +338,12 @@ angular
           timer: 1500,
           toast: true
         })
+      },
+      removeAllp() {
+        $http.delete('/api/v1/ecommerce/user/cart/all')
+          .then(async function successCallback(resp) {
+          }, function errorCallback(resp) {
+          });
       },
       valid: {
         amount(a) {
@@ -193,6 +377,7 @@ angular
         $scope.province = resp.data;
     }).catch(error => { })
     $scope.form = {
+<<<<<<< HEAD
         "id": "a4",
         "pick_name": "HCM-nội thành",
         "pick_address": "590 CMT8 P.11",
@@ -245,6 +430,56 @@ angular
     	address ="Tỉnh: "+ $scope.form.province+", Xã: " + $scope.form.district +", Đường: "+$scope.form.ward + ", Số nhà: " + $scope.number + " , Việt Nam";
     	$scope.address.address = address;
     }
+=======
+      "id": "a4",
+      "pick_name": "HCM-nội thành",
+      "pick_address": "590 CMT8 P.11",
+      "pick_province": "TP. Hồ Chí Minh",
+      "pick_district": "Quận 3",
+      "pick_ward": "Phường 1",
+      "pick_tel": "0911222333",
+      "address": "123 nguyễn chí thanh",
+      "ward": "Phường Bến Nghé",
+      "hamlet": "Khác",
+      "is_freeship": "1",
+      "pick_date": "2016-09-30",
+      "pick_money": 47000,
+      "note": "Khối lượng tính cước tối đa: 1.00 kg",
+      "value": 3000000,
+      "transport": "fly",
+      "pick_option": "cod",
+      "deliver_option": "xteam",
+      "pick_session": 2,
+      "tags": [1]
+    }
+    $scope.change2 = function () {
+      var item = angular.copy($scope.form);
+      var url = `${host}/v1/api/ghtk/fee`;
+      $http.post(url, item).then(resp => {
+        $scope.ship = resp.data;
+      }).catch(error => {
+        console.log("Error", error)
+      })
+    }
+    $http.get(`${host}/v0/client/province`).then(resp => {
+      $scope.province = resp.data;
+    }).catch(error => {
+      console.log("Error", error)
+    })
+    $scope.change = function () {
+      var newTemp = $filter("filter")($scope.province, { name: $scope.form.province });
+      var id = newTemp[0].id;
+      var url = `${host}/v0/client/district?provinceId=${id}`;
+      $http.get(url).then(resp => {
+        $scope.district = resp.data;
+        console.log("Success", resp)
+      }).catch(error => {
+        console.log("Error", error)
+      })
+    }
+
+
+>>>>>>> cff0378a33aa398c9cff61e5712aca16d713e984
   }).controller('shopCtrl', function ($scope, $http, $sessionStorage) {
     $scope.shop = {
       item: [],
@@ -351,14 +586,14 @@ angular
         });
       }
     }
-  }).controller('reviewCtrl',function($scope, $http){
+  }).controller('reviewCtrl', function ($scope, $http) {
     $scope.review = {
       content: [],
       totalPage: 0,
       currentPage: 0,
-      changePage(p){
+      changePage(p) {
         console.log(p)
-        if(p >= this.totalPage) return;
+        if (p >= this.totalPage) return;
         else if (p < 0) return;
         this.currentPage = p;
         this.loadDatabase();
@@ -370,9 +605,9 @@ angular
         $http({
           method: 'GET',
           url: '/api/v1/ecommerce/product/review',
-          params: { 
+          params: {
             c: this.currentPage,
-            s: new URL(location.href).searchParams.get('p'), 
+            s: new URL(location.href).searchParams.get('p'),
           }
         }).then(function successCallback(resp) {
           $scope.review.totalPage = resp.data.totalPage;
@@ -393,23 +628,23 @@ angular
         point: '',
         content: ''
       },
-      submit(f){
-        if(f.$invalid) return;
+      submit(f) {
+        if (f.$invalid) return;
         console.log(this.form)
         $http.post('/api/v1/ecommerce/product/review', this.form)
-        .then(function successCallback(resp) {
-          $scope.submitReview.submited = true;
-          $scope.review.loadDatabase();
-        }, function errorCallback(resp) {
-          swal.fire({
-            position: 'top-end',
-            icon: 'warning',
-            title: 'Có lỗi xảy ra',
-            showConfirmButton: false,
-            timer: 1500,
-            toast: true
-          })
-        });
+          .then(function successCallback(resp) {
+            $scope.submitReview.submited = true;
+            $scope.review.loadDatabase();
+          }, function errorCallback(resp) {
+            swal.fire({
+              position: 'top-end',
+              icon: 'warning',
+              title: 'Có lỗi xảy ra',
+              showConfirmButton: false,
+              timer: 1500,
+              toast: true
+            })
+          });
       }
     }
   }).directive('repeatDirective', function () {
@@ -478,5 +713,5 @@ angular
 
       }
     };
-  })
+  }).filter('trustHtml', function ($sce) { return $sce.trustAsHtml; });
 

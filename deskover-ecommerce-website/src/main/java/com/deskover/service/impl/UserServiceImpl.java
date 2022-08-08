@@ -148,4 +148,15 @@ public class UserServiceImpl implements UserService {
 		return repo.saveAndFlush(user);
 	}
 
+	@Override
+	public Users findUser(String username) {
+		return repo.findByUsernameOrEmailOrPhone(username, username, username);
+	}
+
+	@Override
+	public void updateTimestamp(Users user) {
+		user.setLastLogin(new Timestamp(System.currentTimeMillis()));
+		repo.save(user);		
+	}
+
 }

@@ -1,6 +1,8 @@
 package com.deskover.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +13,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.deskover.model.entity.database.Brand;
+import com.deskover.model.entity.database.Cart;
 import com.deskover.model.entity.database.FlashSale;
 import com.deskover.model.entity.database.Product;
 import com.deskover.model.entity.database.Rating;
+import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.repository.BrandRepository;
+import com.deskover.model.entity.database.repository.CartRepository;
 import com.deskover.model.entity.database.repository.FlashSaleRepository;
 import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.database.repository.RatingRepository;
+import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
+import com.deskover.model.entity.dto.ecommerce.CartLocal;
 import com.deskover.model.entity.dto.ecommerce.Filter;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
@@ -41,6 +48,12 @@ public class ShopServiceImpl implements ShopService {
 	
 	@Autowired
 	private RatingRepository ratingRepo;
+	
+	@Autowired
+	private CartRepository cartRepo;
+	
+	@Autowired
+	private UserRepository userRepo;
 	
 	@Override
 	public Shop search(Filter filter) {
@@ -125,7 +138,6 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public List<BrandDTO> getListBrand() {
 		List<Brand> b = brandRepo.findByActived(true);
-		
 		return b.stream().map(brand -> new BrandDTO(brand)).collect(Collectors.toList());
 	}
 	
@@ -133,5 +145,79 @@ public class ShopServiceImpl implements ShopService {
 	public Reviewer getReviewer(String slug, Integer page) {
 		Page<Rating> ratings = ratingRepo.getRating(slug, PageRequest.of(page, 4, Sort.by("modifiedAt").descending()));
 		return new Reviewer(ratings);
+	}
+
+	@Override
+	public List<CartDTO> getCart(List<CartLocal> cartLocal, String username) {
+		List<Cart> cart = cartRepo.findByUserUsername(username);
+		List<CartDTO> returnCart = new ArrayList<>();
+		List<String> items = cartLocal.stream().map(CartLocal::getSlug).collect(Collectors.toList());
+		CartLocal itemLocal;
+		Product product;
+		
+		for (Cart item : cart) {
+			if(items.contains(item.getProduct().getSlug())) {
+				itemLocal = cartLocal.stream().filter(i -> i.getSlug().equals(item.getProduct().getSlug())).findAny().get();
+
+				item.setQuantity(item.getQuantity());
+				cartRepo.save(item);
+				cartLocal.remove(itemLocal);
+				items.remove(item.getProduct().getSlug());
+			}
+			returnCart.add(new CartDTO(new Item(item.getProduct()), item.getQuantity()));
+		}
+		
+		if(!cartLocal.isEmpty()) {
+			Users user = userRepo.findByUsername(username);
+			
+			for (CartLocal item : cartLocal) {
+				product = productRepo.findBySlug(item.getSlug());
+				Cart insert = new Cart();
+				
+				insert.setProduct(product);
+				insert.setQuantity(item.getQuantity());
+				insert.setUser(user);
+				cartRepo.save(insert);
+				
+				returnCart.add(new CartDTO(new Item(product), item.getQuantity()));
+			}
+		}
+		return returnCart;
+	}
+
+	@Override
+	public List<CartDTO> deleteCart(String slug, String username) {
+		Cart cart = cartRepo.findByProductSlugAndUserUsername(slug,username);
+		cartRepo.delete(cart);
+		List<Cart> carts = cartRepo.findByUserUsername(username);
+		return carts.stream().map(c -> new CartDTO(new Item(c.getProduct()), c.getQuantity())).collect(Collectors.toList());
+	}
+	
+	@Override
+	public void deleteAllCart(String username) {
+		List<Cart> carts = cartRepo.findByUserUsername(username);
+		cartRepo.deleteAll(carts);
+	}
+	
+	@Override
+	public List<CartDTO> updateCart(CartLocal item, String username) {
+		Cart cart = cartRepo.findByProductSlugAndUserUsername(item.getSlug(),username);
+		
+		if(Objects.isNull(cart)) {
+			Product product = productRepo.findBySlug(item.getSlug());
+			Users user = userRepo.findByUsername(username);
+			Cart insert = new Cart();
+			
+			insert.setProduct(product);
+			insert.setQuantity(item.getQuantity());
+			insert.setUser(user);
+			cartRepo.save(insert);
+		}else {
+			cart.setQuantity(cart.getQuantity()+1);
+			cartRepo.save(cart);
+		}
+		
+		List<Cart> carts = cartRepo.findByUserUsername(username);
+		return carts.stream().map(c -> new CartDTO(new Item(c.getProduct()), c.getQuantity())).collect(Collectors.toList());
 	}
 }

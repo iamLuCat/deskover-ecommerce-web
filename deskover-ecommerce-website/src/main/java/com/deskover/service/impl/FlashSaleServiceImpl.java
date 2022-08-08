@@ -18,6 +18,7 @@ import com.deskover.model.entity.database.Product;
 import com.deskover.model.entity.database.repository.FlashSaleRepository;
 import com.deskover.model.entity.database.repository.datatable.FlashSaleRepoForDatatables;
 import com.deskover.service.FlashSaleService;
+import com.deskover.service.ProductService;
 
 @Service
 public class FlashSaleServiceImpl implements FlashSaleService {
@@ -28,6 +29,8 @@ public class FlashSaleServiceImpl implements FlashSaleService {
 	@Autowired
 	private FlashSaleRepoForDatatables repoForDatatables;
 
+	@Autowired
+	private ProductService productService;
 
 	@Override
 	public DataTablesOutput<FlashSale> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive) {
@@ -59,6 +62,7 @@ public class FlashSaleServiceImpl implements FlashSaleService {
 	}
 
 	@Override
+	@Transactional
 	public void isCheckActived() {
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 		List<FlashSale> listActived = repository.findAllByActived(Boolean.TRUE);
@@ -74,38 +78,82 @@ public class FlashSaleServiceImpl implements FlashSaleService {
 	@Override
 	public FlashSale create(FlashSale flashSale) {
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-		if (flashSale.getStartDate().getDate() < currentTime.getDate()
-				|| flashSale.getEndDate().getDate() < flashSale.getStartDate().getDate()) {
-			throw new IllegalArgumentException("Ngày bắt đầu hoặc kết thúc không hợp lệ");
-		} else if (flashSale.getStartDate().getDate() == currentTime.getDate()) {
-			if (currentTime.getTime() > flashSale.getStartDate().getTime()
-					|| flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
-				throw new IllegalArgumentException("Thời gian không hợp lệ");
-			} else {
-				flashSale.setActived(false);
-				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return repository.save(flashSale);
-			}
-		} else if (flashSale.getStartDate().getDate() > currentTime.getDate()) {
-			if (flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
-				throw new IllegalArgumentException("Thời gian kết thúc phải > thời gian bắt đầu");
-			} else {
-				flashSale.setActived(false);
-				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return repository.save(flashSale);
-			}
+//		if (currentTime.getDate() > flashSale.getStartDate().getDate()
+//				|| flashSale.getStartDate().getDate() > flashSale.getEndDate().getDate()) {
+//			throw new IllegalArgumentException("Ngày bắt đầu hoặc kết thúc không hợp lệ");
+//		} else if (flashSale.getStartDate().getDate() == currentTime.getDate()) {
+//			if (currentTime.getTime() > flashSale.getStartDate().getTime()
+//					|| flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
+//				throw new IllegalArgumentException("Thời gian không hợp lệ");
+//			} else {
+//				flashSale.setActived(false);
+//				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+//				return repository.save(flashSale);
+//			}
+//		} else if (flashSale.getStartDate().getDate() > currentTime.getDate()) {
+//			if (flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
+//				throw new IllegalArgumentException("Thời gian kết thúc phải > thời gian bắt đầu");
+//			} else {
+//				flashSale.setActived(false);
+//				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+//				return repository.save(flashSale);
+//			}
+//		}
+		if (flashSale.getStartDate().getTime() < currentTime.getTime()
+				|| flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
+			throw new IllegalArgumentException("Thời gian không hợp lệ");
 		}
-		return null;
+		flashSale.setActived(false);
+		flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		return repository.save(flashSale);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		FlashSale flashSale = repository.findById(id).orElse(null);
+		if (flashSale == null) {
+			throw new IllegalArgumentException("Flashsale này không tồn tại");
+		}
+
+		Set<Product> products = flashSale.getProducts();
+		for (Product product : products) {
+			product.setFlashSale(null);
+		}
+
+		repository.delete(flashSale);
 	}
 
 	@Override
 	public FlashSale getById(Long id) {
 		return repository.findById(id).orElse(null);
 	}
-	
-	
+
 	@Override
 	public FlashSale getFlashSale() {
 		return repository.findFirstByActived(true);
 	}
+
+	@Override
+	public FlashSale updateProductToFlashSale(FlashSale flashSale, Long productIdToAdd, Long productIdToRemove) {
+		if (productIdToAdd != null) {
+			Product product = productService.findById(productIdToAdd);
+			product.setFlashSale(flashSale);
+			if (productService.save(product) == null) {
+				throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
+			}
+		}
+
+		if (productIdToRemove != null) {
+			Product product = productService.findById(productIdToRemove);
+			product.setFlashSale(null);
+			if (productService.save(product) == null) {
+				throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
+			}
+		}
+
+		flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		return repository.saveAndFlush(flashSale);
+	}
+
 }

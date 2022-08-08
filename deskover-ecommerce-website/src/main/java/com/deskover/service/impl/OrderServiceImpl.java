@@ -461,8 +461,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void cancelOrder(Order orderResponse) {
-		Order order = repo.getById(orderResponse.getId());
+	public void cancelOrder(String orderCode) {
+		Order order = repo.findByOrderCode(orderCode);
 		List<OrderItem> productItems = orderItemRepo.findByOrderId(order.getId());
 		if(order.getStatusPayment().getCode().equals("C-TT")) {
 			productItems.forEach((item) -> {
@@ -477,8 +477,8 @@ public class OrderServiceImpl implements OrderService {
 			OrderStatus status = orderStatusRepo.findByCode("HUY");
 			order.setOrderStatus(status);
 
-			StatusPayment statusPayment = statusPaymentService.findByCode("D-HT");
-			order.setStatusPayment(statusPayment);
+			/*StatusPayment statusPayment = statusPaymentService.findByCode("D-HT");
+			order.setStatusPayment(statusPayment);*/
 
 			repo.saveAndFlush(order);
 
@@ -512,7 +512,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void refundMoney(Order order) {
+	public void refundMoney(String orderCode) {
+		Order order = repo.findByOrderCode(orderCode);
 		if(order.getStatusPayment().getCode().equals("C-HT")) {
 			StatusPayment statusPayment = statusPaymentService.findByCode("D-HT");
 			order.setStatusPayment(statusPayment);
@@ -533,6 +534,39 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Order> getAllByUser() {
 		return repo.findByUserUsernameOrderByCreatedAtDesc(SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+
+	@Override
+	@Transactional
+	public void cancelOrderByUserAndOrderCode(String orderCode,String statusOrder) {
+		Order order = repo.findByOrderCodeAndUserUsername(orderCode, SecurityContextHolder.getContext().getAuthentication().getName());
+		if(order == null) {
+			throw new IllegalArgumentException("Không tìm thấy đơn hàng");
+		}
+		if(statusOrder.equals("C-HUY")) {
+			order.setOrderStatus(orderStatusRepo.findByCode("C-HUY"));
+			repo.saveAndFlush(order);
+			
+			Notification notify = new Notification();
+			notify.setTitle("Trạng thái đơn hàng "+ order.getOrderCode()+": Chờ huỷ");
+			notify.setUser(order.getUser());
+			notify.setOrderCode(order.getOrderCode());
+			notify.setIsWatched(Boolean.FALSE);
+			notificationService.sendNotify(notify);
+		}else if(statusOrder.equals("CANCEL-C-HUY")) {
+			order.setOrderStatus(orderStatusRepo.findByCode("C-XN"));
+				Notification notify = new Notification();
+				notify.setTitle("Trạng thái đơn hàng "+ order.getOrderCode()+": Chờ xác nhận");
+				notify.setUser(order.getUser());
+				notify.setOrderCode(order.getOrderCode());
+				notify.setIsWatched(Boolean.FALSE);
+				notificationService.sendNotify(notify);
+			repo.saveAndFlush(order);
+			
+		}
+		
+		
+		
 	}
 
 

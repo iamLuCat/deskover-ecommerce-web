@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.dto.security.payload.MessageResponse;
@@ -28,6 +30,7 @@ public class OrderApi {
 	@Autowired
 	private OrderService orderService;
 	
+	// Tìm đơn hàng theo statusCode.
 	@GetMapping("/order")
 	public ResponseEntity<?> doGetAllByUser(@RequestParam("statusCode") String statusCode){
 		try {
@@ -65,8 +68,27 @@ public class OrderApi {
 			Order order = orderService.addOrder(oderResponse);
 			return ResponseEntity.ok(new MessageResponse("Đặt hàng thành công\nMã đơn hàng của bạn là:"+order.getOrderCode()));	
 		} catch (Exception e) {
-            MessageResponse error = MessageErrorUtil.message("Thêm mới thất bại", e);
+            MessageResponse error = MessageErrorUtil.message("Đặt hàng thất bại", e);
             return ResponseEntity.badRequest().body(error);
+		}
+	
+	}
+	
+	@PostMapping("/order/cancel/{orderCode}")
+	public ResponseEntity<?> doPostCancelOrder(@PathVariable("orderCode") String orderCode, 
+			@RequestParam("statusOrder") String statusOrder){
+		try {
+			if(statusOrder.equals("C-HUY")){
+				 orderService.cancelOrderByUserAndOrderCode(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Đơn hàng của bạn trạng thái chờ huỷ"));
+			} 
+			if (statusOrder.equals("CANCEL-C-HUY")) {
+				orderService.cancelOrderByUserAndOrderCode(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Cập nhập đơn hàng thành công"));
+			}
+			return ResponseEntity.ok(new MessageResponse("Đơn hàng sai trạng thái"));		
+		} catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
 		}
 	
 	}

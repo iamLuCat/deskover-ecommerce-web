@@ -4,34 +4,43 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.deskover.model.entity.database.Brand;
 import com.deskover.model.entity.database.Category;
 import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
+import com.deskover.model.entity.dto.ecommerce.CartLocal;
 import com.deskover.model.entity.dto.ecommerce.CategoryDTO;
 import com.deskover.model.entity.dto.ecommerce.Filter;
 import com.deskover.model.entity.dto.ecommerce.FormReview;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
 import com.deskover.model.entity.dto.ecommerce.Reviewer;
 import com.deskover.model.entity.dto.ecommerce.Shop;
+import com.deskover.model.entity.dto.ecommerce.WishlistDTO;
 import com.deskover.service.BrandService;
 import com.deskover.service.CategoryService;
 import com.deskover.service.RatingService;
 import com.deskover.service.ShopService;
 import com.deskover.service.UserService;
+import com.deskover.service.WishlistService;
+import com.deskover.service.impl.CartDTO;
 
 @RestController
 @RequestMapping("/api/v1/ecommerce/")
-public class CustomerAPI {
+public class EcommerceRestController {
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -47,6 +56,9 @@ public class CustomerAPI {
 	
 	@Autowired
 	private RatingService ratingService;
+	
+	@Autowired
+	private WishlistService wishlistService;
 	
 	@GetMapping("category/all")
 	public List<CategoryDTO> getAllCategory(){
@@ -98,13 +110,71 @@ public class CustomerAPI {
 	}
 	
 	@PostMapping("product/wishlist")
-	@PreAuthorize("hasRole('ROLE_CUSTOMER')")
-	public void addWishlist(@RequestBody FormReview f, Principal principal){
-		Users user = userService.findByUsername(principal.getName());
-		f.setName(user.getFullname());
-		f.setEmail(user.getEmail());
-		
-		ratingService.postReview(f);
+	public List<String> postWishlist(@RequestBody String p, Principal principal){
+		try {
+			return wishlistService.setWishlist(p, principal.getName());
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
+	@GetMapping("product/wishlist")
+	public List<String> getWishlist(Principal principal){
+		try {
+			return wishlistService.getWishlist(principal.getName());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	@GetMapping("product/wishlist/page")
+	public WishlistDTO getWishlist(@RequestParam Integer c, Principal principal){
+		try {
+			return wishlistService.getWishlist(principal.getName(), c);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	@PostMapping("user/cart")
+	public List<CartDTO> getCart(@RequestBody List<CartLocal> cart, Principal principal){
+		try {
+			return shopService.getCart(cart, principal.getName());
+		} catch (Exception e) {
+			throw new ResponseStatusException(
+			           HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping("user/cart/{s}")
+	public List<CartDTO> deleteCart(@PathVariable String s, Principal principal){
+		try {
+			return shopService.deleteCart(s, principal.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(
+			           HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping("user/cart/all")
+	public void deleteCartAll(Principal principal){
+		try {
+			shopService.deleteAllCart(principal.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(
+			           HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PostMapping("user/cart/update")
+	public List<CartDTO> getCart(@RequestBody CartLocal cart, Principal principal){
+		try {
+			return shopService.updateCart(cart, principal.getName());
+		} catch (Exception e) {
+			throw new ResponseStatusException(
+			           HttpStatus.NOT_FOUND);
+		}
+	}
 }

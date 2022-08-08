@@ -86,14 +86,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	Page<Product> findByActivedAndSubCategoryId(Boolean active,Long categoryId, Pageable Page);
 	
-
+	Page<Product> findByActivedAndAndDiscountActivedAndFlashSaleAndQuantityGreaterThan(Boolean productActive, Boolean discountActice, FlashSale flashSale, Long quantity, Pageable Page);
+	
 	@Query(value = "Select pr From Product pr Where pr.name = ?1")
 	Product getAllByName(String name);
 
-
 	Page<Product> findByFlashSaleActivedAndDiscountActived(Boolean activeFlashSale, Boolean activeDiscount,Pageable Page);
 
-	
 	Page<Product> findByNameContainingOrSubCategoryNameContainingOrSubCategoryCategoryNameContainingOrBrandNameContaining(String name,String sub,String cate,String brand, Pageable Page);
 	
 	Page<Product> findByActivedAndSubCategoryCategoryIdAndDiscount(Boolean active,Long categoryId,Discount discount , Pageable Page);

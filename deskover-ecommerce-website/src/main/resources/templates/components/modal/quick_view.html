@@ -13,20 +13,20 @@
                         <div class="product-gallery">
                             <div class="product-gallery-preview order-sm-2">
                                 <div class="product-gallery-preview-item active" id="first">
-                                    <img class="image-zoom" src="{{shop.item.imgUrl}}" data-zoom="{{shop.item.imgUrl}}" alt="Image">
+                                    <img class="image-zoom" src="{{'/img/shop/products/' + shop.item.imgUrl}}" data-zoom="{{'/img/shop/products/' + shop.item.imgUrl}}" alt="Image">
                                     <div class="image-zoom-pane"></div>
                                 </div>
-                                <div class="product-gallery-preview-item" id="a{{$index+1}}" ng-repeat="image in shop.item.thumbsnails track by $index" repeat-directive-quickview>
-                                    <img class="image-zoom" src="{{image}}" data-zoom="{{image}}" alt="Image">
+                                <div class="product-gallery-preview-item" id="a{{$index+1}}" ng-repeat="thumbs in shop.item.thumbsnails track by $index" repeat-directive-quickview>
+                                    <img class="image-zoom" src="{{'/img/shop/products/' + thumbs}}" data-zoom="{{'/img/shop/products/' + thumbs}}" alt="Image">
                                     <div class="image-zoom-pane"></div>
                                 </div>
                             </div>
                             <div class="product-gallery-thumblist order-sm-1">
                                 <a class="product-gallery-thumblist-item active" href="#first">
-                                    <img src="{{shop.item.imgUrl}}" alt="Product thumb">
+                                    <img src="{{'/img/shop/products/' + shop.item.imgUrl}}" alt="Product thumb">
                                 </a>
-                                <a class="product-gallery-thumblist-item" href="#a{{$index+1}}" ng-repeat="image in shop.item.thumbsnails track by $index" repeat-directive-quickview>
-                                    <img src="{{image}}" alt="Product thumb">
+                                <a class="product-gallery-thumblist-item" href="#a{{$index+1}}" ng-repeat="thumbs in shop.item.thumbsnails track by $index" repeat-directive-quickview>
+                                    <img src="{{'/img/shop/products/' + thumbs}}" alt="Product thumb">
                                 </a>
                             </div>
                         </div>
@@ -37,39 +37,54 @@
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <a href="shop-single-v1.html#reviews">
                                     <div class="star-rating">
-                                        <i class="star-rating-icon ci-star-filled active" ng-repeat="p in [].constructor(shop.item.averageRating) track by $index"></i>
-                                        <i class="star-rating-icon ci-star" ng-repeat="p in [].constructor(5-shop.item.averageRating) track by $index"></i>
+                                        <span ng-repeat="p in [].constructor(shop.item.averageRating) track by $index">
+                                            <i class="star-rating-icon ci-star-filled active"></i>
+                                        </span>
+                                        <span  ng-repeat="p in [].constructor(5-shop.item.averageRating) track by $index">
+                                            <i class="star-rating-icon ci-star"></i>
+                                        </span>  
                                     </div><span class="d-inline-block fs-sm text-body align-middle mt-1 ms-1">trên {{shop.item.totalRating}} lượt đánh giá</span>
                                 </a>
-                                <button class="btn-wishlist" type="button" data-bs-toggle="tooltip" title="Add to wishlist"><i class="ci-heart"></i></button>
                             </div>
-                            <div class="mb-3"><span class="h3 fw-normal text-accent me-1">{{shop.item.price|number}} <small>VND</small></span>
-                                <del class="text-muted fs-lg me-3">$25.<small>00</small></del><span class="badge bg-danger badge-shadow align-middle mt-n2">Sale</span>
+                            <div class="position-relative me-n4 mb-3">
+                                <div class="product-badge product-available mt-n1 fw-bold bg-danger">
+                                    <img width="20" height="20" class=" ls-is-cached lazyloaded" alt="Giảm sốc" data-src="https://cdn.tgdd.vn/2020/10/content/icon1-50x50.png" src="https://cdn.tgdd.vn/2020/10/content/icon1-50x50.png">
+                                    Giảm sốc
+                                </div>
+                            </div>
+                            <div class="product-price" ng-if="!shop.item.sale">
+                                <span class="h3 fw-normal text-accent me-1">{{shop.item.price|number}} <small>VND</small></span>
+                            </div>
+                            <div class="product-price" ng-if="shop.item.sale">
+                                <del class="text-muted fs-lg me-3">{{shop.item.price|number}} <small>VND</small></del>
+                                <br>
+                                <span class="h3 fw-normal text-accent me-1">{{shop.item.price_sale|number}} <small>VND</small></span> 
                             </div>
                             <div class="fs-sm mb-4">
                                 <a href=""><span class="text-heading fw-medium me-1">{{shop.item.category}}</span></a> - 
-                                <a href=""><span class="text-muted" id="colorOption">{{shop.item.subcategory}}</span></div></a>
-                            <div class="position-relative me-n4 mb-3">
-                                <div class="product-badge product-available mt-n1"><i class="ci-security-check"></i>Hàng có sẵn</div>
+                                <a href=""><span class="text-muted" id="colorOption">{{shop.item.subcategory}}</span></a>
                             </div>
+                            
+
                             <form class="mb-grid-gutter">
-                                <div class="mb-3">
-                                    <label class="fw-medium pb-1" for="product-size">Số lượng</label>
+                                <div class="mb-3 d-flex align-items-center row" sec:authorize="isAuthenticated()">
+                                    <span class="col-10 px-0" >
+                                        <button class="btn btn-primary btn-shadow d-block w-100" type="submit" ng-click="cart.addQ(shop.item)"><i class="ci-cart fs-lg me-2" ></i>Thêm vào giỏ hàng</button>
+                                    </span>
+                                    <span class="col-2 d-flex justify-content-start">
+                                        <button class="btn btn-secondary btn-icon" type="button" data-bs-toggle="tooltip" title="" data-bs-original-title="Thêm vào yêu thích" ng-class="wishlist.list.includes(shop.item.slug) ? 'bg-danger' : ''" ng-click="wishlist.change(shop.item.slug)">
+                                            <i class="" ng-class="wishlist.list.includes(shop.item.slug) ? 'fa fa-heart text-light' : 'fa fa-heart-o'"></i>
+                                        </button>
+                                    </span>
                                 </div>
-                                <div class="mb-3 d-flex align-items-center">
-                                    <select class="form-select me-3" style="width: 5rem;" ng-model="cart.select"  ng-init="cart.select='1'">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
+                                <div class="mb-3 d-flex align-items-center row" sec:authorize="isAnonymous()">
                                     <button class="btn btn-primary btn-shadow d-block w-100" type="submit" ng-click="cart.addQ(shop.item)"><i class="ci-cart fs-lg me-2" ></i>Thêm vào giỏ hàng</button>
                                 </div>
+                                
                             </form>
                             <span ng-if="shop.item.spec">
                                 <h5 class="h6 mb-3 pb-2 border-bottom"><i class="ci-announcement text-muted fs-lg align-middle mt-n1 me-2"></i>Thông tin sản phẩm</h5>
-                                <span ng-bind-html="shop.item.spec">
+                                <span ng-bind-html="shop.item.spec | trustHtml">
                                 </span>
                             </span>
                         </div>

@@ -7,14 +7,9 @@ CREATE DATABASE deskover;
 
 USE deskover;
 
---------------------------------------------------------------------------------------------------------------
 -- Tạo bảng
---------------------------------------------------------------------------------------------------------------
 
---------------------------------------------------------------------------------------------------------------
--- Lưu phiên đăng nhập
---------------------------------------------------------------------------------------------------------------
-
+-- persistent_logins
 CREATE TABLE persistent_logins
 (
     username  varchar(100) NOT NULL,
@@ -24,10 +19,7 @@ CREATE TABLE persistent_logins
     PRIMARY KEY (series)
 );
 
---------------------------------------------------------------------------------------------------------------
--- Người quản trị
---------------------------------------------------------------------------------------------------------------
-
+-- admin_role
 CREATE TABLE admin_role
 (
     id          BIGINT      NOT NULL AUTO_INCREMENT,
@@ -39,12 +31,7 @@ CREATE TABLE admin_role
     PRIMARY KEY (id)
 );
 
-INSERT admin_role (id, role_id, `name`)
-VALUES (1, 'ROLE_ADMIN', 'Quản trị viên'),
-       (2, 'ROLE_MANAGER', 'Nhân viên quản lý'),
-       (3, 'ROLE_SELLER', 'Nhân viên bán hàng'),
-       (4, 'ROLE_SHIPPER', 'Nhân viên giao hàng');
-
+-- administrator
 CREATE TABLE administrator
 (
     id          BIGINT                                                        NOT NULL AUTO_INCREMENT,
@@ -60,15 +47,7 @@ CREATE TABLE administrator
     UNIQUE KEY UQ_Admin_Username (username)
 );
 
-INSERT administrator (id, username, `password`, fullname, modified_by)
-VALUES (1, 'minhnh', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Hoài Minh', 'haipv'),
-       (2, 'vupq06', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Quang Vũ', 'haipv'),
-       (3, 'haipv', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Văn Hải', 'haipv'),
-       (4, 'manager1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Thị Lài', 'haipv'),
-       (5, 'sale1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Tuyết Vân', 'haipv'),
-       (6, 'shipper1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Mạnh Hùng', 'haipv')
-;
-
+-- admin_authority
 CREATE TABLE admin_authority
 (
     id          BIGINT    NOT NULL AUTO_INCREMENT,
@@ -81,17 +60,7 @@ CREATE TABLE admin_authority
     CONSTRAINT FK_Authority_Role FOREIGN KEY (role_id) REFERENCES admin_role (id)
 );
 
-INSERT INTO admin_authority (id, role_id, admin_id)
-VALUES (1, 1, 1),
-       (2, 1, 2),
-       (3, 1, 3),
-       (4, 2, 4),
-       (5, 3, 5),
-       (6, 4, 6);
-
---------------------------------------------------------------------------------------------------------------
--- Người dùng
-
+-- user
 CREATE TABLE `user`
 (
     id          BIGINT                                                        NOT NULL AUTO_INCREMENT,
@@ -111,11 +80,7 @@ CREATE TABLE `user`
     UNIQUE KEY UQ_User_email (email)
 );
 
-insert `user` (id, username, fullname,email,phone, verify, modified_by)
-values (1, 'huynq', 'Nguyễn Quang Huy','huynq@gmail.com','0901245154', 1, 'haipv'),
-       (2, 'minhbd', 'Bùi Đức Minh','minhbd@gmail.com','0325654589',1, 'haipv')
-;
-
+-- province
 CREATE TABLE `province`
 (
     `id`    BIGINT  NOT NULL AUTO_INCREMENT,
@@ -124,6 +89,454 @@ CREATE TABLE `province`
      PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
+-- user_address
+CREATE TABLE user_address
+(
+    id       BIGINT                                                        NOT NULL AUTO_INCREMENT,
+    user_id  BIGINT                                                        NOT NULL,
+    province_id  BIGINT                                                    NOT NULL,
+    fullname VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    address  VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    district_id  BIGINT                                                    NOT NULL,
+    ward     VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    ward_id  BIGINT                                                    NOT NULL,
+    tel      VARCHAR(10)                                                   NOT NULL,
+    email    VARCHAR(50)                                                   NOT NULL,
+    choose   BIT                                                           NOT NULL DEFAULT 0,
+    actived  BIT                                                           NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY UQ_User_address_Tel (tel),
+    CONSTRAINT FK_User_address_Province FOREIGN KEY (province_id) REFERENCES province(id),
+    CONSTRAINT FK_User_address_User FOREIGN KEY (user_id) REFERENCES `user` (id)
+);
+
+-- user_password
+CREATE TABLE user_password
+(
+    id          BIGINT      NOT NULL AUTO_INCREMENT,
+    user_id     BIGINT      NOT NULL,
+    `password`  VARCHAR(60) NOT NULL,
+    modified_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT FK_Password_User FOREIGN KEY (user_id) REFERENCES `user` (id)
+);
+
+-- Danh mục
+CREATE TABLE category
+(
+    id            BIGINT                                                        NOT NULL AUTO_INCREMENT,
+    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
+    img           VARCHAR(255)                                                           DEFAULT NULL,
+    `description` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
+    slug          VARCHAR(50)                                                   NOT NULL,
+    actived       BIT                                                           NOT NULL DEFAULT 1,
+    modified_at   TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by   VARCHAR(50)                                                            DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY UQ_Category_Slug (slug)
+);
+
+-- Danh mục con
+CREATE TABLE subcategory 	
+(
+    id            BIGINT                                                        NOT NULL AUTO_INCREMENT,
+    category_id   BIGINT                                                        NOT NULL,
+    img           VARCHAR(255)                                                           DEFAULT NULL,
+    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
+    `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
+    slug          VARCHAR(50)                                                   NOT NULL,
+    actived       BIT                                                           NOT NULL DEFAULT 1,
+    modified_at   TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by   VARCHAR(50)                                                            DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY UQ_SubCategory_Slug (slug),
+    CONSTRAINT FK_SubCategory_Category FOREIGN KEY (category_id) REFERENCES category (id)
+);
+
+-- Thương hiệu
+CREATE TABLE brand
+(
+    id            BIGINT                                                       NOT NULL AUTO_INCREMENT,
+    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI         DEFAULT NULL,
+	img           VARCHAR(255)                                                           DEFAULT NULL,
+    slug          VARCHAR(50)                                                  NOT NULL,
+    actived       BIT                                                          NOT NULL DEFAULT 1,
+    modified_at   TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by   VARCHAR(50)                                                           DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY UQ_Brand_Slug (slug)
+);
+
+-- discount
+CREATE TABLE discount
+(
+    id            BIGINT                                                       NOT NULL AUTO_INCREMENT,
+    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    `description` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI          DEFAULT NULL,
+    percent       INT                                                          NOT NULL,
+    start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    actived       BIT                                                          NOT NULL DEFAULT 1,
+    modified_at   TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by   VARCHAR(50)                                                           DEFAULT NULL,
+    PRIMARY KEY (id)
+);
+
+-- flash_sale
+CREATE TABLE flash_sale
+(
+	id              BIGINT                                                     NOT NULL AUTO_INCREMENT,
+   `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
+	start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    actived       BIT                                                          NOT NULL DEFAULT 0,
+    modified_by   VARCHAR(50)                                                  DEFAULT NULL,
+    PRIMARY KEY (id)
+);
+
+-- product
+CREATE TABLE product
+(
+    id              BIGINT                                                        NOT NULL AUTO_INCREMENT,
+    weight          DOUBLE																	DEFAULT NULL,
+    `name`          VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    slug            VARCHAR(150)                                                  NOT NULL,
+    img             VARCHAR(255)                                                           DEFAULT NULL,
+    video           VARCHAR(255)                                                           DEFAULT NULL,
+    `description`   TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
+    `spec`          TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
+    `utility`       TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
+    `design`        TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
+    `other`         TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
+    price           DOUBLE                                                        NOT NULL,
+    price_sale      DOUBLE                                                                 DEFAULT NULL,
+    quantity        BIGINT                                                        NOT NULL DEFAULT 1000,
+    actived         BIT                                                           NOT NULL DEFAULT 1,
+    sub_category_id BIGINT                                                                 DEFAULT NULL,
+    brand_id        BIGINT                                                        NOT NULL,
+    discount_id     BIGINT                                                                 DEFAULT NULL,
+	flash_sale_id     BIGINT                                                                 DEFAULT NULL,
+    modified_at     TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by     VARCHAR(50)                                                            DEFAULT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT FK_Product_SubCategory FOREIGN KEY (sub_category_id) REFERENCES subcategory (id),
+    CONSTRAINT FK_Product_Brand FOREIGN KEY (brand_id) REFERENCES brand (id),
+    CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id),
+    CONSTRAINT FK_Product_Flash_sale FOREIGN KEY (flash_sale_id) REFERENCES flash_sale(id)
+);
+
+-- product_thumbnail
+CREATE TABLE product_thumbnail
+(
+    id            BIGINT    NOT NULL AUTO_INCREMENT,
+    product_id    BIGINT    NOT NULL,
+    thumbnail     VARCHAR(255)       DEFAULT NULL,
+    modified_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by   VARCHAR(50)        DEFAULT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT FK_ProductThumbnail_Product FOREIGN KEY (product_id) REFERENCES product (id)
+);
+
+-- wishlist
+CREATE TABLE wishlist
+(
+    id         	BIGINT NOT NULL AUTO_INCREMENT,
+    user_id     BIGINT DEFAULT NULL,
+    product_id 	BIGINT NOT NULL,
+	actived   	BIT NOT NULL DEFAULT 1,
+    modified_at TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT FK_Wishlist_Product FOREIGN KEY (product_id) REFERENCES product (id),
+    CONSTRAINT FK_Wishlist_Users FOREIGN KEY (user_id) REFERENCES `user` (id)
+);
+
+-- rating
+CREATE TABLE rating
+(
+    id          BIGINT                                                        NOT NULL AUTO_INCREMENT,
+    product_id  BIGINT                                                        NOT NULL,
+    fullname    VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    email       VARCHAR(255)                                                  NOT NULL,
+    `point`     INT                                                           NOT NULL,
+    content     TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                                                                  DEFAULT NULL,
+    actived     BIT                                                           NOT NULL DEFAULT 1,
+    modified_at TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT FK_Rating_Product FOREIGN KEY (product_id) REFERENCES product (id)
+);
+
+-- shipping_methods
+CREATE TABLE shipping_methods
+(
+    id            BIGINT      NOT NULL AUTO_INCREMENT,
+    shipping_id   VARCHAR(10) NOT NULL,
+    name_shipping VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY UK_shipping (shipping_id, name_shipping)
+);
+
+-- payment_methods
+CREATE TABLE payment_methods
+(
+    id           BIGINT      NOT NULL AUTO_INCREMENT,
+    payment_id   VARCHAR(10) NOT NULL,
+    name_payment VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL ,
+    PRIMARY KEY (id),
+    UNIQUE KEY UK_payment (payment_id, name_payment)
+);
+
+-- status_payment
+CREATE TABLE status_payment(
+	id BIGINT NOT NULL auto_increment,
+    `code` VARCHAR(50) NOT Null,
+    `status` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- status_order
+CREATE TABLE status_order
+(
+    id       BIGINT      NOT NULL AUTO_INCREMENT,
+    `code`   VARCHAR(10) NOT NULL,
+    `status` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY UK_payment (`status`)
+);
+
+-- orders
+CREATE TABLE orders
+(
+    id             BIGINT                                                        NOT NULL AUTO_INCREMENT,
+    order_code     VARCHAR(11)                                                   NOT NULL,
+    order_qr_code  VARCHAR(128)                                                           DEFAULT NULL,
+    user_id        BIGINT                                                                 DEFAULT NULL,
+    shipping_id    BIGINT                                                                 DEFAULT NULL,
+    payment_id     BIGINT                                                                 DEFAULT NULL,
+    status_payment_id BIGINT DEFAULT NULL,
+    status_id      BIGINT                                                                 DEFAULT NULL,
+    full_name      VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI NOT NULL,
+    email          VARCHAR(50)                                                            DEFAULT NULL,
+    note           TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
+    shipping_note  TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
+    created_at     TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by    VARCHAR(50)                                                            DEFAULT NULL,
+    unit_price     DOUBLE                                                        NOT NULL DEFAULT 0,
+    label          VARCHAR(128)   												 		DEFAULT NULL, -- Mã Vận đơn Giao hàng tiết kiệm
+    fee			   DOUBLE																DEFAULT NULL,  -- Phí vận chuyển
+    estimated_pick_time VARCHAR(128)  													DEFAULT NULL, -- Dự kiến lấy hàng	
+    estimated_deliver_time VARCHAR(128)  													DEFAULT NULL, -- Dự kiến giao hàng	 
+    order_quantity INT                                                           NOT NULL DEFAULT 0,
+    PRIMARY KEY (id),
+    UNIQUE KEY UQ_Order_OrderCode (order_code),
+    CONSTRAINT FK_Order_User FOREIGN KEY (user_id) REFERENCES `user` (id),
+    CONSTRAINT FK_Order_Shipping FOREIGN KEY (shipping_id) REFERENCES shipping_methods (id),
+    CONSTRAINT FK_Order_Payment FOREIGN KEY (payment_id) REFERENCES payment_methods (id),
+    CONSTRAINT FK_Order_Status FOREIGN KEY (status_id) REFERENCES status_order (id),
+    CONSTRAINT FK_Order_Status_Payment FOREIGN KEY (status_payment_id) REFERENCES status_payment (id)
+);
+
+-- order_item
+CREATE TABLE order_item
+(
+    id         BIGINT NOT NULL AUTO_INCREMENT,
+    order_id   BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity   INT    NOT NULL,
+    price      DOUBLE NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT FK_OrderItems_Product FOREIGN KEY (product_id) REFERENCES product (id),
+    CONSTRAINT FK_OrderItems_Order FOREIGN KEY (order_id) REFERENCES orders (id)
+);
+
+-- order_detail
+CREATE TABLE order_detail
+(
+    id       BIGINT                                                        NOT NULL AUTO_INCREMENT,
+    order_id BIGINT                                                        NOT NULL,
+    province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
+    district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
+    ward     VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
+    address  VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    tel      VARCHAR(10)                                                   NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT FK_OrderDetail_Order FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- cart
+CREATE TABLE cart
+(
+    id         BIGINT NOT NULL AUTO_INCREMENT,
+    user_id    BIGINT DEFAULT NULL,
+    product_id BIGINT NOT NULL,
+    quantity   INT    NOT NULL,
+    PRIMARY KEY (id),
+    KEY FK_Cart_User (user_id),
+    CONSTRAINT FK_Cart_Product FOREIGN KEY (product_id) REFERENCES product (id),
+    CONSTRAINT FK_Cart_User FOREIGN KEY (user_id) REFERENCES `user` (id)
+);
+
+-- Notifications
+CREATE TABLE Notifications (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255)CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
+    user_id BIGINT NOT NULL,
+    order_code VARCHAR(255) NOT NULL,
+    is_watched BIT DEFAULT 0,
+    created_at     TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_notification_user FOREIGN KEY (user_id) REFERENCES user (id)
+);
+
+-- verify
+CREATE TABLE verify
+(
+    id      BIGINT       NOT NULL AUTO_INCREMENT,
+    token   VARCHAR(255) NOT NULL,
+    actived BIT          NOT NULL DEFAULT 1,
+    PRIMARY KEY (id),
+    UNIQUE KEY UQ_Verify_Token (token)
+);
+
+-- district
+CREATE TABLE `district`
+(
+    `id`           int(10) UNSIGNED NOT NULL,
+    `_name`        varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+    `_prefix`      varchar(20) COLLATE utf8_unicode_ci  DEFAULT NULL,
+    `_province_id` int(10) UNSIGNED                     DEFAULT NULL
+);
+ALTER TABLE `district`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `_province_id` (`_province_id`);
+
+ALTER TABLE `district`
+    MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 710;
+
+-- ward
+CREATE TABLE `ward`
+(
+    `id`           int(10) UNSIGNED                    NOT NULL,
+    `_name`        varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+    `_prefix`      varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+    `_province_id` int(10) UNSIGNED                    DEFAULT NULL,
+    `_district_id` int(10) UNSIGNED                    DEFAULT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+ALTER TABLE `ward`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `_province_id` (`_province_id`, `_district_id`);
+
+ALTER TABLE `ward`
+    MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 11284;
+    
+---------------------------------------------------------------------------------------------------------------------------------
+-- Thêm dữ liệu vào table
+
+-- admin_role
+INSERT admin_role (id, role_id, `name`)
+VALUES (1, 'ROLE_ADMIN', 'Quản trị viên'),
+       (2, 'ROLE_MANAGER', 'Nhân viên quản lý'),
+       (3, 'ROLE_SELLER', 'Nhân viên bán hàng'),
+       (4, 'ROLE_SHIPPER', 'Nhân viên giao hàng');
+       
+-- administrator
+INSERT administrator (id, username, `password`, fullname, modified_by)
+VALUES (1, 'minhnh', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Hoài Minh', 'haipv'),
+       (2, 'vupq', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Quang Vũ', 'haipv'),
+       (3, 'haipv', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Phạm Văn Hải', 'haipv'),
+       (4, 'manager1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Thị Lài', 'haipv'),
+       (5, 'manager2', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Tuyết Vân', 'haipv'),
+       (6, 'manager3', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Mạnh Hùng', 'haipv'),
+       (7, 'seller1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Đặng Nguyễn Tấn Tài', 'haipv'),
+       (8, 'seller2', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Đăng Trình', 'haipv'),
+       (9, 'seller3', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Tiến Công', 'haipv'),
+       (10, 'shipper1', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Nguyễn Lê Gia Phú', 'haipv'),
+       (11, 'shipper2', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Trầm Bảo Tấn Phát', 'haipv'),
+       (12, 'shipper3', '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i', 'Võ Hùng Dương', 'haipv')
+;
+
+-- admin_authority
+INSERT INTO admin_authority (id, role_id, admin_id)
+VALUES (1, 1, 1),
+       (2, 1, 2),
+       (3, 1, 3),
+       (4, 2, 4),
+       (5, 2, 5),
+       (6, 2, 6),
+       (7, 3, 7),
+       (8, 3, 8),
+       (9, 3, 9),
+       (10, 4, 10),
+       (11, 4, 11),
+       (12, 4, 12);
+       
+-- user
+insert `user` (id, username, fullname,email,phone, verify, modified_by)
+values (1, 'huynq', 'Nguyễn Quang Huy','huynq@gmail.com','0901245154', 1, 'haipv'),
+       (2, 'minhbd', 'Bùi Đức Minh','minhbd@gmail.com','0325654589',1, 'haipv'),
+       (3, 'tramnhn', 'Nguyễn Hoàng Ngọc Trâm','tramnhn@gmail.com','0367269110',1, 'haipv'),
+       (4, 'vinhnq', 'Nguyễn Quang Vinh','vinhnq@gmail.com','0362944607',1, 'haipv'),
+       (5, 'haltt', 'Lê Thị Thúy Hà','haltt@gmail.com','0049496923',1, 'haipv'),
+       
+       (6, 'hnnt', 'Nguyễn Ngọc Thiên Hồng','hnnt@gmail.com','06516353929',1, 'haipv'),
+       (7, 'tuanla', 'Lê Anh Tuấn','tuanla@gmail.com','0732486615',1, 'haipv'),
+       (8, 'nhint', 'Ngô Trúc Nhi','nhint@gmail.com','0377429663',1, 'haipv'),
+       (9, 'khanhtq', 'Trần Quang Khánh','khanhtq@gmail.com','0922451893',1, 'haipv'),
+       (10, 'nhact', 'Châu Thanh Nha','nhact@gmail.com','0251472879',1, 'haipv'),
+       
+       (11, 'thula', 'Lê Anh Thư','thula@gmail.com','0439557214', 1, 'haipv'),
+       (12, 'trinhltd', 'Lê Thị Diễm Trinh','trinhltd@gmail.com','0178300137',1, 'haipv'),
+       (13, 'uyenltt', 'Lê Trịnh Tố Uyên','uyenltt@gmail.com','0786560052',1, 'haipv'),
+       (14, 'oanhhtn', 'Huỳnh Thị Ngọc Oanh','oanhhtn@gmail.com','0950683234',1, 'haipv'),
+       (15, 'haoln', 'Lê Nhật Hào','haoln@gmail.com','0959243897',1, 'haipv'),
+       (16, 'bichct', 'Cao Thị Bích','bichct@gmail.com','0897834824',1, 'haipv'),
+       (17, 'ngadt', 'Đàm Thái Ngà','ngadt@gmail.com','0325654598',1, 'haipv'),
+       (18, 'dungnt', 'Nguyễn Thái Dũng','dungnt@gmail.com','0465111222',1, 'haipv'),
+       (19, 'truongbx', 'Bùi Xuân Trường','truongbx@gmail.com','0844216576',1, 'haipv'),
+       (20, 'nhannh', 'Nguyễn Hữu Nhân','nhannh@gmail.com','0817308468',1, 'haipv'),
+       
+       (21, 'thaolt', 'Lê Thúy Thảo','thaolt@gmail.com','0506736797', 1, 'haipv'),
+       (22, 'nhitty', 'Trương Thị Yến Nhi','nhitty@gmail.com','0268585633',1, 'haipv'),
+       (23, 'nhink', 'Nguyễn Khánh Nhi','nhink@gmail.com','0746941463',1, 'haipv'),
+       (24, 'phatnh', 'Nguyễn Hoài Phát','phatnh@gmail.com','0752752626',1, 'haipv'),
+       (25, 'duyndq', 'Nguyễn Đào Quốc Duy','duyndq@gmail.com','0254243194',1, 'haipv'),
+       (26, 'ducbv', 'Bùi Văn Đức','ducbv@gmail.com','0834353589',1, 'haipv'),
+       (27, 'duongnv', 'Nguyễn Văn Dương','duongnv@gmail.com','0805330196',1, 'haipv'),
+       (28, 'binhnv', 'Nguyễn Văn Bình','binhnv@gmail.com','0504870300',1, 'haipv'),
+       (29, 'hungvt', 'Võ Tấn Hùng','hungvt@gmail.com','0349986866',1, 'haipv'),
+       (30, 'nguyennht', 'Nguyễn Hoàng Thảo Nguyên','nguyennht@gmail.com','0684558376',1, 'haipv'),
+       
+       (31, 'thanhltl', 'Lê Thị Lan Thanh','thanhltl@gmail.com','0562761690', 1, 'haipv'),
+       (32, 'phucptt', 'Phan Trương Trường Phúc','phucptt@gmail.com','0790672484',1, 'haipv'),
+       (33, 'thunpta', 'Nguyễn Phạm Thị Anh Thư','thunpta@gmail.com','0876985706',1, 'haipv'),
+       (34, 'hattt', 'Trần Thị Thanh Hà','hattt@gmail.com','0214746754',1, 'haipv'),
+       (35, 'datvt', 'Võ Tấn Đạt','datvt@gmail.com','0677379771',1, 'haipv'),
+       (36, 'canhlt', 'Lưu Tấn Cảnh','canhlt@gmail.com','0207749571',1, 'haipv'),
+       (37, 'thinhnhd', 'Ngô Hoàng Duy Thịnh','thinhnhd@gmail.com','0507445229',1, 'haipv'),
+       (38, 'khoith', 'Trần Huy Khôi','khoith@gmail.com','0922438058',1, 'haipv'),
+       (39, 'tranttq', 'Trần Thị Quế Trân','tranttq@gmail.com','0619726677',1, 'haipv'),
+       (40, 'hiennt', 'Nguyễn Thảo Hiền','hiennt@gmail.com','0232399440',1, 'haipv'),
+       
+       (41, 'hanlg', 'Lê Gia Hân','hanlg@gmail.com','0239473462', 1, 'haipv'),
+       (42, 'nhanpm', 'Phạm Minh Nhân','nhanpm@gmail.com','0133134828',1, 'haipv'),
+       (43, 'anhnh', 'Nguyễn Hữu Anh','anhnh@gmail.com','0638596920',1, 'haipv'),
+       (44, 'phucnt', 'Nguyễn Thanh Phúc','phucnt@gmail.com','0456646039',1, 'haipv'),
+       (45, 'vuvt', 'Võ Tuấn Vũ','vuvt@gmail.com','0772615642',1, 'haipv'),
+       (46, 'donght', 'Hoàng Thế Đồng','donght@gmail.com','0596695631',1, 'haipv'),
+       (47, 'tramcnk', 'Châu Ngọc Kiều Trâm','tramcnk@gmail.com','0695979582',1, 'haipv'),
+       (48, 'baopg', 'Phạm Gia Bảo','baopg@gmail.com','0330892799',1, 'haipv'),
+       (49, 'haolc', 'Lương Chí Hào','haolc@gmail.com','0194754247',1, 'haipv'),
+       (50, 'dunglht', 'Lai Hoàng Tấn Dũng','dunglht@gmail.com','0524284413',1, 'haipv')
+;
+
+-- province
 INSERT INTO `province` (`id`, `_name`, `_code`)
 VALUES (1, 'Hồ Chí Minh', 'SG'),
        (2, 'Hà Nội', 'HN'),
@@ -188,29 +601,8 @@ VALUES (1, 'Hồ Chí Minh', 'SG'),
        (61, 'Hà Giang', 'HG'),
        (62, 'Bắc Kạn', 'BK'),
        (63, 'Cao Bằng', 'CB');
-
-CREATE TABLE user_address
-(
-    id       BIGINT                                                        NOT NULL AUTO_INCREMENT,
-    user_id  BIGINT                                                        NOT NULL,
-    province_id  BIGINT                                                    NOT NULL,
-    fullname VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    address  VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    district_id  BIGINT                                                    NOT NULL,
-    ward     VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    ward_id  BIGINT                                                    NOT NULL,
-    tel      VARCHAR(10)                                                   NOT NULL,
-    email    VARCHAR(50)                                                   NOT NULL,
-    choose   BIT                                                           NOT NULL DEFAULT 0,
-    actived  BIT                                                           NOT NULL DEFAULT 0,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY UQ_User_address_Tel (tel),
-    CONSTRAINT FK_User_address_Province FOREIGN KEY (province_id) REFERENCES province(id),
-    CONSTRAINT FK_User_address_User FOREIGN KEY (user_id) REFERENCES `user` (id)
-);
-
+      
+-- user_address
 insert user_address (id,user_id,province_id, fullname, address, province, district,district_id, ward,ward_id, tel, email, choose, actived)
 values 
   (
@@ -271,40 +663,65 @@ values
   );
 ;
 
-CREATE TABLE user_password
-(
-    id          BIGINT      NOT NULL AUTO_INCREMENT,
-    user_id     BIGINT      NOT NULL,
-    `password`  VARCHAR(60) NOT NULL,
-    modified_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    CONSTRAINT FK_Password_User FOREIGN KEY (user_id) REFERENCES `user` (id)
-);
-
+-- user_password
 insert user_password (id, user_id, `password`)
 values (1, 1, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
-       (2, 2, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i')
+       (2, 2, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (3, 3, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (4, 4, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (5, 5, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (6, 6, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (7, 7, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (8, 8, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (9, 9, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (10, 10, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       
+       (11, 11, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (12, 12, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (13, 13, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (14, 14, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (15, 15, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (16, 16, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (17, 17, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (18, 18, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (19, 19, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (20, 20, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       
+       (21, 21, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (22, 22, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (23, 23, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (24, 24, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (25, 25, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (26, 26, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (27, 27, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (28, 28, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (29, 29, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (30, 30, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       
+       (31, 31, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (32, 32, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (33, 33, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (34, 34, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (35, 35, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (36, 36, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (37, 37, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (38, 38, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (39, 39, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (40, 40, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       
+       (41, 41, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (42, 42, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (43, 43, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (44, 44, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (45, 45, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (46, 46, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (47, 47, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (48, 48, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (49, 49, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
+       (50, 50, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i')
 ;
 
---------------------------------------------------------------------------------------------------------------
--- Sản phẩm
---------------------------------------------------------------------------------------------------------------
-
--- Danh mục
-CREATE TABLE category
-(
-    id            BIGINT                                                        NOT NULL AUTO_INCREMENT,
-    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
-    img           VARCHAR(255)                                                           DEFAULT NULL,
-    `description` VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
-    slug          VARCHAR(50)                                                   NOT NULL,
-    actived       BIT                                                           NOT NULL DEFAULT 1,
-    modified_at   TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_by   VARCHAR(50)                                                            DEFAULT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY UQ_Category_Slug (slug)
-);
-
+-- category
 insert category (id, name, slug, img, modified_by)
 values 
 (
@@ -329,23 +746,7 @@ values
 )
 ;
 
--- Danh mục con
-CREATE TABLE subcategory 	
-(
-    id            BIGINT                                                        NOT NULL AUTO_INCREMENT,
-    category_id   BIGINT                                                        NOT NULL,
-    img           VARCHAR(255)                                                           DEFAULT NULL,
-    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
-    `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NULL,
-    slug          VARCHAR(50)                                                   NOT NULL,
-    actived       BIT                                                           NOT NULL DEFAULT 1,
-    modified_at   TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_by   VARCHAR(50)                                                            DEFAULT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY UQ_SubCategory_Slug (slug),
-    CONSTRAINT FK_SubCategory_Category FOREIGN KEY (category_id) REFERENCES category (id)
-);
-
+-- subcategory
 insert subcategory (id, category_id, `name`, slug, img, modified_by)
 values 
 (
@@ -416,23 +817,8 @@ values
   'haipv'
 );
 
-
--- Thương hiệu
-CREATE TABLE brand
-(
-    id            BIGINT                                                       NOT NULL AUTO_INCREMENT,
-    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    `description` VARCHAR(150) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI         DEFAULT NULL,
-	img           VARCHAR(255)                                                           DEFAULT NULL,
-    slug          VARCHAR(50)                                                  NOT NULL,
-    actived       BIT                                                          NOT NULL DEFAULT 1,
-    modified_at   TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_by   VARCHAR(50)                                                           DEFAULT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY UQ_Brand_Slug (slug)
-);
-
-insert brand (id, `name`, slug, img ,modified_by)
+-- brand
+insert brand (id, `name`, slug, img , modified_by)
 values 
 (
   1, 'Asus', 'asus', 'asus.png', 'haipv'
@@ -447,8 +833,7 @@ values
   4, 'Msi', 'msi', 'msi.png', 'haipv'
 ), 
 (
-  5, 'Lenovo', 'lenovo', 'lenovo.png', 
-  'haipv'
+  5, 'Lenovo', 'lenovo', 'lenovo.png', 'haipv'
 ), 
 (
 6, 'Hp', 'hp', 'hp.png', 'haipv'
@@ -463,26 +848,10 @@ values
   9, 'Oppo', 'oppo', 'oppo.png', 'haipv'
 ), 
 (
-  10, 'Samsung', 'samssung', 'samsung.png', 
-  'haipv'
+  10, 'Samsung', 'samssung', 'samsung.png', 'haipv'
 );
 
-
--- giảm giá
-CREATE TABLE discount
-(
-    id            BIGINT                                                       NOT NULL AUTO_INCREMENT,
-    `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    `description` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI          DEFAULT NULL,
-    percent       INT                                                          NOT NULL,
-    start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    actived       BIT                                                          NOT NULL DEFAULT 1,
-    modified_at   TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_by   VARCHAR(50)                                                           DEFAULT NULL,
-    PRIMARY KEY (id)
-);
-
+-- discount
 insert discount (id, `name`, percent, start_date, end_date, actived, modified_by)
 values 
   (
@@ -501,57 +870,17 @@ values
     4, 'Mừng khai trương', 20, '2022-01-01 00:00:01', 
     '2022-12-30 23:59:59', 1, 'haipv'
   );
-
-CREATE TABLE flash_sale
-(
-	id              BIGINT                                                     NOT NULL AUTO_INCREMENT,
-   `name`        VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI  NOT NULL,
-	start_date    TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	end_date      TIMESTAMP                                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    actived       BIT                                                          NOT NULL DEFAULT 0,
-    modified_by   VARCHAR(50)                                                  DEFAULT NULL,
-    PRIMARY KEY (id)
-);
-
+  
+-- flash_sale
 insert flash_sale (id,`name`,start_date, end_date, actived, modified_by)
 values 
   (
     1, 'Flash Sale Of', '2022-08-05 23:59:59',
     '2022-08-06 23:59:59',1, 'haipv'
   );
-
--- Sản phẩm
-CREATE TABLE product
-(
-    id              BIGINT                                                        NOT NULL AUTO_INCREMENT,
-    weight          DOUBLE																	DEFAULT NULL,
-    `name`          VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    slug            VARCHAR(150)                                                  NOT NULL,
-    img             VARCHAR(255)                                                           DEFAULT NULL,
-    video           VARCHAR(255)                                                           DEFAULT NULL,
-    `description`   TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
-    `spec`          TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
-    `utility`       TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
-    `design`        TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
-    `other`         TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
-    price           DOUBLE                                                        NOT NULL,
-    price_sale      DOUBLE                                                                 DEFAULT NULL,
-    quantity        BIGINT                                                        NOT NULL DEFAULT 1000,
-    actived         BIT                                                           NOT NULL DEFAULT 1,
-    sub_category_id BIGINT                                                                 DEFAULT NULL,
-    brand_id        BIGINT                                                        NOT NULL,
-    discount_id     BIGINT                                                                 DEFAULT NULL,
-	flash_sale_id     BIGINT                                                                 DEFAULT NULL,
-    modified_at     TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_by     VARCHAR(50)                                                            DEFAULT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT FK_Product_SubCategory FOREIGN KEY (sub_category_id) REFERENCES subcategory (id),
-    CONSTRAINT FK_Product_Brand FOREIGN KEY (brand_id) REFERENCES brand (id),
-    CONSTRAINT FK_Product_Discount FOREIGN KEY (discount_id) REFERENCES discount (id),
-    CONSTRAINT FK_Product_Flash_sale FOREIGN KEY (flash_sale_id) REFERENCES flash_sale(id)
-);
-
-insert product (id,weight, `name`, slug, img, video,`description`,spec,utility,design,other,price, price_sale, sub_category_id, brand_id, discount_id, modified_by)
+  
+-- products
+insert product (id, weight, `name`, slug, img, video, `description`, spec, utility, design, other, price, price_sale, sub_category_id, brand_id, discount_id, modified_by)
 values
     -- asus
     -- laptop-van-phong
@@ -1026,35 +1355,7 @@ values
   34990000, null, 3, 8, null, 'haipv'
 );
 
-
---------------------------------------------------------------------------------------------------------------
--- Yêu thích
---------------------------------------------------------------------------------------------------------------
-CREATE TABLE wishlist
-(
-    id         	BIGINT NOT NULL AUTO_INCREMENT,
-    user_id     BIGINT DEFAULT NULL,
-    product_id 	BIGINT NOT NULL,
-	actived   	BIT NOT NULL DEFAULT 1,
-    modified_at TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    CONSTRAINT FK_Wishlist_Product FOREIGN KEY (product_id) REFERENCES product (id),
-    CONSTRAINT FK_Wishlist_Users FOREIGN KEY (user_id) REFERENCES `user` (id)
-);
-
-
--- Thumbnail of products
-CREATE TABLE product_thumbnail
-(
-    id            BIGINT    NOT NULL AUTO_INCREMENT,
-    product_id    BIGINT    NOT NULL,
-    thumbnail     VARCHAR(255)       DEFAULT NULL,
-    modified_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_by   VARCHAR(50)        DEFAULT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT FK_ProductThumbnail_Product FOREIGN KEY (product_id) REFERENCES product (id)
-);
-
+-- product-thumbnail
 insert product_thumbnail (id, product_id, thumbnail, modified_by)
 values 
   (
@@ -1117,82 +1418,34 @@ values
     15, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png', 
     'haipv'
   );
-
---------------------------------------------------------------------------------------------------------------
--- Đánh giá
---------------------------------------------------------------------------------------------------------------
-
-CREATE TABLE rating
-(
-    id          BIGINT                                                        NOT NULL AUTO_INCREMENT,
-    product_id  BIGINT                                                        NOT NULL,
-    fullname    VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    email       VARCHAR(10)                                                            DEFAULT NULL,
-    `point`     INT                                                           NOT NULL,
-    content     TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                                                                  DEFAULT NULL,
-    actived     BIT                                                           NOT NULL DEFAULT 1,
-    modified_at TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    CONSTRAINT FK_Rating_Product FOREIGN KEY (product_id) REFERENCES product (id)
-);
-
---------------------------------------------------------------------------------------------------------------
--- Đặt hàng
---------------------------------------------------------------------------------------------------------------
-
--- Phương thức vận chuyển
-CREATE TABLE shipping_methods
-(
-    id            BIGINT      NOT NULL AUTO_INCREMENT,
-    shipping_id   VARCHAR(10) NOT NULL,
-    name_shipping VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY UK_shipping (shipping_id, name_shipping)
-);
-
-INSERT shipping_methods(shipping_id, name_shipping)
+  
+  -- rating
+insert into rating(id,product_id,fullname,email,point,content)
+values
+(1,1,'Nguyễn Quang Huy','huynq2022@gmail.com',5,'sản phẩm xài rất tốt'),
+(2,1,'Bùi đức minh','minhbd2022@gmail.com',4,'sản phẩm tốt'),
+(3,1,'Nguyễn Hoài Minh','minhnh2022@gmail.com',3,'sản phẩm tạm ổn'),
+(4,1,'Phạm Văn Hải','haipv2022@gmail.com',2,'sản phẩm khá tệ, thái độ phục vụ không tốt'),
+(5,1,'Phạm Quang Vũ','vupq2022@gmail.com',1,'sản phẩm rất tệ');
+  
+  -- shipping_methods
+  INSERT shipping_methods(shipping_id, name_shipping)
     VALUE ('GHTK', 'Giao hàng tiết kiệm'),
     ('DKV', 'Deskover - Shipping');
-
--- phương thức thanh toán
-
-CREATE TABLE payment_methods
-(
-    id           BIGINT      NOT NULL AUTO_INCREMENT,
-    payment_id   VARCHAR(10) NOT NULL,
-    name_payment VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL ,
-    PRIMARY KEY (id),
-    UNIQUE KEY UK_payment (payment_id, name_payment)
-);
-
+    
+-- payment_methods
 INSERT payment_methods(payment_id, name_payment)
     VALUE ('NH', 'Thanh toán khi nhận hàng'),
 		('VNPAY', 'Thanh toán VNPay');
-
--- Trạng thái thanh toán
-CREATE TABLE status_payment(
-	id BIGINT NOT NULL auto_increment,
-    `code` VARCHAR(50) NOT Null,
-    `status` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    PRIMARY KEY (id)
-);
-
+        
+-- status_payment
 INSERT status_payment(`id`, `code`, `status`)
     VALUE (1, 'C-TT', 'Chưa thanh toán'),
     (2, 'D-TT', 'Đã thanh toán'),
     (3, 'C-HT', 'Chưa hoàn tiền'),
     (4, 'D-HT', 'Đã hoàn tiền');
     
--- Trạng thái đơn hàng
-CREATE TABLE status_order
-(
-    id       BIGINT      NOT NULL AUTO_INCREMENT,
-    `code`   VARCHAR(10) NOT NULL,
-    `status` VARCHAR(50) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY UK_payment (`status`)
-);
-
+-- status_order
 INSERT status_order(`id`, `code`, `status`)
     VALUE (1, 'C-XN', 'Chờ xác nhận'),
     (2, 'C-LH', 'Chờ lấy hàng'),
@@ -1203,66 +1456,23 @@ INSERT status_order(`id`, `code`, `status`)
     (7, 'GH-TB', 'Giao hàng không thành công'),
     (8, 'C-HUY', 'Chờ huỷ đơn'),
     (9, 'HUY', 'Đơn đã huỷ');
-
--- Đơn đặt hàng
-CREATE TABLE orders
-(
-    id             BIGINT                                                        NOT NULL AUTO_INCREMENT,
-    order_code     VARCHAR(11)                                                   NOT NULL,
-    order_qr_code  VARCHAR(128)                                                           DEFAULT NULL,
-    user_id        BIGINT                                                                 DEFAULT NULL,
-    shipping_id    BIGINT                                                                 DEFAULT NULL,
-    payment_id     BIGINT                                                                 DEFAULT NULL,
-    status_payment_id BIGINT DEFAULT NULL,
-    status_id      BIGINT                                                                 DEFAULT NULL,
-    full_name      VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_0900_AI_CI NOT NULL,
-    email          VARCHAR(50)                                                            DEFAULT NULL,
-    note           TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
-    shipping_note  TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                  DEFAULT NULL,
-    created_at     TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_by    VARCHAR(50)                                                            DEFAULT NULL,
-    unit_price     DOUBLE                                                        NOT NULL DEFAULT 0,
-    label          VARCHAR(128)   												 		DEFAULT NULL, -- Mã Vận đơn Giao hàng tiết kiệm
-    fee			   DOUBLE																DEFAULT NULL,  -- Phí vận chuyển
-    estimated_pick_time VARCHAR(128)  													DEFAULT NULL, -- Dự kiến lấy hàng	
-    estimated_deliver_time VARCHAR(128)  													DEFAULT NULL, -- Dự kiến giao hàng	 
-    order_quantity INT                                                           NOT NULL DEFAULT 0,
-    PRIMARY KEY (id),
-    UNIQUE KEY UQ_Order_OrderCode (order_code),
-    CONSTRAINT FK_Order_User FOREIGN KEY (user_id) REFERENCES `user` (id),
-    CONSTRAINT FK_Order_Shipping FOREIGN KEY (shipping_id) REFERENCES shipping_methods (id),
-    CONSTRAINT FK_Order_Payment FOREIGN KEY (payment_id) REFERENCES payment_methods (id),
-    CONSTRAINT FK_Order_Status FOREIGN KEY (status_id) REFERENCES status_order (id),
-    CONSTRAINT FK_Order_Status_Payment FOREIGN KEY (status_payment_id) REFERENCES status_payment (id)
-);
-
-
+    
+-- orders
 insert orders (id, order_code, user_id, shipping_id, payment_id, status_payment_id,full_name, status_id, order_quantity, unit_price)
 values (1, 'HD-11062022', 1, 1, 2, 1,'Nguyễn Quang Huy', 1, 1, 14990000),
        (2, 'HD-12062022', 1, 2, 1, 2,'Nguyễn Quang Huy', 2, 2, 30880000),
        (3, 'HD-13062022', 1, 1, 2, 1,'Nguyễn Quang Huy', 2, 3, 50870000),
        (4, 'HD-14062022', 1, 1, 2, 2,'Nguyễn Quang Huy', 3, 1, 32990000),
        (5, 'HD-15062022', 1, 1, 2, 1,'Nguyễn Quang Huy', 4, 1, 30890000),
-       (6, 'HD-16062022', 1, 1, 2, 2,'Bùi Đức Minh', 2, 1, 29990000),
-       (7, 'HD-17062022', 1, 1, 2, 1,'Bùi Đức Minh', 3, 1, 24490000),
-       (8, 'HD-18062022', 1, 2, 1, 2,'Bùi Đức Minh', 2, 1, 20990000),
-       (9, 'HD-19062022', 1, 2, 1, 1,'Bùi Đức Minh', 3, 2, 33480000),
-       (10, 'HD-20062022', 1, 2, 1, 2,'Bùi Đức Minh', 5, 3, 52430000)
+       
+       (6, 'HD-16062022', 2, 1, 2, 2,'Bùi Đức Minh', 2, 1, 29990000),
+       (7, 'HD-17062022', 2, 1, 2, 1,'Bùi Đức Minh', 3, 1, 24490000),
+       (8, 'HD-18062022', 2, 2, 1, 2,'Bùi Đức Minh', 2, 1, 20990000),
+       (9, 'HD-19062022', 2, 2, 1, 1,'Bùi Đức Minh', 3, 2, 33480000),
+       (10, 'HD-20062022',2, 2, 1, 2,'Bùi Đức Minh', 5, 3, 52430000)
 ;
 
--- Chi tiết đơn đặt hàng
-CREATE TABLE order_item
-(
-    id         BIGINT NOT NULL AUTO_INCREMENT,
-    order_id   BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
-    quantity   INT    NOT NULL,
-    price      DOUBLE NOT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT FK_OrderItems_Product FOREIGN KEY (product_id) REFERENCES product (id),
-    CONSTRAINT FK_OrderItems_Order FOREIGN KEY (order_id) REFERENCES orders (id)
-);
-
+-- order_item
 insert order_item (id, order_id, product_id, quantity, price)
 values
     -- huynq
@@ -1285,90 +1495,22 @@ values
     (16, 10, 10, 1, 18950000)
 ;
 
--- Thông tin đơn đặt hàng
-CREATE TABLE order_detail
-(
-    id       BIGINT                                                        NOT NULL AUTO_INCREMENT,
-    order_id BIGINT                                                        NOT NULL,
-    address  VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    province VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-    district VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-    ward     VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI DEFAULT NULL,
-    tel      VARCHAR(10)                                                   NOT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT FK_OrderDetail_Order FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-insert order_detail (id, order_id, address, tel)
-values (1, 1, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),
-       (2, 2, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),
-       (3, 3, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),
-       (4, 4, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),
-       (5, 5, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0987654321'),
-       (6, 6, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921'),
-       (7, 7, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921'),
-       (8, 8, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921'),
-       (9, 9, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921'),
-       (10, 10, '121 Tô ký, Phường 9, Quận 12, TP HCM', '0345678921')
+-- order_detail
+insert order_detail (id, order_id, province, district, ward, address, tel)
+values (1, 1, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
+       (2, 2, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),                    
+       (3, 3, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
+       (4, 4, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
+       (5, 5, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
+       
+       (6, 6, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
+       (7, 7, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
+       (8, 8, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
+       (9, 9, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
+       (10, 10, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921')
 ;
 
---------------------------------------------------------------------------------------------------------------
--- Giở hàng
---------------------------------------------------------------------------------------------------------------
-
-CREATE TABLE cart
-(
-    id         BIGINT NOT NULL AUTO_INCREMENT,
-    user_id    BIGINT DEFAULT NULL,
-    product_id BIGINT NOT NULL,
-    quantity   INT    NOT NULL,
-    PRIMARY KEY (id),
-    KEY FK_Cart_User (user_id),
-    CONSTRAINT FK_Cart_Product FOREIGN KEY (product_id) REFERENCES product (id),
-    CONSTRAINT FK_Cart_User FOREIGN KEY (user_id) REFERENCES `user` (id)
-);
-
---------------------------------------------------------------------------------------------------------------
--- Giở hàng
---------------------------------------------------------------------------------------------------------------
-
-CREATE TABLE Notifications (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    title VARCHAR(255)CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
-    user_id BIGINT NOT NULL,
-    order_code VARCHAR(255) NOT NULL,
-    is_watched BIT DEFAULT 0,
-    created_at     TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    CONSTRAINT fk_notification_user FOREIGN KEY (user_id) REFERENCES user (id)
-);
-
-CREATE TABLE verify
-(
-    id      BIGINT       NOT NULL AUTO_INCREMENT,
-    token   VARCHAR(255) NOT NULL,
-    actived BIT          NOT NULL DEFAULT 1,
-    PRIMARY KEY (id),
-    UNIQUE KEY UQ_Verify_Token (token)
-);
-
-
-CREATE TABLE `district`
-(
-    `id`           int(10) UNSIGNED NOT NULL,
-    `_name`        varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-    `_prefix`      varchar(20) COLLATE utf8_unicode_ci  DEFAULT NULL,
-    `_province_id` int(10) UNSIGNED                     DEFAULT NULL
-);
-ALTER TABLE `district`
-    ADD PRIMARY KEY (`id`),
-    ADD KEY `_province_id` (`_province_id`);
-
-ALTER TABLE `district`
-    MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 710;
-
-
+-- district
 INSERT INTO `district` (`id`, `_name`, `_prefix`, `_province_id`)
 VALUES (1, 'Bình Chánh', 'Huyện', 1),
        (2, 'Bình Tân', 'Quận', 1),
@@ -2079,29 +2221,8 @@ VALUES (1, 'Bình Chánh', 'Huyện', 1),
        (707, 'Thông Nông', 'Huyện', 63),
        (708, 'Trà Lĩnh', 'Huyện', 63),
        (709, 'Trùng Khánh', 'Huyện', 63);
-
-
-CREATE TABLE `ward`
-(
-    `id`           int(10) UNSIGNED                    NOT NULL,
-    `_name`        varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-    `_prefix`      varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-    `_province_id` int(10) UNSIGNED                    DEFAULT NULL,
-    `_district_id` int(10) UNSIGNED                    DEFAULT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
-
-ALTER TABLE `ward`
-    ADD PRIMARY KEY (`id`),
-    ADD KEY `_province_id` (`_province_id`, `_district_id`);
-
-ALTER TABLE `ward`
-    MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 11284;
-
-
-
+       
+-- ward
 INSERT INTO `ward` (`id`, `_name`, `_prefix`, `_province_id`, `_district_id`)
 VALUES (1, 'An Phú Tây', 'Xã', 1, 1),
        (2, 'Bình Chánh', 'Xã', 1, 1),
@@ -13393,7 +13514,6 @@ VALUES (10331, 'Pú Nhi', 'Xã', 58, 650),
        (11281, 'Thông Huề', 'Xã', 63, 709),
        (11282, 'Trùng Khánh', 'Thị trấn', 63, 709),
        (11283, 'Trung Phúc', 'Xã', 63, 709);
-
 
 
 
