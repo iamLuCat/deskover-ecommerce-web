@@ -78,28 +78,34 @@ public class FlashSaleServiceImpl implements FlashSaleService {
 	@Override
 	public FlashSale create(FlashSale flashSale) {
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-		if (flashSale.getStartDate().getDate() < currentTime.getDate()
-				|| flashSale.getEndDate().getDate() < flashSale.getStartDate().getDate()) {
-			throw new IllegalArgumentException("Ngày bắt đầu hoặc kết thúc không hợp lệ");
-		} else if (flashSale.getStartDate().getDate() == currentTime.getDate()) {
-			if (currentTime.getTime() > flashSale.getStartDate().getTime()
-					|| flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
-				throw new IllegalArgumentException("Thời gian không hợp lệ");
-			} else {
-				flashSale.setActived(false);
-				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return repository.save(flashSale);
-			}
-		} else if (flashSale.getStartDate().getDate() > currentTime.getDate()) {
-			if (flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
-				throw new IllegalArgumentException("Thời gian kết thúc phải > thời gian bắt đầu");
-			} else {
-				flashSale.setActived(false);
-				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return repository.save(flashSale);
-			}
+//		if (currentTime.getDate() > flashSale.getStartDate().getDate()
+//				|| flashSale.getStartDate().getDate() > flashSale.getEndDate().getDate()) {
+//			throw new IllegalArgumentException("Ngày bắt đầu hoặc kết thúc không hợp lệ");
+//		} else if (flashSale.getStartDate().getDate() == currentTime.getDate()) {
+//			if (currentTime.getTime() > flashSale.getStartDate().getTime()
+//					|| flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
+//				throw new IllegalArgumentException("Thời gian không hợp lệ");
+//			} else {
+//				flashSale.setActived(false);
+//				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+//				return repository.save(flashSale);
+//			}
+//		} else if (flashSale.getStartDate().getDate() > currentTime.getDate()) {
+//			if (flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
+//				throw new IllegalArgumentException("Thời gian kết thúc phải > thời gian bắt đầu");
+//			} else {
+//				flashSale.setActived(false);
+//				flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+//				return repository.save(flashSale);
+//			}
+//		}
+		if (flashSale.getStartDate().getTime() < currentTime.getTime()
+				|| flashSale.getStartDate().getTime() >= flashSale.getEndDate().getTime()) {
+			throw new IllegalArgumentException("Thời gian không hợp lệ");
 		}
-		return null;
+		flashSale.setActived(false);
+		flashSale.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		return repository.save(flashSale);
 	}
 
 	@Override
