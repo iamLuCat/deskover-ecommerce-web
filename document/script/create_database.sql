@@ -605,63 +605,198 @@ VALUES (1, 'Hồ Chí Minh', 'SG'),
 -- user_address
 insert user_address (id,user_id,province_id, fullname, address, province, district,district_id, ward,ward_id, tel, email, choose, actived)
 values 
-  (
-    1, 1, 1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 
-    'Hồ Chí Minh', 'Quận 12', 1, 
-    'Phường Trung Mỹ Tây', 1, 
-    '0123456789', 'huynq2022@gmail.com', 
-    1, 1
-  ), 
-  (
-    2, 2, 1, 'Bùi Đức Minh', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
-    'Hồ Chí Minh', 'Huyện Bình Chánh', 
-    1, 'Xã An Phú Tây', 1, '0338953980', 
-    'minhbd2021@gmail.com', 1, 
-    1
-  ), 
-  (
-    3, 2, 2, 'Bùi Đức Minh', '123, Phường Cống Vị, Quận Ba Đình, Hà Nội', 
-    'Hà Nội', 'Quận Ba Đình', 
-    25, 'Phường Cống Vị', 327, 
-    '0338953981', 'minhbd2022@gmail.com', 
-    0, 0
-  ), 
-  (
-    4, 2, 11, 'Bùi Đức Minh', '123, Xã Cư Klông, Huyện Krông Năng, Đắk Lắk', 
-    'Đắk Lắk', 'Huyện Krông Năng', 
-    158, 'Xã Cư Klông', 2270, '0338953982', 
-    'minhbd2023@gmail.com', 0, 
-    0
-  ), 
-  (
-    5, 2, 14, 'Bùi Đức Minh', '123, Xã B' 'Lá, Huyện Bảo Lâm, Lâm Đồng', 
-    'Lâm Đồng', 'Huyện Bảo Lâm', 
-    181, 'Xã B' 'Lá', 2539, '0338953983', 
-    'minhbd2024@gmail.com', 0, 
-    0
-  ), 
-  (
-    6, 2, 10, 'Pham Quang Vu', '123, Phường Phước Trung, Thị xã Bà Rịa, Bà Rịa Vũng Tàu', 
-    'Bà Rịa Vũng Tàu', 'Thị xã Bà Rịa', 
-    139, 'Phường Phước Trung', 
-    2062, '0335985331', 'email.email@gmail.com', 
-    0, 0
-  ), 
-  (
-    7, 2, 23, 'Pham Van Hai', '12312, Xã Lộc An, Huyện Lộc Ninh, Bình Phước', 
-    'Bình Phước', 'Huyện Lộc Ninh', 
-    324, 'Xã Lộc An', 5003, '0335956325', 
-    'email2.email@gmail.com', 0, 
-    0
-  ), 
-  (
-    8, 2, 14, 'Nguyen Hoai Minh', '123, Thị trấn Đạ M' 'Ri, Huyện Đạ Huoai, Lâm Đồng', 
-    'Lâm Đồng', 'Huyện Đạ Huoai', 
-    184, 'Thị trấn Đạ M' 'Ri', 
-    2577, '0323555545', 'email3.email@gmail.com', 
-    0, 0
-  );
-;
+(
+  1, 1, 1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 
+  'Hồ Chí Minh', 'Quận 12', 1, 
+  'Phường Trung Mỹ Tây', 1, 
+  '0123456789', 'huynq2022@gmail.com', 
+  0, 0
+), 
+(
+  2, 2, 1, 'Bùi Đức Minh', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+  'Hồ Chí Minh', 'Huyện Bình Chánh', 
+  1, 'Xã An Phú Tây', 1, '0338953980', 
+  'minhbd2021@gmail.com', 0, 0
+), 
+(
+  3, 2, 2, 'Bùi Đức Minh', '123, Phường Cống Vị, Quận Ba Đình, Hà Nội', 
+  'Hà Nội', 'Quận Ba Đình', 
+  25, 'Phường Cống Vị', 327, 
+  '0338953981', 'minhbd2022@gmail.com', 
+  0, 0
+), 
+(
+  4, 2, 11, 'Bùi Đức Minh', '123, Xã Cư Klông, Huyện Krông Năng, Đắk Lắk', 
+  'Đắk Lắk', 'Huyện Krông Năng', 
+  158, 'Xã Cư Klông', 2270, '0338953982', 
+  'minhbd2023@gmail.com', 0, 0
+), 
+(
+  5, 2, 14, 'Bùi Đức Minh', '123, Xã BLá, Huyện Bảo Lâm, Lâm Đồng', 
+  'Lâm Đồng', 'Huyện Bảo Lâm', 
+  181, 'Xã BLá', 2539, '0338953983', 
+  'minhbd2024@gmail.com', 0, 0
+), 
+(
+  6, 2, 10, 'Pham Quang Vu', '123, Phường Phước Trung, Thị xã Bà Rịa, Bà Rịa Vũng Tàu', 
+  'Bà Rịa Vũng Tàu', 'Thị xã Bà Rịa', 
+  139, 'Phường Phước Trung', 
+  2062, '0335985331', 'email.email@gmail.com', 
+  0, 0
+), 
+(
+  7, 2, 23, 'Pham Van Hai', '12312, Xã Lộc An, Huyện Lộc Ninh, Bình Phước', 
+  'Bình Phước', 'Huyện Lộc Ninh', 
+  324, 'Xã Lộc An', 5003, '0335956325', 
+  'email2.email@gmail.com', 0, 0
+), 
+(
+  8, 2, 14, 'Nguyen Hoai Minh', '123, Thị trấn Đạ MRi, Huyện Đạ Huoai, Lâm Đồng', 
+  'Lâm Đồng', 'Huyện Đạ Huoai', 
+  184, 'Thị trấn Đạ MRi', 2577, 
+  '0323555545', 'email3.email@gmail.com', 
+  0, 0
+), 
+(
+  9, 5, 1, 'Lê Thị Thu Hà', '123, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+  'Hồ Chí Minh', 'Huyện Bình Chánh', 
+  1, 'Xã An Phú Tây', 1, '0348578494', 
+  'haltt@gmail.com', 0, 0
+), 
+(
+  10, 5, 7, 'Lê thị thu hồng', '12, Phường Hòa Nghĩa, Quận Dương Kinh, Hải Phòng', 
+  'Hải Phòng', 'Quận Dương Kinh', 
+  96, 'Phường Hòa Nghĩa', 1440, 
+  '0349494929', 'hongltt@gmail.com', 
+  0, 0
+), 
+(
+  11, 5, 1, 'trần anh đạt', '12, Phường 17, Quận Gò Vấp, Hồ Chí Minh', 
+  'Hồ Chí Minh', 'Quận Gò Vấp', 
+  6, 'Phường 17', 85, '0349499568', 
+  'datta@gmail.com', 0, 0
+), 
+(
+  12, 3, 3, 'Tấn Tài', 'đường d2, Phường Hòa An, Quận Cẩm Lệ, Đà Nẵng', 
+  'Đà Nẵng', 'Quận Cẩm Lệ', 
+  55, 'Phường Hòa An', 914, '0322216164', 
+  'tantaiii@gmail.com', 0, 0
+), 
+(
+  13, 3, 11, 'Thu Hằng', 'Thôn eka, Xã Cuôr Knia, Huyện Buôn Đôn, Đắk Lắk', 
+  'Đắk Lắk', 'Huyện Buôn Đôn', 
+  147, 'Xã Cuôr Knia', 2137, '0995614664', 
+  'thuhanggg@gmail.com', 0, 0
+), 
+(
+  14, 4, 1, 'Nguyễn Quang Vinh', '12, Xã Phạm Văn Hai, Huyện Bình Chánh, Hồ Chí Minh', 
+  'Hồ Chí Minh', 'Huyện Bình Chánh', 
+  1, 'Xã Phạm Văn Hai', 8, '0349299864', 
+  'vinhnq@gmail.com', 0, 0
+), 
+(
+  15, 3, 50, 'Nguyễn Văn B', 'số nhà 12, Xã Quảng Hòa, Thị xã Ba Đồn, Quảng Bình', 
+  'Quảng Bình', 'Thị xã Ba Đồn', 
+  581, 'Xã Quảng Hòa', 9210, '0956464646', 
+  'vanb@gmail.co.com', 0, 0
+), 
+(
+  16, 4, 3, 'Nguyễn Quang Hùng', '65, Phường  Hải Châu I, Quận Hải Châu, Đà Nẵng', 
+  'Đà Nẵng', 'Quận Hải Châu', 
+  56, 'Phường  Hải Châu I', 
+  920, '0349568664', 'hungnq@gmail.com', 
+  0, 0
+), 
+(
+  17, 7, 1, 'Lê Anh Tuând', 'Số12, Phường Bến Nghé,  Quận 1, Hồ Chí Minh', 
+  'Hồ Chí Minh', ' Quận 1', 10, 
+  'Phường Bến Nghé', 129, '0659494991', 
+  'leanhtuab@gmail.com', 0, 0
+), 
+(
+  18, 6, 1, 'Nguyễn Ngọc Thiên Hồng', 
+  '54, Phường 15,  Quận 10, Hồ Chí Minh', 
+  'Hồ Chí Minh', ' Quận 10', 
+  11, 'Phường 15', 145, '0349499597', 
+  'hongnnt@gmail.com', 0, 0
+), 
+(
+  19, 7, 9, 'Phạm Quang Đạt', 'Tr Bui, Xã Trà Bui, Huyện Bắc Trà My, Quảng Nam', 
+  'Quảng Nam', 'Huyện Bắc Trà My', 
+  121, 'Xã Trà Bui', 1807, '0956464665', 
+  'quangdat@gmail.com', 0, 0
+), 
+(
+  20, 7, 1, 'Ngọc Bùi', 'Nhơn Tay, Xã An Nhơn Tây, Huyện Củ Chi, Hồ Chí Minh', 
+  'Hồ Chí Minh', 'Huyện Củ Chi', 
+  5, 'Xã An Nhơn Tây', 54, '0947676464', 
+  'gmail@gmail.com', 0, 0
+), 
+(
+  21, 8, 1, 'Ngô trúc nhi', '123, Phường 19, Quận Bình Thạnh, Hồ Chí Minh', 
+  'Hồ Chí Minh', 'Quận Bình Thạnh', 
+  3, 'Phường 19', 34, '0359564688', 
+  'nhint@gmail.com', 0, 0
+);
+
+
+--   (
+--     1, 1, 1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 
+--     'Hồ Chí Minh', 'Quận 12', 1, 
+--     'Phường Trung Mỹ Tây', 1, 
+--     '0123456789', 'huynq2022@gmail.com', 
+--     1, 1
+--   ), 
+--   (
+--     2, 2, 1, 'Bùi Đức Minh', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+--     'Hồ Chí Minh', 'Huyện Bình Chánh', 
+--     1, 'Xã An Phú Tây', 1, '0338953980', 
+--     'minhbd2021@gmail.com', 1, 
+--     1
+--   ), 
+--   (
+--     3, 2, 2, 'Bùi Đức Minh', '123, Phường Cống Vị, Quận Ba Đình, Hà Nội', 
+--     'Hà Nội', 'Quận Ba Đình', 
+--     25, 'Phường Cống Vị', 327, 
+--     '0338953981', 'minhbd2022@gmail.com', 
+--     0, 0
+--   ), 
+--   (
+--     4, 2, 11, 'Bùi Đức Minh', '123, Xã Cư Klông, Huyện Krông Năng, Đắk Lắk', 
+--     'Đắk Lắk', 'Huyện Krông Năng', 
+--     158, 'Xã Cư Klông', 2270, '0338953982', 
+--     'minhbd2023@gmail.com', 0, 
+--     0
+--   ), 
+--   (
+--     5, 2, 14, 'Bùi Đức Minh', '123, Xã B' 'Lá, Huyện Bảo Lâm, Lâm Đồng', 
+--     'Lâm Đồng', 'Huyện Bảo Lâm', 
+--     181, 'Xã B' 'Lá', 2539, '0338953983', 
+--     'minhbd2024@gmail.com', 0, 
+--     0
+--   ), 
+--   (
+--     6, 2, 10, 'Pham Quang Vu', '123, Phường Phước Trung, Thị xã Bà Rịa, Bà Rịa Vũng Tàu', 
+--     'Bà Rịa Vũng Tàu', 'Thị xã Bà Rịa', 
+--     139, 'Phường Phước Trung', 
+--     2062, '0335985331', 'email.email@gmail.com', 
+--     0, 0
+--   ), 
+--   (
+--     7, 2, 23, 'Pham Van Hai', '12312, Xã Lộc An, Huyện Lộc Ninh, Bình Phước', 
+--     'Bình Phước', 'Huyện Lộc Ninh', 
+--     324, 'Xã Lộc An', 5003, '0335956325', 
+--     'email2.email@gmail.com', 0, 
+--     0
+--   ), 
+--   (
+--     8, 2, 14, 'Nguyen Hoai Minh', '123, Thị trấn Đạ M' 'Ri, Huyện Đạ Huoai, Lâm Đồng', 
+--     'Lâm Đồng', 'Huyện Đạ Huoai', 
+--     184, 'Thị trấn Đạ M' 'Ri', 
+--     2577, '0323555545', 'email3.email@gmail.com', 
+--     0, 0
+--   );
+-- ;
 
 -- user_password
 insert user_password (id, user_id, `password`)
@@ -876,6 +1011,10 @@ insert flash_sale (id,`name`,start_date, end_date, actived, modified_by)
 values 
   (
     1, 'Flash Sale Of', '2022-08-05 23:59:59',
+    '2022-08-06 23:59:59',1, 'haipv'
+  ),
+  (
+    2, 'Flash Sale Of', '2022-08-05 23:59:59',
     '2022-08-06 23:59:59',1, 'haipv'
   );
   
@@ -1458,57 +1597,541 @@ INSERT status_order(`id`, `code`, `status`)
     (9, 'HUY', 'Đơn đã huỷ');
     
 -- orders
-insert orders (id, order_code, user_id, shipping_id, payment_id, status_payment_id,full_name, status_id, order_quantity, unit_price)
-values (1, 'HD-11062022', 1, 1, 2, 1,'Nguyễn Quang Huy', 1, 1, 14990000),
-       (2, 'HD-12062022', 1, 2, 1, 2,'Nguyễn Quang Huy', 2, 2, 30880000),
-       (3, 'HD-13062022', 1, 1, 2, 1,'Nguyễn Quang Huy', 2, 3, 50870000),
-       (4, 'HD-14062022', 1, 1, 2, 2,'Nguyễn Quang Huy', 3, 1, 32990000),
-       (5, 'HD-15062022', 1, 1, 2, 1,'Nguyễn Quang Huy', 4, 1, 30890000),
-       
-       (6, 'HD-16062022', 2, 1, 2, 2,'Bùi Đức Minh', 2, 1, 29990000),
-       (7, 'HD-17062022', 2, 1, 2, 1,'Bùi Đức Minh', 3, 1, 24490000),
-       (8, 'HD-18062022', 2, 2, 1, 2,'Bùi Đức Minh', 2, 1, 20990000),
-       (9, 'HD-19062022', 2, 2, 1, 1,'Bùi Đức Minh', 3, 2, 33480000),
-       (10, 'HD-20062022',2, 2, 1, 2,'Bùi Đức Minh', 5, 3, 52430000)
-;
+insert orders
+values 
+  (
+    1, 'HD-11062022', NULL, 1, 1, 2, 1, 1, 
+    'Nguyễn Quang Huy', 'vanb@gmail.co.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 14990000, NULL, NULL, NULL, NULL, 
+    1
+  ), 
+  (
+    2, 'HD-12062022', NULL, 1, 2, 1, 2, 2, 
+    'Nguyễn Quang Huy', 'gmail@gmail.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 30880000, NULL, NULL, NULL, NULL, 
+    2
+  ), 
+  (
+    3, 'HD-13062022', NULL, 1, 1, 2, 1, 2, 
+    'Nguyễn Quang Huy', 'leanhtuab@gmail.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 50870000, NULL, NULL, NULL, NULL, 
+    3
+  ), 
+  (
+    4, 'HD-14062022', NULL, 1, 1, 2, 2, 3, 
+    'Nguyễn Quang Huy', 'hongnnt@gmail.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 32990000, NULL, NULL, NULL, NULL, 
+    1
+  ), 
+  (
+    5, 'HD-15062022', NULL, 1, 1, 2, 1, 4, 
+    'Nguyễn Quang Huy', 'minhdb@gmail.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 30890000, NULL, NULL, NULL, NULL, 
+    1
+  ), 
+  (
+    6, 'HD-16062022', NULL, 2, 1, 2, 2, 2, 
+    'Bùi Đức Minh', 'minhdb@gmail.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 29990000, NULL, NULL, NULL, NULL, 
+    1
+  ), 
+  (
+    7, 'HD-17062022', NULL, 2, 1, 2, 1, 3, 
+    'Bùi Đức Minh', 'minhdb@gmail.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 24490000, NULL, NULL, NULL, NULL, 
+    1
+  ), 
+  (
+    8, 'HD-18062022', NULL, 2, 2, 1, 2, 2, 
+    'Bùi Đức Minh', 'minhdb@gmail.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 20990000, NULL, NULL, NULL, NULL, 
+    1
+  ), 
+  (
+    9, 'HD-19062022', NULL, 2, 2, 1, 1, 3, 
+    'Bùi Đức Minh', 'minhdb@gmail.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 33480000, NULL, NULL, NULL, NULL, 
+    2
+  ), 
+  (
+    10, 'HD-20062022', NULL, 2, 2, 1, 2, 5, 
+    'Bùi Đức Minh', 'minhdb@gmail.com', 
+    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, 52430000, NULL, NULL, NULL, NULL, 
+    3
+  ), 
+  (
+    11, 'HD-74289518', NULL, 2, 2, 1, 1, 1, 
+    'Bùi Đức Minh', 'minhdb@gmail.com', 
+    '', NULL, '2022-08-08 05:13:58', 
+    NULL, 29990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    12, 'HD-29387428', NULL, 5, 2, 1, 1, 1, 
+    'Lê Thị Thu Hà', 'quangdat@gmail.com', 
+    '', NULL, '2022-08-08 06:16:01', 
+    NULL, 87960000, NULL, 0, NULL, NULL, 
+    4
+  ), 
+  (
+    13, 'HD-28796165', 'HD-28796165.png', 
+    5, 2, 1, 1, 2, 'Lê Thị Thu Hà', 
+    'quangdat@gmail.com', '', NULL, '2022-08-08 06:17:36', 
+    'minhnh', 99000000, NULL, 0, NULL, 
+    NULL, 1
+  ), 
+  (
+    14, 'HD-86090362', NULL, 5, 1, 1, 1, 1, 
+    'Lê thị thu hồng', 'hongnnt@gmail.com', 
+    '', NULL, '2022-08-08 06:19:26', 
+    NULL, 50990000, NULL, 295000, NULL, 
+    NULL, 1
+  ), 
+  (
+    15, 'HD-78426833', NULL, 5, 1, 1, 1, 1, 
+    'Lê thị thu hồng', 'hongnnt@gmail.com', 
+    '', NULL, '2022-08-08 06:22:14', 
+    NULL, 30890000, NULL, 168560, NULL, 
+    NULL, 1
+  ), 
+  (
+    16, 'HD-71533818', NULL, 5, 2, 1, 1, 1, 
+    'trần anh đạt', NULL, '', NULL, 
+    '2022-08-08 06:25:45', NULL, 50980000, 
+    NULL, 0, NULL, NULL, 2
+  ), 
+  (
+    17, 'HD-37208349', NULL, 3, 1, 1, 1, 1, 
+    'Tấn Tài', 'hungnq@gmail.com', 
+    'giao thu 2', NULL, '2022-08-08 06:31:44', 
+    NULL, 12490000, NULL, 40000, NULL, 
+    NULL, 1
+  ), 
+  (
+    18, 'HD-51070929', NULL, 3, 1, 1, 1, 1, 
+    'Thu Hằng', 'thuhanggg@gmail.com', 
+    'giao thu 2', NULL, '2022-08-08 06:34:38', 
+    NULL, 33990000, NULL, 224950, NULL, 
+    NULL, 1
+  ), 
+  (
+    19, 'HD-94371462', 'HD-94371462.png', 
+    4, 2, 1, 1, 2, 'Nguyễn Quang Vinh', 
+    'vinhnq@gmail.com', '', NULL, '2022-08-08 06:35:00', 
+    'minhnh', 54480000, NULL, 0, NULL, 
+    NULL, 2
+  ), 
+  (
+    20, 'HD-92562610', NULL, 3, 1, 1, 1, 1, 
+    'Nguyễn Văn B', 'vanb@gmail.co.com', 
+    'giao thu 2', NULL, '2022-08-08 06:36:17', 
+    NULL, 14490000, NULL, 117450, NULL, 
+    NULL, 1
+  ), 
+  (
+    21, 'HD-26836246', NULL, 4, 1, 1, 1, 1, 
+    'Nguyễn Quang Hùng', 'hungnq@gmail.com', 
+    '', NULL, '2022-08-08 06:37:36', 
+    NULL, 41990000, NULL, 249950, NULL, 
+    NULL, 1
+  ), 
+  (
+    25, 'HD-37154178', NULL, 7, 1, 1, 1, 1, 
+    'Lê Anh Tuând', 'leanhtuab@gmail.com', 
+    'giao thu 2', NULL, '2022-08-08 06:40:26', 
+    NULL, 29990000, NULL, 184950, NULL, 
+    NULL, 1
+  ), 
+  (
+    26, 'HD-14280547', NULL, 7, 1, 1, 1, 1, 
+    'Lê Anh Tuând', 'leanhtuab@gmail.com', 
+    'giao thu 2', NULL, '2022-08-08 06:40:40', 
+    NULL, 12490000, NULL, 97450, NULL, 
+    NULL, 1
+  ), 
+  (
+    27, 'HD-62169753', NULL, 6, 2, 1, 1, 1, 
+    'Nguyễn Ngọc Thiên Hồng', 
+    'hongnnt@gmail.com', '', NULL, '2022-08-08 06:40:59', 
+    NULL, 38990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    28, 'HD-40867355', NULL, 6, 1, 1, 1, 1, 
+    'Nguyễn Ngọc Thiên Hồng', 
+    'hongnnt@gmail.com', '', NULL, '2022-08-08 06:41:18', 
+    NULL, 15990000, NULL, 109950, NULL, 
+    NULL, 1
+  ), 
+  (
+    29, 'HD-95581896', NULL, 7, 2, 1, 1, 1, 
+    'Phạm Quang Đạt', 'quangdat@gmail.com', 
+    'giao thu 2', NULL, '2022-08-08 06:42:00', 
+    NULL, 29990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    30, 'HD-73766888', NULL, 7, 2, 1, 1, 1, 
+    'Phạm Quang Đạt', 'quangdat@gmail.com', 
+    'giao thu 2', NULL, '2022-08-08 06:42:56', 
+    NULL, 33990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    31, 'HD-23126624', NULL, 7, 1, 1, 1, 1, 
+    'Phạm Quang Đạt', 'quangdat@gmail.com', 
+    'giao thu 2', NULL, '2022-08-08 06:43:53', 
+    NULL, 20990000, NULL, 159950, NULL, 
+    NULL, 1
+  ), 
+  (
+    32, 'HD-16865661', NULL, 6, 2, 1, 1, 1, 
+    'Nguyễn Ngọc Thiên Hồng', 
+    'hongnnt@gmail.com', '', NULL, '2022-08-08 06:44:19', 
+    NULL, 20990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    33, 'HD-12310126', NULL, 7, 2, 1, 1, 1, 
+    'Lê Anh Tuând', 'leanhtuab@gmail.com', 
+    'giao thu 2', NULL, '2022-08-08 06:44:38', 
+    NULL, 29990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    34, 'HD-69444323', NULL, 7, 1, 1, 1, 1, 
+    'Phạm Quang Đạt', 'quangdat@gmail.com', 
+    'giao thu 2', NULL, '2022-08-08 06:46:13', 
+    NULL, 29990000, NULL, 55000, NULL, 
+    NULL, 1
+  ), 
+  (
+    35, 'HD-12697433', NULL, 7, 2, 1, 1, 1, 
+    'Lê Anh Tuând', 'leanhtuab@gmail.com', 
+    '', NULL, '2022-08-08 06:47:08', 
+    NULL, 38480000, NULL, 0, NULL, NULL, 
+    2
+  ), 
+  (
+    36, 'HD-76426419', NULL, 7, 2, 1, 1, 1, 
+    'Ngọc Bùi', 'gmail@gmail.com', 
+    '', NULL, '2022-08-08 06:48:16', 
+    NULL, 20990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    37, 'HD-92999876', NULL, 8, 1, 1, 1, 1, 
+    'Ngô trúc nhi', 'nhint@gmail.com', 
+    '', NULL, '2022-08-08 06:50:21', 
+    NULL, 34990000, NULL, 196950, NULL, 
+    NULL, 1
+  ), 
+  (
+    38, 'HD-86689656', NULL, 2, 2, 1, 1, 1, 
+    'Bùi Đức Minh', 'minhbd2021@gmail.com', 
+    '', NULL, '2022-08-08 06:51:28', 
+    NULL, 84470000, NULL, 0, NULL, NULL, 
+    3
+  ), 
+  (
+    39, 'HD-65313880', NULL, 2, 2, 1, 1, 1, 
+    'Bùi Đức Minh', 'minhbd2021@gmail.com', 
+    '', NULL, '2022-08-08 06:51:37', 
+    NULL, 29990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    40, 'HD-50615402', NULL, 2, 1, 1, 1, 1, 
+    'Nguyen Hoai Minh', 'email3.email@gmail.com', 
+    '', NULL, '2022-08-08 06:52:01', 
+    NULL, 99000000, NULL, 285000, NULL, 
+    NULL, 1
+  ), 
+  (
+    41, 'HD-89371818', NULL, 2, 1, 1, 1, 1, 
+    'Pham Van Hai', 'email2.email@gmail.com', 
+    '', NULL, '2022-08-08 06:52:20', 
+    NULL, 17490000, NULL, 35000, NULL, 
+    NULL, 1
+  ), 
+  (
+    42, 'HD-21846451', NULL, 2, 1, 1, 1, 1, 
+    'Pham Van Hai', 'email2.email@gmail.com', 
+    '', NULL, '2022-08-08 06:53:31', 
+    NULL, 18950000, NULL, 129750, NULL, 
+    NULL, 1
+  ), 
+  (
+    43, 'HD-37010994', NULL, 2, 1, 1, 1, 1, 
+    'Pham Van Hai', 'email2.email@gmail.com', 
+    '', NULL, '2022-08-08 06:54:02', 
+    NULL, 31440000, NULL, 192200, NULL, 
+    NULL, 2
+  );
 
 -- order_item
-insert order_item (id, order_id, product_id, quantity, price)
-values
-    -- huynq
-    (1, 1, 1, 1, 14990000),
-    (2, 2, 1, 1, 14990000),
-    (3, 2, 2, 1, 15890000),
-    (4, 3, 1, 1, 14990000),
-    (5, 3, 2, 1, 15890000),
-    (6, 3, 3, 1, 19990000),
-    (7, 4, 4, 1, 32990000),
-    (8, 5, 5, 1, 30890000),
-    -- minhbd
-    (9, 6, 6, 1, 29990000),
-    (10, 7, 7, 1, 24490000),
-    (11, 8, 8, 1, 20990000),
-    (12, 9, 8, 1, 20990000),
-    (13, 9, 9, 1, 12490000),
-    (14, 10, 8, 1, 20990000),
-    (15, 10, 9, 1, 12490000),
-    (16, 10, 10, 1, 18950000)
-;
+INSERT INTO `order_item` 
+VALUES 
+  (1, 1, 1, 1, 14990000), 
+  (2, 2, 1, 1, 14990000), 
+  (3, 2, 2, 1, 15890000), 
+  (4, 3, 1, 1, 14990000), 
+  (5, 3, 2, 1, 15890000), 
+  (6, 3, 3, 1, 19990000), 
+  (7, 4, 4, 1, 32990000), 
+  (8, 5, 5, 1, 30890000), 
+  (9, 6, 6, 1, 29990000), 
+  (10, 7, 7, 1, 24490000), 
+  (11, 8, 8, 1, 20990000), 
+  (12, 9, 8, 1, 20990000), 
+  (13, 9, 9, 1, 12490000), 
+  (14, 10, 8, 1, 20990000), 
+  (15, 10, 9, 1, 12490000), 
+  (16, 10, 10, 1, 18950000), 
+  (17, 11, 6, 1, 29990000), 
+  (18, 12, 6, 1, 29990000), 
+  (19, 12, 7, 1, 24490000), 
+  (20, 12, 8, 1, 20990000), 
+  (21, 12, 9, 1, 12490000), 
+  (22, 13, 36, 1, 99000000), 
+  (23, 14, 39, 1, 50990000), 
+  (24, 15, 5, 1, 30890000), 
+  (25, 16, 6, 1, 29990000), 
+  (26, 16, 8, 1, 20990000), 
+  (27, 17, 9, 1, 12490000), 
+  (28, 18, 33, 1, 33990000), 
+  (29, 19, 6, 1, 29990000), 
+  (30, 19, 7, 1, 24490000), 
+  (31, 20, 16, 1, 14490000), 
+  (32, 21, 40, 1, 41990000), 
+  (36, 25, 6, 1, 29990000), 
+  (37, 26, 9, 1, 12490000), 
+  (38, 27, 38, 1, 38990000), 
+  (39, 28, 11, 1, 15990000), 
+  (40, 29, 6, 1, 29990000), 
+  (41, 30, 33, 1, 33990000), 
+  (42, 31, 13, 1, 20990000), 
+  (43, 32, 13, 1, 20990000), 
+  (44, 33, 6, 1, 29990000), 
+  (45, 34, 6, 1, 29990000), 
+  (46, 35, 13, 1, 20990000), 
+  (47, 35, 12, 1, 17490000), 
+  (48, 36, 13, 1, 20990000), 
+  (49, 37, 41, 1, 34990000), 
+  (50, 38, 6, 2, 29990000), 
+  (51, 38, 7, 1, 24490000), 
+  (52, 39, 6, 1, 29990000), 
+  (53, 40, 36, 1, 99000000), 
+  (54, 41, 12, 1, 17490000), 
+  (55, 42, 10, 1, 18950000), 
+  (56, 43, 9, 1, 12490000), 
+  (57, 43, 10, 1, 18950000);
+
 
 -- order_detail
-insert order_detail (id, order_id, province, district, ward, address, tel)
-values (1, 1, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
-       (2, 2, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),                    
-       (3, 3, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
-       (4, 4, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
-       (5, 5, 1, 13, 170, '121 An Phú Đông, Quận 12, Hồ Chí Minh', '0987654321'),
-       
-       (6, 6, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
-       (7, 7, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
-       (8, 8, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
-       (9, 9, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921'),
-       (10, 10, 1, 13, 170, '200 An Phú Đông, Quận 12, Hồ Chí Minh', '0345678921')
-;
+INSERT INTO `order_detail` 
+VALUES 
+  (
+    1, 1, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0987654321'
+  ), 
+  (
+    2, 2, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0987654321'
+  ), 
+  (
+    3, 3, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0987654321'
+  ), 
+  (
+    4, 4, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0987654321'
+  ), 
+  (
+    5, 5, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0987654321'
+  ), 
+  (
+    6, 6, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0345678921'
+  ), 
+  (
+    7, 7, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0345678921'
+  ), 
+  (
+    8, 8, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0345678921'
+  ), 
+  (
+    9, 9, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0345678921'
+  ), 
+  (
+    10, 10, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    '0345678921'
+  ), 
+  (
+    11, 11, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã An Phú Tây', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0338953980'
+  ), 
+  (
+    12, 12, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã An Phú Tây', '123, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0348578494'
+  ), 
+  (
+    13, 13, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã An Phú Tây', '123, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0348578494'
+  ), 
+  (
+    14, 14, 'Hải Phòng', 'Quận Dương Kinh', 
+    'Phường Hòa Nghĩa', '12, Phường Hòa Nghĩa, Quận Dương Kinh, Hải Phòng', 
+    '0349494929'
+  ), 
+  (
+    15, 15, 'Hải Phòng', 'Quận Dương Kinh', 
+    'Phường Hòa Nghĩa', '12, Phường Hòa Nghĩa, Quận Dương Kinh, Hải Phòng', 
+    '0349494929'
+  ), 
+  (
+    16, 16, 'Hồ Chí Minh', 'Quận Gò Vấp', 
+    'Phường 17', '12, Phường 17, Quận Gò Vấp, Hồ Chí Minh', 
+    '0349499568'
+  ), 
+  (
+    17, 17, 'Đà Nẵng', 'Quận Cẩm Lệ', 
+    'Phường Hòa An', 'đường d2, Phường Hòa An, Quận Cẩm Lệ, Đà Nẵng', 
+    '0322216164'
+  ), 
+  (
+    18, 18, 'Đắk Lắk', 'Huyện Buôn Đôn', 
+    'Xã Cuôr Knia', 'Thôn eka, Xã Cuôr Knia, Huyện Buôn Đôn, Đắk Lắk', 
+    '0995614664'
+  ), 
+  (
+    19, 19, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã Phạm Văn Hai', '12, Xã Phạm Văn Hai, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0349299864'
+  ), 
+  (
+    20, 20, 'Quảng Bình', 'Thị xã Ba Đồn', 
+    'Xã Quảng Hòa', 'số nhà 12, Xã Quảng Hòa, Thị xã Ba Đồn, Quảng Bình', 
+    '0956464646'
+  ), 
+  (
+    21, 21, 'Đà Nẵng', 'Quận Hải Châu', 
+    'Phường  Hải Châu I', '65, Phường  Hải Châu I, Quận Hải Châu, Đà Nẵng', 
+    '0349568664'
+  ), 
+  (
+    22, 25, 'Bình Thuận  ', 'Huyện Bắc Bình', 
+    'Xã Bình An', 'BÌNH AN 01, Xã Bình An, Huyện Bắc Bình, Bình Thuận  ', 
+    '0659494991'
+  ), 
+  (
+    23, 26, 'Bình Thuận  ', 'Huyện Bắc Bình', 
+    'Xã Bình An', 'BÌNH AN 01, Xã Bình An, Huyện Bắc Bình, Bình Thuận  ', 
+    '0659494991'
+  ), 
+  (
+    24, 27, 'Hồ Chí Minh', 'Huyện Củ Chi', 
+    'Xã Phước Hiệp', '123, Xã Phước Hiệp, Huyện Củ Chi, Hồ Chí Minh', 
+    '0349499597'
+  ), 
+  (
+    25, 28, 'Hồ Chí Minh', 'Huyện Củ Chi', 
+    'Xã Phước Hiệp', '123, Xã Phước Hiệp, Huyện Củ Chi, Hồ Chí Minh', 
+    '0349499597'
+  ), 
+  (
+    26, 29, 'Hồ Chí Minh', 'Huyện Hóc Môn', 
+    'Xã Nhị Bình', 'Nhị Bình 28, Xã Nhị Bình, Huyện Hóc Môn, Hồ Chí Minh', 
+    '0956464665'
+  ), 
+  (
+    27, 30, 'Hồ Chí Minh', 'Huyện Hóc Môn', 
+    'Xã Nhị Bình', 'Nhị Bình 28, Xã Nhị Bình, Huyện Hóc Môn, Hồ Chí Minh', 
+    '0956464665'
+  ), 
+  (
+    28, 31, 'Quảng Nam', 'Huyện Bắc Trà My', 
+    'Xã Trà Bui', 'Tr Bui, Xã Trà Bui, Huyện Bắc Trà My, Quảng Nam', 
+    '0956464665'
+  ), 
+  (
+    29, 32, 'Hồ Chí Minh', ' Quận 10', 
+    'Phường 15', '54, Phường 15,  Quận 10, Hồ Chí Minh', 
+    '0349499597'
+  ), 
+  (
+    30, 33, 'Hồ Chí Minh', ' Quận 1', 
+    'Phường Bến Nghé', 'Số12, Phường Bến Nghé,  Quận 1, Hồ Chí Minh', 
+    '0659494991'
+  ), 
+  (
+    31, 34, 'Quảng Nam', 'Huyện Bắc Trà My', 
+    'Xã Trà Bui', 'Tr Bui, Xã Trà Bui, Huyện Bắc Trà My, Quảng Nam', 
+    '0956464665'
+  ), 
+  (
+    32, 35, 'Hồ Chí Minh', ' Quận 1', 
+    'Phường Bến Nghé', 'Số12, Phường Bến Nghé,  Quận 1, Hồ Chí Minh', 
+    '0659494991'
+  ), 
+  (
+    33, 36, 'Hồ Chí Minh', 'Huyện Củ Chi', 
+    'Xã An Nhơn Tây', 'Nhơn Tay, Xã An Nhơn Tây, Huyện Củ Chi, Hồ Chí Minh', 
+    '0947676464'
+  ), 
+  (
+    34, 37, 'Hồ Chí Minh', 'Quận Bình Thạnh', 
+    'Phường 19', '123, Phường 19, Quận Bình Thạnh, Hồ Chí Minh', 
+    '0359564688'
+  ), 
+  (
+    35, 38, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã An Phú Tây', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0338953980'
+  ), 
+  (
+    36, 39, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã An Phú Tây', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0338953980'
+  ), 
+  (
+    37, 40, 'Lâm Đồng', 'Huyện Đạ Huoai', 
+    'Thị trấn Đạ MRi', '123, Thị trấn Đạ MRi, Huyện Đạ Huoai, Lâm Đồng', 
+    '0323555545'
+  ), 
+  (
+    38, 41, 'Bình Phước', 'Huyện Lộc Ninh', 
+    'Xã Lộc An', '12312, Xã Lộc An, Huyện Lộc Ninh, Bình Phước', 
+    '0335956325'
+  ), 
+  (
+    39, 42, 'Bình Phước', 'Huyện Lộc Ninh', 
+    'Xã Lộc An', '12312, Xã Lộc An, Huyện Lộc Ninh, Bình Phước', 
+    '0335956325'
+  ), 
+  (
+    40, 43, 'Bình Phước', 'Huyện Lộc Ninh', 
+    'Xã Lộc An', '12312, Xã Lộc An, Huyện Lộc Ninh, Bình Phước', 
+    '0335956325'
+  );
+
 
 -- district
 INSERT INTO `district` (`id`, `_name`, `_prefix`, `_province_id`)
