@@ -1,12 +1,11 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.validation.Valid;
-
+import com.deskover.model.entity.database.Discount;
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.database.repository.DiscountRepository;
+import com.deskover.model.entity.database.repository.datatable.DiscountRepoForDatatables;
+import com.deskover.service.DiscountService;
+import com.deskover.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -14,12 +13,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.model.entity.database.Discount;
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.repository.DiscountRepository;
-import com.deskover.model.entity.database.repository.datatable.DiscountRepoForDatatables;
-import com.deskover.service.DiscountService;
-import com.deskover.service.ProductService;
+import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class DiscountServiceImpl implements DiscountService {
@@ -123,10 +121,10 @@ public class DiscountServiceImpl implements DiscountService {
 			if(item.getEndDate().getTime() < currentTime.getTime()) {
 				this.changeActive(item.getId());
 				repository.saveAndFlush(item);
-//				Set<Product> products = item.getProducts();
-//	            for (Product product : products) {
-//	                product.setDiscount(null);
-//	            }
+				/*Set<Product> products = item.getProducts();
+	            for (Product product : products) {
+	                product.setDiscount(null);
+	            }*/
 			}
 		});
 	}
