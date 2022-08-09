@@ -36,7 +36,7 @@ public class CartServiceImpl implements CartService {
 		if(product==null) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm ");
 		}
-		
+	 System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
 		Cart cart = cartRepository.findByProductIdAndUserUsername(productId, SecurityContextHolder.getContext().getAuthentication().getName());
 		if(cart == null) {
 			Users user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -62,7 +62,7 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public List<Cart> doGetAllCartOrder() {
 		System.out.println(SecurityContextHolder.getContext().getAuthentication());
-		return cartRepository.findByUserUsername("minhbd");
+		return cartRepository.findByUserUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
 	@Override

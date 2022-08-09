@@ -395,6 +395,7 @@ public class OrderServiceImpl implements OrderService {
 
 		}
 		Users user = userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
 		Order order = mapper.map(orderResponse, Order.class);
 		order.setOrderCode(orderCode);
 		order.setUser(user);
@@ -425,6 +426,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		UserAddress address = addressService.findByUsernameAndChoose(Boolean.TRUE);
 		orderNew.setFullName(address.getFullname());
+		orderNew.setEmail(address.getEmail());
 		repo.saveAndFlush(order);
 		
 		OrderDetail orderDetail = mapper.map(address, OrderDetail.class);

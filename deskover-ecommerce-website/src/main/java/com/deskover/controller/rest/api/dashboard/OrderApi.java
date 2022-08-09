@@ -163,7 +163,7 @@ public class OrderApi {
 		}
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN','SHIPPER')")
 	@PostMapping("/orders/{orderCode}")
 	public ResponseEntity<?> doPostPickup(@PathVariable("orderCode") String orderCode,@RequestParam("status") String status,
 			@RequestParam("note") String note){

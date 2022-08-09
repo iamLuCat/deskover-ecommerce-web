@@ -16,6 +16,8 @@ public class OrderDto {
 	    
 	    private String orderCode;
 	    
+	    private String qrCode;
+	    
 	    private String fullName;
 	    
 	    private String email;
