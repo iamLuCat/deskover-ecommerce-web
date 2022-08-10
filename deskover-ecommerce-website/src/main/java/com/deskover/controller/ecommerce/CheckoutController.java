@@ -1,13 +1,12 @@
 package com.deskover.controller.ecommerce;
 
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.database.OrderDetail;
@@ -37,7 +34,6 @@ import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.database.repository.ShippingRepository;
 import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.dto.ProductDto;
-import com.deskover.other.util.MailUtil;
 import com.deskover.other.util.OrderNumberUtil;
 import com.deskover.service.SessionService;
 import com.deskover.service.ShopService;
@@ -57,7 +53,6 @@ public class CheckoutController {
 	@Autowired OrderStatusRepository statusRepo;
 	@Autowired OrderNumberUtil orderCode;
 	@Autowired SessionService sessionService;
-	@Autowired MailUtil mailservice;
 
 	@GetMapping("checkout")
 	public String checkout(Model model) {
@@ -83,7 +78,7 @@ public class CheckoutController {
 	}
 
 	@PostMapping("/ok")
-	public String checkout1(@ModelAttribute("addressForm") @Valid UserAddress entity, Errors errors, @ModelAttribute("Total") String total ) {
+	public String checkout1(Model model ,@ModelAttribute("addressForm") @Valid UserAddress entity, Errors errors, @ModelAttribute("Total") String total ) {
 		ArrayList<ProductDto> items = sessionService.get("items");
 		Users user  = userRepo.getById((long)1);
 		ShippingMethods shipping = shippingRepo.getById((long)1);
@@ -93,8 +88,8 @@ public class CheckoutController {
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
 		OrderDetail orderAddress = new OrderDetail();
+		sessionService.set("address", entity);
 
-		
 		//	1 - Save Order
 		order1.setOrderCode(orderCode.get());
 		order1.setUser(user);
@@ -131,11 +126,5 @@ public class CheckoutController {
 		return "ok";
 	}
 	
-	@RequestMapping("/send")
-	@ResponseBody
-	public String sendmail() throws MessagingException {
-		mailservice.push("minhdbps14733@fpt.edu.vn", "masdasdasdasd", "asdasdasdasdm");
-		return "ok";
-	}
-	
+
 }
