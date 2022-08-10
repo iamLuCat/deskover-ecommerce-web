@@ -1,0 +1,23 @@
+<!--6LeiUPUcAAAAAP1U8eBna5PbpNmxfu86LGhFEvUo v3Da-->
+<!--6LcKAHMfAAAAAKiEo5ZyXfOEQ3vmpAHdSXTPYiva v2Ho-->
+<!--6LeNIhAgAAAAAFAsdRFSIU4c4EQ2FM4Gokx9_G92 v2Ti-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeiUPUcAAAAAP1U8eBna5PbpNmxfu86LGhFEvUo"></script>
+</head>
+<body style="margin: 1em 0;">
+<script>
+    function onClick() {
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LeiUPUcAAAAAP1U8eBna5PbpNmxfu86LGhFEvUo', {action: 'submit'})
+            .then(function(token) {
+                ReceiveToken.postMessage(token);
+            });
+        });
+    }
+    onClick();
+</script>
+</body>
+</html>
