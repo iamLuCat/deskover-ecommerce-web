@@ -9,3 +9,10 @@
 -- Khởi chạy Admin Project (Angular 13) --
 
 3. Mở Terminal/CMD trong thư mục deskover-dashboard-website và nhập lệnh: ng serve --open
+
+#APPLICATION PROJECT
+-- Cài đặt JDK 11.
+-- Cài đặt Android Studio + Flutter Version 2.10.3.
+1. Chạy câu lệnh: flutter pub get.
+2. Chạy câu lệnh: flutter packages pub run build_runner build --delete-conflicting-outputs
+3. Run project: flutter run.

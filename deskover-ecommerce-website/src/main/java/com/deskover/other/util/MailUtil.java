@@ -87,7 +87,7 @@ public class MailUtil {
                     sender.send(message);
                     success++;
                 } catch (Exception ex) {
-                    error++;
+                	System.out.println(ex);
                 }
             }
             System.out.printf(">> Sent: %d, Error:%d\r\n", success, error);
