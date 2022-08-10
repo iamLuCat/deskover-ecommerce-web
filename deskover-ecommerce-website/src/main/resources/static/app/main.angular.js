@@ -378,26 +378,8 @@ angular
         $scope.province = resp.data;
     }).catch(error => { })
     $scope.form = {
-        "id": "a4",
-        "pick_name": "HCM-nội thành",
-        "pick_address": "590 CMT8 P.11",
-        "pick_province": "TP. Hồ Chí Minh",
-        "pick_district": "Quận 3",
-        "pick_ward": "Phường 1",
-        "pick_tel": "0911222333",
-        "address": "123 nguyễn chí thanh",
-        "ward": "Phường Bến Nghé",
-        "hamlet": "Khác",
-        "is_freeship": "1",
-        "pick_date": "2016-09-30",
-        "pick_money": 47000,
-        "note": "Khối lượng tính cước tối đa: 1.00 kg",
         "value": 3000000,
-        "transport": "fly",
-        "pick_option":"cod",      
-        "deliver_option" : "xteam",  
-        "pick_session" : 2,
-        "tags": [ 1]
+        "deliver_option" : "xteam"
 	}
 	$scope.change2 = function(){
 	    var item = angular.copy($scope.form);
@@ -429,28 +411,6 @@ angular
     $scope.address = function(){
     	address ="Tỉnh: "+ $scope.form.province+", Xã: " + $scope.form.district +", Đường: "+$scope.form.ward + ", Số nhà: " + $scope.number + " , Việt Nam";
     	$scope.address.address = address;
-    }
-	$scope.form = {
-      "id": "a4",
-      "pick_name": "HCM-nội thành",
-      "pick_address": "590 CMT8 P.11",
-      "pick_province": "TP. Hồ Chí Minh",
-      "pick_district": "Quận 3",
-      "pick_ward": "Phường 1",
-      "pick_tel": "0911222333",
-      "address": "123 nguyễn chí thanh",
-      "ward": "Phường Bến Nghé",
-      "hamlet": "Khác",
-      "is_freeship": "1",
-      "pick_date": "2016-09-30",
-      "pick_money": 47000,
-      "note": "Khối lượng tính cước tối đa: 1.00 kg",
-      "value": 3000000,
-      "transport": "fly",
-      "pick_option": "cod",
-      "deliver_option": "xteam",
-      "pick_session": 2,
-      "tags": [1]
     }
     $scope.change2 = function () {
 	    var item = angular.copy($scope.form);
@@ -489,7 +449,6 @@ angular
         console.log("Error", error)
       })
     }
-
   }).controller('shopCtrl', function ($scope, $http, $sessionStorage) {
     $scope.shop = {
       item: [],

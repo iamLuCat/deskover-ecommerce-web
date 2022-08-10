@@ -45,13 +45,13 @@
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-fn" >Họ và tên</label>
-	                <input class="form-control" type="text" id="checkout-fn" name="fullname" >
+	                <input class="form-control" type="text" id="checkout-fn" name="fullname" required>
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-phone">Số điện thoại</label>
-	                <input ng-model="form.tel" class="form-control" type="text" id="checkout-phone" name = "tel">
+	                <input ng-model="form.tel" class="form-control" type="text" id="checkout-phone" name = "tel" required>
 	              </div>
 	            </div>
 	          </div>
@@ -59,13 +59,13 @@
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-email">Địa chỉ Email</label>
-	                <input class="form-control" type="email" id="checkout-email" name="email">
+	                <input class="form-control" type="email" id="checkout-email" name="email" required>
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-zip">Số Nhà</label>
-	                <input class="form-control" type="text" id="checkout-zip" name = "number" ng-model="number">
+	                <input class="form-control" type="text" id="checkout-zip" name = "number" ng-model="number" required>
 	              </div>
 	            </div>
 	          </div>
@@ -73,7 +73,8 @@
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-city" >Tỉnh</label>
-	                <select name="province" class="form-select" id="checkout-city" ng-model="form.province" ng-change="change()">
+	                <select name="province" class="form-select" id="checkout-city" ng-model="form.province" ng-change="change()" required>
+	                  <option value="">None</option>
 	                  <option ng-selected="form.province == item.name" ng-repeat="item in province" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
@@ -81,7 +82,8 @@
         	    <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-company">Xã/ Huyện</label>
-	                <select name="district" class="form-select" id="checkout-city" ng-model="form.district" ng-change="change2()">
+	                <select name="district" class="form-select" id="checkout-city" ng-model="form.district" ng-change="change2()" required>
+	                  <option value="">None</option>
 	                  <option name = "district" ng-selected="form.district == item.name" ng-repeat="item in district" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
@@ -90,8 +92,9 @@
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	              	<label class="form-label" for="checkout-company">Đường</label>
-	                <select name="ward" class="form-select" id="checkout-city" ng-model="form.ward" ng-change="address()">
+	                <label class="form-label" for="checkout-company">Đường</label>
+	                <select name="ward" class="form-select" id="checkout-city" ng-model="form.ward" ng-change="address()" required>
+	                  <option value="">None</option>
 	                  <option name = "ward" ng-selected="form.ward == item.name" ng-repeat="item in ward" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
@@ -99,7 +102,7 @@
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-address-2">Địa chỉ</label>
-	                <input readonly="False" class="form-control" type="text" id="checkout-address-2" name = "address" ng-model="address.address">
+	                <input readonly="False" class="form-control" type="text" id="checkout-address-2" name = "address" ng-model="address.address" required>
 	              </div>
 	            </div>
 	          </div>	       
