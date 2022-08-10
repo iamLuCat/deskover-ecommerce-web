@@ -103,7 +103,7 @@ public class CheckoutController {
 		orderRepo.save(order1);
 
 		// 2 -  Save Address
-		Order order = orderRepo.getlastOrder();
+		Order order = orderRepo.getLastOrder();
 		orderAddress.setOrder(order);
 		orderAddress.setAddress(entity.getAddress());
 		orderAddress.setProvince("1");

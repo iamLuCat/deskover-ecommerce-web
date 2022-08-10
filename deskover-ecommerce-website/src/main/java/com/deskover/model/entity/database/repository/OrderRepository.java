@@ -1,12 +1,11 @@
 package com.deskover.model.entity.database.repository;
 
-import java.util.List;
-
+import com.deskover.model.entity.database.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.deskover.model.entity.database.Order;
+import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	//Shipper
@@ -42,7 +41,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	@Query(value = "{CALL getTotalPricePerYear(:month, :year)}", nativeQuery = true)
 	String getTotalPricePerYear(@Param("month") String month,
 			@Param("year") String year);
-	
+
 	//Query nornal
 	List<Order> findByOrderStatusCode(String statusCode);
 	
@@ -63,6 +62,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	Order findByOrderCode( String orderCode);
 	
 	@Query(value = "SELECT * FROM orders ORDER BY ID DESC LIMIT 1", nativeQuery = true)
-	Order getlastOrder();
+	Order getLastOrder();
 	
 }
