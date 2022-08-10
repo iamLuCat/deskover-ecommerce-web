@@ -1,17 +1,5 @@
 package com.deskover.service.impl;
 
-import java.sql.Timestamp;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.database.repository.datatable.UserRepoForDatatables;
@@ -23,6 +11,16 @@ import com.deskover.other.util.OrderNumberUtil;
 import com.deskover.service.UploadFileService;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
+import java.sql.Timestamp;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -157,6 +155,11 @@ public class UserServiceImpl implements UserService {
 	public void updateTimestamp(Users user) {
 		user.setLastLogin(new Timestamp(System.currentTimeMillis()));
 		repo.save(user);		
+	}
+
+	@Override
+	public Long totalCustomers() {
+		return repo.count();
 	}
 
 }

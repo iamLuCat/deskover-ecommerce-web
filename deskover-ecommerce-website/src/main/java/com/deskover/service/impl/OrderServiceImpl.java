@@ -566,11 +566,27 @@ public class OrderServiceImpl implements OrderService {
 			repo.saveAndFlush(order);
 			
 		}
-		
-		
-		
 	}
 
-
+	@Override
+	public Long totalOrders(String orderStatusCode) {
+		if (orderStatusCode != null && !orderStatusCode.isBlank()) {
+			return repo.countByOrderStatusCode(orderStatusCode);
+		} else {
+			return repo.count();
+		}
+	}
+	@Override
+	public List<Object[]> getTotalByCategory(String month, String year) {
+		return repo.getTotalByCategory(month, year);
+	}
+	@Override
+	public String getTotalPricePerYear(String month, String year) {
+		return repo.getTotalPricePerYear(month, year);
+	}
+	@Override
+	public Double totalRevenue() {
+		return orderItemRepo.getTotalRevenue("GH-TC");
+	}
 
 }

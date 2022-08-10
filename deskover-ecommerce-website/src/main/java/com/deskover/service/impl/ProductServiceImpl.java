@@ -6,6 +6,7 @@ import com.deskover.model.entity.database.repository.FlashSaleRepository;
 import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.database.repository.ProductThumbnailRepository;
 import com.deskover.model.entity.database.repository.datatable.ProductRepoForDatatables;
+import com.deskover.model.entity.dto.dashboard.OrderReport;
 import com.deskover.other.constant.PathConstant;
 import com.deskover.other.util.FileUtil;
 import com.deskover.service.CategoryService;
@@ -372,6 +373,16 @@ public class ProductServiceImpl implements ProductService {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 		}
 		return products;
+	}
+
+	@Override
+	public Long totalProducts() {
+		return repo.totalQuantityProducts();
+	}
+
+	@Override
+	public List<OrderReport> totalQuantityProductByCategory(){
+		return repo.getTotalQuantityProductsByCategory();
 	}
 
 }
