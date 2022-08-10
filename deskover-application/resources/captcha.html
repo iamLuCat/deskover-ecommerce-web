@@ -1,0 +1,26 @@
+<!--6LeiUPUcAAAAAP1U8eBna5PbpNmxfu86LGhFEvUo v3Da-->
+<!--6LcKAHMfAAAAAKiEo5ZyXfOEQ3vmpAHdSXTPYiva v2Ho-->
+<!--6LeNIhAgAAAAAFAsdRFSIU4c4EQ2FM4Gokx9_G92 v2Ti-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body style="margin: 1em 0;">
+<form action="?" method="POST">
+    <div align="center">
+        <div
+            class="g-recaptcha"
+            data-sitekey="6LeNIhAgAAAAAFAsdRFSIU4c4EQ2FM4Gokx9_G92"
+            data-callback="onCallback"
+        ></div>
+    </div>
+</form>
+<script>
+    function onCallback(data) {
+        ReceiveToken.postMessage(data);
+    }
+</script>
+</body>
+</html>

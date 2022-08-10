@@ -81,35 +81,35 @@ public class Product implements Serializable {
     @Column(name = "quantity")
     private Long quantity;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Formula(value = "(select coalesce(AVG(r.point), 0) FROM Rating r WHERE r.product_id = id)")
     private Integer averageRating;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id)")
     private Integer totalRating;
     
-    @JsonIgnore
+//    @JsonIgnore
     @Formula(value = "(select coalesce(SUM(o.quantity), 0) FROM order_item o WHERE o.product_id = id)")
     private Integer totalSold;
     
-    @JsonIgnore
+//    @JsonIgnore
     @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id AND r.point = 5)")
     private Integer rating5;
     
-    @JsonIgnore
+//    @JsonIgnore
     @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id AND r.point = 4)")
     private Integer rating4;
     
-    @JsonIgnore
+//    @JsonIgnore
     @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id AND r.point = 3)")
     private Integer rating3;
     
-    @JsonIgnore
+//    @JsonIgnore
     @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id AND r.point = 2)")
     private Integer rating2;
     
-    @JsonIgnore
+//    @JsonIgnore
     @Formula(value = "(select coalesce(COUNT(1), 0) FROM Rating r WHERE r.product_id = id AND r.point = 1)")
     private Integer rating1;
 
@@ -128,7 +128,6 @@ public class Product implements Serializable {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "flash_sale_id")
     private FlashSale flashSale;

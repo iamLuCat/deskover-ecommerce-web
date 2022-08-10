@@ -1,0 +1,192 @@
+name: deskover_develop
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.1 <3.0.0"
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.1
+  badges: ^2.0.2
+  flutter_screenutil: ^5.3.1
+  device_preview: ^1.0.0
+  # RestAPI
+  json_annotation: ^4.4.0 # for Json Annotation
+  retrofit: ^3.0.1+1 # for restAPI Annotation
+  logger: any # for beauty Logger ;)))
+  dio: ^4.0.4 # for restAPI Connect
+  pretty_dio_logger: ^1.1.1 # for Rest API Logger
+#  dio_http_cache: ^0.3.0 # for dio cache
+#  cached_network_image: ^3.2.0
+#  flutter_cache_manager: ^3.3.0 # for Image cache
+  sqflite: ^2.0.2+1 # for save data to local
+  # Dependency injection (DI)
+  injectable: ^1.5.3 # for DI Annotation
+  get_it: ^7.2.0 # for DI Container
+  # SMS and otp
+  pin_code_fields: ^7.3.0
+  # utils
+  flutter_svg: ^1.0.3
+  flutter_image_slideshow: any
+  loading_indicator: ^3.0.3
+  datetime_picker_formfield: ^2.0.0
+  intl: ^0.17.0
+  shared_preferences: ^2.0.13
+  fluttertoast: ^8.0.9
+  image_picker: ^0.8.4+11
+  group_radio_button: ^1.2.0
+  carousel_slider: ^4.0.0
+  flutter_rating_bar: ^4.0.0
+  photo_view: ^0.13.0
+  # webview
+  webview_flutter_plus: ^0.3.0+2
+  flutter_inappwebview: ^5.4.3+7
+  flutter_html: ^3.0.0-alpha.2
+  flutter_html_all: ^3.0.0-alpha.3
+  # QR
+  mobile_scanner: ^1.0.0
+  # Get Location of user by gps
+  # geolocator: ^8.2.0
+  charts_flutter: ^0.12.0 # for chart
+  share_plus: ^4.0.4
+  social_share: ^2.2.1
+  url_launcher: ^6.1.0
+  path_provider: ^2.0.9
+  # firebase
+  #firebase_database: ^9.0.5
+  #firebase_core: ^1.10.0
+  #firebase_messaging:
+  #flutter_local_notifications:
+  #package_info_plus: ^1.4.2
+  #skeletons: ^0.0.3
+  #cloud_firestore: ^3.1.17
+#  firebase_auth: ^2.0.0
+  # image_downloader
+  image_downloader:
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  flutter_countdown_timer: ^4.1.0
+  cached_network_image: ^3.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.1.7 # for Builder
+  json_serializable: ^6.1.4 # for Json Builder
+  retrofit_generator: '>=4.0.0 <5.0.0' # for restAPI Builder
+  injectable_generator: ^1.5.3 # for DI Builder
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^1.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - resources/icons/social/
+    - resources/icons/action/
+    - resources/icons/home/
+    - resources/icons/av/
+    - resources/icons/commucation/
+    - resources/icons/file/
+    - resources/icons/content/
+    - resources/icons/
+    - resources/icons/notification/
+    - resources/icons/image/
+    - resources/icons/hardware/
+    - resources/icons/device/
+    - resources/icons/toggle/
+    - resources/icons/editor/
+    - resources/images/
+    - resources/images/icon-payment/
+    - resources/
+    - resources/icons/navigation/
+    - resources/icons/maps/
+    - resources/icons/alert/
+    - resources/icons/places/
+    - resources/images/img_sigup/
+    - resources/images/img_gift/
+    - resources/icons/change_point/
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: resources/fonts/open-sans/OpenSans-Bold.ttf
+        - asset: resources/fonts/open-sans/OpenSans-BoldItalic.ttf
+        - asset: resources/fonts/open-sans/OpenSans-ExtraBold.ttf
+        - asset: resources/fonts/open-sans/OpenSans-ExtraBoldItalic.ttf
+        - asset: resources/fonts/open-sans/OpenSans-Italic.ttf
+        - asset: resources/fonts/open-sans/OpenSans-Light.ttf
+        - asset: resources/fonts/open-sans/OpenSans-LightItalic.ttf
+        - asset: resources/fonts/open-sans/OpenSans-Medium.ttf
+        - asset: resources/fonts/open-sans/OpenSans-MediumItalic.ttf
+        - asset: resources/fonts/open-sans/OpenSans-Regular.ttf
+        - asset: resources/fonts/open-sans/OpenSans-SemiBold.ttf
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
