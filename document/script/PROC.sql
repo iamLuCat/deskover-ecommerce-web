@@ -176,7 +176,7 @@ DELIMITER ;
 -- Doanh thu theo loại
 
 USE `deskover`;
-DROP PROCEDURE IF EXISTS `getToTalByCategory`;
+DROP PROCEDURE IF EXISTS `getTotalByCategory`;
 DELIMITER $$
 USE `deskover`$$
 CREATE PROCEDURE `getToTalByCategory`(IN `month` VARCHAR(2), IN `year` VARCHAR(4))
@@ -201,7 +201,26 @@ DELIMITER ;
 
 CALL deskover.getToTalByCategory('07', '2022');
 
+-- Tổng doanh thu các đơn giao thành công
+DROP PROCEDURE IF EXISTS `totalPriceOrOrder`;
 
+DELIMITER $$
+CREATE PROCEDURE `countOrder`(IN `month` VARCHAR(2), IN `year` VARCHAR(4), IN modified_by VARCHAR(50))
+BEGIN
+    DECLARE countOrder VARCHAR(20) DEFAULT 0;
+    SET countOrder =
+            (SELECT COUNT(*)
+             FROM orders
+                      JOIN status_order
+                           ON orders.status_id = status_order.id
+             WHERE MONTH(orders.created_at) = `month`
+               AND YEAR(orders.created_at) = `year`
+               AND status_order.`code` = 'GH-TC'
+               AND orders.modified_by = modified_by);
+    SELECT countOrder;
+END$$
+DELIMITER ;
 
+CALL deskover.countOrder('07', '2022', 'minhnh');
 
 

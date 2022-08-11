@@ -1,10 +1,10 @@
 package com.deskover.service;
 
+import com.deskover.model.entity.database.Product;
+import com.deskover.model.entity.dto.dashboard.OrderReport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-
-import com.deskover.model.entity.database.Product;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -58,4 +58,7 @@ public interface ProductService {
 
 	Page<Product> doGetProductDiscount(Optional<Integer> page, Optional<Integer> size, String keySort);
 
+	Long totalProducts();
+
+	List<OrderReport> totalQuantityProductByCategory();
 }
