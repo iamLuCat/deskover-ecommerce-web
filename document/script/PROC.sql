@@ -222,5 +222,3 @@ END$$
 DELIMITER ;
 
 CALL deskover.countOrder('07', '2022', 'minhnh');
-
-
