@@ -14,5 +14,5 @@ public interface StatisticService {
 
 	List<OrderReport> getQuantityProductSoldBySubcategory();
 
-	List<ProductReport> getTop5ProductSold();
+	List<ProductReport> getTopProductSold(Integer limit);
 }
