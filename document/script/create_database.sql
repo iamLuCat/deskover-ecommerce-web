@@ -39,7 +39,7 @@ CREATE TABLE administrator
     `password`  VARCHAR(255)                                                  NOT NULL,
     fullname    VARCHAR(128) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     avatar      VARCHAR(128)                                                           DEFAULT NULL,
-    last_login  TIMESTAMP                                                              DEFAULT NULL,
+    last_login  TIMESTAMP                                                              DEFAULT CURRENT_TIMESTAMP,
     actived     BIT                                                           NOT NULL DEFAULT 1,
     modified_at TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_by VARCHAR(50)                                                            DEFAULT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE `user`
     avatar      VARCHAR(255)                                                           DEFAULT NULL,
 	email      VARCHAR(128)                                                           NOT NULL,
     phone      VARCHAR(11)                                                          NOT NULL,
-    last_login  TIMESTAMP                                                              DEFAULT NULL,
+    last_login  TIMESTAMP                                                              DEFAULT CURRENT_TIMESTAMP,
     actived     BIT                                                           NOT NULL DEFAULT 1,
     verify      BIT                                                           NOT NULL DEFAULT 0,
     modified_at TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -184,7 +184,6 @@ CREATE TABLE discount
     modified_by   VARCHAR(50)                                                           DEFAULT NULL,
     PRIMARY KEY (id)
 );
-
 -- flash_sale
 CREATE TABLE flash_sale
 (
@@ -246,7 +245,7 @@ CREATE TABLE wishlist
     id         	BIGINT NOT NULL AUTO_INCREMENT,
     user_id     BIGINT DEFAULT NULL,
     product_id 	BIGINT NOT NULL,
-	actived   	BIT NOT NULL DEFAULT 1,
+	 actived   	BIT NOT NULL DEFAULT 1,
     modified_at TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     CONSTRAINT FK_Wishlist_Product FOREIGN KEY (product_id) REFERENCES product (id),
@@ -261,7 +260,7 @@ CREATE TABLE rating
     fullname    VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI NOT NULL,
     email       VARCHAR(255)                                                  NOT NULL,
     `point`     INT                                                           NOT NULL,
-    content     TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI                                                                  DEFAULT NULL,
+    content     TEXT CHARACTER SET UTF8MB4 COLLATE UTF8MB4_UNICODE_CI         DEFAULT NULL,
     actived     BIT                                                           NOT NULL DEFAULT 1,
     modified_at TIMESTAMP                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
