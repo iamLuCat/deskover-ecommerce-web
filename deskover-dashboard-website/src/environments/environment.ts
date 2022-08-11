@@ -1,6 +1,7 @@
 export const BASE_URL = 'http://localhost:8080';
 // export const BASE_URL = 'https://deskover-deloy.herokuapp.com';
 export const BASE_API = BASE_URL + '/v1/api';
+export const ADMIN_API = BASE_URL + '/v1/api/admin';
 
 export const environment = {
   production: false,
@@ -14,25 +15,27 @@ export const environment = {
     tempFolder: BASE_URL + '/temp',
 
     userImg: BASE_URL + '/img/admin',
-    customerImg: BASE_URL + '/img/shop/account',
+    customerImg: BASE_URL + '/img/users',
     productImg: BASE_URL + '/img/shop/products',
     brandImg: BASE_URL + '/img/shop/brands',
     categoryImg: BASE_URL + '/img/shop/categories',
     subcategoryImg: BASE_URL + '/img/shop/subcategories',
 
-    login: BASE_API + '/admin/auth/login',
-    getPrincipal: BASE_API + '/admin/auth/get-principal',
-
     ghtkApi: BASE_API + '/ghtk',
-    adminApi: BASE_API + '/admin',
-    categoryApi: BASE_API + '/admin/categories',
-    subcategoryApi: BASE_API + '/admin/subcategories',
-    brandApi: BASE_API + '/admin/brands',
-    discountApi: BASE_API + '/admin/discounts',
-    productApi: BASE_API + '/admin/products',
-    customerApi: BASE_API + '/admin/customers',
-    uploadFileApi: BASE_API + '/admin/upload-file',
-    orderApi: BASE_API + '/admin/orders',
-    userApi: BASE_API + '/admin/users',
+
+    login: ADMIN_API + '/auth/login',
+    getPrincipal: ADMIN_API + '/auth/get-principal',
+
+    dashboardApi: ADMIN_API + '/dashboard',
+    categoryApi: ADMIN_API + '/categories',
+    subcategoryApi: ADMIN_API + '/subcategories',
+    brandApi: ADMIN_API + '/brands',
+    discountApi: ADMIN_API + '/discounts',
+    flashSaleApi: ADMIN_API + '/flash-sales',
+    productApi: ADMIN_API + '/products',
+    customerApi: ADMIN_API + '/customers',
+    uploadFileApi: ADMIN_API + '/upload-file',
+    orderApi: ADMIN_API + '/orders',
+    userApi: ADMIN_API + '/users',
   },
 };

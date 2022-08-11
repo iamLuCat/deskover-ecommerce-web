@@ -15,6 +15,7 @@ import {Brand} from "@/entites/brand";
 import {BrandService} from "@services/brand.service";
 import {PermissionContants} from "@/constants/permission-contants";
 import {AuthService} from "@services/auth.service";
+import {DatetimeUtils} from "@/utils/datetime-utils";
 
 @Component({
   selector: 'app-promotion',
@@ -178,7 +179,6 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
     this.productDiscountModal.onShown.subscribe(() => {
       $('.product-table').DataTable().ajax.reload(null, false);
     });
-
   }
 
   rerenderDiscountTable() {
@@ -196,14 +196,14 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
   newDiscount() {
     this.discountForm.control.reset();
     this.discount = <Discount>{};
-    this.discountDateRange = [new Date(), new Date()];
+    this.discountDateRange = [DatetimeUtils.addHours(new Date(), 1), DatetimeUtils.addDays(new Date(), 1)];
 
     this.isEdit = false;
     this.discountModal.show();
   }
 
   getDiscount(discount: Discount) {
-    this.discount = discount;
+    this.discount = Object.assign({}, discount);
     this.discountDateRange = [new Date(this.discount.startDate), new Date(this.discount.endDate)];
   }
 
@@ -251,7 +251,7 @@ export class PromotionsComponent implements OnInit, AfterViewInit {
   }
 
   isExpired(endDate: Date): boolean {
-    return new Date() > endDate;
+    return DatetimeUtils.isExpired(endDate);
   }
 
   /* Product */

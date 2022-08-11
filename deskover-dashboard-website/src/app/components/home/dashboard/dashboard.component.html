@@ -1,102 +1,149 @@
 <div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 fw-bold text-uppercase text-primary">Trang chủ</h1>
-            </div>
-            <!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item">
-                      <a class="text-decoration-none" [routerLink]="['/']">Trang chủ</a>
-                    </li>
-                    <li class="breadcrumb-item active">Trang chủ</li>
-                </ol>
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 fw-bold text-uppercase text-primary">Trang chủ</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item">
+            <a class="text-decoration-none" [routerLink]="['/']">Trang chủ</a>
+          </li>
+          <li class="breadcrumb-item active">Trang chủ</li>
+        </ol>
+      </div>
     </div>
-    <!-- /.container-fluid -->
+  </div>
 </div>
-<!-- /.content-header -->
 
-<!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>0</h3>
-
-                        <p>Đơn hàng mới</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                    <a href="#" class="small-box-footer"
-                        >Chi tiết <i class="fas fa-arrow-circle-right"></i
-                    ></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>0<sup style="font-size: 20px">%</sup></h3>
-
-                        <p>Bounce Rate</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer"
-                        >Chi tiết <i class="fas fa-arrow-circle-right"></i
-                    ></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>0</h3>
-
-                        <p>Người dùng đã đăng ký</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer"
-                        >Chi tiết <i class="fas fa-arrow-circle-right"></i
-                    ></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>0</h3>
-
-                        <p>Khách truy cập</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                    <a href="#" class="small-box-footer"
-                        >Chi tiết <i class="fas fa-arrow-circle-right"></i
-                    ></a>
-                </div>
-            </div>
-            <!-- ./col -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-light">
+          <div class="inner">
+            <h4 class="fw-bolder">{{totalStatistic?.totalOrders ?? 0 | number}}</h4>
+            <p>Tổng số đơn hàng</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-bag"></i>
+          </div>
+          <a href="javascript:void(0)" [routerLink]="'/orders/' + orderPendingConfirm" class="small-box-footer"
+          >Chi tiết <i class="fas fa-arrow-circle-right"></i
+          ></a>
         </div>
-        <!-- /.row -->
+      </div>
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-light">
+          <div class="inner">
+            <!--<h4 class=fw-bolder">0<sup style="font-size: 20px">%</sup></h3>-->
+            <h4 class="fw-bolder">{{totalStatistic?.totalProducts ?? 0 | number}}</h4>
+            <p>Tổng sản phẩm tồn kho</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-cube"></i>
+          </div>
+          <a href="javascript:void(0)" [routerLink]="'/products'" class="small-box-footer"
+          >Chi tiết <i class="fas fa-arrow-circle-right"></i
+          ></a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-light">
+          <div class="inner">
+            <h4 class="fw-bolder">{{totalStatistic?.totalCustomers ?? 0 | number}}</h4>
+            <p>Người dùng đã đăng ký</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-person-add"></i>
+          </div>
+          <a href="javascript:void(0)" [routerLink]="'/customers'" class="small-box-footer"
+          >Chi tiết <i class="fas fa-arrow-circle-right"></i
+          ></a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-light">
+          <div class="inner">
+            <!--<h4 class=fw-bolder">{{totalPosts ? totalPosts : 0}}</h3>
+            <p>Tổng số bài viết</p>-->
+            <h4 class="fw-bolder">{{totalStatistic?.totalRevenue ?? 0 | number}}₫</h4>
+            <p>Tổng doanh thu</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-cash"></i>
+          </div>
+          <a href="javascript:void(0)" [routerLink]="'/orders/' + orderDelivered" class="small-box-footer"
+          >Chi tiết <i class="fas fa-arrow-circle-right"></i
+          ></a>
+        </div>
+      </div>
     </div>
-    <!-- Main row -->
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <span class="fs-6">Số lượng sản phẩm đã bán theo danh mục</span>
+          </div>
+          <div class="card-body">
+            <canvas
+              baseChart #productSoldByCategoryChart
+              [data]="productSoldByCategoryChartData"
+              [options]="horizontalBarChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [type]="'bar'"
+            >
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="fs-6">Top 5 sản phẩm bán chạy nhất</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <canvas
+              baseChart #topProductChart
+              [data]="topProductSoldChartData"
+              [options]="horizontalBarChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [type]="'bar'"
+            >
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header row g-2 align-items-center">
+            <span class="fs-6 col">Thống kê doanh thu theo năm</span>
+            <div class="col-auto">
+              <label [for]="'years'" class="form-check-label">Năm</label>
+            </div>
+            <div class="col-auto me-2">
+              <select class="form-select form-select-sm" id="years" [(ngModel)]="year" (change)="changeYear()">
+                <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body">
+            <canvas
+              baseChart #salesByOrderChart
+              [data]="salesByOrderChartData"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [type]="'bar'"
+            >
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
-<!-- /.content -->
