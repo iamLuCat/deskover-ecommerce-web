@@ -90,9 +90,9 @@ public class StatisticServiceImpl implements StatisticService {
 	}
 
 	@Override
-	public List<ProductReport> getTop5ProductSold() {
+	public List<ProductReport> getTopProductSold(Integer size) {
 		return orderItemRepo.getTopProductSold().stream()
-				.limit(5)
+				.limit(size)
 				.sorted((o1, o2) -> (int) (o2.getQuantity() - o1.getQuantity()))
 				.collect(Collectors.toList());
 	}

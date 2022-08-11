@@ -26,7 +26,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 	@Query(value = "select new ProductReport(oi.product, sum(oi.quantity)) " +
 			"from OrderItem oi " +
 			"where oi.order.orderStatus.code = 'GH-TC' " +
-			"group by oi.product " +
-			"order by sum(oi.quantity) desc")
+			"group by oi.product")
 	List<ProductReport> getTopProductSold();
 }
