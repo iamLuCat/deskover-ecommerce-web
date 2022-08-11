@@ -128,7 +128,6 @@ public class Product implements Serializable {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "flash_sale_id")
     private FlashSale flashSale;

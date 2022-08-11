@@ -1,12 +1,12 @@
 package com.deskover.controller.ecommerce;
 
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,13 +52,12 @@ public class CheckoutController {
 	@Autowired PaymentRepository paymentRepo;
 	@Autowired OrderStatusRepository statusRepo;
 	@Autowired OrderNumberUtil orderCode;
-	
+	@Autowired SessionService sessionService;
+
 	@GetMapping("checkout")
 	public String checkout(Model model) {
 		return "checkout";
 	}
-	
-	@Autowired SessionService sessionService;
 	
 	@PostMapping("/amounts")
 	public String amounts(@RequestBody List<Integer> amounts, Model model) {
@@ -68,16 +67,18 @@ public class CheckoutController {
 	
 	@PostMapping("/checkout")
 	public String checkout2(@RequestBody List<ProductDto> items, Model model) {
-		List<Integer> amounts =  sessionService.get("amount");
-		for (int i = 0; i < amounts.size(); i++) {
-			items.get(i).setQuantity((long)amounts.get(i));
-		}
-		sessionService.set("items", items);
+		try {
+			List<Integer> amounts =  sessionService.get("amount");
+			for (int i = 0; i < amounts.size(); i++) {
+				items.get(i).setQuantity((long)amounts.get(i));
+				sessionService.set("items", items);
+			}
+		} catch (Exception e) { }
 		return "ok";
 	}
 
 	@PostMapping("/ok")
-	public String checkout1(@ModelAttribute("addressForm") @Valid UserAddress entity, Errors errors, @ModelAttribute("Total") String total ) {
+	public String checkout1(Model model ,@ModelAttribute("addressForm") @Valid UserAddress entity, Errors errors, @ModelAttribute("Total") String total ) {
 		ArrayList<ProductDto> items = sessionService.get("items");
 		Users user  = userRepo.getById((long)1);
 		ShippingMethods shipping = shippingRepo.getById((long)1);
@@ -87,8 +88,8 @@ public class CheckoutController {
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
 		OrderDetail orderAddress = new OrderDetail();
+		sessionService.set("address", entity);
 
-		
 		//	1 - Save Order
 		order1.setOrderCode(orderCode.get());
 		order1.setUser(user);
@@ -102,12 +103,12 @@ public class CheckoutController {
 		orderRepo.save(order1);
 
 		// 2 -  Save Address
-		Order order = orderRepo.getlastOrder();
+		Order order = orderRepo.getLastOrder();
 		orderAddress.setOrder(order);
 		orderAddress.setAddress(entity.getAddress());
-		orderAddress.setProvince(entity.getProvince());
-		orderAddress.setDistrict(entity.getDistrict());
-		orderAddress.setWard(entity.getWard());
+		orderAddress.setProvince("1");
+		orderAddress.setDistrict("1");
+		orderAddress.setWard("1");
 		orderAddress.setTel(entity.getTel());
 		addressRepo.save(orderAddress);  
 		
@@ -121,9 +122,9 @@ public class CheckoutController {
 			orderItem.setPrice(product.getPrice());
 			orderItemRepo.save(orderItem);
 		}
-		
 		System.out.println("Save Succesfull!");
 		return "ok";
 	}
 	
+
 }

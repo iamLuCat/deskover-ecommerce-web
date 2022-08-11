@@ -1,13 +1,12 @@
 package com.deskover.service;
 
-import javax.validation.Valid;
-
+import com.deskover.model.entity.database.FlashSale;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import com.deskover.model.entity.database.FlashSale;
+import javax.validation.Valid;
 public interface FlashSaleService {
-    DataTablesOutput<FlashSale> getByActiveForDatatables(@Valid DataTablesInput input, Boolean isActive);
+    DataTablesOutput<FlashSale> getByActiveForDatatables(@Valid DataTablesInput input);
 
 	void isCheckActived();
 	
@@ -20,5 +19,6 @@ public interface FlashSaleService {
 	FlashSale getById(Long id);
 	
 	FlashSale getFlashSale();
-	
+
+	FlashSale activeToggle(Long id);
 }

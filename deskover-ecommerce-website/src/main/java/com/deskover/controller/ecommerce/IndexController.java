@@ -3,6 +3,7 @@ package com.deskover.controller.ecommerce;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -11,7 +12,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.deskover.model.entity.database.UserAddress;
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
@@ -69,7 +74,13 @@ public class IndexController {
 		if(authentication instanceof AnonymousAuthenticationToken) {
 			return "login";
 		}
-		
 		return "redirect:/index";
 	}
+	
+	@GetMapping("/ok")
+	public String ok() {
+		return "ok";
+	}
+	
+	
 }
