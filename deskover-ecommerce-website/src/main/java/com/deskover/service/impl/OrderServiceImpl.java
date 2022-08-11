@@ -586,7 +586,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 	@Override
 	public Double totalRevenue() {
-		return orderItemRepo.getTotalRevenue("GH-TC");
+		return orderItemRepo.getTotalRevenue();
 	}
 
 }

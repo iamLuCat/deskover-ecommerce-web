@@ -13,8 +13,8 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
 	@Query(value = "select sum(oi.quantity * oi.price) " +
 			"from OrderItem oi " +
-			"where oi.order.orderStatus.code = :orderStatusCode")
-	Double getTotalRevenue(String orderStatusCode);
+			"where oi.order.orderStatus.code = 'GH-TC'")
+	Double getTotalRevenue();
 
 	// Tổng số lượng hàng đã bán theo danh mục
 	@Query(value = "select new OrderReport(oi.product.subCategory, sum(oi.quantity)) " +
@@ -26,7 +26,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 	@Query(value = "select new ProductReport(oi.product, sum(oi.quantity)) " +
 			"from OrderItem oi " +
 			"where oi.order.orderStatus.code = 'GH-TC' " +
-			"group by oi.product " +
-			"order by sum(oi.quantity) desc")
+			"group by oi.product")
 	List<ProductReport> getTopProductSold();
 }
