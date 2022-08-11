@@ -202,7 +202,7 @@ DELIMITER ;
 CALL deskover.getToTalByCategory('07', '2022');
 
 -- Tổng doanh thu các đơn giao thành công
-DROP PROCEDURE IF EXISTS `totalPriceOrOrder`;
+DROP PROCEDURE IF EXISTS `countOrder`;
 
 DELIMITER $$
 CREATE PROCEDURE `countOrder`(IN `month` VARCHAR(2), IN `year` VARCHAR(4), IN modified_by VARCHAR(50))
