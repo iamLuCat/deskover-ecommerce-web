@@ -46,7 +46,8 @@ public interface OrderService {
 
 	void cancelOrderByUserAndOrderCode(String orderCode,String statusOrder);
 
-
-	
-
+    Long totalOrders(String orderStatusCode);
+    List<Object[]> getTotalByCategory(String month, String year);
+	String getTotalPricePerYear(String month, String year);
+	Double totalRevenue();
 }
