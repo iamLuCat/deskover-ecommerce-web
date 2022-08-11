@@ -63,6 +63,10 @@ const routes: Routes = [
         component: OrdersComponent,
       },
       {
+        path: 'orders/:statusCode',
+        component: OrdersComponent,
+      },
+      {
         path: 'customers',
         component: CustomersComponent,
       },

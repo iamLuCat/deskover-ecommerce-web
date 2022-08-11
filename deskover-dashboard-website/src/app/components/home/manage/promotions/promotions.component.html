@@ -79,7 +79,7 @@
                 {{ discount.modifiedBy }}
               </td>
               <td class="align-middle text-end">
-                <button type="button" class="btn btn-product btn-sm btn-warning me-1" placement="top"
+                <button type="button" class="btn btn-product btn-sm btn-secondary me-1" placement="top"
                         tooltip="Sản phẩm khuyến mãi" container="body"
                         (click)="editProduct(discount)" *ngIf="isActive">
                   <i class="fas fa-box"></i>
@@ -225,7 +225,6 @@
     </div>
   </div>
 </div>
-<!-- Modal - Start -->
 <div bsModal [config]="{backdrop: 'static'}" #discountModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
      aria-labelledby="discount-dialog-sizes">
   <div class="modal-dialog modal-dialog-centered modal-md">
@@ -285,4 +284,3 @@
     </div>
   </div>
 </div>
-<!-- Modal - End -->

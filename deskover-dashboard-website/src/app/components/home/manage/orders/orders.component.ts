@@ -8,6 +8,8 @@ import {environment} from "../../../../../environments/environment";
 import {NotiflixUtils} from "@/utils/notiflix-utils";
 import {AuthService} from "@services/auth.service";
 import {PermissionContants} from "@/constants/permission-contants";
+import {ActivatedRoute} from "@angular/router";
+import {OrderContants} from "@/constants/order-contants";
 
 @Component({
   selector: 'app-orders',
@@ -27,8 +29,15 @@ export class OrdersComponent implements OnInit {
 
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
   @ViewChild('orderDetailModal', {static: false}) orderDetailModal: TemplateRef<any>;
+  @ViewChild('imageModal', {static: false}) imageModal: TemplateRef<any>;
 
-  constructor(private orderService: OrderService, private modalService: BsModalService, private authService: AuthService) {
+  constructor(
+    private orderService: OrderService,
+    private modalService: BsModalService,
+    private authService: AuthService,
+    private router: ActivatedRoute
+  ) {
+    this.orderStatusCode = this.router.snapshot.params['statusCode'] || null;
     this.getOrderStatuses();
   }
 
@@ -78,8 +87,17 @@ export class OrdersComponent implements OnInit {
     );
   }
 
+  openImageModal(template: TemplateRef<any>, order: Order) {
+    this.modalRef = this.modalService.show(
+      template, {
+        class: 'modal-md modal-dialog-centered modal-dialog-scrollable',
+      },
+    );
+    this.order = Object.assign({}, order);
+  }
+
   closeModal() {
-    this.modalRef.hide();
+    this.modalRef?.hide();
   }
 
   getOrderStatuses(): void {
@@ -94,30 +112,36 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  getClassesByOrder(statusCode: string) {
-    if (statusCode.includes('-TC')) {
-      return 'bg-success';
-    } else if (statusCode.includes('-TB')) {
-      return 'bg-danger';
-    } else if (statusCode.includes('C-')) {
-      if (statusCode.includes('C-XN')) {
-        return 'bg-warning';
+  getClassesByOrder(order: Order) {
+    if (order.orderStatus?.code.includes('-TC')) {
+      return 'bg-faded-success text-success';
+    } else if (order.orderStatus?.code.includes('-TB')) {
+      return 'bg-faded-danger text-danger';
+    } else if (order.orderStatus?.code.includes('C-')) {
+      if (order.orderStatus?.code.includes(OrderContants.PENDING_CONFIRM)) {
+        return 'bg-faded-warning text-warning';
       }
-      return 'bg-secondary';
+      return 'bg-faded-secondary text-secondary';
     } else {
-      return 'bg-primary';
+      return 'bg-faded-primary text-primary';
     }
   }
 
-  getClassesByPayment(paymentCode: string) {
-    if (paymentCode === 'C-TT') {
-      return 'text-danger';
-    } else if (paymentCode === 'D-TT') {
-      return 'text-success';
-    } else if (paymentCode === 'C-HT') {
-      return 'text-warning';
-    } else if (paymentCode === 'D-HT') {
+  getClassesByPayment(order: Order) {
+    if (order.statusPayment?.code === OrderContants.PAID) {
       return 'text-primary';
+    } else if (order.statusPayment?.code === OrderContants.UNPAID) {
+      if (order.orderStatus?.code === OrderContants.CANCELED) {
+        return 'text-primary';
+      }
+      return 'text-danger';
+    } else if (order.statusPayment?.code === OrderContants.NOT_REFUNDED) {
+      if (order.orderStatus?.code === OrderContants.CANCELED) {
+        return 'text-primary';
+      }
+      return 'text-warning';
+    } else if (order.statusPayment?.code === OrderContants.REFUNDED) {
+      return 'text-secondary';
     }
   }
 
@@ -127,6 +151,7 @@ export class OrdersComponent implements OnInit {
 
   getOrder(order: Order) {
     this.order = Object.assign({}, order);
+    this.order.email = this.order.email ? this.order.email : '';
     this.openModal(this.orderDetailModal);
   }
 
@@ -134,12 +159,17 @@ export class OrdersComponent implements OnInit {
     return `${environment.globalUrl.qrCode}/${qrCode}`;
   }
 
-  isPendingOrder(order: Order) {
-      return order.orderStatus?.code === 'C-XN';
+
+  isPendingConfirm(order: Order) {
+    return order.orderStatus?.code === 'C-XN';
   }
 
-  isUnpaidOrder(order: Order) {
-      return order.statusPayment?.code === 'C-TT' && order.orderStatus?.code === 'HUY';
+  isPendingCancel(order: Order) {
+    return order.orderStatus?.code === 'C-HUY';
+  }
+
+  isNotRefunded(order: Order) {
+    return order.statusPayment?.code === 'C-HT' && order.orderStatus?.code === 'HUY';
   }
 
   changeOrderStatus(order: Order, message: string) {
@@ -163,12 +193,14 @@ export class OrdersComponent implements OnInit {
     NotiflixUtils.showConfirm('Xác nhận', 'Duyệt đơn hàng ' + order.orderCode, () => {
       NotiflixUtils.showLoading();
       if (order.shipping.shippingId === 'DKV') {
+        this.closeModal();
         this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: "
           + order.shipping.name_shipping);
       } else {
         this.orderService.confirmOrder(order).subscribe({
           next: (data) => {
             NotiflixUtils.removeLoading();
+            this.closeModal();
             this.changeOrderStatus(order, "Xác nhận đơn hàng thành công. Đơn vị vận chuyển: "
               + order.shipping.name_shipping);
           },
@@ -183,7 +215,7 @@ export class OrdersComponent implements OnInit {
   cancelOrder(order: Order) {
     NotiflixUtils.showConfirm('Xác nhận', 'Huỷ đơn ' + order.orderCode, () => {
       NotiflixUtils.showLoading();
-      this.orderService.cancelOrder(order).subscribe({
+      this.orderService.cancelOrder(order.orderCode).subscribe({
         next: (data) => {
           NotiflixUtils.removeLoading();
           NotiflixUtils.successNotify("Hủy đơn hàng thành công");
@@ -199,7 +231,7 @@ export class OrdersComponent implements OnInit {
   refundOrder(order: Order) {
     NotiflixUtils.showConfirm('Xác nhận', 'Hoàn tiền đơn ' + order.orderCode, () => {
       NotiflixUtils.showLoading();
-      this.orderService.cancelOrder(order).subscribe({
+      this.orderService.refundOrder(order.orderCode).subscribe({
         next: (data) => {
           NotiflixUtils.removeLoading();
           NotiflixUtils.successNotify("Hoàn tiền thành công");
@@ -217,5 +249,9 @@ export class OrdersComponent implements OnInit {
       PermissionContants.ADMIN,
       PermissionContants.MANAGER,
     ]);
+  }
+
+  getNumberOrderByStatus(status: string): number {
+    return this.orders?.filter(order => order.orderStatus?.code === status).length;
   }
 }

@@ -146,11 +146,13 @@ CREATE PROCEDURE `getTotalPricePerYear`(IN `month` VARCHAR(2), IN `year` VARCHAR
 BEGIN
     DECLARE totalPricePerYear VARCHAR(20) DEFAULT 0;
     SET totalPricePerYear =
-            (SELECT SUM(order_item.quantity * order_item.price) AS 'Total_year'
-             FROM orders
-                      INNER JOIN order_item ON orders.id = order_item.order_id
-             WHERE YEAR(orders.created_at) = `year`
-               AND MONTH(orders.created_at) = `month`);
+                (SELECT SUM(order_item.quantity * order_item.price) AS 'Total_year'
+                 FROM orders
+                          INNER JOIN order_item ON orders.id = order_item.order_id
+                          INNER JOIN status_order ON orders.status_id = status_order.id
+                 WHERE YEAR(orders.created_at) = `year`
+                   AND MONTH(orders.created_at) = `month`
+				   AND status_order.`code` = 'GH-TC');
     SELECT IF(totalPricePerYear > 0, totalPricePerYear, 0);
 END$$
 DELIMITER ;
@@ -179,7 +181,7 @@ USE `deskover`;
 DROP PROCEDURE IF EXISTS `getTotalByCategory`;
 DELIMITER $$
 USE `deskover`$$
-CREATE PROCEDURE `getToTalByCategory`(IN `month` VARCHAR(2), IN `year` VARCHAR(4))
+CREATE PROCEDURE `getTotalByCategory`(IN `month` VARCHAR(2), IN `year` VARCHAR(4))
 BEGIN
     SELECT category.name, SUM(order_item.quantity * order_item.price) AS 'totalProduct'
     FROM category
@@ -199,7 +201,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-CALL deskover.getToTalByCategory('07', '2022');
+CALL deskover.getTotalByCategory('07', '2022');
 
 -- Tổng doanh thu các đơn giao thành công
 DROP PROCEDURE IF EXISTS `countOrder`;

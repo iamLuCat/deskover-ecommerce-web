@@ -108,6 +108,7 @@ export class ProductsComponent implements OnInit {
         {data: 'brand.name'},
         {data: 'subCategory.name'},
         {data: 'price'},
+        {data: 'quantity'},
         {data: 'modifiedAt'},
         {data: 'modifiedBy'},
         {data: null, orderable: false, searchable: false,},
@@ -229,6 +230,7 @@ export class ProductsComponent implements OnInit {
     setTimeout(() => {
       this.newData();
       this.product.brand = null;
+      this.product.subCategory = null;
       this.category = null;
     });
     this.openModal(this.productModal);
@@ -264,6 +266,9 @@ export class ProductsComponent implements OnInit {
   saveProduct(product: Product) {
     let params = new HttpParams().set('isCopy', this.isCopy.toString() || "");
     this.product.weight = this.getWeightFromHtml(this.product.design);
+
+    console.log(this.product);
+
     if (product.id && !this.isCopy) {
       this.productService.update(product).subscribe(data => {
         NotiflixUtils.successNotify('Cập nhật thành công');

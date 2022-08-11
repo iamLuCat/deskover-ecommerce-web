@@ -15,3 +15,240 @@
     </div>
   </div>
 </section>
+<section class="content">
+  <div class="container-fluid">
+    <div class="card border-primary">
+      <div class="card-header">
+        <div class="row g-2">
+          <div class="col-auto d-flex justify-content-start align-items-center">
+            <span class="p-2 table-success border border-dark rounded-circle"></span>
+            <span class="text-success ms-1">Đang diễn ra</span>
+            <span class="p-2 ms-3 table-danger border border-dark rounded-circle"></span>
+            <span class="text-danger ms-1">Đã kết thúc</span>
+            <span class="p-2 ms-3 table-light border border-dark rounded-circle"></span>
+            <span class="text-secondary ms-1">Chờ kích hoạt</span>
+          </div>
+          <div class="col d-flex align-items-center justify-content-end">
+            <button type="button" class="btn bg-faded-accent rounded-pill" (click)="newFlashSale()" placement="left"
+                    tooltip="Thêm" container="body">
+              <i class="fas fa-plus text-accent"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive p-3">
+          <table datatable [dtOptions]="dtFlashSaleOptions" class="table table-hover table-borderless table-sm nowrap w-100">
+            <thead class="table-primary">
+            <tr>
+              <th class="align-middle">Tên</th>
+              <th class="align-middle text-center">Thời gian bắt đầu</th>
+              <th class="align-middle text-center">Thời gian kết thúc</th>
+              <th class="align-middle text-center">Cập nhật bởi</th>
+              <th class="align-middle text-center">Trạng thái</th>
+              <th class="align-middle text-end"></th>
+            </tr>
+            </thead>
+            <tbody *ngIf="flashSales?.length !== 0">
+            <tr *ngFor="let flashSale of flashSales; let i = index"
+                [ngClass]="getClassRowFlashSale(flashSale)">
+              <td class="align-middle">
+                {{ flashSale.name }}
+              </td>
+              <td class="align-middle text-center">
+                {{ flashSale.startDate | date: 'dd/MM/yyyy, hh:mm:ss aa' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ flashSale.endDate | date: 'dd/MM/yyyy, hh:mm:ss aa' }}
+              </td>
+              <td class="align-middle text-center">
+                {{ flashSale.modifiedBy }}
+              </td>
+              <td class="align-middle text-center">
+                {{ flashSale.actived ? 'Đang diễn ra' : 'Không hoạt động' }}
+              </td>
+              <td class="align-middle text-end">
+                <button type="button" class="btn btn-product btn-sm btn-secondary me-1" placement="top"
+                        tooltip="Sản phẩm khuyến mãi" container="body"
+                        (click)="editProduct(flashSale)" *ngIf="isActive">
+                  <i class="fas fa-box"></i>
+                </button>
+                <div *ngIf="hasRole()" class="d-inline-flex">
+                  <button type="button" class="btn btn-sm btn-info me-1" placement="top" container="body"
+                          (click)="editFlashSale(flashSale)" tooltip="Sửa">
+                    <i class="fas fa-pen-square"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm me-1" placement="top" container="body"
+                          [ngClass]="!flashSale.actived ? 'btn-warning' : 'btn-success'"
+                          [tooltip]="!flashSale.actived ? 'Vô hiệu hoá' : 'Kích hoạt'"
+                          (click)="flashSaleActiveToggle(flashSale)">
+                    <i class="fa-solid" [ngClass]="!flashSale.actived ? 'fa-toggle-off' : 'fa-toggle-on'"></i>
+                  </button>
+                  <div class="vr me-1"></div>
+                  <button type="button" class="btn btn-sm btn-danger" placement="top" container="body" tooltip="Xoá"
+                          (click)="deleteFlashSale(flashSale)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="flashSales?.length === 0">
+            <tr>
+              <td colspan="6" class="text-center">Không tìm thấy kết quá</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div bsModal [config]="{backdrop: 'static'}" #flashSaleModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="discount-dialog-sizes">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="discount-dialog-sizes" class="modal-title pull-left text-uppercase text-primary fw-bold">
+          {{ product.id ? 'Cập nhật' : 'Thêm' }} khuyến mãi
+        </h4>
+        <button type="button" class="btn-close close pull-right"
+                (click)="flashSaleModal.hide()" aria-label="Close">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #flashSaleForm="ngForm">
+          <div class="row" *ngIf="flashSale">
+            <div class="col-12 mb-3">
+              <label class="form-label" [for]="'name'">Tên</label>
+              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="flashSale.name"
+                     #name="ngModel" required
+              /><!--oninput="this.value = Math.abs(this.value)"-->
+              <div class="invalid-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">
+                <span *ngIf="name.errors?.required">Vui lòng nhập tên</span>
+              </div>
+            </div>
+            <div class="col-12 mb-3">
+              <label class="form-label" [for]="'flashSaleRangeDate'">Thời gian giảm giá</label>
+              <input type="text" id="flashSaleRangeDate" name="flashSaleRangeDate"
+                     placeholder="dd/MM/yyyy, hh:mm:ss - dd/MM/yyyy, hh:mm:ss"
+                     class="form-control" [bsConfig]="bsConfig" #flashSaleRangeDate="bsDaterangepicker"
+                     bsDaterangepicker [(ngModel)]="flashSaleDateRange">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" [disabled]="flashSaleForm.invalid"
+                (click)="saveFlashSale(flashSale);">Lưu
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div bsModal [config]="{backdrop: 'static'}" #flashSaleProductModal="bs-modal" id="product-discount-modal"
+     class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="product-discount-dialog-sizes">
+  <div class="modal-dialog modal-fullscreen modal-dialog-scrollable" style="max-height: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="product-discount-dialog-sizes"
+            class="modal-title pull-left text-uppercase text-primary fw-bold text-uppercase d-flex align-items-center">
+          {{flashSale.name}}
+        </h4>
+        <button type="button" class="btn-close close pull-right"
+                (click)="flashSaleProductModal.hide()" aria-label="Close">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-2">
+          <div class="col-md-auto col-sm-12">
+            <label [for]="'filter-category'" class="col-form-label">Danh mục:</label>
+          </div>
+          <div class="col-md-auto col-sm-12 me-3">
+            <select id="filter-category" class="form-select" [(ngModel)]="categoryIdFilter"
+                    (change)="rerenderProductTable()">
+              <option [ngValue]="null">Tất cả</option>
+              <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+            </select>
+          </div>
+          <div class="col-md-auto col-sm-12">
+            <label [for]="'filter-brand'" class="col-form-label">Thương hiệu:</label>
+          </div>
+          <div class="col-md-auto col-sm-12">
+            <select id="filter-brand" class="form-select" [(ngModel)]="brandIdFilter" (change)="rerenderProductTable()">
+              <option [ngValue]="null">Tất cả</option>
+              <option *ngFor="let brand of brands" [ngValue]="brand.id">{{brand.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row g-0">
+          <div class="col-12 col-md-6 border-end">
+            <div class="table-responsive mb-3 p-3 ps-0">
+              <h5 class="text-uppercase fw-bolder mb-3">Sản phẩm khuyến mãi</h5>
+              <table datatable [dtOptions]="dtDiscountProductOptions"
+                     class="product-table table table-hover table-sm nowrap w-100">
+                <thead class="table-primary">
+                <tr>
+                  <th class="align-middle">Tên</th>
+                  <th class="align-middle text-center">Giá</th>
+                  <th class="align-middle text-end" *ngIf="hasRole()"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of products; let i = index">
+                  <td class="align-middle">
+                    {{ item.name }}
+                  </td>
+                  <td class="align-middle text-center">
+                    {{ item.price | number: '1.0-0' }}₫
+                  </td>
+                  <td class="align-middle text-end" *ngIf="hasRole()">
+                    <button type="button" class="btn btn-sm bg-faded-success" (click)="addProduct(item.id)">
+                      <i class="fas fa-plus text-success"></i>
+                    </button>
+                  </td>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 ">
+            <div class="table-responsive mb-3 p-3 pe-0">
+              <h5 class="text-uppercase fw-bolder mb-3">Danh sách Flash Sale</h5>
+              <table datatable [dtOptions]="dtFlashSaleProductOptions"
+                     class="product-table table table-hover table-sm nowrap w-100">
+                <thead class="table-primary">
+                <tr>
+                  <th class="align-middle">Tên</th>
+                  <th class="align-middle text-center">Giá</th>
+                  <th class="align-middle text-center">Giá khuyến mãi</th>
+                  <th class="align-middle text-end" *ngIf="hasRole()"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of flashSaleProducts; let i = index">
+                  <td class="align-middle">
+                    {{ item.name }}
+                  </td>
+                  <td class="align-middle text-center">
+                    {{ item.price | number: '1.0-0' }}₫
+                  </td>
+                  <td class="align-middle text-center">
+                    {{ item.priceSale | number: '1.0-0' }}₫
+                  </td>
+                  <td class="align-middle text-end" *ngIf="hasRole()">
+                    <button type="button" class="btn btn-sm bg-faded-danger" (click)="removeProduct(item.id)">
+                      <i class="fas fa-trash text-danger"></i>
+                    </button>
+                  </td>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

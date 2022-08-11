@@ -39,12 +39,12 @@ export class OrderService {
     return this.restApi.post(this.orderUrl + '/change-status-code/' + orderCode);
   }
 
-  cancelOrder(order: Order): Observable<any> {
-    return this.restApi.put(this.orderUrl + '/cancel', order);
+  cancelOrder(orderCode: string): Observable<any> {
+    return this.restApi.put(this.orderUrl + '/cancel/' + orderCode);
   }
 
-  refundOrder(order: Order): Observable<any> {
-    return this.restApi.put(this.orderUrl + '/refund', order);
+  refundOrder(orderCode: string): Observable<any> {
+    return this.restApi.put(this.orderUrl + '/refund/' + orderCode);
   }
 
   confirmOrder(order: Order): Observable<any> {

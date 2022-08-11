@@ -56,6 +56,7 @@ import {OrdersComponent} from '@components/home/manage/orders/orders.component';
 import {SortByIdPipe} from './pipe/sort-by-id.pipe';
 import {FlashSalesComponent} from '@components/home/manage/flash-sales/flash-sales.component';
 import {UsersComponent} from '@components/home/manage/users/users.component';
+import {NgChartsModule} from "ng2-charts";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);
@@ -95,23 +96,24 @@ defineLocale('vi', viLocale);
     FlashSalesComponent,
     UsersComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
-    HttpClientModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    DataTablesModule,
-    CKEditorModule,
-    TooltipModule,
-    BsDatepickerModule,
-    TimepickerModule,
-    ModalModule,
-    NgxMaskModule.forRoot(),
-    TabsModule,
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
+        HttpClientModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        DataTablesModule,
+        CKEditorModule,
+        TooltipModule,
+        BsDatepickerModule,
+        TimepickerModule,
+        ModalModule,
+        NgxMaskModule.forRoot(),
+        TabsModule,
+        NgChartsModule,
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     // {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},

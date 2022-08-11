@@ -42,7 +42,7 @@ public class StatisticApi {
 	}
 
 	@GetMapping("/top-product-sold")
-	public ResponseEntity<?> getTop5ProductSold(@RequestParam Optional<Integer> limit) {
+	public ResponseEntity<?> getTopProductSold(@RequestParam Optional<Integer> limit) {
 		return ResponseEntity.ok(statisticService.getTopProductSold(limit.orElse(5)));
 	}
 
