@@ -1,9 +1,14 @@
 package com.deskover.service.impl;
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.util.List;
-
+import com.deskover.model.entity.database.Category;
+import com.deskover.model.entity.database.Subcategory;
+import com.deskover.model.entity.database.repository.CategoryRepository;
+import com.deskover.model.entity.database.repository.datatable.CategoryRepoForDatatables;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
+import com.deskover.service.CategoryService;
+import com.deskover.service.ProductService;
+import com.deskover.service.SubcategoryService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,16 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.model.entity.database.Category;
-import com.deskover.model.entity.database.Subcategory;
-import com.deskover.model.entity.database.repository.CategoryRepository;
-import com.deskover.model.entity.database.repository.datatable.CategoryRepoForDatatables;
-import com.deskover.other.constant.PathConstant;
-import com.deskover.other.util.FileUtil;
-import com.deskover.other.util.UrlUtil;
-import com.deskover.service.CategoryService;
-import com.deskover.service.ProductService;
-import com.deskover.service.SubcategoryService;
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -100,12 +98,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public Category create(Category category) {
         if (this.existsBySlug(category)) {
-            Category categoryExists = repo.findBySlug(category.getSlug());
-            if (categoryExists != null && !categoryExists.getActived()) {
-                category.setId(categoryExists.getId());
-            } else {
-                throw new IllegalArgumentException("Slug đã tồn tại");
-            }
+            throw new IllegalArgumentException("Slug đã tồn tại");
         }
         category.setActived(Boolean.TRUE);
         return update(category);

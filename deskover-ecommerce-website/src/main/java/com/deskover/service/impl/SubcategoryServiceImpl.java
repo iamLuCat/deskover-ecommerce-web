@@ -100,12 +100,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     @Override
     public Subcategory create(Subcategory subcategory) {
         if (this.existsBySlug(subcategory)) {
-            Subcategory subcategoryExists = repo.findBySlug(subcategory.getSlug());
-            if (subcategoryExists != null && !subcategoryExists.getActived()) {
-                subcategory.setId(subcategoryExists.getId());
-            } else {
-                throw new IllegalArgumentException("Slug đã tồn tại");
-            }
+            throw new IllegalArgumentException("Slug đã tồn tại");
         }
         subcategory.setActived(true);
         return this.update(subcategory);
