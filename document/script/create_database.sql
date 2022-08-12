@@ -395,7 +395,10 @@ CREATE TABLE verify
     id      BIGINT       NOT NULL AUTO_INCREMENT,
     token   VARCHAR(255) NOT NULL,
     actived BIT          NOT NULL DEFAULT 1,
+    user_id BIGINT NOT NULL,
+    expiry_date date ,
     PRIMARY KEY (id),
+    CONSTRAINT FK_verify_user FOREIGN KEY (user_id) REFERENCES user (id),
     UNIQUE KEY UQ_Verify_Token (token)
 );
 

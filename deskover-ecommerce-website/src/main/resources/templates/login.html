@@ -36,7 +36,6 @@
                     <div class="container">
                         <div class="card-body mt-5">
                             <h2 class="h4 mb-3">Đăng nhập</h2>
-
                             <form class="woocommerce-form woocommerce-form-login login" method="post" th:action="@{/user/login}">
                                 <div class="woocommerce-form-row woocommerce-form-row--wide form-group">
                                     <label for="username">Tên tài khoản / Email / Số điện thoại<span class="text-danger">*</span></label>
@@ -75,7 +74,7 @@
                                         ĐĂNG NHẬP BẰNG GOOGLE
                                     </button>
                                 </div>
-
+								<h4 class="text-danger text-center" th:text="${message}">s</h4>
                                 <input type="hidden" id="woocommerce-login-nonce" name="woocommerce-login-nonce" value="28b512fbc5"><input type="hidden" name="_wp_http_referer" value="/cartzilla/my-account/downloads/">
                             </form>
                         </div>
