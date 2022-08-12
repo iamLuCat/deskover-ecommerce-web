@@ -33,11 +33,18 @@
           <div class="col d-flex align-items-center justify-content-center justify-content-md-end">
             <button type="button" class="btn bg-faded-primary w-sm-100 rounded-pill me-2"
                     (click)="orderStatusCode = 'C-XN'; rerender()">
-              <span class="text-primary">Chờ xác nhận</span>
+              <span class="text-dark">Chờ xác nhận</span>
+              <span class="badge text-bg-secondary ms-2">{{getNumberOrderByStatus('C-XN')}}</span>
+            </button>
+            <button type="button" class="btn bg-faded-warning w-sm-100 rounded-pill me-2"
+                    (click)="orderStatusCode = 'C-HUY'; rerender()">
+              <span class="text-dark">Chờ huỷ</span>
+              <span class="badge text-bg-secondary ms-2">{{getNumberOrderByStatus('C-HUY')}}</span>
             </button>
             <button type="button" class="btn bg-faded-danger w-sm-100 rounded-pill"
                     (click)="orderStatusCode = 'HUY'; rerender()">
-              <span class="text-danger">Trả hàng/Hoàn tiền</span>
+              <span class="text-dark">Đã huỷ/Hoàn tiền</span>
+              <span class="badge text-bg-secondary ms-2">{{getNumberOrderByStatus('HUY')}}</span>
             </button>
           </div>
         </div>
@@ -65,8 +72,10 @@
             <tbody class="table-light" *ngIf="orders?.length !== 0">
             <tr *ngFor="let order of orders; let i = index">
               <td class="align-middle">
-                <img [src]="order.qrCode ? getQrCode(order.qrCode) : 'assets/images/no-image.png'"
-                     class="img-thumbnail img-50">
+                <a href="javascript:void(0)" (click)="openImageModal(imageModal, order)">
+                  <img [src]="order.qrCode ? getQrCode(order.qrCode) : 'assets/images/no-image.png'" alt=" "
+                       class="img-thumbnail img-50">
+                </a>
               </td>
               <td class="align-middle">
                 {{ order.orderCode }}
@@ -81,31 +90,31 @@
                 {{ order.unitPrice | number:'1.0-0' }}₫
               </td>
               <td class="align-middle text-center">
-                {{ order.createdAt | date: 'dd/MM/yyyy' }}
+                {{ order.createdAt | date: 'dd/MM/yyyy, HH:mm' }}
               </td>
               <td class="align-middle" [ngClass]="orderStatusCode !== null ? 'd-none' : 'd-table-cell'">
-                <span class="badge text-dark bg-opacity-25"
-                      [ngClass]="getClassesByOrder(order.orderStatus?.code)">{{ order.orderStatus?.status }}</span>
+                <span class="badge rounded-pill"
+                      [ngClass]="getClassesByOrder(order)">{{ order.orderStatus?.status }}</span>
               </td>
               <td class="align-middle">
                 <span
-                  [ngClass]="getClassesByPayment(order.statusPayment?.code)">{{ order.statusPayment?.status }}</span>
+                  [ngClass]="getClassesByPayment(order)">{{ order.statusPayment?.status }}</span>
               </td>
               <td class="align-middle text-end">
                 <div class="d-inline-block" *ngIf="orderStatusCode && hasRole()">
                   <button type="button" class="btn btn-sm btn-warning me-1" placement="top" tooltip="Xác nhận hoàn tiền"
                           container="body" (click)="refundOrder(order)"
-                          *ngIf="isUnpaidOrder(order)">
+                          *ngIf="isNotRefunded(order)">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
                   </button>
-                  <button type="button" class="btn btn-sm btn-success me-1" placement="top" tooltip="Duyệt đơn"
-                          container="body" (click)="confirmOrder(order)"
-                          *ngIf="isPendingOrder(order)">
+                  <button type="button" class="btn btn-sm btn-success me-1" placement="top"
+                          tooltip="Duyệt đơn" container="body" (click)="confirmOrder(order)"
+                          *ngIf="isPendingConfirm(order)">
                     <i class="fa-solid fa-circle-check"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-danger me-1" placement="top" tooltip="Huỷ đơn"
                           container="body" (click)="cancelOrder(order)"
-                          *ngIf="isPendingOrder(order)">
+                          *ngIf="isPendingConfirm(order) || isPendingCancel(order)">
                     <i class="fa-solid fa-circle-xmark"></i>
                   </button>
                 </div>
@@ -132,7 +141,7 @@
     <h4 id="order-detail-dialog" class="modal-title pull-left text-uppercase text-primary fw-bold">
       {{ order.orderCode }}
       <span class="badge ms-1"
-            [ngClass]="getClassesByOrder(order.orderStatus.code)">{{order.orderStatus.status}}</span>
+            [ngClass]="getClassesByOrder(order)">{{order.orderStatus.status}}</span>
     </h4>
     <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -238,12 +247,22 @@
       </div>
     </div>
   </div>
-  <div class="modal-footer" *ngIf="isPendingOrder(order) && hasRole()">
-    <button type="button" class="btn btn-sm btn-success" (click)="confirmOrder(order)">
+  <div class="modal-footer" *ngIf="hasRole()">
+    <button type="button" class="btn btn-sm btn-success"
+            *ngIf="isPendingConfirm(order)"
+            (click)="confirmOrder(order)">
       Xác nhận đơn
     </button>
-    <button type="button" class="btn btn-sm btn-danger" (click)="cancelOrder(order)">
+    <button type="button" class="btn btn-sm btn-danger"
+            *ngIf="isPendingConfirm(order) || isPendingCancel(order)"
+            (click)="cancelOrder(order)">
       Huỷ đơn
     </button>
+  </div>
+</ng-template>
+<ng-template #imageModal>
+  <div class="modal-body" (click)="modalRef?.hide()">
+    <img [src]="order.qrCode ? getQrCode(order.qrCode) : 'assets/images/no-image.png'" alt=" "
+         class="img-fluid">
   </div>
 </ng-template>

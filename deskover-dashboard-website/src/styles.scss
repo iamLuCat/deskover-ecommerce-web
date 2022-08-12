@@ -91,6 +91,13 @@ body {
   }
 }
 
+body:not(.layout-fixed) .main-sidebar {
+  height: inherit;
+  min-height: 100%;
+   position: fixed;
+   top: 0;
+}
+
 [class*=sidebar-light-] .nav-sidebar>.nav-item>.nav-link.active {
   box-shadow: none;
 }

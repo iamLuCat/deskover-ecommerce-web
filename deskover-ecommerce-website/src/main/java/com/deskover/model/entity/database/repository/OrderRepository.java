@@ -1,12 +1,11 @@
 package com.deskover.model.entity.database.repository;
 
-import java.util.List;
-
+import com.deskover.model.entity.database.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.deskover.model.entity.database.Order;
+import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	//Shipper
@@ -35,14 +34,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	
 	
 	//DashBoard-Admin
-	
-	@Query(value="{CALL getToTalByCategory(:month, :year)}", nativeQuery = true)
-	List<Object[]> getToTalByCategory(@Param("month") String month,@Param("year") String year);
+	@Query(value="{CALL getTotalByCategory(:month, :year)}", nativeQuery = true)
+	List<Object[]> getTotalByCategory(@Param("month") String month, @Param("year") String year);
 	
 	@Query(value = "{CALL getTotalPricePerYear(:month, :year)}", nativeQuery = true)
 	String getTotalPricePerYear(@Param("month") String month,
 			@Param("year") String year);
-	
+
 	//Query nornal
 	List<Order> findByOrderStatusCode(String statusCode);
 	
@@ -61,8 +59,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	Order findByOrderCodeAndUserUsername(String orderCode,  String username);
 	
 	Order findByOrderCode( String orderCode);
+
+	@Query("select count(o) from Order o where o.orderStatus.code = ?1")
+	Long countByOrderStatusCode(String statusCode);
 	
 	@Query(value = "SELECT * FROM orders ORDER BY ID DESC LIMIT 1", nativeQuery = true)
-	Order getlastOrder();
-	
+	Order getLastOrder();
 }

@@ -102,6 +102,7 @@ public class ProductApi {
             productService.save(product, isCopy.orElse(Boolean.FALSE));
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
@@ -120,6 +121,7 @@ public class ProductApi {
             productService.save(product);
             return ResponseEntity.ok(new MessageResponse("Cập nhập sản phẩm thành công"));
         } catch (Exception e) {
+            e.printStackTrace();
             MessageResponse error = MessageErrorUtil.message("Cập nhập không thành công", e);
             return ResponseEntity.badRequest().body(error);
         }

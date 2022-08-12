@@ -1,35 +1,49 @@
 package com.deskover.controller.rest.api.dashboard;
 
+import com.deskover.model.entity.dto.TotalPrice;
+import com.deskover.service.ProductService;
+import com.deskover.service.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.deskover.model.entity.dto.TotalPrice;
-import com.deskover.service.StatisticService;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("v1/api/admin")
+@RequestMapping("v1/api/admin/dashboard")
 public class StatisticApi {
 	
 	@Autowired
 	private StatisticService statisticService;
 
+	@Autowired
+	private ProductService productService;
+
 	// DashBoard-ADMIN
-	
-	@GetMapping("/dashboard")
+	@GetMapping("/total-order-revenue")
 	public ResponseEntity<?> getTotalPricePerMonthAndYear(@RequestParam("month") Integer month, @RequestParam("year") Integer year){
 		return ResponseEntity.ok(statisticService.getTotalPricePerMonthAndYear(month, year));
 	}
 
-	@GetMapping("/dashboard/category")
+	@GetMapping("/total-order-revenue-by-category")
 	public TotalPrice getTotalByCategory(@RequestParam("month") String month) {
-		TotalPrice totalByCategories = statisticService.getToTalByCategory(month,"2022") ;
-		return totalByCategories;
+		return statisticService.getTotalByCategory(month,"2022");
 	}
-	
+
+	@GetMapping("/general-report")
+	public ResponseEntity<?> getTotalGeneral() {
+		return ResponseEntity.ok(statisticService.getTotalGeneral());
+	}
+	@GetMapping("/product-report")
+	public ResponseEntity<?> getTotalProductByCategory() {
+//		return ResponseEntity.ok(productService.totalQuantityProductByCategory());
+		return ResponseEntity.ok(statisticService.getQuantityProductSoldBySubcategory());
+	}
+
+	@GetMapping("/top-product-sold")
+	public ResponseEntity<?> getTopProductSold(@RequestParam Optional<Integer> limit) {
+		return ResponseEntity.ok(statisticService.getTopProductSold(limit.orElse(5)));
+	}
+
 }

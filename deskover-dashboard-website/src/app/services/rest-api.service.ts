@@ -24,7 +24,7 @@ export class RestApiService{
     return this.httpClient.post(link, body, options).pipe(catchError(this.handleError));
   }
 
-  put(link: string, body: any, params: HttpParams = null): Observable<any> {
+  put(link: string, body: any = {}, params: HttpParams = null): Observable<any> {
     return this.httpClient.put(link, body, {params}).pipe(catchError(this.handleError));
   }
 
@@ -44,12 +44,10 @@ export class RestApiService{
       errorMessage = error.error.message;
       if (error.status === 0) {
         errorMessage = 'Máy chủ không phản hồi!';
-      }
-      if (error.status === 403) {
+      } else if (error.status === 403) {
         errorMessage = 'Bạn không có quyền truy cập!';
         this.router.navigate(['/dashboard']);
-      }
-      if (error.status === 401) {
+      } else if (error.status === 401) {
         errorMessage = 'Token đã hết hạn!';
         this.router.navigate(['/login']);
       }

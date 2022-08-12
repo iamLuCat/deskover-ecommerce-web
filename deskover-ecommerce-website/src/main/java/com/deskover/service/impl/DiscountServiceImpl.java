@@ -78,18 +78,13 @@ public class DiscountServiceImpl implements DiscountService {
             Product product = productService.findById(productIdToAdd);
             product.setPriceSale(product.getPrice() - (product.getPrice() * discount.getPercent() / 100));
             product.setDiscount(discount);
-            if (productService.save(product) == null) {
-                throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
-            }
         }
 
         if (productIdToRemove != null) {
             Product product = productService.findById(productIdToRemove);
             product.setPriceSale(product.getPrice());
             product.setDiscount(null);
-            if (productService.save(product) == null) {
-                throw new IllegalArgumentException("Không thể cập nhật sản phẩm");
-            }
+            product.setFlashSale(null);
         }
 
         discount.setModifiedAt(new Timestamp(System.currentTimeMillis()));

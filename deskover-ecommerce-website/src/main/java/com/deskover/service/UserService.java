@@ -21,4 +21,7 @@ public interface UserService {
 	 void updatePassword(ChangePasswordDto userRequest);
 	 void updateTimestamp(Users user);
 
+
+	Long totalCustomers();
+
 }

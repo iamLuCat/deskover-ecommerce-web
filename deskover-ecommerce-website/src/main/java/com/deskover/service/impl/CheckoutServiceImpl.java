@@ -66,13 +66,14 @@ public class CheckoutServiceImpl implements CheckoutService {
 		order.setOrderStatus(status);
 		order.setStatusPayment(statusPayment);
 		order.setFullName(entity.getFullname());
+		order.setEmail(entity.getEmail());
 		order.setCreatedAt(timestamp);
 		order.setUnitPrice(Double.parseDouble(total));
 		order.setOrderQuantity(items.size());
 		orderRepo.save(order);
 
 		// 2 -  Save Address
-		Order lastOrder = orderRepo.getlastOrder();
+		Order lastOrder = orderRepo.getLastOrder();
 		orderAddress.setOrder(lastOrder);
 		orderAddress.setAddress(entity.getAddress());
 		orderAddress.setProvince("1");
