@@ -82,5 +82,10 @@ public class IndexController {
 		return "ok";
 	}
 	
+	@GetMapping("checkout")
+	public String checkout(Model model) {
+		return "checkout";
+	}
+	
 	
 }

@@ -6,7 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +34,13 @@ public class Verify implements Serializable {
 
     @Column(name = "actived", nullable = false)
     private Boolean actived = false;
-
+    
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name="user_id", nullable = false)
+    private Users user;
+    
+    @Column(name = "expiry_date")
+    private Date expiryDate;
+    
 }

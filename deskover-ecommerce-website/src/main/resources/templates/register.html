@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="woocommerce-form-row woocommerce-form-row--wide form-group">
                                     <label for="username"> Họ và tên <span class="text-danger">*</span></label>
-                                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="fullname" id="username" autocomplete="username" value="" required>
+                                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="fullname" id="fullname" autocomplete="fullname" value="" required>
                                 </div>
                                 <div class="woocommerce-form-row woocommerce-form-row--wide form-group mt-4">
                                     <label for="password">Mật khẩu<span class="text-danger">*</span></label>
@@ -72,7 +72,9 @@
                                 <div class="text-right pt-4">
                                 	<div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="/login"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Back to Login</span><span class="d-inline d-sm-none">Back</span></a></div>
                                 </div>
+                                <h4 class="text-danger text-center" th:text="${message}">s</h4>
                                 <input type="hidden" id="woocommerce-login-nonce" name="woocommerce-login-nonce" value="28b512fbc5"><input type="hidden" name="_wp_http_referer" value="/cartzilla/my-account/downloads/">
+                            	
                             </form>
                         </div>
                     </div>

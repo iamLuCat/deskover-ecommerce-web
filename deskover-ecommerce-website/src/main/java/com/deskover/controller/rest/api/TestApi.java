@@ -1,8 +1,11 @@
 package com.deskover.controller.rest.api;
 
+import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.dto.security.payload.MessageResponse;
 import com.deskover.model.entity.other.MailInfo;
 import com.deskover.other.util.MailUtil;
+import com.deskover.service.SessionService;
+import com.deskover.service.impl.VerifyServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +16,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.validation.BindingResult;
 
 import java.io.IOException;
 
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -42,4 +47,5 @@ public class TestApi {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
+   
 }

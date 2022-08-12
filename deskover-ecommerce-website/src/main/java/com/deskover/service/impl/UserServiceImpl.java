@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public Users create1(UserCreateDto userRequest) {
+	public Users create1(UserCreateDto userRequest){
 		if(repo.existsByUsername(userRequest.getUsername())) {
 			throw new IllegalArgumentException("Username này đã tồn tại vui lòng nhập username khác");
 		}
@@ -119,12 +119,8 @@ public class UserServiceImpl implements UserService {
 			createUser.setVerify(Boolean.FALSE);
 			createUser.setModifiedAt(new Timestamp(System.currentTimeMillis()));
 			createUser.setModifiedBy(null);
-			
 			Users createdUser = repo.save(createUser);
 			userPasswordService.create(createdUser, userRequest.getConfirmPassword());
-			
-			
-				
 			return createdUser;
 		}
 	}

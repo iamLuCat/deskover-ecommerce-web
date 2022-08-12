@@ -20,4 +20,5 @@ public interface UserService {
 	 void changeActived(Long id);
 	 void updatePassword(ChangePasswordDto userRequest);
 	 void updateTimestamp(Users user);
+
 }
