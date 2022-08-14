@@ -60,11 +60,10 @@
                                 <a class="d-flex justify-content-center">
                                     <img th:src="@{/img/logo/full.png}" alt="Deskover" class="logo-img-color">
                                 </a>
-                                <h2 class="h4 mb-3 fw-bold text-center">ĐĂNG KÝ</h2>
-                                <p class="mb-3 text-center">Đã có tài khoản? <a th:href="@{/login}">Đăng nhập</a></p>
+                                
                             </div>
                             <h2 class="h4 mb-3 fw-bold d-none d-md-block mt-2">ĐĂNG KÝ</h2>
-                            <p class="mb-3 d-none d-md-block">Chưa có tài khoản? <a th:href="@{/login}">Đăng nhập</a></p>
+                            <p class="mb-3 d-none d-md-block">Đã có tài khoản? <a th:href="@{/login}">Đăng nhập</a></p>
                             <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${message}">
                                 <i class="fa fa-exclamation-triangle fa-2xl" aria-hidden="true"></i> [[${message}]]
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -95,7 +94,7 @@
                                     </div>
                                     <div class="woocommerce-form-row woocommerce-form-row--wide form-group mt-3 col-6">
                                         <label class="form-label" for="password">Nhập lại mật khẩu <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="password" required id="password" name="password">
+                                        <input class="form-control" type="password" required id="confirmPassword" name="confirmPassword">
                                         <div class="invalid-feedback">Hãy nhập lại mật khẩu!</div>
                                     </div>
                                 </div>
@@ -108,7 +107,7 @@
                                 <div class="text-right pt-4">
                                     <a class="woocommerce-button button woocommerce-form-login__submit btn btn-outline-primary w-100 fw-bold" name="login" value="Log in" th:href="@{/oauth2/authorization/google}">
                                         <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
-                                        ĐĂNG KÝ BẰNG GOOGLE
+                                        ĐĂNG NHẬP BẰNG GOOGLE
                                     </a>
                                 </div>
                             </form>

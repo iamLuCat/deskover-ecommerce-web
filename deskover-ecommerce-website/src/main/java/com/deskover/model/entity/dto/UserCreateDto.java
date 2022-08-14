@@ -14,6 +14,8 @@ import lombok.Setter;
 public class UserCreateDto {
 	@NotBlank(message = "Không bỏ trống username")
 	private String username;
+	@NotBlank(message = "Không bỏ trống email")
+	private String email;
 	@NotBlank(message = "Không bỏ trống password")
 	private String password;
 	@NotBlank(message = "Không bỏ trống confirmPassword")
