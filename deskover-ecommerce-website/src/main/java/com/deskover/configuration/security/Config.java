@@ -1,5 +1,7 @@
 package com.deskover.configuration.security;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +17,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
@@ -171,10 +175,33 @@ public class Config extends WebSecurityConfigurerAdapter {
 				.loginPage("/login")
 		        .loginProcessingUrl("/user/login")
 		        .defaultSuccessUrl("/index", true)
-		        .failureHandler(null)
+		        .failureHandler(ecommerceAuthenticateFailureHandler())
 		    .and().logout()
 			    .logoutUrl("/user/logout")
+			    .logoutSuccessHandler(ecommerceLogoutSuccessHandler())
 			    .deleteCookies("JSESSIONID");
+			
+			http.oauth2Login()
+				.loginPage("/auth/login/form")
+				.defaultSuccessUrl("/oauth2/login/success", true)
+				.failureUrl("/auth/login/error")
+				.authorizationEndpoint()
+				.baseUri("/oauth2/authorization");
+			
+		}
+		
+		private AuthenticationFailureHandler ecommerceAuthenticateFailureHandler() {
+			return (request, response, authentication) -> {
+				request.getSession().setAttribute("error", "Tài khoản hoặc mật khẩu không đúng");
+				response.sendRedirect("/login");
+			};
+		}
+		
+		private LogoutSuccessHandler ecommerceLogoutSuccessHandler() {
+			return (request, response, authentication) -> {
+				request.getSession().setAttribute("message", "Bạn đã đăng xuất khỏi tài khoản");
+				response.sendRedirect("/login");
+			};
 		}
 	}
 

@@ -2,6 +2,7 @@ package com.deskover.service;
 
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.deskover.model.entity.database.Users;
@@ -22,6 +23,8 @@ public interface UserService {
 	 void updateTimestamp(Users user);
 
 
-	Long totalCustomers();
+	 Long totalCustomers();
+	 
+	 void loginFromOAuth2(OAuth2AuthenticationToken oauth2);
 
 }
