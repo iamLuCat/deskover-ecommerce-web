@@ -66,7 +66,7 @@
                             <h2 class="h4 mb-3 fw-bold d-none d-md-block mt-2">ĐĂNG KÝ</h2>
                             <p class="mb-3 d-none d-md-block">Chưa có tài khoản? <a th:href="@{/login}">Đăng nhập</a></p>
                             <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${message}">
-                                <i class="fa fa-check-circle fa-xl" aria-hidden="true"></i> [[${message}]]
+                                <i class="fa fa-exclamation-triangle fa-2xl" aria-hidden="true"></i> [[${message}]]
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                             <form class="needs-validation woocommerce-form woocommerce-form-login login" novalidate method="post" th:action="@{/register}">
