@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Login</title>
+    <title>Deskover: Đăng nhập</title>
     <th:block th:include="components/header.html :: header"></th:block>
     <style>
         body {
@@ -20,40 +20,72 @@
             background-size: cover;
             background-position: center center;
         }
+
+        .logo-img {
+            margin-top: 50px;
+            max-height: 50%;
+            max-width: 60%;
+        }
+
+        .logo-img img{
+            object-fit: contain;
+        }
+
+        .logo-img-color {
+            max-height: 50%;
+            max-width: 60%;
+            display: hidden;
+        }
     </style>
 </head>
 
 <body>
     <div class="container_auth">
-        <div class="row w">
+        <div class="row">
             <!-- The image half -->
-            <div class="col-md-6 d-none d-md-flex bg-image"></div>
+            <div class="col-md-6 d-none d-md-flex bg-image justify-content-center">
+                <div class="logo-img">
+                    <a th:href="@{/}">
+                        <img th:src="@{/img/logo/white-full.png}" alt="Deskover" class="mx-auto d-flex justify-content-center">
+                    </a>
+                </div>
+
+            </div>
 
 
             <!-- The content half -->
             <div class="col-md-6 bg-light">
                 <div class="card border-0 box-shadow">
                     <div class="container">
-                        <div class="card-body mt-5">
-                            <h2 class="h4 mb-3">Đăng nhập</h2>
-                            <form class="woocommerce-form woocommerce-form-login login" method="post" th:action="@{/user/login}">
+                        <div class="card-body mt-3">
+                            <div class="d-md-none d-lg-none">
+                                <a class="d-flex justify-content-center">
+                                    <img th:src="@{/img/logo/full.png}" alt="Deskover" class="logo-img-color">
+                                </a>
+                                <h2 class="h4 mb-3 fw-bold text-center">ĐĂNG NHẬP</h2>
+                                <p class="mb-3 text-center">Chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a></p>
+                            </div>
+                            <h2 class="h4 mb-3 fw-bold d-none d-md-block mt-5">ĐĂNG NHẬP</h2>
+                            <p class="mb-3 d-none d-md-block">Chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a></p>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${message}">
+                                <i class="fa fa-check-circle fa-xl" aria-hidden="true"></i> [[${message}]]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error}">
+                                <i class="fa fa-exclamation-triangle fa-2xl" aria-hidden="true"></i> [[${error}]]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            <form class="needs-validation woocommerce-form woocommerce-form-login login" novalidate method="post" th:action="@{/user/login}">
                                 <div class="woocommerce-form-row woocommerce-form-row--wide form-group">
-                                    <label for="username">Tên tài khoản / Email / Số điện thoại<span class="text-danger">*</span></label>
-                                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="username" id="username" autocomplete="username" value="">
+                                    <label class="form-label" for="username">Tên tài khoản / Email / Số điện thoại <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" required id="username" name="username">
+                                    <div class="invalid-feedback">Hãy nhập tài khoản của bạn!</div>
                                 </div>
-                                <div class="woocommerce-form-row woocommerce-form-row--wide form-group mt-4">
-                                    <label for="password">Mật khẩu<span class="text-danger">*</span></label>
-                                    <div class="password-toggle">
-                                        <span class="password-input"><input class="woocommerce-Input woocommerce-Input--text input-text form-control" type="password" name="password" id="password" autocomplete="current-password"><span class="show-password-input"></span></span>
-                                        <label class="password-toggle-btn">
-                                            <input class="custom-control-input" type="checkbox" hidden>
-                                            <i class="czi-eye password-toggle-indicator"></i>
-                                            <span class="sr-only">Show password</span>
-                                        </label>
-                                    </div>
+                                <div class="woocommerce-form-row woocommerce-form-row--wide form-group mt-3">
+                                    <label class="form-label" for="username">Mật khẩu <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="password" required id="password" name="password">
+                                    <div class="invalid-feedback">Hãy nhập mật khẩu của bạn!</div>
                                 </div>
-
-
                                 <div class="form-group d-flex flex-wrap justify-content-between mb-0 mt-2">
                                     <div class="custom-control custom-checkbox mb-2">
                                         <input class="woocommerce-form__input woocommerce-form__input-checkbox custom-control-input" name="rememberme" type="checkbox" id="remember_me" value="forever">
@@ -63,19 +95,15 @@
                                         <a class="font-size-sm" href="https://demo2.madrasthemes.com/cartzilla/my-account/lost-password/">Quên mật khẩu?</a>
                                     </div>
                                 </div>
-
-                                <hr class="mt-4">
                                 <div class="text-right pt-4">
                                     <button type="submit" class="woocommerce-button button woocommerce-form-login__submit btn btn-primary w-100 fw-bold" name="login" value="Log in"><i class="czi-sign-in mr-2 ml-n21"></i>ĐĂNG NHẬP</button>
                                 </div>
                                 <div class="text-right pt-4">
-                                    <button class="woocommerce-button button woocommerce-form-login__submit btn btn-outline-primary w-100 fw-bold" name="login" value="Log in">
+                                    <a class="woocommerce-button button woocommerce-form-login__submit btn btn-outline-primary w-100 fw-bold" name="login" value="Log in" th:href="@{/oauth2/authorization/google}">
                                         <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
                                         ĐĂNG NHẬP BẰNG GOOGLE
-                                    </button>
+                                    </a>
                                 </div>
-								<h4 class="text-danger text-center" th:text="${message}">s</h4>
-                                <input type="hidden" id="woocommerce-login-nonce" name="woocommerce-login-nonce" value="28b512fbc5"><input type="hidden" name="_wp_http_referer" value="/cartzilla/my-account/downloads/">
                             </form>
                         </div>
                     </div>

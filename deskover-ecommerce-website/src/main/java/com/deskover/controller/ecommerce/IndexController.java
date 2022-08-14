@@ -1,8 +1,10 @@
 package com.deskover.controller.ecommerce;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,16 +67,6 @@ public class IndexController {
 	@GetMapping("/order")
 	public String order() {
 		return "order";
-	}
-	
-
-	@GetMapping("/login")
-	public String login() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication instanceof AnonymousAuthenticationToken) {
-			return "login";
-		}
-		return "redirect:/index";
 	}
 	
 	@GetMapping("/ok")
