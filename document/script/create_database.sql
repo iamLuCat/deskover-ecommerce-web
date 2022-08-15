@@ -3196,84 +3196,84 @@ INSERT status_order(`id`, `code`, `status`)
 insert orders
 values 
   (
-    1, 'HD-11062022', NULL, 1, 1, 2, 1, 1, 
+    1, 'HD-11062022', NULL, 1, 1, 2, 1, 6, 
     'Nguyễn Quang Huy', 'vanb@gmail.co.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 14990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    2, 'HD-12062022', NULL, 1, 2, 1, 2, 2, 
+    2, 'HD-12062022', NULL, 1, 2, 1, 2, 6, 
     'Nguyễn Quang Huy', 'gmail@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 30880000, NULL, NULL, NULL, NULL, 
     2
   ), 
   (
-    3, 'HD-13062022', NULL, 1, 1, 2, 1, 2, 
+    3, 'HD-13062022', NULL, 1, 1, 2, 1, 6, 
     'Nguyễn Quang Huy', 'leanhtuab@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 50870000, NULL, NULL, NULL, NULL, 
     3
   ), 
   (
-    4, 'HD-14062022', NULL, 1, 1, 2, 2, 3, 
+    4, 'HD-14062022', NULL, 1, 1, 2, 2, 6, 
     'Nguyễn Quang Huy', 'hongnnt@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 32990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    5, 'HD-15062022', NULL, 1, 1, 2, 1, 4, 
+    5, 'HD-15062022', NULL, 1, 1, 2, 1, 6, 
     'Nguyễn Quang Huy', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 30890000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    6, 'HD-16062022', NULL, 2, 1, 2, 2, 2, 
+    6, 'HD-16062022', NULL, 2, 1, 2, 2, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 29990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    7, 'HD-17062022', NULL, 2, 1, 2, 1, 3, 
+    7, 'HD-17062022', NULL, 2, 1, 2, 1, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 24490000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    8, 'HD-18062022', NULL, 2, 2, 1, 2, 2, 
+    8, 'HD-18062022', NULL, 2, 2, 1, 2, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 20990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    9, 'HD-19062022', NULL, 2, 2, 1, 1, 3, 
+    9, 'HD-19062022', NULL, 2, 2, 1, 1, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 33480000, NULL, NULL, NULL, NULL, 
     2
   ), 
   (
-    10, 'HD-20062022', NULL, 2, 2, 1, 2, 5, 
+    10, 'HD-20062022', NULL, 2, 2, 1, 2, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 52430000, NULL, NULL, NULL, NULL, 
     3
   ), 
   (
-    11, 'HD-74289518', NULL, 2, 2, 1, 1, 1, 
+    11, 'HD-74289518', NULL, 2, 2, 1, 1, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     '', NULL, '2022-08-08 05:13:58', 
     NULL, 29990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    12, 'HD-29387428', NULL, 5, 2, 1, 1, 1, 
+    12, 'HD-29387428', NULL, 5, 2, 1, 1, 6, 
     'Lê Thị Thu Hà', 'quangdat@gmail.com', 
     '', NULL, '2022-08-08 06:16:01', 
     NULL, 87960000, NULL, 0, NULL, NULL, 
@@ -3281,20 +3281,20 @@ values
   ), 
   (
     13, 'HD-28796165', 'HD-28796165.png', 
-    5, 2, 1, 1, 2, 'Lê Thị Thu Hà', 
+    5, 2, 1, 1, 6, 'Lê Thị Thu Hà', 
     'quangdat@gmail.com', '', NULL, '2022-08-08 06:17:36', 
     'minhnh', 99000000, NULL, 0, NULL, 
     NULL, 1
   ), 
   (
-    14, 'HD-86090362', NULL, 5, 1, 1, 1, 1, 
+    14, 'HD-86090362', NULL, 5, 1, 1, 1, 6, 
     'Lê thị thu hồng', 'hongnnt@gmail.com', 
     '', NULL, '2022-08-08 06:19:26', 
     NULL, 50990000, NULL, 295000, NULL, 
     NULL, 1
   ), 
   (
-    15, 'HD-78426833', NULL, 5, 1, 1, 1, 1, 
+    15, 'HD-78426833', NULL, 5, 1, 1, 1, 6, 
     'Lê thị thu hồng', 'hongnnt@gmail.com', 
     '', NULL, '2022-08-08 06:22:14', 
     NULL, 30890000, NULL, 168560, NULL, 
