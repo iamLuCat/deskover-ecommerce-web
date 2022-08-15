@@ -13,4 +13,5 @@ public interface StatisticService {
 	Map<String, Object> getTotalGeneral();
 	List<OrderReport> getQuantityProductSoldBySubcategory();
 	List<ProductReport> getTopProductSold(Integer limit);
+    List<Object> getTotalAccountByRole();
 }

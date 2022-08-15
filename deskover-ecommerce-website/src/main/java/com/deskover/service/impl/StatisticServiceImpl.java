@@ -1,6 +1,7 @@
 package com.deskover.service.impl;
 
 import com.deskover.model.entity.database.repository.OrderItemRepository;
+import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.dto.TotalPrice;
 import com.deskover.model.entity.dto.dashboard.OrderReport;
 import com.deskover.model.entity.dto.dashboard.ProductReport;
@@ -28,6 +29,8 @@ public class StatisticServiceImpl implements StatisticService {
 	private RatingService ratingService;
 	@Autowired
 	private OrderItemRepository orderItemRepo;
+	@Autowired
+	private UserRepository userRepo;
 
 	@Override
 	public TotalPrice getTotalByCategory(String month, String year) {
@@ -95,5 +98,10 @@ public class StatisticServiceImpl implements StatisticService {
 				.limit(size)
 				.sorted((o1, o2) -> (int) (o2.getQuantity() - o1.getQuantity()))
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Object> getTotalAccountByRole() {
+		return userRepo.getTotalAccountByRole();
 	}
 }
