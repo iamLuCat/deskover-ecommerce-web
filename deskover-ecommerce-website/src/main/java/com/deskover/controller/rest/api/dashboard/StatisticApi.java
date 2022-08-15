@@ -46,4 +46,9 @@ public class StatisticApi {
 		return ResponseEntity.ok(statisticService.getTopProductSold(limit.orElse(5)));
 	}
 
+	@GetMapping("/account-report")
+	public ResponseEntity<?> getTotalAccount() {
+		return ResponseEntity.ok(statisticService.getTotalAccountByRole());
+	}
+
 }
