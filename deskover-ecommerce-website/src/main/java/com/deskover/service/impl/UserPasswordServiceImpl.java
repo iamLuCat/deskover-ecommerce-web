@@ -3,6 +3,7 @@ package com.deskover.service.impl;
 import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,8 @@ import com.deskover.model.entity.database.UserPassword;
 import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.repository.UserPasswordRepository;
 import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.model.entity.dto.ecommerce.PasswordDTO;
+import com.deskover.model.entity.dto.security.payload.MessageResponse;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
 
@@ -69,6 +72,25 @@ public class UserPasswordServiceImpl implements UserPasswordService{
 			throw new IllegalArgumentException("Không tìm thấy user");
 		}
 		return userPassword;
+	}
+
+	@Override
+	public ResponseEntity<?> updatePassword(String username, PasswordDTO form) {
+		UserPassword password = repo.findByUserUsername(username);
+		
+		if(!bcrypt.matches(form.getOldPassword(), password.getPassword())) {
+			return  ResponseEntity.badRequest().body(new MessageResponse("Mật khẩu cũ không đúng, hãy nhập lại!")) ;
+		}
+		if(!form.getConfirmPassword().equals(form.getNewPassword())) {
+			return  ResponseEntity.badRequest().body(new MessageResponse("Mật khẩu mới không trùng, hãy nhập lại!")) ;
+		}
+		if(form.getNewPassword().equals(form.getOldPassword())) {
+			return  ResponseEntity.badRequest().body(new MessageResponse("Mật khẩu mới không được trùng với mật khẩu cũ, hãy nhập lại!")) ;
+		}
+		String hashPass = bcrypt.encode(form.getConfirmPassword());
+		password.setPassword(hashPass);
+		repo.saveAndFlush(password);
+		return  ResponseEntity.ok().body(new MessageResponse("Mật khẩu đã được thay đổi thành công")) ;
 	}
 
 }

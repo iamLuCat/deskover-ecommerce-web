@@ -18,7 +18,7 @@
     </div>
     <div id="content">
         <!-- Page Title-->
-        <div class="page-title-overlap bg-dark pt-4">
+        <div class="page-title-overlap bg-dark pt-4" >
             <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="container pb-5 mb-2 mb-md-4">
+        <div class="container pb-5 mb-2 mb-md-4" ng-controller="accCtrl" ng-init="order.loadDatabase()">
             <div class="row">
                 <!-- Sidebar-->
                 <aside th:replace="components/user_sidebar.html :: component"></aside>
@@ -53,7 +53,7 @@
                                 <option>Delayed</option>
                                 <option>Canceled</option>
                             </select>
-                        </div><a class="btn btn-primary btn-sm d-none d-lg-inline-block" href="account-signin.html"><i class="ci-sign-out me-2"></i>Log out</a>
+                        </div>
                     </div>
                     <!-- Orders list-->
                     <div class="table-responsive fs-md mb-4">

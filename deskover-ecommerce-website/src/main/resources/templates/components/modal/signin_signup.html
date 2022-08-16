@@ -3,25 +3,30 @@
         <div class="modal-content">
             <div class="modal-header bg-secondary">
                 <ul class="nav nav-tabs card-header-tabs" role="tablist">
-                    <li class="nav-item"><a class="nav-link fw-medium active" href="#signin-tab" data-bs-toggle="tab"
-                            role="tab" aria-selected="true"><i class="ci-unlocked me-2 mt-n1"></i>Sign in</a></li>
-                    <li class="nav-item"><a class="nav-link fw-medium" href="#signup-tab" data-bs-toggle="tab"
-                            role="tab" aria-selected="false"><i class="ci-user me-2 mt-n1"></i>Sign up</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium active" href="#signin-tab" data-bs-toggle="tab"
+                            role="tab" aria-selected="true">
+                            <i class="ci-unlocked me-2 mt-n1"></i>Đăng nhập</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium" th:href="@{/register}" role="tab" aria-selected="false">
+                            <i class="ci-user me-2 mt-n1"></i>Đăng ký</a>
+                    </li>
                 </ul>
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body tab-content py-4">
-                <form class="needs-validation tab-pane fade show active" autocomplete="off" novalidate id="signin-tab">
+                <form class="needs-validation tab-pane fade show active" autocomplete="off" novalidate id="signin-tab" method="post" th:action="@{/user/login}">
                     <div class="mb-3">
-                        <label class="form-label" for="si-email">Email address</label>
-                        <input class="form-control" type="email" id="si-email" placeholder="johndoe@example.com"
-                            required>
-                        <div class="invalid-feedback">Please provide a valid email address.</div>
+                        <label class="form-label" for="si-email">Tên tài khoản / Email / Số điện thoại </label>
+                        <input class="form-control" type="text" id="si-email" required name="username">
+                        <div class="invalid-feedback">
+
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="si-password">Password</label>
+                        <label class="form-label" for="si-password">Mật khẩu </label>
                         <div class="password-toggle">
-                            <input class="form-control" type="password" id="si-password" required>
+                            <input class="form-control" type="password" id="si-password" required name="password">
                             <label class="password-toggle-btn" aria-label="Show/hide password">
                                 <input class="password-toggle-check" type="checkbox"><span
                                     class="password-toggle-indicator"></span>
@@ -31,10 +36,14 @@
                     <div class="mb-3 d-flex flex-wrap justify-content-between">
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="checkbox" id="si-remember">
-                            <label class="form-check-label" for="si-remember">Remember me</label>
-                        </div><a class="fs-sm" href="#">Forgot password?</a>
+                            <label class="form-check-label" for="si-remember">Ghi nhớ tài khoản</label>
+                        </div><a class="fs-sm" href="#">Quên mật khẩu?</a>
                     </div>
-                    <button class="btn btn-primary btn-shadow d-block w-100" type="submit">Sign in</button>
+                    <button class="btn btn-primary btn-shadow d-block w-100 mb-2" type="submit">Đăng nhập</button>
+                    <a class="btn btn-outline-primary btn-shadow d-block w-100" th:href="@{/oauth2/authorization/google}">
+                        <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        Đăng nhập bằng Google
+                    </a>
                 </form>
                 <form class="needs-validation tab-pane fade" autocomplete="off" novalidate id="signup-tab">
                     <div class="mb-3">

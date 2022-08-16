@@ -15,12 +15,14 @@ import org.springframework.stereotype.Service;
 import com.deskover.model.entity.database.Brand;
 import com.deskover.model.entity.database.Cart;
 import com.deskover.model.entity.database.FlashSale;
+import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.database.Product;
 import com.deskover.model.entity.database.Rating;
 import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.repository.BrandRepository;
 import com.deskover.model.entity.database.repository.CartRepository;
 import com.deskover.model.entity.database.repository.FlashSaleRepository;
+import com.deskover.model.entity.database.repository.OrderRepository;
 import com.deskover.model.entity.database.repository.ProductRepository;
 import com.deskover.model.entity.database.repository.RatingRepository;
 import com.deskover.model.entity.database.repository.UserRepository;
@@ -29,6 +31,7 @@ import com.deskover.model.entity.dto.ecommerce.CartLocal;
 import com.deskover.model.entity.dto.ecommerce.Filter;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
+import com.deskover.model.entity.dto.ecommerce.OrderDTO;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
 import com.deskover.model.entity.dto.ecommerce.Reviewer;
 import com.deskover.model.entity.dto.ecommerce.Shop;
@@ -54,6 +57,9 @@ public class ShopServiceImpl implements ShopService {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private OrderRepository orderRepo;
 	
 	@Override
 	public Shop search(Filter filter) {
@@ -219,5 +225,13 @@ public class ShopServiceImpl implements ShopService {
 		
 		List<Cart> carts = cartRepo.findByUserUsername(username);
 		return carts.stream().map(c -> new CartDTO(new Item(c.getProduct()), c.getQuantity())).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<OrderDTO> getOrder(String username, Integer page, String filter) {
+		Pageable pageable = PageRequest.of(page, 6);
+		
+		Page<Order> orders = orderRepo.getListOrderByUsername(username, pageable);
+		return orders.toList().stream().map(order -> new OrderDTO(order)).collect(Collectors.toList());
 	}
 }

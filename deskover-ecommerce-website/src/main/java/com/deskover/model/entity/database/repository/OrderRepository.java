@@ -1,11 +1,14 @@
 package com.deskover.model.entity.database.repository;
 
-import com.deskover.model.entity.database.Order;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import com.deskover.model.entity.database.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	//Shipper
@@ -65,4 +68,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	
 	@Query(value = "SELECT * FROM orders ORDER BY ID DESC LIMIT 1", nativeQuery = true)
 	Order getLastOrder();
+	
+	@Query(value = "SELECT o FROM Order o WHERE o.user.username = ?1", nativeQuery = false)
+	Page<Order> getListOrderByUsername(String username, Pageable Page);
 }
