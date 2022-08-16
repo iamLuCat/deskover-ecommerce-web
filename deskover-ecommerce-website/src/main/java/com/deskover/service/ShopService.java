@@ -7,6 +7,7 @@ import com.deskover.model.entity.dto.ecommerce.CartLocal;
 import com.deskover.model.entity.dto.ecommerce.Filter;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
+import com.deskover.model.entity.dto.ecommerce.OrderDTO;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
 import com.deskover.model.entity.dto.ecommerce.Reviewer;
 import com.deskover.model.entity.dto.ecommerce.Shop;
@@ -29,4 +30,6 @@ public interface ShopService {
 	public List<CartDTO> deleteCart(String slug, String username);
 	public void deleteAllCart(String username);
 	List<CartDTO> updateCart(CartLocal item, String username);
+	
+	List<OrderDTO> getOrder(String username, Integer page, String filter);
 }

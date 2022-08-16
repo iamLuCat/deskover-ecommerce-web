@@ -17,7 +17,7 @@ public class Shop {
 	public Shop(Page<Product> items) {
 		this.totalItems = items.getTotalElements();
 		this.totalPage = items.getTotalPages() ;
-		this.items = items.toList().stream().map(product -> new Item(product)).collect(Collectors.toList());
+		this.items = items.toList().stream().filter(product -> product.getActived() == true).map(product -> new Item(product)).collect(Collectors.toList());
 	}
 	
 	private long totalPage;

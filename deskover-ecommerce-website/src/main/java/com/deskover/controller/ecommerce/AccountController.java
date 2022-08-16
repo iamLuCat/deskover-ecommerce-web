@@ -23,6 +23,11 @@ public class AccountController {
 		return "account_wishlist";
 	}
 	
+	@GetMapping("password")
+	public String changePassword() {
+		return "account_password";
+	}
+	
 	
 	
 }
