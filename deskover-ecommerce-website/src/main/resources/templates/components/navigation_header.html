@@ -13,7 +13,7 @@
                                 <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" th:href="@{/account/wishlist}">
                                                         <i class="ci-heart text-muted me-2"></i>Yêu thích (3)</a></li>
-                                        <li><a class="dropdown-item" th:href="@{/tracking}" sec:authorize="isAnonymous()">
+                                        <li><a class="dropdown-item" th:href="@{/find}" sec:authorize="isAnonymous()">
                                                         <i class="ci-truck text-muted me-2" ></i>Tra cứu đơn hàng </a>
                                         </li>
                                         <li><a class="dropdown-item" th:href="@{/tracking}"  sec:authorize="isAuthenticated()">
@@ -27,7 +27,7 @@
                                 <a class="topbar-link d-none d-md-inline-block" th:href="@{/account/wishlist}" sec:authorize="isAuthenticated()">
                                         <i class="ci-heart mt-n1"></i>Yêu thích ({{wishlist.list.length}})
                                 </a>
-                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/tracking}" sec:authorize="isAnonymous()">
+                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/find}" sec:authorize="isAnonymous()">
                                         <i class="ci-truck mt-n1"></i>Tra cứu đơn hàng
                                 </a>
                                 <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" sec:authorize="isAuthenticated()" th:href="@{/user/order}">

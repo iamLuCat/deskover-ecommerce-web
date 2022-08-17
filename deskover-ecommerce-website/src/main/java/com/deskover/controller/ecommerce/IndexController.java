@@ -66,7 +66,7 @@ public class IndexController {
 	
 	@GetMapping("/order")
 	public String order() {
-		return "order";
+		return "ordered";
 	}
 	
 	@GetMapping("/ok")
@@ -79,5 +79,5 @@ public class IndexController {
 		return "checkout";
 	}
 	
-	
+
 }

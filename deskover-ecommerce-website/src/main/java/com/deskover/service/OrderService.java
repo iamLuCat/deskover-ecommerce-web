@@ -45,9 +45,13 @@ public interface OrderService {
 	Boolean isUniqueOrderNumber(String orderNumber);
 
 	void cancelOrderByUserAndOrderCode(String orderCode,String statusOrder);
+	void cancelOrderByUserAndOrderCode1(String orderCode,String statusOrder);
 
     Long totalOrders(String orderStatusCode);
     List<Object[]> getTotalByCategory(String month, String year);
 	String getTotalPricePerYear(String month, String year);
 	Double totalRevenue();
+	
+	List<Order> getByPhone(String phone);
+	
 }

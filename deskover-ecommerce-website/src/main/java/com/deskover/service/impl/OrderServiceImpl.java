@@ -567,6 +567,39 @@ public class OrderServiceImpl implements OrderService {
 			
 		}
 	}
+	
+	@Override
+	@Transactional
+	public void cancelOrderByUserAndOrderCode1(String orderCode,String statusOrder) {
+		Users user  = userRepo.getById((long)1);
+		Order order = repo.findByOrderCodeAndUserUsername(orderCode, user.getUsername());
+
+		if(order == null) {
+			throw new IllegalArgumentException("Không tìm thấy đơn hàng" + "hi");
+		}
+
+		if(statusOrder.equals("C-HUY")) {
+			order.setOrderStatus(orderStatusRepo.findByCode("C-HUY"));
+			repo.saveAndFlush(order);
+			
+			Notification notify = new Notification();
+			notify.setTitle("Trạng thái đơn hàng "+ order.getOrderCode()+": Chờ huỷ");
+			notify.setUser(order.getUser());
+			notify.setOrderCode(order.getOrderCode());
+			notify.setIsWatched(Boolean.FALSE);
+			notificationService.sendNotify(notify);
+		}else if(statusOrder.equals("CANCEL-C-HUY")) {
+			order.setOrderStatus(orderStatusRepo.findByCode("C-XN"));
+				Notification notify = new Notification();
+				notify.setTitle("Trạng thái đơn hàng "+ order.getOrderCode()+": Chờ xác nhận");
+				notify.setUser(order.getUser());
+				notify.setOrderCode(order.getOrderCode());
+				notify.setIsWatched(Boolean.FALSE);
+				notificationService.sendNotify(notify);
+			repo.saveAndFlush(order);
+			
+		}
+	}
 
 	@Override
 	public Long totalOrders(String orderStatusCode) {
@@ -588,5 +621,22 @@ public class OrderServiceImpl implements OrderService {
 	public Double totalRevenue() {
 		return orderItemRepo.getTotalRevenue();
 	}
+
+	@Autowired
+	private OrderRepository orderRepo;
+	
+
+	
+	@Override
+	public List<Order> getByPhone(String phone){
+		List<OrderDetail> orderDetail = orderDetailRepo.getByPhone(phone);
+
+		List<Order> orders = new ArrayList<Order>();
+		for (OrderDetail od : orderDetail) {
+			orders.add(od.getOrder());
+		}
+		return orders;
+	}
+
 
 }

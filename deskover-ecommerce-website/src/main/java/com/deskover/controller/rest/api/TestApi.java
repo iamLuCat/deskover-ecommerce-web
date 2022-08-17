@@ -1,27 +1,21 @@
 package com.deskover.controller.rest.api;
 
-import com.deskover.model.entity.database.Order;
+
 import com.deskover.model.entity.dto.security.payload.MessageResponse;
 import com.deskover.model.entity.other.MailInfo;
 import com.deskover.other.util.MailUtil;
-import com.deskover.service.SessionService;
-import com.deskover.service.impl.VerifyServiceImpl;
+import com.deskover.service.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
 import javax.mail.MessagingException;
-import javax.validation.Valid;
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -29,6 +23,8 @@ import javax.validation.Valid;
 public class TestApi {
 	@Autowired
     private MailUtil mailUtil;
+	@Autowired
+	private OrderService orderService;
 
     @GetMapping("/email")
     public ResponseEntity<?> test(@RequestParam String to) throws IllegalStateException, IOException {
@@ -48,4 +44,21 @@ public class TestApi {
         }
     }
    
+	@PostMapping("/order/cancel/{orderCode}")
+	public ResponseEntity<?> doPostCancelOrder1(@PathVariable("orderCode") String orderCode, 
+			@RequestParam("statusOrder") String statusOrder){
+		try {
+			if(statusOrder.equals("C-HUY")){
+				 orderService.cancelOrderByUserAndOrderCode1(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Đơn hàng của bạn trạng thái chờ huỷ"));
+			} 
+			if (statusOrder.equals("CANCEL-C-HUY")) {
+				orderService.cancelOrderByUserAndOrderCode(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Cập nhập đơn hàng thành công"));
+			}
+			return ResponseEntity.ok(new MessageResponse("Đơn hàng sai trạng thái"));		
+		} catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+		}
+	}
 }

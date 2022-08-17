@@ -351,6 +351,8 @@ angular
         }
       },
     }
+    
+    let host = "http://localhost:8080";
     $http({
       method: "POST",
       url: "checkout",
@@ -358,7 +360,10 @@ angular
       headers: {
         'consumes': 'application/json'
       }
-    }).then(function successCallback(response) { });    
+    }).then(function successCallback(response) {
+
+    }, function errorCallback(response) { });
+    
     $http({
       method: "POST",
       url: "amounts",
@@ -366,18 +371,16 @@ angular
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(function successCallback(response) { });
-    $http.get(`http://localhost:8080/v0/client/province`).then(resp => {
+    }).then(function (response) {}, 
+    function (response) { });
+    
+    $http.get(`${host}/v0/client/province`).then(resp => {
         $scope.province = resp.data;
-    })
-    $http.get(`http://localhost:8080/v0/client/province`).then(resp => {
-      $scope.province = resp.data;
-    })
+    }).catch(error => { })
     $scope.form = {
         "value": 3000000,
         "deliver_option" : "xteam"
 	}
-
 	$scope.checkbox = function(){
 		if ($scope.check == true)
 			$scope.ship = { "fee": { "fee": 0 }}
@@ -396,32 +399,41 @@ angular
         if($scope.district[0].provinceId == 1){
 			$scope.checked = false;
 		}else
-
 			$scope.checked = true;
       })
     }
 	$scope.change2 = function(){
 	    var item = angular.copy($scope.form);
-	    var url = `http://localhost:8080/v1/api/ghtk/fee`;
+	    var url = `${host}/v1/api/ghtk/fee`;
 	    var newTemp = $filter("filter")($scope.province, {name: $scope.form.province});
     	var pid =  newTemp[0].id;
     	newTemp = $filter("filter")($scope.district, {name: $scope.form.district});
     	var did =  newTemp[0].id;
 	    $http.post(url, item).then(resp => {
-			$localStorage.ship = resp.data;
+		    $localStorage.ship = resp.data;
 			$scope.ship = resp.data;
+	    }).catch(error => {
+	        console.log("Error",error)
 	    });
-	    $http.get(`http://localhost:8080/v0/client/ward?provinceId=${pid}&districtId=${did}`).then(resp => {
+	    $http.get(`${host}/v0/client/ward?provinceId=${pid}&districtId=${did}`).then(resp => {
         	$scope.ward = resp.data;
-	    })
+	    }).catch(error => { })
     }
+   
+
     $scope.address = function(){
     	address ="Tỉnh: "+ $scope.form.province+", Xã: " + $scope.form.district +", Đường: "+$scope.form.ward + ", Số nhà: " + $scope.number + " , Việt Nam";
     	$scope.address.address = address;
     }
+    $scope.cancel = function(code){
+		var url = `/api/test/order/cancel/${code}?statusOrder=C-HUY`;
+		var item = [];
 
-
-		
+		$http.post(url,item).then( resp => {
+			$window.location.reload();
+			$scope.msg = resp.data; 
+		}).catch(error => { })
+	}
   }).controller('shopCtrl', function ($scope, $http, $sessionStorage) {
     $scope.shop = {
       item: [],

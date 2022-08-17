@@ -120,14 +120,14 @@ public class UserServiceImpl implements UserService {
 			Users createUser = new Users();
 			createUser.setUsername(userRequest.getUsername());
 			createUser.setFullname(userRequest.getFullname());
-			createUser.setEmail(userRequest.getEmail());
+			createUser.setEmail(userRequest.getUsername());
 			createUser.setPhone(Integer.toString(number.gernerateNumber()) );
 			createUser.setAvatar(null);
 			createUser.setLastLogin(null);
 			createUser.setActived(Boolean.FALSE);
 			createUser.setVerify(Boolean.FALSE);
 			createUser.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-			createUser.setModifiedBy("haipv");
+			createUser.setModifiedBy(null);
 			Users createdUser = repo.save(createUser);
 			userPasswordService.create(createdUser, userRequest.getConfirmPassword());
 			return createdUser;

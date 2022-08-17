@@ -36,7 +36,6 @@ public class CheckoutController {
 	}
 	
 	@PostMapping("/ok")
-
 	public String checkoutOk(Model model ,@ModelAttribute("addressForm") @Valid UserAddress entity, Errors errors, @ModelAttribute("Total") String total ) {
 		checkoutService.saveOrder(entity,total);
 		return "ok";
