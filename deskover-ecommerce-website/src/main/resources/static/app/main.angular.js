@@ -61,20 +61,11 @@ angular
     $scope.wishlist.init();
 
     $scope.amounts = [];
-
-    $localStorage.items.forEach(item => {
-      $scope.amounts.push(item.amount);
-    });
-    
-    $scope.ship = $localStorage.ship;
-    
-
     if ($localStorage.items) {
       $localStorage.items.forEach(item => {
         $scope.amounts.push(item.amount);
       });
     }
-
     $scope.search = {
       select: new URL(location.href).searchParams.get('c'),
       init() {
@@ -220,7 +211,7 @@ angular
       addP() {
         var item = $localStorage.items.find(i => i.slug == $scope.cart.itemPage.slug);
         if (item) {
-          if (item.amount + 1 <= 5){ 
+          if (item.amount + 1 <= 5) {
             item.amount += 1;
             swal.fire({
               position: 'top-end',
@@ -289,7 +280,13 @@ angular
         }
         this.addL(itemInput);
       },
-      addL(i){
+      addK(i) {
+        var item = $localStorage.items.find(item => item.slug == i.slug);
+        console.log(item)
+
+        this.addL(item);
+      },
+      addL(i) {
         $http.post('/api/v1/ecommerce/user/cart/update', {
           slug: i.slug,
           quantity: i.amount
@@ -362,8 +359,14 @@ angular
       }
     }).then(function successCallback(response) {
 
+
     }, function errorCallback(response) { });
     
+
+    }, function errorCallback(response) {
+
+    });
+
     $http({
       method: "POST",
       url: "amounts",
@@ -371,6 +374,7 @@ angular
       headers: {
         'Content-Type': 'application/json'
       }
+
     }).then(function (response) {}, 
     function (response) { });
     
@@ -424,7 +428,13 @@ angular
     $scope.address = function(){
     	address ="Tỉnh: "+ $scope.form.province+", Xã: " + $scope.form.district +", Đường: "+$scope.form.ward + ", Số nhà: " + $scope.number + " , Việt Nam";
     	$scope.address.address = address;
-    }
+
+    }.then(function (response) {
+    }, function (response) { });
+    
+   
+  
+
     $scope.cancel = function(code){
 		var url = `/api/test/order/cancel/${code}?statusOrder=C-HUY`;
 		var item = [];
@@ -434,6 +444,108 @@ angular
 			$scope.msg = resp.data; 
 		}).catch(error => { })
 	}
+	
+  }).controller('accCtrl', function ($scope, $http) {
+    $scope.account = {
+      detail: [],
+      loadDatabase() {
+        $http({
+          method: 'GET',
+          url: '/api/v1/ecommerce/user/account/info'
+        }).then(function successCallback(response) {
+          $scope.account.detail = response.data;
+          $scope.account.detail.avatar = response.data.avatar + '?t=' + new Date().getTime();
+          $scope.profile.form.fullname = response.data.fullname;
+          $scope.profile.form.phone = response.data.phone;
+          $scope.profile.avatar = '/img/users/' + response.data.avatar;
+          console.log(response.data.fullname)
+        }, function errorCallback(response) {
+          console.error(response.statusText);
+        });
+      }
+    }
+
+    $scope.password = {
+      submit(f) {
+        if (f.$invalid) return;
+        $http.post('/api/v1/ecommerce/user/account/password', $scope.password.form)
+          .then(function successCallback(resp) {
+            console.log(resp.data)
+            $scope.password.message = resp.data.message;
+            $scope.password.error = '';
+          }, function errorCallback(resp) {
+            console.error(resp.data)
+            $scope.password.message = '';
+            $scope.password.error = resp.data.message;
+          });
+        $scope.password.form = {
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: '',
+        }
+      },
+      message: '',
+      error: ''
+    }
+
+    $scope.profile = {
+      avatar: '',
+      form: {
+        fullname: '',
+        phone: ''
+      },
+      async submit(f) {
+        file = document.querySelector('#myFileInput');
+        console.log(file.files[0])
+        if (f.$invalid) return;
+        var data = new FormData();
+        var requestData = {
+          fullname: $scope.profile.form.fullname,
+          phone: $scope.profile.form.phone
+        }
+        data.append('form', new Blob([JSON.stringify(requestData)], {
+            type: "application/json"
+        }));
+        var config = {
+          transformRequest: angular.identity,
+          transformResponse: angular.identity,
+          headers: {
+              'Content-Type': undefined
+          }
+        }
+        await $http.post('/api/v1/ecommerce/user/account/profile', data, config)
+          .then(function successCallback(resp) {
+            console.log(resp)
+            $scope.profile.message = 'Cập nhật thông tin thành công';
+            $scope.profile.error = '';
+          }, function errorCallback(resp) {
+            console.error(resp)
+            $scope.profile.message = '';
+            $scope.profile.error = 'Cập nhật thông tin không thành công';
+          });
+
+        if(file.files.length > 0) {
+          var image = new FormData();
+          image.append('file', file.files[0]);
+          await $http.post('/api/v1/ecommerce/user/account/image', image, config)
+          .then(function successCallback(resp) {
+            console.log(resp)
+            $scope.profile.message = 'Cập nhật thông tin thành công';
+            $scope.profile.error = '';
+          }, function errorCallback(resp) {
+            console.error(resp)
+            $scope.profile.message = '';
+            $scope.profile.error = 'Cập nhật thông tin không thành công';
+          });
+        }
+        $scope.account.loadDatabase();
+
+        
+      },
+      message: '',
+      error: ''
+    }
+
   }).controller('shopCtrl', function ($scope, $http, $sessionStorage) {
     $scope.shop = {
       item: [],
@@ -666,6 +778,73 @@ angular
         }, 500)
 
       }
+    };
+  }).directive("ngFileSelect", function (fileReader, $timeout) {
+    return {
+      scope: {
+        ngModel: '='
+      },
+      link: function ($scope, el) {
+        function getFile(file) {
+          fileReader.readAsDataUrl(file, $scope)
+            .then(function (result) {
+              $timeout(function () {
+                $scope.ngModel = result;
+              });
+            });
+        }
+
+        el.bind("change", function (e) {
+          var file = (e.srcElement || e.target).files[0];
+          getFile(file);
+        });
+      }
+    };
+  }).factory("fileReader", function ($q, $log) {
+    var onLoad = function (reader, deferred, scope) {
+      return function () {
+        scope.$apply(function () {
+          deferred.resolve(reader.result);
+        });
+      };
+    };
+
+    var onError = function (reader, deferred, scope) {
+      return function () {
+        scope.$apply(function () {
+          deferred.reject(reader.result);
+        });
+      };
+    };
+
+    var onProgress = function (reader, scope) {
+      return function (event) {
+        scope.$broadcast("fileProgress", {
+          total: event.total,
+          loaded: event.loaded
+        });
+      };
+    };
+
+    var getReader = function (deferred, scope) {
+      var reader = new FileReader();
+      reader.onload = onLoad(reader, deferred, scope);
+      reader.onerror = onError(reader, deferred, scope);
+      reader.onprogress = onProgress(reader, scope);
+      return reader;
+    };
+
+    var readAsDataURL = function (file, scope) {
+      var deferred = $q.defer();
+
+      var reader = getReader(deferred, scope);
+      reader.readAsDataURL(file);
+
+      return deferred.promise;
+    };
+
+    return {
+      readAsDataUrl: readAsDataURL
     };
   }).filter('trustHtml', function ($sce) { return $sce.trustAsHtml; });
 

@@ -27,6 +27,8 @@ import com.deskover.model.entity.database.repository.datatable.UserRepoForDatata
 import com.deskover.model.entity.dto.ChangePasswordDto;
 import com.deskover.model.entity.dto.UploadFile;
 import com.deskover.model.entity.dto.UserCreateDto;
+import com.deskover.model.entity.dto.ecommerce.AccountDTO;
+import com.deskover.model.entity.dto.ecommerce.AccountFormDTO;
 import com.deskover.other.constant.PathConstant;
 import com.deskover.other.util.OrderNumberUtil;
 import com.deskover.service.UploadFileService;
@@ -194,17 +196,33 @@ public class UserServiceImpl implements UserService {
 			password = userPasswordService.getPasswordByUsername(users.getUsername());
 		}
 		
-		UserDetails userDetail = new User(
-				users.getUsername(),
-				password.getPassword(),
-				users.getActived(),
-                true,
-                true,
-                true,
+		UserDetails userDetail = new User(users.getUsername(),password.getPassword(),users.getActived(),true,true,true,
                 List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER")));
 		Authentication auth = new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		
+	}
+	
+	@Override
+	public AccountDTO getAccountInfo(String username) {
+		Users user = repo.findByUsername(username);
+		return new AccountDTO(user);
+	}
+
+	@Override
+	public void updateProfile(AccountFormDTO form, String username) {
+		Users user = repo.findByUsername(username);
+		user.setFullname(form.getFullname());
+		user.setPhone(form.getPhone());
+		repo.save(user);
+	}
+
+	@Override
+	public void updateAvarta(MultipartFile file, String username) {
+		UploadFile uploadFile = uploadFileService.uploadFileToFolder(file, PathConstant.IMAGE_USER);
+		Users user = repo.findByUsername(username);
+		user.setAvatar(uploadFile.getFilename());
+		repo.save(user);
 	}
 
 }
