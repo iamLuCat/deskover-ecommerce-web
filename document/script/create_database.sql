@@ -3301,134 +3301,134 @@ values
     NULL, 1
   ), 
   (
-    16, 'HD-71533818', NULL, 5, 2, 1, 1, 1, 
+    16, 'HD-71533818', NULL, 5, 2, 1, 1, 6, 
     'trần anh đạt', NULL, '', NULL, 
-    '2022-08-08 06:25:45', NULL, 50980000, 
+    '2021-08-08 06:25:45', NULL, 50980000, 
     NULL, 0, NULL, NULL, 2
   ), 
   (
-    17, 'HD-37208349', NULL, 3, 1, 1, 1, 1, 
+    17, 'HD-37208349', NULL, 3, 1, 1, 1, 6, 
     'Tấn Tài', 'hungnq@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:31:44', 
+    'giao thu 2', NULL, '2021-08-08 06:31:44', 
     NULL, 12490000, NULL, 40000, NULL, 
     NULL, 1
   ), 
   (
-    18, 'HD-51070929', NULL, 3, 1, 1, 1, 1, 
+    18, 'HD-51070929', NULL, 3, 1, 1, 1, 6, 
     'Thu Hằng', 'thuhanggg@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:34:38', 
+    'giao thu 2', NULL, '2021-08-08 06:34:38', 
     NULL, 33990000, NULL, 224950, NULL, 
     NULL, 1
   ), 
   (
     19, 'HD-94371462', 'HD-94371462.png', 
-    4, 2, 1, 1, 2, 'Nguyễn Quang Vinh', 
-    'vinhnq@gmail.com', '', NULL, '2022-08-08 06:35:00', 
+    4, 2, 1, 1, 6, 'Nguyễn Quang Vinh', 
+    'vinhnq@gmail.com', '', NULL, '2021-08-08 06:35:00', 
     'minhnh', 54480000, NULL, 0, NULL, 
     NULL, 2
   ), 
   (
-    20, 'HD-92562610', NULL, 3, 1, 1, 1, 1, 
+    20, 'HD-92562610', NULL, 3, 1, 1, 1, 6, 
     'Nguyễn Văn B', 'vanb@gmail.co.com', 
-    'giao thu 2', NULL, '2022-08-08 06:36:17', 
+    'giao thu 2', NULL, '2021-08-08 06:36:17', 
     NULL, 14490000, NULL, 117450, NULL, 
     NULL, 1
   ), 
   (
-    21, 'HD-26836246', NULL, 4, 1, 1, 1, 1, 
+    21, 'HD-26836246', NULL, 4, 1, 1, 1, 6, 
     'Nguyễn Quang Hùng', 'hungnq@gmail.com', 
-    '', NULL, '2022-08-08 06:37:36', 
+    '', NULL, '2021-08-08 06:37:36', 
     NULL, 41990000, NULL, 249950, NULL, 
     NULL, 1
   ), 
   (
-    25, 'HD-37154178', NULL, 7, 1, 1, 1, 1, 
+    25, 'HD-37154178', NULL, 7, 1, 1, 1, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:40:26', 
+    'giao thu 2', NULL, '2021-08-08 06:40:26', 
     NULL, 29990000, NULL, 184950, NULL, 
     NULL, 1
   ), 
   (
-    26, 'HD-14280547', NULL, 7, 1, 1, 1, 1, 
+    26, 'HD-14280547', NULL, 7, 1, 1, 1, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:40:40', 
+    'giao thu 2', NULL, '2020-08-08 06:40:40', 
     NULL, 12490000, NULL, 97450, NULL, 
     NULL, 1
   ), 
   (
-    27, 'HD-62169753', NULL, 6, 2, 1, 1, 1, 
+    27, 'HD-62169753', NULL, 6, 2, 1, 1, 6, 
     'Nguyễn Ngọc Thiên Hồng', 
-    'hongnnt@gmail.com', '', NULL, '2022-08-08 06:40:59', 
+    'hongnnt@gmail.com', '', NULL, '2020-08-08 06:40:59', 
     NULL, 38990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    28, 'HD-40867355', NULL, 6, 1, 1, 1, 1, 
+    28, 'HD-40867355', NULL, 6, 1, 1, 1, 6, 
     'Nguyễn Ngọc Thiên Hồng', 
-    'hongnnt@gmail.com', '', NULL, '2022-08-08 06:41:18', 
+    'hongnnt@gmail.com', '', NULL, '2020-08-08 06:41:18', 
     NULL, 15990000, NULL, 109950, NULL, 
     NULL, 1
   ), 
   (
-    29, 'HD-95581896', NULL, 7, 2, 1, 1, 1, 
+    29, 'HD-95581896', NULL, 7, 2, 1, 1, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:42:00', 
+    'giao thu 2', NULL, '2020-08-08 06:42:00', 
     NULL, 29990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    30, 'HD-73766888', NULL, 7, 2, 1, 1, 1, 
+    30, 'HD-73766888', NULL, 7, 2, 1, 1, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:42:56', 
+    'giao thu 2', NULL, '2020-08-08 06:42:56', 
     NULL, 33990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    31, 'HD-23126624', NULL, 7, 1, 1, 1, 1, 
+    31, 'HD-23126624', NULL, 7, 1, 1, 1, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:43:53', 
+    'giao thu 2', NULL, '2020-08-08 06:43:53', 
     NULL, 20990000, NULL, 159950, NULL, 
     NULL, 1
   ), 
   (
-    32, 'HD-16865661', NULL, 6, 2, 1, 1, 1, 
+    32, 'HD-16865661', NULL, 6, 2, 1, 1, 6, 
     'Nguyễn Ngọc Thiên Hồng', 
-    'hongnnt@gmail.com', '', NULL, '2022-08-08 06:44:19', 
+    'hongnnt@gmail.com', '', NULL, '2020-08-08 06:44:19', 
     NULL, 20990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    33, 'HD-12310126', NULL, 7, 2, 1, 1, 1, 
+    33, 'HD-12310126', NULL, 7, 2, 1, 1, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:44:38', 
+    'giao thu 2', NULL, '2020-08-08 06:44:38', 
     NULL, 29990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    34, 'HD-69444323', NULL, 7, 1, 1, 1, 1, 
+    34, 'HD-69444323', NULL, 7, 1, 1, 1, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:46:13', 
+    'giao thu 2', NULL, '2020-08-08 06:46:13', 
     NULL, 29990000, NULL, 55000, NULL, 
     NULL, 1
   ), 
   (
-    35, 'HD-12697433', NULL, 7, 2, 1, 1, 1, 
+    35, 'HD-12697433', NULL, 7, 2, 1, 1, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    '', NULL, '2022-08-08 06:47:08', 
+    '', NULL, '2020-08-08 06:47:08', 
     NULL, 38480000, NULL, 0, NULL, NULL, 
     2
   ), 
   (
-    36, 'HD-76426419', NULL, 7, 2, 1, 1, 1, 
+    36, 'HD-76426419', NULL, 7, 2, 1, 1, 6, 
     'Ngọc Bùi', 'gmail@gmail.com', 
-    '', NULL, '2022-08-08 06:48:16', 
+    '', NULL, '2020-08-08 06:48:16', 
     NULL, 20990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    37, 'HD-92999876', NULL, 8, 1, 1, 1, 1, 
+    37, 'HD-92999876', NULL, 8, 1, 1, 1, 6, 
     'Ngô trúc nhi', 'nhint@gmail.com', 
-    '', NULL, '2022-08-08 06:50:21', 
+    '', NULL, '2020-08-08 06:50:21', 
     NULL, 34990000, NULL, 196950, NULL, 
     NULL, 1
   ), 
