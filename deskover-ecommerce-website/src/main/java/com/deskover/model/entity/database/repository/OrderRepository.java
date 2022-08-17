@@ -66,9 +66,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	@Query("select count(o) from Order o where o.orderStatus.code = ?1")
 	Long countByOrderStatusCode(String statusCode);
 	
-	@Query(value = "SELECT * FROM orders ORDER BY ID DESC LIMIT 1", nativeQuery = true)
+	@Query(value = "select * from orders order by id desc limit 1", nativeQuery = true)
 	Order getLastOrder();
 	
+
+	@Query(value = "select * from orders where email = ?1", nativeQuery = true)
+	List<Order> getByEmail(String email);
+
 	@Query(value = "SELECT o FROM Order o WHERE o.user.username = ?1", nativeQuery = false)
 	Page<Order> getListOrderByUsername(String username, Pageable Page);
+
 }

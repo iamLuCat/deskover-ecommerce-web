@@ -55,7 +55,6 @@ public class RegisterController {
 		return "/login";
 	}
 	
-
 	@GetMapping("/regitrationConfirm")
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
 		Locale locale = request.getLocale();

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
+        ~{::title},
+        ~{::modal_out},
+        ~{::modal_in},
+        ~{::#handheld},
+        ~{::#content}
+    )}">
+
+<head>
+  <title>Deskover: Xác nhận tài khoản</title>
+</head>
+<body>
+  <div id="modal_out"></div>
+  <div id="modal_in"></div>
+  <div id="content"> <br>
+    <form action="/orders" method="post">
+	<h1 class="text-center">Mã xác nhận đã được gửi đến điện thoại của bạn</h1>
+	<div class="container">
+	  <div class="col-lg-8 mx-auto text-center">
+	    <input th:object="${otp}" name="otp" type="text" class="form-control" placeholder="Nhập mã xác thực gồm 6 chữ số"> <br>
+	    <button class="btn btn-info" >Tiếp tục</button> <br>
+	  </div> 
+    </div><br>
+    </form> 
+    <h4 th:text="${msg}" class="text-center text-danger"></h4> 
+  </div>
+</body>
+</html>
+
+     
+
+
+    
