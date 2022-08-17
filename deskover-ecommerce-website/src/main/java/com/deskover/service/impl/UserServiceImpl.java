@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
 			Users createUser = new Users();
 			createUser.setUsername(userRequest.getUsername());
 			createUser.setFullname(userRequest.getFullname());
-			createUser.setEmail(userRequest.getUsername());
+			createUser.setEmail(userRequest.getEmail());
 			createUser.setPhone(Integer.toString(number.gernerateNumber()) );
 			createUser.setAvatar(null);
 			createUser.setLastLogin(null);
