@@ -6,16 +6,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +30,7 @@ import com.deskover.model.entity.dto.ecommerce.CartLocal;
 import com.deskover.model.entity.dto.ecommerce.CategoryDTO;
 import com.deskover.model.entity.dto.ecommerce.Filter;
 import com.deskover.model.entity.dto.ecommerce.FormReview;
-import com.deskover.model.entity.dto.ecommerce.OrderDTO;
+import com.deskover.model.entity.dto.ecommerce.OrderPage;
 import com.deskover.model.entity.dto.ecommerce.PasswordDTO;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
 import com.deskover.model.entity.dto.ecommerce.Reviewer;
@@ -197,16 +194,18 @@ public class EcommerceRestController {
 		try {
 			return userService.getAccountInfo(principal.getName());
 		} catch (Exception e) {
-			return null;
+			throw new ResponseStatusException(
+			           HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	@GetMapping("user/account/order")
-	public List<OrderDTO> getOrder(Principal principal){
+	public OrderPage getOrder(Principal principal, @RequestParam Integer c, @RequestParam String f){
 		try {
-			return shopService.getOrder(principal.getName(), 1, null);
+			return shopService.getOrder(principal.getName(), c, f);
 		} catch (Exception e) {
-			return null;
+			throw new ResponseStatusException(
+			           HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -239,7 +238,7 @@ public class EcommerceRestController {
 			return ResponseEntity.ok().body(new MessageResponse("")) ;
 		}catch (Exception e) {
 			throw new ResponseStatusException(
-			           HttpStatus.I_AM_A_TEAPOT);
+			           HttpStatus.BAD_REQUEST);
 		}
 	}
 }
