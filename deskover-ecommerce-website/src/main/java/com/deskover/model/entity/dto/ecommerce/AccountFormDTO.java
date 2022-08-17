@@ -1,7 +1,5 @@
 package com.deskover.model.entity.dto.ecommerce;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

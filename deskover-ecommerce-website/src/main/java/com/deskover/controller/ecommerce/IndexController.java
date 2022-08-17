@@ -1,24 +1,14 @@
 package com.deskover.controller.ecommerce;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.deskover.model.entity.database.UserAddress;
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
@@ -59,14 +49,14 @@ public class IndexController {
 		return "cart";
 	}
 	
+	@GetMapping("/about_us")
+	public String aboutUs() {
+		return "about_us";
+	}
+	
 	@GetMapping("/shop")
 	public String shop(HttpServletRequest request) {
 		return "shop";
-	}
-	
-	@GetMapping("/order")
-	public String order() {
-		return "ordered";
 	}
 	
 	@GetMapping("/ok")
@@ -79,5 +69,5 @@ public class IndexController {
 		return "checkout";
 	}
 	
-
+	
 }
