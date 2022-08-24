@@ -1,0 +1,24 @@
+<div class="handheld-toolbar" th:fragment="handheld">
+  <div class="d-table table-layout-fixed w-100">
+    <a class="d-table-cell handheld-toolbar-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#shop-sidebar">
+      <span class="handheld-toolbar-icon"><i class="ci-filter-alt"></i></span>
+      <span class="handheld-toolbar-label">Bộ lọc</span>
+    </a>
+    <a class="d-table-cell handheld-toolbar-item" href="account/wishlist" sec:authorize="isAuthenticated()">
+      <span class="handheld-toolbar-icon"><i class="ci-heart"></i>
+      </span><span class="handheld-toolbar-label">Yêu thích</span>
+    </a>
+    <a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)">
+      <span class="handheld-toolbar-icon"><i class="ci-menu"></i></span>
+      <span class="handheld-toolbar-label">Menu</span>
+    </a>
+    <a class="d-table-cell handheld-toolbar-item" href="/cart">
+      <span class="handheld-toolbar-icon">
+        <i class="ci-cart"></i>
+        <span class="badge bg-primary rounded-pill ms-1">{{cart.count}}
+        </span>
+      </span>
+      <span class="handheld-toolbar-label">{{cart.total|number}} VND</span>
+    </a>
+  </div>
+</div>

@@ -99,6 +99,11 @@
         </div>
     </div>
 
+    <div id="handheld" th:remove="tag">
+        <!-- Toolbar for handheld devices (Default)-->
+        <div th:replace="components/handhelds/normal.html :: handheld"></div>
+    </div>
+
 </body>
 
 </html>

@@ -12,7 +12,7 @@
                         <div class="topbar-text dropdown d-md-none ms-auto"><a class="topbar-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Mở rộng</a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" th:href="@{/account/wishlist}">
-                                                        <i class="ci-heart text-muted me-2"></i>Yêu thích (3)</a></li>
+                                                        <i class="ci-heart text-muted me-2"></i>Yêu thích ({{wishlist.list.length}})</a></li>
                                         <li><a class="dropdown-item" th:href="@{/account/order}"  sec:authorize="isAuthenticated()">
                                                         <i class="ci-bag text-muted me-2"></i>Danh sách đơn hàng</a>
                                         </li>
@@ -112,9 +112,11 @@
                         <div class="container">
                                 <div class="collapse navbar-collapse" id="navbarCollapse">
                                         <!-- Search-->
-                                        <div class="input-group d-lg-none my-3"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                                                <input class="form-control rounded-start" type="text" placeholder="Search for products">
-                                        </div>
+                                        <form class="input-group d-lg-none my-3"action="/shop" ng-init="search.init()" id="searchForm">
+                                                <i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                                <input class="form-control rounded-start" type="text" name="k" th:value="${param.k}" placeholder="Bạn muốn mua gì hôm nay ?">
+                                                <input type="submit" hidden />
+                                        </form>
                                         <!-- Departments menu-->
                                         <ul class="navbar-nav navbar-mega-nav pe-lg-2 me-lg-2">
                                                 <li class="nav-item dropdown">
