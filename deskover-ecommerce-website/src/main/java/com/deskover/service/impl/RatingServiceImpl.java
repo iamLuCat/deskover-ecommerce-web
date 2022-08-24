@@ -26,6 +26,7 @@ public class RatingServiceImpl implements RatingService {
 		rating.setProduct(productRepo.findBySlug(formReview.getProduct()));
 		rating.setPoint(formReview.getPoint());
 		rating.setFullname(formReview.getName());
+		rating.setEmail(formReview.getEmail());
 		rating.setContent(formReview.getContent());
 		rating.setActived(true);
 		rating.setModifiedAt(new Timestamp(System.currentTimeMillis()));

@@ -26,7 +26,6 @@ import com.deskover.service.OrderService;
 @RestController("OrderApiForClient")
 @RequestMapping("v1/api/customer")
 public class OrderApi {
-	
 	@Autowired
 	private OrderService orderService;
 	
@@ -76,6 +75,24 @@ public class OrderApi {
 	
 	@PostMapping("/order/cancel/{orderCode}")
 	public ResponseEntity<?> doPostCancelOrder(@PathVariable("orderCode") String orderCode, 
+			@RequestParam("statusOrder") String statusOrder){
+		try {
+			if(statusOrder.equals("C-HUY")){
+				 orderService.cancelOrderByUserAndOrderCode(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Đơn hàng của bạn trạng thái chờ huỷ"));
+			} 
+			if (statusOrder.equals("CANCEL-C-HUY")) {
+				orderService.cancelOrderByUserAndOrderCode(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Cập nhập đơn hàng thành công"));
+			}
+			return ResponseEntity.ok(new MessageResponse("Đơn hàng sai trạng thái"));		
+		} catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+		}
+	}
+	
+	@PostMapping("/order/cancel1/{orderCode}")
+	public ResponseEntity<?> doPostCancelOrder1(@PathVariable("orderCode") String orderCode, 
 			@RequestParam("statusOrder") String statusOrder){
 		try {
 			if(statusOrder.equals("C-HUY")){

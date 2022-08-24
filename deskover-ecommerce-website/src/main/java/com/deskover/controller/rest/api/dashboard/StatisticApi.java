@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("v1/api/admin/dashboard")
@@ -40,8 +42,13 @@ public class StatisticApi {
 	}
 
 	@GetMapping("/top-product-sold")
-	public ResponseEntity<?> getTop5ProductSold() {
-		return ResponseEntity.ok(statisticService.getTop5ProductSold());
+	public ResponseEntity<?> getTopProductSold(@RequestParam Optional<Integer> limit) {
+		return ResponseEntity.ok(statisticService.getTopProductSold(limit.orElse(5)));
+	}
+
+	@GetMapping("/account-report")
+	public ResponseEntity<?> getTotalAccount() {
+		return ResponseEntity.ok(statisticService.getTotalAccountByRole());
 	}
 
 }

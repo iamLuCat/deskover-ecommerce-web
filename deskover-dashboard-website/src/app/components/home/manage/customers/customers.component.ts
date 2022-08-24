@@ -52,6 +52,7 @@ export class CustomersComponent implements OnInit {
       columns: [
         {data: 'avatar', orderable: false, searchable: false},
         {data: 'fullname'},
+        {data: 'email'},
         {data: 'modifiedAt'},
         {data: 'modifiedBy'},
         {data: 'lastLogin'},
@@ -89,6 +90,6 @@ export class CustomersComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return image ? `${environment.globalUrl.categoryImg}/${image}` : 'assets/images/no-image.png';
+    return image ? `${environment.globalUrl.customerImg}/${image}` : 'assets/images/no-image.png';
   }
 }

@@ -20,4 +20,6 @@ public class UserCreateDto {
 	private String confirmPassword;
 	@NotBlank(message = "Không bỏ trống fullname")
 	private String fullname;
+	@NotBlank(message = "Không bỏ trống email")
+	private String email;
 }

@@ -11,8 +11,7 @@ public interface StatisticService {
 	String[][] getTotalPricePerMonthAndYear(Integer months,Integer years);
 	TotalPrice getTotalByCategory(String month, String year);
 	Map<String, Object> getTotalGeneral();
-
 	List<OrderReport> getQuantityProductSoldBySubcategory();
-
-	List<ProductReport> getTop5ProductSold();
+	List<ProductReport> getTopProductSold(Integer limit);
+    List<Object> getTotalAccountByRole();
 }

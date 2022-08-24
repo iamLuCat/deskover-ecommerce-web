@@ -3,20 +3,12 @@ package com.deskover.controller.ecommerce;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.deskover.model.entity.database.UserAddress;
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
@@ -57,29 +49,24 @@ public class IndexController {
 		return "cart";
 	}
 	
+	@GetMapping("/about_us")
+	public String aboutUs() {
+		return "about_us";
+	}
+	
 	@GetMapping("/shop")
 	public String shop(HttpServletRequest request) {
 		return "shop";
 	}
 	
-	@GetMapping("/order")
-	public String order() {
-		return "order";
-	}
-	
-
-	@GetMapping("/login")
-	public String login() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication instanceof AnonymousAuthenticationToken) {
-			return "login";
-		}
-		return "redirect:/index";
-	}
-	
 	@GetMapping("/ok")
 	public String ok() {
 		return "ok";
+	}
+	
+	@GetMapping("checkout")
+	public String checkout(Model model) {
+		return "checkout";
 	}
 	
 	

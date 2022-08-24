@@ -395,7 +395,10 @@ CREATE TABLE verify
     id      BIGINT       NOT NULL AUTO_INCREMENT,
     token   VARCHAR(255) NOT NULL,
     actived BIT          NOT NULL DEFAULT 1,
+    user_id BIGINT NOT NULL,
+    expiry_date date ,
     PRIMARY KEY (id),
+    CONSTRAINT FK_verify_user FOREIGN KEY (user_id) REFERENCES user (id),
     UNIQUE KEY UQ_Verify_Token (token)
 );
 
@@ -738,65 +741,6 @@ values
   'nhint@gmail.com', 0, 0
 );
 
-
---   (
---     1, 1, 1, 'Nguyễn Quang Huy', 'Đường D2,Phường Trung Mỹ Tây,Quận 12,Hồ Chí Minh', 
---     'Hồ Chí Minh', 'Quận 12', 1, 
---     'Phường Trung Mỹ Tây', 1, 
---     '0123456789', 'huynq2022@gmail.com', 
---     1, 1
---   ), 
---   (
---     2, 2, 1, 'Bùi Đức Minh', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
---     'Hồ Chí Minh', 'Huyện Bình Chánh', 
---     1, 'Xã An Phú Tây', 1, '0338953980', 
---     'minhbd2021@gmail.com', 1, 
---     1
---   ), 
---   (
---     3, 2, 2, 'Bùi Đức Minh', '123, Phường Cống Vị, Quận Ba Đình, Hà Nội', 
---     'Hà Nội', 'Quận Ba Đình', 
---     25, 'Phường Cống Vị', 327, 
---     '0338953981', 'minhbd2022@gmail.com', 
---     0, 0
---   ), 
---   (
---     4, 2, 11, 'Bùi Đức Minh', '123, Xã Cư Klông, Huyện Krông Năng, Đắk Lắk', 
---     'Đắk Lắk', 'Huyện Krông Năng', 
---     158, 'Xã Cư Klông', 2270, '0338953982', 
---     'minhbd2023@gmail.com', 0, 
---     0
---   ), 
---   (
---     5, 2, 14, 'Bùi Đức Minh', '123, Xã B' 'Lá, Huyện Bảo Lâm, Lâm Đồng', 
---     'Lâm Đồng', 'Huyện Bảo Lâm', 
---     181, 'Xã B' 'Lá', 2539, '0338953983', 
---     'minhbd2024@gmail.com', 0, 
---     0
---   ), 
---   (
---     6, 2, 10, 'Pham Quang Vu', '123, Phường Phước Trung, Thị xã Bà Rịa, Bà Rịa Vũng Tàu', 
---     'Bà Rịa Vũng Tàu', 'Thị xã Bà Rịa', 
---     139, 'Phường Phước Trung', 
---     2062, '0335985331', 'email.email@gmail.com', 
---     0, 0
---   ), 
---   (
---     7, 2, 23, 'Pham Van Hai', '12312, Xã Lộc An, Huyện Lộc Ninh, Bình Phước', 
---     'Bình Phước', 'Huyện Lộc Ninh', 
---     324, 'Xã Lộc An', 5003, '0335956325', 
---     'email2.email@gmail.com', 0, 
---     0
---   ), 
---   (
---     8, 2, 14, 'Nguyen Hoai Minh', '123, Thị trấn Đạ M' 'Ri, Huyện Đạ Huoai, Lâm Đồng', 
---     'Lâm Đồng', 'Huyện Đạ Huoai', 
---     184, 'Thị trấn Đạ M' 'Ri', 
---     2577, '0323555545', 'email3.email@gmail.com', 
---     0, 0
---   );
--- ;
-
 -- user_password
 insert user_password (id, user_id, `password`)
 values (1, 1, '$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i'),
@@ -903,10 +847,6 @@ values
 (
   5, 2, 'iPhone(iOS)', 'ios', 'ios.png', 
   'haipv'
-), 
-(
-  6, 2, 'phổ thông', 'pho-thong', 
-  'pho-thong.png', 'haipv'
 ), 
 (
   7, 3, '7 - 8 inch (nhỏ gọn)', 
@@ -1018,481 +958,6 @@ values
   );
   
 -- products
--- insert product (id, weight, `name`, slug, img, video, `description`, spec, utility, design, other, price, price_sale, sub_category_id, brand_id, discount_id, modified_by)
--- values
---     -- asus
---     -- laptop-van-phong
--- (
---   1, 1, 'Laptop Asus VivoBook A415EA EB1750W', 
---   'laptop-asus-vivobook-a415ea-eb1750w', 
---   'laptop-asus-vivobook-a415ea-eb1750w.png', 
---   'https://www.youtube.com/watch?v=gIHD6vyiXEQ', 
---   '<h2><span style=\"font-size:22px\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop&nbsp;ASUS VivoBook A415EA EB1750W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px\">Bạn đang t&igrave;m kiếm một chiếc <a href=\"https://gearvn.com/pages/laptop-van-phong\">laptop văn ph&ograve;ng</a> với hiệu năng ổn định đem lại khả năng xử l&yacute; mượt m&agrave; c&aacute;c t&aacute;c vụ cơ bản c&ugrave;ng một mức gi&aacute; phải chăng. Vậy h&atilde;y đến với <strong>VivoBook A415EA EB1750W</strong>, chiếc laptop d&agrave;nh cho học sinh - sinh vi&ecirc;n v&agrave; văn ph&ograve;ng đến từ ASUS. H&atilde;y c&ugrave;ng GEARVN kh&aacute;m ph&aacute; laptop ngay sau đ&acirc;y nh&eacute; !</span></p>\n\n<h3><span style=\"font-size:20px\"><strong>Thiết kế c&aacute; t&iacute;nh</strong></span></h3>\n\n<p><span style=\"font-size:18px\">Tối ưu d&agrave;nh cho m&ocirc;i trường l&agrave;m việc văn ph&ograve;ng, <a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">Asus&nbsp;VivoBook</a> A415EA EB1750W giữ vững phong c&aacute;ch thiết kế đơn giản nhưng vẫn sang trọng của d&ograve;ng laptop văn ph&ograve;ng: Với mặt A của laptop l&agrave;m từ nh&ocirc;m v&agrave; kho&aacute;c l&ecirc;n m&igrave;nh lớp m&agrave;u bạc sang trọng. Ngo&agrave;i ra, VivoBook A415EA EB1750W mang lại trọng lượng chỉ 1.4 kg v&agrave; mỏng 1.79 cm, vừa vặn cho bạn thuận tiện cất v&agrave;o balo v&agrave; mang đi l&agrave;m việc mọi nơi.</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/post-01_d6835213977840ca84a4d58a12549064_1024x1024.jpg\" /></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i3-1115G4 1.7GHz up to 4.1GHz 6MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 2666MHz&nbsp;Onboard</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel UHD Graphics</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>256GB&nbsp;<a href=\"https://gearvn.com/collections/ssd-o-cung-the-ran\">SSD</a>&nbsp;M.2 PCIE G3X4 (C&ograve;n trống 1 khe SSD M.2 PCIE)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>14&quot; FHD (1920 x 1080), IPS, Anti-Glare with 45% NTSC,&nbsp;NanoEdge</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&nbsp;</span>Audio by ICEpower&reg;</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">Built-in speaker</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">Built-in microphone//harman/kardon (Mainstream)</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y:&nbsp;</span>Intel Wi-Fi 6(Gig+)(802.11ax), Bluetooth&nbsp;v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2 x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.4 kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;324 x 215 x 17.9 mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   14990000, 11992000, 1, 1, 4, 'minhnh'
--- ), 
--- (
---   2, 1, 'Laptop ASUS Vivobook Flip TP470EA EC346W', 
---   'laptop-asus-vivobook-flip-tp470ea-ec346w', 
---   'laptop-asus-vivobook-flip-tp470ea-ec346w.png', 
---   'https://www.youtube.com/watch?v=dFLnMsJ5DmI&t', 
---   '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook Flip TP470EA EC346W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\">Bạn đang t&igrave;m một chiếc laptop văn ph&ograve;ng gi&aacute; rẻ nhưng vẫn sở hữu những đặc điểm, chức năng v&ocirc; c&ugrave;ng hữu &iacute;ch cho c&ocirc;ng việc như c&oacute; thể gập 360 độ, m&agrave;n h&igrave;nh cảm ứng. Vậy th&igrave; h&atilde;y đến với chiếc laptop&nbsp;<strong>ASUS Vivobook Flip TP470EA EC346W</strong>&nbsp;v&agrave; ngay sau đ&acirc;y c&ugrave;ng GEARVN t&igrave;m hiểu về &ldquo;em n&oacute;&rdquo; nh&eacute; !</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế tao nh&atilde;, sang trọng</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Sở hữu n&eacute;t đặc trưng của d&ograve;ng&nbsp;<a href=\"https://gearvn.com/collections/laptop-asus-van-phong-pho-thong\">laptop ASUS văn ph&ograve;ng</a>, Vivobook Flip TP470EA EC346W được kho&aacute;c l&ecirc;n lớp m&agrave;u bạc sang trọng, t&ocirc; điểm v&agrave; l&agrave;m nổi bật cho chiếc laptop. C&ugrave;ng với logo ASUS Vivobook được cắt tr&ecirc;n mặt A của&nbsp;<a href=\"https://gearvn.com/collections/laptop\">laptop</a>, khẳng định thương hiệu của d&ograve;ng&nbsp;<a href=\"https://gearvn.com/collections/laptop-asus\">laptop ASUS</a>. Với Vivobook Flip TP470EA EC346W, bạn c&oacute; thể đồng h&agrave;nh c&ugrave;ng chiếc laptop mọi nơi, dễ d&agrave;ng mang theo c&ugrave;ng balo nhờ v&agrave;o trọng lượng chỉ 1.5&nbsp;kg v&agrave; độ mỏng chỉ 1.87 cm.</span></p>\n\n<p style=\"text-align: center\"><img src=\"https://file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-flip-tp470ea-ec346w-ss2_3874b7acb3244156ab0ac075bcde7a8a.jpg\" /></p>\n\n<h3>&nbsp;</h3>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i3-1115G4 1.7GHz up to 4.1GHz 6MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>4GB LPDDR4X 3200MHz Onboard</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel UHD Graphics</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/collections/ssd-o-cung-the-ran\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>14&quot; FHD (1920 x 1080), Touch, IPS-level Panel, Glossy display, 250nits, NTSC: 45%, Screen-to-body ratio: 82 %, With stylus support</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>SonicMaster</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y:&nbsp;</span>WiFi 6 (802.11 AX), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>720p HD camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Thunderbolt&trade; 4 supports display / power delivery</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x USB 3.2 Gen 2 Type-A</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x USB 2.0 Type-A</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x 3.5mm Combo Audio Jack</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x DC-in</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.5&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;32.40 x 22.00 x 1.87 ~ 1.87 cm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: LED Trắng</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   15890000, 12712000, 1, 1, 4, 'minhnh'
--- ), 
--- (
---   3, 1, 'Laptop Asus Vivobook OLED A515EA L12033W', 
---   'laptop-asus-vivobook-a515ea-l12033w', 
---   'laptop-asus-vivobook-a515ea-l12033w.png', 
---   'https://www.youtube.com/watch?v=ab4TeyIsllE&t', 
---   '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   19990000, 15992000, 1, 1, 4, 'minhnh'
--- ), 
--- (
---   4, 1, 'Laptop ASUS VivoBook Pro 16X OLED M7600QC L2077W', 
---   'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w', 
---   'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w.png', 
---   'https://www.youtube.com/watch?v=dqGz4JTh0Q0&t', 
---   '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS VivoBook Pro 16X OLED M7600QC L2077W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus\" target=\"_blank\">ASUS</a>&nbsp;VivoBook Pro 16X OLED M7600QC L2077W mang đến trải nghiệm m&agrave;n h&igrave;nh OLED cực đỉnh với hiệu năng nổi trội. Nếu bạn đang cần một chiếc m&aacute;y t&iacute;nh x&aacute;ch tay c&oacute; t&iacute;nh di động cao m&agrave; vẫn đ&aacute;p ứng mọi nhu cầu học tập, l&agrave;m việc hay thậm ch&iacute; l&agrave; chơi game tốt th&igrave; đừng bỏ qua sản phẩm&nbsp;VivoBook Pro 16X n&agrave;y nh&eacute;!</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-1_8dade3f3b2e0462fa790590e4b0ab155.png\" style=\"width: 600px; height: 500px;\" /></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế sang trọng</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Laptop ASUS VivoBook Pro 16X OLED sở hữu lớp vỏ kim loại đầy cứng c&aacute;p kết hợp c&ugrave;ng m&agrave;u đen thời thượng tạo sự thu h&uacute;t đặc biệt đến người d&ugrave;ng. Từng đường n&eacute;t tr&ecirc;n m&aacute;y đều được cắt x&eacute;n tỉ mỉ thể hiện sự mạnh mẽ kh&ocirc;ng chỉ về vẻ bề ngo&agrave;i m&agrave; c&ograve;n mạnh mẽ về hiệu suất hoạt động. Trọng lượng chỉ khoảng 1.95kg v&ocirc; c&ugrave;ng nhẹ gi&uacute;p người d&ugrave;ng thuận tiện hơn trong việc di chuyển. Phần logo của d&ograve;ng&nbsp;<a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS Vivobook</a>&nbsp;được đặt lệch sang một b&ecirc;n của nắp m&aacute;y t&iacute;nh l&agrave;m điểm nhấn cho sản phẩm th&ecirc;m phần sang trọng khi người d&ugrave;ng sử dụng ở bất cứ đ&acirc;u.</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-5_2aa696e7425f46ed827bb359414c2681.png\" style=\"width: 480px; height: 480px;\" /></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>AMD Ryzen 5 5600H 3.3GHz up to 4.2GHz 16MB, 6 nh&acirc;n, 12 luồng</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>16GB Onboard&nbsp;<a href=\"https://gearvn.com/collections/ddr4-8gb\" target=\"_blank\">DDR4</a>&nbsp;3200MHz</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>NVIDIA&reg; GeForce&reg; RTX&trade; 3050 4GB GDDR6 Boost up to 1057.5MHz at 35W (50W with Dynamic Boost)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB M.2 NVMe&trade; PCIe&reg; 3.0&nbsp;<a href=\"https://gearvn.com/collections/ssd-o-cung-the-ran\" target=\"_blank\">SSD</a>&nbsp;(1slot)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>16 inch 4K/UHD (3840 x 2400) OLED 16:10, 550nits peak brightness</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: </span>Wi-Fi 6 (802.11 ax (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>720p HD camera//With privacy shutter</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li>1x USB 3.2 Gen 1 Type-C</li>\n    <li>1x USB 3.2 Gen 1 Type-A</li>\n    <li>2x USB 2.0 Type-A</li>\n    <li>1x HDMI 1.4</li>\n    <li>1x 3.5mm Combo Audio Jack</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.95&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;360.5 x 259 x 1.89 ~ 18.9 mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: C&oacute; ph&iacute;m số, hỗ trợ đ&egrave;n LED đơn sắc</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;6 Cells 96WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   32990000, 26392000, 1, 1, 4, 'minhnh'
--- ), 
--- (
---   5, 1, 'Laptop Asus ZenBook 13 UX325EA KG599W', 
---   'laptop-asus-zenbook-13-ux325ea-kg599w', 
---   'laptop-asus-zenbook-13-ux325ea-kg599w.png', 
---   'https://www.youtube.com/watch?v=Fthb7EC5BY0&t', 
---   '<h2><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS ZenBook UX325EA KG599W</strong></h2>\n\n<p>&nbsp;</p>\n\n<p style=\"text-align: justify;\"><span style=\"font-size:18px;\">Laptop Asus ZenBook UX325EA KG599W&nbsp;được thiết kế gọn nhẹ hơn bao giờ hết. Sản phẩm mỏng hơn, nhẹ hơn v&agrave; gọn g&agrave;ng kh&oacute; tin nhưng vẫn được trang bị HDMI, Thunderbolt&trade; 4 USB-C&reg;, USB Type-A v&agrave; đầu đọc thẻ MicroSD. Đ&acirc;y l&agrave; d&ograve;ng&nbsp;<a href=\"https://gearvn.com/collections/laptop-cao-cap-mong-nhe\" target=\"_blank\">laptop cao cấp mỏng nhẹ</a>&nbsp;mang lại hiệu suất l&agrave;m việc cao. ZenBook 13 l&agrave; lựa chọn ho&agrave;n hảo cho phong c&aacute;ch sống năng động.</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-zenbook-13-ux325ea-kg599w-7_52d4bfdc08c04322a006935b223464ac_grande.png\" style=\"width: 600px; height: 500px;\" /></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Gọn nhẹ v&agrave; di chuyển dễ d&agrave;ng với l</strong><strong>aptop ASUS ZenBook UX325EA KG599W</strong></span></h3>\n\n<p style=\"text-align: justify;\"><span style=\"font-size:18px;\">Thiết kế ho&agrave;n to&agrave;n bằng kim loại, si&ecirc;u nhẹ, mỏng v&agrave; gọn g&agrave;ng của ZenBook 13 khiến n&oacute; trở th&agrave;nh người bạn đồng h&agrave;nh l&yacute; tưởng trong những chuyến c&ocirc;ng t&aacute;c. Đ&oacute; cũng l&agrave; chiếc laptop 13-inch mỏng nhất thế giới. Mặc d&ugrave; nhỏ nhưng lại được trang bị đầy đủ c&aacute;c cổng kết nối&nbsp;bao gồm HDMI v&agrave; USB Type-A&nbsp; để bạn c&oacute; thể tận hưởng t&iacute;nh năng kết nối linh hoạt d&ugrave; ở bất kỳ đ&acirc;u.</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-zenbook-13-ux325ea-kg599w-8_3a54b5c325e9430ea1e49ead5c0e229d_grande.png\" style=\"width: 600px; height: 500px;\" /></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel&reg; Core&trade; i7-1165G7 (4.70GHz, 12 MB cache, 4 cores 8 threads)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>16GB 4266MHz LPDDR4X</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris&reg; Xe Graphics</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB PCIe&reg; NVMe&trade; 3.0 x2 M.2&nbsp;<a href=\"https://gearvn.com/collections/ssd-o-cung-the-ran\" target=\"_blank\">SSD</a></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>13.3&quot;, 1920 x 1080 Pixel, OLED, 60 Hz, 400 nits, OLED</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: </span>Intel WiFi 6 with Gig+ performance (802.11ax), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>Camera IRHD webcam</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2 x Thunderbolt&trade; 4 USB-C&reg; (up to 40Gbps)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x USB 3.2 Gen 1 Type-A (up to 5Gbps)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x Standard HDMI</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x MicroSD card reader</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.1 Kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;30.4 x 20.3 x 13.9 cm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;4-cell, 65WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   30890000, 24712000, 1, 1, 4, 'minhnh'
--- ), 
--- (
---   6, 1, 'Laptop Acer Swift X SFX16 51G 50GS', 
---   'laptop-acer-swift-x-sfx16-51g-50gs', 
---   'laptop-acer-swift-x-sfx16-51g-50gs.png', 
---   NULL, '<h2><strong>Đ&aacute;nh gi&aacute; chi tiết Laptop Acer Swift X SFX16 51G 50GS</strong></h2>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-acer-swift-x-sfx16-51g-50gs-1_d10b52f0d49247bea82d2d1a9458b3a6_grande.png\" style=\"width: 480px; height: 380px;\" /></p>\n\n<p style=\"text-align: justify;\"><span style=\"font-size:18px;\">B&ecirc;n cạnh&nbsp;<a href=\"https://gearvn.com/products/laptop-acer-aspire-5-a515-55-55hg\" target=\"_blank\">Acer Aspire 5</a>&nbsp;d&ograve;ng laptop văn ph&ograve;ng mỏng nhẹ d&agrave;nh cho c&aacute;c bạn học sinh - sinh vi&ecirc;n&nbsp;th&igrave; Acer c&ograve;n mang đến thị trường ở ph&acirc;n kh&uacute;c cao cấp hơn với mẫu laptop Acer&nbsp;&nbsp;Swift X d&ograve;ng&nbsp;<a href=\"https://gearvn.com/collections/laptop-cao-cap-mong-nhe\" target=\"_blank\">laptop&nbsp;mỏng nhẹ</a>, cao cấp với hiệu năng c&oacute; thể xử l&yacute; mọi t&aacute;c vụ như render, thiết kế đồ họa,....</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-acer-swift-x-sfx16-51g-50gs-2_54f0fe967d104cbc80519e807009e837_grande.png\" style=\"width: 480px; height: 380px;\" /></p>\n\n<p style=\"text-align: justify;\">&nbsp;</p>\n\n<p style=\"text-align: justify;\"><span style=\"font-size:18px;\">Nếu bạn đang t&igrave;m một chiếc laptop đồ hoạ - kỹ thuật với hiệu năng mạnh mẽ th&igrave;&nbsp;Acer Swift X SFX16 51G 50GS&nbsp;l&agrave; sản phẩm xứng đ&aacute;ng để bạn lựa chọn.&nbsp;V&igrave;&nbsp;mang một hiệu năng mạnh mẽ, xử l&yacute; mượt m&agrave; c&aacute;c t&aacute;c vụ thiết kế đồ hoạ, render video,...</span></p>\n\n<p style=\"text-align: justify;\"><span style=\"font-size:18px;\">Người d&ugrave;ng c&oacute; thể&nbsp;thỏa sức cho bạn s&aacute;ng tạo nội dung nhờ chip Intel Core i5 Tiger Lake 11320H với tốc độ xung nhịp lớn từ 3.2GHz đến 4.5GHz k&egrave;m theo 4 nh&acirc;n, 8 luồng hỗ trợ tối đa người d&ugrave;ng khi thao t&aacute;c với c&aacute;c t&aacute;c vụ n&acirc;ng cao.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel&reg; Core&trade; i5-11320H upto 4.5GHz, 8MB Cache</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>16GB LPDDR4X 4266MHz Onboard (Kh&ocirc;ng n&acirc;ng cấp)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>NVIDIA&reg; GeForce RTX&trade; 3050Ti with 4GB of dedicated GDDR6 VRAM</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/collections/ssd-o-cung-the-ran\">SSD</a>&nbsp;M.2 PCIE Gen3x4 (2 slots SSD M2 PCIe)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>16.1&quot; FHD (1920 x 1080) IPS SlimBezel, Acer ComfyView LED-backlit TFT LCD</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>DTS&reg; Audio, featuring optimized bass response and micro-speaker<br />\n  distortion prevention</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: </span>Intel&reg; Wireless Wi-Fi 6 AX201 (2x2), Bluetooth v5.1</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Webcam (1280 x 720)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2 x USB 3.2 Gen 1 ports with one featuring power-off USB charging</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x HDMI&reg; 2.0 port with HDCP support</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x 3.5 mm headphone/speaker jack, supporting headsets with built-in microphone</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x DC-in jack for AC adapter</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x USB Type-C port supporting</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.9 kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;367.8 x 236.1 x 18.9&nbsp; mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;59Wh Li-ion battery</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   29990000, NULL, 1, 2, NULL, 'minhnh'
--- ), 
--- (
---   7, 1.2, 'Laptop Acer Swift 3 SF314 43 R52K', 
---   'laptop-acer-swift-3-sf314-43-r52k', 
---   'laptop-acer-swift-3-sf314-43-r52k.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   24490000, null, 1, 2, null, 'haipv'
--- ), 
--- (
---   8, 1.5, 'Laptop Acer Swift 3 SF314 43 R4X3', 
---   'laptop-acer-swift-3-sf314-43-r4x3', 
---   'laptop-acer-swift-3-sf314-43-r4x3.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   20990000, null, 1, 2, null, 'haipv'
--- ), 
--- (
---   9, 2, 'Laptop Acer Aspire 3 A315 56 37DV', 
---   'laptop-acer-aspire-3-a315-56-37dv', 
---   'laptop-acer-aspire-3-a315-56-37dv.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   12490000, null, 1, 2, null, 'haipv'
--- ), 
--- (
---   10, 1.7, 'Laptop Acer Aspire 5 A515 57 52Y2', 
---   'laptop-acer-aspire-5-a515-57-52y2', 
---   'laptop-acer-aspire-5-a515-57-52y2.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   18950000, null, 1, 2, null, 'haipv'
--- ), 
--- -- Dell
--- -- laptop-van-phong
--- (
---   11, 1.6, 'Laptop Dell Vostro 3510 V5I3305W Black', 
---   'laptop-dell-vostro-3510-v5i3305w-black', 
---   'laptop-dell-vostro-3510-v5i3305w-black.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   15990000, null, 1, 3, null, 'haipv'
--- ), 
--- (
---   12, 1.7, 'Laptop Dell Vostro 3400 P132G003 70270645', 
---   'laptop-dell-vostro-3400-p132g003-70270645', 
---   'laptop-dell-vostro-3400-p132g003-70270645.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   17490000, null, 1, 3, null, 'haipv'
--- ), 
--- (
---   13, 1.5, 'Laptop Dell Inspiron 15 3511 P112F002 70270650', 
---   'laptop-dell-inspiron-15-3511-p112f002-70270650', 
---   'laptop-dell-inspiron-15-3511-p112f002-70270650.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   20990000, null, 1, 3, null, 'haipv'
--- ), 
--- (
---   14, 1.2, 'Laptop Dell Vostro 5620 70282719 P117F001', 
---   'laptop-dell-vostro-5620-70282719-p117f001', 
---   'laptop-dell-vostro-5620-70282719-p117f001.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   22990000, null, 1, 3, null, 'haipv'
--- ), 
--- (
---   15, 1.3, 'Laptop Dell XPS 17 9700 XPS7I7001W1 Silver', 
---   'laptop-dell-xps-17-9700-xps7i7001w1-silver', 
---   'laptop-dell-xps-17-9700-xps7i7001w1-silver.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   75000000, null, 1, 3, null, 'haipv'
--- ), 
--- -- MSI
--- -- laptop-van-phong
--- (
---   16, 1.4, 'Laptop MSI Modern 14 B11MOU 1028VN', 
---   'laptop-msi-modern-14-b11mou-1028vn', 
---   'laptop-msi-modern-14-b11mou-1028vn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   14490000, null, 1, 4, null, 'haipv'
--- ), 
--- (
---   17, 1.5, 'Laptop MSI Modern 14 B5M 202VN', 
---   'laptop-msi-modern-14-b5m-202vn', 
---   'laptop-msi-modern-14-b5m-202vn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   16990000, null, 1, 4, null, 'haipv'
--- ), 
--- (
---   18, 1.6, 'Laptop MSI Modern 15 A5M 238VN', 
---   'laptop-msi-modern-15-a5m-238vn', 
---   'laptop-msi-modern-15-a5m-238vn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   17990000, null, 1, 4, null, 'haipv'
--- ), 
--- (
---   19, 1.7, 'Laptop MSI Modern 15 A5M 239VN', 
---   'laptop-msi-modern-15-a5m-239vn', 
---   'laptop-msi-modern-15-a5m-239vn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   19990000, null, 1, 4, null, 'haipv'
--- ), 
--- (
---   20, 1.8, 'Laptop MSI Modern 14 B11MOU 1033VN', 
---   'laptop-msi-modern-14-b11mou-1033vn', 
---   'laptop-msi-modern-14-b11mou-1033vn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   21990000, null, 1, 4, null, 'haipv'
--- ), 
--- -- LENOVO
--- -- laptop-van-phong
--- (
---   21, 1.9, 'Laptop Lenovo V14 G2 ITL 82KA00RXVN', 
---   'laptop-lenovo-v14-g2-itl-82ka00rxvn', 
---   'laptop-lenovo-v14-g2-itl-82ka00rxvn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   13590000, null, 1, 5, null, 'haipv'
--- ), 
--- (
---   22, 2.0, 'Laptop Lenovo ThinkBook 15 G3 ACL 21A400CFVN', 
---   'laptop-lenovo-thinkbook-15-g3-acl-21a400cfvn', 
---   'laptop-lenovo-thinkbook-15-g3-acl-21a400cfvn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   19990000, null, 1, 5, null, 'haipv'
--- ), 
--- (
---   23, 1.9, 'Laptop Lenovo IdeaPad 5 Pro 16ACH6 82L500WMVN', 
---   'laptop-lenovo-ideapad-5-pro-16ach6-82l500wmvn', 
---   'laptop-lenovo-ideapad-5-pro-16ach6-82l500wmvn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   25990000, null, 1, 5, null, 'haipv'
--- ), 
--- (
---   24, 1.8, 'Laptop Lenovo Yoga Slim 7 Pro 14ACH5 82NK003HVN', 
---   'laptop-lenovo-yoga-slim-7-pro-14ach5-82nk003hvn', 
---   'laptop-lenovo-yoga-slim-7-pro-14ach5-82nk003hvn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   32990000, null, 1, 5, null, 'haipv'
--- ), 
--- (
---   25, 1.7, 'Laptop Lenovo Yoga Slim 7 Carbon 14ACN6 82L0005AVN', 
---   'laptop-lenovo-yoga-slim-7-carbon-14acn6-82l0005avn', 
---   'laptop-lenovo-yoga-slim-7-carbon-14acn6-82l0005avn.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   35990000, null, 1, 5, null, 'haipv'
--- ), 
--- -- HP
--- -- laptop-van-phong
--- (
---   26, 1.6, 'Laptop HP Pavilion 15 EG0506TX 46M05PA', 
---   'laptop-hp-pavilion-15-eg0506tx-46m05pa', 
---   'laptop-hp-pavilion-15-eg0506tx-46m05pa.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   19990000, null, 1, 6, null, 'haipv'
--- ), 
--- (
---   27, 1.5, 'Laptop HP ProBook 450 G8 614K3PA', 
---   'laptop-hp-probook-450-g8-614k3pa', 
---   'laptop-hp-probook-450-g8-614k3pa.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   20990000, null, 1, 6, null, 'haipv'
--- ), 
--- (
---   28, 1.4, 'Laptop HP Pavilion 14 dv0534TU 4P5G3PA', 
---   'laptop-hp-pavilion-14-dv0534tu-4p5g3pa', 
---   'laptop-hp-pavilion-14-dv0534tu-4p5g3pa.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   22490000, null, 1, 6, null, 'haipv'
--- ), 
--- -- LG
--- -- laptop-van-phong
--- (
---   29, 1.3, 'LG Gram 17ZD90P-G.AX71A5', 
---   'laptop-lg-gram-17zd90p-g-ax71a5', 
---   'laptop-lg-gram-17zd90p-g-ax71a5.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   44990000, null, 1, 7, null, 'haipv'
--- ), 
--- (
---   30, 1.4, 'LG Gram 16Z90P-G.AH73A5', 
---   'laptop-lg-gram-16z90p-g-ah73a5', 
---   'laptop-lg-gram-16z90p-g-ah73a5.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   48900000, null, 1, 7, null, 'haipv'
--- ), 
--- (
---   31, 1.5, 'LG Gram 14Z90P-G.AH75A5', 
---   'laptop-lg-gram-14z90p-g-ah75a5', 
---   'laptop-lg-gram-14z90p-g-ah75a5.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   47990000, null, 1, 7, null, 'haipv'
--- ), 
--- -- APPLE
--- -- Macbook
--- (
---   32, 1.6, 'Macbook Air M2 10GPU 8GB 512GB - Silver', 
---   'macbook-air-m2-10gpu-8gb-512gb-silver', 
---   'macbook-air-m2-10gpu-8gb-512gb-silver.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   42990000, null, 3, 8, null, 'haipv'
--- ), 
--- (
---   33, 1.5, 'Macbook Air M2 8GPU 8GB 256GB - Starlight', 
---   'macbook-air-m2-8gpu-8gb-256gb-starlight', 
---   'macbook-air-m2-8gpu-8gb-256gb-starlight.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   33990000, null, 3, 8, null, 'haipv'
--- ), 
--- (
---   34, 1.5, 'MacBook Pro 13 M2 10GPU 8GB 512GB Space Gray', 
---   'macbook-pro-13-m2-10gpu-8gb-512gb-space-gray', 
---   'macbook-pro-13-m2-10gpu-8gb-512gb-space-gray.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   39990000, null, 3, 8, null, 'haipv'
--- ), 
--- (
---   35, 1.5, 'MacBook Pro 14" 2021 M1 Pro 10CPU 16 GPU 16GB 1TB Silver', 
---   'macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver', 
---   'macbook-pro-14-2021-m1-pro-10-cpu-16gpu-16gb-1tb-silver.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   64990000, null, 3, 8, null, 'haipv'
--- ), 
--- (
---   36, 1.5, 'MacBook Pro 16 2021 M1 Max 32GPU 32GB 1TB Space Gray', 
---   'macbook-pro-16-2021-m1-max-32gb-1tb-space-gray', 
---   'macbook-pro-16-2021-m1-max-32gb-1tb-space-gray.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   99000000, null, 3, 8, null, 'haipv'
--- ), 
--- -- IMac
--- (
---   37, 1.5, 'iMac 24 2021 M1 7GPU 8GB 256GB MGTF3SA/A - Silver', 
---   'imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver', 
---   'imac-24-2021-m1-7gpu-8gb-256gb-mgtf3sa-a-silver.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   33990000, null, 3, 8, null, 'haipv'
--- ), 
--- (
---   38, 1.5, 'iMac 24 2021 M1 8GPU 8GB 256GB MGPK3SA/A - Blue', 
---   'imac-24-2021-m1-8gpu-8gb-256gb-mgpk3sa-a-blue', 
---   'imac-24-2021-m1-8gpu-8gb-256gb-mgpk3sa-a-blue.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   38990000, null, 3, 8, null, 'haipv'
--- ), 
--- (
---   39, 1.5, 'iMac 24 2021 M1 8GPU 16GB 512GB Z12R00047 - Silver', 
---   'imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver', 
---   'imac-24-2021-m1-8gpu-16gb-512gb-z12r00047-silver.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   50990000, null, 3, 8, null, 'haipv'
--- ), 
--- -- Mac Mini
--- (
---   40, 1.5, 'Mac Mini M1 8GPU 16GB 1TB Z12P000HM', 
---   'mac-mini-m1-8gpu-16gb-1tb-z12p000hm', 
---   'mac-mini-m1-8gpu-16gb-1tb-z12p000hm.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   41990000, null, 3, 8, null, 'haipv'
--- ), 
--- (
---   41, 1.5, 'Mac Mini M1 8GPU 16GB 512GB Z12P000HK', 
---   'mac-mini-m1-8gpu-16gb-512gb-z12p000hk', 
---   'mac-mini-m1-8gpu-16gb-512gb-z12p000hk.png', 
---   null, '<h2><span style=\"font-size:20px;\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop ASUS Vivobook A515EA L12033W</strong></span></h2>\n\n<p>&nbsp;</p>\n\n<p><span style=\"font-size:18px;\"><a href=\"https://gearvn.com/collections/laptop-asus-vivobook-series\" target=\"_blank\">ASUS VivoBook</a>&nbsp;A515EA L12033W mang đến sự tinh tế v&agrave; tr&agrave;n đầy sức sống cho việc sử dụng m&aacute;y t&iacute;nh h&agrave;ng ng&agrave;y với m&agrave;u sắc bắt mắt v&agrave; ph&iacute;m Enter viền v&agrave;ng neon độc đ&aacute;o.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-0_ce68a7d02e0f438a9e33cc910b26f33b_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">VivoBook 15&nbsp;được trang bị bộ vi xử l&yacute; Intel&reg; Core &trade; i5 Tiger Lake thế hệ thứ 11, cung cấp cho bạn c&aacute;c chức năng mạnh mẽ cần thiết để ho&agrave;n th&agrave;nh bất kỳ t&aacute;c vụ n&agrave;o. Ngo&agrave;i ra, chức năng cảm biến v&acirc;n tay sẽ gi&uacute;p bạn đăng nhập dễ d&agrave;ng v&agrave; n&acirc;ng cao khả năng bảo mật cho m&aacute;y t&iacute;nh.</span></p>\n\n<h3><span style=\"font-size:20px;\"><strong>Thiết kế ấn tượng từ c&aacute;i nh&igrave;n đầu ti&ecirc;n</strong></span></h3>\n\n<p><span style=\"font-size:18px;\">Nắp kim loại của VivoBook 15 đang ph&aacute; vỡ mọi giới hạn v&agrave; thiết lập c&aacute;c ti&ecirc;u chuẩn mới. Thiết kế n&agrave;y đ&atilde; trở th&agrave;nh tuy&ecirc;n ng&ocirc;n của genZ. Bạn l&agrave; người c&aacute; t&iacute;nh, thanh lịch, thời thượng&nbsp;th&igrave; &ldquo;đen đ&aacute; kh&ocirc;ng đường&rdquo; sẽ l&agrave; sự lựa chọn tuyệt vời cho bạn.&nbsp;</span></p>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-3_3bc383a7608c4da7b9d98858aa3bfe7e_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Ngo&agrave;i ra, ph&iacute;m Enter được kết hợp khung v&agrave;ng Neon nổi bật gi&uacute;p chiếc laptop của bạn trở n&ecirc;n đặc biệt v&agrave; nổi bật hơn.</span></p>\n\n<p><span style=\"font-size:18px;\">ASUS Vivobook A515EA L12033W cho ph&eacute;p bạn l&agrave;m việc hiệu quả v&agrave; giải tr&iacute; mọi l&uacute;c mọi nơi. Tổng trọng lượng của VivoBook 15 chỉ 1,8 kg, si&ecirc;u mỏng 17,9 mm, c&oacute; thể đặt gọn g&agrave;ng trong t&uacute;i x&aacute;ch để bạn dễ d&agrave;ng mang theo bất cứ đ&acirc;u.</span></p>\n\n<h3>&nbsp;</h3>\n\n<p style=\"text-align: center\"><img src=\"//file.hstatic.net/1000026716/file/gearvn-laptop-asus-vivobook-a515ea-l12033w-8_c08d7525cd134a0eae90b5789bc8e361_grande.jpg\" style=\"width: 600px; height: 500px;\" /></p>\n\n<p><span style=\"font-size:18px;\">Viền si&ecirc;u mỏng NanoEdge mang đến trải nghiệm xem rộng hơn, đắm ch&igrave;m hơn v&agrave; được trang bị m&agrave;n h&igrave;nh lớn hơn trong khung m&aacute;y nhỏ hơn. M&agrave;n h&igrave;nh Full HD cho g&oacute;c nh&igrave;n rộng v&agrave; khả năng t&aacute;i tạo m&agrave;u sắc sống động, mang đến h&igrave;nh ảnh sống động hơn bao giờ hết.</span></p>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU:&nbsp;</span>Intel Core i5-1135G7 up to 4.2GHz 8MB</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM:&nbsp;</span>8GB DDR4 3200MHz Onboard (1x SO-DIMM socket, up to 16GB SDRAM)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa:&nbsp;</span>Intel&reg; Iris Xe Graphics for 11th Gen Intel&reg; Processors</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng:&nbsp;</span>512GB&nbsp;<a href=\"https://gearvn.com/search?type=product&amp;q=filter=((title%3Aproduct%20adjacent%20SSD))\">SSD</a>&nbsp;M.2 PCIE G3X4</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh:&nbsp;</span>OLED 15.6&rdquo; FHD (1920 x 1080), 60 Hz, 400 nits, 100% DCI-P3</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
---   '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
---   34990000, null, 3, 8, null, 'haipv'
--- );
-
 INSERT INTO `product` 
 VALUES 
   (
@@ -1505,9 +970,9 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&nbsp;</span>Audio by ICEpower&reg;</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">Built-in speaker</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">Built-in microphone//harman/kardon (Mainstream)</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y:&nbsp;</span>Intel Wi-Fi 6(Gig+)(802.11ax), Bluetooth&nbsp;v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2 x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.4 kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;324 x 215 x 17.9 mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    14990000, 11992000, 1000,  '', 
-    1, 1, 4, NULL, '2022-08-08 07:30:53', 
-    'minhnh'
+    14990000, 11992000, 1000, 1, 
+    1, 1, 4, NULL, '2022-08-12 09:18:41', 
+    'haipv'
   ), 
   (
     2, 1, 'Laptop ASUS Vivobook Flip TP470EA EC346W', 
@@ -1519,9 +984,9 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>SonicMaster</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y:&nbsp;</span>WiFi 6 (802.11 AX), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>720p HD camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Thunderbolt&trade; 4 supports display / power delivery</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x USB 3.2 Gen 2 Type-A</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x USB 2.0 Type-A</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x 3.5mm Combo Audio Jack</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x DC-in</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.5&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;32.40 x 22.00 x 1.87 ~ 1.87 cm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: LED Trắng</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    15890000, 12712000, 1000,  '', 
-    1, 1, 4, NULL, '2022-08-08 07:30:53', 
-    'minhnh'
+    15890000, 12712000, 1000, 1, 
+    1, 1, 4, NULL, '2022-08-12 09:18:41', 
+    'haipv'
   ), 
   (
     3, 1, 'Laptop Asus Vivobook OLED A515EA L12033W', 
@@ -1533,9 +998,9 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    19990000, 15992000, 1000,  '', 
-    1, 1, 4, NULL, '2022-08-08 07:30:53', 
-    'minhnh'
+    19990000, 15992000, 1000, 1, 
+    1, 1, 4, NULL, '2022-08-12 09:18:41', 
+    'haipv'
   ), 
   (
     4, 1, 'Laptop ASUS VivoBook Pro 16X OLED M7600QC L2077W', 
@@ -1547,9 +1012,9 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: </span>Wi-Fi 6 (802.11 ax (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>720p HD camera//With privacy shutter</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li>1x USB 3.2 Gen 1 Type-C</li>\n    <li>1x USB 3.2 Gen 1 Type-A</li>\n    <li>2x USB 2.0 Type-A</li>\n    <li>1x HDMI 1.4</li>\n    <li>1x 3.5mm Combo Audio Jack</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.95&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;360.5 x 259 x 1.89 ~ 18.9 mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: C&oacute; ph&iacute;m số, hỗ trợ đ&egrave;n LED đơn sắc</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;6 Cells 96WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    32990000, 26392000, 1000,  '', 
-    1, 1, 4, NULL, '2022-08-08 07:30:53', 
-    'minhnh'
+    32990000, 26392000, 1000, 1, 
+    1, 1, 4, NULL, '2022-08-12 09:18:42', 
+    'haipv'
   ), 
   (
     5, 1, 'Laptop Asus ZenBook 13 UX325EA KG599W', 
@@ -1561,9 +1026,9 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: </span>Intel WiFi 6 with Gig+ performance (802.11ax), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>Camera IRHD webcam</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2 x Thunderbolt&trade; 4 USB-C&reg; (up to 40Gbps)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x USB 3.2 Gen 1 Type-A (up to 5Gbps)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x Standard HDMI</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x MicroSD card reader</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.1 Kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;30.4 x 20.3 x 13.9 cm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;4-cell, 65WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    30890000, 24712000, 1000,  '', 
-    1, 1, 4, NULL, '2022-08-08 07:30:53', 
-    'minhnh'
+    30890000, 24712000, 1000, 1, 
+    1, 1, 4, NULL, '2022-08-12 09:18:42', 
+    'haipv'
   ), 
   (
     6, 1, 'Laptop Acer Swift X SFX16 51G 50GS', 
@@ -1574,9 +1039,9 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>DTS&reg; Audio, featuring optimized bass response and micro-speaker<br />\n  distortion prevention</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: </span>Intel&reg; Wireless Wi-Fi 6 AX201 (2x2), Bluetooth v5.1</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Webcam (1280 x 720)</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2 x USB 3.2 Gen 1 ports with one featuring power-off USB charging</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x HDMI&reg; 2.0 port with HDCP support</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x 3.5 mm headphone/speaker jack, supporting headsets with built-in microphone</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x DC-in jack for AC adapter</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1 x USB Type-C port supporting</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.9 kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;367.8 x 236.1 x 18.9&nbsp; mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;59Wh Li-ion battery</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    29990000, NULL, 1000,  '', 1, 
-    2, NULL, NULL, '2022-08-08 07:30:53', 
-    'minhnh'
+    29990000, NULL, 1000, 1, 1, 
+    2, NULL, NULL, '2022-08-12 09:18:43', 
+    'haipv'
   ), 
   (
     7, 1.2, 'Laptop Acer Swift 3 SF314 43 R52K', 
@@ -1587,8 +1052,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    24490000, NULL, 1000,  '', 1, 
-    2, NULL, NULL, '2022-08-08 07:30:53', 
+    24490000, NULL, 1000, 1, 1, 
+    2, NULL, NULL, '2022-08-12 09:18:43', 
     'haipv'
   ), 
   (
@@ -1600,8 +1065,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    20990000, NULL, 1000,  '', 1, 
-    2, NULL, NULL, '2022-08-08 07:30:53', 
+    20990000, NULL, 1000, 1, 1, 
+    2, NULL, NULL, '2022-08-12 09:18:46', 
     'haipv'
   ), 
   (
@@ -1613,8 +1078,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    12490000, NULL, 1000,  '', 1, 
-    2, NULL, NULL, '2022-08-08 07:30:53', 
+    12490000, NULL, 1000, 1, 1, 
+    2, NULL, NULL, '2022-08-12 09:18:44', 
     'haipv'
   ), 
   (
@@ -1626,8 +1091,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    18950000, NULL, 1000,  '', 1, 
-    2, NULL, NULL, '2022-08-08 07:30:53', 
+    18950000, NULL, 1000, 1, 1, 
+    2, NULL, NULL, '2022-08-12 09:18:45', 
     'haipv'
   ), 
   (
@@ -1639,8 +1104,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    15990000, NULL, 1000,  '', 1, 
-    3, NULL, NULL, '2022-08-08 07:30:53', 
+    15990000, NULL, 1000, 1, 1, 
+    3, NULL, NULL, '2022-08-12 09:18:45', 
     'haipv'
   ), 
   (
@@ -1652,8 +1117,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    17490000, NULL, 1000,  '', 1, 
-    3, NULL, NULL, '2022-08-08 07:30:53', 
+    17490000, NULL, 1000, 1, 1, 
+    3, NULL, NULL, '2022-08-12 09:18:46', 
     'haipv'
   ), 
   (
@@ -1665,8 +1130,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    20990000, NULL, 1000,  '', 1, 
-    3, NULL, NULL, '2022-08-08 07:30:53', 
+    20990000, NULL, 1000, 1, 1, 
+    3, NULL, NULL, '2022-08-12 09:18:47', 
     'haipv'
   ), 
   (
@@ -1678,8 +1143,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    22990000, NULL, 1000,  '', 1, 
-    3, NULL, NULL, '2022-08-08 07:30:53', 
+    22990000, NULL, 1000, 1, 1, 
+    3, NULL, NULL, '2022-08-12 09:18:48', 
     'haipv'
   ), 
   (
@@ -1691,8 +1156,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    75000000, NULL, 1000,  '', 1, 
-    3, NULL, NULL, '2022-08-08 07:30:53', 
+    75000000, NULL, 1000, 1, 1, 
+    3, NULL, NULL, '2022-08-12 09:18:48', 
     'haipv'
   ), 
   (
@@ -1704,8 +1169,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    14490000, NULL, 1000,  '', 1, 
-    4, NULL, NULL, '2022-08-08 07:30:53', 
+    14490000, NULL, 1000, 1, 1, 
+    4, NULL, NULL, '2022-08-12 09:18:48', 
     'haipv'
   ), 
   (
@@ -1717,8 +1182,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    16990000, NULL, 1000,  '', 1, 
-    4, NULL, NULL, '2022-08-08 07:30:53', 
+    16990000, NULL, 1000, 1, 1, 
+    4, NULL, NULL, '2022-08-12 09:18:49', 
     'haipv'
   ), 
   (
@@ -1730,8 +1195,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    17990000, NULL, 1000,  '', 1, 
-    4, NULL, NULL, '2022-08-08 07:30:53', 
+    17990000, NULL, 1000, 1, 1, 
+    4, NULL, NULL, '2022-08-12 09:18:49', 
     'haipv'
   ), 
   (
@@ -1743,8 +1208,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    19990000, NULL, 1000,  '', 1, 
-    4, NULL, NULL, '2022-08-08 07:30:53', 
+    19990000, NULL, 1000, 1, 1, 
+    4, NULL, NULL, '2022-08-12 09:18:49', 
     'haipv'
   ), 
   (
@@ -1756,8 +1221,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    21990000, NULL, 1000,  '', 1, 
-    4, NULL, NULL, '2022-08-08 07:30:53', 
+    21990000, NULL, 1000, 1, 1, 
+    4, NULL, NULL, '2022-08-12 09:18:54', 
     'haipv'
   ), 
   (
@@ -1769,8 +1234,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    13590000, NULL, 1000,  '', 1, 
-    5, NULL, NULL, '2022-08-08 07:30:53', 
+    13590000, NULL, 1000, 1, 1, 
+    5, NULL, NULL, '2022-08-12 09:18:55', 
     'haipv'
   ), 
   (
@@ -1782,8 +1247,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    19990000, NULL, 1000,  '', 1, 
-    5, NULL, NULL, '2022-08-08 07:30:53', 
+    19990000, NULL, 1000, 1, 1, 
+    5, NULL, NULL, '2022-08-12 09:18:55', 
     'haipv'
   ), 
   (
@@ -1795,8 +1260,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    25990000, NULL, 1000,  '', 1, 
-    5, NULL, NULL, '2022-08-08 07:30:53', 
+    25990000, NULL, 1000, 1, 1, 
+    5, NULL, NULL, '2022-08-12 09:18:55', 
     'haipv'
   ), 
   (
@@ -1808,8 +1273,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    32990000, NULL, 1000,  '', 1, 
-    5, NULL, NULL, '2022-08-08 07:30:53', 
+    32990000, NULL, 1000, 1, 1, 
+    5, NULL, NULL, '2022-08-12 09:18:56', 
     'haipv'
   ), 
   (
@@ -1821,8 +1286,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    35990000, NULL, 1000,  '', 1, 
-    5, NULL, NULL, '2022-08-08 07:30:53', 
+    35990000, NULL, 1000, 1, 1, 
+    5, NULL, NULL, '2022-08-12 09:18:56', 
     'haipv'
   ), 
   (
@@ -1834,8 +1299,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    19990000, NULL, 1000,  '', 1, 
-    6, NULL, NULL, '2022-08-08 07:30:53', 
+    19990000, NULL, 1000, 1, 1, 
+    6, NULL, NULL, '2022-08-12 09:18:56', 
     'haipv'
   ), 
   (
@@ -1847,8 +1312,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    20990000, NULL, 1000,  '', 1, 
-    6, NULL, NULL, '2022-08-08 07:30:53', 
+    20990000, NULL, 1000, 1, 1, 
+    6, NULL, NULL, '2022-08-12 09:18:56', 
     'haipv'
   ), 
   (
@@ -1860,8 +1325,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    22490000, NULL, 1000,  '', 1, 
-    6, NULL, NULL, '2022-08-08 07:30:53', 
+    22490000, NULL, 1000, 1, 1, 
+    6, NULL, NULL, '2022-08-12 09:18:57', 
     'haipv'
   ), 
   (
@@ -1873,8 +1338,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    44990000, NULL, 1000,  '', 1, 
-    7, NULL, NULL, '2022-08-08 07:30:53', 
+    44990000, NULL, 1000, 1, 1, 
+    7, NULL, NULL, '2022-08-12 09:18:57', 
     'haipv'
   ), 
   (
@@ -1886,8 +1351,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    48900000, NULL, 1000,  '', 1, 
-    7, NULL, NULL, '2022-08-08 07:30:53', 
+    48900000, NULL, 1000, 1, 1, 
+    7, NULL, NULL, '2022-08-12 09:18:57', 
     'haipv'
   ), 
   (
@@ -1899,8 +1364,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    47990000, NULL, 1000,  '', 1, 
-    7, NULL, NULL, '2022-08-08 07:30:53', 
+    47990000, NULL, 1000, 1, 1, 
+    7, NULL, NULL, '2022-08-12 09:18:58', 
     'haipv'
   ), 
   (
@@ -1912,8 +1377,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    42990000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    42990000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:18:58', 
     'haipv'
   ), 
   (
@@ -1925,8 +1390,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    33990000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    33990000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:18:58', 
     'haipv'
   ), 
   (
@@ -1938,8 +1403,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    39990000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    39990000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:18:59', 
     'haipv'
   ), 
   (
@@ -1951,8 +1416,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    64990000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    64990000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:18:59', 
     'haipv'
   ), 
   (
@@ -1964,8 +1429,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    99000000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    99000000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:18:59', 
     'haipv'
   ), 
   (
@@ -1977,8 +1442,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    33990000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    33990000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:18:59', 
     'haipv'
   ), 
   (
@@ -1990,8 +1455,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    38990000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    38990000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:19:00', 
     'haipv'
   ), 
   (
@@ -2003,8 +1468,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    50990000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    50990000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:19:00', 
     'haipv'
   ), 
   (
@@ -2016,8 +1481,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    41990000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    41990000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:19:01', 
     'haipv'
   ), 
   (
@@ -2029,8 +1494,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Audio:&nbsp;</span>Harman Kardon</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Kết nối kh&ocirc;ng d&acirc;y: WIFI&nbsp;</span>802.11AC (2x2), Bluetooth v5.0</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam:&nbsp;</span>HD Web Camera</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Cổng giao tiếp:&nbsp;\n  <ul>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-A USB 3.2 Gen 1</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x Type-C USB 3.2</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">2x USB 2.0 port(s)</li>\n    <li class=\"d-flex justify-content-between pb-2 border-bottom\">1x HDMI 1.4</li>\n  </ul>\n  </li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Bảo mật: Cảm biến v&acirc;n tay</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
-    34990000, NULL, 1000,  '', 3, 
-    8, NULL, NULL, '2022-08-08 07:30:53', 
+    34990000, NULL, 1000, 1, 3, 
+    8, NULL, NULL, '2022-08-12 09:18:31', 
     'haipv'
   ), 
   (
@@ -2041,8 +1506,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 39990000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 07:42:06', 
+    '', 39990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:32', 
     'haipv'
   ), 
   (
@@ -2053,8 +1518,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 34990000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 13:37:33', 
+    '', 34990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:32', 
     'haipv'
   ), 
   (
@@ -2065,8 +1530,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 34990000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 13:40:06', 
+    '', 34990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:32', 
     'haipv'
   ), 
   (
@@ -2077,8 +1542,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 34990000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 13:41:27', 
+    '', 34990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:33', 
     'haipv'
   ), 
   (
@@ -2089,8 +1554,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 25590000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 13:49:25', 
+    '', 25590000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:33', 
     'haipv'
   ), 
   (
@@ -2101,8 +1566,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 27590000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 13:53:15', 
+    '', 27590000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:34', 
     'haipv'
   ), 
   (
@@ -2113,8 +1578,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 31000000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 13:53:41', 
+    '', 31000000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:34', 
     'haipv'
   ), 
   (
@@ -2124,8 +1589,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 15990000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 14:00:13', 
+    '', 15990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:34', 
     'haipv'
   ), 
   (
@@ -2135,8 +1600,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 17990000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 14:00:50', 
+    '', 17990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:35', 
     'haipv'
   ), 
   (
@@ -2146,8 +1611,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 17990000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 14:01:37', 
+    '', 17990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:35', 
     'haipv'
   ), 
   (
@@ -2157,8 +1622,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 15000000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 14:08:01', 
+    '', 15000000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:36', 
     'haipv'
   ), 
   (
@@ -2169,8 +1634,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 16000000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 14:08:56', 
+    '', 16000000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:36', 
     'haipv'
   ), 
   (
@@ -2181,8 +1646,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 19500000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 14:09:26', 
+    '', 19500000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:37', 
     'haipv'
   ), 
   (
@@ -2192,8 +1657,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 10790000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 14:15:19', 
+    '', 10790000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:37', 
     'haipv'
   ), 
   (
@@ -2203,8 +1668,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 13490000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 14:15:56', 
+    '', 13490000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:37', 
     'haipv'
   ), 
   (
@@ -2214,8 +1679,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 19000000, NULL, 1000,  '', 
-    5, 8, NULL, NULL, '2022-08-08 14:16:28', 
+    '', 19000000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-12 09:18:37', 
     'haipv'
   ), 
   (
@@ -2226,8 +1691,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 17990000, NULL, 1000,  '', 
-    7, 8, NULL, NULL, '2022-08-10 07:48:26', 
+    '', 17990000, NULL, 1000, 1, 
+    7, 8, NULL, NULL, '2022-08-12 09:18:37', 
     'haipv'
   ), 
   (
@@ -2239,8 +1704,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 33590000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 07:54:40', 
+    '', 33590000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:38', 
     'haipv'
   ), 
   (
@@ -2252,8 +1717,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 27990000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 08:00:10', 
+    '', 27990000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:38', 
     'haipv'
   ), 
   (
@@ -2265,8 +1730,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 32850000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 08:13:38', 
+    '', 32850000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:38', 
     'haipv'
   ), 
   (
@@ -2278,8 +1743,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 29950000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 08:17:35', 
+    '', 29950000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:39', 
     'haipv'
   ), 
   (
@@ -2291,8 +1756,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 27050000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 08:17:21', 
+    '', 27050000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:39', 
     'haipv'
   ), 
   (
@@ -2304,8 +1769,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 22200000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 08:24:53', 
+    '', 22200000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:39', 
     'haipv'
   ), 
   (
@@ -2317,8 +1782,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 23650000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 08:48:08', 
+    '', 23650000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:40', 
     'haipv'
   ), 
   (
@@ -2330,8 +1795,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 19750000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 08:51:52', 
+    '', 19750000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:40', 
     'haipv'
   ), 
   (
@@ -2343,8 +1808,8 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 19750000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 08:51:42', 
+    '', 19750000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:40', 
     'haipv'
   ), 
   (
@@ -2354,543 +1819,1341 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
-    '', 21490000, NULL, 1000,  '', 
-    4, 10, NULL, NULL, '2022-08-10 09:10:09', 
+    '', 21490000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:18:41', 
+    'haipv'
+  ), 
+  (
+    69, 1.27, 'Samsung Galaxy S20 Ultra', 
+    'samsung-galaxy-s20-ultra', 'samsung-galaxy-s20-ultra.png', 
+    'https://www.youtube.com/watch?v=y5UkgluqfYc', 
+    '<h2>ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Quay phim ấn tượng, chụp đ&ecirc;m si&ecirc;u n&eacute;t - Camera 108MP, Zoom xa 100x, quay phim 8K, chống rung.</li>\n  <li>Sẵn s&agrave;ng cả ng&agrave;y d&agrave;i - Pin 5000mAh, sạc nhanh si&ecirc;u tốc 45W</li>\n  <li>Hiệu năng mạnh mẽ, chơi game cực đ&atilde; - Exunos 990 8 nh&acirc;n, RAM 12GB</li>\n  <li>Trải nghiệm h&igrave;nh ảnh ấn tượng - M&agrave;n h&igrave;nh AMOLED 6.9 inch, độ ph&acirc;n giải 2K, tần số qu&eacute;t si&ecirc;u cao 120Hz.</li>\n</ul>\n\n<h2><strong>Điện thoại Samsung S20 Ultra &ndash; Flagship thiết kế độc đ&aacute;o, cấu h&igrave;nh cao</strong></h2>\n\n<p><strong>Samsung Galaxy S20 Ultra</strong>&nbsp;l&agrave; flagship mới của d&ograve;ng Galaxy S sẽ được Samsung giới thiệu v&agrave;o đầu năm 2020. Đ&acirc;y l&agrave; phi&ecirc;n bản cao cấp nhất b&ecirc;n cạnh phi&ecirc;n bản thường v&agrave; bản Plus. Điện thoại sẽ được trang bị những t&iacute;nh năng tuyệt vời, dung lượng pin lớn, m&agrave;n h&igrave;nh được trang bị tần số qu&eacute;t 120Hz, camera ch&iacute;nh c&oacute; độ ph&acirc;n giải 108mp sẽ l&agrave; những t&iacute;nh năng nổi bật nhất. Để tiết kiệm chi ph&iacute; nhưng vẫn c&oacute; thể trải nghiệm c&aacute;c t&iacute;nh năng cao cấp, tham khảo ngay&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-s20-fe.html\">điện thoại Samsung S20 FE</a>&nbsp;đang c&oacute; mức gi&aacute; cực hấp dẫn.</p>\n\n<h3><strong>M&agrave;n h&igrave;nh k&iacute;ch thước 6.9 inch với tần số qu&eacute;t 120Hz</strong></h3>\n\n<p>Về thiết kế, Samsung S20 Ultra c&oacute; thiết kế tương tự&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-s20.html\" target=\"_blank\">Samsung S20</a>&nbsp;v&agrave; S20 Plus. Mặt trước m&aacute;y được trang bị m&agrave;n h&igrave;nh cong 6.9 inch với tấm nền&nbsp;AMOLEDv&agrave; độ ph&acirc;n giải FullHD. C&aacute;c cạnh m&aacute;y được v&aacute;t nhẹ cho khả năng cầm nắm tốt. Phần camera trước của S20 Ultra sẽ được l&agrave;m theo dạng đục lỗ thường thấy tr&ecirc;n c&aacute;c mẫu smartphone Samsung gần đ&acirc;y. Ngo&agrave;i ra, m&agrave;n h&igrave;nh c&oacute; tần số qu&eacute;t l&ecirc;n đến 120Hz. Đ&acirc;y cũng l&agrave; mẫu smartphone đầu ti&ecirc;n được Samsung trang bị m&agrave;n h&igrave;nh c&oacute; tần số qu&eacute;t cao như vậy. Với mức tần số qu&eacute;t n&agrave;y, m&aacute;y sẽ cho độ nhạy cảm ứng cao hơn, c&aacute;c thao t&aacute;c vuốt chạm sẽ mượt m&agrave; v&agrave; ch&acirc;n thực hơn, độ trễ giữa c&aacute;c thao t&aacute;c l&agrave; rất &iacute;t. Ngo&agrave;i ra, bạn sẽ dễ d&agrave;ng cảm nhận sự thay đổi n&agrave;y khi chơi c&aacute;c game y&ecirc;u cầu đồ họa cao.</p>\n\n<p><img alt=\"Màn hình 6.9 inch với tần số quét 120Hz\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-s20-ultra-1.JPG\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-s20-ultra-1.JPG\" /></p>\n\n<p>Mặt sau của m&aacute;y được l&agrave;m bằng k&iacute;nh sang trọng. M&aacute;y cũng được trang bị c&ocirc;ng nghệ cảm biến v&acirc;n tay &acirc;m m&agrave;n h&igrave;nh.Cụm 4 camera v&agrave; đ&egrave;n led sẽ nằm b&ecirc;n ở g&oacute;c b&ecirc;n tr&aacute;i thay v&igrave; nằm ngang như tr&ecirc;n Samsung Galaxy S10 năm nay. Ngo&agrave;i ra, Galaxy S20 Ultra chỉ giữ lại cổng&nbsp;USB Type-C&nbsp;v&agrave; cụm loa ngo&agrave;i ở cạnh dưới của m&aacute;y. Cụm ph&iacute;m tăng giảm &acirc;m lượng v&agrave; ph&iacute;m trợ l&yacute; ảo Bixby được thiết kế b&ecirc;n tay phải thay v&igrave; b&ecirc;n tr&aacute;i như tr&ecirc;n Galaxy Note 10. M&aacute;y sẽ bị loại bỏ jack tai nghe 3.5mm.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 16000000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 09:45:09', 
+    'haipv'
+  ), 
+  (
+    70, 1.27, 'Samsung Galaxy Note 20', 
+    'samsung-galaxy-note-20', 'samsung-galaxy-note-20.png', 
+    'https://www.youtube.com/watch?v=Jh8z3j4Q83w', 
+    '<h2>ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Sang trọng, cao cấp - M&agrave;u sắc độc đ&aacute;o v&agrave; cuốn h&uacute;t</li>\n  <li>Chụp ảnh chuy&ecirc;n nghiệp - Bộ 3 camera hỗ trợ Zoom xa đến 30X</li>\n  <li>Ghi ch&uacute; nhanh ch&oacute;ng, ch&iacute;nh x&aacute;c với b&uacute;t S- Pen thế hệ mới</li>\n  <li>Chơi game đỉnh cao - Exynos 990 7nm mạnh mẽ, hiệu năng xử l&yacute; vượt trội</li>\n</ul>\n\n<h2><strong>Samsung Note 20 &ndash; M&agrave;n h&igrave;nh 2K tuyệt hảo v&agrave; b&uacute;t S-Pen cho trải nghiệm tiện &iacute;ch</strong></h2>\n\n<p>Sau h&agrave;ng loạt th&agrave;nh c&ocirc;ng từ những thế hệ&nbsp;Galaxy Note trước, Samsung lại tiếp tục khiến cộng đồng c&ocirc;ng nghệ phải ph&aacute;t cuồng với si&ecirc;u phẩm tiếp theo của m&igrave;nh &ndash;&nbsp;<strong>Samsung Galaxy Note 20</strong>. Si&ecirc;u phẩm n&agrave;y hứa hẹn sẽ mang đến cho người d&ugrave;ng những trải nghiệm vượt trội hơn, mạnh mẽ hơn với một thiết kế tinh tế, ho&agrave;n hảo.</p>\n\n<p>Ngo&agrave;i ra, kh&aacute;ch h&atilde;ng c&ugrave;ng c&oacute; thể tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-note-20-ultra-5g.html\">Note 20 Ultra 5G</a>&nbsp;đang c&oacute; mức gi&aacute; v&ocirc; c&ugrave;ng hấp dẫn tại CellphoneS.</p>\n\n<h3><strong>Thiết kế kim loại nguy&ecirc;n khối v&agrave; mặt lưng k&iacute;nh cường lực tinh tế, sang trọng</strong></h3>\n\n<p>C&oacute; thể n&oacute;i, những thiết kế của Samsung lu&ocirc;n khiến cộng đồng đam m&ecirc; c&ocirc;ng nghệ phải say m&ecirc; khi v&ocirc; c&ugrave;ng tinh tế c&ugrave;ng với những gam m&agrave;u sang trọng. Thế hệ Samsung Galaxy Note năm 2020 sở hữu thiết kế kim loại nguy&ecirc;n khối, mặt lưng được l&agrave;m từ k&iacute;nh cường lực gi&uacute;p tăng độ b&oacute;ng bẩy cho smartphone, mang đến vẻ ngo&agrave;i đẳng cấp. Note 20 c&oacute; kiểu d&aacute;ng mạnh mẽ v&agrave; c&oacute; phần nam t&iacute;nh hơn với những g&oacute;c cạnh vu&ocirc;ng vức, mang đến cảm gi&aacute;c cầm tay chắc chắn.</p>\n\n<p><img alt=\"Thiết kế kim loại nguyên khối và mặt lưng kính cường lực tinh tế, sang trọng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-note-20-8_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-note-20-8_1.jpg\" /></p>\n\n<p>Mặc d&ugrave; sở hữu m&agrave;n h&igrave;nh lớn nhưng k&iacute;ch thước của m&aacute;y vẫn kh&aacute; gọn nhờ viền m&agrave;n h&igrave;nh cực mỏng v&agrave; độ mỏng cũng v&ocirc; c&ugrave;ng ấn tượng, mang đến sự thanh tho&aacute;t, sang trọng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 15000000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 11:32:20', 
+    'haipv'
+  ), 
+  (
+    71, 1.27, 'Samsung Galaxy Note 20 Ultra', 
+    'samsung-galaxy-note-20-ultra', 
+    'samsung-galaxy-note-20-ultra.png', 
+    'https://www.youtube.com/watch?v=UjA7iAVCDjY', 
+    '<h2>ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Sang trọng, cao cấp - M&agrave;u sắc độc đ&aacute;o v&agrave; cuốn h&uacute;t</li>\n  <li>Chụp ảnh chuy&ecirc;n nghiệp - Bộ 3 camera hỗ trợ Zoom xa đến 50X</li>\n  <li>Ghi ch&uacute; nhanh ch&oacute;ng, ch&iacute;nh x&aacute;c với b&uacute;t S- Pen thế hệ mới</li>\n  <li>Chơi game đỉnh cao - Exynos 990 7nm mạnh mẽ, hiệu năng xử l&yacute; vượt trội</li>\n</ul>\n\n<h2>Samsung Note 20 Ultra: Thiết kế sang trọng v&agrave; nhiều c&ocirc;ng nghệ cực tốt</h2>\n\n<p>Samsung l&agrave; g&atilde; khổng lồ c&ocirc;ng nghệ cực kỳ nổi tiếng đến từ đất nước H&agrave;n Quốc, mỗi chiếc điện thoại của h&atilde;ng&nbsp;đều mang thiết kế hiện đại, sang trọng đi k&egrave;m với đa dạng c&ocirc;ng nghệ cực kỳ nổi bật.&nbsp;<strong>Note 20 Ultra</strong>&nbsp;l&agrave; một trong những chiếc smartphone nổi tiếng v&agrave; đang được nhiều người quan t&acirc;m, đ&oacute;n nhận. Samsung hứa hẹn sẽ chiều l&ograve;ng kh&aacute;ch h&agrave;ng với thiết kế lộng lẫy, c&ugrave;ng với v&ocirc; v&agrave;ng c&ocirc;ng nghệ, chip xử l&yacute; mới mẻ, thật hiện đại. Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-note-20-ultra-5g.html\">Samsung Galaxy Note 20 Ultra 5G</a>&nbsp;để tận hưởng tốc độ mạng di động mạnh nhất hiện nay.</p>\n\n<h3><strong>M&agrave;n h&igrave;nh AMOLED cực sống động k&egrave;m với hệ điều h&agrave;nh Android, One UI 2.1</strong></h3>\n\n<p>Điều đầu ti&ecirc;n m&agrave; chắc hẳn nhiều người sẽ th&iacute;ch th&uacute; ở chiếc điện thoại Samsung Galaxy Note 20 Ultra đ&oacute; ch&iacute;nh l&agrave; sự trang bị m&agrave;n h&igrave;nh AMOLED. Với Dynamic AMOLED được trang bị l&ecirc;n đến 16M colors, k&iacute;ch thước m&agrave;n h&igrave;nh l&ecirc;n đến 6.9 inches v&agrave; độ ph&acirc;n giải Quad-HD+. Tạo ra mọi m&agrave;u sắc ch&acirc;n thật nhất, sống động v&agrave; sắc n&eacute;t cho người d&ugrave;ng trải nghiệm th&iacute;ch th&uacute;.&nbsp;</p>\n\n<p><img alt=\"Màn hình AMOLED cực sống động kèm với hệ điều hành Android, One UI 2.1\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/galaxy-note-20-ultra3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/galaxy-note-20-ultra3.jpg\" /></p>\n\n<p>M&aacute;y được c&agrave;i sẵn hệ điều h&agrave;nh Android. Đ&acirc;y dường như l&agrave; hệ điều h&agrave;nh th&ocirc;ng dụng v&agrave; được nhiều người sử dụng quen tay nhất. Đi k&egrave;m với đ&oacute; l&agrave; skin One UI 2.1 dựa tr&ecirc;n Android 10, tạo n&ecirc;n nhiều chức năng, c&ocirc;ng cụ hiện đại c&oacute; tr&ecirc;n chiếc Samsung Galaxy Note n&agrave;y.&nbsp;</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 19200000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 11:41:22', 
+    'haipv'
+  ), 
+  (
+    72, 1.27, 'Samsung Galaxy Note 20 Ultra 5G', 
+    'samsung-galaxy-note-20-ultra-5g', 
+    'samsung-galaxy-note-20-ultra-5g.png', 
+    'https://www.youtube.com/watch?v=UjA7iAVCDjY', 
+    '<h2>ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Sang trọng, cao cấp - M&agrave;u sắc độc đ&aacute;o v&agrave; cuốn h&uacute;t</li>\n  <li>Chụp ảnh chuy&ecirc;n nghiệp - Bộ 3 camera hỗ trợ Zoom xa đến 30X</li>\n  <li>Ghi ch&uacute; nhanh ch&oacute;ng, ch&iacute;nh x&aacute;c với b&uacute;t S- Pen thế hệ mới</li>\n  <li>Chơi game đỉnh cao - Exynos 990 7nm mạnh mẽ, hiệu năng xử l&yacute; vượt trội</li>\n</ul>\n\n<h2><strong>Điện thoại Samsung Note 20 Ultra 5G - Sang trọng, hiệu năng vượt trội</strong></h2>\n\n<p>B&ecirc;n cạnh bi&ecirc;n bản Galaxy Note 20 thường, Samsung c&ograve;n cho ra mắt&nbsp;<strong>Note 20 Ultra 5G</strong>&nbsp;cho khả năng kết nối dữ liệu cao c&ugrave;ng thiết kế nguy&ecirc;n khối sang trọng, bắt mắt. Đ&acirc;y sẽ l&agrave; sự lựa chọn ho&agrave;n hảo d&agrave;nh cho bạn để sử dụng m&agrave; kh&ocirc;ng bị lỗi thời sau thời gian d&agrave;i ra mắt.</p>\n\n<p>Ngo&agrave;i ra, bạn c&oacute; thể tham khảo điện thoại m&agrave;n h&igrave;nh gập&nbsp;<strong><a href=\"https://cellphones.com.vn/samsung-galaxy-z-fold-3.html\">Samsung Fold 3</a></strong>&nbsp;nếu bạn cần sự kh&aacute;c biệt v&agrave; khẳng định đẳng cấp.</p>\n\n<h3><strong>Thiết kế khung nh&ocirc;m nguy&ecirc;n khối, mặt sau k&iacute;nh cường lực sang trọng</strong></h3>\n\n<p>L&agrave; một sản phẩm c&oacute; k&iacute;ch thước m&agrave;n h&igrave;nh lớn v&igrave; vậy Samsung đ&atilde; trang bị cho Galaxy Note 20 Ultra 5G&nbsp; với c&ocirc;ng nghệ kết nối dữ liệu mạnh mẽ c&ugrave;ng thiết kế nguy&ecirc;n khối. Gi&uacute;p c&aacute;c linh kiện b&ecirc;n trong điện thoại được cố định chắc chắn đảm bảo mọi thứ b&ecirc;n trong lu&ocirc;n được an to&agrave;n. Kh&ocirc;ng những vậy khung nh&ocirc;m tạo tr&ecirc;n những đường viền cực kỳ sang trọng v&agrave; bắt mắt khi nh&igrave;n v&agrave;o.</p>\n\n<p><img alt=\"Thiết kế khung nhôm nguyên khối, mặt sau kính cường lực sang trọng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/Samsung-Galaxy-Note-20-Ultra-5G.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/Samsung-Galaxy-Note-20-Ultra-5G.jpg\" /></p>\n\n<p>Mặt sau của SS Galaxy Note n&agrave;y được h&atilde;ng trang bị mặt k&iacute;nh tạo n&ecirc;n vẻ sang trọng v&agrave; cuốn h&uacute;t khi nh&igrave;n v&agrave;o chiếc điện thoại từ b&ecirc;n ngo&agrave;i. Loại k&iacute;nh cho cả mặt trước v&agrave; mặt sau đều l&agrave; k&iacute;nh cường lực Gorilla Glass 6 kh&ocirc;ng những sang trọng m&agrave; c&ograve;n mang đến sự chắc chắn hạn chế rơi vỡ vực tốt.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 18990000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 11:50:20', 
+    'haipv'
+  ), 
+  (
+    73, 1.27, 'Samsung Galaxy Z Flip3 5G', 
+    'samsung-galaxy-z-flip3-5g', 'samsung-galaxy-z-flip3-5g.png', 
+    'https://www.youtube.com/watch?v=TJn1q4K8ajw', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế độc đ&aacute;o tiện lợi, khẳng định đẳng cấp - Thiết kế gập mở vỏ s&ograve;, khung nh&ocirc;m aluminum chắc chắn</li>\n  <li>M&agrave;n h&igrave;nh k&eacute;p ấn tượng - M&agrave;n h&igrave;nh ch&iacute;nh: 6.7&quot;, m&agrave;n h&igrave;nh phụ: 1.9&quot; AMOLED</li>\n  <li>Hệ thống camera si&ecirc;u ấn tượng - Bộ 3 ống k&iacute;nh camera 12MP, camera selfie sắc n&eacute;t</li>\n  <li>Hiệu năng ấn tượng, l&agrave;m chủ tốc độ - Snapdragon 888 kết hợp RAM 8GB, hỗ trợ 5G</li>\n</ul>\n\n<h2><strong>Samsung Galaxy Z Flip 3 (5G) &ndash; Điện thoại m&agrave;n h&igrave;nh</strong><strong>&nbsp;gập độc đ&aacute;o</strong></h2>\n\n<p>B&ecirc;n cạnh c&aacute;c si&ecirc;u phẩm của d&ograve;ng S hay d&ograve;ng Note th&igrave; Samsung c&ograve;n tr&igrave;nh l&agrave;ng một d&ograve;ng điện thoại si&ecirc;u đặc biệt. V&agrave; cho đến 2021 h&atilde;ng đ&atilde; ph&aacute;t triển đến thế hệ thứ ba, với t&ecirc;n gọi&nbsp;<strong>Galaxy Z Flip 3</strong>. Ngo&agrave;i sở hữu thiết kế gập độc đ&aacute;o th&igrave; n&oacute; c&ograve;n sở hữu t&iacute;nh năng g&igrave; mới h&atilde;y c&ugrave;ng ch&uacute;ng t&ocirc;i xem qua b&agrave;i viết b&ecirc;n dưới đ&acirc;y nh&eacute;.</p>\n\n<p>Z Flip 3 5G đ&atilde; được Samsung tr&igrave;nh l&agrave;ng c&ugrave;ng với&nbsp;<strong><a href=\"https://cellphones.com.vn/samsung-galaxy-z-fold-3.html\">điện thoại Galaxy Z Fold 3</a></strong>&nbsp;tại sự kiện ra mắt trực tuyến Unpacked diễn ra v&agrave;o ng&agrave;y 11/8.</p>\n\n<h3><strong>Thiết kế đậm chất đặc trưng, m&agrave;n h&igrave;nh dẻo ti&ecirc;n phong</strong></h3>\n\n<p>Samsung Galaxy Z Flip 3 sở hữu một phong c&aacute;ch thiết kế gập vỏ s&ograve; c&ugrave;ng khung nh&ocirc;m&nbsp;aluminum chắc chắn.&nbsp;Khi gấp gọn, điện thoại chỉ c&oacute; k&iacute;ch thước 4.2 inch v&ocirc; c&ugrave;ng nhỏ gọn nhưng mở r&acirc; lại l&agrave; một chiếc điện thoại th&ocirc;ng minh m&agrave;n h&igrave;nh lớn mang lại khả năng kh&aacute;m ph&aacute; kh&ocirc;ng giới hạn. M&agrave;n h&igrave;nh ngo&agrave;i của thiết bị được trang bị mặt k&iacute;nh&nbsp;Gorilla Glass si&ecirc;u bền bỉ.</p>\n\n<p><img alt=\"Thiết kế đậm chất đặc trưng, màn hình dẻo tiên phong\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/galaxy-z-flip3-5g-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/galaxy-z-flip3-5g-1.jpg\" /></p>\n\n<p>Bản lề tr&ecirc;n Samsung Galaxy Z Flip 3 cũng được đ&aacute;nh gi&aacute; bền bỉ khi vượt qua b&agrave;i thử nghiệm l&ecirc;n đến 200000 lần, nhờ đ&oacute; người d&ugrave;ng c&oacute; thể thoải m&aacute;i sử dụng l&ecirc;n đến hơn 5 năm.</p>\n\n<p>Về m&agrave;u sắc, điện thoại Samsung Galaxy Z Flip 3 sẽ được b&aacute;n ra với nhiều phi&ecirc;n bản m&agrave;u như&nbsp;Kem Ivory,&nbsp;Đen Phantom,&nbsp;Xanh Phantom,&nbsp;T&iacute;m Lilac. Nhờ đ&oacute; người d&ugrave;ng c&oacute; nhiều sự lựa chọn m&agrave;u sắc hơn theo sở th&iacute;ch. M&aacute;y cũng sẽ được trang bị chẩn kh&aacute;ng nước v&agrave; bụi bẩn IPX8 tiện lợi.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 15450000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 11:54:56', 
+    'haipv'
+  ), 
+  (
+    74, 1.27, 'Samsung Galaxy Z Flip3 5G 256GB', 
+    'samsung-galaxy-z-flip3-5g-256gb', 
+    'samsung-galaxy-z-flip3-5g-256gb.png', 
+    'https://www.youtube.com/watch?v=TJn1q4K8ajw', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế độc đ&aacute;o tiện lợi, khẳng định đẳng cấp - Thiết kế gập mở vỏ s&ograve;, khung nh&ocirc;m aluminum chắc chắn</li>\n  <li>M&agrave;n h&igrave;nh k&eacute;p ấn tượng - M&agrave;n h&igrave;nh ch&iacute;nh: 6.7&quot;, m&agrave;n h&igrave;nh phụ: 1.9&quot; AMOLED</li>\n  <li>Hệ thống camera si&ecirc;u ấn tượng - Bộ 3 ống k&iacute;nh camera 12MP, camera selfie sắc n&eacute;t</li>\n  <li>Hiệu năng ấn tượng, l&agrave;m chủ tốc độ - Snapdragon 888 kết hợp RAM 8GB, hỗ trợ 5G</li>\n</ul>\n\n<p><a href=\"https://cellphones.com.vn/samsung-galaxy-z-flip-3.html\">Samsung Galaxy Z Flip 3 5G</a>&nbsp;dự kiến sẽ được ra mắt v&agrave;o ng&agrave;y 11/8 tại sự kiện Unpacked diễn ra trực tuyến. Nhiều khả năng, điện thoại m&agrave;n h&igrave;nh gập n&agrave;y sẽ l&ecirc;n kệ tại thị trường Việt Nam v&agrave;o giữa cuối th&aacute;ng 9.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 15450000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 11:56:05', 
+    'haipv'
+  ), 
+  (
+    75, 1.27, ' Samsung Galaxy S21 FE 5G (6GB - 128GB)', 
+    'samsung-galaxy-s21-fe-5g-6gb-128gb', 
+    'samsung-galaxy-s21-fe-5g-6gb-128gb.png', 
+    'https://www.youtube.com/watch?v=Kc9BDVdpoZI', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế cao cấp - Vẻ đẹp tinh tế c&ugrave;ng nhiều m&agrave;u sắc thời thượng</li>\n  <li>Trọn vẹn từng khung h&igrave;nh - M&agrave;n h&igrave;nh 6.4&quot;&quot;, độ s&aacute;ng cao c&ugrave;ng tần số qu&eacute;t 120Hz</li>\n  <li>Sắc n&eacute;t từng khung h&igrave;nh - Bộ ba camera 12MP, hỗ trợ quay video 4K, chống rung điện từ EIS</li>\n  <li>Mượt m&agrave; mọi t&aacute;c vụ - Chip Exynos 2100 tiến tr&igrave;nh 5nm mạnh mẽ</li>\n</ul>\n\n<h2>Điện thoại Samsung Galaxy S21 FE - 5G si&ecirc;u tốc,&nbsp;cấu h&igrave;nh mạnh mẽ</h2>\n\n<p>Tiếp nối sự th&agrave;nh c&ocirc;ng của Galaxy S20 FE, g&atilde; khổng lồ H&agrave;n Quốc tiếp tục cho ra mắt&nbsp;<strong>Samsung S21 FE</strong>&nbsp;với định hướng tốt về gi&aacute; &ndash; mạnh về hiệu năng của m&igrave;nh cho ph&acirc;n kh&uacute;c cao cấp. Sản phẩm l&agrave; sự kết hợp ho&agrave;n hảo của một thiết kế thời trang, cấu h&igrave;nh v&agrave; hiệu năng mạnh mẽ đi k&egrave;m mức gi&aacute; tốt cho người d&ugrave;ng.</p>\n\n<h3><strong>Thiết kế cao cấp mang đến sự s&aacute;ng tạo, đổi mới</strong></h3>\n\n<p>Điện thoại Galaxy S21 FE 5G tiếp nối sự th&agrave;nh c&ocirc;ng trong thiết kế từ người tiền nhiệm, cấu tạo 2 mặt k&iacute;nh cường lực c&ugrave;ng khung viền nh&ocirc;m b&oacute;ng bẩy gi&uacute;p bắt trọn mọi &aacute;nh nh&igrave;n xung quanh d&ugrave; ở bất kỳ g&oacute;c độ n&agrave;o.</p>\n\n<p><img alt=\"Thiết kế cao cấp mang đến sự sáng tạo, đổi mới\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-s21-fe-1_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-s21-fe-1_1.jpg\" /></p>\n\n<p>Hiểu r&otilde; t&iacute;nh c&aacute;ch của bạn qua c&aacute;c gam m&agrave;u được Samsung chắt lọc, người d&ugrave;ng c&oacute; thể thỏa th&iacute;ch lựa chọn m&agrave;u sắc tr&ecirc;n m&aacute;y y&ecirc;u th&iacute;ch với 6 m&agrave;u sắc thời thượng kh&aacute;c nhau như xanh kh&iacute; chất, t&iacute;m thanh lịch, cam nổi bật, trắng tối giản, đỏ xu thế.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 11290000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 11:59:26', 
+    'haipv'
+  ), 
+  (
+    76, 1.27, ' Samsung Galaxy S21 FE 5G (8GB - 128GB)', 
+    'samsung-galaxy-s21-fe-5g-8gb-128gb', 
+    'samsung-galaxy-s21-fe-5g-8gb-128gb.png', 
+    'https://www.youtube.com/watch?v=Kc9BDVdpoZI', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế cao cấp - Vẻ đẹp tinh tế c&ugrave;ng nhiều m&agrave;u sắc thời thượng</li>\n  <li>Trọn vẹn từng khung h&igrave;nh - M&agrave;n h&igrave;nh 6.4&quot;&quot;, độ s&aacute;ng cao c&ugrave;ng tần số qu&eacute;t 120Hz</li>\n  <li>Sắc n&eacute;t từng khung h&igrave;nh - Bộ ba camera 12MP, hỗ trợ quay video 4K, chống rung điện từ EIS</li>\n  <li>Mượt m&agrave; mọi t&aacute;c vụ - Chip Exynos 2100 tiến tr&igrave;nh 5nm mạnh mẽ</li>\n</ul>\n\n<p><a href=\"https://cellphones.com.vn/samsung-galaxy-s21-fe.html\">Samsung Galaxy S21 FE</a>&nbsp;(8GB - 128GB) được cung cấp sức mạnh bởi con chip xử l&yacute;&nbsp;Exynos 2100 &quot;c&acirc;y nh&agrave; l&aacute; vườn&quot;&nbsp;kết hợp với 8GB RAM mang đến hiệu suất hoạt động mạnh mẽ c&ugrave;ng bộ nhớ trong 128GB gi&uacute;p người d&ugrave;ng c&oacute; thể thoải m&aacute;i lưu trữ h&igrave;nh ảnh, video dữ liệu.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 12790000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 12:00:11', 
+    'haipv'
+  ), 
+  (
+    77, 1.27, 'Samsung Galaxy S21 FE 5G (8GB - 256GB)', 
+    'samsung-galaxy-s21-fe-5g-8gb-256gb', 
+    'samsung-galaxy-s21-fe-5g-8gb-256gb.png', 
+    'https://www.youtube.com/watch?v=Kc9BDVdpoZI', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế cao cấp - Vẻ đẹp tinh tế c&ugrave;ng nhiều m&agrave;u sắc thời thượng</li>\n  <li>Trọn vẹn từng khung h&igrave;nh - M&agrave;n h&igrave;nh 6.4&quot;, Super AMOLED, tần số qu&eacute;t 120Hz</li>\n  <li>Sắc n&eacute;t từng khung h&igrave;nh - Bộ ba camera 12MP, hỗ trợ quay video 4K, chống rung điện từ EIS</li>\n  <li>Mượt m&agrave; mọi t&aacute;c vụ - Chip Exynos 2100 mạnh mẽ c&ugrave;ng RAM 8GB đa nhiệm</li>\n</ul>\n\n<p><a href=\"https://cellphones.com.vn/samsung-galaxy-s21-fe.html\">Điện thoại Samsung Galaxy S21 FE</a>&nbsp;(8GB - 256GB) được trang bị vi xử l&yacute;&nbsp;Exynos 2100 kết hợp với 8GB RAM mang lại hiệu năng mạnh mẽ c&ugrave;ng 256GB bộ nhớ trong gi&uacute;p người d&ugrave;ng thoải m&aacute;i lưu trữ h&igrave;nh ảnh, dữ liệu.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 13650000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-12 12:00:44', 
+    'haipv'
+  ), 
+  (
+    78, 1.27, 'Samsung Galaxy S20 FE 256GB', 
+    'samsung-galaxy-s20-fe-256gb', 
+    'samsung-galaxy-s20-fe-256gb.png', 
+    'https://www.youtube.com/watch?v=fwo5a222Up0', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Kh&ocirc;ng gian giải tr&iacute; bất tận - M&agrave;n h&igrave;nh Super Amoled 6.5&quot;, FullHD, HDR10+, 120Hz</li>\n  <li>Hiệu năng mạnh mẽ - Chip Snapdragon 865, chuẩn bộ nhớ UFS 3.1</li>\n  <li>Bừng s&aacute;ng mọi khung h&igrave;nh - Camera 12MP hỗ trợ quay phim 8K, zoom quang 3X</li>\n  <li>Năng lượng cho cả ng&agrave;y d&agrave;i - Vi&ecirc;n pin lớn 4500mAh, sạc nhanh 25W</li>\n</ul>\n\n<h2>Điện thoại Samsung Galaxy S20 FE - Phi&ecirc;n bản đặc biệt d&agrave;nh cho fan Samsung</h2>\n\n<p><strong>Samsung S20 FE</strong>&nbsp;l&agrave; chiếc điện thoại sắp được ra mắt từ Samsung, với chữ FE đằng sau t&ecirc;n gọi của m&aacute;y c&oacute; nghĩa l&agrave; Fan Edition. Đ&acirc;y l&agrave; d&ograve;ng điện thoại ra mắt như để gửi lời tri &acirc;n đến c&aacute;c fan trung th&agrave;nh đ&atilde; v&agrave; đang sử dụng c&aacute;c sản phẩm của Samsung. Với số lượng sản phẩm được giới hạn v&agrave; chỉ mở b&aacute;n trong thời gian ngắn.&nbsp;&nbsp;</p>\n\n<p>Tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-s21-fe.html\">điện thoại Samsung Galaxy S21 FE</a>&nbsp;với nhiều n&acirc;ng cấp về cấu h&igrave;nh, camera v&agrave; dung lượng pin.</p>\n\n<h3>M&agrave;n h&igrave;nh Super Amoled 6.5 inch, FullHD, c&ocirc;ng nghệ HDR10+, tần số qu&eacute;t 120Hz</h3>\n\n<p>Được định hướng vẫn l&agrave; sản phẩm ở ph&acirc;n kh&uacute;c cao cấp, Galaxy S20&nbsp;Fan Edition&nbsp;được trang bị tấm nền Super Amoled cao cấp, k&iacute;ch thước m&agrave;n h&igrave;nh lớn l&ecirc;n đến 6.5 inches, m&agrave;n h&igrave;nh độ ph&acirc;n giải FullHD gi&uacute;p h&igrave;nh ảnh hiển thị tr&ecirc;n chiếc điện thoại n&agrave;y l&agrave; v&ocirc; c&ugrave;ng sắc n&eacute;t v&agrave; rực rỡ.</p>\n\n<p><img alt=\"Màn hình 6.5 inch, tấm nền Super Amoled FullHD, công nghệ HDR10+, màn hình tần số quét 120Hz\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-s20-fe-1_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-s20-fe-1_1.jpg\" /></p>\n\n<p>Kh&ocirc;ng bỏ lỡ tr&agrave;o lưu tần số qu&eacute;t cao, điện thoại được trang bị một m&agrave;n h&igrave;nh với tần số qu&eacute;t 120Hz, c&ocirc;ng nghệ h&igrave;nh ảnh HDR10+ tăng độ tương phản, gi&uacute;p bạn c&oacute; những ph&uacute;t gi&acirc;y giải tr&iacute; ho&agrave;n hảo d&ugrave; l&agrave; chơi game hay xem phim.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 10900000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-13 07:18:09', 
+    'haipv'
+  ), 
+  (
+    79, 1.27, 'Samsung Galaxy A73 (5G) 256GB', 
+    'samsung-galaxy-a73-5g-256gb', 
+    'samsung-galaxy-a73-5g-256gb.png', 
+    'https://www.youtube.com/watch?v=MUKBLghesn0', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Camera chất lượng, bắt trọn từng khoảng khắc - Cụm 4 camera với cảm biến ch&iacute;nh l&ecirc;n đến 108 MP</li>\n  <li>Thưởng thức kh&ocirc;ng gian giải tr&iacute; cực đỉnh - M&agrave;n h&igrave;nh lớn 6.7 inch, độ ph&acirc;n giải Full HD+, 120Hz mượt m&agrave;</li>\n  <li>Cấu h&igrave;nh Galaxy A73 5G được n&acirc;ng cấp mạnh với chip Snapdragon 778G, RAM l&ecirc;n đến 8 GB</li>\n  <li>Chiến game thoải m&aacute;i kh&ocirc;ng lo gi&aacute;n đoạn - Vi&ecirc;n pin lớn 5000 mAh, hỗ trợ sạc nhanh 25 W</li>\n</ul>\n\n<p>Năm 2022 hứa hẹn sẽ l&agrave; một năm rất đ&aacute;ng tr&ocirc;ng đợi đối với những ai l&agrave; fan của thương hiệu điện thoại Samsung. Mới đ&acirc;y, h&atilde;ng sẽ tiếp tục cho ra mắt nhiều smartphone với sự cải tiến trong thiết kế v&agrave; cấu h&igrave;nh, trong đ&oacute; phải kể đến chiếc&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-a73.html\" rel=\"noopener\" target=\"_blank\"><strong>Samsung A73</strong></a>&nbsp;với nhiều cải tiến so với thế hệ trước. Vậy sản phẩm c&oacute; g&igrave; nổi bật, gi&aacute; bao nhi&ecirc;u v&agrave; liệu c&oacute; n&ecirc;n mua kh&ocirc;ng? T&igrave;m hiểu ngay nh&eacute;!</p>\n\n<h2><strong>Tại sao n&ecirc;n mua Samsung Galaxy A73?</strong></h2>\n\n<ul>\n  <li><strong>5G thần tốc</strong>: mang cho bạn trải nghiệm đỉnh cao với tốc độ kết nối mạnh mẽ. Bạn c&oacute; thể thoải m&aacute;i tận hưởng v&agrave; chia sẻ tức th&igrave; mọi nội dung giải tr&iacute; cũng như kết nối với mọi người một c&aacute;ch nhanh ch&oacute;ng.</li>\n  <li><strong>Khả năng đa nhiệm được tối ưu</strong>:&nbsp;Được trang bị&nbsp;<em>Snapdragon&reg; 778G 5G</em>,&nbsp;<strong>Galaxy A73 5G</strong>&nbsp;thay đổi ho&agrave;n to&agrave;n n&acirc;ng tầm th&oacute;i quen đa nhiệm với khả năng chơi game chuy&ecirc;n nghiệp. AI được tăng tốc để c&oacute; hiệu suất th&ocirc;ng minh hơn v&agrave; trải nghiệm chụp ảnh cao cấp. Ngo&agrave;i ra, khi bạn cần nhiều bộ nhớ hơn, RAM Plus&nbsp; của A73 ngay lập tức cung cấp th&ecirc;m RAM ảo.</li>\n  <li><strong>Thoải m&aacute;i lưu giữ mọi khoảnh khắc</strong>:&nbsp;Bạn c&oacute; thể lưu giữ những khoảnh khắc qu&yacute; gi&aacute; của m&igrave;nh nhiều hơn nhờ bộ nhớ trong&nbsp;<em>128GB/256GB</em>.</li>\n  <li><strong>M&agrave;n h&igrave;nh sắc n&eacute;t</strong>: C&ocirc;ng nghệ&nbsp;<em>FHD+ Super AMOLED Plus</em>&nbsp;với&nbsp;<em>M&agrave;n h&igrave;nh Infinity-O 6,7&quot;</em>&nbsp;mở rộng, c&aacute;c khung h&igrave;nh được chụp bằng&nbsp;<em>m&aacute;y ảnh G&oacute;c rộng 108MP</em>&nbsp;giữ trọn vẹn c&aacute;c chi tiết sống động như thật. Người d&ugrave;ng c&oacute; thể tận hưởng khả năng hiển thị ngo&agrave;i trời sống động l&ecirc;n đến 800 nits&sup1; hoặc bảo vệ mắt tối ưu với chức năng giảm &aacute;nh s&aacute;ng xanh&nbsp;<em>Eye Comfort Shield&sup2;</em>. Bạn c&oacute; thể thoả th&iacute;ch xem mọi nội dung nhờ tần số qu&eacute;t 120Hz c&ocirc;ng nghệ Super AMOLED Plus để tận hưởng những khung h&igrave;nh mượt m&agrave;, kh&ocirc;ng mờ nho&egrave;, si&ecirc;u chi tiết v&agrave; độ tương phản sắc n&eacute;t.</li>\n  <li><strong>Bộ Camera bắt n&eacute;t tuyệt hảo</strong>:&nbsp;<em>Camera G&oacute;c Rộng độ ph&acirc;n giải cực lớn 108MP</em>&nbsp;thu được nhiều &aacute;nh s&aacute;ng v&agrave; chi tiết hơn để mang đến độ r&otilde; n&eacute;t chưa từng c&oacute;. Chụp đ&aacute;m đ&ocirc;ng bằng&nbsp;<em>Camera G&oacute;c Si&ecirc;u Rộng</em>, t&ugrave;y chỉnh ti&ecirc;u điểm bằng&nbsp;<em>Camera Xo&aacute; Ph&ocirc;ng</em>&nbsp;v&agrave; chụp si&ecirc;u chi tiết bằng&nbsp;<em>Camera Macro</em>.</li>\n  <li><strong>Pin cực lớn, d&ugrave;ng đến 2 ng&agrave;y</strong>:&nbsp;<em>Pin 5.000mAh</em>&nbsp;cho bạn th&ecirc;m nhiều thời gian để livestream, chia sẻ, chơi game v&agrave; nhiều hơn nữa. Galaxy A73 l&agrave;m đầy pin với Sạc si&ecirc;u nhanh đến 25W v&agrave; khởi động t&iacute;nh năng th&iacute;ch ứng th&oacute;i quen sử dụng để n&acirc;ng cao hiệu suất của pin.</li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 10790000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-13 07:22:38', 
+    'haipv'
+  ), 
+  (
+    80, 1.27, 'Samsung Galaxy A73 (5G) 128GB', 
+    'samsung-galaxy-a73-5g-128gb', 
+    'samsung-galaxy-a73-5g-128gb.png', 
+    'https://www.youtube.com/watch?v=MUKBLghesn0', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Camera chất lượng, bắt trọn từng khoảng khắc - Cụm 4 camera với cảm biến ch&iacute;nh l&ecirc;n đến 108 MP</li>\n  <li>Thưởng thức kh&ocirc;ng gian giải tr&iacute; cực đỉnh - M&agrave;n h&igrave;nh lớn 6.7 inch, độ ph&acirc;n giải Full HD+, 120Hz mượt m&agrave;</li>\n  <li>Cấu h&igrave;nh Galaxy A73 5G được n&acirc;ng cấp mạnh với chip Snapdragon 778G, RAM l&ecirc;n đến 8 GB</li>\n  <li>Chiến game thoải m&aacute;i kh&ocirc;ng lo gi&aacute;n đoạn - Vi&ecirc;n pin lớn 5000 mAh, hỗ trợ sạc nhanh 25 W</li>\n</ul>\n\n<p>Nếu nhu cầu lưu trữ của bạn cao hơn th&igrave; c&oacute; thể tham khảo ngay&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-a73.html\" target=\"_blank\"><strong>Samsung A73</strong></a>&nbsp;phi&ecirc;n bản 256GB bộ nhớ trong đang được ph&acirc;n phối độc quyền tại hệ thống CellphoneS với mức gi&aacute; ch&ecirc;nh lệch kh&ocirc;ng qu&aacute; nhiều so với bản 128GB.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 10000000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-13 07:24:02', 
+    'haipv'
+  ), 
+  (
+    81, 1.27, 'Samsung Galaxy A53 (5G)', 
+    'samsung-galaxy-a53-5g', 'samsung-galaxy-a53-5g.png', 
+    'https://www.youtube.com/watch?v=WOXkpXzsk7E', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>M&agrave;u sắc rực rỡ, hiển thị ch&acirc;n thực - M&agrave;n h&igrave;nh 6.5 inches, Super AMOLED</li>\n  <li>Trọng lượng nhẹ, kh&aacute;ng bụi kh&aacute;ng nước tốt - Nhẹ chỉ 190g, kh&aacute;ng nước, bụi IP67</li>\n  <li>Ảnh chụp c&oacute; chi tiết cao, nhiều t&iacute;nh năng mới mẻ - Cụm 4 camera 64MP, đa dạng chế độ chụp</li>\n  <li>Trải nghiệm mượt m&agrave; tr&ecirc;n mọi t&aacute;c vụ - Exynos 1280 8 nh&acirc;n, RAM 8GB</li>\n</ul>\n\n<p>Tiếp nối sự th&agrave;nh c&ocirc;ng của d&ograve;ng điện thoại tầm trung &ndash; gi&aacute; rẻ, g&atilde; khổng lồ H&agrave;n Quốc lại cho ra mắt tiếp thế hệ tiếp theo mang t&ecirc;n&nbsp;Samsung Galaxy A53&nbsp;với nhiều ưu điểm nổi bật. Sản phẩm mang hiệu suất tốt, sẵn s&agrave;ng mang đến cho bạn những gi&acirc;y ph&uacute;t trải nghiệm chơi game, xem phim mượt m&agrave;. Vậy điện thoại n&agrave;y c&oacute; g&igrave; hấp dẫn, gi&aacute; bao nhi&ecirc;u? C&ugrave;ng t&igrave;m hiểu chi tiết nh&eacute;!</p>\n\n<h2><strong>Đ&aacute;nh gi&aacute; Samsung A53 &ndash; Hiệu năng si&ecirc;u đỉnh, vi&ecirc;n pin si&ecirc;u l&acirc;u</strong></h2>\n\n<p>Đ&uacute;ng như c&aacute;c nguồn tin r&ograve; rỉ trước đ&oacute;, điện thoại&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-a53.html\" target=\"_blank\"><strong>Samsung A53</strong></a>&nbsp;được n&acirc;ng cấp đ&aacute;ng kể so với thế hệ tiền nhiệm. Sau đ&acirc;y l&agrave; những đ&aacute;nh gi&aacute; về thiết kế, m&agrave;n h&igrave;nh, cấu h&igrave;nh, hiệu năng, camera, pin v&agrave; t&iacute;nh năng để bạn c&oacute; được c&aacute;i nh&igrave;n chi tiết nhất về smartphone n&agrave;y trước khi quyết định c&oacute; n&ecirc;n mua hay kh&ocirc;ng nh&eacute;.</p>\n\n<h3><strong>Thiết kế bắt mắt, m&agrave;n h&igrave;nh 6.5 inch tr&agrave;n viền</strong></h3>\n\n<p>Mặt lưng của điện thoại Galaxy A53&nbsp;5G chỉ được ho&agrave;n thiện từ nhựa song lại mang đến cho điện thoại trọng lượng tối ưu gi&uacute;p hỗ trợ cầm nắm thoải m&aacute;i. Song vẻ ngo&agrave;i kh&ocirc;ng bị mất gi&aacute; trị bởi thiết kế gradient chuyển m&agrave;u nhẹ, kết hợp với những đường n&eacute;t cắt b&oacute;ng theo hiệu ứng &aacute;nh s&aacute;ng sẵn s&agrave;ng bắt mắt người d&ugrave;ng.</p>\n\n<p><img alt=\"Samsung Galaxy A53 thiết kế bắt mắt, màn hình tràn viền\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-a53-1.png\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-a53-1.png\" /></p>\n\n<p>M&agrave;n h&igrave;nh Super AMOLED Infinity-O 6.5 inch độ ph&acirc;n giải Full-HD+ cho h&igrave;nh ảnh ch&acirc;n thực, r&otilde; n&eacute;t, sống động, gi&uacute;p người d&ugrave;ng dễ d&agrave;ng quan s&aacute;t nhiều nội dung hơn trước. . Th&ecirc;m v&agrave;o đ&oacute;, tần số qu&eacute;t 120Hz hỗ trợ trải nghiệm chuyển động mượt m&agrave;, trơn tru trong qu&aacute; tr&igrave;nh chơi game, lướt web, lướt Facebook,&hellip;</p>\n\n<p>Mặt trước điện thoại l&agrave; tấm nền được trang bị lớp k&iacute;nh cường lực Gorilla Glass 5 hạn chế t&aacute;c động từ ngoại lực l&agrave;m nứt vỡ, gi&uacute;p bạn an t&acirc;m hơn trong qu&aacute; tr&igrave;nh sử dụng.</p>\n\n<h3><strong>Trọng lượng nhẹ, kh&aacute;ng bụi kh&aacute;ng nước tốt</strong></h3>\n\n<p>Samsung Galaxy A53 c&oacute; trọng lượng nhẹ n&ecirc;n dễ d&agrave;ng để trong t&uacute;i x&aacute;ch, ba l&ocirc;, bỏ t&uacute;i quần mang đi m&agrave; kh&ocirc;ng cảm thấy nặng tay hay vướng v&iacute;u.</p>\n\n<p>B&ecirc;n cạnh đ&oacute;, thiết bị c&ograve;n được trang bị c&ocirc;ng nghệ chống bụi nước IP67. Đ&acirc;y l&agrave; cấp bảo vệ chống bụi ho&agrave;n to&agrave;n v&agrave; chống nước khi ng&acirc;m thiết bị ở độ s&acirc;u 1m trong v&ograve;ng nửa tiếng đồng hồ. Như vậy trong những ng&agrave;y trời ẩm ướt, mưa, bạn cũng kh&ocirc;ng c&ograve;n qu&aacute; lo lắng việc thiết bị sẽ bị hư hỏng.</p>\n\n<p><img alt=\"Samsung A53 có trọng lượng nhẹ, kháng bụi nước tốt\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-a53-2.png\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-a53-2.png\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 8190000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-13 07:28:04', 
+    'haipv'
+  ), 
+  (
+    82, 1.27, 'Samsung Galaxy A33 (5G)', 
+    'samsung-galaxy-a33-5g', 'samsung-galaxy-a33-5g.png', 
+    'https://www.youtube.com/watch?v=afCuIc1HxTA', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Màn hình giải trí lớn, sắc n&eacute;t từng chi tiết - 6.4 inch, Full HD+ cho h&igrave;nh ảnh sắc n&eacute;t, ch&acirc;n thực</li>\n  <li>4 camera hỗ trợ chụp ảnh chuy&ecirc;n nghiệp - Camera chính lến đến 48 MP ghi lại trọn vẹn chi ti&ecirc;́t đáng giá</li>\n  <li>Cấu h&igrave;nh ổn định, xử l&iacute; đa dạng t&aacute;c vụ - Vi xử lý&nbsp;Exynos&nbsp;1280&nbsp;h&ocirc;̃ trợ 5G kết hợp c&ugrave;ng RAM 6 GB</li>\n  <li>&nbsp;Kh&aacute;ng nước chuẩn IP67 - An t&acirc;m sử dụng trong mọi m&ocirc;i trường v&agrave; t&iacute;nh huống</li>\n</ul>\n\n<p>Samsung vừa ch&iacute;nh thức giới thiệu loạt sản phẩm thuộc d&ograve;ng điện thoại tầm trung Galaxy A 2022, trong đ&oacute; kh&ocirc;ng thể kh&ocirc;ng nhắc đến ch&iacute;nh l&agrave; Samsung Galaxy A33 với nhiều cải tiến hấp dẫn. Vậy điện thoại n&agrave;y c&oacute; gi&aacute; bao nhi&ecirc;u, c&oacute; g&igrave; nổi bật v&agrave; c&oacute; đ&aacute;ng mua kh&ocirc;ng? C&ugrave;ng t&igrave;m hiểu chi tiết ở b&agrave;i viết dưới đ&acirc;y nh&eacute;!</p>\n\n<h2><strong>Điện thoại Samsung A33 (5G) gi&aacute; bao nhi&ecirc;u?</strong></h2>\n\n<p>Ngay sau khi ra mắt kh&ocirc;ng l&acirc;u, đi&ecirc;̣n thoại Galaxy A33 ch&iacute;nh h&atilde;ng đ&atilde; mặt tại thị trường Vi&ecirc;̣t Nam với gi&aacute; b&aacute;n ni&ecirc;m yết l&agrave; 8.49 triệu đồng. Với mức gi&aacute; n&agrave;y, sản phẩm sẽ cạnh tranh với c&aacute;c đối thủ như&nbsp;OPPO Reno6 Z 5G,&nbsp;Xiaomi Redmi Note 11 Pro Plus 5G...</p>\n\n<p>Bạn cũng có th&ecirc;̉ truy c&acirc;̣p ngay trang web hoặc đến c&aacute;c cửa h&agrave;ng của CellphoneS đ&ecirc;̉ trải nghiệm. Tại đ&acirc;y, mức gi&aacute; của&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-a33.html\" target=\"_blank\"><strong>Samsung A33</strong></a>&nbsp;đang v&ocirc; c&ugrave;ng hấp dẫn c&ugrave;ng nhiều chương tr&igrave;nh ưu đ&atilde;i d&agrave;nh do kh&aacute;ch h&agrave;ng.</p>\n\n<p><img alt=\"Điện thoại Samsung A33 (5G) giá bao nhiêu?\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-a33.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/samsung-galaxy-a33.jpg\" width=\"830\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 6690000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-13 07:31:20', 
+    'haipv'
+  ), 
+  (
+    83, 1.27, 'Samsung Galaxy A23', 'samsung-galaxy-a23', 
+    'samsung-galaxy-a23.png', 'https://www.youtube.com/watch?v=v3TPivd3OC0', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>N&acirc;ng cao trải nghiệm với m&agrave;n h&igrave;nh chất lượng - M&agrave;n h&igrave;nh LCD 6.6 inch Full HD+</li>\n  <li>Hiệu năng ấn tượng mạnh mẽ - Snapdragon 680 (SM6225), RAM dung lượng 4GB</li>\n  <li>Cụm 4 camera si&ecirc;u chất cho h&igrave;nh ảnh chất lượng - Cảm biến ch&iacute;nh l&ecirc;n đến 50MP, đa dạng chế độ chụp</li>\n  <li>Pin dung lượng 5000mAh, sạc nhanh ấn tượng - 5.000 mAh, sạc nhanh 25W</li>\n</ul>\n\n<p align=\"center\">Tiếp nối sự th&agrave;nh c&ocirc;ng của Galaxy A22 trước đ&oacute;,&nbsp;g&atilde; khổng lồ c&ocirc;ng nghệ H&agrave;n Quốc cũng đ&atilde; ch&iacute;nh thức ra mắt smartphone tầm trung Samsung Galaxy A23 tại thị trường Việt Nam với nhiều n&acirc;ng cấp ấn tượng so với phi&ecirc;n bản trước đ&oacute;. Vậy sản phẩm c&oacute; g&igrave; mới, gi&aacute; bao nhi&ecirc;u v&agrave; c&oacute; n&ecirc;n mua kh&ocirc;ng? C&ugrave;ng t&igrave;m hiểu chi tiết ở b&agrave;i viết dưới đ&acirc;y nh&eacute;!</p>\n\n<h2><strong>Điện thoại Samsung Galaxy A23&nbsp;</strong><strong>gi&aacute; bao nhi&ecirc;u?</strong></h2>\n\n<p>Theo c&ocirc;ng bố của nh&agrave; sản xuất, smartphone tầm trung&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-a23.html\" target=\"_blank\"><strong>Samsung A23</strong></a>&nbsp;c&oacute; gi&aacute; b&aacute;n khởi điểm cao hơn ch&uacute;t so với người tiền nhiệm Galaxy A22. Mức gi&aacute; ni&ecirc;m yết tại thị trường Việt Nam l&agrave; 5.69 triệu đồng.&nbsp;</p>\n\n<p>Với mức gi&aacute; n&agrave;y, điện thoại mới d&ograve;ng Galaxy A series của Samsung sẽ cạnh tranh trực tiếp với c&aacute;c đối thủ nặng k&yacute; như Xiaomi Redmi Note 11 hay OPPO A76...</p>\n\n<p>Hiện nay, tại hệ thống b&aacute;n lẻ di động CellphoneS, gi&aacute; của Galaxy A23 ch&iacute;nh h&atilde;ng đang được giảm gi&aacute; cực kỳ hấp dẫn đi k&egrave;m với ưu đ&atilde;i khủng c&ugrave;ng chương tr&igrave;nh thu cũ đổi mới trợ gi&aacute; tốt cho kh&aacute;ch h&agrave;ng.</p>\n\n<h2 align=\"center\"><strong>Đ&aacute;nh gi&aacute; chi tiết Samsung A23 c&oacute; g&igrave; hấp dẫn?</strong></h2>\n\n<p>Ngay sau khi ra mắt, điện thoại Galaxy A23&nbsp;g&acirc;y ấn tượng mạnh mẽ với người d&ugrave;ng bởi cấu h&igrave;nh ấn tượng cho hiệu năng mạnh mẽ. B&ecirc;n cạnh đ&oacute; l&agrave; tần số qu&eacute;t lớn v&agrave; đặc biệt l&agrave; gi&aacute; cả v&ocirc; c&ugrave;ng phải chăng. Chắc chắn với những g&igrave; được trang bị đ&acirc;y sẽ l&agrave; chiếc smartphone mang lại cho người d&ugrave;ng những trải nghiệm ấn tượng kh&oacute; qu&ecirc;n.</p>\n\n<h3><strong>Thiết kế thời trang, trẻ trung</strong></h3>\n\n<p>Điện thoại Galaxy A23 mang tr&ecirc;n m&igrave;nh thiết kế liền mạch v&ocirc; c&ugrave;ng ấn tượng v&agrave; độc đ&aacute;o. Phần khung viền v&agrave; mặt lưng được ho&agrave;n thiện từ nhựa cao cấp mang đến sự nhẹ nh&agrave;ng v&agrave; bền bỉ, đồng thời gi&uacute;p tiết kiệm gi&aacute; th&agrave;nh cho sản phẩm.</p>\n\n<p align=\"center\"><img alt=\"Samsung Galaxy A23\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/Samsung-galaxy-a23-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/samsung/Samsung-galaxy-a23-1.jpg\" /></p>\n\n<p>Samsung Galaxy A23 được thiết kế với nhiều phi&ecirc;n bản m&agrave;u sắc trẻ trung, thanh lịch v&agrave; nổi bật ph&ugrave; hợp với đại đa số người d&ugrave;ng hiện nay. Bạn c&oacute; thể lựa chọn m&agrave;u đen, xanh ngọc hoặc cam đ&agrave;o để ph&ugrave; hợp với sở th&iacute;ch của m&igrave;nh.</p>\n\n<p>Trọng lượng 195gram gọn nhẹ mang đến cảm gi&aacute;c cầm nắm thoải m&aacute;i, dễ d&agrave;ng mang theo b&ecirc;n người mọi l&uacute;c mọi nơi. Hệ thống cụm camera sau được đặt gọn trong cụm h&igrave;nh chữ nhật đứng, nhờ vậy phần mặt lưng mang lại cảm gi&aacute;c sang trọng, gọn g&agrave;ng v&agrave; đẹp mắt hơn. Vị tr&iacute; c&aacute;c n&uacute;t bấm dễ nh&igrave;n: ph&iacute;m nguồn v&agrave; &acirc;m lượng nằm b&ecirc;n cạnh phải; cổng sạc, dải loa, jack cắm v&agrave; mic thoại nằm cạnh dưới.</p>\n\n<p>C&oacute; thể thấy phần mặt lưng tương đối đồng nhất về mặt ngoại h&igrave;nh gi&uacute;p thể hiện được đặc trưng sản phẩm d&ograve;ng Galaxy A.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 4850000, NULL, 1000, 1, 
+    4, 10, NULL, NULL, '2022-08-13 07:34:43', 
+    'haipv'
+  ), 
+  (
+    84, 1.27, 'iPhone SE 2022 128GB', 
+    'iphone-se-2022-128gb', 'iphone-se-2022.png', 
+    'https://www.youtube.com/watch?v=GByi_j-7Q2E', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiệu năng vượt trội với vi xử l&yacute; mới nhất - Chip Apple A15 ti&ecirc;n tiến nhất, c&acirc;n mọi t&aacute;c vụ</li>\n  <li>Tận hưởng kh&ocirc;ng gian hiển thị sắc n&eacute;t - M&agrave;n h&igrave;nh Liquid Retina nhỏ gọn 4.7 inch tỷ lệ 16:9</li>\n  <li>Giải tr&iacute; trọn vẹn ng&agrave;y d&agrave;i - Vi&ecirc;n pin c&oacute; nhiều cải tiến gi&uacute;p bạn kh&ocirc;ng c&ograve;n lo lắng khi sử dụng</li>\n  <li>Camera ghi trọn mọi khoảnh khắc - Camera đơn 12 MP f/1.8 hỗ trợ c&ocirc;ng nghệ Deep Fusion</li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 11990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-13 07:40:30', 
+    'haipv'
+  ), 
+  (
+    85, 1.27, 'iPhone SE 2022 256GB', 
+    'iphone-se-2022-256gb', 'iphone-se-2022-256gb.png', 
+    'https://www.youtube.com/watch?v=GByi_j-7Q2E', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiệu năng vượt trội với vi xử l&yacute; mới nhất - Chip Apple A15 ti&ecirc;n tiến nhất, c&acirc;n mọi t&aacute;c vụ</li>\n  <li>Tận hưởng kh&ocirc;ng gian hiển thị sắc n&eacute;t - M&agrave;n h&igrave;nh Liquid Retina nhỏ gọn 4.7 inch tỷ lệ 16:9</li>\n  <li>Giải tr&iacute; trọn vẹn ng&agrave;y d&agrave;i - Vi&ecirc;n pin c&oacute; nhiều cải tiến gi&uacute;p bạn kh&ocirc;ng c&ograve;n lo lắng khi sử dụng</li>\n  <li>Camera ghi trọn mọi khoảnh khắc - Camera đơn 12 MP f/1.8 hỗ trợ c&ocirc;ng nghệ Deep Fusion</li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 15990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-13 07:41:14', 
+    'haipv'
+  ), 
+  (
+    86, 1.27, 'iPhone SE 2022', 'iphone-se-2022', 
+    'iphone-se-2022.png', 'https://www.youtube.com/watch?v=GByi_j-7Q2E', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiệu năng vượt trội với vi xử l&yacute; mới nhất - Chip Apple A15 ti&ecirc;n tiến nhất, c&acirc;n mọi t&aacute;c vụ</li>\n  <li>Tận hưởng kh&ocirc;ng gian hiển thị sắc n&eacute;t - M&agrave;n h&igrave;nh Liquid Retina nhỏ gọn 4.7 inch tỷ lệ 16:9</li>\n  <li>Giải tr&iacute; trọn vẹn ng&agrave;y d&agrave;i - Vi&ecirc;n pin c&oacute; nhiều cải tiến gi&uacute;p bạn kh&ocirc;ng c&ograve;n lo lắng khi sử dụng</li>\n  <li>Camera ghi trọn mọi khoảnh khắc - Camera đơn 12 MP f/1.8 hỗ trợ c&ocirc;ng nghệ Deep Fusion</li>\n</ul>\n\n<p><strong>Th&ocirc;ng tin mới nhất về điện thoại iPhone SE 2022</strong></p>\n\n<p>Những th&ocirc;ng tin mới nhất về c&aacute;c d&ograve;ng iPhone vừa ra mắt lu&ocirc;n mang được sự mong chờ v&agrave; nhiều sự h&aacute;o hức của người h&acirc;m mộ. C&oacute; thể n&oacute;i rằng chiếc&nbsp;iPhone SE l&agrave; d&ograve;ng smartphone k&iacute;ch thước nhỏ, mang đến sự cơ động nhưng sở hữu cấu h&igrave;nh mạnh mẽ. Song liệu thế hệ thứ 3 c&oacute; những điểm n&agrave;o nổi bật, iPhone SE 2022 c&oacute; gi&aacute; bao nhi&ecirc;u v&agrave; khi n&agrave;o ra mắt? H&atilde;y c&ugrave;ng ch&uacute;ng t&ocirc;i t&igrave;m hiểu nh&eacute;!</p>\n\n<h2><strong>iPhone SE 2022 được n&acirc;ng cấp g&igrave; so với iPhone SE 2020?</strong></h2>\n\n<p><strong>(Cập nhật 29/03/2022)</strong></p>\n\n<p>Sở hữu một vẻ ngo&agrave;i c&oacute; nhiều tương tự, vậy điện thoại iPhone SE 2022 với iPhone SE 2020 c&oacute; g&igrave; giống v&agrave; kh&aacute;c?</p>\n\n<table>\n  <tbody>\n    <tr>\n      <td>&nbsp;</td>\n      <td><strong>iPhone SE 2022</strong></td>\n      <td><strong>iPhone SE 2020</strong></td>\n    </tr>\n    <tr>\n      <td>\n      <p>M&agrave;u sắc</p>\n      </td>\n      <td>\n      <p>Trắng, đỏ, đen</p>\n      </td>\n      <td>\n      <p>Trắng, đỏ, đen</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>M&agrave;n h&igrave;nh</p>\n      </td>\n      <td>\n      <p>LCD 4.7 inch</p>\n      </td>\n      <td>\n      <p>Retina IPS LCD 4.7 inch</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>Độ ph&acirc;n giải</p>\n      </td>\n      <td>\n      <p>1334 x 750 pixels (HD+)</p>\n      </td>\n      <td>\n      <p>1334 x 750 pixels (HD+)</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>CPU</p>\n      </td>\n      <td>\n      <p>A15 Bionic</p>\n      </td>\n      <td>\n      <p>A13 Bionic</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>Camera sau</p>\n      </td>\n      <td>\n      <p>12MP</p>\n      </td>\n      <td>\n      <p>12MP</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>Camera trước</p>\n      </td>\n      <td>\n      <p>7MP, &fnof;/2.2</p>\n      </td>\n      <td>\n      <p>7MP, &fnof;/2.2</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>Dung lượng RAM</p>\n      </td>\n      <td>\n      <p>4 GB</p>\n      </td>\n      <td>\n      <p>3 GB</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>Bộ nhớ trong</p>\n      </td>\n      <td>\n      <p>64GB, 128GB, 256GB</p>\n      </td>\n      <td>\n      <p>64GB, 128GB, 256GB</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>Dung lượng pin</p>\n      </td>\n      <td>\n      <p>1.820mAh</p>\n      </td>\n      <td>\n      <p>1821 mAh</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>Hỗ trợ 5G</p>\n      </td>\n      <td>\n      <p>C&oacute;</p>\n      </td>\n      <td>\n      <p>Kh&ocirc;ng</p>\n      </td>\n    </tr>\n    <tr>\n      <td>\n      <p>Bảo mật</p>\n      </td>\n      <td>\n      <p>Touch ID</p>\n      </td>\n      <td>\n      <p>Touch ID</p>\n      </td>\n    </tr>\n  </tbody>\n</table>\n\n<h2><strong>Điện thoại iPhone SE 2022 c&oacute; mấy m&agrave;u?</strong></h2>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 9990000, NULL, 1000, 1, 
+    5, 8, NULL, NULL, '2022-08-13 07:43:07', 
+    'haipv'
+  ), 
+  (
+    87, 1.27, 'OPPO Reno7 (5G)', 'oppo-reno7-5g', 
+    'oppo-reno7-5g.png', 'https://www.youtube.com/watch?v=zX0wnbKXBYA', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Trải nghiệm mọi t&aacute;c vụ mượt m&agrave; - Chip MediaTek Dimensity 900 5G mạnh mẽ, RAM khủng 8 GB</li>\n  <li>Ghi lại những c&acirc;u chuyện sống động m&agrave;u sắc - Camera ch&iacute;nh 64MP, camera selfie độ ph&acirc;n giải cao</li>\n  <li>Năng lượng bền bỉ cho cả ng&agrave;y d&agrave;i - Vi&ecirc;n pin lớn 4500 mAh c&ugrave;ng sạc nhanh 65 W</li>\n  <li>M&agrave;n h&igrave;nh giải tr&iacute; bất tận - M&agrave;n h&igrave;nh AMOLED 6.4&quot;&quot;, tần số qu&eacute;t 90 Hz cho h&igrave;nh ảnh sống động, sắc n&eacute;t</li>\n</ul>\n\n<h2><strong>C&oacute; n&ecirc;n mua OPPO Reno7 kh&ocirc;ng?</strong></h2>\n\n<p><strong>OPPO Reno7 5G l&agrave; một chiếc điện thoại rất đ&aacute;ng mua nhờ 5 l&yacute; do sau</strong>:</p>\n\n<ul>\n  <li>1. Thiết kế trang nh&atilde;, nhiều m&agrave;u sắc sang trọng</li>\n  <li>2. M&agrave;n h&igrave;nh 6,4 inch k&iacute;ch thước lớn, hiển thị r&otilde; n&eacute;t</li>\n  <li>3. Hiệu năng ổn định với chip MediaTek Dimensity 900, dung lượng RAM lớn</li>\n  <li>4. Pin dung lượng lớn, hỗ trợ sạc nhanh 65W</li>\n  <li>5. Camera ch&iacute;nh 64MP chụp ảnh chất lượng, camera selfie độ ph&acirc;n giải cao</li>\n  <li>6. Khả năng kết nối 5G nhanh ch&oacute;ng c&ugrave;ng nhiều t&iacute;nh năng th&ocirc;ng minh</li>\n</ul>\n\n<h2><strong>Đ&aacute;nh gi&aacute; điện thoại OPPO Reno 7 &ndash; Thiết kế cao cấp, chụp ảnh ấn tượng</strong></h2>\n\n<p>OPPO l&agrave; thương hiệu điện thoại nổi tiếng với khả năng chụp h&igrave;nh đẹp v&agrave; mẫu smartphone mới&nbsp;<a href=\"https://cellphones.com.vn/oppo-reno-7.html\" title=\"OPPO Reno7\"><strong>OPPO Reno7</strong></a>&nbsp;cũng kh&ocirc;ng ngoại lệ. Điện thoại<strong>&nbsp;</strong>kh&ocirc;ng chỉ sở hữu thiết kế bắt mắt, camera chất lượng m&agrave; c&ograve;n được trang bị một hiệu năng vượt trội.</p>\n\n<p>Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/oppo-reno7-z.html\">điện thoại OPPO Reno7 Z 5G</a>&nbsp;với mức gi&aacute; tốt hơn.</p>\n\n<h3><strong>Thiết kế&nbsp;OPPO Reno 7 trang nh&atilde;, nhiều m&agrave;u sắc sang trọng</strong></h3>\n\n<p><strong>Điện thoại OPPO Reno7</strong>&nbsp;sở hữu một thiết kế si&ecirc;u mỏng c&ugrave;ng khung viền được ho&agrave;n thiện tỉ mỉ. M&aacute;y với thiết kế cụm camera nổi bật được thiết kế lại.</p>\n\n<p>Đi ngược với thiết kế mặt lưng phẳng c&ugrave;ng g&oacute;c cạnh vu&ocirc;ng vức, điện thoại OPPO Reno7 5G được trang bị thiết kế với g&oacute;c cạnh bo tr&ograve;n mềm mại. Thiết kế n&agrave;y ho&agrave;n to&agrave;n kh&ocirc;ng l&agrave;m mất đi vẻ sang trọng của thiết bị đồng thời mang lại khả năng cầm nắm dễ d&agrave;ng. Tổng thể, OPPO Reno7 5G kh&aacute; nhẹ với tổng trọng lượng chỉ khoảng 173g, dễ d&agrave;ng đ&uacute;t t&uacute;i v&agrave; mang theo m&agrave; kh&ocirc;ng cảm thấy nặng nề.</p>\n\n<p><img alt=\"Thiết kế vuông vức mỏng nhẹ, nhiều màu sắc sang trọng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-7-5_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-7-5_1.jpg\" /></p>\n\n<p>Nổi bật tr&ecirc;n OPPO Reno7 đ&oacute; ch&iacute;nh l&agrave; mặt lưng được thiết kế lấy cảm hứng từ sao băng mang lại lưng m&aacute;y lấp l&aacute;nh đẹp mắt. M&aacute;y sẽ c&oacute; ba phi&ecirc;n bản m&agrave;u sắc kh&aacute;c nhau cho người d&ugrave;ng lựa chọn l&agrave; xanh, v&agrave;ng v&agrave; đen. Mặt lưng với hiệu ứng gradient đổi m&agrave;u độc đ&aacute;o chống b&aacute;m mồ h&ocirc;i v&agrave; v&acirc;n tay một c&aacute;ch tiện lợi.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 11099000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 07:47:53', 
+    'haipv'
+  ), 
+  (
+    88, 1.27, 'OPPO Reno7 Z (5G)', 'oppo-reno7-z-5g', 
+    'oppo-reno7-z-5g.png', 'https://www.youtube.com/watch?v=Qr4tX4QtMEc', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Trải nghiệm mượt m&agrave; c&aacute;c t&aacute;c vụ - Bộ xử l&yacute; Snapdragon 695 mạnh mẽ RAM 8 GB</li>\n  <li>Năng lượng bất tận cả ng&agrave;y - Dung lượng pin lớn 4500 mAh v&agrave; sạc nhanh 60W</li>\n  <li>Trọn vẹn từng khoảnh khắc - Cụm 3 camera sau cảm biến l&ecirc;n đến 64MP, chụp ch&acirc;n dung chuy&ecirc;n nghiệp</li>\n  <li>M&agrave;n h&igrave;nh hiển thị sắc n&eacute;t, m&agrave;u sắc sống động - M&agrave;n h&igrave;nh AMOLED 6.43&quot;&quot;, tần số qu&eacute;t 60 Hz</li>\n</ul>\n\n<h2><strong>Đi&ecirc;̣n thoại OPPO Reno7 Z 5G - Si&ecirc;u chụp ảnh, si&ecirc;u mạnh mẽ</strong></h2>\n\n<p><em>Thời gian qua giới c&ocirc;ng ngh&ecirc;̣ đang d&acirc;̀n chú ý đ&ecirc;́n những chi ti&ecirc;́t hé l&ocirc;̣ của&nbsp;</em><em><a href=\"https://cellphones.com.vn/oppo-reno7-z.html\" title=\"OPPO Reno7 Z\"><strong>OPPO Reno7 Z</strong></a>&nbsp;chi&ecirc;́c smartphone 5G mới nh&acirc;́t của OPPO thu&ocirc;̣c ph&acirc;n khúc t&acirc;̀m trung nhưng chứa đựng c&acirc;́u hình kh&ocirc;ng thua gì đi&ecirc;̣n thoại ph&acirc;n khúc cao c&acirc;́p sẽ khu&acirc;́y đ&ocirc;̣ng làng c&ocirc;ng ngh&ecirc;̣ trong năm 2022.</em></p>\n\n<h3><strong>Thi&ecirc;́t k&ecirc;́&nbsp;OPPO Reno7 Z &acirc;́n tượng cu&ocirc;́n hút đa góc cạnh</strong></h3>\n\n<p>Đi&ecirc;̣n thoại OPPO Reno 7Z 5G được ra mắt thu&ocirc;̣c dòng&nbsp;<strong><a href=\"https://cellphones.com.vn/oppo-reno-7.html\" title=\"OPPO Reno7\">Reno7</a></strong>&nbsp;series mới đ&acirc;y của hãng OPPO. Vì thu&ocirc;̣c cùng &quot;họ hàng&quot; Reno7, n&ecirc;n m&aacute;y có ngoại hình khá gi&ocirc;́ng với Reno 7 (bản Trung Qu&ocirc;́c) trước đó, với khung vi&ecirc;̀n vu&ocirc;ng dát phẳng cùng th&acirc;n hình vừa tay c&acirc;̀m giúp làm n&ecirc;n ch&acirc;́t lượng toàn b&ocirc;̣ th&acirc;n máy. Và ch&acirc;́t li&ecirc;̣u nguy&ecirc;n kh&ocirc;́i làm n&ecirc;n khung vi&ecirc;̀n máy cũng góp ph&acirc;̀n gia tăng đ&ocirc;̣ b&ecirc;̀n cho sản phẩm.</p>\n\n<p>Ki&ecirc;̉u dáng của OPPO Reno7 Z 5G th&ecirc;̉ hi&ecirc;̣n n&ecirc;n tính linh hoạt cao. Dù được làm n&ecirc;n từ ch&acirc;́t li&ecirc;̣u b&ecirc;̀n bỉ, t&ocirc;̉ng th&ecirc;̉ th&acirc;n m&aacute;y lại có trọng lượng nhẹ tay giúp tạo đ&ocirc;̣ thoải mái khi bạn c&acirc;̀m máy ngay tr&ecirc;n tay. Đ&ocirc;̣ mỏng gọn gàng của th&acirc;n máy kh&ocirc;ng chỉ tăng th&ecirc;m đ&ocirc;̣ sang trọng cho b&ecirc;̀ ngoài, mà còn giúp bạn c&acirc;̀m giữ máy tr&ecirc;n tay cực kỳ chắc chắn, hạn ch&ecirc;́ rơi vỡ.</p>\n\n<p><img alt=\"Thiết kế ấn tượng cuốn hút đa góc cạnh\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno7-z-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno7-z-1.jpg\" /></p>\n\n<p>Đi&ecirc;̣n thoại OPPO Reno 7Z 5G được ra mắt với nhi&ecirc;̀u tùy chọn màu sắc hơn các m&acirc;̃u Reno 7 trước đó. Chi&ecirc;́c máy có các tùy chọn màu sắc mới mẻ g&ocirc;̀m màu Đen, màu Xanh Cầu vồng. Cả hai phi&ecirc;n bản màu sắc đ&ecirc;̀u được tăng th&ecirc;m vẻ đẹp nhờ sử dụng lớp phủ nano giúp tạo đ&ocirc;̣ tương phản màu cực &acirc;́n tượng, cũng như hạn ch&ecirc;́ bám v&acirc;n tay l&ecirc;n mặt lưng đi&ecirc;̣n thoại. Qua đó giúp cho Reno7 Z là m&ocirc;̣t trong những chi&ecirc;́c smartphone cực kỳ đẹp trong ph&acirc;n khúc trung c&acirc;́p.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 9100000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:03:19', 
+    'haipv'
+  ), 
+  (
+    89, 1.27, 'OPPO Reno7 4G (8GB - 128GB)', 
+    'oppo-reno7-4g-8gb-128gb', 'oppo-reno7-4g-8gb-128gb.png', 
+    'https://www.youtube.com/watch?v=zX0wnbKXBYA', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>M&agrave;n h&igrave;nh chất lượng, thoả sức kh&aacute;m ph&aacute; v&agrave; giải tr&iacute; - 6.43 inches, AMOLED, Full HD+</li>\n  <li>Camera chất lượng với cảm biến thế hệ mới - Cụm 3 camera 64 MP, đa dạng chế độ chụp</li>\n  <li>Chiến game ổn định nhờ con chip mạnh mẽ - Snapdragon&trade; 680, RAM 8GB</li>\n  <li>Kh&ocirc;ng lo gi&aacute;n đoạn với vi&ecirc;n pin lớn 4500 mAh, sạc nhanh SUPERVOOCTM 33W</li>\n</ul>\n\n<p>Vừa mới đ&acirc;y, OPPO vừa bất ngờ giới thiệu một chiếc điện thoại tầm trung mới của h&atilde;ng, c&oacute; t&ecirc;n gọi l&agrave; Reno 7 4G với mức gi&aacute; phải chăng hơn. Đ&acirc;y l&agrave; smartphone đầu ti&ecirc;n trong d&ograve;ng sản phẩm n&agrave;y kh&ocirc;ng hỗ trợ mạng 5G. Nếu qu&yacute; kh&aacute;ch c&oacute; nhu cầu sử dụng 5G, qu&yacute; kh&aacute;ch c&oacute; thể tham khảo&nbsp;<a href=\"https://cellphones.com.vn/oppo-reno-7.html\" title=\"Reno7 5G\"><strong>OPPO Reno7 5G</strong></a>&nbsp;tại&nbsp;<strong>CellphoneS</strong>!</p>\n\n<p>C&ugrave;ng CellphoneS t&igrave;m hiểu xem sản phẩm Reno7 4G c&oacute; g&igrave; nổi bật trước khi quyết định c&oacute; n&ecirc;n mua hay kh&ocirc;ng nh&eacute;!</p>\n\n<h2><strong>Điện thoại Oppo Reno 7 4G &ndash; Thiết kế độc đ&aacute;o, hiệu năng vượt trội</strong></h2>\n\n<p>H&atilde;ng OPPO đ&atilde; giới thiệu&nbsp;<a href=\"https://cellphones.com.vn/oppo-reno7-128gb.html\" target=\"_blank\"><strong>OPPO Reno7 4G</strong></a>&nbsp;tại thị trường Việt Nam v&agrave;o cuối th&aacute;ng 4.&nbsp;Dường như phi&ecirc;n bản n&agrave;y chỉ thiếu đi kết nối 5G c&ograve;n c&aacute;c yếu tố kh&aacute;c như thiết kế, m&agrave;n h&igrave;nh, hệ thống camera đều kh&ocirc;ng c&oacute; qu&aacute; nhiều sự thay đổi. Vậy phi&ecirc;n bản 4G n&agrave;y c&oacute; đ&aacute;ng để trải nghiệm kh&ocirc;ng, chất lượng ra sao h&atilde;y c&ugrave;ng t&igrave;m hiểu ngay sau đ&acirc;y.</p>\n\n<h3><strong>Camera chất lượng với cảm biến thế hệ mới</strong></h3>\n\n<p>Oppo Reno 7 4G sở hữu camera trước với cảm biến IMX709, đ&acirc;y l&agrave; cảm biến độc quyền được x&acirc;y dựng bằng phần cứng của Sony với khả năng thu s&aacute;ng cao nhờ đ&oacute; mang lại chất lượng h&igrave;nh ảnh với độ s&aacute;ng cao. B&ecirc;n cạnh đ&oacute; l&agrave; cảm biến RGBW gi&uacute;p thu s&aacute;ng nhiều hơn tới 60%.</p>\n\n<p>Camera selfie n&agrave;y cũng được hỗ trợ bởi AI nhờ đ&oacute; c&oacute; thể tự động điều chỉnh độ s&aacute;ng, đặc biệt l&agrave; trong c&aacute;c trường hợp chụp ảnh ngược s&aacute;ng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 7250000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:06:40', 
+    'haipv'
+  ), 
+  (
+    90, 1.27, 'OPPO Reno6 5G', 'oppo-reno6-5g', 
+    'oppo-reno6-5g.png', 'https://www.youtube.com/watch?v=t1Zu2m-MtMw', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế ấn tượng, m&agrave;u sắc c&aacute; t&iacute;nh - Thiết kế tr&agrave;n viền, mỏng nhẹ chỉ 182g</li>\n  <li>Tăng tốc kết nối, dẫn đầu xu hướng - Dimensity 900 5G (6 nm) mạnh mẽ, kết nối 5G si&ecirc;u nhanh</li>\n  <li>Chuy&ecirc;n gia nhiếp ảnh ch&acirc;n dung - Bộ 3 camera l&ecirc;n tới 64 MP, sắc n&eacute;t, ấn tượng</li>\n  <li>M&agrave;n h&igrave;nh lớn, sắc n&eacute;t với tốc độ l&agrave;m mới cao - M&agrave;n h&igrave;nh AMOLED 6.43 inch Full HD, 90Hz</li>\n  <li>Dung lượng pin lớn, c&ocirc;ng nghệ sạc nhanh hiện đại - Vi&ecirc;n pin 4300mAh, sạc nhanh 65W</li>\n</ul>\n\n<h2 align=\"center\"><strong>Đ&aacute;nh gi&aacute; OPPO Reno6 - 5G si&ecirc;u tốc, mạnh mẽ với chip MediaTek</strong></h2>\n\n<p>Tiếp theo phần ra mắt của series Reno 5 th&igrave; Oppo lại chuẩn bị tr&igrave;nh l&agrave;ng mẫu smartphone mới nhất mang t&ecirc;n Reno6. Thiết kế sang trọng cấu h&igrave;nh mạnh mẽ với chipset Dimensity 900,&nbsp;<strong>OPPO Reno6&nbsp;</strong>sẽ mang đến cho người d&ugrave;ng trải nghiệm mượt m&agrave;.</p>\n\n<p>Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/oppo-reno7-z.html\">điện thoại OPPO Reno7 Z</a>&nbsp;vừa ra mắt với nhiều cải tiến về thiết kế lẫn camera v&agrave; cấu h&igrave;nh.</p>\n\n<h3><strong>Thiết kế thời trang, sang trọng đầy ấn tượng</strong></h3>\n\n<p>Điện thoại&nbsp;OPPO Reno 6 (5G) l&agrave; sản phẩm của c&ocirc;ng nghệ thiết kế v&ocirc; c&ugrave;ng ho&agrave;n hảo v&agrave; ấn tượng. C&aacute;c g&oacute;c cạnh của m&aacute;y được bo cong mềm mại, uyển chuyển mang đến sự mượt m&agrave; v&agrave; tinh tế. K&iacute;ch thước m&aacute;y nhỏ gọn dễ d&agrave;ng cầm nắm trong qu&aacute; tr&igrave;nh sử dụng.</p>\n\n<p align=\"center\"><img alt=\"Thiết kế thời trang, sang trọng đầy ấn tượng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-6-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-6-1.jpg\" /></p>\n\n<p>Mặt trước của&nbsp;<a href=\"https://cellphones.com.vn/mobile/oppo.html\">điện thoại OPPO</a>&nbsp;n&agrave;y cũng ấn tượng kh&ocirc;ng k&eacute;m với m&agrave;n h&igrave;nh thiết kế kiểu tr&agrave;n viền với độ cong nhẹ 2.5D. Hai cạnh viền si&ecirc;u mỏng, c&ugrave;ng với đ&oacute; l&agrave; camera đục lỗ gi&uacute;p mở rộng tối đa kh&ocirc;ng gian hiển thị.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 9990000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:10:35', 
+    'haipv'
+  ), 
+  (
+    91, 1.27, 'OPPO Reno6 Z 5G', 'oppo-reno6-z-5g', 
+    'oppo-reno6-z-5g.png', 'https://www.youtube.com/watch?v=n1-kfI7_M1Y', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế ấn tượng, m&agrave;u sắc c&aacute; t&iacute;nh - Thiết kế tr&agrave;n viền, mỏng nhẹ chỉ 173g</li>\n  <li>Tăng tốc kết nối, dẫn đầu xu hướng - Dimensity 800U 5G 8 nh&acirc;n mạnh mẽ, kết nối 5G si&ecirc;u nhanh</li>\n  <li>Chuy&ecirc;n gia nhiếp ảnh ch&acirc;n dung - Bộ 3 camera l&ecirc;n tới 64 MP, sắc n&eacute;t, ấn tượng</li>\n  <li>M&agrave;n h&igrave;nh lớn, sắc n&eacute;t với tốc độ l&agrave;m mới cao - M&agrave;n h&igrave;nh AMOLED 6.43 inch Full HD, 60 Hz</li>\n  <li>Dung lượng pin lớn, c&ocirc;ng nghệ sạc nhanh hiện đại - Vi&ecirc;n pin 4310mAh, sạc nhanh 30W</li>\n</ul>\n\n<h2 align=\"center\"><strong>Đ&aacute;nh gi&aacute; Oppo Reno6 Z 5G&nbsp;</strong><strong>&ndash; Smartphone mạnh mẽ với&nbsp;</strong><strong>thiết kế sang trọng</strong></h2>\n\n<p>Tiếp nối sự th&agrave;nh c&ocirc;ng của Reno5 Series, Oppo tiếp tục mang đến cho người d&ugrave;ng d&ograve;ng sản phẩm mới mang t&ecirc;n&nbsp;<a href=\"https://cellphones.com.vn/oppo-reno-6z.html\">Oppo&nbsp;Reno6</a>&nbsp;với nhiều n&acirc;ng cấp đ&aacute;ng gi&aacute;. Trong series lần n&agrave;y, người d&ugrave;ng sẽ thấy v&ocirc; c&ugrave;ng ngạc nhi&ecirc;n khi xuất hiện tới 4 phi&ecirc;n bản. Sự c&oacute; mặt của&nbsp;<strong>Oppo Reno6 Z 5G</strong>&nbsp;trong lần ra mắt n&agrave;y sẽ thu h&uacute;t được đ&ocirc;ng đảo người ch&uacute; &yacute; bởi hiệu năng cực đỉnh để mang đến những trải nghiệm đỉnh cao.</p>\n\n<p>Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo&nbsp;<a href=\"https://cellphones.com.vn/oppo-reno7-z.html\">điện thoại OPPO Reno7 Z 5G</a>&nbsp;với thiết kế cực đẹp c&ugrave;ng hệ thống camera chất lượng v&agrave; cấu h&igrave;nh ấn tượng trong tầm gi&aacute;.</p>\n\n<h3><strong>Thiết kế thời thượng, đẳng cấp vượt trội</strong></h3>\n\n<p>Điện thoại Reno6 Z 5G sở hữu thiết kế v&ocirc; c&ugrave;ng thời thượng. C&aacute;c đường n&eacute;t, chi tiết tr&ecirc;n m&aacute;y được trau chuốt ho&agrave;n hảo v&agrave; cực kỳ hấp dẫn. C&aacute;c khung viền bo cong uyển chuyển, mềm mại mang đến cho người d&ugrave;ng cảm gi&aacute;c &ecirc;m tay khi cầm nắm. Ngo&agrave;i ra, k&iacute;ch thước tổng thể của m&aacute;y rất nhỏ gọn v&agrave; thuận tiện để người d&ugrave;ng mang theo b&ecirc;n m&igrave;nh mọi nơi.</p>\n\n<p align=\"center\"><img alt=\"Thiết kế thời thượng, đẳng cấp vượt trội\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-6z-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-6z-1.jpg\" /></p>\n\n<p>Mặt trước của điện thoại OPPO Reno6 Z 5G được thiết kế tr&agrave;n viền v&agrave; độ cong mềm mại 2.5D. Hai cạnh viền cực mỏng với camera đục lỗ từ đ&oacute; gi&uacute;p gia tăng diện t&iacute;ch hiển thị đến mức tối đa.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 6890000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:14:15', 
+    'haipv'
+  ), 
+  (
+    92, 1.27, 'OPPO Reno5', 'oppo-reno5', 
+    'oppo-reno5.png', 'https://www.youtube.com/watch?v=iq5aUUETl0o', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Tạo phước thim ấn tượng - Video hiển thị k&eacute;p, phơi sang k&eacute;p</li>\n  <li>Sạc 5 ph&uacute;t, xem video l&ecirc;n đến 3 giờ - C&ocirc;ng nghệ sạc nhanh 50W</li>\n  <li>H&igrave;nh ảnh mượt m&agrave;, phản hồi nhanh ch&oacute;ng - M&agrave;n h&igrave;nh AMOLED sắc n&eacute;t, tần số qu&eacute;t 90Hz</li>\n  <li>Kh&ocirc;ng giật lag, xử l&yacute; ấn tượng - Snapdragon 720G, RAM 8GB, bộ nhớ 128GB</li>\n  <li>Thiết kế tinh tế, độc đ&aacute;o - Lớp phủ cao cấp chống b&aacute;m d&iacute;nh, thể hiện rực rỡ với m&agrave;u sắc độc đ&aacute;o</li>\n  <li>Tạo n&ecirc;n bức ảnh v&agrave; video ấn tượng hơn - Camera trước 44MP si&ecirc;u n&eacute;t, bộ tứ camera 64MP đa năng</li>\n</ul>\n\n<h2><strong>Điện thoại Oppo Reno 5 &ndash; Thiết kế hiện đại sang trọng</strong></h2>\n\n<p>Sản phẩm mới nhất trong series OPPO Reno&nbsp;của h&atilde;ng điện thoại OPPO ch&iacute;nh l&agrave;&nbsp;<strong>OPPO Reno&nbsp;5</strong>. Chiếc điện thoại với nhiều kế thừa từ người tiền nhiệm Reno&nbsp;với thiết kế hiện đại, cấu h&igrave;nh cao hứa hẹn mang đến những trải nghiệm d&ugrave;ng ấn tượng. Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/oppo-reno-6.html\">điện thoại OPPO Reno 6</a>&nbsp;sắp ra mắt với nhiều n&acirc;ng cấp về cấu h&igrave;nh cũng như camera.</p>\n\n<h3><strong>M&agrave;n h&igrave;nh nốt ruồi</strong><strong>&nbsp;6.43 inch Full HD+ tr&agrave;n viền, mặt lưng kim loại sang trọng</strong></h3>\n\n<p>OPPO Reno thế hệ thứ 5 sở hữu m&agrave;n h&igrave;nh cảm ứng điện dung với thiết kế nốt ruồi 6.43 inch c&ugrave;ng độ ph&acirc;n giải Full HD+ 1080 x 2400 pixel v&agrave; độ s&aacute;ng l&ecirc;n tới 430nit mang lại h&igrave;nh ảnh trung thực v&agrave; ch&iacute;nh x&aacute;c. M&aacute;y cũng được thiết kế c&aacute;c g&oacute;c cạnh m&agrave;n h&igrave;nh tr&agrave;n viền tạo sự sang trọng.</p>\n\n<p><img alt=\"Màn hình giọt nước 6.5 inch Full HD tràn viền, mặt lưng kim loại sang trọng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-5-6_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-5-6_1.jpg\" /></p>\n\n<p>Phần cạnh viền v&agrave; bốn g&oacute;c tr&ecirc;n OPPO&nbsp;Reno 5 được thiết kế bo cong mang lại trải nghiệm cầm nắm tốt. B&ecirc;n cạnh đ&oacute;, thiết k&ecirc; nh&ocirc;m kh&ocirc;ng chỉ mang lại sự sang trọng m&agrave; c&ograve;n mang đến khả năng tản nhiệt tốt. Thiết kế n&agrave;y gi&uacute;p m&aacute;y kh&ocirc;ng bị n&oacute;ng khi sử dụng trong thời gian d&agrave;i cho c&aacute;c ứng dụng như chơi game, hay c&aacute;c ứng dụng nặng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 7790000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:17:11', 
+    'haipv'
+  ), 
+  (
+    93, 1.27, 'OPPO Reno5 5G', 'oppo-reno5-5g', 
+    'oppo-reno5-5g.png', 'https://www.youtube.com/watch?v=iq5aUUETl0o', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Tạo phước thim ấn tượng - Video hiển thị k&eacute;p, phơi sang k&eacute;p</li>\n  <li>Sạc 5 ph&uacute;t, 4 giờ sử dụng - Sạc nhanh SuperVOOC 65W</li>\n  <li>H&igrave;nh ảnh mượt m&agrave;, phản hồi nhanh ch&oacute;ng - M&agrave;n h&igrave;nh AMOLED sắc n&eacute;t, tần số qu&eacute;t 90Hz</li>\n  <li>Hiệu suất mạnh mẽ, trải nghiệm liền mạch - Snapdragon 765G hỗ trợ 5G, RAM 8GB</li>\n  <li>Thiết kế tinh tế, độc đ&aacute;o - Lớp phủ cao cấp chống b&aacute;m d&iacute;nh, thể hiện rực rỡ với m&agrave;u sắc độc đ&aacute;o</li>\n  <li>Tạo n&ecirc;n bức ảnh v&agrave; video ấn tượng hơn - Camera trước 44MP si&ecirc;u n&eacute;t, bộ tứ camera 64MP đa năng</li>\n</ul>\n\n<h2><strong>Điện thoại&nbsp;OPPO Reno5 5G</strong><strong>&nbsp;&ndash; Điện thoại hỗ trợ kết nối 5G</strong></h2>\n\n<p>Bạn y&ecirc;u th&iacute;ch thiết kế&nbsp;<a href=\"https://cellphones.com.vn/oppo-reno-5.html\">điện thoại OPPO Reno5</a>&nbsp;nhưng muốn sử dụng c&ocirc;ng nghệ 5G thế hệ mới. Vậy h&atilde;y tham khảo phi&ecirc;n bản n&acirc;ng cấp&nbsp;<strong>OPPO Reno5 5G</strong>&nbsp;với thiết kế kh&ocirc;ng thay đổi c&ugrave;ng khả năng hỗ trợ 5G.</p>\n\n<h3><strong>Chip Snapdragon 765G, hỗ trợ 5G</strong></h3>\n\n<p>Điểm nổi bật tr&ecirc;n Reno5 5G l&agrave; m&aacute;y được trang bị c&ocirc;ng nghệ mạng 5G. Nhờ đ&oacute; m&aacute;y cho tốc độ truyền &ndash; tải dữ liệu nhanh vượt trội. Ngo&agrave;i 5G, m&aacute;y cũng được trang bị c&ocirc;ng nghệ wifi 6 gi&uacute;p n&acirc;ng cao khả năng kết nối wifi, nhanh hơn v&agrave; ổn định hơn.</p>\n\n<p><img alt=\"Chip Snapdragon 765G, hỗ trợ 5G\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-5-5g-1_2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-reno-5-5g-1_2.jpg\" /></p>\n\n<p>Về hiệu năng, với con chip Snapdragon 765G, OPPO Reno5 5G cho hiệu năng xử l&yacute; mượt m&agrave;. Đồ họa của m&aacute;y cũng được n&acirc;ng cao với l&otilde;i Arm Cortex-A77 v&agrave; Mali-G77.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 8990000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:18:06', 
+    'haipv'
+  ), 
+  (
+    94, 1.27, ' OPPO A96', 'oppo-a96', 
+    'oppo-a96.png', 'https://www.youtube.com/watch?v=hesuUQ_t4ZA', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Ngất ng&acirc;y trước vẻ đẹp tinh tế v&agrave; cuốn h&uacute;t - Thiết kế khung viền bo cong, mặt lưng chuyển m&agrave;u sang trọng</li>\n  <li>Kh&ocirc;ng gian hiển thị r&otilde; n&eacute;t - M&agrave;n h&igrave;nh IPS LCD 6.59 inch, độ ph&acirc;n giải Full HD+, 90 Hz mượt m&agrave;</li>\n  <li>Camera chuy&ecirc;n nghiệp, bắt trọn mọi khoảnh khắc - Cụm camera k&eacute;p 50M + 2MP k&egrave;m nhiều t&iacute;nh năng tiện &iacute;ch</li>\n  <li>Chiến game kh&ocirc;ng lắng lo - Chip Snapdragon 680 8 nh&acirc;n cho hiệu suất tuyệt vời hơn, pin 5000mAh</li>\n</ul>\n\n<h2><strong>Đi&ecirc;̣n thoại OPPO A96 - Mỏng nhẹ thanh tao, sức mạnh vượt tr&ocirc;̣i</strong></h2>\n\n<p>Nhờ sở hữu th&acirc;n hình mỏng nhẹ thanh tao và quy&ecirc;́n rũ, cùng với ph&acirc;̀n cứng cao c&acirc;́p mạnh mẽ b&ecirc;n trong đã giúp cho&nbsp;<a href=\"https://cellphones.com.vn/oppo-a96.html\"><strong>đi&ecirc;̣n thoại OPPO A96</strong></a>&nbsp;trở thành chi&ecirc;́c smartphone 5G tuy&ecirc;̣t vời cho người dùng c&ocirc;ng ngh&ecirc;̣ Vi&ecirc;̣t trong năm 2022.</p>\n\n<h3><strong>Phong cách OPPO A96 quy&ecirc;́n rũ từ th&acirc;n hình đ&ecirc;́n màu sắc</strong></h3>\n\n<p>N&ecirc;́u nói v&ecirc;̀ chi&ecirc;́c smartphone mang ngoại hình quy&ecirc;́n rũ nh&acirc;́t trong năm 2022,&nbsp;<strong>OPPO A96</strong>&nbsp;hẳn chính là cái t&ecirc;n r&acirc;́t được nhắc đ&ecirc;́n. Chi&ecirc;́c máy sở hữu th&acirc;n hình sang trọng và hoàn thi&ecirc;̣n tỉ mỉ, với cạnh vi&ecirc;̀n dát vu&ocirc;ng phẳng giúp máy tựa như dòng flagship cao c&acirc;́p. Đ&ocirc;̣ mỏng 8.5mm và trọng lượng chỉ 191g giúp cho OPPO A96 trở n&ecirc;n linh hoạt khi c&acirc;̀m tr&ecirc;n tay.</p>\n\n<p><img alt=\"Phong cách quyến rũ từ thân hình đến màu sắc\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a96-8.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a96-8.jpg\" /></p>\n\n<p><strong><a href=\"https://cellphones.com.vn/mobile/oppo/a-series.html\" target=\"_self\" title=\"Điện thoại OPPO A Series chính hãng\">Điện thoại OPPO A series</a></strong>&nbsp;có mặt với ba phi&ecirc;n bản màu sắc đ&acirc;̀y sức hút là màu Đen, Xanh, và H&ocirc;̀ng. Phi&ecirc;n bản màu Đen có đ&ocirc;̣ tương phản màu khá t&ocirc;́t, thích hợp cho nam giới. Trong khi đó, hai phi&ecirc;n bản màu Xanh và H&ocirc;̀ng mang đ&ecirc;́n nét quy&ecirc;́n rũ h&acirc;́p d&acirc;̃n cho OPPO A96 với đ&ocirc;i nét ánh kim ở mặt lưng, tạo n&ecirc;n sức hút cho t&ocirc;̉ng th&ecirc;̉ máy.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 6490000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:22:51', 
+    'haipv'
+  ), 
+  (
+    95, 1.27, 'OPPO A95', 'oppo-a95', 'oppo-a95.png', 
+    'https://www.youtube.com/watch?v=pWO57tBhDGI', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế mỏng nhẹ hiện đại - Mỏng chỉ 7.95mm, nhẹ chỉ 175g, m&agrave;u sắc s&agrave;nh điệu</li>\n  <li>Hiển thị sắc n&eacute;t mọi khung h&igrave;nh - M&agrave;n h&igrave;nh Super AMOLED FullHD+ 6.43&quot;</li>\n  <li>Vi xử l&yacute; mạnh mẽ - Chip Snapdragon 662, RAM 8GB</li>\n  <li>Trọn vẹn từng khoảng khắc - Cụm camera sau l&ecirc;n đến 48MP, xo&aacute; ph&ocirc;ng chuy&ecirc;n nghiệp</li>\n</ul>\n\n<h2><strong>Tại sao n&ecirc;n chọn OPPO A95?</strong></h2>\n\n<blockquote>\n<p><strong>OPPO A95 l&agrave; mẫu điện thoại được đ&aacute;nh gi&aacute; rất tốt nhờ thiết kế sang trọng, hiệu năng ổn định</strong></p>\n</blockquote>\n\n<p><a href=\"https://cellphones.com.vn/oppo-a95.html\" title=\"OPPO A95\"><strong>OPPO A95</strong></a>&nbsp;c&oacute; thiết kế nổi bật ở ph&acirc;n kh&uacute;c tầm trung đi k&egrave;m với đ&oacute; l&agrave; vi&ecirc;n pin dung lượng lớn v&agrave; hệ thống camera ấn tượng. Nếu bạn đang t&igrave;m kiếm cho m&igrave;nh chiếc smartphone mang t&iacute;nh đột ph&aacute; so với c&aacute;c d&ograve;ng cũ th&igrave; với chiếc m&aacute;y n&agrave;y, h&atilde;ng đ&atilde; tập trung n&acirc;ng cao hiệu suất tối đa v&agrave; đường n&eacute;t thiết kế sang trọng, tinh tế hơn th&igrave; đ&acirc;y sẽ l&agrave; lựa chọn th&ocirc;ng minh d&agrave;nh cho bạn.</p>\n\n<p><iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" data-src=\"https://www.youtube.com/embed/rlrj54nMws8\" frameborder=\"0\" height=\"315\" title=\"YouTube video player\" width=\"560\"></iframe></p>\n\n<h3><strong>OPPO A95 sở hữu m&agrave;n h&igrave;nh Super AMOLED FullHD+ 6.43 inches, hiển thị sắc n&eacute;t</strong></h3>\n\n<p>OPPO A95 được trang bị m&agrave;n h&igrave;nh AMOLED với k&iacute;ch thước 6.43 inch, c&oacute;&nbsp;độ hiển thị m&agrave;u sắc rực rỡ nịnh mắt, c&oacute; độ tương phản cao. C&ugrave;ng với đ&oacute; l&agrave; nhiều t&iacute;nh năng bảo vệ mắt gi&uacute;p hạn chế mỏi mắt sau thời gian sử dụng lướt web, Facebook hay Instagram.</p>\n\n<p>&nbsp;</p>\n\n<p><img alt=\"Màn hình kích thước lớn\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a95-2.JPG\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a95-2.JPG\" /></p>\n\n<p>Với c&ocirc;ng nghệ m&agrave;n h&igrave;nh mở g&oacute;c rộng v&agrave; độ ph&acirc;n giải cao (1080 x 2400 Pixels), Oppo A95 gi&uacute;p kh&aacute;ch h&agrave;ng c&oacute; thể xem được từng chi tiết sống động, ch&acirc;n thật nhất dưới từng lớp k&iacute;nh v&agrave; mang lại những trải nghiệm tối ưu cho kh&aacute;ch h&agrave;ng. Mặt trước A95 c&oacute; thiết kế &ldquo;chấm O&rdquo; v&agrave; tỷ lệ m&agrave;n h&igrave;nh tr&ecirc;n th&acirc;n m&aacute;y l&ecirc;n tới 90.8%.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 5990000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:26:45', 
+    'haipv'
+  ), 
+  (
+    96, 1.27, 'OPPO A94', 'oppo-a94', 'oppo-a94.png', 
+    'https://www.youtube.com/watch?v=5ix0yHsu7Rg', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Kh&ocirc;ng bỏ lỡ bất kỳ khoảnh khắc - Quay video hiển thị k&eacute;p cả camera trước v&agrave; sau</li>\n  <li>Trải nghiệm h&igrave;nh ảnh sắc n&eacute;t, hiệu suất mượt m&agrave; - Helio P95 8 nh&acirc;n, NPU tốc độ cao hỗ trợ AI, RAM 8GB</li>\n  <li>Sẵn s&agrave;ng để sử dụng - Pin lớn 4310mAh, sạc nhanh 30W</li>\n  <li>Trải nghiệm thị gi&aacute; mượt m&agrave; - M&agrave;n h&igrave;nh AMOLED 6.43 inch, mở kh&oacute;a v&acirc;n tay trong m&agrave;n h&igrave;nh, chế độ bảo vệ mắt AI</li>\n</ul>\n\n<h2>Điện thoại Oppo A94 &ndash; Chuy&ecirc;n gia selfie, chơi game ấn tượng</h2>\n\n<p>Oppo A93 c&ograve;n chưa hết hot h&atilde;ng đ&atilde; rục rịch cho ra mắt sản phẩm mới v&agrave; trong thời gian tới đ&acirc;y, Oppo sẽ cho ra mắt sản phẩm mới mang t&ecirc;n&nbsp;<strong>Oppo A94</strong>. Thiết bị nổi bật với camera ch&iacute;nh l&ecirc;n đến 48 MP, vi&ecirc;n pin cao ngất 4.310 mAh đi k&egrave;m với con chip Helio P95.</p>\n\n<p>Tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/oppo-a95.html\">điện thoại OPPO A95</a>&nbsp;mới ra mắt với nhiều n&acirc;ng cấp về cấu h&igrave;nh, camera v&agrave; thời lượng pin.</p>\n\n<h3>M&agrave;n h&igrave;nh 6.43 inch AMOLED, độ ph&acirc;n giải FHD+</h3>\n\n<p>Chiếc smartphone&nbsp;Oppo A94 mang thiết kế đặc trưng của d&ograve;ng v&agrave; kh&ocirc;ng c&oacute; nhiều điểm kh&aacute;c biệt so với người tiền nhiệm. Bởi Oppo đ&atilde; thấy qu&aacute; ho&agrave;n hảo đối với thiết kế n&agrave;y v&agrave; c&oacute; lẽ kh&ocirc;ng cần phải thay đổi. Sản phẩm được ho&agrave;n thiện bởi sự kết hợp giữa phần viền kim loại chắc chắn, bền bỉ chống chọi với những những lực t&aacute;c động từ b&ecirc;n ngo&agrave;i. Đi k&egrave;m với mặt lưng k&iacute;nh b&oacute;ng bẩy kh&ocirc;ng k&eacute;m phần sang trọng, thể hiện đ&acirc;y l&agrave; chiếc m&aacute;y đắt tiền.</p>\n\n<p><img alt=\"Hoàn thiện giữa kim loại và kính, màn hình Super AMOLED rực rỡ\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a94-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a94-3.jpg\" /></p>\n\n<p>M&agrave;n h&igrave;nh của Oppo A94 c&oacute; k&iacute;ch thước 6.43 inches vừa vặn trong l&ograve;ng b&agrave;n tay của người sử dụng. Ngo&agrave;i ra, đ&acirc;y cũng l&agrave; k&iacute;ch thước vừa đủ lớn để c&oacute; thể xem phim, chơi game ch&acirc;n thực v&agrave; &ldquo;đ&atilde;&rdquo; nhất. M&agrave;n h&igrave;nh sử dụng tấm nền AMOLED gi&uacute;p hiển thị được m&agrave;u sắc rực rỡ, m&agrave;u đen s&acirc;u c&ugrave;ng g&oacute;c nh&igrave;n tốt tăng cường trải nghiệm chơi game. Đồng thời, độ ph&acirc;n giải Full HD+ cung cấp h&igrave;nh ảnh hiển thị chi tiết tr&ecirc;n từng điểm ảnh.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 5690000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:32:06', 
+    'haipv'
+  ), 
+  (
+    97, 1.27, 'OPPO A76', 'oppo-a76', 'oppo-a76.png', 
+    'https://www.youtube.com/watch?v=qzB8KkxCLDI', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiệu năng vượt trội, xử l&iacute; ổn định mọi t&aacute;c vụ - Chip Snapdragon 680 4G (6 nm) mạnh mẽ, RAM 6GB</li>\n  <li>Kh&ocirc;ng gian hiển thị mượt m&agrave;, sống động - M&agrave;n h&igrave;nh &quot;chấm O&quot; 6.56&quot;, 90Hz, đồ họa chuyển động trơn tru</li>\n  <li>Trở th&agrave;nh t&acirc;m điểm của mọi bức h&igrave;nh - Cụm camera k&eacute;p 13 MP, hỗ trợ chụp ảnh Ai, Bokeh hiệu quả</li>\n  <li>Giải tr&iacute; thả ga cả ng&agrave;y d&agrave;i - Vi&ecirc;n pin lớn 5.000mAh, sạc si&ecirc;u nhanh 33W</li>\n</ul>\n\n<blockquote>\n<p><a href=\"https://cellphones.com.vn/oppo-a76.html\" title=\"OPPO A76\"><strong>OPPO A76</strong></a>&nbsp;- phi&ecirc;n bản kế nhiệm của&nbsp;OPPO&nbsp;A74,&nbsp;thuộc d&ograve;ng A gi&aacute; rẻ của OPPO được ra mắt tại Việt Nam đầu th&aacute;ng 3 năm 2022.</p>\n</blockquote>\n\n<h2><strong>Tại sao n&ecirc;n mua OPPO A76?</strong></h2>\n\n<blockquote>\n<p><strong>OPPO A76</strong>&nbsp;được nhiều người lựa chọn do sở hữu thiết kế trẻ trung c&ugrave;ng với đ&oacute; l&agrave; hiệu năng mạnh mẽ ổn định để mang tới sự trải nghiệm v&ocirc; c&ugrave;ng ấn tượng v&agrave; độc đ&aacute;o.</p>\n</blockquote>\n\n<p>Chắc chắn đ&acirc;y sẽ l&agrave; mẫu smartphone tầm trung thu h&uacute;t được đ&ocirc;ng đảo người d&ugrave;ng lựa chọn. H&atilde;y c&ugrave;ng CellphoneS t&igrave;m hiểu chi tiết về c&aacute;c điểm mạnh l&agrave; l&yacute; do khiến OPPO A76 được ưu &aacute;i đến vậy.</p>\n\n<h3><strong>Thiết kế OPPO A76 tỉ mỉ, m&agrave;u sắc sang trọng</strong></h3>\n\n<blockquote>\n<p>Điện thoại OPPO A76 vẫn mang tr&ecirc;n m&igrave;nh thiết kế quen thuộc như những phi&ecirc;n bản tiền nhiệm trước đ&oacute;. Tất cả c&aacute;c chi tiết tr&ecirc;n m&aacute;y đều được gia c&ocirc;ng tỉ mỉ, tối ưu. Từ đ&oacute; nh&igrave;n chiếc&nbsp;<a href=\"https://cellphones.com.vn/mobile/oppo.html\" target=\"_self\" title=\"Điện thoại OPPO chính hãng\">điện thoại OPPO</a>&nbsp;trở n&ecirc;n mỏng nhẹ hơn, thiết kế th&acirc;n m&aacute;y cong 3D mang đến cảm gi&aacute;c mảnh mai v&agrave; dễ cầm nắm sử dụng.</p>\n</blockquote>\n\n<p align=\"center\"><img alt=\"Thiết kế OPPO A76 tỉ mỉ, màu sắc sang trọng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/Oppo-A76-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/Oppo-A76-1.jpg\" title=\"Thiết kế OPPO A76 tỉ mỉ, màu sắc sang trọng\" /></p>\n\n<p>Để tối giản nhất c&oacute; thể OPPO A76 mang tới cho người d&ugrave;ng 2 lựa chọn m&agrave;u sắc bao gồm: m&agrave;u đen v&agrave; m&agrave;u xanh. Người d&ugrave;ng c&oacute; thể lựa chọn m&agrave;u xanh thanh m&aacute;t như một tảng băng tr&ocirc;i v&ocirc; c&ugrave;ng thanh lịch, tươi mới hay m&agrave;u đen cực kỳ huyền b&iacute; v&agrave; sang trọng.</p>\n\n<p>Ấn tượng nhất ở OPPO A76 l&agrave; m&agrave;u sắc mặt lưng m&aacute;y được nhiều h&atilde;ng lựa chọn trang bị cho sản phẩm của m&igrave;nh thời gian gần đ&acirc;y. M&agrave;u sắc thời thượng, trẻ trung v&agrave; năng động. Nhưng chưa đủ, bởi m&agrave;u sẽ thay đổi t&ugrave;y theo g&oacute;c nh&igrave;n một c&aacute;ch mềm mại, lấp l&aacute;nh.</p>\n\n<p>Thiết kế OPPO A76 rất ph&ugrave; hợp cho ph&aacute;i nữ. Tuy nhi&ecirc;n nếu bạn muốn cảm gi&aacute;c mạnh mẽ hơn th&igrave; A76 sẽ c&ograve;n t&ugrave;y chọn m&agrave;u đen trầm. Ngo&agrave;i ra, chất liệu mặt lưng l&agrave; nhựa phủ nh&aacute;m d&ugrave; kh&ocirc;ng mang lại cảm gi&aacute;c sang trọng nhưng sẽ kh&ocirc;ng c&oacute; t&igrave;nh trạng b&aacute;m v&acirc;n tay, vết mồ h&ocirc;i trong qu&aacute; tr&igrave;nh sử dụng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 5390000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:34:12', 
+    'haipv'
+  ), 
+  (
+    98, 1.27, 'OPPO A57', 'oppo-a57', 'oppo-a57.png', 
+    'https://www.youtube.com/watch?v=n2e0hnQKYGA', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Kh&ocirc;ng gian hiển thị chất lượng - M&agrave;n h&igrave;nh IPS LCD 6.56 inches sắc n&eacute;t</li>\n  <li>Cấu h&igrave;nh ổn định, th&aacute;ch thức mọi t&aacute;c vụ - MediaTek Helio G35</li>\n  <li>Camera chụp ảnh chuy&ecirc;n nghiệp - Cụm camera 13 MP, đa dạng chế độ v&agrave; filter</li>\n  <li>Năng lượng bất tận - Dung lượng pin 5000 mAh, sạc nhanh 33W</li>\n</ul>\n\n<h2><strong>Đi&ecirc;̣n thoại OPPO A57 - Pin lớn, màn hình r&ocirc;̣ng đáp ứng giải trí</strong></h2>\n\n<p>Đ&ecirc;̉ việc kết nối bạn b&egrave; hay trong c&ocirc;ng việc được trở n&ecirc;n thuận tiện hơn th&igrave; h&atilde;ng OPPO đã cho ra mắt một d&ograve;ng sản phẩm smartphone&nbsp;<a href=\"https://cellphones.com.vn/mobile/oppo/a-series.html\" target=\"_blank\" title=\"OPPO A Series\"><strong>OPPO A series</strong></a>&nbsp;với thiết kế sang trọng v&agrave; gọn nhẹ, đi kèm với c&acirc;́u hình ch&acirc;́t lượng t&ocirc;́t, đ&oacute; chính l&agrave; điện thoại OPPO A57 (phi&ecirc;n bản 2022).</p>\n\n<h3><strong>Thiết kế OPPO Glow sang trọng cùng màn hình 6.56 inch</strong></h3>\n\n<p>Với thiết kế mang ng&ocirc;n ngữ OPPO Glow trứ danh, đi&ecirc;̣n thoại&nbsp;<a href=\"https://cellphones.com.vn/oppo-a57.html\" title=\"OPPO A57\"><strong>OPPO A57</strong></a>&nbsp;tuy giản đơn m&agrave; vẫn sang trọng l&agrave;m to&aacute;t l&ecirc;n vẻ lịch l&atilde;m, qu&yacute; ph&aacute;i cho người sở hữu được chiếc smartphone n&agrave;y. Trọng lượng điện thoại OPPO A57 chỉ 147g v&agrave; k&iacute;ch thước điện thoại chỉ 149.1 x 72.9 mm n&ecirc;n kh&aacute; mỏng v&agrave; nhẹ, thuận tiện cầm nắm, bỏ t&uacute;i hay balo dễ d&agrave;ng. Điện thoại OPPO A57 được thiết kế với các tùy chọn màu sắc h&acirc;́p d&acirc;̃n như Đen, Xanh đ&acirc;̀y m&ecirc; hoặc.</p>\n\n<p>Đặc bi&ecirc;̣t, OPPO A57 còn đạt ti&ecirc;u chu&acirc;̉n an toàn giúp tạo đ&ocirc;̣ tin c&acirc;̣y cho người dùng. Ti&ecirc;u chu&acirc;̉n IPX4 ch&ocirc;́ng th&acirc;́m nước và IP5X kháng bụi giúp OPPO A57 ch&ocirc;́ng chịu b&ecirc;̀n vững trước m&ocirc;i trường.</p>\n\n<p><img alt=\"Đánh giá thiết kế OPPO A57\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a57-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a57-4.jpg\" /></p>\n\n<p>M&agrave;n h&igrave;nh điện thoại OPPO A57 có kích thước r&ocirc;̣ng 6.56 inch với c&ocirc;ng ngh&ecirc;̣ LCD mang lại ch&acirc;́t lượng ảnh tuy&ecirc;̣t hảo cho các đa phương ti&ecirc;̣n và mang đ&ecirc;́n trải nghiệm sử dụng điện thoại một c&aacute;ch tối ưu nhất. Ngoài ra, màn hình điện thoại OPPO A57 c&oacute; độ ph&acirc;n giải HD Plus gi&uacute;p hiển thị m&agrave;u sắc tươi m&aacute;t c&ugrave;ng h&igrave;nh ảnh sống động mang lại cảm gi&aacute;c rất thật cho người d&ugrave;ng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 4250000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:43:10', 
+    'haipv'
+  ), 
+  (
+    99, 1.27, 'OPPO A57 4GB 128GB', 'oppo-a57-4gb-128gb', 
+    'oppo-a57-4gb-128gb.png', 'https://www.youtube.com/watch?v=n2e0hnQKYGA', 
+    '<h2>ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Kh&ocirc;ng gian hiển thị chất lượng - M&agrave;n h&igrave;nh IPS LCD 6.56 inches sắc n&eacute;t</li>\n  <li>Cấu h&igrave;nh ổn định, th&aacute;ch thức mọi t&aacute;c vụ - MediaTek Helio G35</li>\n  <li>Camera chụp ảnh chuy&ecirc;n nghiệp - Cụm camera 13 MP, đa dạng chế độ v&agrave; filter</li>\n  <li>Năng lượng bất tận - Dung lượng pin 5000 mAh, sạc nhanh 33W</li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 4250000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:44:46', 
+    'haipv'
+  ), 
+  (
+    100, 1.27, 'OPPO A55', 'oppo-a55', 
+    'oppo-a55.png', 'https://www.youtube.com/watch?v=aSUui_Rq4zo', 
+    '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>M&agrave;n h&igrave;nh giải tr&iacute; thoải m&aacute;i - M&agrave;n h&igrave;nh 6.51&quot;, HD+</li>\n  <li>Lưu giữ mọi khoảng khắc - Camera quay chụp th&ocirc;ng minh l&ecirc;n tới 50MP</li>\n  <li>Hiệu năng ổn định tr&ecirc;n mọi t&aacute;c vụ - MediaTek Helio G35 c&ugrave;ng RAM 4GB cho đa nhiệm mượt m&agrave;</li>\n  <li>Thời gian sử dụng l&acirc;u hơn - Pin 5000 mAh, sạc nhanh 18 W</li>\n</ul>\n\n<h2><strong>Đ&aacute;nh gi&aacute; điện thoại OPPO A55 &ndash; Smartphone gi&aacute; rẻ, camera tới 50MP</strong></h2>\n\n<blockquote>\n<p><a href=\"https://cellphones.com.vn/oppo-a55.html\" title=\"OPPO A55\"><strong>OPPO A55</strong></a>&nbsp;l&agrave;&nbsp;chiếc smartphone phổ th&ocirc;ng kế nhiệm của A54 nổi bật với thiết kế trẻ trung, mặt lưng c&oacute; m&agrave;u sắc ấn tượng đi k&egrave;m với đ&oacute; l&agrave; thời lượng pin khủng.&nbsp;A55 sở hữu nhiều t&iacute;nh năng đ&aacute;ng ch&uacute; &yacute; trong tầm gi&aacute; như camera với độ ph&acirc;n giải 50MP, vi&ecirc;n pin c&oacute; dung lượng l&ecirc;n tới 5000mAh. Mời bạn xem chi tiết c&aacute;c th&ocirc;ng số, đ&aacute;nh gi&aacute; (review) v&agrave; trải nghiệm tr&ecirc;n tay của chiếc OPPO A55 v&agrave; v&igrave; sao chiếc điện thoại n&agrave;y l&agrave; lựa chọn kh&ocirc;ng thể bỏ qua trong tầm gi&aacute; tr&ecirc;n dưới 4 triệu.</p>\n</blockquote>\n\n<h3><strong>Thiết kế OPPO A55 mỏng nhẹ, m&agrave;u sắc độc đ&aacute;o</strong></h3>\n\n<p><strong>Điện thoại OPPO A55</strong>&nbsp;sở hữu thiết kế kh&aacute; quen thuộc so với c&aacute;c mẫu smartphone kh&aacute;c tr&ecirc;n thị trường. M&aacute;y được ho&agrave;n thiện từ nhựa nhưng vẫn tạo cảm gi&aacute;c chắc chắn khi cầm tr&ecirc;n tay chứ kh&ocirc;ng hề ọp ẹp. M&aacute;y với m&agrave;m h&igrave;nh đục lỗ, khung viền 3 b&ecirc;n mỏng, viền đ&aacute;y sẽ d&agrave;y hơn một ch&uacute;t.</p>\n\n<p><img alt=\"Thiết kế OPPO A55 mỏng nhẹ, màu sắc độc đáo\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a55-1_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a55-1_1.jpg\" title=\"Thiết kế OPPO A55 mỏng nhẹ, màu sắc độc đáo\" /></p>\n\n<p>Mặt lưng m&aacute;y hiệu ứng gradiant, cụm camera sau xếp dọc theo th&acirc;n m&aacute;y tr&ecirc;n modun h&igrave;nh chữ nhật. Khung viền tr&ecirc;n A55 sẽ được l&agrave;m bo cong nhẹ cho khả năng cầm nắm thoải m&aacute;i. M&aacute;y sẽ được b&aacute;n ra với hai phi&ecirc;n bản m&agrave;u đen v&agrave; xanh dương.</p>\n\n<p><img alt=\"Cạnh phải OPPO A55 là nơi đặt phím nguồn kiêm cảm biến vân tay. Bên cạnh trái là nơi đặt nút tăng giảm âm lượng và khay SIM.\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a55-tren-tay-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a55-tren-tay-4.jpg\" title=\"Cạnh phải OPPO A55 là nơi đặt phím nguồn kiêm cảm biến vân tay. Bên cạnh trái là nơi đặt nút tăng giảm âm lượng và khay SIM.\" width=\"800\" /></p>\n\n<p>Cạnh phải OPPO A55 l&agrave; nơi đặt ph&iacute;m nguồn ki&ecirc;m cảm biến v&acirc;n tay.</p>\n\n<p><img alt=\"Bên cạnh trái là nơi đặt nút tăng giảm âm lượng và khay SIM.\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a55-tren-tay-12_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a55-tren-tay-12_1.jpg\" title=\"Bên cạnh trái là nơi đặt nút tăng giảm âm lượng và khay SIM.\" width=\"800\" /></p>\n\n<p>B&ecirc;n cạnh tr&aacute;i l&agrave; nơi đặt n&uacute;t tăng giảm &acirc;m lượng v&agrave; khay SIM.</p>\n\n<p><img alt=\"Cạnh dưới A55 là nơi đặt loa, cổng sạc USB Type C, mic và jack âm thanh 3.5mm.\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a55-tren-tay-5.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/mobile/oppo/oppo-a55-tren-tay-5.jpg\" title=\"Cạnh dưới A55 là nơi đặt loa, cổng sạc USB Type C, mic và jack âm thanh 3.5mm.\" width=\"800\" /></p>\n\n<p>Cạnh dưới A55 l&agrave; nơi đặt loa, cổng sạc USB Type C, mic v&agrave; jack &acirc;m thanh 3.5mm.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 4190000, NULL, 1000, 1, 
+    4, 9, NULL, NULL, '2022-08-13 08:50:07', 
     'haipv'
   );
 
 -- product-thumbnail
--- insert product_thumbnail (id, product_id, thumbnail, modified_by)
--- values 
---   (
---     1, 1, 'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png', 
---     'haipv'
---   ), 
---   (
---     2, 1, 'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png', 
---     'haipv'
---   ), 
---   (
---     3, 1, 'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png', 
---     'haipv'
---   ), 
---   (
---     4, 2, 'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png', 
---     'haipv'
---   ), 
---   (
---     5, 2, 'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png', 
---     'haipv'
---   ), 
---   (
---     6, 2, 'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-3.png', 
---     'haipv'
---   ), 
---   (
---     7, 3, 'laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png', 
---     'haipv'
---   ), 
---   (
---     8, 3, 'laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png', 
---     'haipv'
---   ), 
---   (
---     9, 3, 'laptop-asus-vivobook-a515ea-l12033w-thumbnail-3.png', 
---     'haipv'
---   ), 
---   (
---     10, 4, 'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png', 
---     'haipv'
---   ), 
---   (
---     11, 4, 'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png', 
---     'haipv'
---   ), 
---   (
---     12, 4, 'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png', 
---     'haipv'
---   ), 
---   (
---     13, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png', 
---     'haipv'
---   ), 
---   (
---     14, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png', 
---     'haipv'
---   ), 
---   (
---     15, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png', 
---     'haipv'
---   );
-
 INSERT INTO `product_thumbnail` 
 VALUES 
   (
     1, 1, 'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     2, 1, 'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     3, 1, 'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     4, 2, 'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     5, 2, 'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     6, 2, 'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-3.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     7, 3, 'laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     8, 3, 'laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     9, 3, 'laptop-asus-vivobook-a515ea-l12033w-thumbnail-3.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     10, 4, 'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     11, 4, 'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     12, 4, 'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     13, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     14, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     15, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png', 
-    '2022-08-08 07:30:53', 'haipv'
+    '2022-08-08 00:30:53', 'haipv'
   ), 
   (
     16, 42, 'iphone-13-pro-max-1tb-thumbnail-1.png', 
-    '2022-08-08 07:42:06', 'haipv'
+    '2022-08-08 00:42:06', 'haipv'
   ), 
   (
     17, 42, 'iphone-13-pro-max-1tb-thumbnail-3.png', 
-    '2022-08-08 07:42:06', 'haipv'
+    '2022-08-08 00:42:06', 'haipv'
   ), 
   (
     18, 42, 'iphone-13-pro-max-1tb-thumbnail-4.png', 
-    '2022-08-08 07:42:06', 'haipv'
+    '2022-08-08 00:42:06', 'haipv'
   ), 
   (
     19, 43, 'iphone-13-pro-max-512gb-thumbnail-1.png', 
-    '2022-08-08 13:37:33', 'haipv'
+    '2022-08-08 06:37:33', 'haipv'
   ), 
   (
     20, 43, 'iphone-13-pro-max-512gb-thumbnail-2.png', 
-    '2022-08-08 13:37:33', 'haipv'
+    '2022-08-08 06:37:33', 'haipv'
   ), 
   (
     21, 43, 'iphone-13-pro-max-512gb-thumbnail-3.png', 
-    '2022-08-08 13:37:33', 'haipv'
+    '2022-08-08 06:37:33', 'haipv'
   ), 
   (
     22, 44, 'iphone-13-pro-max-256gb-thumbnail-1.png', 
-    '2022-08-08 13:40:06', 'haipv'
+    '2022-08-08 06:40:06', 'haipv'
   ), 
   (
     23, 44, 'iphone-13-pro-max-256gb-thumbnail-3.png', 
-    '2022-08-08 13:40:06', 'haipv'
+    '2022-08-08 06:40:06', 'haipv'
   ), 
   (
     24, 44, 'iphone-13-pro-max-256gb-thumbnail-4.png', 
-    '2022-08-08 13:40:06', 'haipv'
+    '2022-08-08 06:40:06', 'haipv'
   ), 
   (
     25, 45, 'iphone-13-pro-max-128gb-thumbnail-2.png', 
-    '2022-08-08 13:41:27', 'haipv'
+    '2022-08-08 06:41:27', 'haipv'
   ), 
   (
     26, 45, 'iphone-13-pro-max-128gb-thumbnail-3.png', 
-    '2022-08-08 13:41:27', 'haipv'
+    '2022-08-08 06:41:27', 'haipv'
   ), 
   (
     27, 45, 'iphone-13-pro-max-128gb-thumbnail-4.png', 
-    '2022-08-08 13:41:27', 'haipv'
+    '2022-08-08 06:41:27', 'haipv'
   ), 
   (
     28, 46, 'iphone-12-pro-max-128gb-thumbnail-1.png', 
-    '2022-08-08 13:49:25', 'haipv'
+    '2022-08-08 06:49:25', 'haipv'
   ), 
   (
     29, 46, 'iphone-12-pro-max-128gb-thumbnail-2.png', 
-    '2022-08-08 13:49:26', 'haipv'
+    '2022-08-08 06:49:26', 'haipv'
   ), 
   (
     30, 46, 'iphone-12-pro-max-128gb-thumbnail-4.png', 
-    '2022-08-08 13:49:26', 'haipv'
+    '2022-08-08 06:49:26', 'haipv'
   ), 
   (
     31, 47, 'iphone-12-pro-max-256gb-thumbnail-1.png', 
-    '2022-08-08 13:53:17', 'haipv'
+    '2022-08-08 06:53:17', 'haipv'
   ), 
   (
     32, 47, 'iphone-12-pro-max-256gb-thumbnail-2.png', 
-    '2022-08-08 13:53:17', 'haipv'
+    '2022-08-08 06:53:17', 'haipv'
   ), 
   (
     33, 47, 'iphone-12-pro-max-256gb-thumbnail-3.png', 
-    '2022-08-08 13:53:17', 'haipv'
+    '2022-08-08 06:53:17', 'haipv'
   ), 
   (
     34, 48, 'iphone-12-pro-max-512gb-thumbnail-1.png', 
-    '2022-08-08 13:53:41', 'haipv'
+    '2022-08-08 06:53:41', 'haipv'
   ), 
   (
     35, 48, 'iphone-12-pro-max-512gb-thumbnail-2.png', 
-    '2022-08-08 13:53:41', 'haipv'
+    '2022-08-08 06:53:41', 'haipv'
   ), 
   (
     36, 48, 'iphone-12-pro-max-512gb-thumbnail-4.png', 
-    '2022-08-08 13:53:41', 'haipv'
+    '2022-08-08 06:53:41', 'haipv'
   ), 
   (
     37, 49, 'iphone-12-64gb-thumbnail-1.png', 
-    '2022-08-08 14:00:13', 'haipv'
+    '2022-08-08 07:00:13', 'haipv'
   ), 
   (
     38, 49, 'iphone-12-64gb-thumbnail-2.png', 
-    '2022-08-08 14:00:13', 'haipv'
+    '2022-08-08 07:00:13', 'haipv'
   ), 
   (
     39, 49, 'iphone-12-64gb-thumbnail-3.png', 
-    '2022-08-08 14:00:13', 'haipv'
+    '2022-08-08 07:00:13', 'haipv'
   ), 
   (
     40, 49, 'iphone-12-64gb-thumbnail-4.png', 
-    '2022-08-08 14:00:13', 'haipv'
+    '2022-08-08 07:00:13', 'haipv'
   ), 
   (
     41, 50, 'iphone-12-128gb-thumbnail-1.png', 
-    '2022-08-08 14:00:50', 'haipv'
+    '2022-08-08 07:00:50', 'haipv'
   ), 
   (
     42, 50, 'iphone-12-128gb-thumbnail-2.png', 
-    '2022-08-08 14:00:50', 'haipv'
+    '2022-08-08 07:00:50', 'haipv'
   ), 
   (
     43, 50, 'iphone-12-128gb-thumbnail-3.png', 
-    '2022-08-08 14:00:50', 'haipv'
+    '2022-08-08 07:00:50', 'haipv'
   ), 
   (
     44, 50, 'iphone-12-128gb-thumbnail-4.png', 
-    '2022-08-08 14:00:50', 'haipv'
+    '2022-08-08 07:00:50', 'haipv'
   ), 
   (
     45, 51, 'iphone-12-256gb-thumbnail-1.png', 
-    '2022-08-08 14:01:37', 'haipv'
+    '2022-08-08 07:01:37', 'haipv'
   ), 
   (
     46, 51, 'iphone-12-256gb-thumbnail-2.png', 
-    '2022-08-08 14:01:37', 'haipv'
+    '2022-08-08 07:01:37', 'haipv'
   ), 
   (
     47, 51, 'iphone-12-256gb-thumbnail-3.png', 
-    '2022-08-08 14:01:37', 'haipv'
+    '2022-08-08 07:01:37', 'haipv'
   ), 
   (
     48, 51, 'iphone-12-256gb-thumbnail-4.png', 
-    '2022-08-08 14:01:37', 'haipv'
+    '2022-08-08 07:01:37', 'haipv'
   ), 
   (
     49, 52, 'iphone-12-mini-64gb-thumbnail-1.png', 
-    '2022-08-08 14:08:01', 'haipv'
+    '2022-08-08 07:08:01', 'haipv'
   ), 
   (
     50, 52, 'iphone-12-mini-64gb-thumbnail-2.png', 
-    '2022-08-08 14:08:01', 'haipv'
+    '2022-08-08 07:08:01', 'haipv'
   ), 
   (
     51, 52, 'iphone-12-mini-64gb-thumbnail-3.png', 
-    '2022-08-08 14:08:01', 'haipv'
+    '2022-08-08 07:08:01', 'haipv'
   ), 
   (
     52, 52, 'iphone-12-mini-64gb-thumbnail-4.png', 
-    '2022-08-08 14:08:01', 'haipv'
+    '2022-08-08 07:08:01', 'haipv'
   ), 
   (
     53, 53, 'iphone-12-mini-128gb-thumbnail-1.png', 
-    '2022-08-08 14:08:56', 'haipv'
+    '2022-08-08 07:08:56', 'haipv'
   ), 
   (
     54, 53, 'iphone-12-mini-128gb-thumbnail-2.png', 
-    '2022-08-08 14:08:56', 'haipv'
+    '2022-08-08 07:08:56', 'haipv'
   ), 
   (
     55, 53, 'iphone-12-mini-128gb-thumbnail-3.png', 
-    '2022-08-08 14:08:56', 'haipv'
+    '2022-08-08 07:08:56', 'haipv'
   ), 
   (
     56, 53, 'iphone-12-mini-128gb-thumbnail-4.png', 
-    '2022-08-08 14:08:56', 'haipv'
+    '2022-08-08 07:08:56', 'haipv'
   ), 
   (
     57, 54, 'iphone-12-mini-256gb-thumbnail-1.png', 
-    '2022-08-08 14:09:26', 'haipv'
+    '2022-08-08 07:09:26', 'haipv'
   ), 
   (
     58, 54, 'iphone-12-mini-256gb-thumbnail-2.png', 
-    '2022-08-08 14:09:26', 'haipv'
+    '2022-08-08 07:09:26', 'haipv'
   ), 
   (
     59, 54, 'iphone-12-mini-256gb-thumbnail-3.png', 
-    '2022-08-08 14:09:26', 'haipv'
+    '2022-08-08 07:09:26', 'haipv'
   ), 
   (
     60, 54, 'iphone-12-mini-256gb-thumbnail-4.png', 
-    '2022-08-08 14:09:26', 'haipv'
+    '2022-08-08 07:09:26', 'haipv'
   ), 
   (
     61, 55, 'iphone-11-64gb-thumbnail-1.png', 
-    '2022-08-08 14:15:19', 'haipv'
+    '2022-08-08 07:15:19', 'haipv'
   ), 
   (
     62, 55, 'iphone-11-64gb-thumbnail-2.png', 
-    '2022-08-08 14:15:19', 'haipv'
+    '2022-08-08 07:15:19', 'haipv'
   ), 
   (
     63, 55, 'iphone-11-64gb-thumbnail-3.png', 
-    '2022-08-08 14:15:19', 'haipv'
+    '2022-08-08 07:15:19', 'haipv'
   ), 
   (
     64, 55, 'iphone-11-64gb-thumbnail-4.png', 
-    '2022-08-08 14:15:19', 'haipv'
+    '2022-08-08 07:15:19', 'haipv'
   ), 
   (
     65, 56, 'iphone-11-128gb-thumbnail-1.png', 
-    '2022-08-08 14:15:56', 'haipv'
+    '2022-08-08 07:15:56', 'haipv'
   ), 
   (
     66, 56, 'iphone-11-128gb-thumbnail-2.png', 
-    '2022-08-08 14:15:56', 'haipv'
+    '2022-08-08 07:15:56', 'haipv'
   ), 
   (
     67, 56, 'iphone-11-128gb-thumbnail-3.png', 
-    '2022-08-08 14:15:56', 'haipv'
+    '2022-08-08 07:15:56', 'haipv'
   ), 
   (
     68, 56, 'iphone-11-128gb-thumbnail-4.png', 
-    '2022-08-08 14:15:56', 'haipv'
+    '2022-08-08 07:15:56', 'haipv'
   ), 
   (
     69, 57, 'iphone-11-256gb-thumbnail-1.png', 
-    '2022-08-08 14:16:28', 'haipv'
+    '2022-08-08 07:16:28', 'haipv'
   ), 
   (
     70, 57, 'iphone-11-256gb-thumbnail-2.png', 
-    '2022-08-08 14:16:28', 'haipv'
+    '2022-08-08 07:16:28', 'haipv'
   ), 
   (
     71, 57, 'iphone-11-256gb-thumbnail-3.png', 
-    '2022-08-08 14:16:28', 'haipv'
+    '2022-08-08 07:16:28', 'haipv'
   ), 
   (
     72, 57, 'iphone-11-256gb-thumbnail-4.png', 
-    '2022-08-08 14:16:28', 'haipv'
+    '2022-08-08 07:16:28', 'haipv'
   ), 
   (
     73, 58, 'apple-ipad-mini-6-4gb-256gb-thumbnail-1.png', 
-    '2022-08-10 07:48:26', 'haipv'
+    '2022-08-10 00:48:26', 'haipv'
   ), 
   (
     74, 58, 'apple-ipad-mini-6-4gb-256gb-thumbnail-2.png', 
-    '2022-08-10 07:48:26', 'haipv'
+    '2022-08-10 00:48:26', 'haipv'
   ), 
   (
     75, 58, 'apple-ipad-mini-6-4gb-256gb-thumbnail-3.png', 
-    '2022-08-10 07:48:26', 'haipv'
+    '2022-08-10 00:48:26', 'haipv'
   ), 
   (
     76, 58, 'apple-ipad-mini-6-4gb-256gb-thumbnail-4.png', 
-    '2022-08-10 07:48:26', 'haipv'
+    '2022-08-10 00:48:26', 'haipv'
   ), 
   (
     77, 59, 'samsung-galaxy-z-fold3-5g-512gb-thumbnail-1.png', 
-    '2022-08-10 07:54:40', 'haipv'
+    '2022-08-10 00:54:40', 'haipv'
   ), 
   (
     78, 59, 'samsung-galaxy-z-fold3-5g-512gb-thumbnail-2.png', 
-    '2022-08-10 07:54:40', 'haipv'
+    '2022-08-10 00:54:40', 'haipv'
   ), 
   (
     79, 59, 'samsung-galaxy-z-fold3-5g-512gb-thumbnail-3.png', 
-    '2022-08-10 07:54:40', 'haipv'
+    '2022-08-10 00:54:40', 'haipv'
   ), 
   (
     80, 59, 'samsung-galaxy-z-fold3-5g-512gb-thumbnail-4.png', 
-    '2022-08-10 07:54:40', 'haipv'
+    '2022-08-10 00:54:40', 'haipv'
   ), 
   (
     81, 60, 'samsung-galaxy-z-fold3-5g-256gb-thumbnail-1.png', 
-    '2022-08-10 08:00:10', 'haipv'
+    '2022-08-10 01:00:10', 'haipv'
   ), 
   (
     82, 60, 'samsung-galaxy-z-fold3-5g-256gb-thumbnail-2.png', 
-    '2022-08-10 08:00:10', 'haipv'
+    '2022-08-10 01:00:10', 'haipv'
   ), 
   (
     83, 60, 'samsung-galaxy-z-fold3-5g-256gb-thumbnail-3.png', 
-    '2022-08-10 08:00:10', 'haipv'
+    '2022-08-10 01:00:10', 'haipv'
   ), 
   (
     84, 60, 'samsung-galaxy-z-fold3-5g-256gb-thumbnail-4.png', 
-    '2022-08-10 08:00:10', 'haipv'
+    '2022-08-10 01:00:10', 'haipv'
   ), 
   (
     105, 61, 'samsung-galaxy-s22-ultra-12gb-512gb-thumbnail-1.png', 
-    '2022-08-10 08:13:38', 'haipv'
+    '2022-08-10 01:13:38', 'haipv'
   ), 
   (
     106, 61, 'samsung-galaxy-s22-ultra-12gb-512gb-thumbnail-2.png', 
-    '2022-08-10 08:13:38', 'haipv'
+    '2022-08-10 01:13:38', 'haipv'
   ), 
   (
     107, 61, 'samsung-galaxy-s22-ultra-12gb-512gb-thumbnail-3.png', 
-    '2022-08-10 08:13:38', 'haipv'
+    '2022-08-10 01:13:38', 'haipv'
   ), 
   (
     108, 61, 'samsung-galaxy-s22-ultra-12gb-512gb-thumbnail-4.png', 
-    '2022-08-10 08:13:38', 'haipv'
+    '2022-08-10 01:13:38', 'haipv'
   ), 
   (
     109, 62, 'samsung-galaxy-s22-ultra-12gb-256gb-thumbnail-1.png', 
-    '2022-08-10 08:17:35', 'haipv'
+    '2022-08-10 01:17:35', 'haipv'
   ), 
   (
     110, 62, 'samsung-galaxy-s22-ultra-12gb-256gb-thumbnail-2.png', 
-    '2022-08-10 08:17:35', 'haipv'
+    '2022-08-10 01:17:35', 'haipv'
   ), 
   (
     111, 62, 'samsung-galaxy-s22-ultra-12gb-256gb-thumbnail-3.png', 
-    '2022-08-10 08:17:35', 'haipv'
+    '2022-08-10 01:17:35', 'haipv'
   ), 
   (
     112, 62, 'samsung-galaxy-s22-ultra-12gb-256gb-thumbnail-4.png', 
-    '2022-08-10 08:17:35', 'haipv'
+    '2022-08-10 01:17:35', 'haipv'
   ), 
   (
     113, 63, 'samsung-galaxy-s22-ultra-8gb-128gb-thumbnail-1.png', 
-    '2022-08-10 08:17:21', 'haipv'
+    '2022-08-10 01:17:21', 'haipv'
   ), 
   (
     114, 63, 'samsung-galaxy-s22-ultra-8gb-128gb-thumbnail-2.png', 
-    '2022-08-10 08:17:21', 'haipv'
+    '2022-08-10 01:17:21', 'haipv'
   ), 
   (
     115, 63, 'samsung-galaxy-s22-ultra-8gb-128gb-thumbnail-3.png', 
-    '2022-08-10 08:17:21', 'haipv'
+    '2022-08-10 01:17:21', 'haipv'
   ), 
   (
     116, 63, 'samsung-galaxy-s22-ultra-8gb-128gb-thumbnail-4.png', 
-    '2022-08-10 08:17:21', 'haipv'
+    '2022-08-10 01:17:21', 'haipv'
   ), 
   (
     117, 64, 'samsung-galaxy-s22-plus-8gb-128gb-thumbnail-1.png', 
-    '2022-08-10 08:24:53', 'haipv'
+    '2022-08-10 01:24:53', 'haipv'
   ), 
   (
     118, 64, 'samsung-galaxy-s22-plus-8gb-128gb-thumbnail-2.png', 
-    '2022-08-10 08:24:53', 'haipv'
+    '2022-08-10 01:24:53', 'haipv'
   ), 
   (
     119, 64, 'samsung-galaxy-s22-plus-8gb-128gb-thumbnail-3.png', 
-    '2022-08-10 08:24:53', 'haipv'
+    '2022-08-10 01:24:53', 'haipv'
   ), 
   (
     120, 64, 'samsung-galaxy-s22-plus-8gb-128gb-thumbnail-4.png', 
-    '2022-08-10 08:24:53', 'haipv'
+    '2022-08-10 01:24:53', 'haipv'
   ), 
   (
     121, 65, 'samsung-galaxy-s22-plus-8gb-256gb-thumbnail-1.png', 
-    '2022-08-10 08:48:08', 'haipv'
+    '2022-08-10 01:48:08', 'haipv'
   ), 
   (
     122, 65, 'samsung-galaxy-s22-plus-8gb-256gb-thumbnail-2.png', 
-    '2022-08-10 08:48:08', 'haipv'
+    '2022-08-10 01:48:08', 'haipv'
   ), 
   (
     123, 65, 'samsung-galaxy-s22-plus-8gb-256gb-thumbnail-3.png', 
-    '2022-08-10 08:48:08', 'haipv'
+    '2022-08-10 01:48:08', 'haipv'
   ), 
   (
     124, 65, 'samsung-galaxy-s22-plus-8gb-256gb-thumbnail-4.png', 
-    '2022-08-10 08:48:08', 'haipv'
+    '2022-08-10 01:48:08', 'haipv'
   ), 
   (
     189, 66, 'samsung-galaxy-s22-8gb-256gb-thumbnail-1.png', 
-    '2022-08-10 08:51:52', 'haipv'
+    '2022-08-10 01:51:52', 'haipv'
   ), 
   (
     190, 66, 'samsung-galaxy-s22-8gb-256gb-thumbnail-2.png', 
-    '2022-08-10 08:51:52', 'haipv'
+    '2022-08-10 01:51:52', 'haipv'
   ), 
   (
     191, 66, 'samsung-galaxy-s22-8gb-256gb-thumbnail-3.png', 
-    '2022-08-10 08:51:52', 'haipv'
+    '2022-08-10 01:51:52', 'haipv'
   ), 
   (
     192, 66, 'samsung-galaxy-s22-8gb-256gb-thumbnail-4.png', 
-    '2022-08-10 08:51:52', 'haipv'
+    '2022-08-10 01:51:52', 'haipv'
   ), 
   (
     193, 67, 'samsung-galaxy-s22-8gb-128gb-thumbnail-1.png', 
-    '2022-08-10 08:51:42', 'haipv'
+    '2022-08-10 01:51:42', 'haipv'
   ), 
   (
     194, 67, 'samsung-galaxy-s22-8gb-128gb-thumbnail-2.png', 
-    '2022-08-10 08:51:42', 'haipv'
+    '2022-08-10 01:51:42', 'haipv'
   ), 
   (
     195, 67, 'samsung-galaxy-s22-8gb-128gb-thumbnail-3.png', 
-    '2022-08-10 08:51:42', 'haipv'
+    '2022-08-10 01:51:42', 'haipv'
   ), 
   (
     196, 67, 'samsung-galaxy-s22-8gb-128gb-thumbnail-4.png', 
-    '2022-08-10 08:51:42', 'haipv'
+    '2022-08-10 01:51:42', 'haipv'
   ), 
   (
     201, 68, 'samsung-galaxy-s20-thumbnail-1.png', 
-    '2022-08-10 09:10:09', 'haipv'
+    '2022-08-10 02:10:09', 'haipv'
   ), 
   (
     202, 68, 'samsung-galaxy-s20-thumbnail-2.png', 
-    '2022-08-10 09:10:09', 'haipv'
+    '2022-08-10 02:10:09', 'haipv'
   ), 
   (
     203, 68, 'samsung-galaxy-s20-thumbnail-3.png', 
-    '2022-08-10 09:10:09', 'haipv'
+    '2022-08-10 02:10:09', 'haipv'
   ), 
   (
     204, 68, 'samsung-galaxy-s20-thumbnail-4.png', 
-    '2022-08-10 09:10:09', 'haipv'
+    '2022-08-10 02:10:09', 'haipv'
+  ), 
+  (
+    205, 69, 'samsung-galaxy-s20-ultra-thumbnail-1.png', 
+    '2022-08-12 09:45:09', 'haipv'
+  ), 
+  (
+    206, 69, 'samsung-galaxy-s20-ultra-thumbnail-2.jpg', 
+    '2022-08-12 09:45:09', 'haipv'
+  ), 
+  (
+    207, 69, 'samsung-galaxy-s20-ultra-thumbnail-3.png', 
+    '2022-08-12 09:45:09', 'haipv'
+  ), 
+  (
+    208, 69, 'samsung-galaxy-s20-ultra-thumbnail-4.png', 
+    '2022-08-12 09:45:09', 'haipv'
+  ), 
+  (
+    209, 70, 'samsung-galaxy-note-20-thumbnail-1.png', 
+    '2022-08-12 11:32:20', 'haipv'
+  ), 
+  (
+    210, 70, 'samsung-galaxy-note-20-thumbnail-2.png', 
+    '2022-08-12 11:32:20', 'haipv'
+  ), 
+  (
+    211, 70, 'samsung-galaxy-note-20-thumbnail-3.png', 
+    '2022-08-12 11:32:20', 'haipv'
+  ), 
+  (
+    212, 70, 'samsung-galaxy-note-20-thumbnail-4.png', 
+    '2022-08-12 11:32:20', 'haipv'
+  ), 
+  (
+    221, 71, 'samsung-galaxy-note-20-ultra-thumbnail-1.png', 
+    '2022-08-12 11:41:22', 'haipv'
+  ), 
+  (
+    222, 71, 'samsung-galaxy-note-20-ultra-thumbnail-2.png', 
+    '2022-08-12 11:41:22', 'haipv'
+  ), 
+  (
+    223, 71, 'samsung-galaxy-note-20-ultra-thumbnail-3.png', 
+    '2022-08-12 11:41:22', 'haipv'
+  ), 
+  (
+    224, 71, 'samsung-galaxy-note-20-ultra-thumbnail-4.png', 
+    '2022-08-12 11:41:22', 'haipv'
+  ), 
+  (
+    225, 72, 'samsung-galaxy-note-20-ultra-5g-thumbnail-1.png', 
+    '2022-08-12 11:50:20', 'haipv'
+  ), 
+  (
+    226, 72, 'samsung-galaxy-note-20-ultra-5g-thumbnail-2.png', 
+    '2022-08-12 11:50:20', 'haipv'
+  ), 
+  (
+    227, 72, 'samsung-galaxy-note-20-ultra-5g-thumbnail-3.png', 
+    '2022-08-12 11:50:20', 'haipv'
+  ), 
+  (
+    228, 72, 'samsung-galaxy-note-20-ultra-5g-thumbnail-4.png', 
+    '2022-08-12 11:50:20', 'haipv'
+  ), 
+  (
+    229, 73, 'samsung-galaxy-z-flip3-5g-thumbnail-1.png', 
+    '2022-08-12 11:54:56', 'haipv'
+  ), 
+  (
+    230, 73, 'samsung-galaxy-z-flip3-5g-thumbnail-2.png', 
+    '2022-08-12 11:54:56', 'haipv'
+  ), 
+  (
+    231, 73, 'samsung-galaxy-z-flip3-5g-thumbnail-3.png', 
+    '2022-08-12 11:54:56', 'haipv'
+  ), 
+  (
+    232, 73, 'samsung-galaxy-z-flip3-5g-thumbnail-4.png', 
+    '2022-08-12 11:54:56', 'haipv'
+  ), 
+  (
+    233, 74, 'samsung-galaxy-z-flip3-5g-256gb-thumbnail-1.png', 
+    '2022-08-12 11:56:05', 'haipv'
+  ), 
+  (
+    234, 74, 'samsung-galaxy-z-flip3-5g-256gb-thumbnail-2.png', 
+    '2022-08-12 11:56:05', 'haipv'
+  ), 
+  (
+    235, 74, 'samsung-galaxy-z-flip3-5g-256gb-thumbnail-3.png', 
+    '2022-08-12 11:56:05', 'haipv'
+  ), 
+  (
+    236, 74, 'samsung-galaxy-z-flip3-5g-256gb-thumbnail-4.png', 
+    '2022-08-12 11:56:05', 'haipv'
+  ), 
+  (
+    237, 75, 'samsung-galaxy-s21-fe-5g-6gb-128gb-thumbnail-1.png', 
+    '2022-08-12 11:59:26', 'haipv'
+  ), 
+  (
+    238, 75, 'samsung-galaxy-s21-fe-5g-6gb-128gb-thumbnail-2.png', 
+    '2022-08-12 11:59:26', 'haipv'
+  ), 
+  (
+    239, 75, 'samsung-galaxy-s21-fe-5g-6gb-128gb-thumbnail-4.png', 
+    '2022-08-12 11:59:26', 'haipv'
+  ), 
+  (
+    240, 76, 'samsung-galaxy-s21-fe-5g-8gb-128gb-thumbnail-1.png', 
+    '2022-08-12 12:00:11', 'haipv'
+  ), 
+  (
+    241, 76, 'samsung-galaxy-s21-fe-5g-8gb-128gb-thumbnail-2.png', 
+    '2022-08-12 12:00:11', 'haipv'
+  ), 
+  (
+    242, 76, 'samsung-galaxy-s21-fe-5g-8gb-128gb-thumbnail-3.png', 
+    '2022-08-12 12:00:11', 'haipv'
+  ), 
+  (
+    243, 77, 'samsung-galaxy-s21-fe-5g-8gb-256gb-thumbnail-1.png', 
+    '2022-08-12 12:00:44', 'haipv'
+  ), 
+  (
+    244, 77, 'samsung-galaxy-s21-fe-5g-8gb-256gb-thumbnail-2.png', 
+    '2022-08-12 12:00:44', 'haipv'
+  ), 
+  (
+    245, 77, 'samsung-galaxy-s21-fe-5g-8gb-256gb-thumbnail-3.png', 
+    '2022-08-12 12:00:44', 'haipv'
+  ), 
+  (
+    246, 78, 'samsung-galaxy-s20-fe-256gb-thumbnail-1.png', 
+    '2022-08-13 07:18:09', 'haipv'
+  ), 
+  (
+    247, 78, 'samsung-galaxy-s20-fe-256gb-thumbnail-2.png', 
+    '2022-08-13 07:18:09', 'haipv'
+  ), 
+  (
+    248, 78, 'samsung-galaxy-s20-fe-256gb-thumbnail-3.png', 
+    '2022-08-13 07:18:09', 'haipv'
+  ), 
+  (
+    249, 78, 'samsung-galaxy-s20-fe-256gb-thumbnail-4.png', 
+    '2022-08-13 07:18:09', 'haipv'
+  ), 
+  (
+    250, 79, 'samsung-galaxy-a73-5g-256gb-thumbnail-1.png', 
+    '2022-08-13 07:22:38', 'haipv'
+  ), 
+  (
+    251, 79, 'samsung-galaxy-a73-5g-256gb-thumbnail-2.png', 
+    '2022-08-13 07:22:38', 'haipv'
+  ), 
+  (
+    252, 79, 'samsung-galaxy-a73-5g-256gb-thumbnail-3.png', 
+    '2022-08-13 07:22:38', 'haipv'
+  ), 
+  (
+    253, 79, 'samsung-galaxy-a73-5g-256gb-thumbnail-4.png', 
+    '2022-08-13 07:22:38', 'haipv'
+  ), 
+  (
+    254, 80, 'samsung-galaxy-a73-5g-128gb-thumbnail-1.png', 
+    '2022-08-13 07:24:02', 'haipv'
+  ), 
+  (
+    255, 80, 'samsung-galaxy-a73-5g-128gb-thumbnail-2.png', 
+    '2022-08-13 07:24:02', 'haipv'
+  ), 
+  (
+    256, 80, 'samsung-galaxy-a73-5g-128gb-thumbnail-3.png', 
+    '2022-08-13 07:24:02', 'haipv'
+  ), 
+  (
+    257, 80, 'samsung-galaxy-a73-5g-128gb-thumbnail-4.png', 
+    '2022-08-13 07:24:02', 'haipv'
+  ), 
+  (
+    258, 81, 'samsung-galaxy-a53-5g-thumbnail-1.png', 
+    '2022-08-13 07:28:04', 'haipv'
+  ), 
+  (
+    259, 81, 'samsung-galaxy-a53-5g-thumbnail-2.png', 
+    '2022-08-13 07:28:04', 'haipv'
+  ), 
+  (
+    260, 81, 'samsung-galaxy-a53-5g-thumbnail-3.png', 
+    '2022-08-13 07:28:04', 'haipv'
+  ), 
+  (
+    261, 81, 'samsung-galaxy-a53-5g-thumbnail-4.png', 
+    '2022-08-13 07:28:04', 'haipv'
+  ), 
+  (
+    262, 82, 'samsung-galaxy-a33-5g-thumbnail-1.png', 
+    '2022-08-13 07:31:20', 'haipv'
+  ), 
+  (
+    263, 82, 'samsung-galaxy-a33-5g-thumbnail-2.png', 
+    '2022-08-13 07:31:20', 'haipv'
+  ), 
+  (
+    264, 82, 'samsung-galaxy-a33-5g-thumbnail-3.png', 
+    '2022-08-13 07:31:20', 'haipv'
+  ), 
+  (
+    265, 82, 'samsung-galaxy-a33-5g-thumbnail-4.png', 
+    '2022-08-13 07:31:20', 'haipv'
+  ), 
+  (
+    266, 83, 'samsung-galaxy-a23-thumbnail-1.png', 
+    '2022-08-13 07:34:43', 'haipv'
+  ), 
+  (
+    267, 83, 'samsung-galaxy-a23-thumbnail-2.png', 
+    '2022-08-13 07:34:43', 'haipv'
+  ), 
+  (
+    268, 83, 'samsung-galaxy-a23-thumbnail-3.png', 
+    '2022-08-13 07:34:43', 'haipv'
+  ), 
+  (
+    269, 83, 'samsung-galaxy-a23-thumbnail-4.png', 
+    '2022-08-13 07:34:43', 'haipv'
+  ), 
+  (
+    270, 84, 'iphone-se-2022-thumbnail-1.png', 
+    '2022-08-13 07:40:30', 'haipv'
+  ), 
+  (
+    271, 84, 'iphone-se-2022-thumbnail-3.png', 
+    '2022-08-13 07:40:30', 'haipv'
+  ), 
+  (
+    272, 84, 'iphone-se-2022-thumbnail-4.png', 
+    '2022-08-13 07:40:30', 'haipv'
+  ), 
+  (
+    273, 85, 'iphone-se-2022-256gb-thumbnail-1.png', 
+    '2022-08-13 07:41:14', 'haipv'
+  ), 
+  (
+    274, 85, 'iphone-se-2022-256gb-thumbnail-2.png', 
+    '2022-08-13 07:41:14', 'haipv'
+  ), 
+  (
+    275, 85, 'iphone-se-2022-256gb-thumbnail-4.png', 
+    '2022-08-13 07:41:14', 'haipv'
+  ), 
+  (
+    276, 86, 'iphone-se-2022-thumbnail-1.png', 
+    '2022-08-13 07:43:07', 'haipv'
+  ), 
+  (
+    277, 86, 'iphone-se-2022-thumbnail-2.png', 
+    '2022-08-13 07:43:07', 'haipv'
+  ), 
+  (
+    278, 86, 'iphone-se-2022-thumbnail-4.png', 
+    '2022-08-13 07:43:07', 'haipv'
+  ), 
+  (
+    279, 87, 'oppo-reno7-5g-thumbnail-1.png', 
+    '2022-08-13 07:47:53', 'haipv'
+  ), 
+  (
+    280, 87, 'oppo-reno7-5g-thumbnail-2.png', 
+    '2022-08-13 07:47:53', 'haipv'
+  ), 
+  (
+    281, 87, 'oppo-reno7-5g-thumbnail-3.png', 
+    '2022-08-13 07:47:53', 'haipv'
+  ), 
+  (
+    282, 87, 'oppo-reno7-5g-thumbnail-4.png', 
+    '2022-08-13 07:47:53', 'haipv'
+  ), 
+  (
+    283, 88, 'oppo-reno7-z-5g-thumbnail-1.png', 
+    '2022-08-13 08:03:19', 'haipv'
+  ), 
+  (
+    284, 88, 'oppo-reno7-z-5g-thumbnail-2.png', 
+    '2022-08-13 08:03:19', 'haipv'
+  ), 
+  (
+    285, 88, 'oppo-reno7-z-5g-thumbnail-3.png', 
+    '2022-08-13 08:03:19', 'haipv'
+  ), 
+  (
+    286, 88, 'oppo-reno7-z-5g-thumbnail-4.png', 
+    '2022-08-13 08:03:19', 'haipv'
+  ), 
+  (
+    287, 89, 'oppo-reno7-4g-8gb-128gb-thumbnail-1.png', 
+    '2022-08-13 08:06:40', 'haipv'
+  ), 
+  (
+    288, 89, 'oppo-reno7-4g-8gb-128gb-thumbnail-2.png', 
+    '2022-08-13 08:06:40', 'haipv'
+  ), 
+  (
+    289, 89, 'oppo-reno7-4g-8gb-128gb-thumbnail-3.png', 
+    '2022-08-13 08:06:40', 'haipv'
+  ), 
+  (
+    290, 89, 'oppo-reno7-4g-8gb-128gb-thumbnail-4.png', 
+    '2022-08-13 08:06:40', 'haipv'
+  ), 
+  (
+    291, 90, 'oppo-reno6-5g-thumbnail-1.png', 
+    '2022-08-13 08:10:35', 'haipv'
+  ), 
+  (
+    292, 90, 'oppo-reno6-5g-thumbnail-2.png', 
+    '2022-08-13 08:10:35', 'haipv'
+  ), 
+  (
+    293, 90, 'oppo-reno6-5g-thumbnail-3.png', 
+    '2022-08-13 08:10:35', 'haipv'
+  ), 
+  (
+    294, 90, 'oppo-reno6-5g-thumbnail-4.png', 
+    '2022-08-13 08:10:35', 'haipv'
+  ), 
+  (
+    295, 91, 'oppo-reno6-z-5g-thumbnail-1.png', 
+    '2022-08-13 08:14:15', 'haipv'
+  ), 
+  (
+    296, 91, 'oppo-reno6-z-5g-thumbnail-2.png', 
+    '2022-08-13 08:14:15', 'haipv'
+  ), 
+  (
+    297, 91, 'oppo-reno6-z-5g-thumbnail-3.png', 
+    '2022-08-13 08:14:15', 'haipv'
+  ), 
+  (
+    298, 91, 'oppo-reno6-z-5g-thumbnail-4.png', 
+    '2022-08-13 08:14:15', 'haipv'
+  ), 
+  (
+    299, 92, 'oppo-reno5-thumbnail-1.png', 
+    '2022-08-13 08:17:11', 'haipv'
+  ), 
+  (
+    300, 92, 'oppo-reno5-thumbnail-2.png', 
+    '2022-08-13 08:17:11', 'haipv'
+  ), 
+  (
+    301, 92, 'oppo-reno5-thumbnail-3.png', 
+    '2022-08-13 08:17:11', 'haipv'
+  ), 
+  (
+    302, 92, 'oppo-reno5-thumbnail-4.png', 
+    '2022-08-13 08:17:11', 'haipv'
+  ), 
+  (
+    303, 93, 'oppo-reno5-5g-thumbnail-1.png', 
+    '2022-08-13 08:18:06', 'haipv'
+  ), 
+  (
+    304, 93, 'oppo-reno5-5g-thumbnail-2.png', 
+    '2022-08-13 08:18:06', 'haipv'
+  ), 
+  (
+    305, 93, 'oppo-reno5-5g-thumbnail-3.png', 
+    '2022-08-13 08:18:06', 'haipv'
+  ), 
+  (
+    306, 93, 'oppo-reno5-5g-thumbnail-4.png', 
+    '2022-08-13 08:18:06', 'haipv'
+  ), 
+  (
+    307, 94, 'oppo-a96-thumbnail-1.png', 
+    '2022-08-13 08:22:52', 'haipv'
+  ), 
+  (
+    308, 94, 'oppo-a96-thumbnail-2.png', 
+    '2022-08-13 08:22:52', 'haipv'
+  ), 
+  (
+    309, 94, 'oppo-a96-thumbnail-3.png', 
+    '2022-08-13 08:22:52', 'haipv'
+  ), 
+  (
+    310, 94, 'oppo-a96-thumbnail-4.png', 
+    '2022-08-13 08:22:52', 'haipv'
+  ), 
+  (
+    311, 95, 'oppo-a95-thumbnail-1.png', 
+    '2022-08-13 08:26:45', 'haipv'
+  ), 
+  (
+    312, 95, 'oppo-a95-thumbnail-2.png', 
+    '2022-08-13 08:26:45', 'haipv'
+  ), 
+  (
+    313, 95, 'oppo-a95-thumbnail-3.png', 
+    '2022-08-13 08:26:45', 'haipv'
+  ), 
+  (
+    314, 95, 'oppo-a95-thumbnail-4.png', 
+    '2022-08-13 08:26:45', 'haipv'
+  ), 
+  (
+    315, 96, 'oppo-a94-thumbnail-1.png', 
+    '2022-08-13 08:32:06', 'haipv'
+  ), 
+  (
+    316, 96, 'oppo-a94-thumbnail-2.png', 
+    '2022-08-13 08:32:06', 'haipv'
+  ), 
+  (
+    317, 96, 'oppo-a94-thumbnail-3.png', 
+    '2022-08-13 08:32:06', 'haipv'
+  ), 
+  (
+    318, 96, 'oppo-a94-thumbnail-4.png', 
+    '2022-08-13 08:32:06', 'haipv'
+  ), 
+  (
+    319, 97, 'oppo-a76-thumbnail-1.png', 
+    '2022-08-13 08:34:12', 'haipv'
+  ), 
+  (
+    320, 97, 'oppo-a76-thumbnail-2.png', 
+    '2022-08-13 08:34:12', 'haipv'
+  ), 
+  (
+    321, 97, 'oppo-a76-thumbnail-3.png', 
+    '2022-08-13 08:34:12', 'haipv'
+  ), 
+  (
+    322, 98, 'oppo-a57-thumbnail-1.png', 
+    '2022-08-13 08:43:10', 'haipv'
+  ), 
+  (
+    323, 98, 'oppo-a57-thumbnail-2.png', 
+    '2022-08-13 08:43:10', 'haipv'
+  ), 
+  (
+    324, 98, 'oppo-a57-thumbnail-3.png', 
+    '2022-08-13 08:43:10', 'haipv'
+  ), 
+  (
+    325, 98, 'oppo-a57-thumbnail-4.png', 
+    '2022-08-13 08:43:10', 'haipv'
+  ), 
+  (
+    326, 99, 'oppo-a57-4gb-128gb-thumbnail-1.png', 
+    '2022-08-13 08:44:46', 'haipv'
+  ), 
+  (
+    327, 99, 'oppo-a57-4gb-128gb-thumbnail-2.png', 
+    '2022-08-13 08:44:46', 'haipv'
+  ), 
+  (
+    328, 99, 'oppo-a57-4gb-128gb-thumbnail-3.png', 
+    '2022-08-13 08:44:46', 'haipv'
+  ), 
+  (
+    329, 99, 'oppo-a57-4gb-128gb-thumbnail-4.png', 
+    '2022-08-13 08:44:46', 'haipv'
+  ), 
+  (
+    330, 100, 'oppo-a55-thumbnail-1.png', 
+    '2022-08-13 08:50:07', 'haipv'
+  ), 
+  (
+    331, 100, 'oppo-a55-thumbnail-2.png', 
+    '2022-08-13 08:50:07', 'haipv'
+  ), 
+  (
+    332, 100, 'oppo-a55-thumbnail-3.png', 
+    '2022-08-13 08:50:07', 'haipv'
+  ), 
+  (
+    333, 100, 'oppo-a55-thumbnail-4.png', 
+    '2022-08-13 08:50:07', 'haipv'
   );
 
-  
   -- rating
 insert into rating(id,product_id,fullname,email,point,content)
 values
@@ -2933,84 +3196,84 @@ INSERT status_order(`id`, `code`, `status`)
 insert orders
 values 
   (
-    1, 'HD-11062022', NULL, 1, 1, 2, 1, 1, 
+    1, 'HD-11062022', NULL, 1, 1, 2, 1, 6, 
     'Nguyễn Quang Huy', 'vanb@gmail.co.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 14990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    2, 'HD-12062022', NULL, 1, 2, 1, 2, 2, 
+    2, 'HD-12062022', NULL, 1, 2, 1, 2, 6, 
     'Nguyễn Quang Huy', 'gmail@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 30880000, NULL, NULL, NULL, NULL, 
     2
   ), 
   (
-    3, 'HD-13062022', NULL, 1, 1, 2, 1, 2, 
+    3, 'HD-13062022', NULL, 1, 1, 2, 1, 6, 
     'Nguyễn Quang Huy', 'leanhtuab@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 50870000, NULL, NULL, NULL, NULL, 
     3
   ), 
   (
-    4, 'HD-14062022', NULL, 1, 1, 2, 2, 3, 
+    4, 'HD-14062022', NULL, 1, 1, 2, 2, 6, 
     'Nguyễn Quang Huy', 'hongnnt@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 32990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    5, 'HD-15062022', NULL, 1, 1, 2, 1, 4, 
+    5, 'HD-15062022', NULL, 1, 1, 2, 1, 6, 
     'Nguyễn Quang Huy', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 30890000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    6, 'HD-16062022', NULL, 2, 1, 2, 2, 2, 
+    6, 'HD-16062022', NULL, 2, 1, 2, 2, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 29990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    7, 'HD-17062022', NULL, 2, 1, 2, 1, 3, 
+    7, 'HD-17062022', NULL, 2, 1, 2, 1, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 24490000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    8, 'HD-18062022', NULL, 2, 2, 1, 2, 2, 
+    8, 'HD-18062022', NULL, 2, 2, 1, 2, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 20990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    9, 'HD-19062022', NULL, 2, 2, 1, 1, 3, 
+    9, 'HD-19062022', NULL, 2, 2, 1, 1, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 33480000, NULL, NULL, NULL, NULL, 
     2
   ), 
   (
-    10, 'HD-20062022', NULL, 2, 2, 1, 2, 5, 
+    10, 'HD-20062022', NULL, 2, 2, 1, 2, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     NULL, NULL, '2022-08-08 05:13:38', 
     NULL, 52430000, NULL, NULL, NULL, NULL, 
     3
   ), 
   (
-    11, 'HD-74289518', NULL, 2, 2, 1, 1, 1, 
+    11, 'HD-74289518', NULL, 2, 2, 1, 1, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
     '', NULL, '2022-08-08 05:13:58', 
     NULL, 29990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    12, 'HD-29387428', NULL, 5, 2, 1, 1, 1, 
+    12, 'HD-29387428', NULL, 5, 2, 1, 1, 6, 
     'Lê Thị Thu Hà', 'quangdat@gmail.com', 
     '', NULL, '2022-08-08 06:16:01', 
     NULL, 87960000, NULL, 0, NULL, NULL, 
@@ -3018,154 +3281,154 @@ values
   ), 
   (
     13, 'HD-28796165', 'HD-28796165.png', 
-    5, 2, 1, 1, 2, 'Lê Thị Thu Hà', 
+    5, 2, 1, 1, 6, 'Lê Thị Thu Hà', 
     'quangdat@gmail.com', '', NULL, '2022-08-08 06:17:36', 
     'minhnh', 99000000, NULL, 0, NULL, 
     NULL, 1
   ), 
   (
-    14, 'HD-86090362', NULL, 5, 1, 1, 1, 1, 
+    14, 'HD-86090362', NULL, 5, 1, 1, 1, 6, 
     'Lê thị thu hồng', 'hongnnt@gmail.com', 
     '', NULL, '2022-08-08 06:19:26', 
     NULL, 50990000, NULL, 295000, NULL, 
     NULL, 1
   ), 
   (
-    15, 'HD-78426833', NULL, 5, 1, 1, 1, 1, 
+    15, 'HD-78426833', NULL, 5, 1, 1, 1, 6, 
     'Lê thị thu hồng', 'hongnnt@gmail.com', 
     '', NULL, '2022-08-08 06:22:14', 
     NULL, 30890000, NULL, 168560, NULL, 
     NULL, 1
   ), 
   (
-    16, 'HD-71533818', NULL, 5, 2, 1, 1, 1, 
+    16, 'HD-71533818', NULL, 5, 2, 1, 1, 6, 
     'trần anh đạt', NULL, '', NULL, 
-    '2022-08-08 06:25:45', NULL, 50980000, 
+    '2021-08-08 06:25:45', NULL, 50980000, 
     NULL, 0, NULL, NULL, 2
   ), 
   (
-    17, 'HD-37208349', NULL, 3, 1, 1, 1, 1, 
+    17, 'HD-37208349', NULL, 3, 1, 1, 1, 6, 
     'Tấn Tài', 'hungnq@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:31:44', 
+    'giao thu 2', NULL, '2021-08-08 06:31:44', 
     NULL, 12490000, NULL, 40000, NULL, 
     NULL, 1
   ), 
   (
-    18, 'HD-51070929', NULL, 3, 1, 1, 1, 1, 
+    18, 'HD-51070929', NULL, 3, 1, 1, 1, 6, 
     'Thu Hằng', 'thuhanggg@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:34:38', 
+    'giao thu 2', NULL, '2021-08-08 06:34:38', 
     NULL, 33990000, NULL, 224950, NULL, 
     NULL, 1
   ), 
   (
     19, 'HD-94371462', 'HD-94371462.png', 
-    4, 2, 1, 1, 2, 'Nguyễn Quang Vinh', 
-    'vinhnq@gmail.com', '', NULL, '2022-08-08 06:35:00', 
+    4, 2, 1, 1, 6, 'Nguyễn Quang Vinh', 
+    'vinhnq@gmail.com', '', NULL, '2021-08-08 06:35:00', 
     'minhnh', 54480000, NULL, 0, NULL, 
     NULL, 2
   ), 
   (
-    20, 'HD-92562610', NULL, 3, 1, 1, 1, 1, 
+    20, 'HD-92562610', NULL, 3, 1, 1, 1, 6, 
     'Nguyễn Văn B', 'vanb@gmail.co.com', 
-    'giao thu 2', NULL, '2022-08-08 06:36:17', 
+    'giao thu 2', NULL, '2021-08-08 06:36:17', 
     NULL, 14490000, NULL, 117450, NULL, 
     NULL, 1
   ), 
   (
-    21, 'HD-26836246', NULL, 4, 1, 1, 1, 1, 
+    21, 'HD-26836246', NULL, 4, 1, 1, 1, 6, 
     'Nguyễn Quang Hùng', 'hungnq@gmail.com', 
-    '', NULL, '2022-08-08 06:37:36', 
+    '', NULL, '2021-08-08 06:37:36', 
     NULL, 41990000, NULL, 249950, NULL, 
     NULL, 1
   ), 
   (
-    25, 'HD-37154178', NULL, 7, 1, 1, 1, 1, 
+    25, 'HD-37154178', NULL, 7, 1, 1, 1, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:40:26', 
+    'giao thu 2', NULL, '2021-08-08 06:40:26', 
     NULL, 29990000, NULL, 184950, NULL, 
     NULL, 1
   ), 
   (
-    26, 'HD-14280547', NULL, 7, 1, 1, 1, 1, 
+    26, 'HD-14280547', NULL, 7, 1, 1, 1, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:40:40', 
+    'giao thu 2', NULL, '2020-08-08 06:40:40', 
     NULL, 12490000, NULL, 97450, NULL, 
     NULL, 1
   ), 
   (
-    27, 'HD-62169753', NULL, 6, 2, 1, 1, 1, 
+    27, 'HD-62169753', NULL, 6, 2, 1, 1, 6, 
     'Nguyễn Ngọc Thiên Hồng', 
-    'hongnnt@gmail.com', '', NULL, '2022-08-08 06:40:59', 
+    'hongnnt@gmail.com', '', NULL, '2020-08-08 06:40:59', 
     NULL, 38990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    28, 'HD-40867355', NULL, 6, 1, 1, 1, 1, 
+    28, 'HD-40867355', NULL, 6, 1, 1, 1, 6, 
     'Nguyễn Ngọc Thiên Hồng', 
-    'hongnnt@gmail.com', '', NULL, '2022-08-08 06:41:18', 
+    'hongnnt@gmail.com', '', NULL, '2020-08-08 06:41:18', 
     NULL, 15990000, NULL, 109950, NULL, 
     NULL, 1
   ), 
   (
-    29, 'HD-95581896', NULL, 7, 2, 1, 1, 1, 
+    29, 'HD-95581896', NULL, 7, 2, 1, 1, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:42:00', 
+    'giao thu 2', NULL, '2020-08-08 06:42:00', 
     NULL, 29990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    30, 'HD-73766888', NULL, 7, 2, 1, 1, 1, 
+    30, 'HD-73766888', NULL, 7, 2, 1, 1, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:42:56', 
+    'giao thu 2', NULL, '2020-08-08 06:42:56', 
     NULL, 33990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    31, 'HD-23126624', NULL, 7, 1, 1, 1, 1, 
+    31, 'HD-23126624', NULL, 7, 1, 1, 1, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:43:53', 
+    'giao thu 2', NULL, '2020-08-08 06:43:53', 
     NULL, 20990000, NULL, 159950, NULL, 
     NULL, 1
   ), 
   (
-    32, 'HD-16865661', NULL, 6, 2, 1, 1, 1, 
+    32, 'HD-16865661', NULL, 6, 2, 1, 1, 6, 
     'Nguyễn Ngọc Thiên Hồng', 
-    'hongnnt@gmail.com', '', NULL, '2022-08-08 06:44:19', 
+    'hongnnt@gmail.com', '', NULL, '2020-08-08 06:44:19', 
     NULL, 20990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    33, 'HD-12310126', NULL, 7, 2, 1, 1, 1, 
+    33, 'HD-12310126', NULL, 7, 2, 1, 1, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:44:38', 
+    'giao thu 2', NULL, '2020-08-08 06:44:38', 
     NULL, 29990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    34, 'HD-69444323', NULL, 7, 1, 1, 1, 1, 
+    34, 'HD-69444323', NULL, 7, 1, 1, 1, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2022-08-08 06:46:13', 
+    'giao thu 2', NULL, '2020-08-08 06:46:13', 
     NULL, 29990000, NULL, 55000, NULL, 
     NULL, 1
   ), 
   (
-    35, 'HD-12697433', NULL, 7, 2, 1, 1, 1, 
+    35, 'HD-12697433', NULL, 7, 2, 1, 1, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    '', NULL, '2022-08-08 06:47:08', 
+    '', NULL, '2020-08-08 06:47:08', 
     NULL, 38480000, NULL, 0, NULL, NULL, 
     2
   ), 
   (
-    36, 'HD-76426419', NULL, 7, 2, 1, 1, 1, 
+    36, 'HD-76426419', NULL, 7, 2, 1, 1, 6, 
     'Ngọc Bùi', 'gmail@gmail.com', 
-    '', NULL, '2022-08-08 06:48:16', 
+    '', NULL, '2020-08-08 06:48:16', 
     NULL, 20990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    37, 'HD-92999876', NULL, 8, 1, 1, 1, 1, 
+    37, 'HD-92999876', NULL, 8, 1, 1, 1, 6, 
     'Ngô trúc nhi', 'nhint@gmail.com', 
-    '', NULL, '2022-08-08 06:50:21', 
+    '', NULL, '2020-08-08 06:50:21', 
     NULL, 34990000, NULL, 196950, NULL, 
     NULL, 1
   ), 

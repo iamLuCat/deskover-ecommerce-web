@@ -68,6 +68,7 @@
               <th class="align-middle text-center">Thương hiệu</th>
               <th class="align-middle text-center">Danh mục</th>
               <th class="align-middle text-center">Giá</th>
+              <th class="align-middle text-center">Số lượng</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
               <th class="align-middle text-end"></th>
@@ -91,6 +92,9 @@
               </td>
               <td class="align-middle text-center">
                 {{ product.price | number:'1.0-0' }}₫
+              </td>
+              <td class="align-middle text-center">
+                {{ product.quantity }}
               </td>
               <td class="align-middle text-center">
                 {{ product.modifiedAt | date:'dd/MM/yyyy' }}
@@ -190,10 +194,11 @@
                     <span *ngIf="categoryEdit.errors?.required">Vui lòng chọn danh mục</span>
                   </div>
                 </div>
-                <div class="mb-3" *ngIf="product.subCategory">
+                <div class="mb-3">
                   <label class="form-label" [for]="'subCategory'">Danh mục con</label>
                   <select class="form-control" id="subCategory" name="subCategory" [(ngModel)]="product.subCategory"
                           #subCategory="ngModel" [disabled]="category === null" [compareWith]="compareFn" required>
+                    <option [ngValue]="null">-- Chọn danh mục --</option>
                     <option *ngFor="let item of subcategories" [ngValue]="item">{{ item.name }}</option>
                   </select>
                   <div class="invalid-feedback" *ngIf="subCategory.invalid && (subCategory.dirty || subCategory.touched)">

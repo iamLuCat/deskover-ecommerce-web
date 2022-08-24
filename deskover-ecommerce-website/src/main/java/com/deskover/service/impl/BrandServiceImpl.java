@@ -77,12 +77,7 @@ public class BrandServiceImpl implements BrandService {
     @Transactional
     public Brand create(Brand brand) {
         if (this.existsBySlug(brand)) {
-            Brand brandExists = this.getBySlug(brand.getSlug());
-            if (brandExists != null && brandExists.getActived() == Boolean.FALSE) {
-                brand.setId(brandExists.getId());
-            } else {
-                throw new IllegalArgumentException("Slug đã tồn tại");
-            }
+            throw new IllegalArgumentException("Slug đã tồn tại");
         }
         brand.setActived(Boolean.TRUE);
         return this.update(brand);

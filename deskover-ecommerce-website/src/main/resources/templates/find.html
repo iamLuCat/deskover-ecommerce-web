@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
+        ~{::title},
+        ~{::modal_out},
+        ~{::modal_in},
+        ~{::#handheld},
+        ~{::#content}
+    )}">
+
+<head>
+  <title>Deskover: Chi tiết giỏ hàng</title>
+</head>
+<body>
+  <div id="modal_out"></div>
+  <div id="modal_in"></div>
+  <div id="content"> <br>
+	<h1 class="text-center">TRA CỨU THÔNG TIN ĐƠN HÀNG</h1>
+	<div class="container">
+	<form th:action="@{/otp}" method="post">
+         <div class="row height d-flex justify-content-center align-items-center">
+           <div class="col-md-8 mx-auto text-center">
+             <div class="search">  
+               <input type="text" class="form-control" placeholder="Nhập số điện thoại mua hàng" name="phone" th:object="${phone}"> <br>
+               <button class="btn btn-primary text-center"> <i class="fa fa-arrow-right" aria-hidden="true"></i> Tiếp theo</button> 
+             </div>
+           </div>
+         </div>
+    </form>
+    <h4 th:text="${msg}" class="text-center text-danger"></h4> 
+    </div><br>  
+  </div>
+</body>
+</html>
+
+     
+
+
+    

@@ -84,12 +84,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 		if (product.getId() == null) {
 			if (this.existsBySlug(product)) {
-				Product productExists = repo.findBySlug(product.getSlug());
-				if (productExists != null && !productExists.getActived()) {
-					product.setId(productExists.getId());
-				} else {
-					throw new IllegalArgumentException("Slug đã tồn tại");
-				}
+				throw new IllegalArgumentException("Slug đã tồn tại");
 			}
 			product.setActived(Boolean.TRUE);
 		} else {
