@@ -8,5 +8,7 @@ import com.deskover.model.entity.database.Verify;
 public interface VerifyService {
 	void createVerifyToken(String token, Users user);
 	Verify getVerificationToken(String VerificationToken);
-	Date calculateExpiryDate(int expiryTimeInMinutes); 
+	Date calculateExpiryDate(int expiryTimeInMinutes);
+	Verify findByUser(Users user);
+	Verify save(Verify verify);
 }
