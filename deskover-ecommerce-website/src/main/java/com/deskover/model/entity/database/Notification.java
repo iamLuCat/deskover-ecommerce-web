@@ -27,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "notifications")
+@Table(name = "Notifications")
 public class Notification implements Serializable {
     private static final long serialVersionUID = -78816057551216207L;
     @Id
