@@ -11,5 +11,6 @@ public interface UserPasswordService {
 	UserPassword create(Users user,String password);
 	void updatePassword(String username,ChangePasswordDto updatePasswordUser);
 	UserPassword getPasswordByUsername(String username);
+	ResponseEntity<?> resetPassword(String phone,String passwordNew, String confirmPassword);
 	ResponseEntity<?> updatePassword(String username,PasswordDTO form);
 }

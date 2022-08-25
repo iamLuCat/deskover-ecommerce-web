@@ -93,4 +93,16 @@ public class UserPasswordServiceImpl implements UserPasswordService{
 		return  ResponseEntity.ok().body(new MessageResponse("Mật khẩu đã được thay đổi thành công")) ;
 	}
 
+	@Override
+	public ResponseEntity<?> resetPassword(String phone, String passwordNew, String confirmPassword) {
+		UserPassword password = repo.findByUserUsername(phone);
+		if(!passwordNew.equals(confirmPassword)) {
+			return  ResponseEntity.badRequest().body(new MessageResponse("Mật khẩu mới không trùng, hãy nhập lại!")) ;
+		}
+		String hashPass = bcrypt.encode(passwordNew);
+		password.setPassword(hashPass);
+		repo.saveAndFlush(password);
+		return  ResponseEntity.ok().body(new MessageResponse("Mật khẩu đã được thay đổi thành công")) ;
+	}
+
 }

@@ -25,6 +25,7 @@ import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.dto.SmsPojoDto;
 import com.deskover.model.entity.dto.UserCreateDto;
 import com.deskover.service.SmsService;
+import com.deskover.service.UserPasswordService;
 import com.deskover.service.VerifyService;
 import com.deskover.service.impl.UserServiceImpl;
 import com.deskover.service.impl.VerifyServiceImpl;
@@ -46,6 +47,8 @@ public class RegisterApi {
 	private SmsService service;
 	@Autowired
 	private VerifyService verifyService;
+	@Autowired
+	private UserPasswordService passwordService;
 
 	@PostMapping("/register")
 	public ResponseEntity<?> postRegister(@RequestBody() UserCreateDto newUser, HttpServletRequest request, Model model)
@@ -87,7 +90,17 @@ public class RegisterApi {
 			SmsPojoDto phone = new SmsPojoDto();
 			phone.setPhoneNo("+84" + phoneResponse.substring(1));
 			Users user = userService.findByUsername(phoneResponse);
+			if(user == null) {
+				throw new IllegalArgumentException("Không tồn tại SĐT: "+phoneResponse);
+			}
 			Verify verify = verifyService.findByUser(user);
+			if(verify == null) {
+				otpService.createVerifyToken(service.sendOTP(phone).toString(), user);
+				Verify verifyNew = verifyService.findByUser(user);
+				verifyNew.setToken(service.sendOTP(phone).toString());
+				verifyService.save(verifyNew);
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
 			verify.setToken(service.sendOTP(phone).toString());
 			verifyService.save(verify);
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -95,5 +108,18 @@ public class RegisterApi {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
 		}
 	}
+	
+	@GetMapping("/confirmRePass/{phone}")
+	public ResponseEntity<?> confirmRePass(
+			@RequestParam("password") String password,
+			@RequestParam("password") String comfirmPass,
+			@PathVariable("phone") String phoneResponse) {
+		try {
+			return passwordService.resetPassword(phoneResponse, comfirmPass, password);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+		}
+	}
+	
 
 }
