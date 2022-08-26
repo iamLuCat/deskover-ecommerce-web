@@ -2,6 +2,8 @@ package com.deskover.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,14 +47,13 @@ public class CheckoutServiceImpl implements CheckoutService {
 	
 	
 	@Override
-	public void saveOrder(UserAddress entity, String total) {
+	public void saveOrder(UserAddress entity, String total, ArrayList<ProductDto> items) {
 		Users user  = userRepo.getById((long)1);
 		ShippingMethods shipping = shippingRepo.getById((long)1);
 		PaymentMethods payment = paymentRepo.getById((long)1);
 		OrderStatus status = statusRepo.getById((long)1);
 		StatusPayment statusPayment = statusPaymentRepo.getById((long)1);
 		
-		ArrayList<ProductDto> items = sessionService.get("items");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		OrderDetail orderAddress = new OrderDetail();
 		sessionService.set("address", entity);

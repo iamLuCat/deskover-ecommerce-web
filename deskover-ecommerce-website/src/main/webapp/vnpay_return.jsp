@@ -57,15 +57,15 @@
             </div>
             <div class="table-responsive">
                 <div class="form-group">
-                    <label >TransId:</label>
+                    <label >Id giao dịch:</label>
                     <label><%=request.getParameter("vnp_TxnRef")%></label>
                 </div>    
                 <div class="form-group">
-                    <label >Amount:</label>
+                    <label >Tổng tiền:</label>
                     <label><%=request.getParameter("vnp_Amount")%></label>
                 </div>  
                 <div class="form-group">
-                    <label >Order info:</label>
+                    <label >Thông tin hóa đơn:</label>
                     <label><%=request.getParameter("vnp_OrderInfo")%></label>
                 </div> 
                 <div class="form-group">
@@ -73,19 +73,19 @@
                     <label><%=request.getParameter("vnp_ResponseCode")%></label>
                 </div> 
                 <div class="form-group">
-                    <label >VNPAY TransId:</label>
+                    <label >VNPAY Id Giao dịch:</label>
                     <label><%=request.getParameter("vnp_TransactionNo")%></label>
                 </div> 
                 <div class="form-group">
-                    <label >Bank Code:</label>
+                    <label >Mã ngân hàng:</label>
                     <label><%=request.getParameter("vnp_BankCode")%></label>
                 </div> 
                 <div class="form-group">
-                    <label >Pay Date:</label>
+                    <label >Ngày thanh toán:</label>
                     <label><%=request.getParameter("vnp_PayDate")%></label>
                 </div> 
                 <div class="form-group">
-                    <label >Payment Status:</label>
+                    <label >Tình trạng thanh toán:</label>
                     <label>
                         <%
                             if (signValue.equals(vnp_SecureHash)) {

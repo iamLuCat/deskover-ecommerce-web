@@ -13,9 +13,9 @@ import com.twilio.type.PhoneNumber;
 
 @Component
 public class SmsService {
-	private final String ACCOUNT_SID = "AC3aec3a58774c3bdd72859cae8b07af3d";
-	private final String AUTH_TOKEN = "bf505c2f62728c7179aa3f2cd649c322";
-	private final String FROM_NUMBER = "+19147581911";
+	private final String ACCOUNT_SID = "ACca3fff5d859ab9b17e10bacfa996f54c";
+	private final String AUTH_TOKEN = "4b0259c193c72235a27474cdc552ba53";
+	private final String FROM_NUMBER = "+17815499381";
 	
 	public void send(SmsPojoDto sms) throws ParseException{
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
