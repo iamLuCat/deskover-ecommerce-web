@@ -381,9 +381,9 @@
                     <!-- Product-->
                     <div th:each="item : ${recommendItems}">
                         <div class="card product-card card-static">
-                            <a class="card-img-top d-block overflow-hidden" href="#"><img th:src="@{'/img/shop/products/' +${item.imgUrl}}" th:alt="${item.slug}"></a>
+                            <a class="card-img-top d-block overflow-hidden" th:href="@{'/shop/item?p='+${item.slug}}"><img th:src="@{'/img/shop/products/' +${item.imgUrl}}" th:alt="${item.slug}"></a>
                             <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">[[${item.category}]]</a>
-                                <h3 class="product-title fs-sm"><a th:href="@{/shop/item?p={item.slug}}">[[${item.name}]]</a></h3>
+                                <h3 class="product-title fs-sm"><a th:href="@{'/shop/item?p='+${item.slug}}">[[${item.name}]]</a></h3>
                                 <div class="d-flex justify-content-between">
                                     <div class="product-price"><span class="text-accent">[[${#numbers.formatInteger(item.price,3,'COMMA')}]]<small> VND</small></span></div>
                                     <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star"></i>

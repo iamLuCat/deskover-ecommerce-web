@@ -77,8 +77,6 @@ public class ProductApi {
 		}
 	}
 	
-	
-
 	@GetMapping("/product-category")
 	public ResponseEntity<?> doGetProductByCategoryId(@RequestParam("categoryId") Long categoryId,
 			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
