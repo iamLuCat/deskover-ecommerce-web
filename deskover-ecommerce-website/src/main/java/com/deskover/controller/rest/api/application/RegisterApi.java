@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +52,7 @@ public class RegisterApi {
 	private UserPasswordService passwordService;
 
 	@PostMapping("/register")
+	@Transactional
 	public ResponseEntity<?> postRegister(@RequestBody() UserCreateDto newUser, HttpServletRequest request, Model model)
 			throws ParseException {
 		try {
