@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
+	~{::title},
+    ~{::modal_out},
+    ~{::modal_in},
+    ~{::#handheld},
+    ~{::#content}
+    )}">
+
+<head>
+    <title>Deskover: [[${od.id}]]</title>
+</head>
+
+<body id="content">
+    <div id="modal">
+        <!-- Order Details Modal-->
+        <th:block th:replace="components/modal/order_detail.html :: modal"></th:block>
+    </div>
+    <div id="content">
+        <div class="container py-5 mb-2 mb-md-3">
+            <!-- Progress-->
+            <div class="card border-0 shadow-lg">
+                <div class="card-body pb-2">
+                    <ul class="nav nav-tabs media-tabs nav-justified">
+                        <li class="nav-item">
+                            <div class="nav-link">
+                                <a class="d-flex align-items-center" href="#order-details" data-bs-toggle="modal">
+                                    <div class="media-tab-media"><i class="ci-bag"></i></div>
+                                    <div class="ps-3">
+                                        <div class="media-tab-subtitle text-muted fs-xs mb-1">Chi tiết giỏ hàng</div>
+                                        <h6 class="media-tab-title text-nowrap mb-0">[[${od.countItem}]] sản phẩm</h6>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-link">
+                                <div class="d-flex align-items-center">
+                                    <div class="media-tab-media"><i class="ci-coins"></i></div>
+                                    <div class="ps-3">
+                                        <div class="media-tab-subtitle text-muted fs-xs mb-1">Tổng giá trị</div>
+                                        <h6 class="media-tab-title text-nowrap mb-0">[[${#numbers.formatInteger(od.total,3,'COMMA')}]]<span>VND</span></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-link">
+                                <div class="d-flex align-items-center">
+                                    <div class="media-tab-media"><i class="ci-cashier"></i></div>
+                                    <div class="ps-3">
+                                        <div class="media-tab-subtitle text-muted fs-xs mb-1">Ngày đặt</div>
+                                        <h6 class="media-tab-title text-nowrap mb-0">[[${od.orderDate}]]</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-link">
+                                <div class="d-flex align-items-center">
+                                    <div class="media-tab-media"><i class="ci-package"></i></div>
+                                    <div class="ps-3">
+                                        <div class="media-tab-subtitle text-muted fs-xs mb-1">Nhận hàng</div>
+                                        <h6 class="media-tab-title text-nowrap mb-0">[[${od.orderMethod}]]</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Details-->
+            <div class="row gx-4 mt-4">
+                <div class="col-md-3 mb-2">
+                    <div class="h-100 p-4 text-center text-light rounded-3" th:classappend="${od.psCode == 'C-TT'}? 'bg-danger': (${od.psCode == 'D-TT'}? 'bg-success':(${od.psCode == 'C-HT'}? 'bg-warning':'bg-info'))">
+                        <span class="fw-bold text-light fw-bold me-2">[[${od.paymentStatus}]] </span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="h-100 p-4 text-center rounded-3" th:classappend="${od.osCode == 'GH-TB' || od.osCode == 'C-HUY'|| od.osCode == 'HUY'|| od.osCode == 'GH-TB'}? 'bg-danger': (${od.osCode == 'GH-TC'}? 'bg-success':(${od.osCode == 'LH-TB'}? 'bg-warning':'bg-info'))">
+                        <span class="fw-bold text-light me-2">[[${od.orderStatus}]]</span>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="bg-secondary h-100 p-4 text-center rounded-3">
+                        <span class="fw-bold text-dark me-2">Ước tính lấy hàng:</span>[[${od.pickupDate}]]
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="bg-secondary h-100 p-4 text-center rounded-3">
+                        <span class="fw-bold text-dark me-2">Ước tính giao hàng:</span>[[${od.deliveryDate}]]
+                    </div>
+                </div>
+            </div>
+            <!-- Footer-->
+            <div class="d-sm-flex flex-wrap justify-content-center align-items-center text-center pt-4">
+
+                <button class="btn btn-primary btn-sm " style="margin-left: 10px;" hidden>Hủy đơn hàng</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="handheld" th:remove="tag">
+        <!-- Toolbar for handheld devices (Default)-->
+        <div th:replace="components/handhelds/normal.html :: handheld"></div>
+    </div>
+
+</body>
+
+</html>

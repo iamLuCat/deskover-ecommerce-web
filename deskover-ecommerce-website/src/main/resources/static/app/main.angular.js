@@ -498,6 +498,39 @@ angular
       error: ''
     }
 
+    $scope.order = {
+      list:[],
+      currentPage: 0,
+      totalPage: 0,
+      filter: "0",
+      loadDatabase() {
+        $http({
+          method: 'GET',
+          url: '/api/v1/ecommerce/user/account/order',
+          params: {
+            c: this.currentPage,
+            f: this.filter
+          }
+        }).then(function successCallback(response) {
+          console.log(response.data);
+          $scope.order.list = response.data.list;
+          $scope.order.totalPage = response.data.totalPage;
+        }, function errorCallback(response) {
+          console.error(response);
+        });
+      },
+      detail(f){
+        window.location.href = "/account/order/detail?id=" + f;
+      },
+      changePage(p) {
+        console.log(p)
+        if (p >= this.totalPage) return;
+        else if (p < 0) return;
+        this.currentPage = p;
+        this.loadDatabase();
+      }
+    }
+
     $scope.profile = {
       avatar: '',
       form: {
@@ -857,3 +890,4 @@ angular
       readAsDataUrl: readAsDataURL
     };
   }).filter('trustHtml', function ($sce) { return $sce.trustAsHtml; });
+

@@ -3,8 +3,12 @@ package com.deskover.service.impl;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.deskover.model.entity.database.Users;
 import com.deskover.model.entity.database.Verify;
 import com.deskover.model.entity.database.repository.VerifyRepository;
@@ -35,5 +39,16 @@ public class VerifyServiceImpl implements VerifyService{
 	@Override
 	public Verify getVerificationToken(String VerificationToken) {
 		return verifyRepo.findByToken(VerificationToken);
+	}
+
+	@Override
+	public Verify findByUser(Users user) {
+		return verifyRepo.findByUser(user);
+	}
+
+	@Transactional
+	@Override
+	public Verify save(Verify verify) {
+		return verifyRepo.save(verify);
 	}
 }

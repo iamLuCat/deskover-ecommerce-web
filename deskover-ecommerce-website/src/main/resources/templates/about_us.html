@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
+        ~{::title},
+        ~{::modal_out},
+        ~{::modal_in},
+        ~{::#handheld},
+        ~{::#content}
+    )}">
+
+<head>
+    <title>Deskover: Chi tiết giỏ hàng</title>
+</head>
+
+<body>
+    <div id="modal_out"></div>
+    <div id="modal_in"></div>
+    <div id="content">
+      <!-- Row: Shop online-->
+      <section class="row g-0">
+        <div class="col-md-6 bg-position-center bg-size-cover bg-secondary" style="min-height: 15rem; background-image: url(/img/about_us/ecommerce.png);"></div>
+        <div class="col-md-6 px-3 px-md-5 py-5">
+          <div class="mx-auto py-lg-5" style="max-width: 35rem;">
+            <h2 class="h3 pb-3">Trang web ecommerce</h2>
+            <p class="fs-sm pb-3 text-muted">
+              Trang web bán hàng ecommerce giúp khách hàng có thể tiếp cận dễ dàng các mặt hàng đang có tại cửa hàng mà không cần phải đến tận nơi để xem. Cung cấp các công cụ tìm kiếm, đặt hàng và quản lý giúp khách hàng có trải nghiệm tốt nhất và mang lại nhiều giá trị cho người sử dụng hệ thống.
+
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- Row: Delivery-->
+      <section class="row g-0">
+        <div class="col-md-6 bg-position-center bg-size-cover bg-secondary order-md-2" style="min-height: 15rem; background-image: url(/img/about_us/dashboard.png);"></div>
+        <div class="col-md-6 px-3 px-md-5 py-5 order-md-1">
+          <div class="mx-auto py-lg-5" style="max-width: 35rem;">
+            <h2 class="h3 pb-3">Trang quản lý Dashboard</h2>
+            <p class="fs-sm pb-3 text-muted">Với hệ thống quản lý online, dù ở bất cứ đâu, người dùng vẫn có thể thực hiện các việc quản trị và quản lý trang web ecommerce thông qua trang quản lý Dashboard. Hệ thống cung cấp các công cụ và thông tin cần thiết giúp mang lại những giá trị cao cho người sử dụng.</p>
+          </div>
+        </div>
+      </section>
+      <!-- Row: Mobile app-->
+      <section class="row g-0">
+        <div class="col-md-6 bg-position-center bg-size-cover bg-secondary" style="min-height: 15rem; background-image: url(/img/about_us/application.png);"></div>
+        <div class="col-md-6 px-3 px-md-5 py-5">
+          <div class="mx-auto py-lg-5" style="max-width: 35rem;">
+            <h2 class="h3 pb-3">Ứng dụng điện thoại</h2>
+            <p class="fs-sm pb-3 text-muted">Với các ứng dụng điện thoại di động, người dùng cũng như khách hàng sẽ có trải nghiệm tốt hơn trong việc mua sắm</p>
+            <a class="btn-market btn-google mb-3" href="#" role="button"><span class="btn-market-subtitle">Download on the</span><span class="btn-market-title">Google Play</span></a>
+          </div>
+        </div>
+      </section>
+      <!-- Section: Team-->
+      <section class="container py-3 py-lg-5 mt-4 mb-3">
+        <h2 class="h3 my-2">Nhóm thực hiện</h2>
+        <p class="fs-sm text-muted">Những người đã giúp và thực hiện hoàn thành sản phẩm thành công</p>
+        <div class="row pt-3">
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="d-flex align-items-center">
+              <div class="ps-3">
+                <h6 class="fs-base pt-1 mb-1">thầy LÊ VĂN PHỤNG</h6>
+                <p class="fs-ms text-muted mb-0">Giảng viên Hướng Dẫn</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="d-flex align-items-center">
+              <div class="ps-3">
+                <h6 class="fs-base pt-1 mb-1">Nguyễn Quang Huy</h6>
+                <p class="fs-ms text-muted mb-0">Nhóm trưởng</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="d-flex align-items-center">
+              <div class="ps-3">
+                <h6 class="fs-base pt-1 mb-1">Nguyễn Hoài Minh</h6>
+                <p class="fs-ms text-muted mb-0">Nhóm phó</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="d-flex align-items-center">
+              <div class="ps-3">
+                <h6 class="fs-base pt-1 mb-1">Phạm Quang Vũ</h6>
+                <p class="fs-ms text-muted mb-0">Phát triển Back-end và App</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="d-flex align-items-center">
+              <div class="ps-3">
+                <h6 class="fs-base pt-1 mb-1">Phạm Văn Hải</h6>
+                <p class="fs-ms text-muted mb-0">Lập trình và phát triển CSDL</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="d-flex align-items-center">
+              <div class="ps-3">
+                <h6 class="fs-base pt-1 mb-1">Bùi Đức Minh</h6>
+                <p class="fs-ms text-muted mb-0">Lập trình và phát triển trang web</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="handheld" th:remove="tag">
+      <!-- Toolbar for handheld devices (Default)-->
+      <div th:replace="components/handhelds/normal.html :: handheld"></div>
+    </div>
+
+
+</body>
+
+</html>

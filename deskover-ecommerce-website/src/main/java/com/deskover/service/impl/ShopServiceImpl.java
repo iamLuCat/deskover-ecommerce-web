@@ -31,7 +31,8 @@ import com.deskover.model.entity.dto.ecommerce.CartLocal;
 import com.deskover.model.entity.dto.ecommerce.Filter;
 import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
-import com.deskover.model.entity.dto.ecommerce.OrderDTO;
+import com.deskover.model.entity.dto.ecommerce.OrderDetailDTO;
+import com.deskover.model.entity.dto.ecommerce.OrderPage;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
 import com.deskover.model.entity.dto.ecommerce.Reviewer;
 import com.deskover.model.entity.dto.ecommerce.Shop;
@@ -228,10 +229,36 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public List<OrderDTO> getOrder(String username, Integer page, String filter) {
-		Pageable pageable = PageRequest.of(page, 6);
+	public OrderPage getOrder(String username, Integer page, String filter) {
+		Pageable pageable = PageRequest.of(page, 5, Sort.by("createdAt").descending());
 		
-		Page<Order> orders = orderRepo.getListOrderByUsername(username, pageable);
-		return orders.toList().stream().map(order -> new OrderDTO(order)).collect(Collectors.toList());
+		Page<Order> orders;
+		
+		switch (filter) {
+		case "1":
+			orders = orderRepo.getListOrderByUsernameDelivered(username, pageable);
+			break;
+		case "2":
+			orders = orderRepo.getListOrderByUsernameUnDelivered(username, pageable);
+			break;
+		case "3":
+			orders = orderRepo.getListOrderByUsernamePaid(username, pageable);
+			break;
+		case "4":
+			orders = orderRepo.getListOrderByUsernameUnPaid(username, pageable);
+			break;
+		default:
+			orders = orderRepo.getListOrderByUsername(username, pageable);
+			break;
+		}
+		
+		
+		return new OrderPage(orders);
+	}
+
+	@Override
+	public OrderDetailDTO getOrderDetail(String username, String id) {
+		Order order = orderRepo.findOrderByUsernameAndID(username,id);
+		return new OrderDetailDTO(order);
 	}
 }

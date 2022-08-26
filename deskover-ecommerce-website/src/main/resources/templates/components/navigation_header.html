@@ -12,11 +12,8 @@
                         <div class="topbar-text dropdown d-md-none ms-auto"><a class="topbar-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Mở rộng</a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" th:href="@{/account/wishlist}">
-                                                        <i class="ci-heart text-muted me-2"></i>Yêu thích (3)</a></li>
-                                        <li><a class="dropdown-item" th:href="@{/find}" sec:authorize="isAnonymous()">
-                                                        <i class="ci-truck text-muted me-2" ></i>Tra cứu đơn hàng </a>
-                                        </li>
-                                        <li><a class="dropdown-item" th:href="@{/tracking}"  sec:authorize="isAuthenticated()">
+                                                        <i class="ci-heart text-muted me-2"></i>Yêu thích ({{wishlist.list.length}})</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/account/order}"  sec:authorize="isAuthenticated()">
                                                         <i class="ci-bag text-muted me-2"></i>Danh sách đơn hàng</a>
                                         </li>
                                         <li><a class="dropdown-item" th:href="@{/user/logout}" sec:authorize="isAuthenticated()">
@@ -27,10 +24,7 @@
                                 <a class="topbar-link d-none d-md-inline-block" th:href="@{/account/wishlist}" sec:authorize="isAuthenticated()">
                                         <i class="ci-heart mt-n1"></i>Yêu thích ({{wishlist.list.length}})
                                 </a>
-                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/find}" sec:authorize="isAnonymous()">
-                                        <i class="ci-truck mt-n1"></i>Tra cứu đơn hàng
-                                </a>
-                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" sec:authorize="isAuthenticated()" th:href="@{/user/order}">
+                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" sec:authorize="isAuthenticated()" th:href="@{/account/order}">
                                         <i class="ci-bag mt-n1"></i>Danh sách đơn hàng
                                 </a>
                                 <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/user/logout}" sec:authorize="isAuthenticated()">
@@ -118,9 +112,11 @@
                         <div class="container">
                                 <div class="collapse navbar-collapse" id="navbarCollapse">
                                         <!-- Search-->
-                                        <div class="input-group d-lg-none my-3"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                                                <input class="form-control rounded-start" type="text" placeholder="Search for products">
-                                        </div>
+                                        <form class="input-group d-lg-none my-3"action="/shop" ng-init="search.init()" id="searchForm">
+                                                <i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                                <input class="form-control rounded-start" type="text" name="k" th:value="${param.k}" placeholder="Bạn muốn mua gì hôm nay ?">
+                                                <input type="submit" hidden />
+                                        </form>
                                         <!-- Departments menu-->
                                         <ul class="navbar-nav navbar-mega-nav pe-lg-2 me-lg-2">
                                                 <li class="nav-item dropdown">
@@ -153,14 +149,11 @@
                                         </ul>
                                         <!-- Primary menu-->
                                         <ul class="navbar-nav">
-                                                <li class="nav-item active">
+                                                <li class="nav-item"  th:classappend="${#httpServletRequest.requestURI != '/about_us'}?'active':''">
                                                         <a class="nav-link dropdown-toggle" th:href="@{/index}">Trang chủ</a>
                                                 </li>
-                                                <li class="nav-item">
-                                                        <a class="nav-link dropdown-toggle" href="#">Về chúng tôi</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                        <a class="nav-link dropdown-toggle" href="#">Địa chỉ</a>
+                                                <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/about_us'}?'active':''">
+                                                        <a class="nav-link dropdown-toggle" th:href="@{/about_us}">Về chúng tôi</a>
                                                 </li>
                                         </ul>
                                 </div>
