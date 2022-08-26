@@ -232,10 +232,10 @@ DELIMITER $$
 CREATE PROCEDURE `countUsersByRole`()
 BEGIN
     SELECT ar.name AS `role_name`, COUNT(a.id) AS `number_of_users`
-FROM administrator AS a
-	INNER JOIN admin_authority AS aa  ON aa.admin_id = a.id
-	INNER JOIN admin_role AS ar  ON ar.id = aa.role_id
-GROUP BY ar.role_id
+	FROM administrator AS a
+		INNER JOIN admin_authority AS aa  ON aa.admin_id = a.id
+		INNER JOIN admin_role AS ar  ON ar.id = aa.role_id
+	GROUP BY ar.name
 UNION ALL
 SELECT 'Khách hàng' as temp, COUNT(*) FROM `user`;
 END$$
