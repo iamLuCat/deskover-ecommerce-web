@@ -356,14 +356,14 @@ public class ProductServiceImpl implements ProductService {
 	public Page<Product> doGetProductDiscount(Optional<Integer> page, Optional<Integer> size, String keySort) {
 		if (keySort.equals("ASC")) {
 			Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8), Sort.by("price").ascending());
-			Page<Product> products = repo.findByActivedAndAndDiscountActivedAndFlashSaleAndQuantityGreaterThan(Boolean.TRUE, Boolean.TRUE, null, (long)0, pageable);
+			Page<Product> products = repo.findByActivedAndAndDiscountActivedAndQuantityGreaterThan(Boolean.TRUE, Boolean.TRUE, (long)0, pageable);
 			if (products == null) {
 				throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 			}
 			return products;
 		}
 		Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(8), Sort.by("price").descending());
-		Page<Product> products = repo.findByActivedAndAndDiscountActivedAndFlashSaleAndQuantityGreaterThan(Boolean.TRUE, Boolean.TRUE, null, (long)0, pageable);
+		Page<Product> products = repo.findByActivedAndAndDiscountActivedAndQuantityGreaterThan(Boolean.TRUE, Boolean.TRUE, (long)0, pageable);
 		if (products == null) {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 		}
