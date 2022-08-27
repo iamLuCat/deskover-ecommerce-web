@@ -60,7 +60,7 @@ public class SendInvoiceController {
 			mailInfo.setAttachments(att); 
 			mailUtil.push(mailInfo);
 			
-			return "redirect:/index";
+			return "redirect:/ok";
 	}
 	
 

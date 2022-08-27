@@ -45,13 +45,13 @@
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-fn" >Họ và tên</label>
-	                <input class="form-control" type="text" id="checkout-fn" name="fullname" required>
+	                <input class="form-control" type="text" id="checkout-fn" name="fullname" ng-model="form.fullname"  required>
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-phone">Số điện thoại</label>
-	                <input ng-model="form.tel" class="form-control" type="text" id="checkout-phone" name = "tel" required>
+	                <input class="form-control" type="text" id="checkout-phone" ng-model="form.tel" name = "tel"  required>
 	              </div>
 	            </div>
 	          </div>
@@ -59,7 +59,7 @@
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-email">Địa chỉ Email</label>
-	                <input class="form-control" type="email" id="checkout-email" name="email" required>
+	                <input class="form-control" type="email" id="checkout-email" name="email" ng-model="form.email" required>
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
@@ -72,9 +72,9 @@
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-city" >Tỉnh/Thành phố</label>
-	                <select name="province" class="form-select" id="checkout-city" ng-model="form.province" ng-change="change()" required>
-	                  <option value="">Chọn Tỉnh/Thành phố</option>
+	                <label class="form-label" for="checkout-city" >Tỉnh</label>
+	                <select name="province" class="form-select" id="checkout-city" ng-model="form.province" ng-change="change()"  required>
+	                  <option value="">Vui lòng chọn Tỉnh/Thành phố</option>
 	                  <option ng-selected="form.province == item.name" ng-repeat="item in province" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
@@ -82,9 +82,9 @@
         	    <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-company">Xã/ Huyện</label>
-	                <select name="district" class="form-select" id="checkout-city" ng-model="form.district" ng-change="change2()" required>
-	                  <option value="">Chọn Xã/Huyện</option>
-	                  <option name = "district" ng-selected="form.district == item.name" ng-repeat="item in district" ng-value="item.name">{{item.name}}</option>
+	                <select name="district" class="form-select" id="checkout-city" ng-model="form.district" ng-change="change2()"  required>
+	                  <option value="">Vui lòng chọn Xã/Huyện</option>
+	                  <option name = "district" ng-selected="form.district == item.name" ng-repeat="item in district" ng-value="item.name" >{{item.name}}</option>
 	                </select>
 	              </div>
 	            </div>
@@ -93,8 +93,8 @@
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-company">Đường</label>
-	                <select name="ward" class="form-select" id="checkout-city" ng-model="form.ward" ng-change="address()" required>
-	                  <option value="">Chọn tên đường</option>
+	                <select name="ward" class="form-select" id="checkout-city" ng-model="form.ward" ng-change="address()"  required>
+	                  <option value="">Vui Lòng chọn đường</option>
 	                  <option name = "ward" ng-selected="form.ward == item.name" ng-repeat="item in ward" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
@@ -143,18 +143,31 @@
          </aside>
 	      <div class="container pb-5 mb-2 mb-md-4">
 	      <div class="row">
-		  <section class="col-lg-8">
-			   <span >
-			  	  <div class="form-check">
-					  <input ng-disabled="checked" class="form-check-input"  type="checkbox" ng-change="checkbox()" ng-model="check" value="" id="flexCheckIndeterminate">
-						  <label class="form-check-label" for="flexCheckIndeterminate">
-						    Giao hàng miễn phí trong nội thành TPHCM của Deskover
-						  </label>
-			  	  </div>
-			  </span>
+	      <span >
+		  	  <div class="form-check">
+				  <input ng-disabled="checked" class="form-check-input"  type="checkbox" ng-change="checkbox()" ng-model="check" value="" id="flexCheckIndeterminate">
+					  <label class="form-check-label" for="flexCheckIndeterminate">
+					    Giao hàng miễn phí trong nội thành TPHCM của Deskover
+					  </label>
+		  	  </div>
+		  </span>
+	      
+	      <div ng-app="app" ng-init="display = 1" >
+			  <input  class="inptFileRadio form-check-input" id="flexRadioDefault1" type="radio" name="test" ng-model="display" ng-value="1">   
+			  <label class="form-check-label" for="flexRadioDefault1">
+					Thanh toán bằng phương thức COD
+			  </label>  <br>
+			  <input  class="inptFileRadio form-check-input" type="radio" name="test" id="flexRadioDefault2" ng-model="display" ng-value="2">
+			  <label class="form-check-label" for="flexRadioDefault2">
+					Thanh toán bằng thẻ ATM
+			  </label>
+		  </div>
+	  
+		  <section class="col-lg-8" ng-show="display === 2">
+
 		      <div class="accordion mb-2 "  id="payment-method">
 		      <div class="accordion-item ">
-		        <h3 class="accordion-header"><a class="accordion-button" href="#card" data-bs-toggle="collapse"><i class="ci-card fs-lg me-2 mt-n1 align-middle"></i>Thanh toán bằng thẻ ATM (Qua VNPay) </a></h3>
+		        <h3 class="accordion-header"><a class="accordion-button" href="#card" data-bs-toggle="collapse"><i class="ci-card fs-lg me-2 mt-n1 align-middle"></i>Thanh toán Qua VNPay </a></h3>
 		        <div class="accordion-collapse collapse hide" id="card" data-bs-parent="#payment-method">
 		          <div class="accordion-body">
 		            <p class="fs-sm">Thanh toán bằng credit card hoặc những thẻ sau:&nbsp;&nbsp;<img class="d-inline-block align-middle" src="img/cards.png" width="187" alt="Cerdit Cards"></p>
@@ -199,7 +212,7 @@
 		                    <option value="OCB"> Ngan hang OCB </option>
 		                </select> 
 		            </div> <br>
-		            <button type="submit" class="btn btn-default  btn btn-outline-primary d-block w-100 mt-0">Pay on wallet</button>
+		            <button type="submit" class="btn btn-default  btn btn-outline-primary d-block w-100 mt-0" ng-click = "checkout()">Pay on wallet</button>
 		       	  </form>  
 		          </div>
 		        </div>
@@ -211,7 +224,6 @@
          </div>
       </div>
       </form>
-
       <!-- Navigation (mobile)-->
       <div class="row d-lg-none">
         <div class="col-lg-8">

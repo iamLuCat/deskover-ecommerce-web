@@ -573,7 +573,6 @@ public class OrderServiceImpl implements OrderService {
 	public void cancelOrderByUserAndOrderCode1(String orderCode,String statusOrder) {
 		Users user  = userRepo.getById((long)1);
 		Order order = repo.findByOrderCodeAndUserUsername(orderCode, user.getUsername());
-
 		if(order == null) {
 			throw new IllegalArgumentException("Không tìm thấy đơn hàng" + "hi");
 		}

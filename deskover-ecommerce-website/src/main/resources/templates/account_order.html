@@ -63,17 +63,19 @@
                                     <th>Chưa giao</th>
                                     <th>Thanh toán</th>
                                     <th>Tổng giá trị</th>
+                                    <th>Hủy Đơn hàng</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="o in order.list" ng-click="order.detail(o.id)">
-                                    <td class="py-3">{{o.id}}</td>
-                                    <td class="py-3">{{o.orderDate}}</td>
-                                    <td class="py-3"><span class="badge m-0" ng-class="o.osCode === 'GH-TB' || o.osCode === 'C-HUY' || o.osCode === 'HUY' || o.osCode === 'GH-TB' ?'bg-danger':(o.osCode === 'GH-TC'?'bg-success':(o.osCode === 'LH-TB'?'bg-warning':'bg-info'))">{{o.orderStatus}}</span></td>
-                                    <td class="py-3"><span class="badge m-0" ng-class="o.psCode === 'C-TT'?'bg-danger':(o.psCode === 'D-TT'?'bg-success':(o.psCode === 'C-HT'?'bg-warning':'bg-info'))">{{o.paymentStatus}}</span></td>
-                                    <td class="py-3">{{o.total|number}} <small>VND</small></td>
+                                <tr ng-repeat="o in order.list" >
+                                    <td class="py-3" ng-click="order.detail(o.id)">{{o.id}}</td>
+                                    <td class="py-3" ng-click="order.detail(o.id)">{{o.orderDate}}</td>
+                                    <td class="py-3" ng-click="order.detail(o.id)"><span class="badge m-0" ng-class="o.osCode === 'GH-TB' || o.osCode === 'C-HUY' || o.osCode === 'HUY' || o.osCode === 'GH-TB' ?'bg-danger':(o.osCode === 'GH-TC'?'bg-success':(o.osCode === 'LH-TB'?'bg-warning':'bg-info'))">{{o.orderStatus}}</span></td>
+                                    <td class="py-3" ng-click="order.detail(o.id)"><span class="badge m-0" ng-class="o.psCode === 'C-TT'?'bg-danger':(o.psCode === 'D-TT'?'bg-success':(o.psCode === 'C-HT'?'bg-warning':'bg-info'))">{{o.paymentStatus}}</span></td>
+                                    <td class="py-3" ng-click="order.detail(o.id)">{{o.total|number}} <small>VND</small></td>
+                                    <td> <button type="button" class="btn btn-info"  ng-click="cancel2(o.id)">Hủy đơn hàng</button> </td>
                                 </tr>
-                                
+                          
                             </tbody>
                         </table>
                     </div>
