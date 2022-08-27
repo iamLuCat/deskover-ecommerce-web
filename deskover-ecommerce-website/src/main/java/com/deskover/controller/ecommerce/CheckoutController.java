@@ -1,5 +1,7 @@
 package com.deskover.controller.ecommerce;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -23,7 +25,13 @@ public class CheckoutController {
 	@Autowired SessionService sessionService;
 	@Autowired CheckoutServiceImpl checkoutService;
 	
-	@PostMapping("/checkout")
+	@PostMapping("/cartAmounts")
+	public String amounts(@RequestBody List<Integer> amounts, Model model) {
+		sessionService.set("amount", amounts);	
+		return "ok";
+	}
+	
+	@PostMapping("/cartItem")
 	public String checkout(@RequestBody List<ProductDto> items, Model model) {
 		try {
 			List<Integer> amounts =  sessionService.get("amount");
@@ -37,13 +45,10 @@ public class CheckoutController {
 	
 	@PostMapping("/ok")
 	public String checkoutOk(Model model ,@ModelAttribute("addressForm") @Valid UserAddress entity, Errors errors, @ModelAttribute("Total") String total ) {
-		checkoutService.saveOrder(entity,total);
-		return "ok";
+		ArrayList<ProductDto> items =  sessionService.get("items");
+		checkoutService.saveOrder(entity,total, items);
+		return "redirect:/invoice";
 	}
 	
-	@PostMapping("/amounts")
-	public String amounts(@RequestBody List<Integer> amounts, Model model) {
-		sessionService.set("amount", amounts);	
-		return "ok";
-	}
+
 }

@@ -348,9 +348,10 @@ angular
         }
       },
     }
+
     $http({
       method: "POST",
-      url: "checkout",
+      url: "cartItem",
       data: angular.toJson($scope.cart.items),
       headers: {
         'consumes': 'application/json'
@@ -362,7 +363,7 @@ angular
     });
     $http({
       method: "POST",
-      url: "amounts",
+      url: "cartAmounts",
       data: angular.toJson($scope.amounts),
       headers: {
         'Content-Type': 'application/json'
@@ -371,10 +372,14 @@ angular
     }, function (response) {
     });
     let host = "http://localhost:8080";
+	console.log($scope.amounts)
+	
     $scope.form = {
         "value": 3000000,
-        "deliver_option" : "xteam"
+        "deliver_option" : "xteam",
+ 		"address" : ""
 	}
+
 	$scope.change2 = function(){
 	    var item = angular.copy($scope.form);
 	    var url = `${host}/v1/api/ghtk/fee`;
@@ -395,6 +400,7 @@ angular
     $scope.address = function(){
     	address ="Tỉnh: "+ $scope.form.province+", Xã: " + $scope.form.district +", Đường: "+$scope.form.ward + ", Số nhà: " + $scope.number + " , Việt Nam";
     	$scope.address.address = address;
+    	$scope.form.address = address;
     }
     $http.get(`${host}/v0/client/province`).then(resp => {
       $scope.province = resp.data;
@@ -425,10 +431,35 @@ angular
 	$scope.cancel = function(code){
 		var url = `/api/test/order/cancel/${code}?statusOrder=C-HUY`;
 		var item = [];
-
+		console.log(url);
 		$http.post(url,item).then( resp => {
 			$window.location.reload();
 			$scope.msg = resp.data; 
+		}).catch(error => { })
+	}
+	$scope.cancel2 = function(code){
+		var url = `/api/test/order/cancel2/${code}?statusOrder=C-HUY`;
+		var item = [];
+		console.log(url);
+		$http.post(url,item).then( resp => {
+			$scope.msg = resp.data; 
+		}).catch(error => { })
+	}
+
+	$scope.checkout = function (){
+	  	for(i = 0; i < $localStorage.items.length; i++){
+			console.log($scope.amounts[i])
+			$localStorage.items[i].quantity = $scope.amounts[i];
+		}
+		var url = "http://localhost:8080/api/test/vnpaycheckout";
+		var item = {
+		    "items" : $localStorage.items,
+		    "entity": $scope.form,
+	        "total" : $scope.cart.total + $scope.ship.fee.fee
+		};
+
+		$http.post(url,item).then(resp => {
+			console.log("success");
 		}).catch(error => { })
 	}
 

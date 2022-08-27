@@ -45,6 +45,11 @@ public class FindOrdersController {
 		return "otp";
 	}
 	
+	@GetMapping("ordered")
+	public String ordered() {
+		return "ordered";
+	}
+	
 
 	@PostMapping("/orders")
 	public String otpvalid(@ModelAttribute("otp") String otp, Model model) {
@@ -56,6 +61,7 @@ public class FindOrdersController {
 				String phone = sessionService.get("phone");
 				List<Order> order =  orderService.getByPhone(phone);
 				model.addAttribute("orders",order);
+				model.addAttribute("phone",phone);
 				return "ordered";
 			}
 			else {

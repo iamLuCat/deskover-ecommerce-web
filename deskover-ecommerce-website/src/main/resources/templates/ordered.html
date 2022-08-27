@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(  
+	~{::title},
+    ~{::modal_out},
+    ~{::modal_in},
+    ~{::#handheld},
+    ~{::#content}
+    )}">
+
+<head>
+    <title>Deskover: Đơn hàng</title>
+</head>
+
+<body id="content">
+    <div id="modal">
+    </div>
+    <div id="content">
+        <!-- Page Title-->
+        <div class="page-title-overlap bg-dark pt-4" >
+            <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+                <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+                            <li class="breadcrumb-item"><a class="text-nowrap" th:href="@{/index}"><i class="ci-home"></i>Trang chủ</a></li>
+                            <li class="breadcrumb-item text-nowrap"><a th:href="@{/account/profile}">Tài khoản</a>
+                            </li>
+                            <li class="breadcrumb-item text-nowrap active" aria-current="page">Đơn hàng</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+                    <h1 class="h3 text-light mb-0">Danh sách đơn hàng</h1>
+                </div>
+            </div>
+        </div>
+        <div class="container pb-5 mb-2 mb-md-4" ng-controller="accCtrl" ng-init="order.loadDatabase()">
+            <div class="row">
+                <!-- Sidebar-->
+                <aside th:replace="components/user_sidebar.html :: component"></aside>
+                <!-- Content  -->
+                <section class="col-lg-8">
+                    <!-- Toolbar-->
+                    <div class="d-flex justify-content-between align-items-center pt-lg-2 pb-4 pb-lg-5 mb-lg-3">
+                        <div class="d-flex align-items-center">
+                          <label class="d-none d-lg-block fs-sm text-light text-nowrap opacity-75 me-2" for="order-sort">Bộ lọc:</label>
+                          <label class="d-lg-none fs-sm text-nowrap opacity-75 me-2" for="order-sort">Bộ lọc:</label>
+
+                        </div>
+                      </div>
+                    <!-- Orders list-->
+                    <div class="table-responsive fs-md mb-4">
+                        <table class="table table-hover mb-0">
+                        	<h1>Xin Chào: <span th:text="${phone}"></span></h1> 
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn #</th>
+                                    <th>Ngày Đặt</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thanh toán</th>
+                                    <th>Tổng giá trị</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <tbody th:each="order:  ${orders}">
+                                <tr>
+                                    <td class="py-3"><a class="nav-link-style fw-medium fs-sm" href="#order-details" data-bs-toggle="modal" th:text="${order.orderCode}">34VB5540K83</a></td>
+                                    <td class="py-3" th:text="${order.createdAt}">May 21, 2019</td>
+                                    <td class="py-3">
+                                    	<div th:if="${order.orderStatus.Id == 1}"><span class="badge bg-info m-0">In Progress</span></div>
+                                    	<div th:if="${order.orderStatus.Id == 8}"><span class="badge bg-danger m-0">Wait Cancel</span></div>
+                                    	
+                                    	
+                                    </td>
+                                    <td class="py-3"><span th:text="${#numbers.formatInteger(order.UnitPrice,3,'POINT')}"></span> VNĐ</td>
+                                	<td> <button type="button" class="btn btn-info" th:attr="ng-click='cancel(\''+${order.orderCode}+'\');'" >Hủy đơn hàng</button> </td>
+                                </tr>
+                            </tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination-->
+
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div id="handheld" th:remove="tag">
+        <!-- Toolbar for handheld devices (Default)-->
+        <div th:replace="components/handhelds/normal.html :: handheld"></div>
+    </div>
+
+</body>
+
+</html>
