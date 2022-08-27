@@ -370,7 +370,7 @@ angular
     }).then(function (response) {
     }, function (response) {
     });
-    let host = "http://localhost:8080";
+    let host = "";
     $scope.form = {
         "value": 3000000,
         "deliver_option" : "xteam"
@@ -412,7 +412,7 @@ angular
 	$scope.change = function () {
       var newTemp = $filter("filter")($scope.province, { name: $scope.form.province });
       var id = newTemp[0].id;
-      var url = `http://localhost:8080/v0/client/district?provinceId=${id}`;
+      var url = `/v0/client/district?provinceId=${id}`;
 	  $scope.ship = { "fee": {  "fee": 0 }  }
       $http.get(url).then(resp => {
         $scope.district = resp.data;

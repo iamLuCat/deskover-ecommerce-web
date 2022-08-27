@@ -72,9 +72,9 @@
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-city" >Tỉnh</label>
+	                <label class="form-label" for="checkout-city" >Tỉnh/Thành phố</label>
 	                <select name="province" class="form-select" id="checkout-city" ng-model="form.province" ng-change="change()" required>
-	                  <option value="">None</option>
+	                  <option value="">Chọn Tỉnh/Thành phố</option>
 	                  <option ng-selected="form.province == item.name" ng-repeat="item in province" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
@@ -83,7 +83,7 @@
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-company">Xã/ Huyện</label>
 	                <select name="district" class="form-select" id="checkout-city" ng-model="form.district" ng-change="change2()" required>
-	                  <option value="">None</option>
+	                  <option value="">Chọn Xã/Huyện</option>
 	                  <option name = "district" ng-selected="form.district == item.name" ng-repeat="item in district" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
@@ -94,7 +94,7 @@
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-company">Đường</label>
 	                <select name="ward" class="form-select" id="checkout-city" ng-model="form.ward" ng-change="address()" required>
-	                  <option value="">None</option>
+	                  <option value="">Chọn tên đường</option>
 	                  <option name = "ward" ng-selected="form.ward == item.name" ng-repeat="item in ward" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
