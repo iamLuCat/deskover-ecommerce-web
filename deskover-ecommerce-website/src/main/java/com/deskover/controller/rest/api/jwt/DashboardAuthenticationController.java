@@ -66,7 +66,12 @@ public class DashboardAuthenticationController {
 	
 	@GetMapping("/get-principal")
     public ResponseEntity<?> getProfile() {
-		System.out.println(SecurityContextHolder.getContext().getAuthentication());
 		return ResponseEntity.ok(adminService.getPrincipal());
     }
+
+	@GetMapping("/logout")
+	public ResponseEntity<?> logout() {
+		SecurityContextHolder.clearContext();
+		return ResponseEntity.ok(new MessageResponse("Đăng xuất thành công"));
+	}
 }
