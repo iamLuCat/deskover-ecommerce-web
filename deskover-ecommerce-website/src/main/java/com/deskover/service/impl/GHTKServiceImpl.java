@@ -59,6 +59,10 @@ public class GHTKServiceImpl implements GHTKService {
 			orderGhtk.setPick_district("Quận 3");
 			orderGhtk.setPick_ward("Phường 1");
 			orderGhtk.setPick_tel("0911222333");
+			orderGhtk.setAddress(order.getOrderDetail().getAddress());
+			orderGhtk.setProvince(order.getOrderDetail().getProvince());
+			orderGhtk.setDistrict(order.getOrderDetail().getDistrict());
+			orderGhtk.setWard(order.getOrderDetail().getWard());
 			orderGhtk.setPick_money(order.getUnitPrice().intValue() > 19500000 ? 19500000 : order.getUnitPrice().intValue());
 			orderGhtk.setValue(order.getUnitPrice().intValue() > 19500000 ? 19500000 : order.getUnitPrice().intValue());
 			orderGhtk.setHamlet("Khác");

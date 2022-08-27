@@ -15,7 +15,6 @@ public class OrderShipping {
 	Double fee; // phí ship
 	String estimated_pick_time;//dự kiến lấy hàng
 	String estimated_deliver_time;//dự kiến giao hàng
-	
 	String status;
 	String status_text;
 	
