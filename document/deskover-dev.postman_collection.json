@@ -1,0 +1,2483 @@
+{
+	"info": {
+		"_postman_id": "07c1433d-8194-4608-8b7f-f5fc8a22ea6d",
+		"name": "deskover-dev",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19270753"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login Admin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"haipv\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/auth/login",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2dXBxMDYiLCJleHAiOjE2NTg5OTA4MzgsImlhdCI6MTY1ODk3MjgzOH0.g_NCRUtv9Tunr_h1UyXOqSJnEFAH6-p-uO2t3MgGDxosz7r72wUZF7iSpx3miHWJ-zPCx0fFM00z2jCBtTS60w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/auth/get-principal",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"auth",
+								"get-principal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2dXBxMDYiLCJleHAiOjE2NTg5OTA4MzgsImlhdCI6MTY1ODk3MjgzOH0.g_NCRUtv9Tunr_h1UyXOqSJnEFAH6-p-uO2t3MgGDxosz7r72wUZF7iSpx3miHWJ-zPCx0fFM00z2jCBtTS60w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Get All Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/products?search=&number=1&size=1",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "number",
+									"value": "1",
+									"description": "truyền vào số trang"
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"description": "truyền vào số phần tử của 1 trang"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get A Product By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Laptop Asus VivoBook A415EA EB1750W\",\r\n    \"slug\": \"laptop-asus-vivobook-a415ea-eb1750w\",\r\n    \"description\": \"<p>Laptop Asus VivoBook A415EA EB1750W</p>\",\r\n    \"price\": 1.499E7,\r\n    \"image\": \"https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w.png?alt=media&token=c80601eb-069d-4bbd-a334-8124e41c4e12\",\r\n    \"actived\": true,\r\n    \"modifiedAt\": \"2022-07-13T16:29:52.000+00:00\",\r\n    \"modifiedBy\": \"minhnh\",\r\n    \"spec\": \"<div class=\\\"row pt-2\\\"><div class=\\\"col-lg-5 col-sm-6\\\"><h3 class=\\\"h6\\\">General specs</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Model:</span><span>Amazfit Smartwatch</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Gender:</span><span>Unisex</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Smartphone app:</span><span>Amazfit Watch</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">OS campitibility:</span><span>Android / iOS</span></li></ul><h3 class=\\\"h6\\\">Physical specs</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Shape:</span><span>Rectangular</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Body material:</span><span>Plastics / Ceramics</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Band material:</span><span>Silicone</span></li></ul><h3 class=\\\"h6\\\">Display</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Display type:</span><span>Color</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Display size:</span><span>1.28\\\"</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Screen resolution:</span><span>176 x 176</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Touch screen:</span><span>No</span></li></ul></div><div class=\\\"col-lg-5 col-sm-6 offset-lg-1\\\"><h3 class=\\\"h6\\\">Functions</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Phone calls:</span><span>Incoming call notification</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Monitoring:</span><span>Heart rate / Physical activity</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">GPS support:</span><span>Yes</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Sensors:</span><span>Heart rate, Gyroscope, Geomagnetic, Light sensor</span></li></ul><h3 class=\\\"h6\\\">Battery</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Battery:</span><span>Li-Pol</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Battery capacity:</span><span>190 mAh</span></li></ul><h3 class=\\\"h6\\\">Dimensions</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Dimensions:</span><span>195 x 20 mm</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Weight:</span><span>32 g</span></li></ul></div></div>\",\r\n    \"video\": \"https://www.youtube.com/watch?v=gIHD6vyiXEQ\",\r\n    \"quantity\": 1500,\r\n    \"discount\": {\r\n        \"id\": 4,\r\n        \"name\": \"Mừng khai trương\",\r\n        \"description\": null,\r\n        \"percent\": 20,\r\n        \"startDate\": \"2021-12-31T17:00:01.000+00:00\",\r\n        \"endDate\": \"2022-12-30T16:59:59.000+00:00\",\r\n        \"actived\": true,\r\n        \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n        \"modifiedBy\": \"haipv\"\r\n    },\r\n    \"subCategory\": {\r\n        \"id\": 1,\r\n        \"category\": {\r\n            \"id\": 1,\r\n            \"name\": \"Laptop\",\r\n            \"description\": null,\r\n            \"slug\": \"laptop\",\r\n            \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n            \"actived\": true,\r\n            \"modifiedBy\": \"haipv\"\r\n        },\r\n        \"name\": \"Laptop văn phòng\",\r\n        \"description\": null,\r\n        \"slug\": \"laptop-van-phong\",\r\n        \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n        \"actived\": true,\r\n        \"modifiedBy\": \"haipv\"\r\n    },\r\n    \"brand\": {\r\n        \"id\": 1,\r\n        \"name\": \"Asus\",\r\n        \"description\": null,\r\n        \"slug\": \"asus\",\r\n        \"actived\": true,\r\n        \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n        \"modifiedBy\": \"haipv\"\r\n    },\r\n    \"ratings\": [],\r\n    \"orderItems\": [\r\n        {\r\n            \"id\": 1,\r\n            \"quantity\": 1,\r\n            \"price\": 1.499E7\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"quantity\": 1,\r\n            \"price\": 1.499E7\r\n        },\r\n        {\r\n            \"id\": 4,\r\n            \"quantity\": 1,\r\n            \"price\": 1.499E7\r\n        }\r\n    ],\r\n    \"productThumbnails\": [\r\n        {\r\n            \"id\": 3,\r\n            \"thumbnail\": \"https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff\",\r\n            \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n            \"modifiedBy\": \"haipv\"\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"thumbnail\": \"https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png?alt=media&token=5e9b9bea-25fb-4b12-a00a-4c14fed33ee0\",\r\n            \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n            \"modifiedBy\": \"haipv\"\r\n        },\r\n        {\r\n            \"id\": 1,\r\n            \"thumbnail\": \"https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4\",\r\n            \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n            \"modifiedBy\": \"haipv\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_deyloy}}/v1/api/admin/products/1",
+							"host": [
+								"{{url_deyloy}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"admin",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Subcategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/products/subcategory",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"products",
+								"subcategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products For Datatables",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"draw\": 1,\r\n  \"columns\": [\r\n    {\r\n      \"data\": null,\r\n      \"name\": \"\",\r\n      \"searchable\": false,\r\n      \"orderable\": false,\r\n      \"search\": {\r\n        \"value\": \"\",\r\n        \"regex\": false\r\n      }\r\n    }\r\n  ],\r\n  \"order\": [\r\n    {\r\n      \"column\": 0,\r\n      \"dir\": \"asc\"\r\n    }\r\n  ],\r\n  \"start\": 0,\r\n  \"length\": 1000,\r\n  \"search\": {\r\n    \"value\": \"\",\r\n    \"regex\": false\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/products/datatables?isActive=false",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"products",
+								"datatables"
+							],
+							"query": [
+								{
+									"key": "isActive",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"123\",\r\n    \"slug\": \"456\",\r\n    \"description\" : \"2312\",\r\n    \"price\":132131,\r\n    \"image\": \"213213\",\r\n    \"subcategogyId\": \"1\",\r\n    \"brandId\":\"1\",\r\n    \"discountId\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/products",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Laptop Asus VivoBook A415EA EB1750W\",\r\n    \"slug\": \"laptop-asus-vivobook-a415ea-eb1750w\",\r\n    \"description\": \"<p>Laptop Asus VivoBook A415EA EB1750W</p>\",\r\n    \"price\": 1.499E7,\r\n    \"image\": \"https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w.png?alt=media&token=c80601eb-069d-4bbd-a334-8124e41c4e12\",\r\n    \"actived\": true,\r\n    \"modifiedAt\": \"2022-07-13T16:29:52.000+00:00\",\r\n    \"modifiedBy\": \"minhnh\",\r\n    \"spec\": \"<div class=\\\"row pt-2\\\"><div class=\\\"col-lg-5 col-sm-6\\\"><h3 class=\\\"h6\\\">General specs</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Model:</span><span>Amazfit Smartwatch</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Gender:</span><span>Unisex</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Smartphone app:</span><span>Amazfit Watch</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">OS campitibility:</span><span>Android / iOS</span></li></ul><h3 class=\\\"h6\\\">Physical specs</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Shape:</span><span>Rectangular</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Body material:</span><span>Plastics / Ceramics</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Band material:</span><span>Silicone</span></li></ul><h3 class=\\\"h6\\\">Display</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Display type:</span><span>Color</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Display size:</span><span>1.28\\\"</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Screen resolution:</span><span>176 x 176</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Touch screen:</span><span>No</span></li></ul></div><div class=\\\"col-lg-5 col-sm-6 offset-lg-1\\\"><h3 class=\\\"h6\\\">Functions</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Phone calls:</span><span>Incoming call notification</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Monitoring:</span><span>Heart rate / Physical activity</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">GPS support:</span><span>Yes</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Sensors:</span><span>Heart rate, Gyroscope, Geomagnetic, Light sensor</span></li></ul><h3 class=\\\"h6\\\">Battery</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Battery:</span><span>Li-Pol</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Battery capacity:</span><span>190 mAh</span></li></ul><h3 class=\\\"h6\\\">Dimensions</h3><ul><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Dimensions:</span><span>195 x 20 mm</span></li><li class=\\\"list-unstyled fs-sm pb-2\\\"><span class=\\\"text-muted\\\">Weight:</span><span>32 g</span></li></ul></div></div>\",\r\n    \"video\": \"https://www.youtube.com/watch?v=gIHD6vyiXEQ\",\r\n    \"quantity\": 1500,\r\n    \"discount\": {\r\n        \"id\": 4,\r\n        \"name\": \"Mừng khai trương\",\r\n        \"description\": null,\r\n        \"percent\": 20,\r\n        \"startDate\": \"2021-12-31T17:00:01.000+00:00\",\r\n        \"endDate\": \"2022-12-30T16:59:59.000+00:00\",\r\n        \"actived\": true,\r\n        \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n        \"modifiedBy\": \"haipv\"\r\n    },\r\n    \"subCategory\": {\r\n        \"id\": 1,\r\n        \"category\": {\r\n            \"id\": 1,\r\n            \"name\": \"Laptop\",\r\n            \"description\": null,\r\n            \"slug\": \"laptop\",\r\n            \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n            \"actived\": true,\r\n            \"modifiedBy\": \"haipv\"\r\n        },\r\n        \"name\": \"Laptop văn phòng\",\r\n        \"description\": null,\r\n        \"slug\": \"laptop-van-phong\",\r\n        \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n        \"actived\": true,\r\n        \"modifiedBy\": \"haipv\"\r\n    },\r\n    \"brand\": {\r\n        \"id\": 1,\r\n        \"name\": \"Asus\",\r\n        \"description\": null,\r\n        \"slug\": \"asus\",\r\n        \"actived\": true,\r\n        \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n        \"modifiedBy\": \"haipv\"\r\n    },\r\n    \"ratings\": [],\r\n    \"orderItems\": [\r\n        {\r\n            \"id\": 4,\r\n            \"quantity\": 1,\r\n            \"price\": 1.499E7\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"quantity\": 1,\r\n            \"price\": 1.499E7\r\n        },\r\n        {\r\n            \"id\": 1,\r\n            \"quantity\": 1,\r\n            \"price\": 1.499E7\r\n        }\r\n    ],\r\n    \"productThumbnails\": [\r\n        {\r\n            \"id\": 3,\r\n            \"thumbnail\": \"https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png?alt=media&token=08906927-fb94-40df-939a-5eb97f98f3ff\",\r\n            \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n            \"modifiedBy\": \"haipv\"\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"thumbnail\": \"https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png?alt=media&token=5e9b9bea-25fb-4b12-a00a-4c14fed33ee0\",\r\n            \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n            \"modifiedBy\": \"haipv\"\r\n        },\r\n        {\r\n            \"id\": 1,\r\n            \"thumbnail\": \"https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4\",\r\n            \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n            \"modifiedBy\": \"haipv\"\r\n        },\r\n        {\r\n            \"id\": 20,\r\n            \"thumbnail\": \"https://firebasestorage.googleapis.com/v0/b/deskover-web-37ce6.appspot.com/o/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png?alt=media&token=2ae618d6-9352-42aa-8e2d-dd367ea044b4\",\r\n            \"modifiedAt\": \"2022-07-13T02:47:46.000+00:00\",\r\n            \"modifiedBy\": \"haipv\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/products",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/categories/1",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subcategory",
+			"item": [
+				{
+					"name": "Get All With Datatables",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"draw\": 1,\r\n  \"columns\": [\r\n    {\r\n      \"data\": null,\r\n      \"name\": \"\",\r\n      \"searchable\": false,\r\n      \"orderable\": false,\r\n      \"search\": {\r\n        \"value\": \"\",\r\n        \"regex\": false\r\n      }\r\n    }\r\n  ],\r\n  \"order\": [\r\n    {\r\n      \"column\": 0,\r\n      \"dir\": \"asc\"\r\n    }\r\n  ],\r\n  \"start\": 0,\r\n  \"length\": 1000,\r\n  \"search\": {\r\n    \"value\": \"\",\r\n    \"regex\": false\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/subcategories/datatables?isActive=true&categoryId=2",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"subcategories",
+								"datatables"
+							],
+							"query": [
+								{
+									"key": "isActive",
+									"value": "true"
+								},
+								{
+									"key": "categoryId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Discount",
+			"item": [
+				{
+					"name": "Get All For Datatables",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYWlwdiIsImV4cCI6MTY1OTQ0MDkwNiwiaWF0IjoxNjU5NDIyOTA2fQ.v504BPATkxD_O1IMQfuS8nZ2htj-e3xW4bPkiLet6rHvizg8xpGza29rKpcA42LMCKVCClxhvueBH6k2CRaVwA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/flash-sale/checkActive",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"flash-sale",
+								"checkActive"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "getPricePerMonth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/order-delivery-total-price-data",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"order-delivery-total-price-data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrderStatus",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "('C-XN','Chờ xác nhận'),\r\n('XN-DH','Xác nhận đơn hàng'),\r\n('C-LH','Chờ lấy hàng'),\r\n('LH-TC','Lấy hàng thành công'),\r\n('LH-TB','Lấy hàng không thành công'),\r\n('DG','Đang giao'),\r\n('GH-TC','Giao hàng thành công'),\r\n('GH-TB','Giao hàng không thành công'),\r\n('HUY','Huỷ đơn');",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/order/all",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"order",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order Code And Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/order/HD-13062022?status=C-LH",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"order",
+								"HD-13062022"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "C-LH"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTotalByCategory",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getCountOrder",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "doGetTotalPrice7DaysAgo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5obmgiLCJleHAiOjE2NTc0NjAyNzYsImlhdCI6MTY1NzQ0MjI3Nn0.9fuAP4tlJMVKc76sAVpkQczHWO4vO-suuOgWKS8JEDdAKnw0sqtklaHmZ2dAc4833X6tokJ4T1BbmFeNlXO2Ow",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/order-7days",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"order-7days"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "doPostPickupOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/order/",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllOrder-Delivery",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/orders/delivery?status=LH-TC",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"orders",
+								"delivery"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "LH-TC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dashBoard-getByCategory",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "doGetAllOrderByUser",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getAllByStatus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/orders?status=C-LH",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "C-LH"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeOrderStatusCode",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders For Datatables",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"draw\": 1,\r\n  \"columns\": [\r\n    {\r\n      \"data\": null,\r\n      \"name\": \"\",\r\n      \"searchable\": false,\r\n      \"orderable\": false,\r\n      \"search\": {\r\n        \"value\": \"\",\r\n        \"regex\": false\r\n      }\r\n    }\r\n  ],\r\n  \"order\": [\r\n    {\r\n      \"column\": 0,\r\n      \"dir\": \"asc\"\r\n    }\r\n  ],\r\n  \"start\": 0,\r\n  \"length\": 1000,\r\n  \"search\": {\r\n    \"value\": \"\",\r\n    \"regex\": false\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/orders/datatables",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"orders",
+								"datatables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order Statuses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/orders/statuses",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"orders",
+								"statuses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shipping Units",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/orders/shipping-units",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"orders",
+								"shipping-units"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/orders/payments",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"orders",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 1,\r\n            \"orderCode\": \"HD-11062022\",\r\n            \"qrCode\": null,\r\n            \"note\": null,\r\n            \"shipping_note\": null,\r\n            \"fullName\": \"Nguyễn Quang Huy\",\r\n            \"email\": null,\r\n            \"createdAt\": \"2022-08-01T12:10:48.000+00:00\",\r\n            \"modifiedBy\": null,\r\n            \"unitPrice\": 1.499E7,\r\n            \"orderQuantity\": 1,\r\n            \"label\": null,\r\n            \"fee\": null,\r\n            \"estimated_pick_time\": null,\r\n            \"estimated_deliver_time\": null,\r\n            \"user\": {\r\n                \"id\": 1,\r\n                \"username\": \"huynq\",\r\n                \"fullname\": \"Nguyễn Quang Huy\",\r\n                \"email\": \"huynq@gmail.com\",\r\n                \"phone\": \"0901245154\",\r\n                \"avatar\": null,\r\n                \"modifiedAt\": \"2022-08-01T12:10:46.000+00:00\",\r\n                \"lastLogin\": null,\r\n                \"actived\": true,\r\n                \"verify\": true,\r\n                \"modifiedBy\": \"haipv\"\r\n            },\r\n            \"payment\": {\r\n                \"id\": 2,\r\n                \"payment_id\": \"VNPAY\",\r\n                \"name_payment\": \"Thanh toán VNPay\"\r\n            },\r\n            \"shipping\": {\r\n                \"id\": 1,\r\n                \"shippingId\": \"GHTK\",\r\n                \"name_shipping\": \"Giao hàng tiết kiệm\"\r\n            },\r\n            \"orderStatus\": {\r\n                \"id\": 1,\r\n                \"code\": \"C-XN\",\r\n                \"status\": \"Chờ xác nhận\"\r\n            },\r\n            \"orderDetail\": {\r\n                \"id\": 1,\r\n                \"address\": \"121 Tô ký, Phường 9, Quận 12, TP HCM\",\r\n                \"province\": null,\r\n                \"district\": null,\r\n                \"ward\": null,\r\n                \"tel\": \"0987654321\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"quantity\": 1,\r\n                    \"price\": 1.499E7,\r\n                    \"product\": {\r\n                        \"id\": 1,\r\n                        \"name\": \"Laptop Asus VivoBook A415EA EB1750W\",\r\n                        \"slug\": \"laptop-asus-vivobook-a415ea-eb1750w\",\r\n                        \"description\": \"<h2><span style=\\\"font-size:22px\\\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop&nbsp;ASUS VivoBook A415EA EB1750W</strong></span></h2>\\n\\n<p>&nbsp;</p>\\n\\n<p><span style=\\\"font-size:18px\\\">Bạn đang t&igrave;m kiếm một chiếc <a href=\\\"https://gearvn.com/pages/laptop-van-phong\\\">laptop văn ph&ograve;ng</a> với hiệu năng ổn định đem lại khả năng xử l&yacute; mượt m&agrave; c&aacute;c t&aacute;c vụ cơ bản c&ugrave;ng một mức gi&aacute; phải chăng. Vậy h&atilde;y đến với <strong>VivoBook A415EA EB1750W</strong>, chiếc laptop d&agrave;nh cho học sinh - sinh vi&ecirc;n v&agrave; văn ph&ograve;ng đến từ ASUS. H&atilde;y c&ugrave;ng GEARVN kh&aacute;m ph&aacute; laptop ngay sau đ&acirc;y nh&eacute; !</span></p>\\n\\n<h3><span style=\\\"font-size:20px\\\"><strong>Thiết kế c&aacute; t&iacute;nh</strong></span></h3>\\n\\n<p><span style=\\\"font-size:18px\\\">Tối ưu d&agrave;nh cho m&ocirc;i trường l&agrave;m việc văn ph&ograve;ng, <a href=\\\"https://gearvn.com/collections/laptop-asus-vivobook-series\\\" target=\\\"_blank\\\">Asus&nbsp;VivoBook</a> A415EA EB1750W giữ vững phong c&aacute;ch thiết kế đơn giản nhưng vẫn sang trọng của d&ograve;ng laptop văn ph&ograve;ng: Với mặt A của laptop l&agrave;m từ nh&ocirc;m v&agrave; kho&aacute;c l&ecirc;n m&igrave;nh lớp m&agrave;u bạc sang trọng. Ngo&agrave;i ra, VivoBook A415EA EB1750W mang lại trọng lượng chỉ 1.4 kg v&agrave; mỏng 1.79 cm, vừa vặn cho bạn thuận tiện cất v&agrave;o balo v&agrave; mang đi l&agrave;m việc mọi nơi.</span></p>\\n\\n<p style=\\\"text-align: center\\\"><img src=\\\"//file.hstatic.net/1000026716/file/post-01_d6835213977840ca84a4d58a12549064_1024x1024.jpg\\\" /></p>\\n\",\r\n                        \"price\": 1.499E7,\r\n                        \"priceSale\": 1.1992E7,\r\n                        \"img\": \"laptop-asus-vivobook-a415ea-eb1750w.png\",\r\n                        \"actived\": true,\r\n                        \"modifiedAt\": \"2022-08-01T12:10:48.000+00:00\",\r\n                        \"modifiedBy\": \"minhnh\",\r\n                        \"spec\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">CPU:&nbsp;</span>Intel Core i3-1115G4 1.7GHz up to 4.1GHz 6MB</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">RAM:&nbsp;</span>8GB DDR4 2666MHz&nbsp;Onboard</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Card đồ họa:&nbsp;</span>Intel UHD Graphics</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Ổ cứng:&nbsp;</span>256GB&nbsp;<a href=\\\"https://gearvn.com/collections/ssd-o-cung-the-ran\\\">SSD</a>&nbsp;M.2 PCIE G3X4 (C&ograve;n trống 1 khe SSD M.2 PCIE)</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">M&agrave;n h&igrave;nh:&nbsp;</span>14&quot; FHD (1920 x 1080), IPS, Anti-Glare with 45% NTSC,&nbsp;NanoEdge</li>\\n</ul>\\n\",\r\n                        \"utility\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Audio:&nbsp;</span>\\n  <ul>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">&nbsp;</span>Audio by ICEpower&reg;</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Built-in speaker</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Built-in microphone//harman/kardon (Mainstream)</li>\\n  </ul>\\n  </li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Kết nối kh&ocirc;ng d&acirc;y:&nbsp;</span>Intel Wi-Fi 6(Gig+)(802.11ax), Bluetooth&nbsp;v5.0</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Webcam:&nbsp;</span>HD Web Camera</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Cổng giao tiếp:&nbsp;\\n  <ul>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">1 x Type-A USB 3.2 Gen 1</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">1 x Type-C USB 3.2</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">2 x USB 2.0 port(s)</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">1 x HDMI 1.4</li>\\n  </ul>\\n  </li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\\n</ul>\\n\",\r\n                        \"design\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Trọng lượng:&nbsp;</span>1.4 kg</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">K&iacute;ch thước:&nbsp;324 x 215 x 17.9 mm</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\\n</ul>\\n\",\r\n                        \"other\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Pin:&nbsp;3 Cells 42WHrs</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Kết nối LAN: Kh&ocirc;ng</li>\\n</ul>\\n\",\r\n                        \"video\": \"https://www.youtube.com/watch?v=gIHD6vyiXEQ\",\r\n                        \"quantity\": 1000,\r\n                        \"discount\": {\r\n                            \"id\": 4,\r\n                            \"name\": \"Mừng khai trương\",\r\n                            \"description\": null,\r\n                            \"percent\": 20,\r\n                            \"startDate\": \"2021-12-31T17:00:01.000+00:00\",\r\n                            \"endDate\": \"2022-12-30T16:59:59.000+00:00\",\r\n                            \"actived\": true,\r\n                            \"modifiedAt\": \"2022-08-01T12:10:48.000+00:00\",\r\n                            \"modifiedBy\": \"haipv\"\r\n                        },\r\n                        \"subCategory\": {\r\n                            \"id\": 1,\r\n                            \"category\": {\r\n                                \"id\": 1,\r\n                                \"name\": \"Laptop\",\r\n                                \"img\": \"laptop.png\",\r\n                                \"description\": null,\r\n                                \"slug\": \"laptop\",\r\n                                \"modifiedAt\": \"2022-08-01T12:10:47.000+00:00\",\r\n                                \"actived\": true,\r\n                                \"modifiedBy\": \"haipv\"\r\n                            },\r\n                            \"img\": \"van-phong.png\",\r\n                            \"name\": \"Văn phòng\",\r\n                            \"description\": null,\r\n                            \"slug\": \"van-phong\",\r\n                            \"modifiedAt\": \"2022-08-01T12:10:48.000+00:00\",\r\n                            \"actived\": true,\r\n                            \"modifiedBy\": \"haipv\"\r\n                        },\r\n                        \"brand\": {\r\n                            \"id\": 1,\r\n                            \"name\": \"Asus\",\r\n                            \"description\": null,\r\n                            \"img\": \"asus.png\",\r\n                            \"slug\": \"asus\",\r\n                            \"actived\": true,\r\n                            \"modifiedAt\": \"2022-08-01T12:10:48.000+00:00\",\r\n                            \"modifiedBy\": \"haipv\"\r\n                        },\r\n                        \"flashSale\": null,\r\n                        \"ratings\": [],\r\n                        \"productThumbnails\": [\r\n                            {\r\n                                \"id\": 3,\r\n                                \"thumbnail\": \"laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png\",\r\n                                \"modifiedAt\": \"2022-08-01T12:10:48.000+00:00\",\r\n                                \"modifiedBy\": \"haipv\"\r\n                            },\r\n                            {\r\n                                \"id\": 2,\r\n                                \"thumbnail\": \"laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png\",\r\n                                \"modifiedAt\": \"2022-08-01T12:10:48.000+00:00\",\r\n                                \"modifiedBy\": \"haipv\"\r\n                            },\r\n                            {\r\n                                \"id\": 1,\r\n                                \"thumbnail\": \"laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png\",\r\n                                \"modifiedAt\": \"2022-08-01T12:10:48.000+00:00\",\r\n                                \"modifiedBy\": \"haipv\"\r\n                            }\r\n                        ],\r\n                        \"averageRating\": 0,\r\n                        \"totalRating\": 0,\r\n                        \"weight\": 1.0\r\n                    }\r\n                }\r\n            ],\r\n            \"statusPayment\": {\r\n                \"id\": 1,\r\n                \"code\": \"C-TT\",\r\n                \"status\": \"Chưa thanh toán\"\r\n            }\r\n        },",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/orders/cancel",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"orders",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refund Order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n            \"id\": 1,\r\n            \"orderCode\": \"HD-11062022\",\r\n            \"qrCode\": null,\r\n            \"note\": null,\r\n            \"shipping_note\": null,\r\n            \"fullName\": \"Nguyễn Quang Huy\",\r\n            \"email\": null,\r\n            \"createdAt\": \"2022-07-30T01:28:02.000+00:00\",\r\n            \"modifiedBy\": null,\r\n            \"unitPrice\": 1.499E7,\r\n            \"orderQuantity\": 1,\r\n            \"label\": null,\r\n            \"fee\": null,\r\n            \"estimated_pick_time\": null,\r\n            \"estimated_deliver_time\": null,\r\n            \"user\": {\r\n                \"id\": 1,\r\n                \"username\": \"huynq\",\r\n                \"fullname\": \"Nguyễn Quang Huy\",\r\n                \"avatar\": null,\r\n                \"modifiedAt\": \"2022-07-30T01:28:01.000+00:00\",\r\n                \"lastLogin\": null,\r\n                \"actived\": true,\r\n                \"verify\": true,\r\n                \"modifiedBy\": \"haipv\"\r\n            },\r\n            \"payment\": {\r\n                \"id\": 2,\r\n                \"payment_id\": \"VNPAY\",\r\n                \"name_payment\": \"Thanh toán VNPay\"\r\n            },\r\n            \"shipping\": {\r\n                \"id\": 1,\r\n                \"shippingId\": \"GHTK\",\r\n                \"name_shipping\": \"Giao hàng tiết kiệm\"\r\n            },\r\n            \"orderStatus\": {\r\n                \"id\": 1,\r\n                \"code\": \"C-XN\",\r\n                \"status\": \"Chờ xác nhận\"\r\n            },\r\n            \"orderDetail\": {\r\n                \"id\": 1,\r\n                \"address\": \"121 Tô ký, Phường 9, Quận 12, TP HCM\",\r\n                \"province\": \"thanh pho\",\r\n                \"district\": \"ádadas\",\r\n                \"ward\": \"ádasdsa\",\r\n                \"tel\": \"0987654321\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"quantity\": 1,\r\n                    \"price\": 1.499E7,\r\n                    \"product\": {\r\n                        \"id\": 1,\r\n                        \"name\": \"Laptop Asus VivoBook A415EA EB1750W\",\r\n                        \"slug\": \"laptop-asus-vivobook-a415ea-eb1750w\",\r\n                        \"description\": \"<h2><span style=\\\"font-size:22px\\\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop&nbsp;ASUS VivoBook A415EA EB1750W</strong></span></h2>\\n\\n<p>&nbsp;</p>\\n\\n<p><span style=\\\"font-size:18px\\\">Bạn đang t&igrave;m kiếm một chiếc <a href=\\\"https://gearvn.com/pages/laptop-van-phong\\\">laptop văn ph&ograve;ng</a> với hiệu năng ổn định đem lại khả năng xử l&yacute; mượt m&agrave; c&aacute;c t&aacute;c vụ cơ bản c&ugrave;ng một mức gi&aacute; phải chăng. Vậy h&atilde;y đến với <strong>VivoBook A415EA EB1750W</strong>, chiếc laptop d&agrave;nh cho học sinh - sinh vi&ecirc;n v&agrave; văn ph&ograve;ng đến từ ASUS. H&atilde;y c&ugrave;ng GEARVN kh&aacute;m ph&aacute; laptop ngay sau đ&acirc;y nh&eacute; !</span></p>\\n\\n<h3><span style=\\\"font-size:20px\\\"><strong>Thiết kế c&aacute; t&iacute;nh</strong></span></h3>\\n\\n<p><span style=\\\"font-size:18px\\\">Tối ưu d&agrave;nh cho m&ocirc;i trường l&agrave;m việc văn ph&ograve;ng, <a href=\\\"https://gearvn.com/collections/laptop-asus-vivobook-series\\\" target=\\\"_blank\\\">Asus&nbsp;VivoBook</a> A415EA EB1750W giữ vững phong c&aacute;ch thiết kế đơn giản nhưng vẫn sang trọng của d&ograve;ng laptop văn ph&ograve;ng: Với mặt A của laptop l&agrave;m từ nh&ocirc;m v&agrave; kho&aacute;c l&ecirc;n m&igrave;nh lớp m&agrave;u bạc sang trọng. Ngo&agrave;i ra, VivoBook A415EA EB1750W mang lại trọng lượng chỉ 1.4 kg v&agrave; mỏng 1.79 cm, vừa vặn cho bạn thuận tiện cất v&agrave;o balo v&agrave; mang đi l&agrave;m việc mọi nơi.</span></p>\\n\\n<p style=\\\"text-align: center\\\"><img src=\\\"//file.hstatic.net/1000026716/file/post-01_d6835213977840ca84a4d58a12549064_1024x1024.jpg\\\" /></p>\\n\",\r\n                        \"price\": 1.499E7,\r\n                        \"priceSale\": 1.1992E7,\r\n                        \"img\": \"laptop-asus-vivobook-a415ea-eb1750w.png\",\r\n                        \"imgUrl\": \"http://localhost:8080/img/shop/products/laptop-asus-vivobook-a415ea-eb1750w.png\",\r\n                        \"actived\": true,\r\n                        \"modifiedAt\": \"2022-07-30T01:28:01.000+00:00\",\r\n                        \"modifiedBy\": \"minhnh\",\r\n                        \"spec\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">CPU:&nbsp;</span>Intel Core i3-1115G4 1.7GHz up to 4.1GHz 6MB</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">RAM:&nbsp;</span>8GB DDR4 2666MHz&nbsp;Onboard</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Card đồ họa:&nbsp;</span>Intel UHD Graphics</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Ổ cứng:&nbsp;</span>256GB&nbsp;<a href=\\\"https://gearvn.com/collections/ssd-o-cung-the-ran\\\">SSD</a>&nbsp;M.2 PCIE G3X4 (C&ograve;n trống 1 khe SSD M.2 PCIE)</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">M&agrave;n h&igrave;nh:&nbsp;</span>14&quot; FHD (1920 x 1080), IPS, Anti-Glare with 45% NTSC,&nbsp;NanoEdge</li>\\n</ul>\\n\",\r\n                        \"utility\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Audio:&nbsp;</span>\\n  <ul>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">&nbsp;</span>Audio by ICEpower&reg;</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Built-in speaker</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Built-in microphone//harman/kardon (Mainstream)</li>\\n  </ul>\\n  </li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Kết nối kh&ocirc;ng d&acirc;y:&nbsp;</span>Intel Wi-Fi 6(Gig+)(802.11ax), Bluetooth&nbsp;v5.0</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Webcam:&nbsp;</span>HD Web Camera</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Cổng giao tiếp:&nbsp;\\n  <ul>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">1 x Type-A USB 3.2 Gen 1</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">1 x Type-C USB 3.2</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">2 x USB 2.0 port(s)</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">1 x HDMI 1.4</li>\\n  </ul>\\n  </li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\\n</ul>\\n\",\r\n                        \"design\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Trọng lượng:&nbsp;</span>1.4 kg</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">K&iacute;ch thước:&nbsp;324 x 215 x 17.9 mm</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\\n</ul>\\n\",\r\n                        \"other\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Pin:&nbsp;3 Cells 42WHrs</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Kết nối LAN: Kh&ocirc;ng</li>\\n</ul>\\n\",\r\n                        \"video\": \"https://www.youtube.com/watch?v=gIHD6vyiXEQ\",\r\n                        \"quantity\": 1000,\r\n                        \"discount\": {\r\n                            \"id\": 4,\r\n                            \"name\": \"Mừng khai trương\",\r\n                            \"description\": null,\r\n                            \"percent\": 20,\r\n                            \"startDate\": \"2021-12-31T17:00:01.000+00:00\",\r\n                            \"endDate\": \"2022-12-30T16:59:59.000+00:00\",\r\n                            \"actived\": true,\r\n                            \"modifiedAt\": \"2022-07-30T01:28:01.000+00:00\",\r\n                            \"modifiedBy\": \"haipv\"\r\n                        },\r\n                        \"subCategory\": {\r\n                            \"id\": 1,\r\n                            \"category\": {\r\n                                \"id\": 1,\r\n                                \"name\": \"Laptop\",\r\n                                \"img\": \"laptop.svg\",\r\n                                \"imgUrl\": \"http://localhost:8080/img/shop/categories/laptop.svg\",\r\n                                \"description\": null,\r\n                                \"slug\": \"laptop\",\r\n                                \"modifiedAt\": \"2022-07-30T01:28:01.000+00:00\",\r\n                                \"actived\": true,\r\n                                \"modifiedBy\": \"haipv\"\r\n                            },\r\n                            \"img\": \"laptop.svg\",\r\n                            \"imgUrl\": \"http://localhost:8080/img/shop/categories/laptop.svg\",\r\n                            \"name\": \"Văn phòng\",\r\n                            \"description\": null,\r\n                            \"slug\": \"van-phong\",\r\n                            \"modifiedAt\": \"2022-07-30T01:28:01.000+00:00\",\r\n                            \"actived\": true,\r\n                            \"modifiedBy\": \"haipv\"\r\n                        },\r\n                        \"brand\": {\r\n                            \"id\": 1,\r\n                            \"name\": \"Asus\",\r\n                            \"description\": null,\r\n                            \"slug\": \"asus\",\r\n                            \"actived\": true,\r\n                            \"modifiedAt\": \"2022-07-30T01:28:01.000+00:00\",\r\n                            \"modifiedBy\": \"haipv\"\r\n                        },\r\n                        \"ratings\": [],\r\n                        \"productThumbnails\": [\r\n                            {\r\n                                \"id\": 3,\r\n                                \"thumbnail\": \"laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png\",\r\n                                \"thumbnailUrl\": \"http://localhost:8080/img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png\",\r\n                                \"modifiedAt\": \"2022-07-30T01:28:01.000+00:00\",\r\n                                \"modifiedBy\": \"haipv\"\r\n                            },\r\n                            {\r\n                                \"id\": 1,\r\n                                \"thumbnail\": \"laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png\",\r\n                                \"thumbnailUrl\": \"http://localhost:8080/img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png\",\r\n                                \"modifiedAt\": \"2022-07-30T01:28:01.000+00:00\",\r\n                                \"modifiedBy\": \"haipv\"\r\n                            },\r\n                            {\r\n                                \"id\": 2,\r\n                                \"thumbnail\": \"laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png\",\r\n                                \"thumbnailUrl\": \"http://localhost:8080/img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png\",\r\n                                \"modifiedAt\": \"2022-07-30T01:28:01.000+00:00\",\r\n                                \"modifiedBy\": \"haipv\"\r\n                            }\r\n                        ],\r\n                        \"averageRating\": 0,\r\n                        \"totalRating\": 0,\r\n                        \"weight\": 1.0\r\n                    }\r\n                }\r\n            ],\r\n            \"statusPayment\": {\r\n                \"id\": 1,\r\n                \"code\": \"C-TT\",\r\n                \"status\": \"Chưa thanh toán\"\r\n            }\r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/orders/refund",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"orders",
+								"refund"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/users/4",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": null,\r\n    \"username\": \"managertest\",\r\n    \"password\": \"123456\",\r\n    \"fullname\": \"Nguyễn Thị Tester\",\r\n    \"avatar\": null,\r\n    \"authority\": {\r\n        \"id\": 4,\r\n        \"role\": {\r\n            \"id\": 2,\r\n            \"name\": \"Nhân viên quản lý\",\r\n            \"roleId\": \"ROLE_MANAGER\",\r\n            \"modifiedAt\": \"2022-08-05T08:25:12.000+00:00\",\r\n            \"modifiedBy\": null\r\n        },\r\n        \"modifiedAt\": \"2022-08-05T08:25:12.000+00:00\",\r\n        \"modifiedBy\": null\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/users",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Admin",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"username\": \"manager1\",\r\n    \"password\": \"$2a$12$iSxWCDhCdIlnPOvIvaO.7eNqEWTiZu7f/evEL3GYn8QrABKUOxd9i\",\r\n    \"fullname\": \"Nguyễn Thị Nhài\",\r\n    \"avatar\": null,\r\n    \"lastLogin\": null,\r\n    \"modifiedAt\": \"2022-08-04T11:21:24.000+00:00\",\r\n    \"actived\": true,\r\n    \"authority\": {\r\n        \"id\": 4,\r\n        \"role\": {\r\n            \"id\": 2,\r\n            \"name\": \"Nhân viên quản lý\",\r\n            \"roleId\": \"ROLE_MANAGER\",\r\n            \"modifiedAt\": \"2022-08-04T10:58:07.000+00:00\",\r\n            \"modifiedBy\": null\r\n        },\r\n        \"modifiedAt\": \"2022-08-04T10:58:08.000+00:00\",\r\n        \"modifiedBy\": null\r\n    },\r\n    \"modifiedBy\": \"haipv\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/users",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5obmgiLCJleHAiOjE2NTc1MjMyNzYsImlhdCI6MTY1NzUwNTI3Nn0.VRTHsQEkaAfq4NtvJcgPGLHIyWSD23OPp3eB2Zji60Qr5i_8rsoiDpMBxEz7EVQjfHcG-UaLTGoYJcNd_t9nMg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 8,\r\n    \"oldPassword\" : \"1234567\",\r\n    \"newPassword\" : \"1234567\",\r\n    \"confirmPassword\" : \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/staff/password",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"staff",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Active",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5obmgiLCJleHAiOjE2NTc4Njc1MDYsImlhdCI6MTY1Nzg0OTUwNn0.eroMDEu0_QaM94wMlHBbyNTwwEwx39DHmmA_NL-HtGH3NqXyX4SVmXW8_SAC-rM4a8kXNBCfvRadQgsZYpzeIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/staff/administrator/13",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"staff",
+								"administrator",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "adminId",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "roleId",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{admin_url}}/users/authority",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"users",
+								"authority"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All With Datatables",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"draw\": 1,\r\n  \"columns\": [\r\n    {\r\n      \"data\": null,\r\n      \"name\": \"\",\r\n      \"searchable\": false,\r\n      \"orderable\": false,\r\n      \"search\": {\r\n        \"value\": \"\",\r\n        \"regex\": false\r\n      }\r\n    }\r\n  ],\r\n  \"order\": [\r\n    {\r\n      \"column\": 0,\r\n      \"dir\": \"asc\"\r\n    }\r\n  ],\r\n  \"start\": 0,\r\n  \"length\": 1000,\r\n  \"search\": {\r\n    \"value\": \"\",\r\n    \"regex\": false\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/users/datatables?isActive=true",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"users",
+								"datatables"
+							],
+							"query": [
+								{
+									"key": "isActive",
+									"value": "true"
+								},
+								{
+									"key": "roleId",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Admin Roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/users/roles",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"users",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Brand",
+			"item": [
+				{
+					"name": "Get By Actived",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/brands/actived",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"brands",
+								"actived"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Upload",
+			"item": [
+				{
+					"name": "Upload Firebase",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/upload-file",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"upload-file"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/MinIT/Downloads/laptop-asus-vivobook-a415ea-eb1750w.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{admin_url}}/upload-file",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"upload-file"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Temp Folder",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/delete-temp-folder",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"delete-temp-folder"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Get Order Revenue",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/dashboard/total-order-revenue?month=09&year=2022",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"dashboard",
+								"total-order-revenue"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "09"
+								},
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Total Quantity In General",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/dashboard/general-report",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"dashboard",
+								"general-report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Total Quantity Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/dashboard/product-report",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"dashboard",
+								"product-report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Top 5 Products Sold",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/dashboard/top-product-sold?limit=5",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"dashboard",
+								"top-product-sold"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Count Accounts By Role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin_url}}/dashboard/account-report",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"dashboard",
+								"account-report"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Get All With Datatables",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"draw\": 1,\r\n  \"columns\": [\r\n    {\r\n      \"data\": null,\r\n      \"name\": \"\",\r\n      \"searchable\": false,\r\n      \"orderable\": false,\r\n      \"search\": {\r\n        \"value\": \"\",\r\n        \"regex\": false\r\n      }\r\n    }\r\n  ],\r\n  \"order\": [\r\n    {\r\n      \"column\": 0,\r\n      \"dir\": \"asc\"\r\n    }\r\n  ],\r\n  \"start\": 0,\r\n  \"length\": 1000,\r\n  \"search\": {\r\n    \"value\": \"\",\r\n    \"regex\": false\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/customers/datatables",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"customers",
+								"datatables"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get All Users With Datatables",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"draw\": 1,\r\n  \"columns\": [\r\n    {\r\n      \"data\": null,\r\n      \"name\": \"\",\r\n      \"searchable\": false,\r\n      \"orderable\": false,\r\n      \"search\": {\r\n        \"value\": \"\",\r\n        \"regex\": false\r\n      }\r\n    }\r\n  ],\r\n  \"order\": [\r\n    {\r\n      \"column\": 0,\r\n      \"dir\": \"asc\"\r\n    }\r\n  ],\r\n  \"start\": 0,\r\n  \"length\": 1000,\r\n  \"search\": {\r\n    \"value\": \"\",\r\n    \"regex\": false\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/users/datatables?isActive=true",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"users",
+								"datatables"
+							],
+							"query": [
+								{
+									"key": "isActive",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "App Customer",
+			"item": [
+				{
+					"name": "category",
+					"item": [
+						{
+							"name": "doGetAll",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "product",
+					"item": [
+						{
+							"name": "doGetAll",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "doGetProductByCategoryId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{custumerUrl}}/",
+									"host": [
+										"{{custumerUrl}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "doGetBySubId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{custumerUrl}}/display-product-subcategory?categoryId=1&page&size=8",
+									"host": [
+										"{{custumerUrl}}"
+									],
+									"path": [
+										"display-product-subcategory"
+									],
+									"query": [
+										{
+											"key": "categoryId",
+											"value": "1"
+										},
+										{
+											"key": "page",
+											"value": null
+										},
+										{
+											"key": "size",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "doGetFlashSale",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/v1/api/display/product-sale",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"v1",
+										"api",
+										"display",
+										"product-sale"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "search",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/v1/api/display/product?search=laptop",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"v1",
+										"api",
+										"display",
+										"product"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "laptop"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "searchByPrice",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/v1/api/display/product/test?search=lap&minPrice=0&maxPrice=100000",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"v1",
+										"api",
+										"display",
+										"product",
+										"test"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "lap"
+										},
+										{
+											"key": "minPrice",
+											"value": "0"
+										},
+										{
+											"key": "maxPrice",
+											"value": "100000"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "cart",
+					"item": [
+						{
+							"name": "addToCart",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{customerUrl}}/add-cart?productId=1&quantity=2",
+									"host": [
+										"{{customerUrl}}"
+									],
+									"path": [
+										"add-cart"
+									],
+									"query": [
+										{
+											"key": "productId",
+											"value": "1"
+										},
+										{
+											"key": "quantity",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "doGetAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/v1/api/customer/cart",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"v1",
+										"api",
+										"customer",
+										"cart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "getAddress",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{custumerUrl}}/user/address?username=minhbd",
+									"host": [
+										"{{custumerUrl}}"
+									],
+									"path": [
+										"user",
+										"address"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "minhbd"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "changeActive",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "doPostAdd",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"address\": \"DakHa,DakGLong,DakNong\",\r\n        \"province\": \"DakNong\",\r\n        \"district\": \"DakGLong\",\r\n        \"ward\": \"DakHa\",\r\n        \"tel\": \"0338953981\",\r\n        \"email\": \"\",\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{custumerUrl}}/user/address?username=minhbd",
+									"host": [
+										"{{custumerUrl}}"
+									],
+									"path": [
+										"user",
+										"address"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "minhbd"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "uploadFile",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "updatr",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5oYmQiLCJleHAiOjE2NTk0NjA2MzUsImlhdCI6MTY1OTQ0MjYzNX0.wA2QSjja2fT5RIJrcVXqw78et4AHaQgdo1i3KPiH9n5fSdirZ3IIitoDCZfLJCcn-XxRzKaCn3148o5EBIzakA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"id\":2,\"username\":\"minhbd\",\"fullname\":\"Bùi Đức Minh ne\",\"avatar\":\"minhbd.jpg\",\"email\":\"minhbd@gmail.com\",\"phone\":\"0325654589\",\"modifiedAt\":\"2022-08-01T08:57:06.000+00:00\",\"lastLogin\":null,\"actived\":true,\"verify\":true,\"modifiedBy\":\"haipv\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{customerUrl}}/user",
+									"host": [
+										"{{customerUrl}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "order",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"payment\": {\r\n            \"id\": 2,\r\n            \"payment_id\": \"NH\",\r\n            \"name_payment\": \"Thanh toán khi nhận hàng\"\r\n        },\r\n        \"shipping\": {\r\n            \"id\": 1,\r\n            \"shipping_id\": \"GHTK\",\r\n            \"name_shipping\": \"Giao hàng tiết kiệm\"\r\n        },\r\n        \"note\": \"Giao thứ 2 - 7\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{custumerUrl}}/order",
+									"host": [
+										"{{custumerUrl}}"
+									],
+									"path": [
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllByOrderStatusCode",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5oYmQiLCJleHAiOjE2NTk5NDI4MDQsImlhdCI6MTY1OTkyNDgwNH0.etOxS5pOnv-Kfx6_qbmosvm-YPiUSl_8fa_XTAaiTJf0eyhkBirOiwsdFs8-X0c0UmeMuWtGJGtuvGSKfEcJ5w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/v1/api/customer/order?statusCode",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"v1",
+										"api",
+										"customer",
+										"order"
+									],
+									"query": [
+										{
+											"key": "statusCode",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "cancelOrder",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5oYmQiLCJleHAiOjE2NTk4MjE0MDgsImlhdCI6MTY1OTgwMzQwOH0.3Lfkge8V39UM-iQ8xs-l8d9748qIDnyuF_nTCqWVqw9csqy1m7L2FrCdl5sU2XrjiktFIygbrOzaoWCi7U3z4Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{customerUrl}}/order/cancel/HD-34808143",
+									"host": [
+										"{{customerUrl}}"
+									],
+									"path": [
+										"order",
+										"cancel",
+										"HD-34808143"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "cancelOrder1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5oYmQiLCJleHAiOjE2NTk4MjE0MDgsImlhdCI6MTY1OTgwMzQwOH0.3Lfkge8V39UM-iQ8xs-l8d9748qIDnyuF_nTCqWVqw9csqy1m7L2FrCdl5sU2XrjiktFIygbrOzaoWCi7U3z4Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/test/order/cancel/HD-37567131?statusOrder=\"C-HUY\"",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"test",
+										"order",
+										"cancel",
+										"HD-37567131"
+									],
+									"query": [
+										{
+											"key": "statusOrder",
+											"value": "\"C-HUY\""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "listStatus",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/order",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"order"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "Get Customer Profile",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5oYmQiLCJleHAiOjE2NTkxMTI2NzgsImlhdCI6MTY1OTA5NDY3OH0.dLiNyEUgw3lKShYKdKN_ZUbkE0ydMPiwS0zdr0v3QvcHkhYoWbfPtkv6am7wsxBgW8gUpi1bCCw67XcTibxMpQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"minhbd\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/v1/api/customer/auth/get-principal",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"v1",
+										"api",
+										"customer",
+										"auth",
+										"get-principal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login Custumer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"minhbd\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_deyloy}}/v1/api/customer/auth/login",
+							"host": [
+								"{{url_deyloy}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"customer",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 9,\r\n    \"title\": \"Đơn hàng của bạn đang chờ xác nhận. Mã đơn hàng của bạn: HD-53035061\",\r\n    \"orderCode\": \"HD-53035061\",\r\n    \"isWatched\": true,\r\n    \"createdAt\": \"2022-08-05T08:35:46.000+00:00\"\r\n},\r\n{\r\n    \"id\": 8,\r\n    \"title\": \"Đơn hàng của bạn đang chờ xác nhận. Mã đơn hàng của bạn: HD-45068901\",\r\n    \"orderCode\": \"HD-45068901\",\r\n    \"isWatched\": true,\r\n    \"createdAt\": \"2022-08-05T07:47:44.000+00:00\"\r\n},\r\n{\r\n    \"id\": 7,\r\n    \"title\": \"Đơn hàng HD-33923172Giao hàng thành công\",\r\n    \"orderCode\": \"HD-33923172\",\r\n    \"isWatched\": true,\r\n    \"createdAt\": \"2022-08-05T03:37:36.000+00:00\"\r\n},\r\n{\r\n    \"id\": 6,\r\n    \"title\": \"Đơn hàng HD-33923172Đang giao\",\r\n    \"orderCode\": \"HD-33923172\",\r\n    \"isWatched\": true,\r\n    \"createdAt\": \"2022-08-05T03:37:09.000+00:00\"\r\n},\r\n{\r\n    \"id\": 5,\r\n    \"title\": \"Đơn hàng HD-33923172Lấy hàng thành công\",\r\n    \"orderCode\": \"HD-33923172\",\r\n    \"isWatched\": true,\r\n    \"createdAt\": \"2022-08-05T03:36:59.000+00:00\"\r\n},\r\n{\r\n    \"id\": 4,\r\n    \"title\": \"Đơn hàng HD-14532799 đã được xác nhận\",\r\n    \"orderCode\": \"HD-14532799\",\r\n    \"isWatched\": true,\r\n    \"createdAt\": \"2022-08-05T03:23:47.000+00:00\"\r\n},\r\n{\r\n    \"id\": 3,\r\n    \"title\": \"Đơn hàng của bạn đang chờ xác nhận. Mã đơn hàng của bạn: HD-14532799\",\r\n    \"orderCode\": \"HD-14532799\",\r\n    \"isWatched\": true,\r\n    \"createdAt\": \"2022-08-05T03:23:06.000+00:00\"\r\n},\r\n{\r\n    \"id\": 2,\r\n    \"title\": \"Đơn hàng HD-33923172 đã được xác nhận\",\r\n    \"orderCode\": \"HD-33923172\",\r\n    \"isWatched\": true,\r\n    \"createdAt\": \"2022-08-05T03:14:19.000+00:00\"\r\n},\r\n{\r\n    \"id\": 1,\r\n    \"title\": \"Đơn hàng của bạn đang chờ xác nhận. Mã đơn hàng của bạn: HD-33923172\",\r\n    \"orderCode\": \"HD-33923172\",\r\n    \"isWatched\": true,\r\n    \"createdAt\": \"2022-08-05T03:14:08.000+00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GHTK",
+			"item": [
+				{
+					"name": "getFee",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "2C925D6789957674DcC9121bf419Df1a2F7b0BC3",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"address\": \"123 nguyễn chí thanh\",\r\n        \"province\": \"TP. Hồ Chí Minh\",\r\n        \"district\": \"Quận 1\",\r\n        \"value\": 3000000,\r\n        \"weight\": 10000\r\n\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/api/ghtk/fee",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"ghtk",
+								"fee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/api/ghtk/shipment/cancel/S21587114.SG05-B09.1664320936",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"ghtk",
+								"shipment",
+								"cancel",
+								"S21587114.SG05-B09.1664320936"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST-ORDER",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "2C925D6789957674DcC9121bf419Df1a2F7b0BC3",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 9,\r\n            \"orderCode\": \"HD-20062022\",\r\n            \"qrCode\": null,\r\n            \"note\": null,\r\n            \"shipping_note\": null,\r\n            \"fullName\": \"Nguyễn Quang Huy\",\r\n            \"email\": null,\r\n            \"createdAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n            \"modifiedBy\": null,\r\n            \"unitPrice\": 1.499E7,\r\n            \"orderQuantity\": 1,\r\n            \"label\": null,\r\n            \"fee\": null,\r\n            \"estimated_pick_time\": null,\r\n            \"estimated_deliver_time\": null,\r\n            \"user\": {\r\n                \"id\": 1,\r\n                \"username\": \"huynq\",\r\n                \"fullname\": \"Nguyễn Quang Huy\",\r\n                \"avatar\": null,\r\n                \"modifiedAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n                \"lastLogin\": null,\r\n                \"actived\": true,\r\n                \"verify\": true,\r\n                \"modifiedBy\": \"haipv\"\r\n            },\r\n            \"payment\": {\r\n                \"id\": 2,\r\n                \"payment_id\": \"VNPAY\",\r\n                \"name_payment\": \"Thanh toán VNPay\"\r\n            },\r\n            \"shipping\": {\r\n                \"id\": 1,\r\n                \"shipping_id\": \"GHTK\",\r\n                \"name_shipping\": \"Giao hàng tiết kiệm\"\r\n            },\r\n            \"orderStatus\": {\r\n                \"id\": 1,\r\n                \"code\": \"C-XN\",\r\n                \"status\": \"Chờ xác nhận\"\r\n            },\r\n            \"orderDetail\": {\r\n                \"id\": 1,\r\n                \"address\": \"121 Tô ký, Phường 9, Quận 12, TP HCM\",\r\n                \"province\": \"TP. Ho Chi Minh\",\r\n                \"district\": \"Quận 12\",\r\n                \"ward\": \"Phường Trung mỹ Tây\",\r\n                \"tel\": \"0987654321\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"quantity\": 1,\r\n                    \"price\": 1.499E7,\r\n                    \"product\": {\r\n                        \"id\": 1,\r\n                        \"name\": \"Laptop Asus VivoBook A415EA EB1750W\",\r\n                        \"slug\": \"laptop-asus-vivobook-a415ea-eb1750w\",\r\n                        \"description\": \"<h2><span style=\\\"font-size:22px\\\"><strong>Đ&aacute;nh gi&aacute; chi tiết laptop&nbsp;ASUS VivoBook A415EA EB1750W</strong></span></h2>\\n\\n<p>&nbsp;</p>\\n\\n<p><span style=\\\"font-size:18px\\\">Bạn đang t&igrave;m kiếm một chiếc <a href=\\\"https://gearvn.com/pages/laptop-van-phong\\\">laptop văn ph&ograve;ng</a> với hiệu năng ổn định đem lại khả năng xử l&yacute; mượt m&agrave; c&aacute;c t&aacute;c vụ cơ bản c&ugrave;ng một mức gi&aacute; phải chăng. Vậy h&atilde;y đến với <strong>VivoBook A415EA EB1750W</strong>, chiếc laptop d&agrave;nh cho học sinh - sinh vi&ecirc;n v&agrave; văn ph&ograve;ng đến từ ASUS. H&atilde;y c&ugrave;ng GEARVN kh&aacute;m ph&aacute; laptop ngay sau đ&acirc;y nh&eacute; !</span></p>\\n\\n<h3><span style=\\\"font-size:20px\\\"><strong>Thiết kế c&aacute; t&iacute;nh</strong></span></h3>\\n\\n<p><span style=\\\"font-size:18px\\\">Tối ưu d&agrave;nh cho m&ocirc;i trường l&agrave;m việc văn ph&ograve;ng, <a href=\\\"https://gearvn.com/collections/laptop-asus-vivobook-series\\\" target=\\\"_blank\\\">Asus&nbsp;VivoBook</a> A415EA EB1750W giữ vững phong c&aacute;ch thiết kế đơn giản nhưng vẫn sang trọng của d&ograve;ng laptop văn ph&ograve;ng: Với mặt A của laptop l&agrave;m từ nh&ocirc;m v&agrave; kho&aacute;c l&ecirc;n m&igrave;nh lớp m&agrave;u bạc sang trọng. Ngo&agrave;i ra, VivoBook A415EA EB1750W mang lại trọng lượng chỉ 1.4 kg v&agrave; mỏng 1.79 cm, vừa vặn cho bạn thuận tiện cất v&agrave;o balo v&agrave; mang đi l&agrave;m việc mọi nơi.</span></p>\\n\\n<p style=\\\"text-align: center\\\"><img src=\\\"//file.hstatic.net/1000026716/file/post-01_d6835213977840ca84a4d58a12549064_1024x1024.jpg\\\" /></p>\\n\",\r\n                        \"price\": 1.499E7,\r\n                        \"priceSale\": 1.1992E7,\r\n                        \"img\": \"laptop-asus-vivobook-a415ea-eb1750w.png\",\r\n                        \"imgUrl\": \"http://localhost:8080/img/shop/products/laptop-asus-vivobook-a415ea-eb1750w.png\",\r\n                        \"actived\": true,\r\n                        \"modifiedAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n                        \"modifiedBy\": \"minhnh\",\r\n                        \"spec\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">CPU:&nbsp;</span>Intel Core i3-1115G4 1.7GHz up to 4.1GHz 6MB</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">RAM:&nbsp;</span>8GB DDR4 2666MHz&nbsp;Onboard</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Card đồ họa:&nbsp;</span>Intel UHD Graphics</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Ổ cứng:&nbsp;</span>256GB&nbsp;<a href=\\\"https://gearvn.com/collections/ssd-o-cung-the-ran\\\">SSD</a>&nbsp;M.2 PCIE G3X4 (C&ograve;n trống 1 khe SSD M.2 PCIE)</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">M&agrave;n h&igrave;nh:&nbsp;</span>14&quot; FHD (1920 x 1080), IPS, Anti-Glare with 45% NTSC,&nbsp;NanoEdge</li>\\n</ul>\\n\",\r\n                        \"utility\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Audio:&nbsp;</span>\\n  <ul>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">&nbsp;</span>Audio by ICEpower&reg;</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Built-in speaker</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Built-in microphone//harman/kardon (Mainstream)</li>\\n  </ul>\\n  </li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Kết nối kh&ocirc;ng d&acirc;y:&nbsp;</span>Intel Wi-Fi 6(Gig+)(802.11ax), Bluetooth&nbsp;v5.0</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Webcam:&nbsp;</span>HD Web Camera</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Cổng giao tiếp:&nbsp;\\n  <ul>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">1 x Type-A USB 3.2 Gen 1</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">1 x Type-C USB 3.2</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">2 x USB 2.0 port(s)</li>\\n    <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">1 x HDMI 1.4</li>\\n  </ul>\\n  </li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Hệ điều h&agrave;nh:&nbsp;Windows 11 Home</li>\\n</ul>\\n\",\r\n                        \"design\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\"><span class=\\\"text-muted\\\">Trọng lượng:&nbsp;</span>1.4 kg</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">K&iacute;ch thước:&nbsp;324 x 215 x 17.9 mm</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\\n</ul>\\n\",\r\n                        \"other\": \"<ul class=\\\"list-unstyled fs-sm pb-2\\\">\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Pin:&nbsp;3 Cells 42WHrs</li>\\n  <li class=\\\"d-flex justify-content-between pb-2 border-bottom\\\">Kết nối LAN: Kh&ocirc;ng</li>\\n</ul>\\n\",\r\n                        \"video\": \"https://www.youtube.com/watch?v=gIHD6vyiXEQ\",\r\n                        \"quantity\": 1000,\r\n                        \"discount\": {\r\n                            \"id\": 4,\r\n                            \"name\": \"Mừng khai trương\",\r\n                            \"description\": null,\r\n                            \"percent\": 20,\r\n                            \"startDate\": \"2021-12-31T17:00:01.000+00:00\",\r\n                            \"endDate\": \"2022-12-30T16:59:59.000+00:00\",\r\n                            \"actived\": true,\r\n                            \"modifiedAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n                            \"modifiedBy\": \"haipv\"\r\n                        },\r\n                        \"subCategory\": {\r\n                            \"id\": 1,\r\n                            \"category\": {\r\n                                \"id\": 1,\r\n                                \"name\": \"Laptop\",\r\n                                \"img\": \"laptop.svg\",\r\n                                \"imgUrl\": \"http://localhost:8080/img/shop/categories/laptop.svg\",\r\n                                \"description\": null,\r\n                                \"slug\": \"laptop\",\r\n                                \"modifiedAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n                                \"actived\": true,\r\n                                \"modifiedBy\": \"haipv\"\r\n                            },\r\n                            \"img\": \"laptop.svg\",\r\n                            \"imgUrl\": \"http://localhost:8080/img/shop/categories/laptop.svg\",\r\n                            \"name\": \"Văn phòng\",\r\n                            \"description\": null,\r\n                            \"slug\": \"van-phong\",\r\n                            \"modifiedAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n                            \"actived\": true,\r\n                            \"modifiedBy\": \"haipv\"\r\n                        },\r\n                        \"brand\": {\r\n                            \"id\": 1,\r\n                            \"name\": \"Asus\",\r\n                            \"description\": null,\r\n                            \"slug\": \"asus\",\r\n                            \"actived\": true,\r\n                            \"modifiedAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n                            \"modifiedBy\": \"haipv\"\r\n                        },\r\n                        \"ratings\": [],\r\n                        \"productThumbnails\": [\r\n                            {\r\n                                \"id\": 2,\r\n                                \"thumbnail\": \"laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png\",\r\n                                \"thumbnailUrl\": \"http://localhost:8080/img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png\",\r\n                                \"modifiedAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n                                \"modifiedBy\": \"haipv\"\r\n                            },\r\n                            {\r\n                                \"id\": 3,\r\n                                \"thumbnail\": \"laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png\",\r\n                                \"thumbnailUrl\": \"http://localhost:8080/img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png\",\r\n                                \"modifiedAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n                                \"modifiedBy\": \"haipv\"\r\n                            },\r\n                            {\r\n                                \"id\": 1,\r\n                                \"thumbnail\": \"laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png\",\r\n                                \"thumbnailUrl\": \"http://localhost:8080/img/shop/products/laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png\",\r\n                                \"modifiedAt\": \"2022-07-27T14:25:10.000+00:00\",\r\n                                \"modifiedBy\": \"haipv\"\r\n                            }\r\n                        ],\r\n                        \"averageRating\": 0,\r\n                        \"totalRating\": 0,\r\n                        \"weight\": 1.5\r\n                    }\r\n                }\r\n            ]\r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/api/ghtk/shipment/order",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"ghtk",
+								"shipment",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "doGetAllStatus",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "2C925D6789957674DcC9121bf419Df1a2F7b0BC3",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/api/ghtk/shipment/v2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"ghtk",
+								"shipment",
+								"v2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "doGetAllAddress",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/api/ghtk/shipment/list_address",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"ghtk",
+								"shipment",
+								"list_address"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "2C925D6789957674DcC9121bf419Df1a2F7b0BC3",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "Token",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Address",
+			"item": [
+				{
+					"name": "Get District",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v0/client/district?provinceId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"client",
+								"district"
+							],
+							"query": [
+								{
+									"key": "provinceId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Province",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v0/client/province",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"client",
+								"province"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ward",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v0/client/ward?provinceId=1&districtId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"client",
+								"ward"
+							],
+							"query": [
+								{
+									"key": "provinceId",
+									"value": "1"
+								},
+								{
+									"key": "districtId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProvinceById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v0/client/province/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v0",
+								"client",
+								"province",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flash Sale",
+			"item": [
+				{
+					"name": "Get All For Datatables",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"draw\": 1,\r\n  \"columns\": [\r\n    {\r\n      \"data\": null,\r\n      \"name\": \"\",\r\n      \"searchable\": false,\r\n      \"orderable\": false,\r\n      \"search\": {\r\n        \"value\": \"\",\r\n        \"regex\": false\r\n      }\r\n    }\r\n  ],\r\n  \"order\": [\r\n    {\r\n      \"column\": 0,\r\n      \"dir\": \"asc\"\r\n    }\r\n  ],\r\n  \"start\": 0,\r\n  \"length\": 1000,\r\n  \"search\": {\r\n    \"value\": \"\",\r\n    \"regex\": false\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/flash-sales/datatables",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"flash-sales",
+								"datatables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Flash Sale",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Flash Sale Of\",\r\n    \"startDate\": \"2022-08-08T16:59:59.000+00:00\",\r\n    \"endDate\": \"2022-08-10T16:59:59.000+00:00\",\r\n    \"actived\": true,\r\n    \"modifiedBy\": \"haipv\",\r\n    \"products\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/flash-sales",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"flash-sales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Flash Sale By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{admin_url}}/flash-sales?id=1",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"flash-sales"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Flash Sale By Id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Flash Sale Of\",\r\n    \"startDate\": \"2022-08-05T16:59:59.000+00:00\",\r\n    \"endDate\": \"2022-08-06T16:59:59.000+00:00\",\r\n    \"actived\": true,\r\n    \"modifiedBy\": \"haipv\",\r\n    \"products\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/flash-sales",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"flash-sales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Products To Flash Sale",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Flash Sale Of\",\r\n    \"startDate\": \"2022-08-05T16:59:59.000+00:00\",\r\n    \"endDate\": \"2022-08-06T16:59:59.000+00:00\",\r\n    \"actived\": true,\r\n    \"modifiedBy\": \"haipv\",\r\n    \"products\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{admin_url}}/flash-sales?productIdToAdd=&productIdToRemove=1",
+							"host": [
+								"{{admin_url}}"
+							],
+							"path": [
+								"flash-sales"
+							],
+							"query": [
+								{
+									"key": "productIdToAdd",
+									"value": ""
+								},
+								{
+									"key": "productIdToRemove",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get Notify",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5oYmQiLCJleHAiOjE2NTk1NjI3MTksImlhdCI6MTY1OTU0NDcxOX0.O1-15UbtBXQyPQOvWhgoKq2MaU3yP6QnuFgCNSqYQ57xvVZ0PybZZs_99jXcz-9JqK9o6BPl7tSOVxI2Z-7N1Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{customerUrl}}/notify/1",
+							"host": [
+								"{{customerUrl}}"
+							],
+							"path": [
+								"notify",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notifications By User Id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "ListByOrderCode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{customerUrl}}/notify/ordercode?orderCode",
+							"host": [
+								"{{customerUrl}}"
+							],
+							"path": [
+								"notify",
+								"ordercode"
+							],
+							"query": [
+								{
+									"key": "orderCode",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "Test Send Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/test/email?to=hoaiminh4321@gmail.com",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"test",
+								"email"
+							],
+							"query": [
+								{
+									"key": "to",
+									"value": "hoaiminh4321@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5obmgiLCJleHAiOjE2NjA2MDY2MDgsImlhdCI6MTY2MDAwMTgwOH0.lxVWvaUN3YQ0gyyfyq75w9NKOtb50zXfGUzL80VL5gWFNsOhXolyWAB_dXuua7AslP0MSY5T-H88-R6tScO-4g",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "admin_url",
+			"value": "http://localhost:8080/v1/api/admin"
+		},
+		{
+			"key": "customerUrl",
+			"value": "http://localhost:8080/v1/api/customer"
+		},
+		{
+			"key": "custumerUrl",
+			"value": "http://localhost:8080/v1/api/customer"
+		},
+		{
+			"key": "url_deyloy",
+			"value": "https://deskover-deloy.herokuapp.com"
+		}
+	]
+}
