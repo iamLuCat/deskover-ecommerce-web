@@ -61,4 +61,21 @@ public class TestApi {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
 		}
 	}
+	@PostMapping("/order/cancel2/{orderCode}")
+	public ResponseEntity<?> doPostCancelOrder2(@PathVariable("orderCode") String orderCode, 
+			@RequestParam("statusOrder") String statusOrder){
+		try {
+			if(statusOrder.equals("C-HUY")){
+				 orderService.cancelOrderByUserAndOrderCode(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Đơn hàng của bạn trạng thái chờ huỷ"));
+			} 
+			if (statusOrder.equals("CANCEL-C-HUY")) {
+				orderService.cancelOrderByUserAndOrderCode(orderCode,statusOrder);
+				return ResponseEntity.ok(new MessageResponse("Cập nhập đơn hàng thành công"));
+			}
+			return ResponseEntity.ok(new MessageResponse("Đơn hàng sai trạng thái"));		
+		} catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+		}
+	}
 }

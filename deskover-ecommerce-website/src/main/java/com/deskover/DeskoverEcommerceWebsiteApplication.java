@@ -34,7 +34,7 @@ public class DeskoverEcommerceWebsiteApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("v1/api/admin/**").allowedOrigins("http://localhost:8080");
+				registry.addMapping("v1/api/admin/**").allowedOrigins("");
 			}
 		};
 	}*/
