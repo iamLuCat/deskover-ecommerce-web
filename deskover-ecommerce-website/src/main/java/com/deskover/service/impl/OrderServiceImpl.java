@@ -305,7 +305,7 @@ public class OrderServiceImpl implements OrderService {
 		
 //          Gửi thông báo cho khách hàng
 			Notification notify = new Notification();
-				notify.setTitle("Đơn hàng " + order.getOrderCode() + status.getStatus().toLowerCase());
+				notify.setTitle("Đơn hàng " + order.getOrderCode() +" "+ status.getStatus().toLowerCase());
 				notify.setUser(order.getUser());
 				notify.setOrderCode(order.getOrderCode());
 				notify.setIsWatched(Boolean.FALSE);
