@@ -48,7 +48,7 @@ public class RegisterController {
 			model.addAttribute("message","Đăng kí thành công, Vui lòng kích hoạt tài khoản bằng email");
 			System.out.println("active" + registered.getVerify());
 		} catch (IllegalArgumentException  e) {
-			System.out.println(e);
+
 			model.addAttribute("message", e.getMessage());
 			return "/register";
 		}
@@ -68,6 +68,7 @@ public class RegisterController {
 	    	return "redirect:/login";
 	    }
 		user.setVerify(true);
+		user.setActived(true);
 		model.addAttribute("message","Xác thực tài khoản thành công");
 		System.out.println("active" + user.getVerify());
 		userRepo.save(user);

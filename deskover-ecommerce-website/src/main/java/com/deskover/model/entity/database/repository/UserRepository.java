@@ -15,6 +15,7 @@ public interface UserRepository extends JpaRepository<Users, Long> {
 	Boolean existsByUsername(String username);
 	Users findByUsernameOrEmailOrPhone(String username, String email, String phone);
 	Users findByEmail(String email);
+	Boolean existsByEmail(String email);
 
 	@Query(value = "{CALL countUsersByRole()}", nativeQuery = true)
 	List<Object> getTotalAccountByRole();
