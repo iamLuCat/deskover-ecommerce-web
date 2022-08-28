@@ -10,10 +10,13 @@ import com.deskover.model.entity.database.repository.datatable.AdminRepoForDatat
 import com.deskover.model.entity.dto.AdminCreateDto;
 import com.deskover.model.entity.dto.AdministratorDto;
 import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
 import com.deskover.other.util.MapperUtil;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminRoleService;
 import com.deskover.service.AdminService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -257,6 +261,15 @@ public class AdminServiceImpl implements AdminService {
         }
         admin.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         admin.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        String sourcePath = PathConstant.TEMP_STATIC + admin.getAvatar();
+        if (FileUtils.getFile(sourcePath).exists()) {
+            String destPath = PathConstant.ADMIN_AVATAR_STATIC + admin.getUsername();
+            File imageFile = FileUtil.copyFile(sourcePath, destPath);
+            admin.setAvatar(imageFile.getName());
+        }
+        FileUtil.removeFolder(PathConstant.TEMP_STATIC);
+
         return repo.save(admin);
     }
 
