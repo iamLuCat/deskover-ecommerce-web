@@ -91,6 +91,23 @@ public class FindOrdersController {
 		return "otp";
 	}
 	
+
+	@PostMapping("reOtp")
+	public String resendotp( Model model) {
+		String phone = sessionService.get("phone");
+		SmsPojoDto sms = new SmsPojoDto();
+		sms.setPhoneNo("+84"+phone.substring(1));
+		try {
+			service.send(sms);
+		} catch (Exception e) {
+			model.addAttribute("msg","Số điện thoại không hợp lệ");
+			return "find"; 
+		}
+		webSocket.convertAndSend(TOPIC_DESTINATION,getTimeStamp() + ": SMS has been sent!:" + sms.getPhoneNo());
+		System.out.println("gửi thành công");
+		return "otp";
+	}
+	
 	private String getTimeStamp() {
 		return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
 	} 

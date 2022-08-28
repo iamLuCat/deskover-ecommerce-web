@@ -68,6 +68,9 @@ public class SendInvoiceController {
 	public String invoice(Model model) {
 		UserAddress entity = new UserAddress();
 		entity = sessionService.get("address");
+		String status = sessionService.get("status");
+		
+		model.addAttribute("status",status);
 		model.addAttribute("address",entity);
 		model.addAttribute("time", DateUtil.FormatDate());
 		

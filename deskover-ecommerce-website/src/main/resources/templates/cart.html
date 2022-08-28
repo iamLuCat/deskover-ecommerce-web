@@ -53,7 +53,7 @@
                         </div>
                         <div class="pt-2 pt-sm-0 ps-sm-3 mx-auto mx-sm-0 text-center text-sm-start" style="max-width: 9rem;">
                             <label class="form-label" for="{{item.slug}}">Số lượng</label>
-                            <input class="form-control" type="number" id="{{item.slug}}" ng-model="item.amount"  >
+                            <input class="form-control" type="number" id="{{item.slug}}" ng-model="item.amount"  min="1">
                             <button class="btn btn-link px-0 text-danger" type="button" ng-click="cart.remove(item)"><i class="ci-close-circle me-2"></i><span class="fs-sm">Xóa</span></button>
                         </div>
                     </div>

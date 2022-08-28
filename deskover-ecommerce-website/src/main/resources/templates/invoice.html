@@ -59,7 +59,7 @@
                             <div><span class="d-block fs-12" >Ngày đặt</span><span class="font-weight-bold" th:text="${time}">22/3/2022 </span></div>
                             <div><span class="d-block fs-12">Số điện thoại</span><span
                                     class="font-weight-bold" th:text="${address.tel}"></span></div>
-                            <div><span class="d-block fs-12">Phương thức thanh toán</span><span class="font-weight-bold">COD - Giao hàng trực tiếp</span><img class="ml-1 mb-1" src="https://i.imgur.com/ZZr3Yqj.png" width="20">
+                            <div><span class="d-block fs-12">Phương thức thanh toán</span><span class="font-weight-bold" th:text="${status}">COD - Giao hàng trực tiếp</span><img class="ml-1 mb-1" src="https://i.imgur.com/ZZr3Yqj.png" width="20">
                             </div>
                             <div><span class="d-block fs-12">Địa chỉ giao hàng</span><span
                                     class="font-weight-bold text-success">VN</span></div>
@@ -87,11 +87,13 @@
                                 <div class="billing">
                                     <div class="d-flex justify-content-between"> <span>Tạm tính</span> <span class="font-weight-bold"> {{cart.total | number}} VNĐ <span ></span></span></div>
                                     <div class="d-flex justify-content-between mt-2"><span>Phí vận chuyển</span><span
-                                            class="font-weight-bold"> {{ship.fee.fee|number}} VNĐ</span></div>
+                                            class="font-weight-bold"> {{fees|number}} VNĐ</span></div>
+                                    <div class="d-flex justify-content-between mt-2"><span>Giảm giá</span><span
+                                    class="font-weight-bold"> - {{cart.sumSale|number}} VNĐ</span></div>
                                     <hr>
                                     <div class="d-flex justify-content-between mt-1"><span
                                             class="font-weight-bold">Tổng cộng</span><span
-                                            class="font-weight-bold text-success" >{{cart.total + ship.fee.fee |number}} <span ></span> </span></div>
+                                            class="font-weight-bold text-success" >{{cart.total + fees - cart.sumSale|number}} <span >VNĐ</span> </span></div>
                                 </div>
                             </div>
                         </div><span class="d-block">Ngày vận chuyển ước tính</span><span
@@ -109,7 +111,7 @@
             </div>
         </div>
     </div>
-    <a href="/send" class = "send" style="visibility: hidden; display:inline;">sendmail</a> 
+    <a href="/send" class = "send" id="button" type="button"  ng-click="cart.removeAlll()" style="visibility: hidden; display:inline;">sendmail</a> 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
@@ -125,8 +127,9 @@
 	    setTimeout(function(){
         	$(function(){
         	    window.location.href = $('.send').attr('href');
+        	    document.getElementById("button").click();
         	});
-	    },20);  
+	    },300);  
         
 	    function saveAs(uri, filename) {
 	        var link = document.createElement('a');

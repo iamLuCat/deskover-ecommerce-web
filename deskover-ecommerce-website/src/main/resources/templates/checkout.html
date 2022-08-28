@@ -65,25 +65,25 @@
 	            <div class="col-sm-6">
 	              <div class="mb-3">
 	                <label class="form-label" for="checkout-zip">Số Nhà</label>
-	                <input class="form-control" type="text" id="checkout-zip" name = "number" ng-model="number" required>
+	                <input class="form-control" type="text" id="checkout-zip" name = "number" ng-model="number" ng-keyup="address()" required>
 	              </div>
 	            </div>
 	          </div>
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-city" >Tỉnh</label>
-	                <select name="province" class="form-select" id="checkout-city" ng-model="form.province" ng-change="change()"  required>
-	                  <option value="">Vui lòng chọn tỉnh</option>
+	                <label class="form-label" for="checkout-city" >Tỉnh / Thành phố</label>
+	                <select name="province" class="form-select" id="checkout-city" ng-model="form.province" ng-change="change(); address()"  required>
+	                  <option value="">Vui lòng chọn Tỉnh / Thành phố</option>
 	                  <option ng-selected="form.province == item.name" ng-repeat="item in province" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
 	            </div>
         	    <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-company">Xã/ Huyện</label>
-	                <select name="district" class="form-select" id="checkout-city" ng-model="form.district" ng-change="change2()"  required>
-	                  <option value="">Vui lòng chọn Xã/Huyện</option>
+	                <label class="form-label" for="checkout-company">Quận / Huyện</label>
+	                <select name="district" class="form-select" id="checkout-city" ng-model="form.district" ng-change="change2(); address()"  required>
+	                  <option value="">Vui lòng chọn Quận/Huyện</option>
 	                  <option name = "district" ng-selected="form.district == item.name" ng-repeat="item in district" ng-value="item.name" >{{item.name}}</option>
 	                </select>
 	              </div>
@@ -92,9 +92,9 @@
 	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="mb-3">
-	                <label class="form-label" for="checkout-company">Đường</label>
+	                <label class="form-label" for="checkout-company">Xã / Phường</label>
 	                <select name="ward" class="form-select" id="checkout-city" ng-model="form.ward" ng-change="address()"  required>
-	                  <option value="">Vui Lòng chọn đường</option>
+	                  <option value="">Vui Lòng chọn Xã / Phường</option>
 	                  <option name = "ward" ng-selected="form.ward == item.name" ng-repeat="item in ward" ng-value="item.name">{{item.name}}</option>
 	                </select>
 	              </div>
@@ -126,45 +126,30 @@
               <ul class="list-unstyled fs-sm pb-2 border-bottom">
                 <li class="d-flex justify-content-between align-items-center"><span class="me-2">Tạm tính:</span><span class="text-end">{{cart.total|number}}<small> VNĐ </small></span></li>
                 <li class="d-flex justify-content-between align-items-center"><span class="me-2">Phí Ship:</span><span class="text-end">{{ship.fee.fee|number}} <small> VNĐ </small> </span></li>
-                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Giảm giá:</span><span class="text-end">0 <small> VNĐ </small></span></li>
+                <li class="d-flex justify-content-between align-items-center"><span class="me-2">Giảm giá:</span><span class="text-end">- {{cart.sumSale|number}} <small> VNĐ </small></span></li>
               </ul>
               <h3  class="fw-normal text-center my-4"> <input type="hidden" readonly style="border: none; outline: none; text-align: center; " th:object="${Total}" name = "Total" value="{{cart.total + ship.fee.fee}}"></h3>
-              <h3  class="fw-normal text-center my-4"> {{cart.total + ship.fee.fee |number}}<small>VNĐ</small></h3>
-              <form class="needs-validation" method="post" novalidate>
-                <div class="mb-3">
-                  <input class="form-control" type="text" placeholder="Promo code" >
-                  <div class="invalid-feedback">Nhập mã giảm giá nếu có.</div>
-                </div>
-                <button class="btn btn-outline-primary d-block w-100" type="submit">Áp dụng promo code</button> <br>
-              </form>
+              <h3  class="fw-normal text-center my-4"> {{cart.total + ship.fee.fee - cart.sumSale |number}}<small>VNĐ</small></h3>
+              <form></form>
               </div>
-              <button  class="btn btn-primary btn-shadow d-block w-100 mt-4"><i class="fs-lg me-2"></i>Đặt hàng <i class="ci-arrow-right mt-sm-0 ms-1"></i></button>
+              <button  class="btn btn-primary btn-shadow d-block w-100 mt-4" ng-hide="display === 2"><i class="fs-lg me-2"></i>Đặt hàng <i class="ci-arrow-right mt-sm-0 ms-1"></i></button>
             </div>
          </aside>
-	      <div class="container pb-5 mb-2 mb-md-4">
-	      <div class="row">
-	      <span >
+	     <div class="container pb-5 mb-2 mb-md-4">
+	     <div class="row">
+	     <div>
 		  	  <div class="form-check">
 				  <input ng-disabled="checked" class="form-check-input"  type="checkbox" ng-change="checkbox()" ng-model="check" value="" id="flexCheckIndeterminate">
-					  <label class="form-check-label" for="flexCheckIndeterminate">
-					    Giao hàng miễn phí trong nội thành TPHCM của Deskover
-					  </label>
+					  <label class="form-check-label" for="flexCheckIndeterminate"> Giao hàng miễn phí trong nội thành TPHCM của Deskover </label>
 		  	  </div>
-		  </span>
-	      
-	      <div ng-app="app" ng-init="display = 1" >
+		 </div>
+	     <div ng-app="app" ng-init="display = 1" >
 			  <input  class="inptFileRadio form-check-input" id="flexRadioDefault1" type="radio" name="test" ng-model="display" ng-value="1">   
-			  <label class="form-check-label" for="flexRadioDefault1">
-					Thanh toán bằng phương thức COD
-			  </label>  <br>
+			  <label class="form-check-label" for="flexRadioDefault1"> Thanh toán bằng phương thức COD </label>  <br>
 			  <input  class="inptFileRadio form-check-input" type="radio" name="test" id="flexRadioDefault2" ng-model="display" ng-value="2">
-			  <label class="form-check-label" for="flexRadioDefault2">
-					Thanh toán bằng thẻ ATM
-			  </label>
-		  </div>
-	  
-		  <section class="col-lg-8" ng-show="display === 2">
-
+			  <label class="form-check-label" for="flexRadioDefault2"> Thanh toán bằng thẻ ATM </label>
+		 </div>
+		 <section class="col-lg-8" ng-show="display === 2">
 		      <div class="accordion mb-2 "  id="payment-method">
 		      <div class="accordion-item ">
 		        <h3 class="accordion-header"><a class="accordion-button" href="#card" data-bs-toggle="collapse"><i class="ci-card fs-lg me-2 mt-n1 align-middle"></i>Thanh toán Qua VNPay </a></h3>
@@ -172,56 +157,56 @@
 		          <div class="accordion-body">
 		            <p class="fs-sm">Thanh toán bằng credit card hoặc những thẻ sau:&nbsp;&nbsp;<img class="d-inline-block align-middle" src="img/cards.png" width="187" alt="Cerdit Cards"></p>
 		            <div class="credit-card-wrapper"></div>
-		           <form action="/vnpayajax" id="frmCreateOrder" method="post">        
-		            <div class="form-group">
-		                <label for="amount" class="form-label">Tổng số tiền cần thanh toán</label>
-		                <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="100000000" min="1" name="amount" type="number" value="{{cart.total + ship.fee.fee}}" />
-		            </div>
-		            <div class="form-group">
-		                <label class="form-label" for="OrderDescription">Nội dung thanh toán</label>
-		                <textarea class="form-control" cols="20" id="vnp_OrderInfo" name="vnp_OrderInfo" rows="2" placeholder="Nhập nội dung cho đơn hàng của bạn"></textarea>
-		            </div>
-		            <div class="form-group">
-		                <label class="form-label" for="bankcode">Ngân hàng</label>
-		                <select name="bankcode" id="bankcode" class="form-control">
-		                    <option value="">Không chọn </option>
-		                    <option value="VNPAYQR">VNPAYQR</option>
-		                    <option value="MBAPP">MBAPP</option>
-		                    <option value= "INTCARD">INTCARD</option>
-		                    <option value= "VNBANK">VNBANK</option>
-		                    <option value= "VNPAYEWALLET">VNPAYEWALLET</option> 
-		                    <option value="NCB">  	Ngan hang NCB</option>
-		                    <option value="SACOMBANK">Ngan hang SacomBank  </option>
-		                    <option value="EXIMBANK"> 	Ngan hang EximBank </option>
-		                    <option value="MSBANK"> 	Ngan hang MSBANK </option>
-		                    <option value="NAMABANK"> 	Ngan hang NamABank </option>
-		                    <option value="VISA">  	Thanh toan qua VISA/MASTER</option>
-		                    <option value="VNMART">  	Vi dien tu VnMart</option>
-		                    <option value="VIETINBANK">Ngan hang Vietinbank  </option>
-		                    <option value="VIETCOMBANK"> 	Ngan hang VCB </option>
-		                    <option value="HDBANK">Ngan hang HDBank</option>
-		                    <option value="DONGABANK">  	Ngan hang Dong A</option>
-		                    <option value="TPBANK"> 	Ngân hàng TPBank </option>
-		                    <option value="OJB">  	Ngân hàng OceanBank</option>
-		                    <option value="BIDV"> Ngân hàng BIDV </option>
-		                    <option value="TECHCOMBANK"> 	Ngân hàng Techcombank </option>
-		                    <option value="VPBANK"> 	Ngan hang VPBank </option>
-		                    <option value="AGRIBANK"> 	Ngan hang Agribank </option>
-		                    <option value="MBBANK"> 	Ngan hang MBBank </option>
-		                    <option value="ACB"> Ngan hang ACB </option>
-		                    <option value="OCB"> Ngan hang OCB </option>
-		                </select> 
-		            </div> <br>
-		            <button type="submit" class="btn btn-default  btn btn-outline-primary d-block w-100 mt-0" ng-click = "checkout()">Pay on wallet</button>
-		       	  </form>  
+		            <form action="/vnpayajax" id="frmCreateOrder" method="post">        
+			            <div class="form-group">
+			                <label for="amount" class="form-label">Tổng số tiền cần thanh toán</label>
+			                <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="100000000" min="1" name="amount" type="number" value="{{cart.total + ship.fee.fee - cart.sumSale}}" readonly />
+			            </div>
+			            <div class="form-group">
+			                <label class="form-label" for="OrderDescription">Nội dung thanh toán</label>
+			                <textarea class="form-control" cols="20" id="vnp_OrderInfo" name="vnp_OrderInfo" rows="2" placeholder="Nhập nội dung cho đơn hàng của bạn"></textarea>
+			            </div>
+			            <div class="form-group">
+			                <label class="form-label" for="bankcode">Ngân hàng</label>
+			                <select name="bankcode" id="bankcode" class="form-control">
+			                    <option value="">Không chọn </option>
+			                    <option value="VNPAYQR">VNPAYQR</option>
+			                    <option value="MBAPP">MBAPP</option>
+			                    <option value= "INTCARD">INTCARD</option>
+			                    <option value= "VNBANK">VNBANK</option>
+			                    <option value= "VNPAYEWALLET">VNPAYEWALLET</option> 
+			                    <option value="NCB">  	Ngan hang NCB</option>
+			                    <option value="SACOMBANK">Ngan hang SacomBank  </option>
+			                    <option value="EXIMBANK"> 	Ngan hang EximBank </option>
+			                    <option value="MSBANK"> 	Ngan hang MSBANK </option>
+			                    <option value="NAMABANK"> 	Ngan hang NamABank </option>
+			                    <option value="VISA">  	Thanh toan qua VISA/MASTER</option>
+			                    <option value="VNMART">  	Vi dien tu VnMart</option>
+			                    <option value="VIETINBANK">Ngan hang Vietinbank  </option>
+			                    <option value="VIETCOMBANK"> 	Ngan hang VCB </option>
+			                    <option value="HDBANK">Ngan hang HDBank</option>
+			                    <option value="DONGABANK">  	Ngan hang Dong A</option>
+			                    <option value="TPBANK"> 	Ngân hàng TPBank </option>
+			                    <option value="OJB">  	Ngân hàng OceanBank</option>
+			                    <option value="BIDV"> Ngân hàng BIDV </option>
+			                    <option value="TECHCOMBANK"> 	Ngân hàng Techcombank </option>
+			                    <option value="VPBANK"> 	Ngan hang VPBank </option>
+			                    <option value="AGRIBANK"> 	Ngan hang Agribank </option>
+			                    <option value="MBBANK"> 	Ngan hang MBBank </option>
+			                    <option value="ACB"> Ngan hang ACB </option>
+			                    <option value="OCB"> Ngan hang OCB </option>
+			                </select> 
+			            </div> <br>
+			            <button type="submit" class="btn btn-default  btn btn-outline-primary d-block w-100 mt-0" ng-click = "checkout()">Đặt hàng</button>
+		       	   </form>  
 		          </div>
 		        </div>
 		      </div>
 		      </div>   
-		  </section>
-		  </div>
-		  </div>
-         </div>
+		 </section>
+		 </div>
+		 </div>
+        </div>
       </div>
       </form>
       <!-- Navigation (mobile)-->
@@ -234,12 +219,10 @@
         </div>
       </div>
     </div>
-
-		<div id="handheld" th:remove="tag">
-			<!-- Toolbar for handheld devices (Default)-->
-			<div th:replace="components/handhelds/normal.html :: handheld"></div>
-		</div>
-
+	<div id="handheld" th:remove="tag">
+		<!-- Toolbar for handheld devices (Default)-->
+		<div th:replace="components/handhelds/normal.html :: handheld"></div>
+	</div>
 </body>
 </html>
 <script src="/assets/main.js"></script>

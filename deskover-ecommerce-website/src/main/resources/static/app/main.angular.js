@@ -342,6 +342,9 @@ angular
           }, function errorCallback(resp) {
           });
       },
+      removeAlll() {
+        $localStorage.items = []
+      },
       valid: {
         amount(a) {
           if (!a.item.amount) a.item.amount = 1;
@@ -379,7 +382,7 @@ angular
         "deliver_option" : "xteam",
  		"address" : ""
 	}
-
+	$scope.fees = $localStorage.ship.fee.fee;
 	$scope.change2 = function(){
 	    var item = angular.copy($scope.form);
 	    var url = `${host}/v1/api/ghtk/fee`;
@@ -390,6 +393,8 @@ angular
 	    $http.post(url, item).then(resp => {
 		    $localStorage.ship = resp.data;
 			$scope.ship = resp.data;
+			console.log($scope.fees);
+		
 	    }).catch(error => {
 	        console.log("Error",error)
 	    });
@@ -397,10 +402,14 @@ angular
         	$scope.ward = resp.data;
 	    }).catch(error => { })
     }
+    $scope.number = null;
     $scope.address = function(){
-    	address ="Tỉnh: "+ $scope.form.province+", Xã: " + $scope.form.district +", Đường: "+$scope.form.ward + ", Số nhà: " + $scope.number + " , Việt Nam";
-    	$scope.address.address = address;
-    	$scope.form.address = address;
+		$scope.address.address = "";
+		if($scope.number != null && $scope.form.ward != null && $scope.form.district != null && $scope.form.province != null){
+	    	address ="Số nhà: " + $scope.number + ", Xã: "+$scope.form.ward +", Huyện: " + $scope.form.district  + ", Tỉnh: "+ $scope.form.province+  " , Việt Nam";
+		    $scope.address.address = address;
+	    	$scope.form.address = address;
+    	}
     }
     $http.get(`${host}/v0/client/province`).then(resp => {
       $scope.province = resp.data;
@@ -413,9 +422,12 @@ angular
 		else
 			$scope.ship = $localStorage.ship
 	}
+	$scope.address.address = "";
     $scope.ship = { "fee": { "fee": 0 }}
 	$scope.checked = true;
+
 	$scope.change = function () {
+	  $scope.address.address = null;
       var newTemp = $filter("filter")($scope.province, { name: $scope.form.province });
       var id = newTemp[0].id;
       var url = `http://localhost:8080/v0/client/district?provinceId=${id}`;
@@ -455,9 +467,8 @@ angular
 		var item = {
 		    "items" : $localStorage.items,
 		    "entity": $scope.form,
-	        "total" : $scope.cart.total + $scope.ship.fee.fee
+	        "total" : $scope.cart.total + $scope.ship.fee.fee - $scope.cart.sumSale
 		};
-
 		$http.post(url,item).then(resp => {
 			console.log("success");
 		}).catch(error => { })
