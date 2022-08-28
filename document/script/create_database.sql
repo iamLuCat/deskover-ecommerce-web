@@ -5880,43 +5880,43 @@ VALUES
 INSERT INTO `order_detail` 
 VALUES 
   (
-    1, 1, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    1, 1, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    2, 2, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    2, 2, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    3, 3, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    3, 3, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    4, 4, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    4, 4, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    5, 5, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    5, 5, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    6, 6, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    6, 6, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
-    7, 7, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    7, 7, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
-    8, 8, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    8, 8, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
-    9, 9, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    9, 9, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
-    10, 10, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    10, 10, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
