@@ -116,6 +116,9 @@ public class UserServiceImpl implements UserService {
 		if(repo.existsByUsername(userRequest.getUsername())) {
 			throw new IllegalArgumentException("Username này đã tồn tại vui lòng nhập username khác");
 		}
+		if(repo.existsByEmail(userRequest.getEmail())) {
+			throw new IllegalArgumentException("Email đã tồn tại");
+		}
 		if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
 			throw new IllegalArgumentException("Mật khẩu xác nhận không khớp");
 		}else {

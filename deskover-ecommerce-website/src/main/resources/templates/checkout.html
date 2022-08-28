@@ -132,6 +132,7 @@
                 <li class="d-flex justify-content-between align-items-center"><span class="me-2">Giảm giá:</span><span class="text-end">- {{cart.sumSale|number}} <small> VNĐ </small></span></li>
               </ul>
               <h3  class="fw-normal text-center my-4"> <input type="hidden" readonly style="border: none; outline: none; text-align: center; " th:object="${Total}" name = "Total" value="{{cart.total + ship.fee.fee}}"></h3>
+              <h4  class=" mb-3 pb-1 text-center  mb-4 pb-3 ">Tổng tiền thanh toán:</h2>
               <h3  class="fw-normal text-center my-4"> {{cart.total + ship.fee.fee - cart.sumSale |number}}<small>VNĐ</small></h3>
               <form></form>
               </div>

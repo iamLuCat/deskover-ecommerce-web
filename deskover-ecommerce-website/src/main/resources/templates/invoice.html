@@ -123,13 +123,13 @@
                     return  saveAs(canvas.toDataURL(), 'invoice.png');
                 }
 	        });
-	    },10);
+	    },50);
 	    setTimeout(function(){
         	$(function(){
         	    window.location.href = $('.send').attr('href');
         	    document.getElementById("button").click();
         	});
-	    },300);  
+	    },100);  
         
 	    function saveAs(uri, filename) {
 	        var link = document.createElement('a');
