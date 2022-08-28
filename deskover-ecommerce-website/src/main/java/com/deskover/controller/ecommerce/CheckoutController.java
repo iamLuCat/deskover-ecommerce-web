@@ -1,6 +1,5 @@
 package com.deskover.controller.ecommerce;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +46,12 @@ public class CheckoutController {
 	public String checkoutOk(Model model ,@ModelAttribute("addressForm") @Valid UserAddress entity, Errors errors, @ModelAttribute("Total") String total ) {
 		ArrayList<ProductDto> items =  sessionService.get("items");
 		checkoutService.saveOrder(entity,total, items);
+
 		return "redirect:/invoice";
 	}
 	
-
+	@PostMapping("/invoice")
+	public String checkoutvnPayOk( ) {
+		return "redirect:/invoice";
+	}
 }

@@ -30,6 +30,9 @@
                                 <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" th:href="@{/user/logout}" sec:authorize="isAuthenticated()">
                                         <i class="ci-sign-out me-2"></i>Đăng xuất
                                 </a>
+                                <a class="topbar-link ms-3 border-start border-light ps-3 d-none d-md-inline-block" sec:authorize="!isAuthenticated()" href="/find">
+                                        <i class="ci-bag mt-n1"></i>Tra cứu đơn hàng
+                                </a>
                         </div>
                 </div>
         </div>

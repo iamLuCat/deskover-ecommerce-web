@@ -101,6 +101,9 @@
                         %></label>
                 </div> 
             </div>
+            <form action="/invoice" method = "post">
+	        	<button>Hoàn tất đơn hàng</button>
+	        </form>
             <p>
                 &nbsp;
             </p>

@@ -1,4 +1,4 @@
-package com.deskover.controller.rest.api;
+package com.deskover.controller.rest.api.ecommerce;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class CheckoutApi {
 	        return ResponseEntity.badRequest().body(errors);
 		}
     	try { 
-        	checkoutService.saveOrder(items.getEntity(),items.getTotal(),items.getItems());
+        	checkoutService.saveOrderPay(items.getEntity(),items.getTotal(),items.getItems());
             return ResponseEntity.ok("ok");
         } catch (Exception e) {
         	throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);

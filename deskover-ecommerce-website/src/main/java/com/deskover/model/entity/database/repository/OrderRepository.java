@@ -86,4 +86,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	
 	@Query(value = "SELECT o FROM Order o WHERE o.user.username = ?1 AND o.orderCode = ?2", nativeQuery = false)
 	Order findOrderByUsernameAndID(String username, String id);
+	
+	@Query(value = "SELECT o FROM Order o WHERE o.orderCode = ?1", nativeQuery = false)
+	Order findOrderByID(String id);
 }

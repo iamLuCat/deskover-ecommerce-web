@@ -35,10 +35,9 @@
         </div>
         <div class="container pb-5 mb-2 mb-md-4" ng-controller="accCtrl" ng-init="order.loadDatabase()">
             <div class="row">
-                <!-- Sidebar-->
-                <aside th:replace="components/user_sidebar.html :: component"></aside>
+
                 <!-- Content  -->
-                <section class="col-lg-8">
+                <section class="col-lg-12">
                     <!-- Toolbar-->
                     <div class="d-flex justify-content-between align-items-center pt-lg-2 pb-4 pb-lg-5 mb-lg-3">
                         <div class="d-flex align-items-center">
@@ -63,15 +62,15 @@
                             <tbody>
                               <tbody th:each="order:  ${orders}">
                                 <tr>
-                                    <td class="py-3"><a class="nav-link-style fw-medium fs-sm" href="#order-details" data-bs-toggle="modal" th:text="${order.orderCode}">34VB5540K83</a></td>
-                                    <td class="py-3" th:text="${order.createdAt}">May 21, 2019</td>
-                                    <td class="py-3">
-                                    	<div th:if="${order.orderStatus.Id == 1}"><span class="badge bg-info m-0">In Progress</span></div>
-                                    	<div th:if="${order.orderStatus.Id == 8}"><span class="badge bg-danger m-0">Wait Cancel</span></div>
+                                    <td class="py-3" th:attr="ng-click='order.details(\''+${order.orderCode}+'\');'"><a class="nav-link-style fw-medium fs-sm" href="#order-details" data-bs-toggle="modal" th:text="${order.orderCode}">34VB5540K83</a></td>
+                                    <td class="py-3" th:attr="ng-click='order.details(\''+${order.orderCode}+'\');'" th:text="${order.createdAt}">May 21, 2019</td>
+                                    <td class="py-3" th:attr="ng-click='order.details(\''+${order.orderCode}+'\');'" >
+                                    	<div th:attr="ng-click='order.details(\''+${order.orderCode}+'\');'" th:if="${order.orderStatus.Id == 1}"><span class="badge bg-info m-0">Chờ xác nhận</span></div>
+                                    	<div th:attr="ng-click='order.details(\''+${order.orderCode}+'\');'" th:if="${order.orderStatus.Id == 8}"><span class="badge bg-danger m-0">Yêu cầu hủy</span></div>
                                     	
                                     	
                                     </td>
-                                    <td class="py-3"><span th:text="${#numbers.formatInteger(order.UnitPrice,3,'POINT')}"></span> VNĐ</td>
+                                    <td class="py-3" th:attr="ng-click='order.details(\''+${order.orderCode}+'\');'"><span th:text="${#numbers.formatInteger(order.UnitPrice,3,'POINT')}"></span> VNĐ</td>
                                 	<td> <button type="button" class="btn btn-info" th:attr="ng-click='cancel(\''+${order.orderCode}+'\');'" >Hủy đơn hàng</button> </td>
                                 </tr>
                             </tbody>
