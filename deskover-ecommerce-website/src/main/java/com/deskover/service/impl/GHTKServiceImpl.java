@@ -1,16 +1,5 @@
 package com.deskover.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-
 import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.database.repository.OrderRepository;
 import com.deskover.model.entity.extend.ghtk.FeeGhtk;
@@ -24,6 +13,16 @@ import com.deskover.other.constant.UrlConstant;
 import com.deskover.other.util.MapperUtil;
 import com.deskover.service.GHTKService;
 import com.deskover.service.OrderStatusService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class GHTKServiceImpl implements GHTKService {
@@ -59,8 +58,8 @@ public class GHTKServiceImpl implements GHTKService {
 			orderGhtk.setPick_district("Quận 3");
 			orderGhtk.setPick_ward("Phường 1");
 			orderGhtk.setPick_tel("0911222333");
-			orderGhtk.setPick_money(order.getUnitPrice().intValue() > 19500000 ? 19500000 : order.getUnitPrice().intValue());
-			orderGhtk.setValue(order.getUnitPrice().intValue() > 19500000 ? 19500000 : order.getUnitPrice().intValue());
+			orderGhtk.setPick_money(Math.min(order.getUnitPrice().intValue(), 19500000));
+			orderGhtk.setValue(Math.min(order.getUnitPrice().intValue(), 19500000));
 			orderGhtk.setHamlet("Khác");
 			orderGhtk.setName(order.getFullName());
 		
@@ -76,7 +75,8 @@ public class GHTKServiceImpl implements GHTKService {
 		HttpEntity<OrderResponseData> request = new HttpEntity<>(orderResponseData, headers);
 		OrderShippingRequest response = restTemplate.postForObject(UrlConstant.GHTK_ORDER, request, OrderShippingRequest.class);
 		Order orderRepo = orderRepository.getById(order.getId());
-			orderRepo.setLabel(response.getOrder().getLabel());
+		assert response != null;
+		orderRepo.setLabel(response.getOrder().getLabel());
 			orderRepo.setFee(response.getOrder().getFee());
 			orderRepo.setEstimated_pick_time(response.getOrder().getEstimated_pick_time());
 			orderRepo.setEstimated_deliver_time(response.getOrder().getEstimated_deliver_time());

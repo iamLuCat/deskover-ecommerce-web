@@ -1,7 +1,11 @@
 package com.deskover.configuration.security;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
+import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
+import com.deskover.other.util.JwtTokenUtil;
+import com.deskover.service.filter.jwt.JwtApplicationFilter;
+import com.deskover.service.filter.jwt.JwtDashboardFilter;
+import com.deskover.service.jwt.AdminDetailsService;
+import com.deskover.service.jwt.UsersDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -21,13 +25,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
-import com.deskover.other.util.JwtTokenUtil;
-import com.deskover.service.filter.jwt.JwtApplicationFilter;
-import com.deskover.service.filter.jwt.JwtDashboardFilter;
-import com.deskover.service.jwt.AdminDetailsService;
-import com.deskover.service.jwt.UsersDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -92,8 +89,7 @@ public class Config extends WebSecurityConfigurerAdapter {
                 	.exceptionHandling()
                 	.defaultAuthenticationEntryPointFor(jwtAuthenticationEntryPoint,new AntPathRequestMatcher("/v1/api/admin/**"))
             .and().httpBasic()
-            .and().sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         }
 	}
 
