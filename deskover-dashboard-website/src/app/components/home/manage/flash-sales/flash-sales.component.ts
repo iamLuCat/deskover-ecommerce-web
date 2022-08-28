@@ -44,7 +44,6 @@ export class FlashSalesComponent implements OnInit, AfterViewInit {
 
   public bsConfig?: Partial<BsDatepickerConfig>;
   public flashSaleDateRange: Date[] = [new Date(), new Date()];
-  public bsInlineRangeValue: Date[] = [new Date(), new Date()];
 
   @ViewChild('flashSaleModal') flashSaleModal: ModalDirective;
   @ViewChild('flashSaleForm') flashSaleForm: FormControlDirective;
@@ -262,12 +261,16 @@ export class FlashSalesComponent implements OnInit, AfterViewInit {
   public flashSaleActiveToggle(flashSale: FlashSale) {
     let message = !flashSale.actived ? 'Flash Sale sẽ được kích hoạt' : 'Flash Sale sẽ bị vô hiệu hoá';
 
-    NotiflixUtils.showConfirm('Xác nhận', message, () => {
-      this.flashSaleService.statusToggle(flashSale.id).subscribe(data => {
-        NotiflixUtils.successNotify('Đổi trạng thái thành công');
-        this.rerenderFlashSaleTable();
+    if(this.isExpired(flashSale.endDate)) {
+      NotiflixUtils.failureNotify('Flash Sale đã hết hạn! Vui lòng cập nhật lại thời gian diễn ra');
+    } else {
+      NotiflixUtils.showConfirm('Xác nhận', message, () => {
+        this.flashSaleService.statusToggle(flashSale.id).subscribe(data => {
+          NotiflixUtils.successNotify('Đổi trạng thái thành công');
+          this.rerenderFlashSaleTable();
+        });
       });
-    });
+    }
   }
 
   public isExpired(endDate: Date): boolean {

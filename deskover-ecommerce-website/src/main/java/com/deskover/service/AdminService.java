@@ -46,4 +46,6 @@ public interface AdminService {
     DataTablesOutput<Administrator> getByActiveForDatatables(DataTablesInput input, Boolean isActive, Long roleId);
 
     void updateLastLogin(String username);
+
+    void changePassword(String currentPassword, String newPassword);
 }

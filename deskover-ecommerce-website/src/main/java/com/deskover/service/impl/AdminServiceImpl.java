@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -271,6 +272,23 @@ public class AdminServiceImpl implements AdminService {
         FileUtil.removeFolder(PathConstant.TEMP_STATIC);
 
         return repo.save(admin);
+    }
+
+    @Override
+    public void changePassword(String currentPassword, String newPassword) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            String username = authentication.getName();
+            Administrator admin = repo.findByUsername(username);
+            if (admin != null) {
+                if (passwordEncoder.matches(currentPassword, admin.getPassword())) {
+                    admin.setPassword(passwordEncoder.encode(newPassword));
+                    repo.saveAndFlush(admin);
+                } else {
+                    throw new IllegalArgumentException("Mật khẩu hiện tại không đúng");
+                }
+            }
+        }
     }
 
 }

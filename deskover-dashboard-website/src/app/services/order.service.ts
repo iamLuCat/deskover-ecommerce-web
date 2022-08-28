@@ -35,6 +35,10 @@ export class OrderService {
     return this.restApi.get(this.orderUrl + '/' + id);
   }
 
+  countByStatus(status: string): Observable<number> {
+    return this.restApi.get(this.orderUrl + '/count-by-status/' + status);
+  }
+
   changeOrderStatus(orderCode: string): Observable<Order> {
     return this.restApi.post(this.orderUrl + '/change-status-code/' + orderCode);
   }

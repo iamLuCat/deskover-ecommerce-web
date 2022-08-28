@@ -45,7 +45,7 @@
               <th class="align-middle">Ảnh</th>
               <th class="align-middle">Tên</th>
               <th class="align-middle">Slug</th>
-              <th class="align-middle">Mô tả</th>
+              <!--<th class="align-middle">Mô tả</th>-->
               <th class="align-middle text-center">Ngày cập nhật</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
               <th class="align-middle text-end"></th>
@@ -55,7 +55,7 @@
             <tr class="table-light" *ngFor="let category of categories; let i = index">
               <td class="align-middle">
                 <div class="frame frame-50 img-thumbnail">
-                  <img [src]="getSrc(category.img)" alt=" " class="img-fluid">
+                  <img [src]="getSrc(category.img)" class="img-fluid" alt=" ">
                 </div>
               </td>
               <td class="align-middle">
@@ -64,9 +64,9 @@
               <td class="align-middle">
                 {{ category.slug }}
               </td>
-              <td class="align-middle">
+              <!--<td class="align-middle">
                 {{ category.description }}
-              </td>
+              </td>-->
               <td class="align-middle text-center">
                 {{ category.modifiedAt | date: 'dd/MM/yyyy' }}
               </td>

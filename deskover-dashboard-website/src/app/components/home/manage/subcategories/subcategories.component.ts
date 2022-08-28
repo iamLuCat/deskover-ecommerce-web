@@ -9,7 +9,7 @@ import {Category} from "@/entites/category";
 import {ModalDirective} from "ngx-bootstrap/modal";
 import {FormControlDirective} from "@angular/forms";
 import {UploadService} from "@services/upload.service";
-import {environment} from "../../../../../../environments/environment";
+import {environment} from "../../../../../environments/environment";
 import {PermissionContants} from "@/constants/permission-contants";
 import {AuthService} from "@services/auth.service";
 
@@ -70,7 +70,7 @@ export class SubcategoriesComponent implements OnInit {
         {data: 'imgUrl', orderable: false, searchable: false},
         {data: 'name'},
         {data: 'slug'},
-        {data: 'description'},
+        /*{data: 'description'},*/
         {data: 'category.name'},
         {data: 'modifiedAt'},
         {data: 'modifiedBy'},
