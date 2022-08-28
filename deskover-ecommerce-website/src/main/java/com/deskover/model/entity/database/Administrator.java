@@ -39,6 +39,9 @@ public class Administrator implements Serializable {
     @Column(name = "avatar", length = 128)
     private String avatar;
 
+    @Column(name = "email", nullable = false, length = 128)
+    private String email;
+
     @Column(name = "last_login")
     private Timestamp lastLogin;
 
