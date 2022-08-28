@@ -91,7 +91,6 @@
               [data]="productSoldByCategoryChartData"
               [options]="horizontalBarChartOptions"
               [plugins]="barChartPlugins"
-              [legend]="barChartLegend"
               [type]="'bar'"
             >
             </canvas>
@@ -111,24 +110,25 @@
               [data]="topProductSoldChartData"
               [options]="horizontalBarChartOptions"
               [plugins]="barChartPlugins"
-              [legend]="barChartLegend"
               [type]="'bar'"
             >
             </canvas>
           </div>
         </div>
       </div>
-      <div class="col-12">
+      <div class="col-12 col-md-6">
         <div class="card">
-          <div class="card-header row g-2 align-items-center">
-            <span class="fs-6 col">Thống kê doanh thu theo năm</span>
-            <div class="col-auto">
-              <label [for]="'years'" class="form-check-label">Năm</label>
-            </div>
-            <div class="col-auto me-2">
-              <select class="form-select form-select-sm" id="years" [(ngModel)]="year" (change)="changeYear()">
-                <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
-              </select>
+          <div class="card-header">
+            <div class="row g-2 align-items-center">
+              <span class="fs-6 col">Thống kê doanh thu theo năm</span>
+              <div class="col-auto">
+                <label [for]="'years'" class="form-check-label">Năm</label>
+              </div>
+              <div class="col-auto me-2">
+                <select class="form-select form-select-sm" id="years" [(ngModel)]="year" (change)="changeYear()">
+                  <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
+                </select>
+              </div>
             </div>
           </div>
           <div class="card-body">
@@ -137,7 +137,25 @@
               [data]="salesByOrderChartData"
               [options]="barChartOptions"
               [plugins]="barChartPlugins"
-              [legend]="barChartLegend"
+              [type]="'bar'"
+            >
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="card ">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="fs-6">Thống kê người dùng và nhân viên</span>
+            </div>
+          </div>
+          <div class="card-body d-flex align-items-center">
+            <canvas
+              baseChart #countAccountsByRole
+              [data]="totalAccountsByRoleChartData"
+              [options]="horizontalBarChartOptions"
+              [plugins]="barChartPlugins"
               [type]="'bar'"
             >
             </canvas>

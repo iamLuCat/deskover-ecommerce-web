@@ -6,7 +6,7 @@ import {NonAuthGuard} from '@guards/non-auth.guard';
 import {DashboardComponent} from "@components/home/dashboard/dashboard.component";
 import {ProfileComponent} from "@components/home/profile/profile.component";
 import {CategoriesComponent} from "@components/home/manage/categories/categories.component";
-import {SubcategoriesComponent} from "@components/home/manage/categories/subcategories/subcategories.component";
+import {SubcategoriesComponent} from "@components/home/manage/subcategories/subcategories.component";
 import {BrandsComponent} from "@components/home/manage/brands/brands.component";
 import {PromotionsComponent} from "@components/home/manage/promotions/promotions.component";
 import {ProductsComponent} from "@components/home/manage/products/products.component";

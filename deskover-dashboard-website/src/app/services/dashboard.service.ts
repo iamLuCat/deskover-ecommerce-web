@@ -32,4 +32,8 @@ export class DashboardService {
       .set('year', year.toString());
     return this.restApiService.get(this.url + '/total-order-revenue', params);
   }
+
+  totalAccountsByRole(): Observable<any> {
+    return this.restApiService.get(this.url + '/account-report');
+  }
 }

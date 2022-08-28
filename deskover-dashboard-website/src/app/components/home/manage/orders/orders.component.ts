@@ -10,6 +10,7 @@ import {AuthService} from "@services/auth.service";
 import {PermissionContants} from "@/constants/permission-contants";
 import {ActivatedRoute} from "@angular/router";
 import {OrderContants} from "@/constants/order-contants";
+import {lastValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-orders',
@@ -22,6 +23,10 @@ export class OrdersComponent implements OnInit {
 
   orderStatuses: OrderStatus[];
   orderStatusCode: string = null;
+
+  numberOfPendingConfirmOrder: number = 0;
+  numberOfCanceledOrder: number = 0;
+  numberOfPendingCancelOrder: number = 0;
 
   dtOptions: any = {};
 
@@ -39,6 +44,7 @@ export class OrdersComponent implements OnInit {
   ) {
     this.orderStatusCode = this.router.snapshot.params['statusCode'] || null;
     this.getOrderStatuses();
+    this.countOrderByStatus();
   }
 
   ngOnInit(): void {
@@ -76,6 +82,12 @@ export class OrdersComponent implements OnInit {
       ],
       order: [[6, 'asc']],
     }
+  }
+
+  async countOrderByStatus() {
+    this.numberOfPendingConfirmOrder = await lastValueFrom(this.orderService.countByStatus("C-XN"));
+    this.numberOfPendingCancelOrder = await lastValueFrom(this.orderService.countByStatus("C-HUY"));
+    this.numberOfCanceledOrder = await lastValueFrom(this.orderService.countByStatus("HUY"));
   }
 
   openModal(template: TemplateRef<any>) {
@@ -160,16 +172,25 @@ export class OrdersComponent implements OnInit {
   }
 
 
-  isPendingConfirm(order: Order) {
-    return order.orderStatus?.code === 'C-XN';
+  isPendingConfirmOrder(order: Order) {
+    return order?.orderStatus?.code === OrderContants.PENDING_CONFIRM;
   }
 
-  isPendingCancel(order: Order) {
-    return order.orderStatus?.code === 'C-HUY';
+  isPendingCancelOrder(orderStatusCode: string) {
+    return orderStatusCode === OrderContants.PENDING_CANCEL;
   }
 
-  isNotRefunded(order: Order) {
-    return order.statusPayment?.code === 'C-HT' && order.orderStatus?.code === 'HUY';
+  isCanceledOrder(orderStatusCode: string) {
+    return orderStatusCode === OrderContants.CANCELED;
+  }
+
+  isCompletedOrder(orderStatusCode: string) {
+    return orderStatusCode === OrderContants.DELIVERED;
+  }
+
+  isNotRefundedOrder(order: Order) {
+    return order?.statusPayment?.code === OrderContants.NOT_REFUNDED
+      && order.orderStatus?.code === OrderContants.CANCELED;
   }
 
   changeOrderStatus(order: Order, message: string) {
@@ -178,8 +199,8 @@ export class OrdersComponent implements OnInit {
         NotiflixUtils.successNotify(message);
         NotiflixUtils.removeLoading();
 
-        this.order = order;
-        this.orderStatusCode = 'C-LH';
+        /*this.order = order;
+        this.orderStatusCode = 'C-LH';*/
 
         this.rerender();
       },
@@ -244,14 +265,14 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  getProvince(address: string): string {
+    return address.split(',')[2].trim();
+  }
+
   hasRole() {
     return this.authService.hasPermissions([
       PermissionContants.ADMIN,
       PermissionContants.MANAGER,
     ]);
-  }
-
-  getNumberOrderByStatus(status: string): number {
-    return this.orders?.filter(order => order.orderStatus?.code === status).length;
   }
 }

@@ -7,4 +7,7 @@ export class OrderContants {
   static readonly UNPAID = 'C-TT';
   static readonly PAID = 'D-TT';
   static readonly DELIVERED = 'GH-TC';
+
+  static readonly PAYMENT_NH = 'NH';
+  static readonly PAYMENT_VNPAY = 'VNPAY';
 }

@@ -154,5 +154,18 @@ public class AdministratorApi {
 		));
 	}
 
+	@PutMapping("/change-password")
+	public ResponseEntity<?> doChangePassword(@Valid @RequestBody ChangePasswordDto changePasswordDto, BindingResult result) {
+		/*if (result.hasErrors()) {
+			MessageResponse errors = ValidationUtil.ConvertValidationErrors(result);
+			return ResponseEntity.badRequest().body(errors);
+		}*/
+		try {
+			adminService.changePassword(changePasswordDto.getOldPassword(), changePasswordDto.getNewPassword());
+			return ResponseEntity.ok().body(new MessageResponse("Đổi mật khẩu thành công"));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+		}
+	}
 
 }

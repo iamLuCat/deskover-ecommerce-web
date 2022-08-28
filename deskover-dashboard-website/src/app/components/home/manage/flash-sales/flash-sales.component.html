@@ -80,7 +80,7 @@
                   </button>
                   <button type="button" class="btn btn-sm me-1" placement="top" container="body"
                           [ngClass]="!flashSale.actived ? 'btn-warning' : 'btn-success'"
-                          [tooltip]="!flashSale.actived ? 'Vô hiệu hoá' : 'Kích hoạt'"
+                          [tooltip]="flashSale.actived ? 'Vô hiệu hoá' : 'Kích hoạt'"
                           (click)="flashSaleActiveToggle(flashSale)">
                     <i class="fa-solid" [ngClass]="!flashSale.actived ? 'fa-toggle-off' : 'fa-toggle-on'"></i>
                   </button>
@@ -130,7 +130,7 @@
               </div>
             </div>
             <div class="col-12 mb-3">
-              <label class="form-label" [for]="'flashSaleRangeDate'">Thời gian giảm giá</label>
+              <label class="form-label" [for]="'flashSaleRangeDate'">Thời gian diễn ra</label>
               <input type="text" id="flashSaleRangeDate" name="flashSaleRangeDate"
                      placeholder="dd/MM/yyyy, hh:mm:ss - dd/MM/yyyy, hh:mm:ss"
                      class="form-control" [bsConfig]="bsConfig" #flashSaleRangeDate="bsDaterangepicker"

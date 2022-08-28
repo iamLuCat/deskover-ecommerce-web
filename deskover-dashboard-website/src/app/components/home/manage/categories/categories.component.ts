@@ -62,7 +62,7 @@ export class CategoriesComponent implements OnInit {
         {data: 'imgUrl', orderable: false, searchable: false},
         {data: 'name'},
         {data: 'slug'},
-        {data: 'description'},
+        /*{data: 'description'},*/
         {data: 'modifiedAt'},
         {data: 'modifiedBy'},
         {

@@ -20,7 +20,11 @@ export class AuthService {
   }
 
   login(body: any) {
-    return this.restApiService.post(`${environment.globalUrl.login}`, body);
+    return this.restApiService.post(`${environment.globalUrl.login}`, body, null, {
+      HttpHeaders: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   async getProfile() {
@@ -36,7 +40,7 @@ export class AuthService {
     if (!this.user) {
       return false;
     }
-    if(permissions.some(permission => permission === PermissionContants.ALL)) {
+    if (permissions.some(permission => permission === PermissionContants.ALL)) {
       return true
     }
     return permissions.some(permission => permission === this.user.authority.role.roleId);

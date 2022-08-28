@@ -10,21 +10,26 @@ import com.deskover.model.entity.database.repository.datatable.AdminRepoForDatat
 import com.deskover.model.entity.dto.AdminCreateDto;
 import com.deskover.model.entity.dto.AdministratorDto;
 import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.other.constant.PathConstant;
+import com.deskover.other.util.FileUtil;
 import com.deskover.other.util.MapperUtil;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminRoleService;
 import com.deskover.service.AdminService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -193,6 +198,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public DataTablesOutput<Administrator> getByActiveForDatatables(DataTablesInput input, Boolean isActive, Long roleId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         DataTablesOutput<Administrator> administrator = repoForDatatables.findAll(input, (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -201,6 +207,9 @@ public class AdminServiceImpl implements AdminService {
             }
             if (roleId != null) {
                 predicates.add(cb.equal(root.get("authority").get("role").get("id"), roleId));
+            }
+            if (username != null) {
+                predicates.add(cb.notEqual(root.get("username"), username));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
@@ -257,7 +266,33 @@ public class AdminServiceImpl implements AdminService {
         }
         admin.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         admin.setModifiedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        String sourcePath = PathConstant.TEMP_STATIC + admin.getAvatar();
+        if (FileUtils.getFile(sourcePath).exists()) {
+            String destPath = PathConstant.ADMIN_AVATAR_STATIC + admin.getUsername();
+            File imageFile = FileUtil.copyFile(sourcePath, destPath);
+            admin.setAvatar(imageFile.getName());
+        }
+        FileUtil.removeFolder(PathConstant.TEMP_STATIC);
+
         return repo.save(admin);
+    }
+
+    @Override
+    public void changePassword(String currentPassword, String newPassword) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            String username = authentication.getName();
+            Administrator admin = repo.findByUsername(username);
+            if (admin != null) {
+                if (passwordEncoder.matches(currentPassword, admin.getPassword())) {
+                    admin.setPassword(passwordEncoder.encode(newPassword));
+                    repo.saveAndFlush(admin);
+                } else {
+                    throw new IllegalArgumentException("Mật khẩu hiện tại không đúng");
+                }
+            }
+        }
     }
 
 }

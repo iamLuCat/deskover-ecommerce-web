@@ -66,7 +66,7 @@
             <tr *ngFor="let user of users; let i = index">
               <td class="align-middle">
                 <div class="frame frame-50 img-thumbnail">
-                  <img [src]="getSrc(user.avatar)" class="img-fluid">
+                  <img [src]="getSrc(user.avatar)" class="img-fluid" alt=" ">
                 </div>
               </td>
               <td class="align-middle">
@@ -170,6 +170,14 @@
                      #password="ngModel" required/>
               <div class="invalid-feedback" *ngIf="password.invalid && (password.dirty || password.touched)">
                 <span *ngIf="password.errors?.['required']">Vui lòng nhập mật khẩu</span>
+              </div>
+            </div>
+            <div class="col-12 mb-3" *ngIf="!user.id">
+              <label class="form-label" [for]="'confirmPassword'">Nhập lại mật khẩu</label>
+              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword"
+                     #confirmPass="ngModel" required/>
+              <div class="invalid-feedback" *ngIf="confirmPass.invalid && (confirmPass.dirty || confirmPass.touched)">
+                <span *ngIf="confirmPass.errors?.['required']">Vui lòng nhập mật khẩu xác nhận</span>
               </div>
             </div>
             <div class="col-12 mb-3">
