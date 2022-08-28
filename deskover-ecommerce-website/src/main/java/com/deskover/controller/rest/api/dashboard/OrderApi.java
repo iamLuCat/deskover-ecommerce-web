@@ -208,4 +208,14 @@ public class OrderApi {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
 		}
 	}
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/orders/count-by-status/{orderStatusCode}")
+	public ResponseEntity<?> countByStatus(@PathVariable String orderStatusCode){
+		try {
+			return ResponseEntity.ok(orderService.countByStatus(orderStatusCode));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+		}
+	}
 }
