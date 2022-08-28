@@ -642,5 +642,10 @@ public class OrderServiceImpl implements OrderService {
 		return orders;
 	}
 
+	@Override
+	public Long countByStatus(String orderStatusCode) {
+		return orderRepo.countByOrderStatusCode(orderStatusCode);
+	}
+
 
 }

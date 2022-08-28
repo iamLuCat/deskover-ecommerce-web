@@ -53,5 +53,6 @@ public interface OrderService {
 	Double totalRevenue();
 	
 	List<Order> getByPhone(String phone);
-	
+
+    Long countByStatus(String orderStatusCode);
 }
