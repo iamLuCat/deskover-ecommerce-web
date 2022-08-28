@@ -25,7 +25,7 @@ public class UserAddressServiceImpl implements UserAddressService {
 
 	@Override
 	public List<UserAddress> findByUsername() {
-		List<UserAddress> listAddress = userAddressRepository.findByUserUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		List<UserAddress> listAddress = userAddressRepository.findByUserUsernameOrderByActivedDesc(SecurityContextHolder.getContext().getAuthentication().getName());
 		if(listAddress == null) {
 			throw new IllegalArgumentException("Không có địa chỉ");
 		}
@@ -45,7 +45,7 @@ public class UserAddressServiceImpl implements UserAddressService {
 	@Transactional
 	public void changeActive(Long id) {
 		
-		List<UserAddress> userAddresses = userAddressRepository.findByUserUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		List<UserAddress> userAddresses = userAddressRepository.findByUserUsernameOrderByActivedDesc(SecurityContextHolder.getContext().getAuthentication().getName());
 		UserAddress userAddress = userAddressRepository.getById(id);
 		if(userAddress == null) {
 			throw new IllegalArgumentException("Không tìm thấy địa chỉ");
@@ -65,7 +65,7 @@ public class UserAddressServiceImpl implements UserAddressService {
 	@Override
 	@Transactional
 	public void changeChoose(Long id ) {
-		List<UserAddress> userAddresses = userAddressRepository.findByUserUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		List<UserAddress> userAddresses = userAddressRepository.findByUserUsernameOrderByActivedDesc(SecurityContextHolder.getContext().getAuthentication().getName());
 		UserAddress userAddress = userAddressRepository.getById(id);
 		if(userAddress == null) {
 			throw new IllegalArgumentException("Không tìm thấy địa chỉ");

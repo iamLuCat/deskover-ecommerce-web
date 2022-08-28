@@ -14,7 +14,7 @@ import lombok.Setter;
 public class FlashSaleDTO {
 	
 	public FlashSaleDTO(FlashSale fs) {
-		this.end = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss").format(fs.getEndDate());
+		this.end = new SimpleDateFormat("yyyy/MM/dd").format(fs.getEndDate());
 	}
 	
 	private String end;

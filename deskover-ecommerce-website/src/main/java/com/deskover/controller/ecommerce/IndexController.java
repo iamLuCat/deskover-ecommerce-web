@@ -1,5 +1,6 @@
 package com.deskover.controller.ecommerce;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
-import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
+import com.deskover.model.entity.dto.ecommerce.ProductSaleDTO;
 import com.deskover.service.ShopService;
 
 @Controller
@@ -30,17 +31,23 @@ public class IndexController {
 		List<Item> listItem1 = shopService.get4TopRate();
 		List<Item> listItem2 = shopService.get4TopSale();
 		List<Item> listItem3 = shopService.get4TopSold();
+		List<Item> listItem4 = shopService.getProductNew();
 		
 		model.addAttribute("list1", listItem1);
 		model.addAttribute("list2", listItem2);
 		model.addAttribute("list3", listItem3);
+		model.addAttribute("list4", listItem4);
 		
-		FlashSaleDTO fs = shopService.getFlashSale();
 		List<BrandDTO> brands = shopService.getListBrand();
-		
-		model.addAttribute("fs", fs);
 		model.addAttribute("br", brands);
 		
+		List<ProductSaleDTO> productFs = shopService.getFlashSale();
+		if(productFs.isEmpty()) {
+			model.addAttribute("products", null);
+		}else {
+			model.addAttribute("endDateResponse",new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(productFs.stream().findFirst().get().getEndDate()));
+			model.addAttribute("products", productFs);
+		}
 		return "index";
 	}
 	

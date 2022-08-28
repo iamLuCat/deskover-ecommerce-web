@@ -142,6 +142,10 @@ public class OrderServiceImpl implements OrderService {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 
 		}
+//		if (order.getShipping().getShippingId().equals("GHTK")) {
+//			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+//
+//		}
 		OrderDto orderDto = mapper.map(order, OrderDto.class);
 		OrderDetail orderDetail = orderDetailRepo.findByOrder(order);
 
@@ -166,7 +170,9 @@ public class OrderServiceImpl implements OrderService {
 			itemDtos.add(itemDto);
 		}
 		orderDto.setOrderItem(itemDtos);
-		orderDto.setTotalPrice(formatter.format(repo.getTotalOrder(order.getId())));
+		orderDto.setTotalPrice(
+				order.getStatusPayment().getCode().equals("D-TT") ? "0" 
+						: order.getStatusPayment().getCode().equals("C-TT") ? formatter.format(order.getUnitPrice()) : "");
 
 		return orderDto;
 	}
@@ -209,7 +215,10 @@ public class OrderServiceImpl implements OrderService {
 				itemDtos.add(itemDto);
 			}
 			orderDto.setOrderItem(itemDtos);
-			orderDto.setTotalPrice(formatter.format(repo.getTotalOrder(order.getId())));
+//			orderDto.setTotalPrice(formatter.format(order.getUnitPrice()));
+			orderDto.setTotalPrice(
+					order.getStatusPayment().getCode().equals("D-TT") ? "0" 
+							: order.getStatusPayment().getCode().equals("C-TT") ? formatter.format(order.getUnitPrice()) : "");
 			orderDtos.add(orderDto);
 		});
 		DataOrderResquest data = new DataOrderResquest();
@@ -300,7 +309,7 @@ public class OrderServiceImpl implements OrderService {
 		
 //          Gửi thông báo cho khách hàng
 			Notification notify = new Notification();
-				notify.setTitle("Đơn hàng " + order.getOrderCode() + status.getStatus().toLowerCase());
+				notify.setTitle("Đơn hàng " + order.getOrderCode() +" "+ status.getStatus().toLowerCase());
 				notify.setUser(order.getUser());
 				notify.setOrderCode(order.getOrderCode());
 				notify.setIsWatched(Boolean.FALSE);
@@ -635,6 +644,11 @@ public class OrderServiceImpl implements OrderService {
 			orders.add(od.getOrder());
 		}
 		return orders;
+	}
+
+	@Override
+	public Long countByStatus(String orderStatusCode) {
+		return orderRepo.countByOrderStatusCode(orderStatusCode);
 	}
 
 

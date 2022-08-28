@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------------------------------------
--- Tạo CSDL
+-- Tạo CSDLuser
 --------------------------------------------------------------------------------------------------------------
 USE sys;
 DROP DATABASE IF EXISTS deskover;
@@ -10,14 +10,14 @@ USE deskover;
 -- Tạo bảng
 
 -- persistent_logins
-CREATE TABLE persistent_logins
-(
-    username  varchar(100) NOT NULL,
-    series    varchar(64)  NOT NULL,
-    token     varchar(64)  NOT NULL,
-    last_used datetime(6)  NOT NULL,
-    PRIMARY KEY (series)
-);
+-- CREATE TABLE persistent_logins
+-- (
+--     username  varchar(100) NOT NULL,
+--     series    varchar(64)  NOT NULL,
+--     token     varchar(64)  NOT NULL,
+--     last_used datetime(6)  NOT NULL,
+--     PRIMARY KEY (series)
+-- );
 
 -- admin_role
 CREATE TABLE admin_role
@@ -155,7 +155,7 @@ CREATE TABLE subcategory
     CONSTRAINT FK_SubCategory_Category FOREIGN KEY (category_id) REFERENCES category (id)
 );
 
--- Thương hiệu
+-- brand
 CREATE TABLE brand
 (
     id            BIGINT                                                       NOT NULL AUTO_INCREMENT,
@@ -825,71 +825,69 @@ values
 ;
 
 -- subcategory
-insert subcategory (id, category_id, `name`, slug, img, modified_by)
-values 
-(
-  1, 1, 'Văn phòng', 'van-phong', 'van-phong.png', 
-  'haipv'
-), 
-(
-  2, 1, 'Gaming', 'gaming', 'gaming.png', 
-  'haipv'
-), 
-(
-  3, 1, 'Macbook', 
-  'macbook', 'macbook.png', 
-  'haipv'
-), 
-(
-  4, 2, 'Android', 'android', 'android.png', 
-  'haipv'
-), 
-(
-  5, 2, 'iPhone(iOS)', 'ios', 'ios.png', 
-  'haipv'
-), 
-(
-  7, 3, '7 - 8 inch (nhỏ gọn)', 
-  'small', 'may-tinh-bang.png', 'haipv'
-), 
-(
-  8, 3, '10 - 12 inch (trung bình)', 
-  'medium', 'may-tinh-bang.png', 'haipv'
-), 
-(
-  9, 3, 'Trên 12 inch (lớn)', 'larg', 
-  'may-tinh-bang.png', 'haipv'
-), 
-(
-  10, 4, 'Dây đeo', 'day-deo', 'dong-ho.png', 
-  'haipv'
-), 
-(
-  11, 4, 'Đồng hồ thông minh', 
-  'dong-ho-thong-minh', 'dong-ho.png', 
-  'haipv'
-), 
-(
-  12, 4, 'Đồng hồ định vị trẻ em', 
-  'dong-ho-dinh-vi-tre-em', 'dong-ho.png', 
-  'haipv'
-), 
-(
-  13, 5, 'Chuột, bàn phím', 'chuot-ban-phim', 
-  'chuot-ban-phim.png', 'haipv'
-), 
-(
-  14, 5, 'Cáp, sạc', 'cap-sac', 'cap-sac.png', 
-  'haipv'
-), 
-(
-  15, 5, 'Pin dự phòng', 'pin-du-phong', 
-  'pin-du-phong.png', 'haipv'
-), 
-(
-  16, 5, 'Giá đỡ', 'gia-do', 'gia-do.png', 
-  'haipv'
-);
+INSERT INTO `subcategory` 
+VALUES 
+  (
+    1, 1, 'van-phong.png', 'Văn phòng', 
+    NULL, 'van-phong', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  ),  
+  (
+    3, 1, 'macbook.png', 'Macbook', NULL, 
+    'macbook', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  ), 
+  (
+    4, 2, 'android.png', 'Android', NULL, 
+    'android', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  ), 
+  (
+    5, 2, 'ios.png', 'iPhone(iOS)', NULL, 
+    'ios', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  ), 
+  (
+    7, 3, 'may-tinh-bang.png', '7 - 8 inch (nhỏ gọn)', 
+    NULL, 'small', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  ), 
+  (
+    8, 3, 'may-tinh-bang.png', '10 - 12 inch (trung bình)', 
+    NULL, 'medium', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  ), 
+  (
+    9, 3, 'may-tinh-bang.png', 'Trên 12 inch (lớn)', 
+    NULL, 'larg', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  ), 
+  (
+    10, 4, 'dong-ho.png', 'Dây đeo', 
+    NULL, 'day-deo', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  ), 
+  (
+    11, 4, 'dong-ho.png', 'Đồng hồ thông minh', 
+    NULL, 'dong-ho-thong-minh', 1, 
+    '2022-08-28 04:33:23', 'haipv'
+  ), 
+  (
+    13, 5, 'chuot-ban-phim.png', 'Chuột, bàn phím', 
+    NULL, 'chuot-ban-phim', 1, 
+    '2022-08-28 04:33:23', 'haipv'
+  ), 
+  (
+    14, 5, 'cap-sac.png', 'Cáp, sạc', 
+    NULL, 'cap-sac', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  ), 
+  (
+    16, 5, 'gia-do.png', 'Giá đỡ', 
+    NULL, 'gia-do', 1, '2022-08-28 04:33:23', 
+    'haipv'
+  );
+
 
 -- brand
 insert brand (id, `name`, slug, img , modified_by)
@@ -922,7 +920,10 @@ values
   9, 'Oppo', 'oppo', 'oppo.png', 'haipv'
 ), 
 (
-  10, 'Samsung', 'samssung', 'samsung.png', 'haipv'
+  10, 'Samsung', 'samsung', 'samsung.png', 'haipv'
+),
+(
+  11, 'Khac', 'Khac', 'khac.png', 'haipv'
 );
 
 -- discount
@@ -949,12 +950,8 @@ values
 insert flash_sale (id,`name`,start_date, end_date, actived, modified_by)
 values 
   (
-    1, 'Flash Sale Of', '2022-08-05 23:59:59',
-    '2022-08-06 23:59:59',1, 'haipv'
-  ),
-  (
-    2, 'Flash Sale Of', '2022-08-05 23:59:59',
-    '2022-08-06 23:59:59',1, 'haipv'
+    1, 'Flash Sale Of', '2022-08-27 23:59:59',
+    '2022-08-30 23:59:59',1, 'haipv'
   );
   
 -- products
@@ -971,7 +968,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.4 kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;324 x 215 x 17.9 mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     14990000, 11992000, 1000, 1, 
-    1, 1, 4, NULL, '2022-08-12 09:18:41', 
+    1, 1, 4, NULL, '2022-08-12 02:18:41', 
     'haipv'
   ), 
   (
@@ -985,7 +982,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.5&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;32.40 x 22.00 x 1.87 ~ 1.87 cm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: LED Trắng</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     15890000, 12712000, 1000, 1, 
-    1, 1, 4, NULL, '2022-08-12 09:18:41', 
+    1, 1, 4, NULL, '2022-08-12 02:18:41', 
     'haipv'
   ), 
   (
@@ -999,7 +996,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     19990000, 15992000, 1000, 1, 
-    1, 1, 4, NULL, '2022-08-12 09:18:41', 
+    1, 1, 4, NULL, '2022-08-12 02:18:41', 
     'haipv'
   ), 
   (
@@ -1013,7 +1010,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.95&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;360.5 x 259 x 1.89 ~ 18.9 mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: C&oacute; ph&iacute;m số, hỗ trợ đ&egrave;n LED đơn sắc</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;6 Cells 96WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     32990000, 26392000, 1000, 1, 
-    1, 1, 4, NULL, '2022-08-12 09:18:42', 
+    1, 1, 4, NULL, '2022-08-12 02:18:42', 
     'haipv'
   ), 
   (
@@ -1027,7 +1024,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.1 Kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;30.4 x 20.3 x 13.9 cm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;4-cell, 65WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     30890000, 24712000, 1000, 1, 
-    1, 1, 4, NULL, '2022-08-12 09:18:42', 
+    1, 1, 4, NULL, '2022-08-12 02:18:42', 
     'haipv'
   ), 
   (
@@ -1040,7 +1037,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.9 kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;367.8 x 236.1 x 18.9&nbsp; mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;59Wh Li-ion battery</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     29990000, NULL, 1000, 1, 1, 
-    2, NULL, NULL, '2022-08-12 09:18:43', 
+    2, NULL, NULL, '2022-08-12 02:18:43', 
     'haipv'
   ), 
   (
@@ -1053,7 +1050,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     24490000, NULL, 1000, 1, 1, 
-    2, NULL, NULL, '2022-08-12 09:18:43', 
+    2, NULL, NULL, '2022-08-12 02:18:43', 
     'haipv'
   ), 
   (
@@ -1066,7 +1063,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     20990000, NULL, 1000, 1, 1, 
-    2, NULL, NULL, '2022-08-12 09:18:46', 
+    2, NULL, NULL, '2022-08-12 02:18:46', 
     'haipv'
   ), 
   (
@@ -1079,7 +1076,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     12490000, NULL, 1000, 1, 1, 
-    2, NULL, NULL, '2022-08-12 09:18:44', 
+    2, NULL, NULL, '2022-08-12 02:18:44', 
     'haipv'
   ), 
   (
@@ -1092,7 +1089,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     18950000, NULL, 1000, 1, 1, 
-    2, NULL, NULL, '2022-08-12 09:18:45', 
+    2, NULL, NULL, '2022-08-12 02:18:45', 
     'haipv'
   ), 
   (
@@ -1105,7 +1102,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     15990000, NULL, 1000, 1, 1, 
-    3, NULL, NULL, '2022-08-12 09:18:45', 
+    3, NULL, NULL, '2022-08-12 02:18:45', 
     'haipv'
   ), 
   (
@@ -1118,7 +1115,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     17490000, NULL, 1000, 1, 1, 
-    3, NULL, NULL, '2022-08-12 09:18:46', 
+    3, NULL, NULL, '2022-08-12 02:18:46', 
     'haipv'
   ), 
   (
@@ -1131,7 +1128,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     20990000, NULL, 1000, 1, 1, 
-    3, NULL, NULL, '2022-08-12 09:18:47', 
+    3, NULL, NULL, '2022-08-12 02:18:47', 
     'haipv'
   ), 
   (
@@ -1144,7 +1141,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     22990000, NULL, 1000, 1, 1, 
-    3, NULL, NULL, '2022-08-12 09:18:48', 
+    3, NULL, NULL, '2022-08-12 02:18:48', 
     'haipv'
   ), 
   (
@@ -1157,7 +1154,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     75000000, NULL, 1000, 1, 1, 
-    3, NULL, NULL, '2022-08-12 09:18:48', 
+    3, NULL, NULL, '2022-08-12 02:18:48', 
     'haipv'
   ), 
   (
@@ -1170,7 +1167,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     14490000, NULL, 1000, 1, 1, 
-    4, NULL, NULL, '2022-08-12 09:18:48', 
+    4, NULL, NULL, '2022-08-12 02:18:48', 
     'haipv'
   ), 
   (
@@ -1183,7 +1180,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     16990000, NULL, 1000, 1, 1, 
-    4, NULL, NULL, '2022-08-12 09:18:49', 
+    4, NULL, NULL, '2022-08-12 02:18:49', 
     'haipv'
   ), 
   (
@@ -1196,7 +1193,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     17990000, NULL, 1000, 1, 1, 
-    4, NULL, NULL, '2022-08-12 09:18:49', 
+    4, NULL, NULL, '2022-08-12 02:18:49', 
     'haipv'
   ), 
   (
@@ -1209,7 +1206,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     19990000, NULL, 1000, 1, 1, 
-    4, NULL, NULL, '2022-08-12 09:18:49', 
+    4, NULL, NULL, '2022-08-12 02:18:49', 
     'haipv'
   ), 
   (
@@ -1222,7 +1219,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     21990000, NULL, 1000, 1, 1, 
-    4, NULL, NULL, '2022-08-12 09:18:54', 
+    4, NULL, NULL, '2022-08-12 02:18:54', 
     'haipv'
   ), 
   (
@@ -1235,7 +1232,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     13590000, NULL, 1000, 1, 1, 
-    5, NULL, NULL, '2022-08-12 09:18:55', 
+    5, NULL, NULL, '2022-08-12 02:18:55', 
     'haipv'
   ), 
   (
@@ -1248,7 +1245,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     19990000, NULL, 1000, 1, 1, 
-    5, NULL, NULL, '2022-08-12 09:18:55', 
+    5, NULL, NULL, '2022-08-12 02:18:55', 
     'haipv'
   ), 
   (
@@ -1261,7 +1258,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     25990000, NULL, 1000, 1, 1, 
-    5, NULL, NULL, '2022-08-12 09:18:55', 
+    5, NULL, NULL, '2022-08-12 02:18:55', 
     'haipv'
   ), 
   (
@@ -1274,7 +1271,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     32990000, NULL, 1000, 1, 1, 
-    5, NULL, NULL, '2022-08-12 09:18:56', 
+    5, NULL, NULL, '2022-08-12 02:18:56', 
     'haipv'
   ), 
   (
@@ -1287,7 +1284,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     35990000, NULL, 1000, 1, 1, 
-    5, NULL, NULL, '2022-08-12 09:18:56', 
+    5, NULL, NULL, '2022-08-12 02:18:56', 
     'haipv'
   ), 
   (
@@ -1300,7 +1297,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     19990000, NULL, 1000, 1, 1, 
-    6, NULL, NULL, '2022-08-12 09:18:56', 
+    6, NULL, NULL, '2022-08-12 02:18:56', 
     'haipv'
   ), 
   (
@@ -1313,7 +1310,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     20990000, NULL, 1000, 1, 1, 
-    6, NULL, NULL, '2022-08-12 09:18:56', 
+    6, NULL, NULL, '2022-08-12 02:18:56', 
     'haipv'
   ), 
   (
@@ -1326,7 +1323,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     22490000, NULL, 1000, 1, 1, 
-    6, NULL, NULL, '2022-08-12 09:18:57', 
+    6, NULL, NULL, '2022-08-12 02:18:57', 
     'haipv'
   ), 
   (
@@ -1339,7 +1336,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     44990000, NULL, 1000, 1, 1, 
-    7, NULL, NULL, '2022-08-12 09:18:57', 
+    7, NULL, NULL, '2022-08-12 02:18:57', 
     'haipv'
   ), 
   (
@@ -1352,7 +1349,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     48900000, NULL, 1000, 1, 1, 
-    7, NULL, NULL, '2022-08-12 09:18:57', 
+    7, NULL, NULL, '2022-08-12 02:18:57', 
     'haipv'
   ), 
   (
@@ -1365,7 +1362,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     47990000, NULL, 1000, 1, 1, 
-    7, NULL, NULL, '2022-08-12 09:18:58', 
+    7, NULL, NULL, '2022-08-12 02:18:58', 
     'haipv'
   ), 
   (
@@ -1378,7 +1375,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     42990000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:18:58', 
+    8, NULL, NULL, '2022-08-12 02:18:58', 
     'haipv'
   ), 
   (
@@ -1391,7 +1388,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     33990000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:18:58', 
+    8, NULL, NULL, '2022-08-12 02:18:58', 
     'haipv'
   ), 
   (
@@ -1404,7 +1401,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     39990000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:18:59', 
+    8, NULL, NULL, '2022-08-12 02:18:59', 
     'haipv'
   ), 
   (
@@ -1417,7 +1414,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     64990000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:18:59', 
+    8, NULL, NULL, '2022-08-12 02:18:59', 
     'haipv'
   ), 
   (
@@ -1430,7 +1427,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     99000000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:18:59', 
+    8, NULL, NULL, '2022-08-12 02:18:59', 
     'haipv'
   ), 
   (
@@ -1443,7 +1440,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     33990000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:18:59', 
+    8, NULL, NULL, '2022-08-12 02:18:59', 
     'haipv'
   ), 
   (
@@ -1456,7 +1453,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     38990000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:19:00', 
+    8, NULL, NULL, '2022-08-12 02:19:00', 
     'haipv'
   ), 
   (
@@ -1469,7 +1466,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     50990000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:19:00', 
+    8, NULL, NULL, '2022-08-12 02:19:00', 
     'haipv'
   ), 
   (
@@ -1482,7 +1479,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     41990000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:19:01', 
+    8, NULL, NULL, '2022-08-12 02:19:01', 
     'haipv'
   ), 
   (
@@ -1495,7 +1492,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng:&nbsp;</span>1.7&nbsp;kg</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">K&iacute;ch thước:&nbsp;359&nbsp;(W) x 235&nbsp;(D) x 17.9&nbsp;(H) mm</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">B&agrave;n ph&iacute;m: Kh&ocirc;ng Led</li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Pin:&nbsp;3 Cells 42WHrs</li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\">Kết nối LAN: Kh&ocirc;ng</li>\n</ul>\n', 
     34990000, NULL, 1000, 1, 3, 
-    8, NULL, NULL, '2022-08-12 09:18:31', 
+    8, NULL, NULL, '2022-08-12 02:18:31', 
     'haipv'
   ), 
   (
@@ -1507,7 +1504,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 39990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:32', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:32', 
     'haipv'
   ), 
   (
@@ -1519,7 +1516,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 34990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:32', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:32', 
     'haipv'
   ), 
   (
@@ -1531,7 +1528,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 34990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:32', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:32', 
     'haipv'
   ), 
   (
@@ -1543,7 +1540,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 34990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:33', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:33', 
     'haipv'
   ), 
   (
@@ -1555,7 +1552,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 25590000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:33', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:33', 
     'haipv'
   ), 
   (
@@ -1567,7 +1564,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 27590000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:34', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:34', 
     'haipv'
   ), 
   (
@@ -1579,7 +1576,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 31000000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:34', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:34', 
     'haipv'
   ), 
   (
@@ -1590,7 +1587,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 15990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:34', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:34', 
     'haipv'
   ), 
   (
@@ -1601,7 +1598,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 17990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:35', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:35', 
     'haipv'
   ), 
   (
@@ -1612,7 +1609,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 17990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:35', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:35', 
     'haipv'
   ), 
   (
@@ -1623,7 +1620,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 15000000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:36', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:36', 
     'haipv'
   ), 
   (
@@ -1635,7 +1632,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 16000000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:36', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:36', 
     'haipv'
   ), 
   (
@@ -1647,7 +1644,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 19500000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:37', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:37', 
     'haipv'
   ), 
   (
@@ -1658,7 +1655,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 10790000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:37', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:37', 
     'haipv'
   ), 
   (
@@ -1669,7 +1666,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 13490000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:37', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:37', 
     'haipv'
   ), 
   (
@@ -1680,7 +1677,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 19000000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-12 09:18:37', 
+    5, 8, NULL, NULL, '2022-08-12 02:18:37', 
     'haipv'
   ), 
   (
@@ -1692,7 +1689,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 17990000, NULL, 1000, 1, 
-    7, 8, NULL, NULL, '2022-08-12 09:18:37', 
+    7, 8, NULL, NULL, '2022-08-12 02:18:37', 
     'haipv'
   ), 
   (
@@ -1705,7 +1702,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 33590000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:38', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:38', 
     'haipv'
   ), 
   (
@@ -1718,7 +1715,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 27990000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:38', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:38', 
     'haipv'
   ), 
   (
@@ -1731,7 +1728,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 32850000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:38', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:38', 
     'haipv'
   ), 
   (
@@ -1744,7 +1741,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 29950000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:39', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:39', 
     'haipv'
   ), 
   (
@@ -1757,7 +1754,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 27050000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:39', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:39', 
     'haipv'
   ), 
   (
@@ -1770,7 +1767,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 22200000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:39', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:39', 
     'haipv'
   ), 
   (
@@ -1783,7 +1780,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 23650000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:40', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:40', 
     'haipv'
   ), 
   (
@@ -1796,7 +1793,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 19750000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:40', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:40', 
     'haipv'
   ), 
   (
@@ -1809,7 +1806,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 19750000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:40', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:40', 
     'haipv'
   ), 
   (
@@ -1820,7 +1817,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 21490000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:18:41', 
+    4, 10, NULL, NULL, '2022-08-12 02:18:41', 
     'haipv'
   ), 
   (
@@ -1832,7 +1829,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 16000000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 09:45:09', 
+    4, 10, NULL, NULL, '2022-08-12 02:45:09', 
     'haipv'
   ), 
   (
@@ -1844,7 +1841,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 15000000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 11:32:20', 
+    4, 10, NULL, NULL, '2022-08-12 04:32:20', 
     'haipv'
   ), 
   (
@@ -1857,7 +1854,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 19200000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 11:41:22', 
+    4, 10, NULL, NULL, '2022-08-12 04:41:22', 
     'haipv'
   ), 
   (
@@ -1870,7 +1867,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 18990000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 11:50:20', 
+    4, 10, NULL, NULL, '2022-08-12 04:50:20', 
     'haipv'
   ), 
   (
@@ -1882,7 +1879,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 15450000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 11:54:56', 
+    4, 10, NULL, NULL, '2022-08-12 04:54:56', 
     'haipv'
   ), 
   (
@@ -1895,7 +1892,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 15450000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 11:56:05', 
+    4, 10, NULL, NULL, '2022-08-12 04:56:05', 
     'haipv'
   ), 
   (
@@ -1908,7 +1905,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 11290000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 11:59:26', 
+    4, 10, NULL, NULL, '2022-08-12 04:59:26', 
     'haipv'
   ), 
   (
@@ -1921,7 +1918,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 12790000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 12:00:11', 
+    4, 10, NULL, NULL, '2022-08-12 05:00:11', 
     'haipv'
   ), 
   (
@@ -1934,7 +1931,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 13650000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-12 12:00:44', 
+    4, 10, NULL, NULL, '2022-08-12 05:00:44', 
     'haipv'
   ), 
   (
@@ -1947,7 +1944,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 10900000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-13 07:18:09', 
+    4, 10, NULL, NULL, '2022-08-13 00:18:09', 
     'haipv'
   ), 
   (
@@ -1960,7 +1957,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 10790000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-13 07:22:38', 
+    4, 10, NULL, NULL, '2022-08-13 00:22:38', 
     'haipv'
   ), 
   (
@@ -1973,7 +1970,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 10000000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-13 07:24:02', 
+    4, 10, NULL, NULL, '2022-08-13 00:24:02', 
     'haipv'
   ), 
   (
@@ -1985,7 +1982,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 8190000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-13 07:28:04', 
+    4, 10, NULL, NULL, '2022-08-13 00:28:04', 
     'haipv'
   ), 
   (
@@ -1997,7 +1994,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 6690000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-13 07:31:20', 
+    4, 10, NULL, NULL, '2022-08-13 00:31:20', 
     'haipv'
   ), 
   (
@@ -2008,7 +2005,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 4850000, NULL, 1000, 1, 
-    4, 10, NULL, NULL, '2022-08-13 07:34:43', 
+    4, 10, NULL, NULL, '2022-08-13 00:34:43', 
     'haipv'
   ), 
   (
@@ -2020,7 +2017,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 11990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-13 07:40:30', 
+    5, 8, NULL, NULL, '2022-08-13 00:40:30', 
     'haipv'
   ), 
   (
@@ -2032,7 +2029,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 15990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-13 07:41:14', 
+    5, 8, NULL, NULL, '2022-08-13 00:41:14', 
     'haipv'
   ), 
   (
@@ -2043,7 +2040,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 9990000, NULL, 1000, 1, 
-    5, 8, NULL, NULL, '2022-08-13 07:43:07', 
+    5, 8, NULL, NULL, '2022-08-13 00:43:07', 
     'haipv'
   ), 
   (
@@ -2054,7 +2051,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 11099000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 07:47:53', 
+    4, 9, NULL, NULL, '2022-08-13 00:47:53', 
     'haipv'
   ), 
   (
@@ -2065,7 +2062,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 9100000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:03:19', 
+    4, 9, NULL, NULL, '2022-08-13 01:03:19', 
     'haipv'
   ), 
   (
@@ -2077,7 +2074,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 7250000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:06:40', 
+    4, 9, NULL, NULL, '2022-08-13 01:06:40', 
     'haipv'
   ), 
   (
@@ -2088,7 +2085,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 9990000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:10:35', 
+    4, 9, NULL, NULL, '2022-08-13 01:10:35', 
     'haipv'
   ), 
   (
@@ -2099,7 +2096,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 6890000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:14:15', 
+    4, 9, NULL, NULL, '2022-08-13 01:14:15', 
     'haipv'
   ), 
   (
@@ -2110,7 +2107,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 7790000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:17:11', 
+    4, 9, NULL, NULL, '2022-08-13 01:17:11', 
     'haipv'
   ), 
   (
@@ -2121,7 +2118,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 8990000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:18:06', 
+    4, 9, NULL, NULL, '2022-08-13 01:18:06', 
     'haipv'
   ), 
   (
@@ -2132,7 +2129,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 6490000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:22:51', 
+    4, 9, NULL, NULL, '2022-08-13 01:22:51', 
     'haipv'
   ), 
   (
@@ -2143,7 +2140,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 5990000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:26:45', 
+    4, 9, NULL, NULL, '2022-08-13 01:26:45', 
     'haipv'
   ), 
   (
@@ -2154,7 +2151,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 5690000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:32:06', 
+    4, 9, NULL, NULL, '2022-08-13 01:32:06', 
     'haipv'
   ), 
   (
@@ -2165,7 +2162,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 5390000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:34:12', 
+    4, 9, NULL, NULL, '2022-08-13 01:34:12', 
     'haipv'
   ), 
   (
@@ -2176,7 +2173,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 4250000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:43:10', 
+    4, 9, NULL, NULL, '2022-08-13 01:43:10', 
     'haipv'
   ), 
   (
@@ -2187,7 +2184,7 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 4250000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:44:46', 
+    4, 9, NULL, NULL, '2022-08-13 01:44:46', 
     'haipv'
   ), 
   (
@@ -2198,961 +2195,3095 @@ VALUES
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
     '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
     '', 4190000, NULL, 1000, 1, 
-    4, 9, NULL, NULL, '2022-08-13 08:50:07', 
+    4, 9, NULL, NULL, '2022-08-13 01:50:07', 
+    'haipv'
+  ), 
+  (
+    101, 1.27, 'Apple iPad mini 6 WiFi 64GB', 
+    'apple-ipad-mini-6-wifi-64gb', 
+    'apple-ipad-mini-6-wifi-64gb.png', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Mạnh mẽ bứt ph&aacute; - Chip xử l&yacute; Apple A15 Bionic 6 nh&acirc;n</li>\n  <li>Hiển thị sắc n&eacute;t, mượt m&agrave; hơn - M&agrave;n h&igrave;nh IPS LCD 8,3 inch hỗ trợ True Tone</li>\n  <li>Ph&aacute; vỡ giới hạn s&aacute;ng tạo - Hỗ trợ Apple Pencil 2, iPadOS 15 tiện &iacute;ch hơn</li>\n  <li>Camera bắt trọn mọi khoảnh khắc - Camera trước v&agrave; sau 12MP</li>\n  <li>Thoải m&aacute;i sử dụng cả ng&agrave;y - Pin 19.3 Wh, cổng sạc USB-C</li>\n</ul>\n\n<h2><strong>M&aacute;y t&iacute;nh bảng iPad Mini 6 &ndash; Tablet nhỏ gọn, hiệu năng vượt trội</strong></h2>\n\n<p>Với sự th&agrave;nh c&ocirc;ng của c&aacute;c thế hệ iPad mini trước&nbsp;<strong>iPad mini 6&nbsp;</strong>l&agrave; sản phẩm kế nhiệm mới với nhiều t&iacute;nh năng hiện k&egrave;m nhiều sự n&acirc;ng cấp đ&aacute;ng ch&uacute; &yacute; d&agrave;nh cho người d&ugrave;ng trong năm nay. Nếu bạn đang c&oacute; nhu cầu mua cho m&igrave;nh một chiếc m&aacute;y t&iacute;nh bảng iPad để phục vụ cho nhu cầu sử dụng th&igrave; iPad Mini 6 sẽ l&agrave; sự lựa chọn ho&agrave;n hảo cho bạn v&agrave;o thời điểm n&agrave;y cho nhu cầu sử dụng tablet k&iacute;ch thước vừa phải.</p>\n\n<h3><strong>Thiết kế nhỏ gọn, k&iacute;ch thước m&agrave;n h&igrave;nh 8.</strong><strong>3 inch</strong></h3>\n\n<p>iPad Mini 6 được Apple thiết kế với h&igrave;nh d&aacute;ng nhỏ gọn c&acirc;n đối chiều d&agrave;i v&agrave; ngang gi&uacute;p bạn c&oacute; thể mang theo b&ecirc;n m&igrave;nh mọi l&uacute;c mọi nơi để hỗ trợ cho qu&aacute; tr&igrave;nh học tập, l&agrave;m việc hay giải tr&iacute; một c&aacute;ch dễ d&agrave;ng.</p>\n\n<p><img alt=\"Thiết kế nhỏ gọn, kích thước màn hình 8.3 inch\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-8.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-8.jpg\" /></p>\n\n<p>M&aacute;y t&iacute;nh bảng n&agrave;y cũng được Apple trang bị c&aacute;c gam m&agrave;u truyền thống giống như c&aacute;c phi&ecirc;n bản trước gi&uacute;p người d&ugrave;ng dễ d&agrave;ng lựa chọn m&agrave;u sắc ph&ugrave; hợp với độ tuổi v&agrave; c&aacute; t&iacute;nh của bạn. Hơn thế thiết bị c&ograve;n được thiết kế khung kim loại gi&uacute;p cho m&aacute;y t&iacute;nh bảng chắc chắn hơn trong qu&aacute; tr&igrave;nh sử dụng.</p>\n\n<p><img alt=\"Thiết kế nhỏ gọn, kích thước màn hình 8.3 inch\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-2.jpg\" /></p>\n\n<p>Một trong những thay đổi lớn nhất về ngoại h&igrave;nh của iPad Mini 6 đ&oacute; l&agrave; k&iacute;ch thước m&agrave;n h&igrave;nh sẽ lớn hơn nhiều với những thế hệ trước đ&acirc;y. Cụ thể l&agrave; m&agrave;n h&igrave;nh của iPad Mini 6 c&oacute; k&iacute;ch thước l&ecirc;n đến 8,3 inch hỗ trợ True Tone. M&agrave;n h&igrave;nh rộng n&agrave;y gi&uacute;p người d&ugrave;ng thoải m&aacute;i sử dụng trong thời gian l&acirc;u m&agrave; kh&ocirc;ng lo bị mỏi mắt. C&ugrave;ng với độ ph&acirc;n giải cao sẽ hỗ trợ iPad hiển thị những h&igrave;nh ảnh sắc n&eacute;t v&agrave; tự nhi&ecirc;n nhất đến mắt người d&ugrave;ng khi sử dụng.</p>\n\n<h3><strong>Trang bị chipset A1</strong><strong>5 Bionic,&nbsp;</strong><strong>dung lượng RAM lớn</strong></h3>\n\n<p>T&iacute;nh tới thời điểm hiện đại iPad Mini 6 được xem l&agrave; chiếc iPad Mini cao cấp nhất trong d&ograve;ng Mini n&ecirc;n v&igrave; thế chiếc m&aacute;y t&iacute;nh bảng Mini thế hệ 6 n&agrave;y sẽ sở hữu một cấu h&igrave;nh mạnh mẽ. Cụ thể iPad Mini 6 được trang bị vi xử l&yacute; chipset A15 Bionic c&ugrave;ng với dung lượng RAM gi&uacute;p tốc độ xử l&yacute; diễn ra nhanh ch&oacute;ng v&agrave; mượt m&agrave;.&nbsp;&nbsp;</p>\n\n<p><img alt=\"Trang bị chipset A15 Bionic, dung lượng RAM lớn\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-3.jpg\" /></p>\n\n<p>Ngo&agrave;i ra, Apple c&ograve;n trang bị cho iPad Mini 6 bộ nhớ trong 64GB gi&uacute;p bạn c&oacute; thể lưu trữ được nhiều dữ liệu như những khoảnh khắc vui vẻ c&ugrave;ng với gia đ&igrave;nh v&agrave; bạn b&egrave; th&ocirc;ng qua h&igrave;nh ảnh hay video. Bạn cũng c&oacute; thể tải những tựa game nặng để chơi gi&uacute;p lưu trữ được nhiều thứ hơn trong một chiếc iPad nhỏ gọn. &nbsp;</p>\n\n<h3><strong>Bảo mật Touch ID, dung lượng pin sử dụng nhiều giờ</strong></h3>\n\n<p>Về bảo mật, Apple đ&atilde; trang bị tr&ecirc;n chiếc iPad Mini 6 c&ocirc;ng nghệ bảo mật Touch ID ngay tr&ecirc;n n&uacute;t nguồn. C&ocirc;ng nghệ bảo mật sinh trắc học n&agrave;y kh&ocirc;ng chỉ gi&uacute;p mở kh&oacute;a nhanh ch&oacute;ng m&agrave; c&ograve;n n&acirc;ng cao độ bảo mật cho thiết bị c&aacute; nh&acirc;n của bạn.</p>\n\n<p><img alt=\"Bảo mật Touch ID, dung lượng pin sử dụng nhiều giờ\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-4.jpg\" /></p>\n\n<p>Apple đ&atilde; n&acirc;ng cấp cho iPad Mini 6 nhiều t&iacute;nh năng hiện đại, b&ecirc;n cạnh cấu h&igrave;nh mạnh th&igrave; dung lượng pin cũng được n&acirc;ng cao cho thời gian sử dụng d&agrave;i hơn. Cho ph&eacute;p người d&ugrave;ng thoải m&aacute;i sử dụng trong nhiều tiếng đồng hồ m&agrave; kh&ocirc;ng lo hết pin v&agrave; gi&aacute;n đoạn qu&aacute; tr&igrave;nh sử dụng.</p>\n\n<p><img alt=\"Bảo mật Touch ID, dung lượng pin sử dụng nhiều giờ\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-5.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-5.jpg\" /></p>\n\n<p>Về khả năng kết nối, iPad Mini 6 hỗ trợ kết nối 5G cho ph&eacute;p truyền &ndash; tải dữ liệu nhanh v&agrave; c&ocirc;ng nghệ wifi 6 mới nhất thời điểm hiện tại.</p>\n\n<h3><strong>Hỗ trợ Apple Pencil 2,&nbsp;</strong><strong>camera&nbsp;</strong><strong>12MP sắc n&eacute;t</strong></h3>\n\n<p>Nếu thế hệ iPad Mini 5 l&agrave; thế hệ nổi bật bởi c&oacute; sự kết hợp với Apple Pencil thế hệ đầu. Th&igrave; đến với thế hệ iPad Mini 6 sẽ tiếp tục được hỗ trợ Apple Pencil 2. Apple Pencil 2 với khả năng gắn từ t&iacute;nh v&agrave; sạc nhanh kh&ocirc;ng d&acirc;y gi&uacute;p người d&ugrave;ng sử dụng một c&aacute;ch tiện lợi. Chiếc b&uacute;t ng&agrave;y người d&ugrave;ng c&oacute; thể thiết kế, vẽ, hay ghi ch&uacute; lại c&ocirc;ng việc tiện lợi. Nh&igrave;n chung cho thấy, iPad Mini 6 với Apple Pencil 2 l&agrave; bộ đ&ocirc;i c&ocirc;ng cụ đắc lực hỗ trợ cho bạn ho&agrave;n th&agrave;nh c&ocirc;ng việc nhanh ch&oacute;ng v&agrave; thoải m&aacute;i khi giải tr&iacute;.</p>\n\n<p><img alt=\"Hỗ trợ Apple Pencil 2, camera 12MP sắc nét\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-6.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-6.jpg\" /></p>\n\n<p>Tuy người d&ugrave;ng kh&ocirc;ng y&ecirc;u cầu cao về camera tr&ecirc;n chiếc m&aacute;y t&iacute;nh bảng nhưng Apple cũng tinh tế trang bị cho iPad Mini 6 camera với độ ph&acirc;n giải 12MP sắc n&eacute;t. Với camera n&agrave;y, người d&ugrave;ng c&oacute; thể tr&ograve; chuyện video với bạn b&egrave; một c&aacute;ch r&otilde; n&eacute;t. Ph&iacute;a trước thiết bị cũng được trang bị một camera 12MP với g&oacute;c nh&igrave;n rộng 122 độ.</p>\n\n<p><img alt=\"Hỗ trợ Apple Pencil 2, camera 12MP sắc nét\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-7.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-MINI-6-7.jpg\" /></p>\n\n<h2><strong>Mua tablet iPad Mini 6 ch&iacute;nh h&atilde;ng, gi&aacute; rẻ tại CellphoneS</strong></h2>\n\n<p>Nếu bạn đang muốn sở hữu cho m&igrave;nh cho chiếc iPad Mini 6 ch&iacute;nh h&atilde;ng với mức gi&aacute; rẻ k&egrave;m nhiều ưu đ&atilde;i hấp dẫn. Vậy đến ngay CellphoneS để trải nghiệm v&agrave; mua ngay cho m&igrave;nh iPad Mini 6 với nhiều sự đổi mới nhất mang lại trải nghiệm tuyệt vời. Ngo&agrave;i ra, khi bạn mua iPad Mini 6 tại CellphoneS bạn c&ograve;n nhận ch&iacute;nh s&aacute;ch bảo h&agrave;nh l&ecirc;n đến 12 th&aacute;ng của h&atilde;ng Apple.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 12990000, NULL, 1000, 1, 
+    7, 8, NULL, NULL, '2022-08-28 04:53:47', 
+    'haipv'
+  ), 
+  (
+    102, 1.27, 'Apple iPad mini 6 4GB 64GB', 
+    'apple-ipad-mini-6-4gb-64gb', 'apple-ipad-mini-6-4gb-64gb.png', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Mạnh mẽ bứt ph&aacute; - Chip xử l&yacute; Apple A15 Bionic 6 nh&acirc;n</li>\n  <li>Hiển thị sắc n&eacute;t, mượt m&agrave; hơn - M&agrave;n h&igrave;nh IPS LCD 8,3 inch hỗ trợ True Tone</li>\n  <li>Ph&aacute; vỡ giới hạn s&aacute;ng tạo - Hỗ trợ Apple Pencil 2, iPadOS 15 tiện &iacute;ch hơn</li>\n  <li>Camera bắt trọn mọi khoảnh khắc - Camera trước v&agrave; sau 12MP</li>\n  <li>Thoải m&aacute;i sử dụng cả ng&agrave;y - Pin 19.3 Wh, cổng sạc USB-C</li>\n</ul>\n\n<h2><strong><strong>Đ&aacute;nh gi&aacute; m&aacute;y t&iacute;nh bảng iPad mini 6 4G &ndash; Tablet nhỏ gọn, hỗ trợ mạng di động</strong></strong></h2>\n\n<p><strong>Apple iPad mini 6 4G 64GB&nbsp;</strong>l&agrave; một trong số c&aacute;c phi&ecirc;n bản&nbsp;<a href=\"https://cellphones.com.vn/ipad-mini-6.html\">iPad mini 6 2021</a>&nbsp;m&agrave; Apple tung ra trong năm 2021 cho c&aacute;c người h&acirc;m mộ của nh&agrave; T&aacute;o. M&aacute;y sử dụng kết nối Wifi kết hợp với 4G, ph&ugrave; hợp khi sử dụng trong nh&agrave; lẫn ngo&agrave;i đường.</p>\n\n<p>Ngo&agrave;i ra, phi&ecirc;n bản c&oacute; dung lượng lớn hơn l&agrave;&nbsp;<a href=\"https://cellphones.com.vn/ipad-mini-6-4g-256gb.html\">Apple iPad mini 6 4G 256GB</a>&nbsp;ph&ugrave; hợp nếu bạn lưu trữ nhiều dữ liệu</p>\n\n<h3><strong>Hỗ trợ kết nối mạng 4G tiện dụng</strong></h3>\n\n<p>Thiết bị iPad mini 6 4G hỗ trợ kết nối internet th&ocirc;ng qua mạng di động 4G. Nhờ đ&oacute;, người d&ugrave;ng c&oacute; thể kết nối mạng nhanh ch&oacute;ng, kể cả khi ngo&agrave;i đường một c&aacute;ch dễ d&agrave;ng. Khi ở trong nh&agrave;, người d&ugrave;ng c&oacute; thể lựa chọn đổi sang mạng wifi để tiết kiệm dung lượng.</p>\n\n<p><img alt=\"Hỗ trợ kết nối mạng 4G tiện dụng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-1.jpg\" /></p>\n\n<h3><strong>Thiết kế nhỏ gọn, dễ d&agrave;ng cầm nắm, m&agrave;u sắc đa dạng</strong></h3>\n\n<p>iPad mini 6 4G sở hữu một thiết kế kh&aacute; nhỏ gọn với khả năng cầm nắm dễ d&agrave;ng. Thiết bị cũng sở hữu thiết kế khung viền vu&ocirc;ng vức như tr&ecirc;n iPhone 12 &ndash; 13, bốn g&oacute;c được bo cong. Tablet với nhiều phi&ecirc;n bản m&agrave;u sắc, mang lại đa dạng sự lựa chọn cho người d&ugrave;ng.</p>\n\n<p><img alt=\"Thiết kế nhỏ gọn, dễ dàng cầm nắm, màu sắc đa dạng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-7.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-7.jpg\" /></p>\n\n<p>Thế hệ iPad mini mới n&agrave;y với 4 phi&ecirc;n bản m&agrave;u sắc cho người d&ugrave;ng lựa chọn. Lần lượt l&agrave; x&aacute;m, hồng, t&iacute;m, v&agrave;ng. M&aacute;y cũng được trang bị c&ocirc;ng nghệ bảo mật Touch ID, được t&iacute;ch hợp ngay tr&ecirc;n n&uacute;t nguồn. C&ocirc;ng nghệ bảo mật sinh trắc học n&agrave;y kh&ocirc;ng chỉ mang lại khả năng mở kh&oacute;a nhanh ch&oacute;ng m&agrave; c&ograve;n bảo mật chất lượng.</p>\n\n<h3><strong>M&agrave;n h&igrave;nh True Tone 8,3 inch, hiển thị sắc n&eacute;t</strong></h3>\n\n<p>M&aacute;y t&iacute;nh bảng iPad mini 6 4G được trang bị m&agrave;n h&igrave;nh True Tone với k&iacute;ch thước l&ecirc;n đến 8,3 inch. M&agrave;n h&igrave;nh n&agrave;y với giải m&agrave;u P3 c&ugrave;ng độ s&aacute;ng cao l&ecirc;n đến 500 nits. Nhờ đ&oacute;, thiết bị mang lại trải nghiệm h&igrave;nh ảnh ấn tượng với chi tiết c&ugrave;ng m&agrave;u sắc sống động.</p>\n\n<p><img alt=\"Màn hình True Tone 8,3 inch, hiển thị sắc nét\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-2.jpg\" /></p>\n\n<h3><strong>Tương th&iacute;ch Apple Pencil thế hệ 2, ghi ch&uacute; nhanh ch&oacute;ng</strong></h3>\n\n<p>M&aacute;y t&iacute;nh bảng iPad mini 6 4G tương t&iacute;ch với Apple Pencil thế hệ 2. Đặc biệt b&uacute;t Apple Pencil n&agrave;y c&oacute; thể gắn từ t&iacute;nh v&agrave;o mặt b&ecirc;n của iPad mini 6. Nhờ đ&oacute; người d&ugrave;ng c&oacute; thể sử dụng b&uacute;t nhanh ch&oacute;ng để ghi ch&uacute;, ph&aacute;c thảo ngay khi c&oacute; &yacute; tưởng.</p>\n\n<p><img alt=\"Tương thích Apple Pencil thế hệ 2, ghi chú nhanh chóng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-3.jpg\" /></p>\n\n<h3><strong>Hiệu năng ổn định với chip Apple A15</strong></h3>\n\n<p>iPad mini 6 4G 2021 được trang bị con chip mới nhất (t&iacute;nh đến thời điểm ra mắt) Apple A15. C&ugrave;ng với đ&oacute; l&agrave; d&ugrave;ng lượng RAM c&ugrave;ng bộ nhớ trong lớn. Với cấu h&igrave;nh n&agrave;y, người d&ugrave;ng c&oacute; thể thoải m&aacute;i sử dụng, chơi game.</p>\n\n<p><img alt=\"Hiệu năng ổn định với chip Apple A15\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-5.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-5.jpg\" /></p>\n\n<p>Ngo&agrave;i CPU, thiết bị c&ograve;n được trang bị GPU 6 nh&acirc;n, cho hiệu suất nhanh hơn đến 40%. B&ecirc;n cạnh đ&oacute; l&agrave; khả năng đồ họa được n&acirc;ng cấp l&ecirc;n đến 80%.</p>\n\n<p>Về thời lượng sử dụng, iPad mini 6 4G cho thời gian sử dụng l&acirc;u d&agrave;i l&ecirc;n đến nhiều giờ đồng hồ. Nhờ đ&oacute;, người d&ugrave;ng c&oacute; thể thoải m&aacute;i sử dụng m&agrave; kh&ocirc;ng cần lo lắng đến t&igrave;nh trạng pin c&ograve;n lại, thiết cũng hỗ trợ sạc nhanh tiện lợi.</p>\n\n<p><img alt=\"Hiệu năng ổn định với chip Apple A15\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-6_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-6_1.jpg\" /></p>\n\n<p>M&aacute;y t&iacute;nh bảng iPad mini 6 4G n&agrave;y cũng được trang bị c&ocirc;ng nghệ 5G c&ugrave;ng c&ocirc;ng nghệ mạng kh&ocirc;ng d&acirc;y như wifi 6.</p>\n\n<h3><strong>Camera 12MP, gọi điện &ndash; quay phim chất lượng</strong></h3>\n\n<p>Thiết bị đến từ Apple n&agrave;y được trang bị camera trước v&agrave; camera sau với độ ph&acirc;n giải 12MP. C&ugrave;ng với cảm biến Focus Pixels mang lại khả năng chụp h&igrave;nh sắc n&eacute;t v&agrave; sống động.</p>\n\n<p><img alt=\"Camera 12MP, gọi điện – quay phim chất lượng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-6-4g-4.jpg\" /></p>\n\n<h2><strong>Mua ngay m&aacute;y t&iacute;nh bảng iPad mini 6 4G ch&iacute;nh h&atilde;ng &ndash; gi&aacute; rẻ tại CellphoneS</strong></h2>\n\n<p>iPad mini 6 4G l&agrave; mẫu tablet nhỏ gọn với hiệu năng ấn tượng. Nếu quan t&acirc;m đến mẫu m&aacute;y t&iacute;nh bảng th&ocirc;ng minh n&agrave;y, h&atilde;y đến với CellphoneS để mua ngay tablet iPad mini 6 4G 2021 với gi&aacute; ưu đ&atilde;i c&ugrave;ng nhiều khuyến m&atilde;i hấp dẫn.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 15290000, NULL, 1000, 1, 
+    7, 8, NULL, NULL, '2022-08-28 04:54:42', 
+    'haipv'
+  ), 
+  (
+    103, 1.27, 'Apple iPad mini 6 WiFi 256GB', 
+    'apple-ipad-mini-6-wifi-256gb', 
+    'Apple iPad mini 6 WiFi 256GB.png', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Mạnh mẽ bứt ph&aacute; - Chip xử l&yacute; Apple A15 Bionic 6 nh&acirc;n</li>\n  <li>Hiển thị sắc n&eacute;t, mượt m&agrave; hơn - M&agrave;n h&igrave;nh IPS LCD 8,3 inch hỗ trợ True Tone</li>\n  <li>Ph&aacute; vỡ giới hạn s&aacute;ng tạo - Hỗ trợ Apple Pencil 2, iPadOS 15 tiện &iacute;ch hơn</li>\n  <li>Camera bắt trọn mọi khoảnh khắc - Camera trước v&agrave; sau 12MP</li>\n  <li>Thoải m&aacute;i sử dụng cả ng&agrave;y - Pin 19.3 Wh, cổng sạc USB-C</li>\n</ul>\n\n<p><strong>Apple iPad mini 6 256GB</strong>&nbsp;l&agrave; phi&ecirc;n bản&nbsp;<a href=\"https://cellphones.com.vn/ipad-mini-6.html\">iPad mini 6</a>&nbsp;c&oacute; dung lượng lớn, rất th&iacute;ch hợp để lưu trữ nhiều dữ liệu. Phi&ecirc;n bản sử dụng kết nối Wifi, thuận tiện khi sử dụng tại nh&agrave;.</p>\n\n<p>Ngo&agrave;i ra, Apple c&ograve;n c&oacute; phi&ecirc;n bản 4G l&agrave; sản phẩm&nbsp;<a href=\"https://cellphones.com.vn/ipad-mini-6-4g.html\">Apple iPad mini 6 4G 64GB</a>&nbsp;cho bạn lựa chọn</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 16500000, NULL, 1000, 1, 
+    7, 8, NULL, NULL, '2022-08-28 04:59:52', 
+    'haipv'
+  ), 
+  (
+    104, 1.27, 'Apple iPad mini 5 WiFi 256GB', 
+    'apple-ipad-mini-5-wifi-256gb', 
+    'apple-ipad-mini-5-wifi-256gb.png', 
+    '', '<h2><strong>iPad Mini 5 Wifi 256GB&nbsp;&ndash; M&agrave;n h&igrave;nh 7.9 inch, vi xử l&yacute; A12 Bionic v&agrave; tương th&iacute;ch với Apple Pencil</strong></h2>\n\n<p><em>iPad Mini 5 l&agrave; chiếc iPad Mini c&oacute; k&iacute;ch cỡ nhỏ gọn nhưng mang hiệu năng ấn tượng, xứng đ&aacute;ng l&agrave; sản phẩm được tr&ocirc;ng chờ nhất của Apple trong năm 2019. Kh&ocirc;ng chỉ thừa hưởng thiết kế đặc trưng của iPad đời trước,&nbsp;<strong>iPad Mini 5 Wifi 256GB</strong>&nbsp;c&ograve;n được n&acirc;ng cấp đ&aacute;ng kể với việc t&iacute;ch hợp b&uacute;t Apple Pencil, g&oacute;p phần n&acirc;ng tầm trải nghiệm cho người d&ugrave;ng.</em></p>\n\n<p>Nếu nhu cầu lưu trữ thấp hơn v&agrave; cần một chiếc m&aacute;y hỗ trợ 4G tốc độ cao, tham khảo ngay&nbsp;<a href=\"https://cellphones.com.vn/apple-ipad-mini-5-4g-64-gb.html\">iPad mini 5 4G 64GB</a></p>\n\n<h3><strong>Thiết kế nhỏ gọn với m&agrave;n h&igrave;nh 7.9 inch v&agrave; c&ocirc;ng nghệ h&igrave;nh ảnh&nbsp;Dolby Vision</strong></h3>\n\n<p>iPad Mini 5 Wifi l&agrave; chiếc tablet&nbsp;sở hữu thiết kế tương tự người tiền nhiệm: chất liệu nguy&ecirc;n khối, cạnh viền ben-zen d&agrave;y, n&uacute;t Home vật l&yacute; t&iacute;ch hợp cảm biến v&acirc;n tay Touch ID, v&agrave; jack cắm tai nghe 3.5mm truyền thống. iPad Mini 5 Wifi c&oacute; chiều rộng 134.8mm, chiều cao 203.2mm, đạt trọng lượng nhẹ chỉ 300 g, độ mỏng 6.1 mm, tạo khả năng cầm nắm thoải m&aacute;i cho người d&ugrave;ng.</p>\n\n<p><img alt=\"Thiết kế nhỏ gọn với màn hình 7.9 inch và công nghệ hình ảnh Dolby Vision\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-1.png\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-1.png\" /></p>\n\n<p>M&agrave;n h&igrave;nh tr&ecirc;n iPad Mini 5 Wifi đạt 7.9 inch tr&ecirc;n tỉ lệ m&agrave;n h&igrave;nh 4:3, độ ph&acirc;n giải 1536 x 2048px,&nbsp;tấm nền IPS LCD&nbsp;với c&ocirc;ng nghệ Retina. Đặc biệt, iPad Mini 5 Wifi hỗ trợ h&igrave;nh ảnh ở HDR v&agrave; Dolby Vision, một định dạng cường h&oacute;a m&agrave;u sắc h&igrave;nh ảnh được d&ugrave;ng trong rạp chiếu phim. Do đ&oacute; m&agrave; mọi thước phim lẫn thiết kế đồ họa tr&ecirc;n iPad Mini 5 Wifi sẽ c&oacute; m&agrave;u sắc sống động v&agrave; nổi bật hơn hết.</p>\n\n<h3><strong>Dung lượng lưu trữ 256GB đủ d&ugrave;ng</strong></h3>\n\n<p>iPad Mini 5 ra mắt với hai phi&ecirc;n bản:&nbsp;<a href=\"https://cellphones.com.vn/apple-ipad-mini-5-wifi-64-gb.html\" target=\"_blank\" title=\"Apple iPad Mini 5 Wifi 64GB Chính hãng\">iPad Mini 5 wifi 64GB</a>&nbsp;v&agrave; iPad Mini 5 wifi 256GB, một sự n&acirc;ng cấp đ&aacute;ng kể so với dung lượng 32GB v&agrave; 128GB của iPad 9.7 trước đ&acirc;y. Phi&ecirc;n bản n&agrave;y được trang bị dung lượng lưu trữ 256GB cho ph&eacute;p người d&ugrave;ng thỏa sức lưu trữ dữ liệu l&agrave;m việc v&agrave; tải nhiều ứng dụng.</p>\n\n<p><img alt=\"Dung lượng lưu trữ 256GB đủ dùng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-3.png\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-3.png\" /></p>\n\n<p>Đối với người d&ugrave;ng iPad Mini 5 wifi 256GB nhưng c&oacute; nhu cầu lưu trữ lớn th&igrave; c&oacute; thể sử dụng th&ecirc;m những dịch vụ lưu trữ đ&aacute;m m&acirc;y như Google Drive, iCloud,&hellip; B&ecirc;n cạnh một dung lượng lưu trữ đủ d&ugrave;ng, mẫu iPad mini 5 mới nhất được t&iacute;ch hợp kết nối Wifi 802.11 với tần số 2.4GHz v&agrave; 5GHz, gi&uacute;p kết nối Wifi lu&ocirc;n ổn định v&agrave; mượt m&agrave;. Hệ điều h&agrave;nh được cập nhật l&ecirc;n phi&ecirc;n bản mới nhất &ndash; iOS 12.1.3, cho ph&eacute;p thiết bị chạy hai ứng dụng c&ugrave;ng l&uacute;c m&agrave; kh&ocirc;ng bị giật.</p>\n\n<h3><strong>Hiệu năng mạnh mẽ với chip Apple A12 Bionic</strong></h3>\n\n<p>Một trong những l&yacute; do đ&aacute;ng để sở hữu iPad Mini 5 Wifi ch&iacute;nh l&agrave; phần cứng. Sức mạnh b&ecirc;n trong iPad Mini 5 Wifi được tạo ra bởi vi xử l&yacute; Apple A12 Bionic s&aacute;u nh&acirc;n, ch&iacute;nh con chip l&agrave;m n&ecirc;n hiệu năng của iPhone XR, iPhone Xs v&agrave; iPhone XS Max. Tổng hiệu năng tr&ecirc;n iPad Mini 5 Wifi mang lại kết quả cao hơn gấp đ&ocirc;i so với iPad 2018 (sử dụng chip Apple A10 Fusion), v&agrave; cũng xử l&yacute; mượt m&agrave; những tựa game nặng như&nbsp;PUBG Mobile, Li&ecirc;n Qu&acirc;n,&hellip; với cấu h&igrave;nh tối đa.</p>\n\n<p><img alt=\"Hiệu năng mạnh mẽ với chip Apple A12 Bionic\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-2.png\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-2.png\" /></p>\n\n<p>Đi k&egrave;m với đ&oacute; l&agrave; bộ nhớ RAM 3GB gi&uacute;p tăng tốc qu&aacute; tr&igrave;nh xử l&yacute; phần mềm tr&ecirc;n thiết bị. Đối với những người sử dụng m&aacute;y t&iacute;nh bảng để phục vụ c&ocirc;ng việc, sức mạnh hiệu năng phần cứng cộng với b&uacute;t cảm ứng đa năng Apple Pencil sẽ tăng hiệu suất l&agrave;m việc l&ecirc;n cao.</p>\n\n<h3><strong>B&uacute;t cảm ứng Apple Pencil thế hệ đầu, dung lượng pin 5124 mAh</strong></h3>\n\n<p>Năm nay, Apple đ&atilde; đầu tư kỹ lưỡng v&agrave;o chiếc iPad Mini 5 Wifi khi t&iacute;ch hợp nhiều t&iacute;nh năng hữu &iacute;ch, trong đ&oacute; c&oacute; Apple Pencil. B&uacute;t cảm ứng Apple Pencil tr&ecirc;n iPad Mini 5 Wifi thuộc thế hệ đầu ti&ecirc;n trong d&ograve;ng stylus của Apple. Chiếc b&uacute;t d&agrave;i 176mm, đường k&iacute;nh 8.9mm v&agrave; được thiết kế nhằm giảm độ trễ tr&ecirc;n m&agrave;n h&igrave;nh, nhận diện đầu b&uacute;t v&agrave; ng&oacute;n tay chạm c&ugrave;ng l&uacute;c, v&agrave; dễ d&agrave;ng di chuyển c&ugrave;ng với thiết bị. Apple Pencil chạy bằng pin, v&agrave; người d&ugrave;ng c&oacute; thể sạc b&uacute;t bằng cổng Lightning hoặc&nbsp;Bluetooth 4.1&nbsp;với thời gian sử dụng đầy pin l&agrave; 12 giờ.</p>\n\n<p><img alt=\"Bút cảm ứng Apple Pencil thế hệ đầu, dung lượng pin 5124 mAh\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-4.png\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-4.png\" /></p>\n\n<p>Với vi&ecirc;n pin 5124mAh, người d&ugrave;ng iPad Mini 5 Wifi c&oacute; thể thoải m&aacute;i sử dụng thiết bị li&ecirc;n tục, bao gồm lướt web, chơi game, l&agrave;m việc trong &iacute;t nhất 10 giờ. C&ugrave;ng với đ&oacute; l&agrave; c&ocirc;ng nghệ sạc nhanh với c&aacute;p sạc USB-C chuyển qua Lightning, cho thời gian sạc đầy pin ước t&iacute;nh v&agrave;o khoảng 2 giờ 19 ph&uacute;t.</p>\n\n<h3><strong>Chụp lại mọi khoảnh khắc với camera sau 8MP v&agrave; camera trước 7MP</strong></h3>\n\n<p>Kh&ocirc;ng thể kh&ocirc;ng nhắc đến ống k&iacute;nh chất lượng tr&ecirc;n mọi chiếc iPad của Apple. Đối với iPad Mini 5 Wifi, thiết bị c&oacute; ống k&iacute;nh sau 8MP, khẩu độ f/2.4 hỗ trợ quay phim độ ph&acirc;n giải 1080p với chế độ quay chậm slo-mo cho tốc độ khung h&igrave;nh l&ecirc;n đến 120fps. Chất lượng h&igrave;nh ảnh của camera sau kh&aacute; tốt v&agrave; r&otilde; n&eacute;t, gi&uacute;p người d&ugrave;ng thỏa sức chụp ảnh mọi l&uacute;c mọi nơi.</p>\n\n<p><img alt=\"Chụp lại mọi khoảnh khắc với camera sau 8MP và camera trước 7MP\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-5.png\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-256gb-5.png\" /></p>\n\n<p>Với nhiều người d&ugrave;ng, camera trước l&agrave; quan trọng nhất tr&ecirc;n một chiếc iPad. Ch&iacute;nh v&igrave; thế m&agrave; Apple đ&atilde; trang bị cho iPad Mini 5 Wifi ống k&iacute;nh trước 7MP cũng hỗ trợ quay phim 1080p tương tự camera sau. Những cuộc gọi video call hay FaceTime sẽ trở n&ecirc;n r&otilde; n&eacute;t v&agrave; chất lượng m&agrave; người d&ugrave;ng c&oacute; thể tr&ocirc;ng chờ từ iPad Mini 5 Wifi.</p>\n\n<h3><strong>Sở hữu iPad Mini 5 phi&ecirc;n bản Wifi 256GB ch&iacute;nh h&atilde;ng tại hệ thống CellphoneS</strong></h3>\n\n<p>H&igrave;nh d&aacute;ng nhỏ gọn, b&uacute;t cảm ứng Apple Pencil, chip A12, bộ nhớ lưu trữ 256GB ch&iacute;nh l&agrave; những g&igrave; bạn sẽ c&oacute; được ở chiếc iPad Mini 5 Wifi 256GB. V&agrave; CellphoneS h&acirc;n hạnh được cung cấp cho bạn iPad Mini 5 Wifi 256GB ch&iacute;nh h&atilde;ng với nhiều ưu đ&atilde;i hấp dẫn. Sản phẩm cũng sẽ được bảo h&agrave;nh 12 th&aacute;ng, hỗ trợ 1 đổi 1 trong v&ograve;ng 30 ng&agrave;y nếu c&oacute; lỗi từ nh&agrave; sản xuất.</p>\n\n<p>Đến với CellphoneS, bạn sẽ t&igrave;m thấy nhiều thiết bị di động, m&aacute;y t&iacute;nh bảng, laptop v&agrave; phụ kiện ch&iacute;nh h&atilde;ng, chất lượng cao với mức gi&aacute; hấp dẫn k&egrave;m nhiều ưu đ&atilde;i chỉ c&oacute; tại CellphoneS. Bạn c&oacute; thể đến ngay cửa h&agrave;ng CellphoneS gần nhất tr&ecirc;n khắp th&agrave;nh phố Hồ Ch&iacute; Minh v&agrave; H&agrave; Nội, hoặc truy cập v&agrave;o website cellphones.com.vn để t&igrave;m hiểu th&ecirc;m về c&aacute;c sản phẩm c&ocirc;ng nghệ mới nhất. Hệ thống CellphoneS h&acirc;n hạnh được đ&oacute;n tiếp bạn.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 9990000, NULL, 1000, 1, 
+    7, 8, NULL, NULL, '2022-08-28 05:02:38', 
+    'haipv'
+  ), 
+  (
+    105, 1.27, 'Apple iPad mini 5 WiFi 64GB', 
+    'apple-ipad-mini-5-wifi-64gb', 
+    'apple-ipad-mini-5-wifi-64gb.png', 
+    '', '<h2><strong>iPad Mini 5 - Hiệu năng mượt m&agrave;, ngoại h&igrave;nh sang trọng</strong></h2>\n\n<p>Sau sự th&agrave;nh c&ocirc;ng của thế hệ iPad Mini 4 ở những năm 2015, năm nay Apple đ&aacute;nh dấu sự trở lại của d&ograve;ng sản phẩm n&agrave;y với&nbsp;<a href=\"https://cellphones.com.vn/tablet/ipad-mini.html\" target=\"_blank\" title=\"Máy tính bảng iPad Mini chính hãng\">iPad Mini</a>&nbsp;5 đầy hứa hẹn. Nếu bạn đang cần một thiết bị m&aacute;y t&iacute;nh bảng đầy đủ c&aacute;c t&iacute;nh năng, mạnh mẽ, mỏng nhẹ, hiện đại:&nbsp;<strong>iPad Mini 5 Wifi 64GB</strong>&nbsp;ch&iacute;nh l&agrave; sự lựa chọn kh&ocirc;ng thể bỏ qua.</p>\n\n<p>Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo&nbsp;<a href=\"https://cellphones.com.vn/ipad-mini-6.html\">iPad Mini 6</a>&nbsp;sắp ra mắt với nhiều n&acirc;ng cấp về hiệu năng.</p>\n\n<h3><strong>M&agrave;n h&igrave;nh 7.9 inch rộng r&atilde;i,&nbsp;tấm nền IPS&nbsp;LCD, hỗ trợ Apple Pencil</strong></h3>\n\n<p><strong>iPad Mini 5</strong>&nbsp;được trang bị m&agrave;n h&igrave;nh 7.9 inch với độ ph&acirc;n giải 1536 x 2048. Với mật độ điểm ảnh 324 ppi, m&aacute;y mang đến cho người d&ugrave;ng kh&ocirc;ng gian trải nghiệm thoải m&aacute;i, rộng lớn, sắc n&eacute;t. Nhờ v&agrave;o tấm nền IPS LCD m&agrave; h&igrave;nh ảnh tr&ecirc;n m&aacute;y thể hiện rất trung thực, h&igrave;nh ảnh nổi khối, độ s&aacute;ng cao cũng như g&oacute;c nh&igrave;n tuyệt đối.</p>\n\n<p><img alt=\"Màn hình 7.9 inch rộng rãi, tấm nền IPS LCD\" data-src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-1.jpg\" lazy=\"loaded\" src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-1.jpg\" /></p>\n\n<p>Song song với khả năng hiển thị tốt c&ugrave;ng kh&ocirc;ng gian rộng r&atilde;i, m&agrave;n h&igrave;nh tr&ecirc;n iPad Mini 5 hứa hẹn cũng mang đến cho người d&ugrave;ng rất nhiều t&iacute;nh năng hữu &iacute;ch như True Tone, dải m&agrave;u&nbsp;DCI-P3.</p>\n\n<p>Đặc biệt hơn, bạn sẽ c&oacute; một chiếc m&aacute;y t&iacute;nh bảng hỗ trợ Apple Pencil. Với chiếc b&uacute;t Stylus n&agrave;y, bạn c&oacute; thể thực hiện rất nhiều thao t&aacute;c th&uacute; vị như vẽ, viết, thiết kế, cũng như l&agrave; ghi ch&uacute; c&ocirc;ng việc. B&ecirc;n cạnh đ&oacute;, m&aacute;y t&iacute;nh bảng cũng hỗ trợ kết nối với vỏ b&agrave;n ph&iacute;m th&ocirc;ng minh của h&atilde;ng. Nh&igrave;n chung, với hai phụ kiện n&agrave;y, c&ugrave;ng m&agrave;n h&igrave;nh rộng r&atilde;i, iPad Mini 5 thật sự l&agrave; c&ocirc;ng cụ đắc lực cho c&ocirc;ng việc v&agrave; giải tr&iacute;.</p>\n\n<p><img alt=\"Apple iPad Mini 5 Wifi 64GB hỗ trợ Apple Pencil\" data-src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-2.jpg\" lazy=\"loaded\" src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-2.jpg\" /></p>\n\n<h3><strong>Cấu h&igrave;nh mạnh mẽ với Apple A12, 3GB RAM, bộ nhớ trong 64GB</strong></h3>\n\n<p>Về cấu h&igrave;nh phần cứng, m&aacute;y t&iacute;nh bảng&nbsp;<em><strong>iPad Mini 5</strong></em>&nbsp;được trang bị vi xử l&yacute; mới nhất của Apple: Bionic A12. Đ&acirc;y l&agrave; một CPU được thiết kế tr&ecirc;n tiến tr&igrave;nh 7nm, khả năng xử l&yacute; tăng 40% so với&nbsp;Apple A11. Với những g&igrave; vi xử l&yacute; n&agrave;y đ&atilde; thể hiện tr&ecirc;n thế hệ iPhone 2018, ch&uacute;ng ta c&oacute; thể khẳng định rằng d&ograve;ng iPad mới n&agrave;y sẽ mang lại hiệu năng rất tuyệt vời, nhanh nhẹn.</p>\n\n<p>Song song với đ&oacute;, thiết bị cũng sở hữu 3GB RAM c&ugrave;ng 64GB bộ nhớ trong. Dung lượng RAM lớn n&oacute;i tr&ecirc;n sẽ gi&uacute;p người d&ugrave;ng thao t&aacute;c, sử dụng c&aacute;c t&iacute;nh năng đa nhiệm được mượt m&agrave; hơn. B&ecirc;n cạnh đ&oacute;, bộ nhớ trong 64GB cũng sẽ gi&uacute;p ch&uacute;ng ta thoải m&aacute;i lưu trữ, tải game ứng dụng, cũng như sử dụng l&acirc;u d&agrave;i hơn rất nhiều. Với một thiết bị m&aacute;y t&iacute;nh bảng nhỏ gọn như iPad Mini 5 64GB, phi&ecirc;n bản cấu h&igrave;nh (64GB/3GB RAM) tr&ecirc;n thật sự l&agrave; rất đủ, cũng như l&agrave; hợp t&uacute;i tiền của người d&ugrave;ng.</p>\n\n<p><img alt=\"Cấu hình mạnh mẽ với Apple A12\" data-src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-3.jpg\" lazy=\"loaded\" src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-3.jpg\" /></p>\n\n<p>Về phần mềm, iPad Mini 5 sẽ được b&aacute;n ra c&ugrave;ng với phi&ecirc;n bản iOS 12.1.3. C&aacute;c phi&ecirc;n bản iOS từ 12 trở l&ecirc;n đều đ&atilde; cho ph&eacute;p người d&ugrave;ng bật chế độ hiệu năng cao, c&ugrave;ng việc tối ưu hệ thống rất tốt. Chưa hết, iOS tr&ecirc;n iPad c&ograve;n được tối ưu th&ecirc;m c&aacute;c t&iacute;nh năng đa nhiệm hai m&agrave;n h&igrave;nh.&nbsp; Từ đ&oacute;, người d&ugrave;ng c&oacute; thể an t&acirc;m rằng đ&acirc;y sẽ l&agrave; một hệ điều h&agrave;nh mang lại cho bạn những trải nghiệm tuyệt vời nhất.</p>\n\n<p><img alt=\"iPad Mini 5 sẽ được bán ra cùng với phiên bản iOS 12.1.3\" data-src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-4.jpg\" lazy=\"loaded\" src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-4.jpg\" /></p>\n\n<h3><strong>Thiết kế kim loại nguy&ecirc;n khối, nhỏ gọn, cảm biến v&acirc;n tay ở n&uacute;t home</strong></h3>\n\n<p>Đ&uacute;ng như những g&igrave; ch&uacute;ng ta mong chờ tr&ecirc;n d&ograve;ng sản phẩm iPad Mini, iPad Mini 5 năm nay tiếp nối truyền thống mỏng nhẹ, nhỏ gọn nhưng vẫn rất đủ để trải nghiệm. Cụ thể hơn, d&ugrave; c&oacute; m&agrave;n h&igrave;nh l&ecirc;n đến 7.9 inch nhưng&nbsp;<strong>iPad Mini 5 Wifi</strong>&nbsp;c&oacute; một khối lượng rất nhẹ, chỉ rơi v&agrave;o khoảng 300 grams. Với con số n&agrave;y, người d&ugrave;ng ho&agrave;n to&agrave;n c&oacute; thể cầm m&aacute;y bằng một tay m&agrave; kh&ocirc;ng sợ mỏi hay rơi m&aacute;y trong qu&aacute; tr&igrave;nh sử dụng.</p>\n\n<p><img alt=\"Thiết kế kim loại nguyên khối, nhỏ gọn\" data-src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-5.jpg\" lazy=\"loaded\" src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-5.jpg\" /></p>\n\n<p>B&ecirc;n cạnh đ&oacute;, iPad Mini 5 vẫn giữ thiết kế kim loại nguy&ecirc;n khối như thế hệ iPad Mini 4. Tuy nhi&ecirc;n mức độ ho&agrave;n thiện của m&aacute;y đ&atilde; tốt hơn, c&aacute;c đường n&eacute;t cũng được thiết kế tinh xảo hơn. V&agrave; với khung kim loại như thế, bạn c&oacute; thể phần n&agrave;o an t&acirc;m rằng m&aacute;y vẫn sẽ bền bỉ, chắc chắn sau một thời gian sử dụng.</p>\n\n<p>Một điểm đ&aacute;ng ch&uacute; &yacute; l&agrave;<em>&nbsp;iPad Mini 5</em>&nbsp;sẽ được trang bị n&uacute;t home ở mặt trước ki&ecirc;m cảm biến v&acirc;n tay. Thiết kế n&agrave;y kh&ocirc;ng thay đổi qu&aacute; nhiều so với thế hệ iPad Mini 4, nhưng ch&uacute;ng ta kh&ocirc;ng thể phủ nhận rằng n&oacute; vẫn rất tiện lợi, ph&ugrave; hợp.</p>\n\n<p><img alt=\"iPad Mini 5 sẽ được trang bị nút home ở mặt trước kiêm cảm biến vân tay\" data-src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-6.jpg\" lazy=\"loaded\" src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-6.jpg\" /></p>\n\n<h3><strong>Dung lượng pin 5124mAh cho thời gian sử dụng tốt tr&ecirc;n iPad Mini 5</strong></h3>\n\n<p>Song song với c&aacute;c th&ocirc;ng số rất tốt về m&agrave;n h&igrave;nh, cấu h&igrave;nh, thời lượng pin tr&ecirc;n iPad Mini 4 chắc chắn sẽ kh&ocirc;ng l&agrave;m bạn thất vọng. M&aacute;y được trang bị vi&ecirc;n pin 5124mAh. Với khả năng tối ưu pin tốt của Apple A12 cũng như iOS, chắc chắn iPad Mini 4 sẽ mang đến cho người d&ugrave;ng từ 1 &ndash; 2 ng&agrave;y trải nghiệm thoải m&aacute;i.</p>\n\n<p><img alt=\"iPad Mini 5 sẽ được trang bị nút home ở mặt trước kiêm cảm biến vân tay\" data-src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-7.jpg\" lazy=\"loaded\" src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-7.jpg\" /></p>\n\n<p>Nếu bạn c&oacute; nhu cầu giải tr&iacute;, chơi game với cường độ cao, vi&ecirc;n pin tr&ecirc;n&nbsp;<em>iPad Mini 5</em>&nbsp;vẫn đ&aacute;p ứng tốt với 1 ng&agrave;y d&ugrave;ng thoải m&aacute;i. C&oacute; thể n&oacute;i, về thời lượng pin, từ trước đến nay những thiết bị Apple iPad chưa bao giờ khiến người d&ugrave;ng thất vọng cả.</p>\n\n<h3><strong>Camera sau 8MP kết hợp camera selfie 7MP</strong></h3>\n\n<p>D&ugrave; người d&ugrave;ng iPad thường kh&ocirc;ng đ&ograve;i hỏi nhiều về khả năng chụp ảnh, Apple vẫn trang bị cho thế hệ iPad Mini 5 những th&ocirc;ng số tương đối nổi bật về camera.</p>\n\n<p>M&aacute;y được trang bị camera sau với độ ph&acirc;n giải 8MP f/2.4. Kh&ocirc;ng c&oacute; độ ph&acirc;n giải qu&aacute; cao, cũng như hỗ trợ nhiều t&iacute;nh năng độc đ&aacute;o, nhưng đ&acirc;y c&oacute; thể sẽ l&agrave; cụm camera bạn cần trong những trường hợp cấp b&aacute;ch nhất. Với camera sau n&agrave;y, người d&ugrave;ng se được hỗ trợ chụp ảnh&nbsp;HDR,&nbsp;cũng như quay phim FullHD 30 khung h&igrave;nh tr&ecirc;n gi&acirc;y.</p>\n\n<p><img alt=\"Hỗ trợ camera sau 8MP, camera selfie 7MP\" data-src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-8.jpg\" lazy=\"loaded\" src=\"https://cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-mini-5-wifi-64gb-8.jpg\" /></p>\n\n<p>Về camera selfie, iPad Mini 5 được trang bị cảm biến 7MP f/2.2. Nhu cầu sử dụng camera selfie n&agrave;y cũng tương đối thiết thực. Bạn c&oacute; thể d&ugrave;ng n&oacute; để gọi&nbsp;Facetime, chụp ảnh khi cần hay đặc biệt l&agrave; livestream, chơi game c&ugrave;ng bạn b&egrave;. C&oacute; thể n&oacute;i về mặt camera, d&ugrave; kh&ocirc;ng qu&aacute; cần thiết những Apple vẫn trang bị cho người d&ugrave;ng những phần cứng rất ổn, rất thiết thực.</p>\n\n<h2><strong>Mua ngay iPad Mini 5 ch&iacute;nh h&atilde;ng gi&aacute; tốt tại CellphoneS</strong></h2>\n\n<p>Hiện tại CellphoneS đang cho đăng k&yacute; nhận th&ocirc;ng tin b&aacute;n ra&nbsp;<strong>iPad Mini 5 Wifi 64GB</strong>&nbsp;với mức gi&aacute; chỉ 12.500.000VND. B&ecirc;n cạnh đ&oacute;, bạn c&ograve;n được bảo h&agrave;nh 12 th&aacute;ng tại trung t&acirc;m bảo h&agrave;nh ch&iacute;nh h&atilde;ng. Bạn c&ograve;n được nhận ưu đ&atilde;i 1 đổi 1 trong v&ograve;ng 30 ng&agrave;y nếu c&oacute; lỗi từ nh&agrave; sản xuất.&nbsp;Nếu bạn đang quan t&acirc;m, vậy c&ograve;n chần chừ g&igrave; m&agrave; kh&ocirc;ng đến ngay CellphoneS để trải nghiệm trực tiếp v&agrave; rinh về chiếc iPad Mini thế hệ mới nhất của Apple.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 8990000, NULL, 1000, 1, 
+    7, 8, NULL, NULL, '2022-08-28 05:03:20', 
+    'haipv'
+  ), 
+  (
+    106, 1.27, 'Samsung Galaxy Tab A7 Lite', 
+    'samsung-galaxy-tab-a7-lite', 'samsung-galaxy-tab-a7-lite.png', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế quen thuộc c&ugrave;ng - Thiết kế kim loại nguy&ecirc;n khối</li>\n  <li>Trải nghiệm kh&ocirc;ng gian giải tr&iacute; ho&agrave;n hảo - M&agrave;n h&igrave;nh nhỏ chỉ 8.7 inches, c&ocirc;ng nghệ TFT LCD</li>\n  <li>Hiệu năng mạnh mẽ c&acirc;n mọi t&aacute;c vụ - Chip Mediatek Helio P22T, RAM 3 GB</li>\n  <li>Thời gian sử dụng l&acirc;u d&agrave;i - Vi&ecirc;n pin 5100 mAh</li>\n</ul>\n\n<h2><strong>M&aacute;y t&iacute;nh bảng Samsung Galaxy Tab A7 Lite &ndash; Thiết kế nhỏ gọn, cấu h&igrave;nh ổn định</strong></h2>\n\n<p>Thị trường m&aacute;y t&iacute;nh bảng hiện giờ l&agrave; cuộc chơi của những &ocirc;ng lớn. Ngo&agrave;i Apple đang chiếm thị phần v&ocirc; c&ugrave;ng lớn th&igrave; theo sau đ&oacute; l&agrave; Samsung đang dần chiếm được t&igrave;nh cảm của người d&ugrave;ng với ph&acirc;n kh&uacute;c thấp hơn. Để củng cố th&ecirc;m vị tr&iacute; của m&igrave;nh h&atilde;ng đ&atilde; cho ra mắt chiếc m&aacute;y t&iacute;nh bảng&nbsp;<strong>Tab A7 Lite</strong>&nbsp;với mức gi&aacute; cực hấp dẫn.</p>\n\n<p>Dự kiến sắp tới đ&acirc;y, h&atilde;ng sẽ ra mắt chiếc&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-tab-a8.html\">Samsung Galaxy Tab A8</a>&nbsp;với nhiều n&acirc;ng cấp về cấu h&igrave;nh v&agrave; m&agrave;n h&igrave;nh.</p>\n\n<h3><strong>Thiết kế quen thuộc c&ugrave;ng m&agrave;n h&igrave;nh nhỏ chỉ 8.7 inches</strong></h3>\n\n<p>Về thiết kế, Galaxy Tab A7 Lite sở hữu một thiết kế theo phong c&aacute;ch thanh mảnh, tương tự như chiếc Tab A6 Lite được ra mắt từ năm ngo&aacute;i. M&aacute;y sử dụng thiết kế kim loại nguy&ecirc;n khối để gi&uacute;p tăng cường độ bền cho sản phẩm bởi h&atilde;ng hiểu rằng một sản phẩm to th&igrave; dễ gặp phải t&igrave;nh trạng va đập.</p>\n\n<p><img alt=\"Thiết kế quen thuộc cùng màn hình nhỏ chỉ 8.4 inches\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/samsung-galaxy-tab-a7-lite-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/samsung-galaxy-tab-a7-lite-2.jpg\" /></p>\n\n<p>B&ecirc;n cạnh đ&oacute;, chiếc m&aacute;y sở hữu m&agrave;n h&igrave;nh nhỏ với k&iacute;ch thước chỉ 8.7 inches, đ&uacute;ng với t&ecirc;n gọi Lite của n&oacute;. Thiết kế m&agrave;n h&igrave;nh nhỏ n&agrave;y tiện lợi cho việc cầm nắm cũng như thao t&aacute;c tr&ecirc;n m&agrave;n h&igrave;nh chỉ với một ng&oacute;n tay.</p>\n\n<h3><strong>Cấu h&igrave;nh mạnh mẽ với chip Helio P22T</strong></h3>\n\n<p>Về cấu h&igrave;nh th&igrave; chiếc m&aacute;y t&iacute;nh bảng&nbsp;<strong>Galaxy Tab A7 Lite</strong>&nbsp;được trang bị con chip xử l&yacute; Helio P22T mới vừa được ra mắt của MediaTek. Tuy kh&ocirc;ng được sở hữu một khả năng xử l&yacute; dữ liệu mạnh mẽ như Snapdragon nhưng nh&igrave;n chung t&aacute;i tạo h&igrave;nh ảnh v&agrave; khung h&igrave;nh mượt m&agrave; v&agrave; ổn định, cũng như khả năng đọc file kh&aacute; nhanh v&agrave; hiệu quả.</p>\n\n<p><img alt=\"Cấu hình mạnh mẽ với chip Helio P22T, hỗ trợ 5G\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/samsung-galaxy-tab-a7-lite-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/samsung-galaxy-tab-a7-lite-4.jpg\" /></p>\n\n<p>Điểm ấn tượng nhất tr&ecirc;n chiếc Tab A7 Lite đ&oacute; l&agrave; việc hỗ trợ được kết nối 4G &ndash; kết nối mạng phổ biến v&agrave; nhanh nhất hiện nay, vốn chỉ được trang bị tr&ecirc;n những chiếc smartphone tầm trung cho đến cao cấp. Qua đ&oacute;, gi&uacute;p bạn xử l&yacute; được h&agrave;ng đống dữ liệu web hay tr&ograve; chơi trực tuyến nhanh hơn gấp nhiều lần.</p>\n\n<h2><strong>Mua Samsung Galaxy Tab A7 Lite ch&iacute;nh h&atilde;ng gi&aacute; rẻ tại CellphoneS</strong></h2>\n\n<p>Nếu bạn đang cần một chiếc tablet c&oacute; m&agrave;n h&igrave;nh kh&ocirc;ng qu&aacute; to để dễ d&agrave;ng mang đi khắp nơi v&agrave; vẫn đảm bảo được hiệu năng ổn định th&igrave; chiếc&nbsp;<strong>Samsung Galaxy Tab A7 Lite</strong>&nbsp;ch&iacute;nh x&aacute;c l&agrave; d&agrave;nh cho bạn. Sản phẩm đang được kinh doanh tại CellphoneS đảm bảo l&agrave; h&agrave;ng ch&iacute;nh h&atilde;ng v&agrave; c&oacute; mức gi&aacute; hợp l&yacute;.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 3750000, NULL, 1000, 1, 
+    7, 10, NULL, NULL, '2022-08-28 05:05:48', 
+    'haipv'
+  ), 
+  (
+    107, 1.27, 'oppo-pad-air', 'oppo-pad-air', 
+    'oppo-pad-air.png', '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thi&ecirc;́t k&ecirc;́ dẫn đầu xu hướng - Thanh mảnh, mỏng nhẹ chỉ 440g</li>\n  <li>Kh&ocirc;ng gian hiển thị m&atilde;n nh&atilde;n - M&agrave;n h&igrave;nh IPS LCD k&iacute;ch thước 10.36 inch độ ph&acirc;n giải 1200 x 2000 Pixels</li>\n  <li>Cấu h&igrave;nh ổn định, xử l&iacute; đa t&aacute;c vụ - Qualcomm Snapdragon 680, 4GB</li>\n  <li>Hỗ trợ chụp ảnh quay phim r&otilde; n&eacute;t - Camera 8 MP với khẩu độ f/2.0, lấy n&eacute;t tự động li&ecirc;n tục</li>\n</ul>\n\n<p><strong>OPPO Pad Air</strong>&nbsp;tuy chỉ mới được ra mắt trong thời gian gần đ&acirc;y nhưng đ&atilde; thu h&uacute;t được rất nhiều sự quan t&acirc;m từ ph&iacute;a người ti&ecirc;u d&ugrave;ng v&agrave; được cho l&agrave; sản phẩm tốt nhất trong ph&acirc;n kh&uacute;c gi&aacute;. Chiếc m&aacute;y t&iacute;nh bảng OPPO g&acirc;y ấn tượng bởi thiết kế mỏng nhẹ, dung lượng pin lớn, c&ugrave;ng hiệu năng hoạt động ổn định v&agrave; nhanh ch&oacute;ng.</p>\n\n<h2><strong>Đ&aacute;nh gi&aacute; m&aacute;y t&iacute;nh bảng OPPO Pad Air &ndash; Tablet b&igrave;nh d&acirc;n với thiết kế đẹp mắt</strong></h2>\n\n<p><a href=\"https://cellphones.com.vn/oppo-pad-air.html\" title=\"OPPO Pad Air\"><strong>OPPO Pad Air</strong></a>&nbsp;l&agrave; chiếc m&aacute;y t&iacute;nh bảng phi&ecirc;n bản r&uacute;t gọn của OPPO Pad. Thiết bị thu h&uacute;t sự ch&uacute; &yacute; của nhiều người d&ugrave;ng nhờ v&agrave;o mức gi&aacute; kh&aacute; rẻ, cũng như ngoại h&igrave;nh h&uacute;t mắt, độc đ&aacute;o. B&ecirc;n cạnh đ&oacute; d&ugrave; đ&atilde; được r&uacute;t gọn về phần cứng kh&aacute; nhiều nhưng d&ograve;ng OPPO Pad Air n&agrave;y vẫn đ&aacute;p ứng được khả năng hoạt động ổn định.</p>\n\n<h3><strong>Thiết kế&nbsp;OPPO Pad Air thanh mảnh, mỏng nhẹ dễ d&agrave;ng mang đến bất cứ đ&acirc;u</strong></h3>\n\n<blockquote>\n<p>Ấn tượng đầu ti&ecirc;n khi cầm tr&ecirc;n tay d&ograve;ng&nbsp;<strong>Pad Air</strong>&nbsp;đến từ thương hiệu OPPO ch&iacute;nh l&agrave; ngoại h&igrave;nh rất thanh mảnh khi m&aacute;y chỉ d&agrave;y 6.94mm. Th&ecirc;m v&agrave;o đ&oacute; l&agrave; cảm gi&aacute;c cầm nắm rất thoải m&aacute;i nhờ v&agrave;o khối lượng rất nhẹ, chỉ dừng lại ở mức 440g. Với những ưu thế về ngoại h&igrave;nh n&agrave;y, thiết bị sẽ kh&ocirc;ng g&acirc;y ra cảm gi&aacute;c mỏi tay khi sử dụng trong thời gian d&agrave;i.</p>\n</blockquote>\n\n<p>C&oacute; thể n&oacute;i&nbsp;<strong>OPPO Pad Air</strong>&nbsp;l&agrave; một trong những d&ograve;ng m&aacute;y t&iacute;nh bảng c&oacute; ngoại h&igrave;nh đẹp mắt nhất. Nhờ được chế t&aacute;c từ c&ocirc;ng nghệ độc quyền của OPPO, d&ograve;ng m&aacute;y c&oacute; mặt lưng nh&aacute;m v&agrave; rực rỡ tựa như những cồn c&aacute;t dưới &aacute;nh ho&agrave;ng hồn. Hơn nữa, vẻ đẹp của m&aacute;y sẽ được giữ nguy&ecirc;n vẹn sau một thời gian d&agrave;i sử dụng khi c&oacute; khả năng chống b&aacute;m dấu v&acirc;n tay.</p>\n\n<p><img alt=\"Đánh giá thiết kế Oppo Pad Air \" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-1.jpg\" /></p>\n\n<h3><strong>Khả năng hoạt động ổn định với những t&aacute;c vụ h&agrave;ng ng&agrave;y</strong></h3>\n\n<blockquote>\n<p><strong>M&aacute;y t&iacute;nh bảng&nbsp;OPPO Pad Air</strong>&nbsp;được trang bị bộ vi xử l&yacute; Snapdragon 680 được chế t&aacute;c tr&ecirc;n tiến tr&igrave;nh 6nm bao gồm 8 nh&acirc;n. B&ecirc;n cạnh đ&oacute; thiết bị mang đến cho người d&ugrave;ng hai phi&ecirc;n bản để lựa chọn l&agrave; RAM 4GB. Với những t&aacute;c vụ nhẹ như lướt web, xem phim, chơi những tựa game c&oacute; cấu h&igrave;nh thấp, bạn h&atilde;y ho&agrave;n to&agrave;n y&ecirc;n t&acirc;m khi m&aacute;y c&oacute; thể hoạt động rất mượt.</p>\n</blockquote>\n\n<p>Điều quan trọng nhất với một thiết bị chuy&ecirc;n d&ugrave;ng để giải tr&iacute; như m&aacute;y t&iacute;nh bảng đ&oacute; l&agrave; dung lượng của bộ nhớ trong. Do đ&oacute; OPPO đ&atilde; trang bị cho d&ograve;ng Pad Air của m&igrave;nh bộ nhớ ROM 64GB. Đ&acirc;y l&agrave; mức dung lượng ho&agrave;n hảo để bạn lưu trữ những bộ phim, cũng như tải về c&aacute;c tựa game y&ecirc;u th&iacute;ch.</p>\n\n<p><img alt=\"Đánh giá hiệu năng Oppo Pad Air \" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-2.jpg\" /></p>\n\n<h3><strong>M&agrave;n h&igrave;nh&nbsp;OPPO Pad Air đẹp mắt với khả năng bảo vệ mắt tiện lợi</strong></h3>\n\n<blockquote>\n<p><strong>OPPO Pad Air</strong>&nbsp;c&oacute; k&iacute;ch thước m&agrave;n h&igrave;nh kh&aacute; lớn, l&ecirc;n đến 10.36 inch với thiết kế viền si&ecirc;u mỏng chỉ 8mm v&agrave; tỉ lệ hiển thị h&igrave;nh ảnh so với th&acirc;n m&aacute;y l&agrave; 83.5%. Th&ecirc;m v&agrave;o đ&oacute; m&agrave;n h&igrave;nh đi k&egrave;m với độ ph&acirc;n giải 2K, c&oacute; khả năng hiển thị l&ecirc;n đến 1 tỷ m&agrave;u mang đến những trải nghiệm xem phim, chơi game sinh động v&agrave; th&uacute; vị.</p>\n</blockquote>\n\n<p>Với OPPO Pad Air, bạn cũng kh&ocirc;ng phải lo lắng về sức khỏe đ&ocirc;i mắt của m&igrave;nh khi sử dụng m&aacute;y trong thời gian d&agrave;i. OPPO trang bị đến 2048 mức độ điều chỉnh &aacute;nh s&aacute;ng, do đ&oacute; t&ugrave;y theo điều kiện m&ocirc;i trường xung quanh, bạn c&oacute; thể t&ugrave;y chỉnh sao cho ph&ugrave; hợp v&agrave; kh&ocirc;ng g&acirc;y hại đến tầm nh&igrave;n.</p>\n\n<p><img alt=\"Oppo Pad Air  - Màn hình hiển thị rõ nét\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-5.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-5.jpg\" /></p>\n\n<h3><strong>Thoải m&aacute;i giải tr&iacute; với dung lượng pin ấn tượng</strong></h3>\n\n<blockquote>\n<p>Tuy l&agrave; d&ograve;ng m&aacute;y t&iacute;nh bảng thuộc ph&acirc;n kh&uacute;c gi&aacute; rẻ, nhưng&nbsp;<strong>Pad Air</strong>&nbsp;lại được OPPO ưu &aacute;i trang bị cho vi&ecirc;n pin với khả năng hoạt động l&acirc;u d&agrave;i. Bạn c&oacute; thể thực hiện cuộc gọi video với thiết bị n&agrave;y trong v&ograve;ng 12 giờ xem phim hoặc 8 giờ họp online. Khi dung lượng pin đ&atilde; hết, bạn cũng kh&ocirc;ng phải mất qu&aacute; nhiều thời gian để sạc đầy khi đ&atilde; c&oacute; bộ sạc nhanh c&ocirc;ng suất 18W.</p>\n</blockquote>\n\n<p><img alt=\"Thoải mái giải trí với dung lượng pin ấn tượng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-4.jpg\" /></p>\n\n<h3>Đa nhiệm hiệu quả hơn với giao diện ColorOS 12</h3>\n\n<blockquote>\n<p><strong>OPPO Pad Air</strong>&nbsp;đi k&egrave;m với hệ điều h&agrave;nh Android 12 v&agrave; giao diện ColorOS 12. Nhờ c&oacute; giao diện n&agrave;y, người d&ugrave;ng c&oacute; thể chia m&agrave;n h&igrave;nh th&agrave;nh hai phần v&agrave; thực hiện c&ugrave;ng l&uacute;c hai t&aacute;c vụ kh&aacute;c nhau.</p>\n</blockquote>\n\n<p>Kh&ocirc;ng dừng lại ở đ&oacute;, m&aacute;y t&iacute;nh bảng c&ograve;n cho ph&eacute;p kết nối với điện thoại v&agrave; chuyển m&agrave;n h&igrave;nh của thiết bị n&agrave;y l&ecirc;n m&agrave;n h&igrave;nh của OPPO Pad Air. Điều n&agrave;y c&oacute; nghĩa l&agrave; bạn c&oacute; thể thực hiện nhiều t&aacute;c vụ c&ugrave;ng l&uacute;c tr&ecirc;n cả hai thiết bị chỉ với một chiếc OPPO Pad Air.</p>\n\n<p><img alt=\"Đánh giá khả năng đa nhiệm\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/oppo/oppo-pad-air-3.jpg\" /></p>\n\n<h2><strong>Mua ngay m&aacute;y t&iacute;nh bảng OPPO Pad Air ch&iacute;nh h&atilde;ng tại CellphoneS</strong></h2>\n\n<p><strong>OPPO Pad Air</strong>&nbsp;đ&atilde; được ra mắt v&agrave;o th&aacute;ng 8 n&agrave;y với mức gi&aacute; rơi v&agrave;o khoảng 6.990.000 đồng. Một trong những địa chỉ l&agrave; nh&agrave; ph&acirc;n phối ch&iacute;nh thức của OPPO tại Việt Nam l&agrave; Hệ thống b&aacute;n lẻ c&ocirc;ng nghệ CellphoneS, nhanh ch&acirc;n đến ngay chi nh&aacute;nh CellphoneS gần nhất để sở hữu một thiết bị giải tr&iacute; với mức gi&aacute; ưu đ&atilde;i bạn nh&eacute;.</p>\n\n<h2><strong>C&aacute;c c&acirc;u hỏi thường gặp</strong></h2>\n\n<p>Khi c&oacute; bất cứ c&acirc;u hỏi n&agrave;o về OPPO Pad Air, qu&yacute; kh&aacute;ch đừng ngại ngần li&ecirc;n hệ ngay với CellphoneS qua số điện thoại 1800.2097, Fanpage CellphoneS hoặc nhắn tin tr&ograve; truyện ngay tr&ecirc;n Website với tư vấn vi&ecirc;n để được giải đ&aacute;p nhanh ch&oacute;ng nhất!</p>\n\n<h3><strong>OPPO Pad Air ch&iacute;nh h&atilde;ng khi n&agrave;o ra mắt tại Việt Nam?</strong></h3>\n\n<p>OPPO Pad Air c&oacute; thể được&nbsp;ra mắt chung với d&ograve;ng OPPO Reno8 v&agrave;o th&aacute;ng 8/2022 tại thị trường Việt Nam.&nbsp;Oppo Pad Air bản r&uacute;t gọn của Oppo Pad tiền nhiệm, sản phẩm hứa hẹn sẽ c&oacute; nhiều đột ph&aacute; mới ấn tượng với gi&aacute; th&agrave;nh ưu đ&atilde;i ở thị trường Việt Nam.</p>\n\n<h3><strong>Giá bán của đi&ecirc;̣n thoại OPPO Pad Air ch&iacute;nh h&atilde;ng l&agrave; bao nhi&ecirc;u?</strong></h3>\n\n<p>OPPO Pad Air&nbsp;c&oacute; hai sự lựa chọn m&agrave;u đ&oacute; l&agrave; Fog Grey v&agrave; Star Silver khi ra mắt tại Trung Quốc với ba cấu h&igrave;nh bộ nhớ, được b&aacute;n c&ugrave;ng gi&aacute; như sau:</p>\n\n<ul>\n  <li>Pad Air bản 4 GB + 64 GB - 1.299 Yuan (khoảng 4.5 triệu đồng).</li>\n  <li>Pad Air bản 4 GB + 128 GB - 1.499 Yuan&nbsp;(khoảng 5.2 triệu đồng).</li>\n  <li>Pad Air bản 6 GB + 128 GB - 1.699 Yuan&nbsp;(khoảng 6 triệu đồng).</li>\n</ul>\n\n<p>Tại&nbsp;<strong>CellphoneS mở b&aacute;n OPPO Pad Air với gi&aacute;&nbsp;6.990.000 ₫</strong>, ngo&agrave;i ra c&ograve;n c&oacute; nhiều chương tr&igrave;nh ưu đ&atilde;i kh&aacute;c m&agrave; qu&yacute; kh&aacute;ch c&oacute; thể nhận khi mua m&aacute;y bao gồm giảm gi&aacute; th&agrave;nh vi&ecirc;n, ốp lưng, bảo h&agrave;nh rơi vỡ,....</p>\n\n<h3><strong>OPPO Pad Air c&oacute; chống nước kh&ocirc;ng?</strong></h3>\n\n<p>OPPO Pad Air kh&ocirc;ng được trang bị chuẩn chống thấm, kh&aacute;ng bụi v&igrave; vậy người d&ugrave;ng cần hết sức cẩn thận, tr&aacute;nh để thiết bị rơi v&agrave;o nước hoặc ngấm nước qu&aacute; l&acirc;u.</p>\n\n<h3><strong>OPPO Pad Air c&oacute; chơi game tốt kh&ocirc;ng?</strong></h3>\n\n<p>OPPO Pad Air cho ph&eacute;p bạn chơi được c&aacute;c game thịnh h&agrave;nh như Li&ecirc;n Qu&acirc;n Mobile, PUBG,.. với cấu h&igrave;nh thấp hoặc trung b&igrave;nh rất mượt m&agrave;.</p>\n\n<h3><strong>OPPO Pad Air pin c&oacute; tr&acirc;u kh&ocirc;ng?</strong></h3>\n\n<p>Với những t&aacute;c vụ sử dụng m&aacute;y t&iacute;nh bảng th&ocirc;ng thường như họp video k&eacute;o d&agrave;i h&agrave;ng giờ, 1-2 giờ xem YouTube v&agrave; kiểm tra email cơ bản, OPPO Pad Air c&oacute; thời lượng pin kh&aacute; tốt k&eacute;o d&agrave;i cả ng&agrave;y thậm ch&iacute; 2-3 ng&agrave;y nếu &iacute;t sử dụng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 6990000, NULL, 1000, 1, 
+    7, 9, NULL, NULL, '2022-08-28 05:08:24', 
+    'haipv'
+  ), 
+  (
+    108, 1.27, 'iPad 10.2 2021 WiFi 64GB', 
+    'ipad-102-2021-wifi-64gb', 'ipad-102-2021-wifi-64gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiệu năng ổn định - Apple A13 Bionic 6 nh&acirc;n mạnh mẽ</li>\n  <li>Trải nghiệm hiển thị chất lượng - M&agrave;n h&igrave;nh Retina 10.2 inch, hỗ trợ True Tone</li>\n  <li>Sử dụng thoải m&aacute;i suốt cả ng&agrave;y - Pin 32.4 Wh (~8600 mAh) sử dụng l&acirc;u d&agrave;i</li>\n  <li>Giữ trọn mọi khoảnh khắc - Camera trước 12MP v&agrave; sau 8MP sắc n&eacute;t, chuẩn HDR</li>\n</ul>\n\n<h2><strong>iPad Gen 9 (10.2 inch) 2021 - Hiệu năng đỉnh với mức gi&aacute; sinh vi&ecirc;n</strong></h2>\n\n<p>Sau sự th&agrave;nh c&ocirc;ng của chiếc iPad Gen 8 c&ugrave;ng với iPad Air 4, Apple lại tiếp tục rục rịch cho ra mắt th&ecirc;m sản phẩm mới. Thiết bị mang t&ecirc;n&nbsp;<strong>iPad Gen 9</strong>, kế thừa đặc trưng của d&ograve;ng nhưng được n&acirc;ng cấp th&ecirc;m về hiệu năng cũng như camera.</p>\n\n<h3><strong>Thiết kế mỏng nhẹ, m&agrave;n h&igrave;nh k&iacute;ch thước 10.5 inches</strong></h3>\n\n<p>iPad 10.2 inch 2021 vẫn mang thiết kế đặc trưng bởi sự mỏng v&agrave; nhẹ, gi&uacute;p người d&ugrave;ng dễ thao t&aacute;c, cầm nắm trong h&agrave;ng giờ liền m&agrave; kh&ocirc;ng hề cảm thấy bị mỏi hay kh&oacute; chịu. Thiết kế nguy&ecirc;n khối đ&atilde; l&agrave; n&eacute;t đặc trưng của d&ograve;ng sản phẩm iPad gi&uacute;p mang lại vẻ sang trọng khi sử dụng t&ecirc;n tay.</p>\n\n<p><img alt=\"Thiết kế mỏng nhẹ, màn hình kích thước 10.5 inches\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-INCH-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-INCH-1.jpg\" /></p>\n\n<p>M&agrave;n h&igrave;nh của iPad 10.2 inch 2021 k&iacute;ch thước lớn c&ugrave;ng khả năng hiển thị sống động. M&agrave;n h&igrave;nh&nbsp;True Tone tr&ecirc;n&nbsp;<a href=\"https://cellphones.com.vn/tablet/ipad-10-2.html\">iPad 10.2 inch</a>&nbsp;c&ograve;n hỗ trợ điều chỉnh&nbsp;m&agrave;n h&igrave;nh theo nhiệt độ m&agrave;u.</p>\n\n<h3><strong>Cấu h&igrave;nh mạnh mẽ bởi chip A13 Bionic, bộ nhớ trong dung lượng lớn</strong></h3>\n\n<p><strong>iPad Gen 9</strong>&nbsp;được cung cấp sức mạnh bởi con chip A13 Bionic. Đ&acirc;y l&agrave; con chip được s&aacute;n xu&aacute;t tr&ecirc;n tiến tr&igrave;nh 7nm+, cho ph&eacute;p xử l&yacute; hiệu suất cao gấp 6 lần so với thế hệ trước.</p>\n\n<p><img alt=\"Cấu hình mạnh mẽ bởi chip A13 Bionic, bộ nhớ trong 32/ 64 GB\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-INCH-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-INCH-3.jpg\" /></p>\n\n<p>Chưa hết, củng cố th&ecirc;m sức mạnh cho chiếc iPad Gen 9 đ&oacute; l&agrave; dung lượng RAM lớn, hỗ trợ hoạt động đa nhiệm tốt. B&ecirc;n cạnh đ&oacute;, người d&ugrave;ng c&oacute; th&ecirc;m sự lựa chọn đến từ bộ nhớ trong 64GB. Ngo&agrave;i ra, thiết bị c&ograve;n nhiều phi&ecirc;n bản bộ nhớ kh&aacute;c t&ugrave;y v&agrave;o nhu cầu sử dụng của người d&ugrave;ng.</p>\n\n<h2><strong>Mua iPad 10.2 inch 2021 ch&iacute;nh h&atilde;ng, gi&aacute; rẻ tại CellphoneS</strong></h2>\n\n<p>Nếu bạn đang cần một chiếc tablet để hỗ trợ l&agrave;m việc hoặc chơi game th&igrave;&nbsp;<strong>iPad 10.2 inch 2021</strong>&nbsp;ch&iacute;nh l&agrave; chiếc m&aacute;y t&iacute;nh bảng ph&ugrave; hợp. Sản phẩm đang được kinh doanh ch&iacute;nh h&atilde;ng tại CellphoneS với mức gi&aacute; ưu đ&atilde;i c&ugrave;ng bảo h&agrave;nh l&acirc;u d&agrave;i 12 th&aacute;ng. Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo th&ecirc;m th&ocirc;ng số cấu h&igrave;nh của&nbsp;<a href=\"https://cellphones.com.vn/ipad-10-2-inch-2022.html\">iPad Gen 10</a>&nbsp;sắp ra mắt trong năm 2022.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 8490000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:14:11', 
+    'haipv'
+  ), 
+  (
+    109, 1.27, 'iPad 10.2 2021 4G 64GB', 
+    'ipad-102-2021-4g-64gb', 'ipad-102-2021-4g-64gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiệu năng ổn định - Apple A13 Bionic 6 nh&acirc;n mạnh mẽ</li>\n  <li>Trải nghiệm hiển thị chất lượng - M&agrave;n h&igrave;nh Retina 10.2 inch, hỗ trợ True Tone</li>\n  <li>Sử dụng thoải m&aacute;i suốt cả ng&agrave;y - Pin 32.4 Wh (~8600 mAh) sử dụng l&acirc;u d&agrave;i</li>\n  <li>Giữ trọn mọi khoảnh khắc - Camera trước 12MP v&agrave; sau 8MP sắc n&eacute;t, chuẩn HDR</li>\n</ul>\n\n<h2><strong>Đ&aacute;nh gi&aacute; m&aacute;y t&iacute;nh bảng iPad 10.2 2021 4G &ndash; Tablet hiệu năng mạnh mẽ</strong></h2>\n\n<p>B&ecirc;n cạnh iPhone 13 , Apple Watch Series 7, th&igrave;&nbsp;<a href=\"https://cellphones.com.vn/ipad-10-2-inch-2021.html\">iPad 10.2 gen 9</a>&nbsp;l&agrave; sản phẩm đang nhận được sự quan t&acirc;m của cộng đồng, đặc biệt l&agrave; người h&acirc;m m&ocirc; d&ograve;ng sản phẩm của nh&agrave; T&aacute;o. Trong số đ&oacute;,&nbsp;<strong>iPad 10.2 2021 4G 64GB</strong>&nbsp;c&oacute; sức h&uacute;t lớn do gi&aacute; th&agrave;nh dự kiến kh&ocirc;ng qu&aacute; cao so với c&aacute;c phi&ecirc;n bản kh&aacute;c của sản phẩm.</p>\n\n<p>Hoặc bạn c&oacute; thể lựa chọn phi&ecirc;n bản c&oacute; dung lượng cao hơn l&agrave;&nbsp;<a href=\"https://cellphones.com.vn/ipad-10-2-inch-2021-4g-256gb.html\">iPad 10.2 2021 4G 256GB</a>&nbsp;để c&oacute; thể lưu trữ nhiều dữ liệu hơn.</p>\n\n<h3><strong>Kết nối 4G v&agrave; wifi tiện lợi</strong></h3>\n\n<p>Kh&aacute;c với iPad 10.2 2021 wifi, phi&ecirc;n bản iPad 10.2 2021 4G hỗ trợ kết nối mạng di động 4G, nhờ đ&oacute; người d&ugrave;ng c&oacute; thể thoải m&aacute;i sử dụng ở mọi l&uacute;c &ndash; mọi nơi m&agrave; kh&ocirc;ng cần t&igrave;m nguồn ph&aacute;t wifi.</p>\n\n<p><img alt=\"Kết nối 4G và wifi tiện lợi\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-1.jpg\" /></p>\n\n<h3><strong>Thiết kế nhỏ gọn, bảo mật Touch ID tr&ecirc;n n&uacute;t home</strong></h3>\n\n<p>Mẫu với iPad 10.2 2021 mới n&agrave;y vẫn sở hữu thiết kế n&uacute;t home. Do đ&oacute;, m&aacute;y t&iacute;nh bảng sở hữu hai viền tr&ecirc;n v&agrave; dưới d&agrave;y. Nhưng thay v&agrave;o đ&oacute;, iPad 10.2 2021 vẫn được trang bị c&ocirc;ng nghệ Touch ID tr&ecirc;n ph&iacute;m home, gi&uacute;p mở kh&oacute;a nhanh ch&oacute;ng v&agrave; bảo mật cao.</p>\n\n<p><img alt=\"Thiết kế nhỏ gọn, bảo mật Touch ID trên nút home\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-2.jpg\" /></p>\n\n<h3><strong>M&agrave;n h&igrave;nh k&iacute;ch thước 10,2 inch, c&ocirc;ng nghệ True Tone</strong></h3>\n\n<p>Tablet iPad 10.2 2021 4G được thiết kế một m&agrave;n h&igrave;nh lớn với k&iacute;ch thước l&ecirc;n đến 10,2 inch. M&agrave;n h&igrave;nh lớn n&agrave;y mang lại kh&ocirc;ng gian trải nghiệm lớn với m&agrave;u sắc sống động c&ugrave;ng độ s&aacute;ng cao, l&ecirc;n đến 500 nits. M&agrave;n h&igrave;nh tr&ecirc;n m&aacute;y t&iacute;nh bảng n&agrave;y c&ograve;n được phủ lớp oleophobic gi&uacute;p chống b&aacute;m v&acirc;n tan v&agrave; mồ h&ocirc;i hiệu quả.</p>\n\n<p><img alt=\"Màn hình kích thước 10,2 inch, công nghệ True Tone\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-3.jpg\" /></p>\n\n<p>Đặc biệt, tablet c&ograve;n được trang bị c&ocirc;ng nghệ True Tone gi&uacute;p điều chỉnh độ s&aacute;ng m&agrave;n h&igrave;nh theo nhiệt độ ph&ograve;ng. Nhờ đ&oacute; gi&uacute;p mắt người d&ugrave;ng thoải m&aacute;i hơn, đặc biệt khi nh&igrave;n v&agrave;o m&agrave;n h&igrave;nh trong thời gian d&agrave;i.</p>\n\n<h3><strong>Camera trước 12MP, camera sau 8MP gọi video chất lượng</strong></h3>\n\n<p>iPad 10.2 2021 4G được trang bị camera trước với độ ph&acirc;n giải l&ecirc;n đến 12MP. Camera với g&oacute;c chụp rộng mang lại những bức ảnh chất lượng, đặc biệt khi chụp nh&oacute;m. Ph&iacute;a sau l&agrave; camera 8MP hỗ trợ chụp ảnh, quay video lưu lại những khoảnh khắc trong cuộc sống. iPad 10.2 2021 cũng hỗ trợ quay video HD v&agrave; khả năng zoom video 3x.</p>\n\n<p><img alt=\"Camera trước 12MP, camera sau 8MP gọi video chất lượng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-4.jpg\" /></p>\n\n<h3><strong>Hiệu năng ổn định với chipset A13 Bionic</strong></h3>\n\n<p>M&aacute;y t&iacute;nh bảng iPad 10.2 2021 4G được trang bị cấu h&igrave;nh mạnh mẽ với con chip A13 Bionic nhờ đ&oacute; mang lại hiệu năng hoạt động mạnh mẽ. Người d&ugrave;ng c&oacute; thể thoải m&aacute;i sử dụng c&ugrave;ng l&uacute;c nhiều tr&igrave;nh duyệt web, nhắn tin cho bạn b&egrave;.</p>\n\n<p>Thiết bị với GPU với tốc độ nhanh hơn đến 20% nhờ đ&oacute; iPad 10.2 2021 c&oacute; thể chiến tốt c&aacute;c tựa game đồ họa nặng tr&ecirc;n thị trường. Về phần mềm, iPad 10.2 2021 4G chạy tr&ecirc;n hệ điều h&agrave;nh iPadOS 15.</p>\n\n<p><img alt=\"Hiệu năng ổn định với chipset A13 Bionic\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-5.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-5.jpg\" /></p>\n\n<p>iPad 10.2 2021 4G cũng mang lại trải nghiệm giải tr&iacute; &acirc;m thanh chất lượng với hệ thống loa &acirc;m thanh nổi. Khả năng đ&agrave;m thoại chất lượng với micro k&eacute;p.</p>\n\n<p>Về thời gian sử dụng, m&aacute;y cũng được trang bị vi&ecirc;n pin dung lượng lớn, mang lại thời gian sử dụng li&ecirc;n tục nhiều giờ. Ngo&agrave;i ra, m&aacute;y c&ograve;n hỗ trợ sạc nhanh th&ocirc;ng qua cổng kết nối USB-C.</p>\n\n<h3><strong>Hỗ trợ Apple Pencil thế hệ 1, b&agrave;n ph&iacute;m th&ocirc;ng minh gấp gọn</strong></h3>\n\n<p>Tablet iPad 10.2 2021 4G hỗ trợ sử dụng Apple Pencil, nhờ đ&oacute; người d&ugrave;ng c&oacute; thể dễ d&agrave;ng ghi ch&uacute;, viết vẽ v&agrave; s&aacute;ng tạo.</p>\n\n<p><img alt=\"Hỗ trợ Apple Pencil thế hệ 1, bàn phím thông minh gấp gọn\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-6.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/IPAD-10-2-4G-6.jpg\" /></p>\n\n<p>Tablet cũng c&oacute; thể biến m&igrave;nh th&agrave;nh một chiếc laptop nhanh ch&oacute;ng với b&agrave;n ph&iacute;m th&ocirc;ng minh c&oacute; thể gấp gọn.</p>\n\n<h2><strong>Mua ngay m&aacute;y t&iacute;nh bảng iPad 10.2 2021 4G ch&iacute;nh h&atilde;ng chất lượng tại CellphoneS</strong></h2>\n\n<p>Bạn đang t&igrave;m kiếm mẫu tablet nhỏ gọn, hiệu năng vượt trội. Vậy h&atilde;y đến với CellphoneS để trải nghiệm v&agrave; mua ngay m&aacute;y t&iacute;nh bảng iPad 10.2 2021 4G ch&iacute;nh h&atilde;ng với gi&aacute; ưu đ&atilde;i c&ugrave;ng nhiều khuyến m&atilde;i hấp dẫn.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 10990000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:14:54', 
+    'haipv'
+  ), 
+  (
+    110, 1.27, 'iPad 10.2 2021 WiFi 256GB', 
+    'ipad-102-2021-wifi-256gb', 'ipad-102-2021-wifi-256gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiệu năng ổn định - Apple A13 Bionic 6 nh&acirc;n mạnh mẽ</li>\n  <li>Trải nghiệm hiển thị chất lượng - M&agrave;n h&igrave;nh Retina 10.2 inch, hỗ trợ True Tone</li>\n  <li>Sử dụng thoải m&aacute;i suốt cả ng&agrave;y - Pin 32.4 Wh (~8600 mAh) sử dụng l&acirc;u d&agrave;i</li>\n  <li>Giữ trọn mọi khoảnh khắc - Camera trước 12MP v&agrave; sau 8MP sắc n&eacute;t, chuẩn HDR</li>\n</ul>\n\n<p>Đến hẹn lại l&ecirc;n, v&agrave;o gần cuối năm 2021, Apple tung ra th&ocirc;ng tin về c&aacute;c sản phẩm mới nhất của h&atilde;ng trong năm 2021 n&agrave;y. Trong đ&oacute;, b&ecirc;n cạnh iPhone, Apple Watch ... th&igrave;&nbsp;<a href=\"https://cellphones.com.vn/ipad-10-2-inch-2021.html\">iPad 10.2 2021</a>&nbsp;l&agrave; sản phẩm đang nhận được nhiều sự quan t&acirc;m v&agrave; theo d&otilde;i .</p>\n\n<p>Trong c&aacute;c sản phẩm đ&oacute; th&igrave;&nbsp;<strong>iPad 10.2 2021 Wifi 256GB</strong>&nbsp;l&agrave; sản phẩm b&igrave;nh d&acirc;n được kh&aacute; nhiều người theo d&otilde;i. Ngo&agrave;i ra, c&aacute;c phi&ecirc;n bản kh&aacute;c của sản phẩm như&nbsp;<a href=\"https://cellphones.com.vn/ipad-10-2-inch-2021-4g.html\">iPad 10.2 2021 4G 64GB</a>&nbsp;cũng rất đ&aacute;ng để sở hữu&nbsp;</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 11890000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:15:40', 
+    'haipv'
+  ), 
+  (
+    111, 1.27, 'iPad 10.2 2021 4G 256GB', 
+    'ipad-102-2021-4g-256gb', 'ipad-102-2021-4g-256gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiệu năng ổn định - Apple A13 Bionic 6 nh&acirc;n mạnh mẽ</li>\n  <li>Trải nghiệm hiển thị chất lượng - M&agrave;n h&igrave;nh Retina 10.2 inch, hỗ trợ True Tone</li>\n  <li>Sử dụng thoải m&aacute;i suốt cả ng&agrave;y - Pin 32.4 Wh (~8600 mAh) sử dụng l&acirc;u d&agrave;i</li>\n  <li>Giữ trọn mọi khoảnh khắc - Camera trước 12MP v&agrave; sau 8MP sắc n&eacute;t, chuẩn HDR</li>\n</ul>\n\n<p><strong>iPad 10.2 2021 4G 256GB</strong>&nbsp;l&agrave; phi&ecirc;n bản&nbsp;<a href=\"https://cellphones.com.vn/ipad-10-2-inch-2021.html\">iPad 10.2 inch 2021</a>&nbsp;mới nhất m&agrave; Apple tung ra. Phi&ecirc;n bản m&aacute;y n&agrave;y sử dụng 4G, c&oacute; dung lượng cao l&agrave; 256GB, ph&ugrave; hợp với nhu cầu sử dụng của nhiều người</p>\n\n<p>Ngo&agrave;i ra, Apple c&ograve;n tung ra phi&ecirc;n bản Wifi c&ugrave;ng dung lượng l&agrave;&nbsp;<a href=\"https://cellphones.com.vn/ipad-10-2-inch-2021-256gb.html\">iPad 10.2 2021 WiFi 256GB</a>&nbsp;cho bạn lựa chọn</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 16500000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:16:16', 
+    'haipv'
+  ), 
+  (
+    112, 1.27, 'iPad Air 10.9 2020 WiFi 64GB', 
+    'ipad-air-109-2020-wifi-64gb', 
+    'ipad-air-109-2020-wifi-64gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>M&agrave;n h&igrave;nh r&otilde; n&eacute;t, hiển thị tuyệt đẹp - C&ocirc;ng nghệ Liquid Retina 10.9 inch</li>\n  <li>Hiệu suất đầu bảng, giải tr&iacute; đỉnh cao - Vi xử l&yacute; A14 Bionic, RAM 4GB, loa k&eacute;p chất lượng cao</li>\n  <li>Thiết kế hiện đại, bảo mật an to&agrave;n - Hợp kim nh&ocirc;m cao cấp, m&agrave;u sắc trẻ trung, touchID t&iacute;ch hợp n&uacute;t nguồn tiện lợi</li>\n  <li>Đa t&aacute;c vụ, hỗ trợ c&ocirc;ng việc dễ d&agrave;ng - Kết nối phụ kiện Apple Pencil Gen 2, Magic Keyboard</li>\n  <li>Chụp ảnh chuy&ecirc;n nghiệp - Camera sau 12MP, hỗ trợ quay phim l&ecirc;n đ&eacute;n 4K</li>\n</ul>\n\n<h2><strong>iPad Air 4 2020 &ndash; Chip A14 mạnh mẽ cho trải nghiệm ho&agrave;n hảo</strong></h2>\n\n<p>Apple lu&ocirc;n khiến cho cộng đồng c&ocirc;ng nghệ đứng ngồi kh&ocirc;ng y&ecirc;n mỗi khi cho giới thiệu sản phẩm mới.&nbsp;<strong>iPad Air 4</strong>&nbsp;được ra mắt tại sự kiện m&agrave; c&aacute;c t&iacute;n đồ c&ocirc;ng nghệ nghĩ rằng Apple sẽ tr&igrave;nh l&agrave;ng d&ograve;ng&nbsp;<a href=\"https://cellphones.com.vn/iphone-12.html\">điện thoại iPhone 12 2020</a>,&nbsp;nhưng chiếc tablet n&agrave;y mới ch&iacute;nh l&agrave; nh&acirc;n vật ch&iacute;nh. iPad Air thế hệ 2020&nbsp;mang những thay đổi về mặt thiết kế cũng như những t&iacute;nh năng mới được t&iacute;ch hợp để tối ưu h&oacute;a về hiệu năng, mang đến cho người d&ugrave;ng những trải nghiệm tốt hơn.&nbsp;</p>\n\n<p>Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/ipad-air-5.html\">iPad Air 5</a>&nbsp;sắp ra mắt dự kiến sẽ c&oacute; nhiều n&acirc;ng cấp ấn tượng.</p>\n\n<h3><strong>Thiết kế tinh tế, m&agrave;u sắc thời thượng với độ mỏng 6.1mm</strong></h3>\n\n<p>M&aacute;y t&iacute;nh bảng iPad Air 2020 sẽ c&oacute; thiết kế ho&agrave;n to&agrave;n mới với kiểu d&aacute;ng tương tự với iPad Pro 2020 nhưng với k&iacute;ch thước nhỏ gọn hơn 247.6 x 178.5 mm v&agrave; độ mỏng chỉ 6.1 mm c&ugrave;ng trọng lượng chưa đến 500g gi&uacute;p bạn dễ d&agrave;ng mang theo iPad để sử dụng ở bất cứ đ&acirc;u.</p>\n\n<p>Thiết kế nguy&ecirc;n khối mang đến tổng thể sang trọng cho&nbsp;<a href=\"https://cellphones.com.vn/tablet/ipad-air.html\">iPad Air</a>&nbsp;4 c&ugrave;ng với gam m&agrave;u mới thời thượng, n&uacute;t home được loại bỏ để tạo n&ecirc;n kh&ocirc;ng gian hiển thị rộng hơn.</p>\n\n<p><img alt=\"Thiết kế tinh tế, màu sắc thời thượng với độ mỏng 5.9mm\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-1.jpg\" /></p>\n\n<p>Thiết kế của iPad Air 4 sẽ vu&ocirc;ng vắn hơn so với những d&ograve;ng iPad trước đ&acirc;y, c&aacute;c g&oacute;c cạnh được bo tr&ograve;n nhẹ nh&agrave;ng để tạo cảm gi&aacute;c mềm mại hơn cho tổng thể.</p>\n\n<p><img alt=\"Thiết kế của iPad Air 4 sẽ vuông vắn hơn so với những dòng iPad trước đây\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-3.jpg\" /></p>\n\n<h3><strong>M&agrave;n h&igrave;nh c&oacute; tần số qu&eacute;t 60Hz, tấm nền IPS LCD v&agrave; k&iacute;ch thước 10.9 inch</strong></h3>\n\n<p>Để mang đến kh&ocirc;ng gian hiển thị tuyệt vời cho người d&ugrave;ng, Apple đ&atilde; trang bị m&agrave;n h&igrave;nh c&oacute; tần số qu&eacute;t đến 60Hz cho iPad Air 4, gi&uacute;p h&igrave;nh ảnh hiển thị mượt m&agrave;, c&aacute;c chuyển động h&igrave;nh ảnh trơn tru cũng như hạn chế t&igrave;nh trạng giật lag. Nhờ vậy bạn c&oacute; thể tận hưởng những thước phim ấn tượng, chơi game (đặc biệt l&agrave; những game c&oacute; g&oacute;c nh&igrave;n thứ nhất) một c&aacute;ch tuyệt vời nhất. Độ ph&acirc;n giải&nbsp;2360 x 1640 pixels cho h&igrave;nh ảnh sắc n&eacute;t v&agrave; ch&acirc;n thực.</p>\n\n<p><img alt=\"Màn hình có tần số quét 120Hz, tấm nền IPS LCD và kích thước 11 inch\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-2.jpg\" /></p>\n\n<p>Sử dụng tấm nền IPS LCD cho iPad Air 10.9 c&ugrave;ng với c&ocirc;ng nghệ True-Tone cho khả năng t&aacute;i tạo m&agrave;u sắc ch&iacute;nh x&aacute;c, gần với thực tế hỗ trợ cho c&ocirc;ng việc chỉnh sửa ảnh, video,&hellip;hiệu quả hơn. B&ecirc;n cạnh đ&oacute; m&agrave;n h&igrave;nh n&agrave;y c&ograve;n sở hữu độ s&aacute;ng 500 nits để h&igrave;nh ảnh lu&ocirc;n hiển thị tốt trong những điều kiện &aacute;nh s&aacute;ng kh&aacute;c nhau, gi&uacute;p bạn sử dụng iPad tốt ngay cả khi ở ngo&agrave;i trời.</p>\n\n<h3><strong>Chip A14 kết hợp RAM 6GB cho sức mạnh ấn tượng v&agrave; bộ nhớ 128GB lưu trữ rộng r&atilde;i</strong></h3>\n\n<p>Sức mạnh của m&aacute;y đến từ con chip A14 Bionic để mang đến tốc độ xử l&yacute; vượt trội hơn, nhanh ch&oacute;ng hơn c&ugrave;ng với RAM 6GB cho sức mạnh kh&ocirc;ng thua g&igrave; một chiếc PC. B&ecirc;n cạnh đ&oacute; c&ograve;n c&oacute; th&ocirc;ng tin&nbsp;<strong>iPad Air 2020</strong>&nbsp;sẽ c&oacute; b&agrave;n ph&iacute;m Magic Keyboard ri&ecirc;ng để c&oacute; thể gi&uacute;p bạn biến chiếc m&aacute;y t&iacute;nh bảng của m&igrave;nh th&agrave;nh một chiếc laptop một c&aacute;ch nhanh ch&oacute;ng v&agrave; đơn giản.</p>\n\n<p><img alt=\"Chip A12Z Bionic và RAM 6GB cho sức mạnh ấn tượng và bộ nhớ 128GB lưu trữ rộng rãi\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-5.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-5.jpg\" /></p>\n\n<p>M&aacute;y c&oacute; bộ nhớ trong 128GB rộng r&atilde;i để bạn c&oacute; thể lưu trữ được nhiều dữ liệu hơn, thoải m&aacute;i c&agrave;i đặt c&aacute;c ứng dụng, tr&ograve; chơi phục vụ cho nhu cầu sử dụng của bạn.</p>\n\n<h3><strong>Hệ thống camera với cảm biến LiDAR hỗ trợ quay phim chất lượng 4K si&ecirc;u n&eacute;t</strong></h3>\n\n<p>Một trong những sự cải tiến mới của iPad Air 4 ch&iacute;nh l&agrave; hệ thống camera với camera ch&iacute;nh g&oacute;c rộng 12MP c&ugrave;ng với cảm biến chiều s&acirc;u TOF 3D LiDAR hỗ trợ quay phim với chất lượng 4K cho h&igrave;nh ảnh cực kỳ sắc n&eacute;t v&agrave; sinh động. B&ecirc;n cạnh đ&oacute;, iPad cũng được hỗ trợ những t&iacute;nh năng chụp ảnh th&ocirc;ng minh như x&oacute;a ph&ocirc;ng, lấy n&eacute;t tự động,&hellip;cho ảnh chụp kh&ocirc;ng thua k&eacute;m bất kỳ thiết bị n&agrave;o.</p>\n\n<p><img alt=\"Hệ thống camera với cảm biến LiDAR hỗ trợ quay phim chất lượng 4K siêu nét\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-4.jpg\" /></p>\n\n<p>Camera trước c&oacute; cảm biến 7MP v&agrave; hỗ trợ quay phim 1080p, hỗ trợ video call chất lượng cao mang đến những trải nghiệm tuyệt vời cho người d&ugrave;ng. Bạn c&oacute; thể sử dụng iPad để quay lại vlog hằng ng&agrave;y thay cho một chiếc m&aacute;y quay, m&aacute;y ảnh v&agrave; chia sẻ ngay với bạn b&egrave;, người th&acirc;n,&hellip;v&ocirc; c&ugrave;ng tiện lợi.</p>\n\n<h3><strong>Dung lượng pin lớn cho 10 giờ lướt web</strong></h3>\n\n<p>Apple cũng đ&atilde; n&acirc;ng cấp dung lượng pin cho iPad Air 4 với dung lượng lớn, cho 10 giờ lướt web bằng wifi, 9 giờ sử dụng mạng di động. Mặc d&ugrave; dung lượng trước đ&acirc;y của những thế hệ iPad trước cũng đ&atilde; đ&aacute;p ứng rất tốt về thời lượng sử dụng ch&iacute;nh v&igrave; thế sự n&acirc;ng cấp n&agrave;y chắc chắn sẽ gi&uacute;p người d&ugrave;ng c&agrave;ng y&ecirc;n t&acirc;m hơn khi sử dụng thiết bị suốt cả ng&agrave;y d&agrave;i m&agrave; kh&ocirc;ng lo hết pin.</p>\n\n<p><img alt=\"Dung lượng pin 9720mAh tích hợp sạc nhanh 18W\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-6.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-6.jpg\" /></p>\n\n<p>B&ecirc;n cạnh đ&oacute; Apple cũng t&iacute;ch hợp c&ocirc;ng nghệ sạc nhanh 18W cho&nbsp;<strong>iPad Air 4</strong>&nbsp;để gi&uacute;p người d&ugrave;ng c&oacute; thể nạp năng lượng cho iPad nhanh ch&oacute;ng. Bạn c&oacute; thể sử dụng thiết bị của bạn li&ecirc;n tục v&agrave; nhanh nạp lại pin cho thiết bị, giải quyết nỗi lo lắng về pin iPad.</p>\n\n<h3><strong>T&iacute;nh năng bảo mật cao, hỗ trợ đầy đủ c&aacute;c kết nối kh&ocirc;ng d&acirc;y v&agrave; hỗ trợ kết nối 3G/4G</strong></h3>\n\n<p>Một trong những t&iacute;nh năng nổi bật của Apple ch&iacute;nh l&agrave; Touch ID tr&ecirc;n n&uacute;t nguồn. iPad Air 10.9 inch 2020 được t&iacute;ch hợp Touch ID sẽ gi&uacute;p bảo mật an to&agrave;n hơn cho iPad, kh&ocirc;ng lo bị lộ mật khẩu cũng như gi&uacute;p bạn mở kh&oacute;a iPad một c&aacute;ch nhanh ch&oacute;ng.</p>\n\n<p><img alt=\"Tính năng FaceID bảo mật cao, hỗ trợ đầy đủ các kết nối không dây và hỗ trợ kết nối 3G/4G\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-7_2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-air-4-7_2.jpg\" /></p>\n\n<p>M&aacute;y cũng hỗ trợ đầy đủ c&aacute;c kết nối như kết nối WiFi gi&uacute;p bạn truy cập v&agrave;o mạng Internet nhanh ch&oacute;ng. Ngo&agrave;i ra c&ograve;n c&oacute; phi&ecirc;n bản iPad hỗ trợ 3G/4G (c&oacute; khe lắp thẻ SIM) để bạn c&oacute; thể lu&ocirc;n trực tuyến d&ugrave; ở bất cứ đ&acirc;u, kh&ocirc;ng bỏ lỡ bất cứ th&ocirc;ng b&aacute;o, tin nhắn n&agrave;o.</p>\n\n<h2><strong>Mua iPad Air 4 gi&aacute; rẻ, h&agrave;ng ch&iacute;nh h&atilde;ng, ưu đ&atilde;i khủng tại CellphoneS</strong></h2>\n\n<p>Hiện chiếc tablet n&agrave;y&nbsp;đ&atilde; được b&aacute;n tại c&aacute;c cửa h&agrave;ng của CellphoneS tại H&agrave; Nội v&agrave; TP.HCM v&igrave; vậy h&atilde;y nhanh ch&oacute;ng đến cửa h&agrave;ng v&agrave; sở hữu ngay cho m&igrave;nh một chiếc m&aacute;y t&iacute;nh bảng<strong>&nbsp;iPad Air 4 2020</strong>&nbsp;ch&iacute;nh h&atilde;ng với mức gi&aacute; tốt nhất c&ugrave;ng với những ưu đ&atilde;i v&ocirc; c&ugrave;ng hấp dẫn. Nếu bạn ở xa v&agrave; muốn mua sản phẩm th&igrave; CellphoneS cũng hỗ trợ thanh to&aacute;n online, giao h&agrave;ng tận nơi miễn ph&iacute; v&agrave; thanh to&aacute;n tận nơi, hỗ trợ bạn mua được sản phẩm một c&aacute;ch đơn giản.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 13990000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:19:54', 
+    'haipv'
+  ), 
+  (
+    113, 1.27, 'iPad Air 10.9 2020 WiFi 256GB', 
+    'ipad-air-109-2020-wifi-256gb', 
+    'ipad-air-109-2020-wifi-256gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>M&agrave;n h&igrave;nh r&otilde; n&eacute;t, hiển thị tuyệt đẹp - C&ocirc;ng nghệ Liquid Retina 10 9 inch</li>\n  <li>Hiệu suất đầu bảng, giải tr&iacute; đỉnh cao - Vi xử l&yacute; A14 Bionic, RAM 4GB, loa k&eacute;p chất lượng cao</li>\n  <li>Thiết kế hiện đại, bảo mật an to&agrave;n - Hợp kim nh&ocirc;m cao cấp, m&agrave;u sắc trẻ trung, touchID t&iacute;ch hợp n&uacute;t nguồn tiện lợi</li>\n  <li>Đa t&aacute;c vụ, hỗ trợ c&ocirc;ng việc dễ d&agrave;ng - Kết nối phụ kiện Apple Pencil Gen 2, Magic Keyboard</li>\n  <li>Chụp ảnh chuy&ecirc;n nghiệp - Camera sau 12MP, hỗ trợ quay phim l&ecirc;n đ&eacute;n 4K</li>\n</ul>\n\n<p><a href=\"https://cellphones.com.vn/ipad-air-4.html\">iPad Air 4</a>&nbsp;WiFi 256GB được trang bị camera sau c&oacute; độ ph&acirc;n giải 12 MP với khẩu độ f/1.8 c&ugrave;ng với đ&oacute; l&agrave; khả năng quay video 4K/60fps chống rung được n&acirc;ng cấp, hỗ trợ Smart HDR, slow motion 240fps v&agrave; kh&ocirc;ng c&oacute; đ&egrave;n flash LED. Nếu bạn l&agrave; người thường xuy&ecirc;n di chuyển th&igrave; n&ecirc;n tham khảo phi&ecirc;n bản&nbsp;<a href=\"https://cellphones.com.vn/ipad-air-4-4g-256gb.html\">iPad Air 4 4G 256GB</a>&nbsp;</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 15790000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:20:19', 
+    'haipv'
+  ), 
+  (
+    114, 1.27, 'Apple iPad Pro 11 2021 M1 WiFi 128GB', 
+    'apple-ipad-pro-11-2021-m1-wifi-128gb', 
+    'apple-ipad-pro-11-2021-m1-wifi-128gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Đỉnh cao c&ocirc;ng nghệ m&agrave;n h&igrave;nh - M&agrave;n h&igrave;nh Liquid Retina, tần số qu&eacute;t 120Hz, True- Tone</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Kết nối tốc độ cao - Wifi 6.si&ecirc;u tốc, sạc nhanh Thunderbolt 4</li>\n</ul>\n\n<h2><strong>iPad Pro 2021 11 inch &ndash; Tablet cấu m&igrave;nh mạnh với chip M1 mới</strong></h2>\n\n<p>Như thường lệ hằng năm Apple lại cho ra mắt chiếc m&aacute;y t&iacute;nh bảng của m&igrave;nh.&nbsp;<strong>iPad Pro&nbsp;2021&nbsp;</strong>phi&ecirc;n bản&nbsp;11 inch hứa hẹn mang đến một trải nghiệm mạnh vẽ với nhiều t&iacute;nh năng nổi bật.</p>\n\n<h3><strong>Thiết kế vu&ocirc;ng vức sang trọng, m&agrave;n h&igrave;nh 11 inch</strong></h3>\n\n<p>iPad Pro 11 inch 2021 sở hữu ngoại h&igrave;nh mang nhiều điểm tương tự về ngoại h&igrave;nh với chiếc iPad Pro trước đ&oacute;.&nbsp;<a href=\"https://cellphones.com.vn/tablet/ipad-pro.html\">Apple iPad Pro 2021</a>&nbsp;sử dụng m&agrave;n h&igrave;nh k&iacute;ch thước 11 inch v&agrave; sử dụng m&agrave;n h&igrave;nh LCD truyền thống.&nbsp; M&agrave;n h&igrave;nh tr&ecirc;n iPad Pro 2021 n&agrave;y với c&ocirc;ng nghệ m&agrave;u&nbsp;ProMotion c&ugrave;ng độ ph&acirc;n giải cao&nbsp;264 pixel mỗi inch. M&agrave;n h&igrave;nh n&agrave;y cũng được trang bị lớp phủ chống b&aacute;m v&acirc;n tay v&agrave; chống phản xạ, n&acirc;ng cao trải nghiệm cho người d&ugrave;ng.</p>\n\n<p><img alt=\"Một vài điểm khác biệt từ ngoại hình, màn hình 11 inches, Mini-LED\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-1.jpg\" /></p>\n\n<h3><strong>Sức mạnh kinh ngạc từ con chip Apple M1</strong></h3>\n\n<p>iPad Pro 11 2021 được cung cấp sức mạnh bởi con chip M1 với CPU 8 nh&acirc;n v&agrave; GPU 8 nh&acirc;n. Nhờ đ&oacute; m&agrave; thế hệ iPad Pro năm nay nhanh hơn rất nhiều lần so với iPad 2010 ban đầu v&agrave; nhanh hơn tới 50% so với iPad Pro 2020. Theo nh&agrave; sản xuất cho biết, những c&aacute;i tiến n&agrave;y gi&uacute;p m&aacute;y thực hiện chỉnh sửa video 4K v&agrave; thiết kế 3D tốt hơn.</p>\n\n<p><img alt=\"Sức mạnh kinh ngạc từ Apple A13Z\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-2.jpg\" /></p>\n\n<p>iPad Pro 2021 được trang bị đến 4 loa, khung nh&ocirc;m với chấu sạc từ t&iacute;nh d&agrave;nh cho Apple Pencil nằm ở hai b&ecirc;n h&ocirc;ng cũng như cổng USB-C nằm ở cạnh b&ecirc;n dưới để sạc.</p>\n\n<h3>Cụm camera 12MP mang lại h&igrave;nh ảnh chất lượng</h3>\n\n<p>M&aacute;y t&iacute;nh bảng&nbsp;iPad Pro 2021 được trang bị cụm camera sau với cacmera g&oacute;c si&ecirc;u rộng 12MP với g&oacute;c chụp 122 độ. B&ecirc;n cạnh l&agrave; camera si&ecirc;u rộng 10MP cuối c&ugrave;ng l&agrave; m&aacute;y qu&eacute;t LiDAR. Camera trước tr&ecirc;n m&aacute;y với khẩu độ 12MP, hỗ trợ g&oacute;c chụp l&ecirc;n đến 122 độ.</p>\n\n<p><img alt=\"Cụm camera 12MP mang lại hình ảnh chất lượng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-3.jpg\" /></p>\n\n<p>Camera tr&ecirc;n iPad&nbsp;Pro 2021 với t&iacute;nh năng&nbsp;Smart HDR 3 mang lại khả năng chụp ảnh v&agrave; quay video một c&aacute;ch to&agrave;n diện.</p>\n\n<h3><strong>Kết nối kh&ocirc;ng d&acirc;y nhanh ch&oacute;ng với wifi 6 v&agrave; 5G</strong></h3>\n\n<p>M&aacute;y t&iacute;nh bảng iPad Pro 2021 với hệ thống wifi 6 mang lại khả năng kết nối si&ecirc;u nhanh. Ngo&agrave;i ra m&aacute;y c&ograve;n được trang bị kết nối 5G thế hệ mới magn lại khả năng truyền tải nhanh vượt trội.</p>\n\n<p><img alt=\"Kết nối không dây nhanh chóng với wifi 6 và 5G\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-1.JPG\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-1.JPG\" /></p>\n\n<p>Về khả năng giải tr&iacute;, iPad Pro 2021 với hệ thống 4 loa Dolby Atmos mang đến &acirc;m thanh chất lượng như trong rạp h&aacute;t. Nhờ vậy người d&ugrave;ng c&oacute; thể thoải m&aacute;i trải nghiệm nghe nhạc, xem phim với chất lượng &acirc;m thanh sống động.</p>\n\n<h3><strong>Hỗ trợ Apple Pencil c&ugrave;ng hệ điều h&agrave;nh iPad OS mượt m&agrave;</strong></h3>\n\n<p>Tablet iPad Pro 2021 c&oacute; thể kết nối với Apple Pencil gi&uacute;p người d&ugrave;ng sử dụng ghi ch&uacute; tốt hơn. Sự kết hợp n&agrave;y mang lại cảm gi&aacute;c như trực quan v&agrave; ch&iacute;nh x&aacute;c như đang ghi ch&uacute;, vẽ tranh tr&ecirc;n giấy.&nbsp;Thiết kế Apple Pencil với khả năng gắn từ t&iacute;nh c&ugrave;ng đầu b&uacute;t c&oacute; độ nghi&ecirc;ng v&agrave; độ nhạy cao, tối ưu cho trải nghiệm người d&ugrave;ng.</p>\n\n<p><img alt=\"Hỗ trợ Apple Pencil cùng hệ điều hành iPad OS mượt mà\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-2.JPG\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-11-2021-2.JPG\" /></p>\n\n<p>L&agrave; một hệ điều h&agrave;nh do ch&iacute;nh Apple sản xuất n&ecirc;n iPadOS kh&aacute; giống iOS. Người d&ugrave;ng iPad Pro 2021 sẽ c&oacute; thể đa nhiệm một c&aacute;ch dễ d&agrave;ng. C&aacute;c thao t&aacute;c như d&aacute;n v&agrave; sao ch&eacute;p cũng được thực hiện một c&aacute;ch dễ d&agrave;ng hơn.</p>\n\n<p>iPad Pro 2021 c&ograve;n sở hữu kho ứng dụng v&ocirc; c&ugrave;ng phong ph&uacute; với hơn 1 triệu ứng dụng kh&aacute;c nhau tr&ecirc;n AppStore.</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n\n<h2><strong>Mua iPad Pro 11 inch 2021 ch&iacute;nh h&atilde;ng Apple Việt Nam tại CellphoneS</strong></h2>\n\n<p>Bạn l&agrave; iFan v&agrave; cực kỳ th&iacute;ch th&uacute; đến c&aacute;c phi&ecirc;n bản n&acirc;ng cấp của Apple, vậy th&igrave; đừng ngần ngại m&agrave; kh&ocirc;ng đến CellphoneS để trải nghiệm ngay v&agrave; đặt h&agrave;ng chiếc&nbsp;<strong>iPad Pro 2021 11 inch</strong>&nbsp;mới nhất nh&eacute;. Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-2022-11-inch.html\">Apple iPad Pro 2022</a>&nbsp;với chip M2 cực mạnh.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 19690000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:22:39', 
+    'haipv'
+  ), 
+  (
+    115, 1.27, 'Apple iPad Pro 11 2021 M1 WiFi 256GB', 
+    'apple-ipad-pro-11-2021-m1-wifi-256gb', 
+    'apple-ipad-pro-11-2021-m1-wifi-256gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Đỉnh cao c&ocirc;ng nghệ m&agrave;n h&igrave;nh - M&agrave;n h&igrave;nh Liquid Retina, tần số qu&eacute;t 120Hz, True- Tone</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Kết nối tốc độ cao - Wifi 6.si&ecirc;u tốc, sạc nhanh Thunderbolt 4</li>\n</ul>\n\n<p><strong>Apple iPad Pro 11 2021 M1 WiFi 256GB&nbsp;</strong>l&agrave; chiếc iPad thế hệ tiếp theo m&agrave; Apple tung ra trong năm 2021 n&agrave;y. Đến với chiếc&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-11-2021.html\">iPad Pro 11 2021</a>&nbsp;n&agrave;y, bạn sẽ được trải nghiệm h&igrave;nh ảnh với c&ocirc;ng nghệ m&agrave;u ProMotion c&ugrave;ng độ ph&acirc;n giải cao 264 pixel mỗi inch tr&ecirc;n m&agrave;n h&igrave;nh 11 inch, chắc chắn sẽ đem lại cho bạn trải nghiệm tuyệt vời</p>\n\n<p>C&ograve;n nếu như 256 GB vẫn chưa đủ với bạn, c&oacute; thể bạn sẽ cần phi&ecirc;n bản dung lượng cao hơn, chẳng hạn như&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-11-2021-512gb.html\">Apple iPad Pro 11 2021 M1 WiFi 512GB</a></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 22690000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:23:04', 
+    'haipv'
+  ), 
+  (
+    116, 1.27, 'Apple iPad Pro 11 2021 M1 WiFi 512GB', 
+    'apple-ipad-pro-11-2021-m1-wifi-512gb', 
+    'apple-ipad-pro-11-2021-m1-wifi-512gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Đỉnh cao c&ocirc;ng nghệ m&agrave;n h&igrave;nh - M&agrave;n h&igrave;nh Liquid Retina, tần số qu&eacute;t 120Hz, True- Tone</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Kết nối tốc độ cao - Wifi 6.si&ecirc;u tốc, sạc nhanh Thunderbolt 4</li>\n</ul>\n\n<p><strong>Apple iPad Pro 11 2021 M1 WiFi 512GB&nbsp;</strong>l&agrave; phi&ecirc;n bản iPad 2021 c&oacute; dung lượng cao m&agrave; Apple tung ra trong m&ugrave;a h&egrave; n&agrave;y. Trong phi&ecirc;n bản mới n&agrave;y, Apple đ&atilde; cải tiến sức mạnh của chiếc&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-11-2021.html\">iPad Pro 2021 11 inch</a>&nbsp;n&agrave;y với chip M1 với CPU 8 nh&acirc;n v&agrave; GPU 8 nh&acirc;n.</p>\n\n<p>Với những người sử dụng nhiều dữ liệu lưu trữ, c&oacute; thể phi&ecirc;n bản 512GB vẫn chưa đủ với bạn, v&agrave; bạn cần dung lượng cao hơn. Vậy n&ecirc;n bạn c&oacute; thể tham khảo qua&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-11-2021-1tb.html\">Apple iPad Pro 11 2021 M1 WiFi 1TB</a>&nbsp;.</p>\n\n<p>&nbsp;</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 24990000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:24:06', 
+    'haipv'
+  ), 
+  (
+    117, 1.27, 'Apple iPad Pro 11 2021 M1 WiFi 1TB', 
+    'apple-ipad-pro-11-2021-m1-wifi-1tb', 
+    'apple-ipad-pro-11-2021-m1-wifi-1tb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Đỉnh cao c&ocirc;ng nghệ m&agrave;n h&igrave;nh - M&agrave;n h&igrave;nh Liquid Retina, tần số qu&eacute;t 120Hz, True- Tone</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Kết nối tốc độ cao - Wifi 6.si&ecirc;u tốc, sạc nhanh Thunderbolt 4</li>\n</ul>\n\n<p><strong>Apple iPad Pro 11 2021 M1 WiFi 1TB&nbsp;</strong>c&oacute; dung lượng cao, rất ph&ugrave; hợp với những người sử dụng nhiều dữ liệu để lưu trữ v&agrave; l&agrave;m việc. B&ecirc;n cạnh đ&oacute;,&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-11-2021.html\">Apple iPad Pro 11 2021</a>&nbsp;n&agrave;y c&ograve;n được trang bị cụm camera 12 MP với nhiều chức năng kh&aacute;c nhau nhằm đem lại cho bạn bức ảnh chất lượng nhất.</p>\n\n<p>B&ecirc;n cạnh phi&ecirc;n bản 1 TB, Apple c&ograve;n ra mắt phi&ecirc;n bản c&oacute; dung lượng si&ecirc;u lớn l&agrave; 2 TB với sản phẩm&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-11-2021-2tb.html\">Apple iPad Pro 11 2021 M1 WiFi 2TB</a></p>\n\n<p>&nbsp;</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 39000000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:24:41', 
+    'haipv'
+  ), 
+  (
+    118, 1.27, 'Apple iPad Pro 11 2021 M1 WiFi 2TB', 
+    'apple-ipad-pro-11-2021-m1-wifi-2tb', 
+    'apple-ipad-pro-11-2021-m1-wifi-2tb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Đỉnh cao c&ocirc;ng nghệ m&agrave;n h&igrave;nh - M&agrave;n h&igrave;nh Liquid Retina, tần số qu&eacute;t 120Hz, True- Tone</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Kết nối tốc độ cao - Wifi 6.si&ecirc;u tốc, sạc nhanh Thunderbolt 4</li>\n</ul>\n\n<p><strong>Apple iPad Pro 11 2021 M1 WiFi 2TB&nbsp;</strong>l&agrave; chiếc iPad c&oacute; dung lượng rất lớn, đảm bảo bạn kh&ocirc;ng phải lo lắng về việc c&oacute; bị thiếu dữ liệu hay kh&ocirc;ng. B&ecirc;n cạnh đ&oacute;,&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-11-2021.html\">Apple&nbsp;iPad Pro 2021 11 inch</a>&nbsp;c&oacute; cấu h&igrave;nh mạnh, được trang bị RAM 16 GB, chip M1 gi&uacute;p bạn chạy được những ứng dụng, game y&ecirc;u cầu cấu h&igrave;nh cao.</p>\n\n<p>C&ograve;n nếu như 2 TB l&agrave; nhiều đối với bạn, bạn muốn m&aacute;y c&oacute; dung lượng thấp hơn để tiết kiệm chi ph&iacute;, c&oacute; thể bạn n&ecirc;n tham khảo qua sản phẩm&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-11-2021-256gb.html\">Apple iPad Pro 11 2021 M1 WiFi 256GB</a></p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 50000000, NULL, 1000, 1, 
+    8, 8, NULL, NULL, '2022-08-28 05:25:11', 
+    'haipv'
+  ), 
+  (
+    119, 1.27, 'samsung-galaxy-tab-s7', 
+    'samsung-galaxy-tab-s7', 'samsung-galaxy-tab-s7.jpg', 
+    '', '<h2>ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Đa nhiệm, chơi game mượt m&agrave; - Vi xử l&yacute; Snapdragon 865+ mạnh mẽ, RAM 6GB</li>\n  <li>Trải nghiệm gi&aacute; tr&iacute; chuẩn điện ảnh - M&agrave;n h&igrave;nh LCD 11 inch 2K sắc n&eacute;t, hệ thống 4 loa đỉnh cao</li>\n  <li>Soạn thảo, chỉnh sửa ảnh dễ d&agrave;ng - B&uacute;t Spen thế hệ mới</li>\n  <li>Sử dụng cả ng&agrave;y d&agrave;i - Pin dung lượng khủng 8000mAh, sạc nhanh si&ecirc;u tốc 45W</li>\n  <li>Lưu giữ khoảnh khắc gia đ&igrave;nh - Camera k&eacute;p 13MP + 5MP</li>\n</ul>\n\n<h2>M&aacute;y t&iacute;nh bảng Samsung Galaxy Tab S7 &ndash; S Pen tiện lợi, cấu h&igrave;nh mạnh mẽ</h2>\n\n<p>Hiếm thấy một h&atilde;ng sản xuất n&agrave;o vẫn cho duy tr&igrave; cho ra đời những chiếc tablet m&agrave; vẫn chạy tr&ecirc;n hệ điều h&agrave;nh Android như nh&agrave; sản xuất Samsung.&nbsp;Cũng khoảng gần một năm từ khi chiếc&nbsp;Galaxy Tab S6 được tr&igrave;nh l&agrave;ng,&nbsp;v&agrave; mới&nbsp;đ&acirc;y nhất l&agrave; chiếc Galaxy Tab S6 Lite,&nbsp;nghe qua l&agrave; đ&atilde; biết phi&ecirc;n bản r&uacute;t gọn của người đ&agrave;n anh.&nbsp;Song thật bất ngờ, ch&uacute;ng ta lại tiếp tục được chứng kiến&nbsp;sự ra mắt của m&aacute;y t&iacute;nh bảng&nbsp;<strong>Samsung Tab S7&nbsp;</strong>với nhiều n&acirc;ng cấp đ&aacute;ng gi&aacute;.&nbsp;</p>\n\n<p>Ngo&agrave;i ra, kh&aacute;ch h&agrave;ng cũng c&oacute; thể tham khảo th&ecirc;m&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-tab-s8.html\">m&aacute;y t&iacute;nh bảng Samsung Galaxy Tab S8</a>&nbsp;với cấu h&igrave;nh ấn tượng.</p>\n\n<h3>M&agrave;n h&igrave;nh 11 inch, tấm nền TFT, ho&agrave;n thiện từ nh&ocirc;m cứng c&aacute;p</h3>\n\n<p>Galaxy Tab S7 sở hữu m&agrave;n h&igrave;nh 11 inch c&ugrave;ng với tấm nền TFT v&agrave; độ ph&acirc;n giải l&ecirc;n đến 2560 x 1600 pixel. Tất cả đem đến cho chiếc Tab S7 cho khả năng hiển thị tốt, từ đ&oacute; m&agrave; người d&ugrave;ng c&oacute; thể sử dụng n&oacute; trong nhiều trường hợp kh&aacute;c như c&ocirc;ng việc, giải tr&iacute; (xem phim, nghe nhạc, chơi game,&hellip;) đến l&agrave;m việc đồ họa.</p>\n\n<p><img alt=\"Màn hình 11 inch, tấm nền OLED\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-1_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-1_1.jpg\" /></p>\n\n<p>B&ecirc;n cạnh m&agrave;n h&igrave;nh sắc n&eacute;t, Samsung cũng kh&ocirc;ng qu&ecirc;n tối ưu về thiết kế cho sản phẩm của m&igrave;nh. Chiếc m&aacute;y kh&ocirc;ng to hơn sản phẩm kế nhiệm l&agrave; bao nhi&ecirc;u với thiết kế gần như kh&ocirc;ng viền. Ho&agrave;n thiện chủ yếu từ nh&ocirc;m gi&uacute;p cho chiếc m&aacute;y trở n&ecirc;n cứng c&aacute;p hơn bao giờ hết. B&ecirc;n cạnh đ&oacute;, m&aacute;y sẽ được giới thiệu với ba phi&ecirc;n bản m&agrave;u sắc kh&aacute;c nhau đ&oacute; l&agrave; Cloud Blue, Rose Blush, Mountain Grey.</p>\n\n<p><img alt=\"Nhiều màu sắc lựa chọn\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-2.jpg\" /></p>\n\n<h3>Hiệu năng xử l&yacute; mượt m&agrave; với Snapdragon 865+, 6GB RAM, 128GB bộ nhớ trong</h3>\n\n<p><a href=\"https://cellphones.com.vn/tablet/samsung.html\" target=\"_blank\" title=\"Máy tính bảng SamSung chính hãng\">Tablet Samsung</a>&nbsp;Galaxy Tab S7 được cung cấp sức mạnh bởi con chip mạnh mẽ Snapdragon 865+. Con chip n&agrave;y vốn được sản xuất tr&ecirc;n tiến tr&igrave;nh 7nm đem đến hiệu năng tăng hơn 20% so với thế hệ cũ. V&agrave; hiển nhi&ecirc;n khi sử dụng con chip n&agrave;y, sẽ đảm bảo c&aacute;c t&aacute;c vụ ấn tượng, kh&ocirc;ng c&oacute; hiện tượng giật, lag c&ugrave;ng khả năng đa nhiệm kh&aacute; tốt.</p>\n\n<p><img alt=\"Hiệu năng xử lý mượt mà với Snapdragon 865, 8GB RAM, 256GB bộ nhớ trong\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-2.jpg\" /></p>\n\n<p>C&ugrave;ng với đ&oacute;, Samsung Tab S7 được c&agrave;i sẵn hệ điều h&agrave;nh Android 10 c&ugrave;ng 6 GB RAM, 128GB bộ nhớ trong, gấp đ&ocirc;i so với người tiền nhiệm gi&uacute;p c&aacute;c ứng dụng hoạt động mượt m&agrave; hơn, đa nhiệm khỏi phải b&agrave;n c&atilde;i v&agrave; khả năng lưu trữ tốt đ&aacute;p ứng cho mọi c&ocirc;ng việc.</p>\n\n<h3>Camera trước 8MP c&ugrave;ng hệ thống camera k&eacute;p ph&iacute;a sau cho chất lượng ảnh sắc n&eacute;t</h3>\n\n<p>Điểm nổi bật của&nbsp;<strong>Galaxy Tab S7</strong>&nbsp;đến từ camera k&eacute;p, trong bối cảnh những chiếc tablet c&ograve;n lại tr&ecirc;n thị trường chỉ sử dụng camera đơn. Cụm camera k&eacute;p 13MP v&agrave; 5MP ở ph&iacute;a sau với ống k&iacute;nh g&oacute;c rộng v&agrave; si&ecirc;u rộng, cho g&oacute;c chụp l&ecirc;n tới 123 độ. Từ đ&oacute;, đ&aacute;p ứng tốt nhu cầu l&agrave;m việc v&agrave; giải tr&iacute;, chụp ảnh nh&oacute;m với bạn b&egrave;.</p>\n\n<p><img alt=\"Camera trước 8MP cùng hệ thống camera kép phía sau cho chất lượng ảnh sắc nét\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-4.jpg\" /></p>\n\n<p>Ngo&agrave;i ra, camera trước cũng l&agrave; điểm đ&aacute;ng ch&uacute; &yacute;, khi được trang bị độ ph&acirc;n giải 8MP, khẩu độ f/2.0 với g&oacute;c chụp 80˚ cho khả năng chụp selfie ấn tượng. Kết hợp với AI th&ocirc;ng minh gi&uacute;p tối ưu h&oacute;a t&ocirc;ng m&agrave;u cho ra những bức ảnh chụp n&acirc;ng l&ecirc;n tầm cao mới. C&ugrave;ng với ứng dụng Adobe Premiere Rush, việc chỉnh sửa ảnh, video chất lượng chưa bao giờ đơn giản đến vậy.</p>\n\n<h3>&Acirc;m thanh v&ograve;m Dolby Atmos trong trẻo, hỗ trợ b&uacute;t Spen</h3>\n\n<p>B&ecirc;n cạnh một hiệu năng tốt cho nhu cầu c&ocirc;ng việc th&igrave; m&aacute;y t&iacute;nh bảng Samsung Galaxy Tab S7 c&ograve;n mang lại khả năng giải tr&iacute; cao với c&ocirc;ng nghệ &acirc;m thanh v&ograve;m Dolby Atmos. Nếu sử dụng &acirc;m thanh v&ograve;m cho những bộ phim hay chơi game h&agrave;nh động, chắc chắn bạn sẽ thấy một sự thay đổi rất r&otilde;.</p>\n\n<p><img alt=\"Âm thanh vòm Dolby Atmos trong trẻo, hỗ trợ bút Spen\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-3.jpg\" /></p>\n\n<p>Điểm đặc biệt của Samsung Tab S7 đ&oacute; l&agrave; sự xuất hiện của b&uacute;t S Pen. Cũng giống tr&ecirc;n chiếc Galaxy Note 9, b&uacute;t s Pen cũng mang lại nhiều tiện &iacute;ch như t&iacute;nh năng chụp h&igrave;nh từ xa, quay phim,&hellip; Cụ thể, S Pen gi&uacute;p người d&ugrave;ng c&oacute; thể nhanh ch&oacute;ng ghi lại những &yacute; tưởng bất chợt, gi&uacute;p sự s&aacute;ng tạo lu&ocirc;n ph&aacute;t triển. Đặc biệt, b&uacute;t S Pen c&ograve;n được t&iacute;ch hợp th&ecirc;m ba h&agrave;nh động mới đ&oacute; l&agrave; cho ph&eacute;p điều khiển trực quan bằng cử chỉ tay, thực hiện thuyết tr&igrave;nh hay kiểm so&aacute;t video. Với độ ch&iacute;nh x&aacute;c v&agrave; khả năng kiểm so&aacute;t ấn tượng, với 4.096 mức độ nhạy &aacute;p lực kh&aacute;c nhau gi&uacute;p người d&ugrave;ng c&oacute; thể sử dụng cho nhiều việc, từ vẽ ph&aacute;c họa, viết,&hellip; đều trở n&ecirc;n dễ d&agrave;ng hơn.</p>\n\n<h3>Vi&ecirc;n pin l&ecirc;n đến 8000 mAh, sạc nhanh 45W</h3>\n\n<p>Galaxy Tab S7 được h&atilde;ng trang bị vi&ecirc;n pin c&oacute; dung lượng tới 8000 mAh. Với dung lượng n&agrave;y, Tab S7 cho thời gian sử dụng kh&aacute; ấn tượng hơn 15 giờ xem phim. B&ecirc;n cạnh đ&oacute;, m&aacute;y c&ograve;n được trang bị sạc nhanh th&ocirc;ng qua cổng USB-C hoặc đế sạc GordO. Nhờ đ&oacute;, người d&ugrave;ng c&oacute; thể thoải m&aacute;i sử dụng m&agrave; kh&ocirc;ng cần lo lắng về việc hết pin giữa chừng.</p>\n\n<p><img alt=\"Viên pin lên đến 8000 mAh, tích hợp vân tay quang học\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-5.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-5.jpg\" /></p>\n\n<p>Điểm nổi bật tr&ecirc;n chiếc m&aacute;y n&agrave;y l&agrave; t&iacute;ch hợp m&aacute;y qu&eacute;t v&acirc;n tay gi&uacute;p mở kh&oacute;a nhanh ch&oacute;ng c&ugrave;ng khả năng bảo mật tối đa. Kh&ocirc;ng cần mật khẩu, chỉ với một lần chạm ng&oacute;n tay l&agrave; bạn c&oacute; thể mở được kh&oacute;a ngay lập tức.</p>\n\n<h2>Mua Samsung Galaxy Tab S7 ch&iacute;nh h&atilde;ng, gi&aacute; rẻ tại CellphoneS</h2>\n\n<p>Đ&acirc;y được đ&aacute;nh gi&aacute; l&agrave; một chiếc tablet đa chức năng, hỗ trợ b&uacute;t S Pen hữu &iacute;ch cho c&ocirc;ng việc.&nbsp;<strong>Samsung Galaxy Tab S7&nbsp;</strong>ch&iacute;nh h&atilde;ng sẽ l&agrave; l&agrave; một thiết bị c&ocirc;ng nghệ đ&aacute;ng sở hữu, kh&ocirc;ng thể thiếu trong c&ocirc;ng việc, giải tr&iacute; của bạn. Nếu bạn c&oacute; nhu cầu hoặc quan t&acirc;m về sản phẩm n&agrave;y, h&atilde;y đăng k&yacute; nhận th&ocirc;ng tin sản phẩm ngay để l&agrave; người đầu ti&ecirc;n sở hữu sản phẩm mới đến từ &ocirc;ng lớn Samsung.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 18000000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:39:42', 
+    'haipv'
+  ), 
+  (
+    120, 1.27, 'Samsung Galaxy Tab S7 Plus', 
+    'samsung-galaxy-tab-s7-plus', 'samsung-galaxy-tab-s7-plus.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Đa nhiệm, chơi game mượt m&agrave; - Vi xử l&yacute; Snapdragon 865+ mạnh mẽ, RAM 6GB</li>\n  <li>Hiển thị rực rỡ, thao t&aacute;c mượt m&agrave;, giải tr&iacute; đỉnh cao - M&agrave;n h&igrave;nh SuperAMOLED 2K, tần số qu&eacute;t 120Hz, hệ thống 4 loa cao cấp</li>\n  <li>Soạn thảo, chỉnh sửa ảnh dễ d&agrave;ng - B&uacute;t Spen thế hệ mới</li>\n  <li>Sử dụng cả ng&agrave;y d&agrave;i - Pin dung lượng khủng 10090mAh, sạc nhanh si&ecirc;u tốc 45W</li>\n  <li>Lưu giữ khoảnh khắc gia đ&igrave;nh - Camera k&eacute;p 13MP + 5MP</li>\n</ul>\n\n<h2>Samsung Galaxy Tab S7+ : M&agrave;n h&igrave;nh rộng sắc n&eacute;t, pin khủng 10.090mAh</h2>\n\n<p>M&aacute;y t&iacute;nh bảng giờ đ&acirc;y đ&atilde; trở th&agrave;nh một sản phẩm c&ocirc;ng nghệ quen thuộc v&agrave; quan trọng đối với rất nhiều người. Ng&agrave;y qua ng&agrave;y, người d&ugrave;ng đều mong muốn nhu cầu sử dụng của họ sẽ tốt hơn v&agrave; đ&ograve;i hỏi cao hơn về một chiếc tablet Samsung. Thấu hiểu điều đ&oacute;, tập đo&agrave;n Samsung đ&atilde; cho ra mắt&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-tab-s7.html\" target=\"_blank\">m&aacute;y t&iacute;nh bảng Samsung Galaxy Tab S7</a>&nbsp;v&agrave;&nbsp;<strong>Tab S7 Plus</strong>. Đ&acirc;y được xem l&agrave; chiếc tablet được trang bị những t&iacute;nh năng hiện đại bậc nhất c&ugrave;ng thời lượng pin cực khủng, gi&uacute;p giải quyết nỗi lo hụt pin cho cả ng&agrave;y sử dụng.</p>\n\n<h3>Thiết kế cứng c&aacute;p v&agrave; sang trọng c&ugrave;ng m&agrave;n h&igrave;nh sAMOLED 12.4 inch</h3>\n\n<p>Chiếc Samsung Tab S7 Plus l&agrave; sản phẩm rất được Samsung ưu &aacute;i, sở hữu thiết kế cứng c&aacute;p với chất liệu kim loại s&aacute;ng b&oacute;ng v&agrave; c&aacute;c g&oacute;c được bo cong một c&aacute;ch ho&agrave;n hảo. Mang đến cho sản phẩm kh&ocirc;ng chỉ l&agrave; sự cứng c&aacute;p, m&agrave; được h&ograve;a hợp tuyệt vời c&ugrave;ng những đường n&eacute;t mềm mại.</p>\n\n<p>Tham khảo th&ecirc;m:&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-tab-s7-lite.html\">Samsung Galaxy Tab S7 Lite</a></p>\n\n<p><img alt=\"Thiết kế cứng cáp và sang trọng cùng màn hình AMOLED 12.4 inch\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-1.jpg\" /></p>\n\n<p>M&agrave;n h&igrave;nh Amoled 12.4 inch v&agrave; độ ph&acirc;n giải l&ecirc;n đến 2K+, kh&ocirc;ng chỉ mang đến cho bạn một m&agrave;n h&igrave;nh lớn dễ d&agrave;ng quan s&aacute;t v&agrave; thao t&aacute;c m&agrave; c&ograve;n c&oacute; chất lượng hiển thị rất r&otilde; r&agrave;ng, mọi chi tiết đều sắc n&eacute;t, sống động, cho bạn những ph&uacute;t gi&acirc;y thưởng thức h&igrave;nh ảnh tốt nhất.</p>\n\n<p><img alt=\"Nhiều màu sắc lựa chọn\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-2.jpg\" /></p>\n\n<h3>Trang bị cảm biến v&acirc;n tay v&agrave; b&uacute;t S-Pen hiện đại v&agrave; camera sau k&eacute;p</h3>\n\n<p><strong>Galaxy Tab S7 Plus</strong>&nbsp;được trang bị bảo mật cảm biến v&acirc;n tay dưới m&agrave;n h&igrave;nh, gi&uacute;p bạn dễ d&agrave;ng v&agrave; nhanh ch&oacute;ng đăng nhập hơn, đồng thời cho khả năng bảo mật tốt hơn, người kh&aacute;c sẽ kh&oacute; c&oacute; thể mở được m&aacute;y t&iacute;nh bảng của bạn nếu kh&ocirc;ng d&ugrave;ng v&acirc;n tay của bạn.</p>\n\n<p><img alt=\"Trang bị cảm biến vân tay và bút S-Pen hiện đại và camera sau kép\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-3.jpg\" /></p>\n\n<p>Kh&ocirc;ng chỉ thế,&nbsp;<a href=\"https://cellphones.com.vn/tablet/samsung.html\" target=\"_blank\">m&aacute;y t&iacute;nh bảng Samsung</a>&nbsp;Galaxy Tab S7 Plus kh&ocirc;ng thể thiếu S-Pen hiện đại gi&uacute;p mọi thao t&aacute;c lu&ocirc;n c&oacute; độ nhạy tốt, bạn c&oacute; thể mở tablet v&agrave; ghi ch&uacute; nhanh với b&uacute;t S-Pen thay v&igrave; phải g&otilde; sẽ chậm hơn rất nhiều. Ngo&agrave;i ra, Tab S7+ c&ograve;n c&oacute; bộ đ&ocirc;i camera sau với độ ph&acirc;n giải 13MP v&agrave; 5MP v&agrave; camera trước 8MP n&ecirc;n ho&agrave;n to&agrave;n đủ khả ăng đ&aacute;p ứng nhu cầu chụp ảnh c&oacute; chất lượng tốt.</p>\n\n<p><img alt=\"camera sau kép\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-6.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-6.jpg\" /></p>\n\n<h3>Trang bị chip Snapdragon 865+ mạnh mẽ v&agrave; RAM 6GB, 128GB bộ nhớ trong</h3>\n\n<p><strong>Samsung Tab S7 Plus</strong>&nbsp;được trang bị chip Snapdragon 865+ mới nhất hiện nay, vừa được Qualcomm cho ra mắt v&agrave;o 9/7. Với bộ vi xử l&iacute; n&agrave;y, chắc hẳn Tab S7 Plus sẽ mang đến khả năng xử l&iacute; cực k&igrave; mạnh mẽ v&agrave; nhanh ch&oacute;ng ngay cả khi xử l&iacute; đa nhiệm.</p>\n\n<p><img alt=\"Trang bị chip Snapdragon 865+ mạnh mẽ và RAM 6GB, 128GB bộ nhớ trong\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-4.jpg\" /></p>\n\n<p>Ngo&agrave;i ra, chiếc m&aacute;y t&iacute;nh bảng n&agrave;y c&ograve;n sở hữu RAM 6GB v&agrave; bộ nhớ trong 128GB cho ph&eacute;p hỗ trợ vi xử l&iacute; hoạt động hiệu quả v&agrave; năng suất hơn, đồng thời bộ nhớ trong 128GB sẽ mở ra khả năng lưu trữ cực lớn cho người d&ugrave;ng, h&igrave;nh ảnh, video hay c&aacute;c ghi ch&uacute;, ứng dụng lớn đều kh&ocirc;ng th&agrave;nh vấn đề.</p>\n\n<h3>Dung lượng pin l&ecirc;n đến 10.090 mAh c&ugrave;ng c&ocirc;ng nghệ sạc nhanh 45W</h3>\n\n<p>Điểm nhấn v&ocirc; c&ugrave;ng nổi bật của Samsung Galaxy Tab S7 Plus ch&iacute;nh l&agrave; dung lượng pin đạt đến con số cực khủng 10.090 mAh. Đ&acirc;y l&agrave; mức pin rất cao d&agrave;nh cho một chiếc tablet so với những sản phẩm c&oacute; mặt tr&ecirc;n thị trường hiện nay. Với mức pin n&agrave;y thậm ch&iacute; bạn c&oacute; thể xem chiếc m&aacute;y t&iacute;nh bảng n&agrave;y như một chiếc sạc dự ph&ograve;ng để sạc pin cho smartphone khi cấp thiết.</p>\n\n<p><img alt=\"Dung lượng pin lên đến 10.000 mAh cùng công nghệ sạc nhanh 45W\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-5.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s7-plus-5.jpg\" /></p>\n\n<p>Ngo&agrave;i ra, sở hữu c&ocirc;ng nghệ sạc nhanh 45W gi&uacute;p Samsung Tab S7 Plus c&oacute; thể sạc đầy chỉ với thời gian ngắn, tiết kiệm thời gian để bạn c&oacute; thể nhanh ch&oacute;ng tiếp tục sử dụng v&agrave; giải quyết c&ocirc;ng việc.</p>\n\n<h2>Mua m&aacute;y t&iacute;nh bảng Samsung Galaxy Tab S7 Plus gi&aacute; tốt tại CellphoneS</h2>\n\n<p>Nếu bạn đ&atilde; bị &ldquo;hớp hồn&rdquo; bởi chiếc&nbsp;<strong>Samsung Galaxy Tab S7+&nbsp;</strong>ch&iacute;nh h&atilde;ng v&agrave; mong muốn nhanh ch&oacute;ng sở hữu được n&oacute;, nhưng cần một địa chỉ c&oacute; thể đảm bảo về chất lượng của sản phẩm, th&igrave; h&atilde;y đến ngay CellphoneS. L&agrave; hệ thống b&aacute;n lẻ smartphone, m&aacute;y t&iacute;nh bảng, laptop h&agrave;ng đầu tại H&agrave; Nội v&agrave; TPHCM, CellphoneS lu&ocirc;n đảm bảo về chất lượng sản phẩm cung cấp cho kh&aacute;ch h&agrave;ng c&ugrave;ng với mức gi&aacute; tốt.</p>\n\n<p>Kh&ocirc;ng chỉ c&oacute; thế, bạn c&oacute; thể li&ecirc;n hệ với CellphoneS để nhận được sự tư vấn về sản phẩm hoặc theo d&otilde;i tr&ecirc;n trang web của hệ thống. Kh&ocirc;ng chỉ mua được h&agrave;ng ch&iacute;nh h&atilde;ng với mức gi&aacute; &ldquo;y&ecirc;u thương&rdquo; khi đến CellphoneS, m&agrave; bạn c&ograve;n c&oacute; thể c&oacute; thể nhận được qu&agrave; tặng v&agrave; ưu đ&atilde;i &ldquo;khủng&rdquo;. Ngo&agrave;i ra, bạn cũng c&oacute; thể tham khảo&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-tab-s8-plus.html\">Samsung Galaxy Tab S8 Plus</a>&nbsp;mới ra mắt với nhiều n&acirc;ng cấp về cấu h&igrave;nh v&agrave; dung lượng pin.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 14990000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:39:05', 
+    'haipv'
+  ), 
+  (
+    121, 1.27, 'Samsung Galaxy Tab S8 Ultra', 
+    'samsung-galaxy-tab-s8-ultra', 
+    'samsung-galaxy-tab-s8-ultra.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Chiếc Samsung Galaxy Tab S lớn nhất, hiển thị sống động - 14.6&quot;, Super AMOLED 120Hz</li>\n  <li>Thế hệ S Pen ho&agrave;n to&agrave;n mới - Độ nhạy cao, độ trễ thấp 2,8ms, n&eacute;t b&uacute;t mảnh</li>\n  <li>Ghi lại khoảnh khắc đắt gi&aacute; - Cụm 2 camera trước 12MP</li>\n  <li>Sử dụng cả ng&agrave;y d&agrave;i - Pin khủng 11.200 mAh, sạc nhanh si&ecirc;u tốc 45W</li>\n</ul>\n\n<h2><strong>M&aacute;y t&iacute;nh bảng Samsung Tab S8 Ultra - Thiết kế đẹp, pin khủng</strong></h2>\n\n<p>Chiếc tablet<strong>&nbsp;Galaxy Tab S8 Ultra</strong>&nbsp;vừa được Samsung ra mắt c&ugrave;ng với Tab S8 v&agrave; Tab S8 Plus mới đ&acirc;y. M&aacute;y t&iacute;nh bảng sở hữu thiết kế mới đột ph&aacute; c&oacute; độ mỏng v&ocirc; c&ugrave;ng ấn tượng, cấu h&igrave;nh mạnh mẽ, dung lượng pin khủng c&ugrave;ng với những t&iacute;nh năng t&acirc;n tiến nhất hiện nay. Đ&acirc;y hứa hẹn l&agrave; d&ograve;ng m&aacute;y t&iacute;nh bảng sẽ l&agrave;m mưa l&agrave;m gi&oacute; trong thời gian sắp tới.</p>\n\n<h3><strong>Thiết kế tinh tế si&ecirc;u mỏng với c&aacute;c đường n&eacute;t vu&ocirc;ng vắn, m&agrave;u sắc thời thượng</strong></h3>\n\n<p>Ấn tượng đầu ti&ecirc;n của Samsung Galaxy Tab S8 Ultra ch&iacute;nh l&agrave; thiết kế với độ mỏng nhẹ ấn tượng v&agrave; c&aacute;c đường n&eacute;t c&oacute; đường n&eacute;t vu&ocirc;ng vắn hơn, hiện đại hơn. Bốn g&oacute;c được bo tr&ograve;n đ&atilde; gi&uacute;p cho tổng thể kh&ocirc;ng qu&aacute; sắc cạnh m&agrave; c&oacute; phần mềm mại hơn.</p>\n\n<p><img alt=\"Samsung Galaxy Tab S8 Ultra\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-s8-ultra-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-s8-ultra-1.jpg\" /></p>\n\n<p>Samsung Galaxy Tab S8 Ultra c&oacute; phần khung nh&ocirc;m Armor Aluminum tạo n&ecirc;n sự sang trọng c&ugrave;ng với m&agrave;u sắc thanh lịch, trending hiện nay v&agrave; bảo vệ an to&agrave;n tối ưu cho tablet.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 29400000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:34:53', 
+    'haipv'
+  ), 
+  (
+    122, 1.27, ' Samsung Galaxy Tab S8 Plus 256GB', 
+    'samsung-galaxy-tab-s8-plus-256gb', 
+    'samsung-galaxy-tab-s8-plus-256gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Mở ra kh&ocirc;ng gian s&aacute;ng tạo - M&agrave;n h&igrave;nh 12.4&quot;, Super AMOLED, 120Hz cho h&igrave;nh ảnh sắc n&eacute;t</li>\n  <li>Hiệu năng dẫn đầu, đa nhiệm ho&agrave;n hảo - Snapdragon 8 Gen 1 (4 nm)</li>\n  <li>Năng lượng bền bỉ - Vi&ecirc;n pin khủng 10.090 mAh, sạc nhanh 45W</li>\n  <li>Lu&ocirc;n l&agrave; trung t&acirc;m của mọi khung h&igrave;nh - Camera trước 12MP g&oacute;c si&ecirc;u rộng</li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 26590000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:35:38', 
+    'haipv'
+  ), 
+  (
+    123, 1.27, 'Samsung Galaxy Tab S8 Plus', 
+    'samsung-galaxy-tab-s8-plus', 'samsung-galaxy-tab-s8-plus.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Mở ra kh&ocirc;ng gian s&aacute;ng tạo - M&agrave;n h&igrave;nh 12.4&quot;, Super AMOLED, 120Hz cho h&igrave;nh ảnh sắc n&eacute;t</li>\n  <li>Hiệu năng dẫn đầu, đa nhiệm ho&agrave;n hảo - Snapdragon 8 Gen 1 (4 nm)</li>\n  <li>Năng lượng bền bỉ - Vi&ecirc;n pin khủng 10.090 mAh, sạc nhanh 45W</li>\n  <li>Lu&ocirc;n l&agrave; trung t&acirc;m của mọi khung h&igrave;nh - Camera trước 12MP g&oacute;c si&ecirc;u rộng</li>\n</ul>\n\n<h2 align=\"center\"><strong>M&aacute;y t&iacute;nh bảng Samsung Tab S8 Plus - Cấu h&igrave;nh khủng, m&agrave;n h&igrave;nh 120Hz</strong></h2>\n\n<p>Sau sự th&agrave;nh c&ocirc;ng của m&aacute;y t&iacute;nh bảng Galaxy Tab S7 Plus th&igrave; Samsung lại chuẩn bị cho ra đời phi&ecirc;n bản kế nhiệm đ&oacute; ch&iacute;nh l&agrave;&nbsp;<strong>Galaxy Tab S8 Plus&nbsp;</strong>c&ugrave;ng với 2 phi&ecirc;n bản&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-tab-s8.html\">Galaxy Tab S8</a>&nbsp;v&agrave; S8 Ultra. Với cấu h&igrave;nh cực khủng c&ugrave;ng những trang bị hiện đại, đ&acirc;y ch&iacute;nh l&agrave; si&ecirc;u phẩm mang đến cho người d&ugrave;ng những trải nghiệm v&ocirc; c&ugrave;ng độc đ&aacute;o v&agrave; ấn tượng.</p>\n\n<h3><strong>Thiết kế vu&ocirc;ng vức, khung vỏ chắc chắn</strong></h3>\n\n<p>Samsung Galaxy Tab S8+ được nguy&ecirc;n thiết kế giống như tr&ecirc;n phi&ecirc;n bản tiền nhiệm Tab S7 Plus. M&aacute;y c&oacute; kiểu d&aacute;ng dạng thanh vu&ocirc;ng vức, viền m&agrave;n h&igrave;nh cực mỏng mang đến cảm gi&aacute;c mạnh mẽ cũng như kh&aacute; chắc chắn khi cầm nắm.</p>\n\n<p align=\"center\"><img alt=\"Thiết kế vuông vức, khung vỏ chắc chắn\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/samsung-galaxy-tab-s8-plus-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/samsung-galaxy-tab-s8-plus-4.jpg\" /></p>\n\n<p>Khung vỏ của m&aacute;y sử dụng chất liệu kim loại cao cấp, bề mặt phủ k&iacute;nh cường lực gi&uacute;p bảo vệ m&aacute;y được tốt hơn. Mặt sau l&agrave; cụm camera ch&iacute;nh v&agrave; 1 dải thiết kế chạy dọc xuống để chứa đựng b&uacute;t cảm ứng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 24690000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:36:22', 
+    'haipv'
+  ), 
+  (
+    124, 1.27, 'Samsung Galaxy Tab S8', 
+    'samsung-galaxy-tab-s8', 'samsung-galaxy-tab-s8.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Kh&ocirc;ng gian s&aacute;ng tạo v&ocirc; hạn - M&agrave;n h&igrave;nh 11&quot;, 120Hz, TFT LCD cho h&igrave;nh ảnh sống động</li>\n  <li>Thoả sức s&aacute;ng tạo - B&uacute;t S Pen quyền năng thế hệ mới</li>\n  <li>Hiệu năng khủng, c&acirc;n mọi t&aacute;c vụ - Snapdragon 8 Gen 1 (4 nm)</li>\n  <li>Ph&ugrave; hợp l&agrave;m việc v&agrave; giải tr&iacute; - Hỗ trợ chia đ&ocirc;i m&agrave;n h&igrave;nh, k&ecirc;t nối b&agrave;n ph&iacute;m</li>\n</ul>\n\n<h2><strong>M&aacute;y t&iacute;nh bảng Samsung Tab S8 - Nhiều n&acirc;ng cấp đ&aacute;ng gi&aacute;</strong></h2>\n\n<p>Si&ecirc;u phẩm&nbsp;<strong>Galaxy Tab S8</strong>&nbsp;mang đến sự thay đổi ho&agrave;n to&agrave;n mới trong thiết kế, c&ugrave;ng h&agrave;ng loạt sự thay đổi mạnh mẽ mang đến trải nghiệm cao cấp cho người d&ugrave;ng. H&atilde;y c&ugrave;ng điểm qua những t&iacute;nh năng vượt trội của Tab S8, để xem đ&acirc;y c&oacute; phải l&agrave; chiếc m&aacute;y t&iacute;nh bảng Android tốt của năm 2021.</p>\n\n<h3><strong>M&agrave;n h&igrave;nh LCD LTPS tần số qu&eacute;t 120Hz</strong></h3>\n\n<p>Chiếc tablet Samsung Galaxy Tab S8 kh&ocirc;ng l&agrave;m người d&ugrave;ng thất vọng với việc trang bị h&agrave;ng loạt c&ocirc;ng nghệ đỉnh cao cho m&aacute;y với một m&agrave;n h&igrave;nh LCD 11&rsquo; si&ecirc;u n&eacute;t, tần số qu&eacute;t 120Hz, c&ocirc;ng nghệ h&igrave;nh ảnh mang đến trải nghiệm thị gi&aacute;c tuyệt vời.</p>\n\n<p><img alt=\"Samsung Galaxy Tab S8\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s8-S-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/samsung/galaxy-tab-s8-S-1.jpg\" /></p>\n\n<p>M&agrave; h&igrave;nh Tab S8 hỗ trợ dải m&agrave;u rộng gi&uacute;p người d&ugrave;ng c&oacute; thể dễ d&agrave;ng chỉnh sửa h&igrave;nh ảnh, thiết kế đồ họa tr&ecirc;n m&aacute;y m&agrave; kh&ocirc;ng lo lắng về vấn đề sai lệch m&agrave;u sắc khi tr&igrave;nh chiếu tr&ecirc;n thiết bị kh&aacute;c.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 19800000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:37:01', 
+    'haipv'
+  ), 
+  (
+    125, 1.27, 'Apple iPad Pro 12.9 2021 M1 WiFi 128GB', 
+    'apple-ipad-pro-129-2021-m1-wifi-128gb', 
+    'apple-ipad-pro-129-2021-m1-wifi-128gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiển thị rực rỡ, sắc n&eacute;t - M&agrave;n h&igrave;nh c&ocirc;ng nghệ MiniLED, tần số qu&eacute;t 120Hz, độ s&aacute;ng tối đa 1600 nit</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Giải tr&iacute; ng&agrave;y d&agrave;i kh&ocirc;ng lo cạn pin - Pin khủng 40,88W, sạc nhanh18W</li>\n</ul>\n\n<h2><strong>iPad Pro 12.9 inch 2021 - M&aacute;y t&iacute;nh bảng hiệu năng mạnh mẽ</strong></h2>\n\n<p>Nối tiếp th&agrave;nh c&ocirc;ng của c&aacute;c sản phẩm iPad thế hệ trước, năm nay Apple lại dự định tiếp tục cho ra mắt phi&ecirc;n bản iPad Pro 12.9 inch. Chiếc iPad thế hệ mới n&agrave;y dự đo&aacute;n sẽ nhận được nhiều sự săn đ&oacute;n của c&aacute;c fan Apple. Vậy điều g&igrave; l&agrave;m n&ecirc;n sức h&uacute;t của phi&ecirc;n bản&nbsp;<strong>iPad Pro&nbsp;2021 12.9 inch</strong>?</p>\n\n<h3><strong>Thiết kế sang trọng, m&agrave;n h&igrave;nh Mini-LED 12.9 inch</strong></h3>\n\n<p>Giống với những d&ograve;ng iPad tiền nhiệm, iPad Pro 12.9 phi&ecirc;n bản 2021 tiếp tục được Apple thiết kế với vẻ ngo&agrave;i sang trọng, hiện đại. K&iacute;ch thước của iPad 2021 gần giống với phi&ecirc;n bản năm 2020.</p>\n\n<p><img alt=\"Thiết kế sang trọng, màn hình OLED 12.9 inch\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-12-9-2021-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/tablet/apple/ipad-pro-12-9-2021-2.jpg\" /></p>\n\n<p>Với iPad thế hệ mới, Apple đ&atilde; trang bị một m&agrave;n h&igrave;nh Mini-LED c&oacute; k&iacute;ch thước 12.9 inch c&ugrave;ng tỉ lệ tương phản 1.000.000:1. Phần viền bezels xung quanh m&agrave;n h&igrave;nh được thiết kế thu hẹp để mở rộng th&ecirc;m kh&ocirc;ng gian, gi&uacute;p người d&ugrave;ng c&oacute; trải nghiệm thị gi&aacute;c tốt hơn.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 23990000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:42:04', 
+    'haipv'
+  ), 
+  (
+    126, 1.27, 'Apple iPad Pro 12.9 2021 M1 WiFi 256GB', 
+    'apple-ipad-pro-129-2021-m1-wifi-256gb', 
+    'apple-ipad-pro-129-2021-m1-wifi-256gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiển thị rực rỡ, sắc n&eacute;t - M&agrave;n h&igrave;nh c&ocirc;ng nghệ MiniLED, tần số qu&eacute;t 120Hz, độ s&aacute;ng tối đa 1600 nit</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Giải tr&iacute; ng&agrave;y d&agrave;i kh&ocirc;ng lo cạn pin - Pin khủng 40,88W, sạc nhanh18W</li>\n</ul>\n\n<p><strong>Apple iPad Pro 12.9 2021 M1 WiFi 256GB&nbsp;</strong>l&agrave; phi&ecirc;n bản iPad thế hệ kế tiếp m&agrave; Apple tung ra trong m&ugrave;a h&egrave; n&agrave;y. Chiếc&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-12-9-2021.html\">iPad Pro 12.9 inch 2021</a>&nbsp;được trang bị mản h&igrave;nh lớn, c&oacute; tỉ lệ tương phản 1,000,000 : 1, được thiết kế với vẻ ngo&agrave;i sang trọng, hiện đại,</p>\n\n<p>Nếu như bạn cần dung lượng lớn hơn, c&oacute; thể&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-12-9-2021-512gb.html\">Apple iPad Pro 12.9 2021 M1 WiFi 512GB</a>&nbsp;l&agrave; sản phẩm ph&ugrave; hợp với bạn.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 25990000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:42:45', 
+    'haipv'
+  ), 
+  (
+    127, 1.27, 'Apple iPad Pro 12.9 2021 M1 WiFi 512GB', 
+    'apple-ipad-pro-129-2021-m1-wifi-512gb', 
+    'apple-ipad-pro-129-2021-m1-wifi-512gb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiển thị rực rỡ, sắc n&eacute;t - M&agrave;n h&igrave;nh c&ocirc;ng nghệ MiniLED, tần số qu&eacute;t 120Hz, độ s&aacute;ng tối đa 1600 nit</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Giải tr&iacute; ng&agrave;y d&agrave;i kh&ocirc;ng lo cạn pin - Pin khủng 40,88W, sạc nhanh 18W</li>\n</ul>\n\n<p><strong>Apple iPad Pro 12.9 2021 M1 WiFi 512GB&nbsp;</strong>c&oacute; dung lượng vừa phải, ph&ugrave; hợp với nhiều đối tượng sử dụng.&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-12-9-2021.html\">Apple iPad Pro 12.9 inch 2021</a>&nbsp;hiện&nbsp;được giới chuy&ecirc;n gia đ&aacute;nh gi&aacute; l&agrave; c&oacute; hiệu năng vượt trội với chip M1 mới với CPU 8 nh&acirc;n v&agrave; GPU 8 nh&acirc;n, gi&uacute;p cho m&aacute;y hoạt động mượt m&agrave;, nhanh hơn so với c&aacute;c phi&ecirc;n bản tiền nhiệm.</p>\n\n<p>Với những l&agrave;m việc tr&ecirc;n ch&iacute;nh iPad của m&igrave;nh, c&oacute; thể bạn cần phi&ecirc;n bản m&aacute;y dung lượng cao hơn, v&iacute; dụ như&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-12-9-2021-1tb.html\">Apple iPad Pro 12.9 2021 M1 WiFi 1TB</a>.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 32000000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:43:40', 
+    'haipv'
+  ), 
+  (
+    128, 1.27, 'Apple iPad Pro 12.9 2021 M1 WiFi 1TB', 
+    'apple-ipad-pro-129-2021-m1-wifi-1tb', 
+    'apple-ipad-pro-129-2021-m1-wifi-1tb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiển thị rực rỡ, sắc n&eacute;t - M&agrave;n h&igrave;nh c&ocirc;ng nghệ MiniLED, tần số qu&eacute;t 120Hz, độ s&aacute;ng tối đa 1600 nit</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Giải tr&iacute; ng&agrave;y d&agrave;i kh&ocirc;ng lo cạn pin - Pin khủng 40,88W, sạc nhanh 18W</li>\n</ul>\n\n<p><strong>Apple iPad Pro 12.9 2021 M1 WiFi 1TB&nbsp;</strong>c&oacute; dung lượng cao, ph&ugrave; hợp với những bạn c&oacute; nhu cầu học tập, l&agrave;m việc tr&ecirc;n ch&iacute;nh chiếc m&aacute;y của m&igrave;nh.&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-12-9-2021.html\">iPad Pro 12.9 2021</a>&nbsp;được trang bị cụm camera hỗ trợ g&oacute;c chụp si&ecirc;u rộng v&agrave; c&aacute;c g&oacute;c chụp kh&aacute;c, gi&uacute;p cho bạn lưu giữ lại những khoảnh khắc đặc biệt với chất lượng h&igrave;nh ảnh cao nhất.</p>\n\n<p>B&ecirc;n cạnh đ&oacute;, Apple cũng tung ra phi&ecirc;n bản dung lượng lớn hơn l&agrave; 2TB với sản phẩm&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-12-9-2021-2tb.html\">Apple iPad Pro 12.9 2021 M1 WiFi 2TB</a>.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 48990000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:44:22', 
+    'haipv'
+  ), 
+  (
+    129, 1.27, ' Apple iPad Pro 12.9 2021 M1 WiFi 2TB', 
+    'apple-ipad-pro-129-2021-m1-wifi-2tb', 
+    'apple-ipad-pro-129-2021-m1-wifi-2tb.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hiển thị rực rỡ, sắc n&eacute;t - M&agrave;n h&igrave;nh c&ocirc;ng nghệ MiniLED, tần số qu&eacute;t 120Hz, độ s&aacute;ng tối đa 1600 nit</li>\n  <li>Hiệu năng như m&aacute;y t&iacute;nh - Vi xử l&yacute; M1, 8GB RAM</li>\n  <li>Chụp ảnh chất lượng, hỗ trợ AR ti&ecirc;n tiến - Camera k&eacute;p 12MP, cảm biến LiDAR cao cấp</li>\n  <li>Giải tr&iacute; ng&agrave;y d&agrave;i kh&ocirc;ng lo cạn pin - Pin khủng 40,88W, sạc nhanh 18W</li>\n</ul>\n\n<p><strong>Apple iPad Pro 12.9 2021 M1 WiFi 2TB&nbsp;</strong>l&agrave; phi&ecirc;n bản dung lượng lớn, ph&ugrave; hợp với những người sử dụng iPad l&agrave;m c&ocirc;ng cụ l&agrave;m việc v&agrave; học tập ch&iacute;nh.&nbsp;M&aacute;y t&iacute;nh bảng&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-12-9-2021.html\">iPad Pro 2021 12.9 inch</a>&nbsp;với khả năng kết nối 5G gi&uacute;p tốc độ kết nối nhanh hơn đ&aacute;ng kể so với chuẩn 4G hi&ecirc;n nay.</p>\n\n<p>C&ograve;n nếu như bạn cần phi&ecirc;n bản m&aacute;y dung lượng nhỏ hơn để tiết kiệm chi ph&iacute;, c&oacute; thể phi&ecirc;n bản&nbsp;<a href=\"https://cellphones.com.vn/ipad-pro-12-9-2021-256gb.html\">Apple iPad Pro 12.9 2021 M1 WiFi 256GB</a>&nbsp;l&agrave; sản phẩm bạn đang t&igrave;m kiếm.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 58990000, NULL, 1000, 1, 
+    9, 10, NULL, NULL, '2022-08-28 05:44:47', 
+    'haipv'
+  ), 
+  (
+    130, 1.27, 'Dây đeo Apple Watch Sport Band 41/40/38mm', 
+    'day-deo-apple-watch-sport-band-414038mm', 
+    'day-deo-apple-watch-sport-band-414038mm.jpg', 
+    '', '<h2>D&acirc;y đeo Apple Watch Sport Band 41/40/38mm Apple ch&iacute;nh h&atilde;ng &ndash; Ho&agrave;n thiện từ chất liệu cao su, mang phong c&aacute;ch thể thao</h2>\n\n<p>Bạn đ&atilde; qu&aacute; ch&aacute;n ngấy với vẻ củ kỹ của chiếc Apple m&igrave;nh đang d&ugrave;ng. Hoặc d&acirc;y đeo tr&ecirc;n chiếc Apple Watch cũ đ&atilde; qu&aacute; cứng, kh&ocirc;ng c&ograve;n mang đến trải nghiệm thoải m&aacute;i nữa. Ch&iacute;nh l&uacute;c n&agrave;y đ&acirc;y, bạn cần mua d&acirc;y đeo thay thế kh&aacute;c. Vậy th&igrave;&nbsp;<a href=\"https://cellphones.com.vn/do-choi-cong-nghe/day-deo-dong-ho.html\" target=\"_self\" title=\"Dây deo đồng hồ chính hãng\">d&acirc;y đeo đồng hồ</a>&nbsp;Apple Watch Sport Band 41/40/38mm Apple l&agrave; sản phẩm bạn cần tham khảo ngay.</p>\n\n<h3><strong>D&acirc;y đeo thay thế ho&agrave;n thiện từ cao su Fluoroelastomer, thiết kế đậm chất thể thao</strong></h3>\n\n<p>D&acirc;y đeo Apple Watch Sport Band&nbsp;41/40/38mm Apple ch&iacute;nh h&atilde;ng được ho&agrave;n thiện chủ yếu đến từ chất liệu cao cấp l&agrave; cao su Fluoroelastomer, c&oacute; độ bền cao hơn hẳn so với những d&acirc;y đeo th&ocirc;ng thường kh&aacute;c. N&oacute; c&oacute; thể chịu được v&ocirc; hạn những lần dập, g&atilde;y, uốn.</p>\n\n<p>Ngo&agrave;i ra, đặc t&iacute;nh mềm mại của Apple Watch Sport Band 41/40/38mm lu&ocirc;n thể hiện tr&ecirc;n tay người d&ugrave;ng l&agrave; một điểm nổi bật rất lớn, hiếm chất liệu n&agrave;o c&oacute; thể l&agrave;m được.</p>\n\n<p><img alt=\"Dây đeo thay thế hoàn thiện từ cao su Fluoroelastomer, thiết kế đậm chất thể thao\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-apple-watch-sport-band-38-40mm-2-min.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-apple-watch-sport-band-38-40mm-2-min.jpg\" /></p>\n\n<p>Do được l&agrave;m từ cao su n&ecirc;n n&oacute; mang đến độ linh hoạt cao, với khả năng thấm h&uacute;t mồ h&ocirc;i vượt trội, n&oacute; sẵn s&agrave;ng l&agrave;m bạn đồng h&agrave;nh của c&aacute;c vận động vi&ecirc;n tr&ecirc;n đường đua. B&ecirc;n cạnh đ&oacute;, phong c&aacute;ch thể thao của d&acirc;y đeo cũng gi&uacute;p người d&ugrave;ng to&aacute;t l&ecirc;n vẻ năng động khi mang đi chơi hoặc đi l&agrave;m việc.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1160000, NULL, 5, 1, 10, 
+    8, NULL, NULL, '2022-08-28 05:50:52', 
+    'haipv'
+  ), 
+  (
+    133, 1.27, 'Dây đeo Apple Watch Sport Band 45/44/42mm', 
+    'day-deo-apple-watch-sport-band-454442mm', 
+    'day-deo-apple-watch-sport-band-454442mm-thumbnail-3.jpg', 
+    '', '<h2><strong>D&acirc;y đeo Apple Watch Apple Sport Band&nbsp;45/44/42mm - Mang lại diện mạo mới đầy đẳng cấp</strong></h2>\n\n<p>Bạn đang sở hữu cho m&igrave;nh một chiếc Apple Watch đầy đẳng cấp v&agrave; bạn đang muốn thay đổi diện mạo cho chiếc đồng hồ của m&igrave;nh. Nhận thấy nhu cầu đ&oacute; của người sử dụng, nh&agrave; sản xuất đ&atilde; cho ra đời d&ograve;ng sản phẩm&nbsp;<a href=\"https://cellphones.com.vn/do-choi-cong-nghe/day-deo-dong-ho.html\" target=\"_self\" title=\"Dây deo đồng hồ chính hãng\">d&acirc;y đeo đồng hồ</a>&nbsp;Apple Watch Apple Sport Band&nbsp;45/44/42mm đ&aacute;p ứng nhu cầu của bạn.</p>\n\n<h3><strong>Thiết kế năng động s&aacute;ng tạo, ph&ugrave; hợp nhiều k&iacute;ch thước Apple watch</strong></h3>\n\n<p>D&acirc;y đeo Apple Watch Apple Sport Band&nbsp;45/44/42mm được thiết kế tỉ mỉ đầy sắc n&eacute;t đến từng chi tiết, &ocirc;m kh&iacute;t cổ tay người d&ugrave;ng nhưng vẫn mang lại sự thoải m&aacute;i. D&acirc;y đeo thể hiện n&eacute;t trẻ trung v&agrave; năng động cho người sử dụng.</p>\n\n<p><img alt=\"Thiết kế năng động sáng tạo, phù hợp nhiều kích thước Apple watch\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-apple-watch-sport-band-42-44mm.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-apple-watch-sport-band-42-44mm.jpg\" /></p>\n\n<p>Kh&ocirc;ng những vậy d&acirc;y Sport Band c&ograve;n được sản xuất vừa với nhiều k&iacute;ch thước của mặt chiếc Apple Watch mang lại sự tiện &iacute;ch. C&oacute; thể ph&ugrave; hợp với k&iacute;ch thước mặt đồng hồ 45mm,&nbsp; 42mm v&agrave; cả mặt 44mm m&agrave; bạn đang sở hữu.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1160000, NULL, 5, 1, 10, 
+    8, NULL, NULL, '2022-08-28 05:52:13', 
+    'haipv'
+  ), 
+  (
+    134, 1.27, 'Dây đeo Coteetci Silicone cho Apple Watch 42/44mm', 
+    'day-deo-coteetci-silicone-cho-apple-watch-4244mm', 
+    'day-deo-coteetci-silicone-cho-apple-watch-4244mm.jpg', 
+    '', '<h2><strong><a href=\"https://cellphones.com.vn/day-deo-coteetci-silicone-cho-apple-watch-42-44mm.html\" target=\"_blank\" title=\"Dây đeo Coteetci Silicone cho Apple Watch 42/44mm\">D&acirc;y đeo Coteetci Silicone cho Apple Watch 42/44mm</a>&nbsp;&ndash;&nbsp;</strong><strong>D&acirc;y deo đồng hồ thời trang</strong></h2>\n\n<p>Bạn đang sở hữu cho m&igrave;nh chiếc Apple Watch với d&acirc;y đeo qu&aacute; cũ kỹ kh&ocirc;ng hợp thời trang ảnh hưởng đến ngoại h&igrave;nh của m&oacute;n&nbsp;<a href=\"https://cellphones.com.vn/phu-kien.html\" target=\"_blank\" title=\"Phụ kiện công nghệ chính hãng\">phụ kiện</a>&nbsp;y&ecirc;u th&iacute;ch. V&igrave; vậy bạn muốn thay đổi d&acirc;y đeo v&agrave; đang loay hoay t&igrave;m kiếm cho m&igrave;nh d&acirc;y đeo vừa chất lượng vừa hợp thời trang th&igrave;&nbsp;<strong>d&acirc;y đeo Coteetci Silicone cho Apple Watch 42/44mm</strong>&nbsp;l&agrave; sự lựa chọn ho&agrave;n hảo cho bạn để thay đổi.</p>\n\n<h3><strong>Thiết kế thời trang mỏng nhẹ, nhiều k&iacute;ch cỡ khuy c&agrave;i cho tay của bạn</strong></h3>\n\n<p>Apple Watch cũng được xem l&agrave; m&oacute;n phụ kiện thời trang n&ecirc;n việc lựa chọn d&acirc;y đeo rất quan trọng. Với thiết kế đơn giản nhưng rất thời trang v&agrave; năng động với đơn m&agrave;u sắc tạo sự nổi bật kh&ocirc;ng qu&aacute; m&agrave;u m&egrave; ph&ugrave; hợp với c&aacute; t&iacute;nh của nhiều người. Ngo&agrave;i ra bạn sẽ kh&ocirc;ng phải lo lắng việc&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/day-deo-dong-ho.html\" target=\"_blank\" title=\"Dây đeo đồng hồ chính hãng\">d&acirc;y đeo đồng hồ</a>&nbsp;qu&aacute; d&agrave;y hay nặng tay khi đeo tạo cảm gi&aacute;c thoải m&aacute;i cho người d&ugrave;ng khi đeo thời gian d&agrave;i.</p>\n\n<p><img alt=\"Thiết kế thời trang mỏng nhẹ\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/Coteetci-Silicone-cho-Apple-Watch.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/Coteetci-Silicone-cho-Apple-Watch.jpg\" /></p>\n\n<p>Nh&agrave; sản xuất đ&atilde; thiết kế d&acirc;y đeo Coteetci Silicone cho Apple Watch 42/44mm với nhiều k&iacute;ch cỡ khuy c&agrave;i ph&ugrave; hợp cho k&iacute;ch cỡ tay của mỗi người mọi lứa tuổi. C&aacute;c khuy c&agrave;i cũng được thiết kế bằng chất liệu th&eacute;p kh&ocirc;ng gỉ với c&aacute;c lỗ bấm được cắt tỉ mỉ vừa tạo được t&iacute;nh thẩm mỹ, vừa tạo được sự chắc chắn cho chiếc Apple Watch.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 160000, NULL, 2, 1, 10, 
+    8, NULL, NULL, '2022-08-28 05:53:33', 
+    'haipv'
+  ), 
+  (
+    135, 1.27, 'Dây đeo Coteetci Silicone cho Apple Watch 41/40/38mm', 
+    'day-deo-coteetci-silicone-cho-apple-watch-414038mm', 
+    'day-deo-coteetci-silicone-cho-apple-watch-414038mm.jpg', 
+    '', '<h2>&nbsp;</h2>\n\n<h2><strong><a href=\"https://cellphones.com.vn/day-deo-coteetci-silicone-cho-apple-watch-38-40mm.html\" target=\"_blank\" title=\"Dây đeo Coteetci Silicone cho Apple Watch 38/40mm\">D&acirc;y đeo đồng hồ Coteetci Silicone cho Apple Watch 38/40mm&nbsp;</a>độ bền cao, mềm mại với da tay</strong></h2>\n\n<p><em>Apple Watch l&agrave;<a href=\"https://cellphones.com.vn/phu-kien.html\" target=\"_blank\" title=\"Phụ kiện công nghệ chính hãng\">&nbsp;phụ kiện</a>&nbsp;th&ocirc;ng minh được rất nhiều người d&ugrave;ng thương hiệu Apple lựa chọn sử dụng, nhờ v&agrave;o sự tiện lợi c&ugrave;ng nhiều t&iacute;nh năng hiện đại m&agrave; n&oacute; mang lại. Một khi d&acirc;y đeo chiếc Apple Watch bị đứt hay c&oacute; vấn đề sẽ khiến bạn kh&oacute; c&oacute; thể sử dụng Apple Watch một c&aacute;ch thuận tiện do kh&ocirc;ng thể đeo tr&ecirc;n tay. Khi đ&oacute;, l&agrave; l&uacute;c bạn cần một chiếc&nbsp;<strong>d&acirc;y đeo Coteetci Silicone cho chiếc Apple Watch 38/40mm</strong>&nbsp;của m&igrave;nh.</em></p>\n\n<h3>Thiết kế ch&iacute;nh x&aacute;c từng chi tiết c&ugrave;ng kiểu d&aacute;ng trẻ trung, thời trang</h3>\n\n<p>D&acirc;y đeo đồng hồ Coteetci Silicone cho Apple Watch 38/40mm được thiết kế v&agrave; gia c&ocirc;ng tỉ mỉ, ch&iacute;nh x&aacute;c đến từng chi tiết gi&uacute;p d&acirc;y đeo d&ugrave; dược thay mới vẫn v&ocirc; c&ugrave;ng vừa vặn như d&acirc;y đeo của Apple Watch, kh&ocirc;ng hề c&oacute; một chi tiết thừa th&atilde;i n&agrave;o.</p>\n\n<p><img alt=\"Thiết kế chính xác từng chi tiết cùng kiểu dáng trẻ trung, thời trang\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-coteetci-silicone-cho_apple-watch-38-40-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-coteetci-silicone-cho_apple-watch-38-40-1.jpg\" /></p>\n\n<p>Kh&ocirc;ng chỉ thế, d&acirc;y đeo đồng hồ Coteetci Silicone cho Apple Watch 38/40mm c&ograve;n c&oacute; thiết kế với kiểu d&aacute;ng trẻ trung, gi&uacute;p thể hiện được sự năng động của người d&ugrave;ng. Ngo&agrave;i ra, phụ kiện Apple Watch n&agrave;y cũng dễ d&agrave;ng ph&ugrave; hợp với bất k&igrave; bộ trang phục n&agrave;o của bạn, tr&ocirc;ng bạn vẫn v&ocirc; c&ugrave;ng hợp thời trang.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 160000, NULL, 2, 1, 10, 
+    8, NULL, NULL, '2022-08-28 05:53:55', 
+    'haipv'
+  ), 
+  (
+    136, 1.27, 'Dây đeo Apple Watch UniQ Revix Reversible Magnetic 45/44/42mm', 
+    'day-deo-apple-watch-uniq-revix-reversible-magnetic-454442mm', 
+    'day-deo-apple-watch-uniq-revix-reversible-magnetic-454442mm.jpg', 
+    '', '<h2><strong>D&acirc;y đeo Apple Watch UniQ Revix Reversible Magnetic&nbsp;45/44/42mm - Thiết kế thời trang, độ bền cao</strong></h2>\n\n<p>Bạn đang t&igrave;m một chiếc d&acirc;y đeo c&oacute; thiết kế thời trang, hợp xu hướng với độ bền cao v&agrave; khả năng chống thấm nước tốt?&nbsp;<strong><a href=\"https://cellphones.com.vn/do-choi-cong-nghe/day-deo-dong-ho.html\" target=\"_self\" title=\"Dây deo đồng hồ chính hãng\">D&acirc;y đeo đồng hồ</a>&nbsp;Apple Watch UniQ Revix Reversible Magnetic 45/44/42mm</strong>&nbsp;đang được b&aacute;n ch&iacute;nh h&atilde;ng tại CellphoneS sẽ l&agrave; sự lựa chọn l&yacute; tưởng v&agrave; l&agrave;m bật l&ecirc;n c&aacute; t&iacute;nh ri&ecirc;ng của bạn đấy!</p>\n\n<h3><strong>Dễ phối m&agrave;u, khả năng chuyển đổi linh hoạt</strong></h3>\n\n<p>D&acirc;y đeo Apple Watch UniQ Revix Reversible Magnetic&nbsp;45/44/42mm được thiết kế với nhiều m&agrave;u sắc từ nhẹ nh&agrave;ng đến mạnh mẽ, c&aacute; t&iacute;nh. Với sự đa dạng về m&agrave;u sắc đ&oacute;, bạn sẽ kh&ocirc;ng phải qu&aacute; lo về việc lựa chọn một chiếc d&acirc;y đeo thật ph&ugrave; hợp để phối đồ tương ứng trong mọi ho&agrave;n cảnh như đi học, đi l&agrave;m, đi d&atilde; ngoại hoặc party,...</p>\n\n<p><img alt=\"Dễ phối màu, khả năng chuyển đổi linh hoạt\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/cable/Day-deo-apple-watch-uniq-revix-reversible-magnetic-42-44-45mm-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/cable/Day-deo-apple-watch-uniq-revix-reversible-magnetic-42-44-45mm-1.jpg\" /></p>\n\n<p>D&acirc;y đeo n&agrave;y c&ograve;n c&oacute; khả năng chuyển đổi m&agrave;u linh hoạt chỉ với một lần lật, gi&uacute;p bạn dễ d&agrave;ng biến h&oacute;a phong c&aacute;ch trong t&iacute;ch tắc khi sử dụng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 700000, NULL, 10, 1, 10, 
+    8, NULL, NULL, '2022-08-28 05:56:26', 
+    'haipv'
+  ), 
+  (
+    137, 1.27, 'Dây đeo Apple Watch Raptic Mesh Band 45/44/42mm', 
+    'day-deo-apple-watch-raptic-mesh-band-454442mm', 
+    'day-deo-apple-watch-raptic-mesh-band-454442mm.jpeg', 
+    '', '<h2><strong>D&acirc;y đeo Apple Watch Raptic Mesh Band&nbsp;45/44/42mm &ndash; Sang trọng, đẳng cấp</strong></h2>\n\n<p>D&acirc;y đeo Apple Watch của bạn đang bị hỏng hoặc bạn đ&atilde; thấy qu&aacute; nh&agrave;m ch&aacute;n với m&agrave;u sắc, kiểu d&aacute;ng của d&acirc;y m&igrave;nh d&ugrave;ng? H&atilde;y thử tham khảo si&ecirc;u phẩm&nbsp;<a href=\"https://cellphones.com.vn/do-choi-cong-nghe/day-deo-dong-ho.html\" target=\"_self\" title=\"Dây đeo đồng hồ chính hãng\">d&acirc;y đeo đồng hồ</a><strong>&nbsp;Raptic Mesh Band&nbsp;45/44/42mm</strong>, sản phẩm được ưa chuộng hiện nay bởi sự bền bỉ, kiểu d&aacute;ng s&agrave;nh điệu.</p>\n\n<h3><strong>Kiểu d&aacute;ng hiện đại,&nbsp;</strong><strong>nhiều lựa chọn m&agrave;u sắc</strong></h3>\n\n<p>D&acirc;y đeo Apple Watch Raptic Mesh Band&nbsp;45/44/42mm sở hữu thiết kế sang trọng, đẳng cấp. Sản phẩm l&agrave; sự kết hợp của c&aacute;c mắt th&eacute;p nhỏ, được chế t&aacute;c cầu kỳ, tỉ mỉ.&nbsp;Chỉ nghe giới thiệu bạn sẽ nghĩ d&acirc;y đeo n&agrave;y thật đơn giản, tuy nhi&ecirc;n, ch&uacute;ng lại to&aacute;t ra được r&otilde; sự s&agrave;nh điệu, đẳng cấp khi sử dụng. D&acirc;y c&oacute; nhiều m&agrave;u sắc kh&aacute;c nhau, người d&ugrave;ng c&oacute; thể chọn lựa v&agrave; thay đổi theo &yacute; th&iacute;ch.</p>\n\n<p><img alt=\"Kiểu dáng hiện đại, nhiều lựa chọn màu sắc\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/Day-deo-apple-watch-raptic-mesh-band-42-44mm-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/Day-deo-apple-watch-raptic-mesh-band-42-44mm-1.jpg\" /></p>\n\n<p>D&acirc;y đeo Apple Watch Raptic Mesh Band c&ograve;n c&oacute; khả năng chống nước vượt trội, dễ vệ sinh. Nếu d&acirc;y v&ocirc; t&igrave;nh b&aacute;m bẩn, bạn cũng kh&ocirc;ng qu&aacute; lo ngại.</p>\n\n<p>&gt;&gt;&gt; Xem th&ecirc;m:&nbsp;<a href=\"https://cellphones.com.vn/day-deo-apple-watch-raptic-mesh-band-38-40mm.html\" target=\"_blank\">D&acirc;y đeo Apple Watch Raptic Mesh Band 38/40mm</a></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 500000, NULL, 100, 1, 10, 
+    8, NULL, NULL, '2022-08-28 05:58:01', 
+    'haipv'
+  ), 
+  (
+    138, 1.27, 'Dây đeo Apple watch Nike Sport Band 41/40/38mm', 
+    'day-deo-apple-watch-nike-sport-band-414038mm', 
+    'day-deo-apple-watch-nike-sport-band-414038mm.jpg', 
+    '', '<h2><strong>D&acirc;y đeo Apple Watch Nike Sport 41/40/38mm - D&acirc;y đeo th&ecirc;̉ thao năng đ&ocirc;̣ng</strong></h2>\n\n<p><em>Làm từ ch&acirc;́t li&ecirc;̣u b&ecirc;̀n bỉ với thi&ecirc;́t k&ecirc;́ ch&acirc;́m bi giúp tạo đ&ocirc;̣ thoải mái cho da,&nbsp;</em><em><strong><a href=\"https://cellphones.com.vn/do-choi-cong-nghe/day-deo-dong-ho.html\" target=\"_self\" title=\"Dây đeo đồng hồ chính hãng\">d&acirc;y đeo đồng hồ</a>&nbsp;Apple Watch Nike Sport 41/40/38mm</strong>&nbsp;là mảnh ghép tạo n&ecirc;n vẻ năng đ&ocirc;̣ng cho chi&ecirc;́c Apple Watch sang trọng của bạn.</em></p>\n\n<h3><strong>V&acirc;̣t li&ecirc;̣u cao su t&ocirc;̉ng hợp tăng đ&ocirc;̣ b&ecirc;̀n bỉ cho d&acirc;y đeo</strong></h3>\n\n<p>D&acirc;y đeo Apple Watch Nike Sport 41/40/38mm được ch&ecirc;́ tạo hoàn toàn từ loại v&acirc;̣t li&ecirc;̣u cao su t&ocirc;̉ng hợp cao c&acirc;́p. Cụ th&ecirc;̉, đ&acirc;y là loại cao su fluoroelastomer có tính đàn h&ocirc;̀i cao và tính chịu nhi&ecirc;̣t t&ocirc;́t, giúp tăng đ&ocirc;̣ b&ecirc;̀n bỉ cho d&acirc;y đeo dưới nhi&ecirc;̀u đi&ecirc;̀u ki&ecirc;̣n thời ti&ecirc;́t khác nhau.</p>\n\n<p><img alt=\"Vật liệu cao su tổng hợp tăng độ bền bỉ cho dây đeo\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-apple-watch-nike-sport-38-40mm-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-apple-watch-nike-sport-38-40mm-1.jpg\" /></p>\n\n<p>Loại v&acirc;̣t li&ecirc;̣u cao su fluoroelastomer trước đ&acirc;y được dùng ph&ocirc;̉ bi&ecirc;́n trong ngành c&ocirc;ng nghi&ecirc;̣p xe &ocirc; t&ocirc; và c&ocirc;ng nghi&ecirc;̣p hóa ch&acirc;́t, v&ocirc;́n là những ngành có đi&ecirc;̀u ki&ecirc;̣n làm vi&ecirc;̣c khắc nghi&ecirc;̣t và đòi hỏi v&acirc;̣t li&ecirc;̣u ch&ocirc;́ng chịu t&ocirc;́t. Do đó, bạn hoàn toàn y&ecirc;n t&acirc;m d&acirc;y đeo Nike Sport sẽ lu&ocirc;n nguy&ecirc;n vẹn theo thời gian khi đeo cùng Apple Watch 41/40/38mm.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1160000, NULL, 100, 1, 
+    10, 8, NULL, NULL, '2022-08-28 05:59:39', 
+    'haipv'
+  ), 
+  (
+    139, 1.27, 'Dây đeo Apple watch Nike Sport Band 45/44/42mm', 
+    'day-deo-apple-watch-nike-sport-band-454442mm', 
+    'day-deo-apple-watch-nike-sport-band-454442mm.jpg', 
+    '', '<h2><strong>D&acirc;y đeo Apple watch Nike Sport Band 42/ 44mm &ndash; Thiết kế năng động, thể thao</strong></h2>\n\n<p>D&acirc;y đeo mới sẽ gi&uacute;p t&acirc;n trang lại to&agrave;n bộ vẻ đẹp của chiếc Apple Watch của bạn. V&agrave; nếu bạn l&agrave; người thường xuy&ecirc;n vận động với Apple watch th&igrave; h&atilde;y chọn ngay&nbsp;<strong><a href=\"https://cellphones.com.vn/do-choi-cong-nghe/day-deo-dong-ho.html\" target=\"_self\" title=\"Dây đeo đồng hồ chính hãng\">d&acirc;y đeo đồng hồ</a>&nbsp;Apple watch Nike Sport Band 42/ 44mm</strong>.</p>\n\n<h3><strong>Kiểu d&aacute;ng năng động, chất liệu cao su tổng hợp</strong></h3>\n\n<p>D&acirc;y đeo Apple watch Nike Sport Band 42/ 44mm mang kiểu d&aacute;ng th&acirc;n thện để vận động. Điều đ&oacute; l&agrave; nhờ v&agrave;o những thiết kế đục lỗ tr&ocirc;ng kh&aacute; độc đ&aacute;o v&agrave; gi&uacute;p tay người d&ugrave;ng kh&ocirc;ng bị b&iacute; bởi mồ h&ocirc;i trong qu&aacute; tr&igrave;nh sử dụng để tập luyện.</p>\n\n<p><img alt=\"Kiểu dáng năng động\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-apple-watch-nike-sport-band-42-44mm-1-min.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/day-deo-apple-watch-nike-sport-band-42-44mm-1-min.jpg\" /></p>\n\n<p>D&acirc;y đeo sử dụng chất liệu cao su tổng hợp vốn mang lại cảm gi&aacute;c đeo mềm mại m&agrave; bạn chưa bao giờ thấy. B&ecirc;n cạnh đ&oacute;, đ&acirc;y cũng l&agrave; chất liệu mang đến độ bền cao, sẵn s&agrave;ng chống lại những va đập từ lực t&aacute;c động từ b&ecirc;n ngo&agrave;i.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1160000, NULL, 100, 1, 
+    10, 8, NULL, NULL, '2022-08-28 06:00:36', 
+    'haipv'
+  ), 
+  (
+    140, 1.27, 'Dây đeo đồng hồ Samsung Galaxy Watch 42mm', 
+    'day-deo-dong-ho-samsung-galaxy-watch-42mm', 
+    'day-deo-dong-ho-samsung-galaxy-watch-42mm.jpg', 
+    '', '<h2>D&acirc;y đeo đồng hồ Samsung Galaxy Watch 42 mm</h2>\n\n<p>B&ecirc;n cạnh sự ra mắt của chiếc đồng hồ th&ocirc;ng minh Samsung Galaxy Watch, Samsung c&ograve;n mang đến c&aacute;c mẫu d&acirc;y đeo đồng hồ đi k&egrave;m để thay thế khi cần thiết. Với phụ kiện d&acirc;y đeo đồng hồ Samsung Galaxy Watch 42 mm, người d&ugrave;ng c&oacute; thể thay thế cho những chiếc d&acirc;y đeo đ&atilde; bị cũ, chẳng may bị hư hỏng hay đơn giản chỉ l&agrave; thay đổi lại phong c&aacute;ch của chiếc đồng hồ th&ocirc;ng minh m&agrave; m&igrave;nh đang sử dụng.</p>\n\n<p><img alt=\"Dây đeo đồng hồ Samsung Galaxy Watch 42 mm\" data-src=\"https://cellphones.com.vn/media/wysiwyg/accessories/watch_band/day-deo-dong-ho-samsung-galaxy-watch-42mm-1.jpg\" lazy=\"loaded\" src=\"https://cellphones.com.vn/media/wysiwyg/accessories/watch_band/day-deo-dong-ho-samsung-galaxy-watch-42mm-1.jpg\" /></p>\n\n<p>&gt;&gt;&gt;Xem th&ecirc;m:&nbsp;<a href=\"https://cellphones.com.vn/day-deo-dong-ho-samsung-galaxy-watch-46mm.html\" target=\"_blank\">D&acirc;y đeo đồng hồ Samsung Galaxy Watch 46mm</a></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 200000, NULL, 100, 1, 10, 
+    10, NULL, NULL, '2022-08-28 06:03:00', 
+    'haipv'
+  ), 
+  (
+    141, 1.27, 'Samsung Galaxy Watch5', 
+    'samsung-galaxy-watch5', 'samsung-galaxy-watch5.png', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Trang bị cảm biến sinh học 3 trong 1: Cho ph&eacute;p đo nhịp tim, huyết &aacute;p, điện t&acirc;m đồ, SpO2</li>\n  <li>Hỗ trợ LTE - nghe gọi trực tiếp tr&ecirc;n đồng hồ</li>\n  <li>Sạc 45% pin chỉ trong 30 ph&uacute;t, quay lại cuộc chơi tức th&igrave;</li>\n  <li>Hệ điều h&agrave;nh Wear OS - cung cấp nhiều t&iacute;nh năng th&ocirc;ng minh như nhắn tin, điều hướng qua google map</li>\n  <li>M&agrave;n h&igrave;nh tinh thể Sapphire - cho khả năng kh&aacute;ng nước tốt hơn đến 1.6 lần so với phi&ecirc;n bản trước</li>\n  <li>90 chế độ luyện tập - Thỏa sức tập luyện</li>\n</ul>\n\n<h2><strong>Samsung Galaxy Watch 5 &ndash; Trải nghiệm tuyệt vời từ thiết kế đến t&iacute;nh năng</strong></h2>\n\n<p><strong>Đồng hồ Galaxy Watch5</strong>&nbsp;l&agrave; thế hệ đồng hồ đeo tay th&ocirc;ng minh tiếp theo được Samsung ra mắt trong năm nay. Với thiết kế đột ph&aacute; c&ugrave;ng c&aacute;c c&ocirc;ng nghệ mới nhất th&igrave; đ&acirc;y l&agrave; lựa chọn tuyệt vời cho những ai y&ecirc;u th&iacute;ch sự trẻ trung v&agrave; sang trọng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 6490000, NULL, 1000, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:08:12', 
+    'haipv'
+  ), 
+  (
+    142, 1.27, 'Samsung Galaxy Watch5 44mm', 
+    'samsung-galaxy-watch5-44mm', 'samsung-galaxy-watch5-44mm.png', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Trang bị cảm biến sinh học 3 trong 1: Cho ph&eacute;p đo nhịp tim, huyết &aacute;p, điện t&acirc;m đồ, SpO2</li>\n  <li>Sạc 45% pin chỉ trong 30 ph&uacute;t, quay lại cuộc chơi tức th&igrave;</li>\n  <li>Hệ điều h&agrave;nh Wear OS - cung cấp nhiều t&iacute;nh năng th&ocirc;ng minh như nhắn tin, điều hướng qua google map</li>\n  <li>M&agrave;n h&igrave;nh tinh thể Sapphire - cho khả năng kh&aacute;ng nước tốt hơn đến 1.6 lần so với phi&ecirc;n bản trước</li>\n  <li>90 chế độ luyện tập - Thỏa sức tập luyện</li>\n</ul>\n\n<h2><strong>Đ&ocirc;̀ng h&ocirc;̀ Samsung Galaxy Watch 5 44mm - &ldquo;Si&ecirc;u ph&acirc;̉m&rdquo; smartwatch từ nhà Samsung</strong></h2>\n\n<p><em>Dựa tr&ecirc;n những th&ocirc;ng tin rò rỉ g&acirc;̀n đ&acirc;y, ta có th&ecirc;̉ khẳng định&nbsp;</em><em><strong><a href=\"https://cellphones.com.vn/do-choi-cong-nghe.html\" target=\"_blank\" title=\"Đồng hồ thông minh chính hãng\">đ&ocirc;̀ng h&ocirc;̀ th&ocirc;ng minh</a>&nbsp;Samsung Galaxy Watch 5 44mm</strong>&nbsp;hứa hẹn sẽ là m&acirc;̃u smartwatch h&acirc;́p d&acirc;̃n trong năm 2022, cũng như có th&ecirc;̉ xem là m&acirc;̃u smartwatch t&ocirc;́t nh&acirc;́t mà Samsung từng ch&ecirc;́ tạo.</em></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 6990000, NULL, 1000, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:08:52', 
+    'haipv'
+  ), 
+  (
+    143, 1.27, 'Samsung Galaxy Watch5 40mm LTE', 
+    'samsung-galaxy-watch5-40mm-lte', 
+    'samsung-galaxy-watch5-40mm-lte.png', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Trang bị cảm biến sinh học 3 trong 1: Cho ph&eacute;p đo nhịp tim, huyết &aacute;p, điện t&acirc;m đồ, SpO2</li>\n  <li>Hỗ trợ LTE - nghe gọi trực tiếp tr&ecirc;n đồng hồ</li>\n  <li>Sạc 45% pin chỉ trong 30 ph&uacute;t, quay lại cuộc chơi tức th&igrave;</li>\n  <li>Hệ điều h&agrave;nh Wear OS - cung cấp nhiều t&iacute;nh năng th&ocirc;ng minh như nhắn tin, điều hướng qua google map</li>\n  <li>M&agrave;n h&igrave;nh tinh thể Sapphire - cho khả năng kh&aacute;ng nước tốt hơn đến 1.6 lần so với phi&ecirc;n bản trước</li>\n  <li>90 chế độ luyện tập - Thỏa sức tập luyện</li>\n</ul>\n\n<h2><strong>Samsung Galaxy Watch4 40mm LTE - Đa chức năng, bền bỉ</strong></h2>\n\n<p>D&ograve;ng&nbsp;<strong><a href=\"https://cellphones.com.vn/do-choi-cong-nghe.html\" target=\"_blank\" title=\"Đồng hồ thông minh chính hãng\">đồng hồ th&ocirc;ng minh</a>&nbsp;Samsung Galaxy Watch4 40mm LTE</strong>&nbsp;thu h&uacute;t được nhiều người sử dụng bởi t&iacute;nh th&ocirc;ng minh v&agrave; vẻ ngo&agrave;i bắt mắt. Đ&acirc;y l&agrave; sản phẩm đem lại nhiều ấn tượng cho nhiều người, h&atilde;y đồng h&agrave;nh c&ugrave;ng Samsung Galaxy Watch5 nh&eacute;!</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 7490000, NULL, 1000, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:09:27', 
+    'haipv'
+  ), 
+  (
+    144, 1.27, 'Samsung Galaxy Watch5 44mm LTE', 
+    'samsung-galaxy-watch5-44mm-lte', 
+    'samsung-galaxy-watch5-44mm-lte.png', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Trang bị cảm biến sinh học 3 trong 1: Cho ph&eacute;p đo nhịp tim, huyết &aacute;p, điện t&acirc;m đồ, SpO2</li>\n  <li>Hỗ trợ LTE - nghe gọi trực tiếp tr&ecirc;n đồng hồ</li>\n  <li>Sạc 45% pin chỉ trong 30 ph&uacute;t, quay lại cuộc chơi tức th&igrave;</li>\n  <li>Hệ điều h&agrave;nh Wear OS - cung cấp nhiều t&iacute;nh năng th&ocirc;ng minh như nhắn tin, điều hướng qua google map</li>\n  <li>M&agrave;n h&igrave;nh tinh thể Sapphire - cho khả năng kh&aacute;ng nước tốt hơn đến 1.6 lần so với phi&ecirc;n bản trước</li>\n  <li>90 chế độ luyện tập - Thỏa sức tập luyện</li>\n</ul>\n\n<h2 align=\"center\"><strong>Samsung Galaxy Watch 5 44mm LTE n&acirc;ng cấp cực chất, trải nghiệm cực đ&atilde;</strong></h2>\n\n<p>Samsung Galaxy Watch 5 44mm LTE l&agrave; mẫu smart watch tiếp theo m&agrave; Samsung muốn mang tới cho người d&ugrave;ng. Với nhiều sự thay đổi từ ngoại h&igrave;nh cho tới t&iacute;nh năng đ&acirc;y sẽ l&agrave; sản phẩm hứa hẹn mang tới cho bạn những trải nghiệm kh&aacute;c biệt.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 7900000, NULL, 1000, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:09:59', 
+    'haipv'
+  ), 
+  (
+    145, 1.27, 'Samsung Galaxy Watch5 Pro', 
+    'samsung-galaxy-watch5-pro', 'samsung-galaxy-watch5-pro.png', 
+    '', '<h2><strong>Đ&aacute;nh gi&aacute;&nbsp;</strong><strong>Samsung Galaxy Watch 5 Pro - Dung lượng pin ấn tượng, c&ugrave;ng độ bền vượt trội</strong></h2>\n\n<p>Đ&acirc;y l&agrave; chiếc đồng hồ th&ocirc;ng minh được Samsung dự kiến cho ra mắt trong thời gian sắp tới được cho l&agrave; c&oacute; nhiều điểm kh&aacute;c biệt so với phi&ecirc;n bản tiền nhiệm. Dự kiến sự thay đổi sẽ nằm ở vi&ecirc;n pin, chất liệu, c&ugrave;ng nhiều t&iacute;nh năng mới. Để biết được cụ thể sự thay đổi đ&oacute; l&agrave; g&igrave;, h&atilde;y đọc qua phần th&ocirc;ng tin b&ecirc;n dưới bạn nh&eacute;.</p>\n\n<h3><strong>Thiết kế Galaxy Watch 5 Pro sang trọng</strong></h3>\n\n<p>Đồng hồ th&ocirc;ng minh sở hữu một thiết kế sang trọng với mặt k&iacute;nh Sapphire bắt mắt v&agrave; khung viền Titan cao cấp. Thiết kế n&agrave;y vừa cổ điển vừa hiện đại gi&uacute;p Watch5 Pro c&oacute; thể g&acirc;y ấn tượng với những người xung quanh.</p>\n\n<p>Sự thay đổi trong thiết kế so với thế hệ trước đ&oacute; l&agrave; phần khung viền từ nh&ocirc;m v&agrave; th&eacute;p kh&ocirc;ng gỉ sang Titan cao cấp, mặt k&iacute;nh Sapphire mang lại khả năng chống trầy xước cực tốt.</p>\n\n<p><img alt=\"Đánh giá thiết kế Samsung Galaxy Watch5 Pro\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch-5-pro-4.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch-5-pro-4.jpg\" /></p>\n\n<p>Về vẻ ngo&agrave;i,<strong>&nbsp;Samsung Watch 5 Pro</strong>&nbsp;vẫn được trang bị một thiết kế quen thuộc với mặt tr&ograve;n c&ugrave;ng nhiều t&ugrave;y chọn d&acirc;y đeo (D&acirc;y da hoặc silicon). Phần d&acirc;y deo c&oacute; thể th&aacute;o rời v&agrave; thay thế dễ d&agrave;ng. Nếu mặt đồng hồ người d&ugrave;ng chỉ c&oacute; hai sự lựa chọn l&agrave; đen v&agrave; x&aacute;m th&igrave; phần d&acirc;y đeo c&oacute; đa dạng sự lựa chọn hơn từ hồng, đen, xanh,...</p>\n\n<p>Tr&ecirc;n thế hệ SS Galaxy Watch 5 Pro, v&ograve;ng xoay bezel truyền thống cũng đ&atilde; được loại bỏ. Thay thế v&agrave;o đ&oacute; l&agrave; khả năng điều hướng nhanh tr&ecirc;n m&agrave;n h&igrave;nh cũng như hệ thống n&uacute;t bấm tr&ecirc;n cạnh phải.</p>\n\n<p><img alt=\"Đánh giá thiết kế Samsung Galaxy Watch5 Pro\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch-5-pro-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch-5-pro-2.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 11990000, NULL, 1000, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:12:18', 
+    'haipv'
+  ), 
+  (
+    146, 1.27, 'Samsung Galaxy Watch4 40mm', 
+    'samsung-galaxy-watch4-40mm', 'samsung-galaxy-watch4-40mm.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế cổ điển,m&agrave;n h&igrave;nh Amoled 1.19 inch hiển thị sắc n&eacute;t</li>\n  <li>Theo d&otilde;i sức khoẻ với chức năng đo nhịp tim,oxy trong m&aacute;u.....</li>\n  <li>Pin d&ugrave;ng trong 1.5 ng&agrave;y,sạc đầy trong 2 giờ</li>\n  <li>Chứng nhận độ bền chuẩn qu&acirc;n đội MIL-STD-810G</li>\n</ul>\n\n<h2 align=\"center\"><strong>Samsung Galaxy Watch4 40mm &ndash; Tinh tế trong từng chi tiết</strong></h2>\n\n<p>Nối tiếp sự th&agrave;nh c&ocirc;ng của thế hệ tiền nhiệm, đồng hồ th&ocirc;ng minh tiếp theo của nh&agrave; Samsung được mong chờ hơn bao giờ hết. Vậy chiếc&nbsp;<strong>đồng hồ th&ocirc;ng minh Samsung Galaxy Watch4 40mm</strong>&nbsp;đến từ &ocirc;ng lớn c&ocirc;ng nghệ n&agrave;y c&oacute; cải tiến g&igrave; vượt bậc, th&ocirc;ng số kỹ thuật như thế n&agrave;o?</p>\n\n<h3><strong>Tập luyện to&agrave;n diện với t&iacute;nh năng ph&acirc;n t&iacute;ch th&agrave;nh phần cơ thể</strong></h3>\n\n<p>Samsung Galaxy Watch4 40mm l&agrave; chiếc smartwatch Galaxy đầu ti&ecirc;n c&oacute; t&iacute;nh năng ph&acirc;n t&iacute;ch th&agrave;nh phần cơ thể. Kết quả ph&acirc;n t&iacute;ch qua phương ph&aacute;p BIA trong v&ograve;ng 15 gi&acirc;y chỉ với thao t&aacute;c 2 ng&oacute;n tay. m&agrave; chế độ luyện tập được theo d&otilde;i thuận tiện v&agrave; to&agrave;n diện. B&ecirc;n cạnh đ&oacute;, tỷ lệ mỡ, lượng nước v&agrave; cơ xương hiển thị chi tiết gi&uacute;p người d&ugrave;ng dễ d&agrave;ng đạt được mục ti&ecirc;u.</p>\n\n<p>Chip xử l&yacute; mạnh mẽ c&ugrave;ng cảm biến Samsung BioActive đem đến những đột ph&aacute; vượt trội. Cảm biến n&agrave;y hỗ trợ đo c&aacute;c th&agrave;nh phần trong vơ thể theo thời gian thực v&agrave; kiểm so&aacute;t tốt c&aacute;c mục ti&ecirc;u sức khỏe.</p>\n\n<p><img alt=\"Samsung Galaxy Watch4 40mm\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch4-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch4-3.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 5150000, NULL, 100, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:15:19', 
+    'haipv'
+  ), 
+  (
+    147, 1.27, 'Samsung Galaxy Watch4 44mm', 
+    'samsung-galaxy-watch4-44mm', 'samsung-galaxy-watch4-44mm.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế cổ điển,m&agrave;n h&igrave;nh Amoled 1.19 inch hiển thị sắc n&eacute;t</li>\n  <li>Theo d&otilde;i sức khoẻ với chức năng đo nhịp tim,oxy trong m&aacute;u.....</li>\n  <li>Pin d&ugrave;ng trong 1.5 ng&agrave;y,sạc đầy trong 2 giờ</li>\n  <li>Chứng nhận độ bền chuẩn qu&acirc;n đội MIL-STD-810G</li>\n</ul>\n\n<h2 align=\"center\"><strong>Samsung Galaxy Watch4 40mm &ndash; Tinh tế trong từng chi tiết</strong></h2>\n\n<p>Nối tiếp sự th&agrave;nh c&ocirc;ng của thế hệ tiền nhiệm, đồng hồ th&ocirc;ng minh tiếp theo của nh&agrave; Samsung được mong chờ hơn bao giờ hết. Vậy chiếc&nbsp;<strong>đồng hồ th&ocirc;ng minh Samsung Galaxy Watch4 40mm</strong>&nbsp;đến từ &ocirc;ng lớn c&ocirc;ng nghệ n&agrave;y c&oacute; cải tiến g&igrave; vượt bậc, th&ocirc;ng số kỹ thuật như thế n&agrave;o?</p>\n\n<h3><strong>Tập luyện to&agrave;n diện với t&iacute;nh năng ph&acirc;n t&iacute;ch th&agrave;nh phần cơ thể</strong></h3>\n\n<p>Samsung Galaxy Watch4 40mm l&agrave; chiếc smartwatch Galaxy đầu ti&ecirc;n c&oacute; t&iacute;nh năng ph&acirc;n t&iacute;ch th&agrave;nh phần cơ thể. Kết quả ph&acirc;n t&iacute;ch qua phương ph&aacute;p BIA trong v&ograve;ng 15 gi&acirc;y chỉ với thao t&aacute;c 2 ng&oacute;n tay. m&agrave; chế độ luyện tập được theo d&otilde;i thuận tiện v&agrave; to&agrave;n diện. B&ecirc;n cạnh đ&oacute;, tỷ lệ mỡ, lượng nước v&agrave; cơ xương hiển thị chi tiết gi&uacute;p người d&ugrave;ng dễ d&agrave;ng đạt được mục ti&ecirc;u.</p>\n\n<p>Chip xử l&yacute; mạnh mẽ c&ugrave;ng cảm biến Samsung BioActive đem đến những đột ph&aacute; vượt trội. Cảm biến n&agrave;y hỗ trợ đo c&aacute;c th&agrave;nh phần trong vơ thể theo thời gian thực v&agrave; kiểm so&aacute;t tốt c&aacute;c mục ti&ecirc;u sức khỏe.</p>\n\n<p><img alt=\"Samsung Galaxy Watch4 40mm\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch4-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch4-3.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 5600000, NULL, 100, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:17:44', 
+    'haipv'
+  ), 
+  (
+    148, 1.27, 'Samsung Galaxy Watch4 40mm LTE', 
+    'samsung-galaxy-watch4-40mm-lte', 
+    'samsung-galaxy-watch4-40mm-lte.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế cổ điển,m&agrave;n h&igrave;nh Amoled 1.19 inch hiển thị sắc n&eacute;t</li>\n  <li>Theo d&otilde;i sức khoẻ với chức năng đo nhịp tim,oxy trong m&aacute;u.....</li>\n  <li>Pin d&ugrave;ng trong 1.5 ng&agrave;y,sạc đầy trong 2 giờ</li>\n  <li>Chứng nhận độ bền chuẩn qu&acirc;n đội MIL-STD-810G</li>\n</ul>\n\n<h2 align=\"center\"><strong>Samsung Galaxy Watch4 40mm &ndash; Tinh tế trong từng chi tiết</strong></h2>\n\n<p>Nối tiếp sự th&agrave;nh c&ocirc;ng của thế hệ tiền nhiệm, đồng hồ th&ocirc;ng minh tiếp theo của nh&agrave; Samsung được mong chờ hơn bao giờ hết. Vậy chiếc&nbsp;<strong>đồng hồ th&ocirc;ng minh Samsung Galaxy Watch4 40mm</strong>&nbsp;đến từ &ocirc;ng lớn c&ocirc;ng nghệ n&agrave;y c&oacute; cải tiến g&igrave; vượt bậc, th&ocirc;ng số kỹ thuật như thế n&agrave;o?</p>\n\n<h3><strong>Tập luyện to&agrave;n diện với t&iacute;nh năng ph&acirc;n t&iacute;ch th&agrave;nh phần cơ thể</strong></h3>\n\n<p>Samsung Galaxy Watch4 40mm l&agrave; chiếc smartwatch Galaxy đầu ti&ecirc;n c&oacute; t&iacute;nh năng ph&acirc;n t&iacute;ch th&agrave;nh phần cơ thể. Kết quả ph&acirc;n t&iacute;ch qua phương ph&aacute;p BIA trong v&ograve;ng 15 gi&acirc;y chỉ với thao t&aacute;c 2 ng&oacute;n tay. m&agrave; chế độ luyện tập được theo d&otilde;i thuận tiện v&agrave; to&agrave;n diện. B&ecirc;n cạnh đ&oacute;, tỷ lệ mỡ, lượng nước v&agrave; cơ xương hiển thị chi tiết gi&uacute;p người d&ugrave;ng dễ d&agrave;ng đạt được mục ti&ecirc;u.</p>\n\n<p>Chip xử l&yacute; mạnh mẽ c&ugrave;ng cảm biến Samsung BioActive đem đến những đột ph&aacute; vượt trội. Cảm biến n&agrave;y hỗ trợ đo c&aacute;c th&agrave;nh phần trong vơ thể theo thời gian thực v&agrave; kiểm so&aacute;t tốt c&aacute;c mục ti&ecirc;u sức khỏe.</p>\n\n<p><img alt=\"Samsung Galaxy Watch4 40mm\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch4-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch4-3.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 6100000, NULL, 100, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:18:00', 
+    'haipv'
+  ), 
+  (
+    149, 1.27, 'Samsung Galaxy Watch4 Classic 42mm', 
+    'samsung-galaxy-watch4-classic-42mm', 
+    'samsung-galaxy-watch4-classic-42mm.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế cổ điển,m&agrave;n h&igrave;nh Amoled 1.19 inch hiển thị sắc n&eacute;t</li>\n  <li>Theo d&otilde;i sức khoẻ với chức năng đo nhịp tim,oxy trong m&aacute;u.....</li>\n  <li>Pin d&ugrave;ng trong 1.5 ng&agrave;y,sạc đầy trong 2 giờ</li>\n  <li>Chứng nhận độ bền chuẩn qu&acirc;n đội MIL-STD-810G</li>\n</ul>\n\n<h2><strong>Samsung Galaxy Watch4 Classic 42 mm &ndash; Cảm hứng từ chiếc đồng hồ cổ điển</strong></h2>\n\n<p>Nối tiếp sự th&agrave;nh c&ocirc;ng của c&aacute;c sản phẩm&nbsp;Samsung Watch trước, Samsung tiếp tục nghi&ecirc;n cứu v&agrave; cho ra mắt sản phẩm đồng hồ th&ocirc;ng minh mới mang t&ecirc;n<strong>&nbsp;</strong><a href=\"https://cellphones.com.vn/do-choi-cong-nghe/samsung.html\" title=\"Đồng hồ thông minh Samsung\">đồng hồ th&ocirc;ng minh Samsung</a><strong>&nbsp;Galaxy Watch4 Classic 42 mm</strong>, mẫu đồng hồ th&ocirc;ng minh với thiết kế sang trọng.</p>\n\n<h3><strong>V&ograve;ng xoay benzel độc đ&aacute;o, điều hướng linh hoạt</strong></h3>\n\n<p>V&ograve;ng xoay benzel vật l&yacute; đặc trưng của Galaxy Watch4 Classic gi&uacute;p hỗ trợ điều hướng linh hoạt. B&ecirc;n cạnh đ&oacute;, chất liệu th&eacute;p cao cấp kh&ocirc;ng gỉ, m&agrave;n h&igrave;nh sống động đ&atilde; tạo n&ecirc;n vẻ đẹp mạnh mẽ, sang trọng, tinh tế v&agrave; cuốn h&uacute;t.</p>\n\n<p><img alt=\"Samsung Galaxy Watch4 Classic 42mm\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/galaxy-watch4-classic42-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/galaxy-watch4-classic42-2.jpg\" /></p>\n\n<p>Ngo&agrave;i ra, d&acirc;y đeo thể thao Ridge Sports với chất liệu cao su fluoroelastomer đem đến sự bền bỉ, chống thấm mồ h&ocirc;i tốt. Kh&ocirc;ng chỉ vậy, n&oacute; c&ograve;n tạo độ vừa vặn, chắc chắn, mang đi nhiều nơi m&agrave; kh&ocirc;ng sợ bị trơn v&agrave; rơi đồng hồ khỏi tay.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 7050000, NULL, 100, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:21:31', 
+    'haipv'
+  ), 
+  (
+    150, 1.27, 'Samsung Galaxy Watch4 Classic 46mm', 
+    'samsung-galaxy-watch4-classic-46mm', 
+    'samsung-galaxy-watch4-classic-46mm.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế cổ điển,m&agrave;n h&igrave;nh Amoled 1.19 inch hiển thị sắc n&eacute;t</li>\n  <li>Theo d&otilde;i sức khoẻ với chức năng đo nhịp tim,oxy trong m&aacute;u.....</li>\n  <li>Pin d&ugrave;ng trong 1.5 ng&agrave;y,sạc đầy trong 2 giờ</li>\n  <li>Chứng nhận độ bền chuẩn qu&acirc;n đội MIL-STD-810G</li>\n</ul>\n\n<h2><strong>Samsung Galaxy Watch4 Classic 46mm - Thiết kế thời thượng</strong></h2>\n\n<p><a href=\"https://cellphones.com.vn/do-choi-cong-nghe/samsung.html\" title=\"Đồng hồ thông minh Samsung\">Đồng hồ th&ocirc;ng minh Samsung</a><strong>&nbsp;Galaxy Watch4 Classic 46mm</strong>&nbsp;- một trong những chiến binh tuyệt vời của hệ sinh th&aacute;i Samsung. Được n&acirc;ng cấp so với c&aacute;c phi&ecirc;n bản Galaxy Watch trước về mặt thời lượng pin tr&acirc;u hơn, kết nối ổn định hơn v&agrave; nhiều t&iacute;nh năng hơn, hứa hẹn sẽ l&agrave; một chiếc Galaxy Watch khiến bạn h&agrave;i l&ograve;ng v&ocirc; c&ugrave;ng.</p>\n\n<h3><strong>Thiết kế sang trọng với v&ograve;ng&nbsp;xoay bezel, điều hướng linh hoạt</strong></h3>\n\n<p>Samsung&nbsp;Galaxy Watch4 Classic 46mm thiết kế mang đến sự sang trọng kết hợp với mặt đồng hồ tr&ograve;n cổ điển, v&ograve;ng xoay bezel gi&uacute;p việc điều hướng trở n&ecirc;n dễ d&agrave;ng. Phần d&acirc;y đeo được ho&agrave;n thiện từ&nbsp;cao su fluoroelastomer bền bỉ v&agrave; chống thấm mồ h&ocirc;i.</p>\n\n<p><img alt=\"Thiết kế Samsung Galaxy Watch 4 Classic 46mm\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch-4-classic-46mm-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch-4-classic-46mm-1.jpg\" /></p>\n\n<p>&gt;&gt;&gt;Tham khảo th&ecirc;m:&nbsp;<a href=\"https://cellphones.com.vn/samsung-galaxy-watch-4.html\" target=\"_blank\">Đồng hồ Samsung Galaxy Watch4 ch&iacute;nh h&atilde;ng</a>&nbsp;mới đang sở hữu mức gi&aacute; kh&aacute; tốt tại đ&acirc;y.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 7500000, NULL, 100, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:21:26', 
+    'haipv'
+  ), 
+  (
+    151, 1.27, 'Samsung Galaxy Watch4 Classic 42mm LTE', 
+    'samsung-galaxy-watch4-classic-42mm-lte', 
+    'samsung-galaxy-watch4-classic-42mm-lte.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế cổ điển,m&agrave;n h&igrave;nh Amoled 1.19 inch hiển thị sắc n&eacute;t</li>\n  <li>Theo d&otilde;i sức khoẻ với chức năng đo nhịp tim,oxy trong m&aacute;u.....</li>\n  <li>Pin d&ugrave;ng trong 1.5 ng&agrave;y,sạc đầy trong 2 giờ</li>\n  <li>Chứng nhận độ bền chuẩn qu&acirc;n đội MIL-STD-810G</li>\n</ul>\n\n<h2><strong>Đ&ocirc;̀ng h&ocirc;̀ Samsung Galaxy Watch4 Classic 42mm LTE - Phong cách c&ocirc;̉ đi&ecirc;̉n tinh t&ecirc;́</strong></h2>\n\n<p><em>Vừa trang bị những tính năng của m&ocirc;̣t chi&ecirc;́c smartwatch hi&ecirc;̣n đại, vừa sở hữu vẻ ngoài c&ocirc;̉ đi&ecirc;̉n sang trọng,&nbsp;</em><em><strong>đ&ocirc;̀ng h&ocirc;̀ Samsung Galaxy Watch4 Classic 42mm LTE</strong>&nbsp;sẽ góp ph&acirc;̀n t&ocirc;n vinh sự sang trọng và lịch lãm cho người đeo.</em></p>\n\n<h3><strong>Khả năng điều hướng linh hoạt với v&ograve;ng xoay&nbsp;bezel</strong></h3>\n\n<p><a href=\"https://cellphones.com.vn/do-choi-cong-nghe/samsung.html\" title=\"Đồng hồ thông minh Samsung\">Đồng hồ th&ocirc;ng minh Samsung</a>&nbsp;kh&ocirc;ng chỉ đơn thu&acirc;̀n chi&ecirc;́c smartwatch bạn thường th&acirc;́y. Chi&ecirc;́c đ&ocirc;̀ng h&ocirc;̀ th&ocirc;ng minh này được Samsung mang đ&ecirc;́n thi&ecirc;́t k&ecirc;́ cổ điển sang trọng. Được ch&ecirc;́ tác từ v&acirc;̣t li&ecirc;̣u thép kh&ocirc;ng gỉ cao c&acirc;́p, mặt đ&ocirc;̀ng h&ocirc;̀ Galaxy Watch4 Classic th&ecirc;̉ hi&ecirc;̣n n&ecirc;n đẳng c&acirc;́p mạnh mẽ và hi&ecirc;̣u năng ti&ecirc;n ti&ecirc;́n cho t&ocirc;̉ng th&ecirc;̉ đ&ocirc;̀ng h&ocirc;̀.</p>\n\n<p><img alt=\"Đồng hồ Samsung Galaxy Watch 4 Classic 42mm LTE \" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch-4-classic-42mm-lte-3.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/samsung-galaxy-watch-4-classic-42mm-lte-3.jpg\" /></p>\n\n<p>Galaxy Watch4 Classic có kích thước 42mm với d&acirc;y đeo th&ecirc;̉ thao đ&acirc;̀y năng đ&ocirc;̣ng. D&acirc;y đeo Galaxy Watch4 Classic 42mm lu&ocirc;n tạo cảm giác thoải mái và &ecirc;m da tay cho bạn. D&acirc;y đeo cũng r&acirc;́t b&ecirc;̀n, ch&ocirc;́ng th&acirc;́m m&ocirc;̀ h&ocirc;i, đảm bảo giữ nguy&ecirc;n hình dáng dài l&acirc;u mà kh&ocirc;ng bị ăn mòn.&nbsp;Galaxy Watch4 Classic 42mm được trang bị&nbsp;v&ograve;ng xoay Bezel gi&uacute;p khả năng điều khiển, t&ugrave;y chỉnh nhanh ch&oacute;ng v&agrave; dễ d&agrave;ng hơn.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 8000000, NULL, 100, 1, 
+    11, 10, NULL, NULL, '2022-08-28 06:22:00', 
+    'haipv'
+  ), 
+  (
+    152, 1.27, 'Apple Watch Series 7 45mm (4G) Viền thép dây thép', 
+    'apple-watch-series-7-45mm-4g-vien-thep-day-thep', 
+    'apple-watch-series-7-45mm-4g-vien-thep-day-thep.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hỗ trợ Esim cho ph&eacute;p nghe gọi ngay tr&ecirc;n đồng hồ</li>\n  <li>Chức năng m&agrave;n h&igrave;nh lu&ocirc;n bật giữ cho chức năng xem giờ lu&ocirc;n hoạt động,tiết kiệm pin hơn</li>\n  <li>Thoải m&aacute;i sử dụng ở hồ bơi hay ngo&agrave;i trời với chuẩn kh&aacute;ng bụi IP6X ,chống nước đến 50m</li>\n  <li>Đo nhịp tim,oxy trong m&aacute;u,theo d&otilde;i giấc ngủ c&ugrave;ng nhiều t&iacute;nh năng sức khoẻ t&iacute;ch hợp sẵn</li>\n  <li>Cổng sạc Type C,sạc nhanh 45 ph&uacute;t cho 80% pin</li>\n  <li>Hỗ trợ Esim cho ph&eacute;p nghe gọi ngay tr&ecirc;n đồng hồ</li>\n</ul>\n\n<h2 align=\"left\"><strong>Đồng hồ th&ocirc;ng minh&nbsp;</strong><strong>Apple Watch Series 7 45mm (4G) viền th&eacute;p d&acirc;y th&eacute;p sang trọng chắc chắn</strong></h2>\n\n<p align=\"left\">L&ograve;ng y&ecirc;u th&iacute;ch đồng hồ th&ocirc;ng minh của cư d&acirc;n y&ecirc;u chuộng đồng hồ vẫn chưa bao giờ giảm, đặc biệt l&agrave; với phi&ecirc;n bản đeo tay&nbsp;<a href=\"https://cellphones.com.vn/do-choi-cong-nghe/apple-watch/series-7.html\" target=\"_self\" title=\"Đồng hồ Apple Watch chính hãng\">Apple Watch Series 7</a>&nbsp;45mm (4G). Phi&ecirc;n bản n&agrave;y kh&ocirc;ng chỉ được n&acirc;ng cấp tiện &iacute;ch m&agrave; c&ograve;n sang trọng hơn với viền v&agrave; d&acirc;y l&agrave;m từ th&eacute;p. Th&ocirc;ng tin b&iacute; ẩn mới nhất của Apple Watch được bật m&iacute; dưới đ&acirc;y!</p>\n\n<h3 align=\"left\"><strong>Bền bỉ ấn tượng với viền, d&acirc;y th&eacute;p</strong></h3>\n\n<p align=\"left\">Apple Watch Series 7 45mm vẫn giữ những n&eacute;t cơ bản trong thiết kế của thế hệ trước nhưng tăng k&iacute;ch thước l&ecirc;n 45mm. Khung viền trở n&ecirc;n mỏng hơn gi&uacute;p trải nghiệm trở n&ecirc;n tuyệt vời hơn bao giờ hết.</p>\n\n<p align=\"left\"><img alt=\"Bền bỉ ấn tượng với viền, dây thép\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/APPLE-WATCH-SERIES-7-45MM-4G-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/APPLE-WATCH-SERIES-7-45MM-4G-1.jpg\" /></p>\n\n<p align=\"left\">Cả phần viền v&agrave; d&acirc;y của Apple Watch Series 7 45mm đều tạo n&ecirc;n từ chất liệu th&eacute;p cao cấp, si&ecirc;u bền bỉ cứng c&aacute;p v&agrave; sang trọng. Đặc biệt phần d&acirc;y đeo tạo n&ecirc;n từ c&aacute;c mắt th&eacute;p nhỏ li ti, kh&ocirc;ng thấm nước v&agrave; tạo cảm gi&aacute;c thoải m&aacute;i bền vững.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 19900000, NULL, 1000, 1, 
+    11, 8, NULL, NULL, '2022-08-28 06:24:57', 
+    'haipv'
+  ), 
+  (
+    153, 1.27, 'Apple Watch Series 7 41mm (4G) Viền thép dây thép', 
+    'apple-watch-series-7-41mm-4g-vien-thep-day-thep', 
+    'apple-watch-series-7-41mm-4g-vien-thep-day-thep.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hỗ trợ Esim cho ph&eacute;p nghe gọi ngay tr&ecirc;n đồng hồ</li>\n  <li>Chức năng m&agrave;n h&igrave;nh lu&ocirc;n bật giữ cho chức năng xem giờ lu&ocirc;n hoạt động,tiết kiệm pin hơn</li>\n  <li>Thoải m&aacute;i sử dụng ở hồ bơi hay ngo&agrave;i trời với chuẩn kh&aacute;ng bụi IP6X ,chống nước đến 50m</li>\n  <li>Đo nhịp tim,oxy trong m&aacute;u,theo d&otilde;i giấc ngủ c&ugrave;ng nhiều t&iacute;nh năng sức khoẻ t&iacute;ch hợp sẵn</li>\n  <li>Cổng sạc Type C,sạc nhanh 45 ph&uacute;t cho 80% pin</li>\n  <li>Hỗ trợ Esim cho ph&eacute;p nghe gọi ngay tr&ecirc;n đồng hồ</li>\n</ul>\n\n<h2><strong>Apple Watch Series 7 41mm (4G) Viền th&eacute;p d&acirc;y th&eacute;p - Lựa chọn sang trọng hơn với khung viền th&eacute;p</strong></h2>\n\n<p>Rất nhiều người kh&ocirc;ng th&iacute;ch chiếc v&ograve;ng đeo tay cơ bản của Apple Watch v&igrave; cho rằng n&oacute; thiếu đi sự sang trọng. Ngay lập tức, Apple cũng đ&atilde; cho ra mắt những phi&ecirc;n bản v&ograve;ng tay kh&aacute;c nhằm ph&ugrave; hợp hơn với c&aacute; nh&acirc;n từng người. V&agrave; dưới đ&acirc;y l&agrave; sản phẩm Apple Watch Series 7 41mm (4G) viền th&eacute;p d&acirc;y th&eacute;p.</p>\n\n<h3><strong>Viền th&eacute;p bền bỉ, d&acirc;y th&eacute;p sang trọng</strong></h3>\n\n<p>D&agrave;nh cho người d&ugrave;ng y&ecirc;u th&iacute;ch sự sang trọng v&agrave; t&iacute;nh bền bỉ, Apple Watch Series 7 41mm (4G) viền th&eacute;p d&acirc;y th&eacute;p do ch&iacute;nh h&atilde;ng Apple sản xuất, đ&aacute;p ứng trực tiếp với sở th&iacute;ch người d&ugrave;ng.</p>\n\n<p>Viền v&agrave; d&acirc;y th&eacute;p c&oacute; độ bền cao gấp 10 lần so với chất liệu nh&ocirc;m. Từ đ&oacute;, bảo vệ cho Apple Watch Series 7 tr&aacute;nh khỏi những c&uacute; va đập mạnh. Đồng thời, ch&uacute;ng cũng giữ được vẻ ngo&agrave;i s&aacute;ng b&oacute;ng qua một thời gian d&agrave;i.</p>\n\n<p><img alt=\"Viền thép bền bỉ, dây thép sang trọng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/apple-watch-series-7-41mm-4g-vien-thep-day-thep-1-min.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/apple-watch-series-7-41mm-4g-vien-thep-day-thep-1-min.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 18500000, NULL, 1000, 1, 
+    11, 8, NULL, NULL, '2022-08-28 06:30:11', 
+    'haipv'
+  ), 
+  (
+    154, 1.27, 'Apple Watch Series 7 45mm (4G) Viền thép dây cao su', 
+    'apple-watch-series-7-45mm-4g-vien-thep-day-cao-su', 
+    'apple-watch-series-7-45mm-4g-vien-thep-day-cao-su.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hỗ trợ Esim cho ph&eacute;p nghe gọi ngay tr&ecirc;n đồng hồ</li>\n  <li>Chức năng m&agrave;n h&igrave;nh lu&ocirc;n bật giữ cho chức năng xem giờ lu&ocirc;n hoạt động,tiết kiệm pin hơn</li>\n  <li>Thoải m&aacute;i sử dụng ở hồ bơi hay ngo&agrave;i trời với chuẩn kh&aacute;ng bụi IP6X ,chống nước đến 50m</li>\n  <li>Đo nhịp tim,oxy trong m&aacute;u,theo d&otilde;i giấc ngủ c&ugrave;ng nhiều t&iacute;nh năng sức khoẻ t&iacute;ch hợp sẵn</li>\n  <li>Cổng sạc Type C,sạc nhanh 45 ph&uacute;t cho 80% pin</li>\n  <li>Hỗ trợ Esim cho ph&eacute;p nghe gọi ngay tr&ecirc;n đồng hồ</li>\n</ul>\n\n<h2><strong>Apple Watch Series 7 45mm 4G vi&ecirc;̀n thép d&acirc;y cao su - Khẳng định đẳng c&acirc;́p</strong></h2>\n\n<p><em>Được m&ecirc;̣nh danh là sản ph&acirc;̉m Apple Watch &quot;b&ecirc;̀n bỉ nh&acirc;́t từ trước đ&ecirc;́n nay&quot;,&nbsp;</em><em><strong><a href=\"https://cellphones.com.vn/do-choi-cong-nghe/apple-watch/series-7.html\" target=\"_self\" title=\"Đồng hồ thông minh Apple Watch Series 7\">Apple Watch Series 7</a>&nbsp;45mm 4G vi&ecirc;̀n thép d&acirc;y cao su</strong>&nbsp;sở hữu thi&ecirc;́t k&ecirc;́ vi&ecirc;̀n thép vàng, kháng bụi nước, với những tính năng đo lường sức khỏe ưu vi&ecirc;̣t sẽ mang đ&ecirc;́n trải nghi&ecirc;̣m smartwatch đ&ocirc;̣t phá và khẳng định đẳng c&acirc;́p.</em></p>\n\n<h3><strong>Thi&ecirc;́t k&ecirc;́ vi&ecirc;̀n thép cứng cáp với d&acirc;y cao su &ecirc;m nhẹ</strong></h3>\n\n<p>Apple Watch Series 7 45mm được xem là chi&ecirc;́c Apple Watch có những cải ti&ecirc;́n r&acirc;́t đáng chú ý. Vẻ b&ecirc;̀ ngoài của Apple Watch Series 7 45mm được n&acirc;ng t&acirc;̀m bởi thi&ecirc;́t k&ecirc;́ vi&ecirc;̀n thép vàng cứng cáp, sang trọng. Các tùy chọn màu sắc khác nhau cũng góp ph&acirc;̀n làm n&ecirc;n cá tính cho th&ecirc;́ h&ecirc;̣ 7 của Apple Watch. Và ngoài ra, Apple Watch Series 7 45mm sử dụng d&acirc;y đeo làm từ cao su m&ecirc;̀m mại, giúp bạn lu&ocirc;n có sự thoải mái dài l&acirc;u khi đeo smartwatch tr&ecirc;n tay.</p>\n\n<p>Nói v&ecirc;̀ đ&ocirc;̣ b&ecirc;̀n, Apple Watch Series 7 45mm được ch&ecirc;́ tác nhằm ch&ocirc;́ng chịu những tác đ&ocirc;̣ng m&ocirc;i trường. B&ecirc;̀ mặt màn hình đ&ocirc;̀ng h&ocirc;̀ chứa đựng khả năng ch&ocirc;́ng nứt vỡ, đảm bảo thao tác vu&ocirc;́t chạm lu&ocirc;n &ecirc;m mượt. Và t&ocirc;̉ng th&ecirc;̉ Apple Watch Series 7 45mm cũng đạt chu&acirc;̉n ch&ocirc;́ng bụi IPX6 và chu&acirc;̉n ch&ocirc;́ng th&acirc;́m nước WR50, càng khẳng định n&ecirc;n đ&ocirc;̣ cứng cáp toàn di&ecirc;̣n tr&ecirc;n m&acirc;̃u smartwatch của Apple.</p>\n\n<p><img alt=\"Thiết kế viền thép cứng cáp với dây cao su êm nhẹ\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/apple-watch-series-7-45mm-4g-vien-thep-vang-day-cao-su-1_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/apple-watch-series-7-45mm-4g-vien-thep-vang-day-cao-su-1_1.jpg\" /></p>\n\n<p>Cải ti&ecirc;́n đáng chú ý k&ecirc;́ ti&ecirc;́p tr&ecirc;n Apple Watch Series 7 45mm chính là màn hình Retina sắc nét. Apple đã tái thi&ecirc;́t k&ecirc;́ khu vực màn hình đ&ecirc;̉ Apple Watch Series 7 45mm có ph&acirc;̀n vi&ecirc;̀n bezel nhỏ hơn đáng k&ecirc;̉. Đi&ecirc;̀u này giúp cho màn hình cảm ứng tr&ecirc;n Apple Watch Series 7 45mm hi&ecirc;̉n thị lớn hơn, cũng như t&acirc;̣n dụng t&ocirc;́i những tính năng mới như Always-on display, hi&ecirc;̣u ứng cong vi&ecirc;̀n, bàn phím QWERTY,...</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 18500000, NULL, 1000, 1, 
+    11, 8, NULL, NULL, '2022-08-28 06:35:09', 
+    'haipv'
+  ), 
+  (
+    155, 1.27, 'Apple Watch Series 7 41mm (4G) Viền thép dây cao su', 
+    'apple-watch-series-7-41mm-4g-vien-thep-day-cao-su', 
+    'apple-watch-series-7-41mm-4g-vien-thep-day-cao-su.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Hỗ trợ Esim cho ph&eacute;p nghe gọi ngay tr&ecirc;n đồng hồ</li>\n  <li>Chức năng m&agrave;n h&igrave;nh lu&ocirc;n bật giữ cho chức năng xem giờ lu&ocirc;n hoạt động,tiết kiệm pin hơn</li>\n  <li>Thoải m&aacute;i sử dụng ở hồ bơi hay ngo&agrave;i trời với chuẩn kh&aacute;ng bụi IP6X ,chống nước đến 50m</li>\n  <li>Đo nhịp tim,oxy trong m&aacute;u,theo d&otilde;i giấc ngủ c&ugrave;ng nhiều t&iacute;nh năng sức khoẻ t&iacute;ch hợp sẵn</li>\n  <li>Cổng sạc Type C,sạc nhanh 45 ph&uacute;t cho 80% pin</li>\n  <li>Hỗ trợ Esim cho ph&eacute;p nghe gọi ngay tr&ecirc;n đồng hồ</li>\n</ul>\n\n<h2><strong>Apple Watch Series 7 41mm (4G)&nbsp;</strong><strong>&ndash; Phi&ecirc;n bản v</strong><strong>iền th&eacute;p d&acirc;y cao su sang trọng với m&agrave;n h&igrave;nh lớn hơn</strong></h2>\n\n<p><a href=\"https://cellphones.com.vn/do-choi-cong-nghe/apple-watch/series-7.html\" target=\"_self\" title=\"Apple Watch Series 7 chính hãng\">Apple Watch Series 7</a>&nbsp;41mm (4G) Viền th&eacute;p d&acirc;y cao su ch&iacute;nh l&agrave; mẫu smartwatch mới nhất của Apple với thiết kế mới c&ugrave;ng những t&iacute;nh năng th&uacute; vị được t&iacute;ch hợp, m&agrave;n h&igrave;nh lớn hơn để người d&ugrave;ng c&oacute; được những trải nghiệm tuyệt vời hơn khi so với người anh em tiền nhiệm.</p>\n\n<h3><strong>M&agrave;n h&igrave;nh MicroLED với k&iacute;ch thước lớn hơn, thiết kế mặt đồng hồ mới độc quyền</strong></h3>\n\n<p>Apple Watch Series 7 41mm (4G) Viền th&eacute;p d&acirc;y cao su c&oacute; phần viền m&agrave;n h&igrave;nh được thiết kế mỏng hơn để tối ưu kh&ocirc;ng gian hiển thị. Vẫn giữ nguy&ecirc;n k&iacute;ch thước phần khung l&agrave; 41mm nhưng diện t&iacute;ch hiển thị đ&atilde; được mở rộng th&ecirc;m 20% so với Series 6, cho g&oacute;c nh&igrave;n rộng hơn.</p>\n\n<p><img alt=\"Màn hình MicroLED với kích thước lớn hơn, thiết kế mặt đồng hồ mới độc quyền\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/apple-watch-series-7-41mm-4g-vien-thep-day-cao-su-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/apple-watch-series-7-41mm-4g-vien-thep-day-cao-su-1.jpg\" /></p>\n\n<p>Apple đ&atilde; trang bị m&agrave;n h&igrave;nh MicroLED cho Apple Watch Series 7 v&agrave; t&iacute;ch hợp th&ecirc;m những thiết kế mặt đồng hồ mới, độc quyền như mặt đồng hồ Continuum, Modular Max, mặt đồng hồ thế giới, mặt đồng hồ Hermes, Nike,&hellip;mang đến cho người d&ugrave;ng những lựa chọn mới độc đ&aacute;o hơn.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 17990000, NULL, 1000, 1, 
+    11, 8, NULL, NULL, '2022-08-28 06:36:50', 
+    'haipv'
+  ), 
+  (
+    156, 1.27, 'Apple Watch Series 6 40mm (4G) Viền Thép Dây Cao Su', 
+    'apple-watch-series-6-40mm-4g-vien-thep-day-cao-su', 
+    'apple-watch-series-6-40mm-4g-vien-thep-day-cao-su.jpg', 
+    '', '<h2><strong>Apple Watch Series 6 40mm 4G viền th&eacute;p d&acirc;y cao su</strong><strong>&nbsp;&ndash; nhiều m&agrave;u sắc lựa chọn</strong></h2>\n\n<p>Apple Watch được xem l&agrave; chiếc đồng hồ th&ocirc;ng minh được nhiều người d&ugrave;ng nhất hiện nay. Ngo&agrave;i kiểu d&aacute;ng thiết kế truyền thống, Apple đ&atilde; thiết kế th&ecirc;m cho đồng hồ th&ocirc;ng minh thế hệ thứ 6 phi&ecirc;n bản Apple Watch Series 6 40mm 4G viền th&eacute;p d&acirc;y cao su gi&uacute;p bạn dễ d&agrave;ng lựa chọn.</p>\n\n<h3><strong>Thiết kế viền th&eacute;p sang trọng, hỗ trợ nhiều m&agrave;u sắc bắt mắt</strong></h3>\n\n<p>Apple Watch Series 6 40mm 4G viền th&eacute;p d&acirc;y cao su được thiết kế chất liệu viền bằng th&eacute;p cao cấp gi&uacute;p cho thiết bị trở n&ecirc;n sang trọng v&agrave; b&oacute;ng lo&aacute;ng. Với chất liệu n&agrave;y bạn cũng c&oacute; thể vệ sinh Apple Watch dễ d&agrave;ng.</p>\n\n<p><img alt=\"Thiết kế viền thép sang trọng, hỗ trợ nhiều màu sắc bắt mắt\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/apple-watch-series-6-40mm-4g-vien-thep-day-cao-su.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/apple-watch-series-6-40mm-4g-vien-thep-day-cao-su.jpg\" /></p>\n\n<p>Apple Watch được xem như m&oacute;n phụ kiện thời trang. V&igrave; vậy, Apple đ&atilde; trang bị cho Apple Watch Series 6 40mm 4G viền th&eacute;p d&acirc;y cao su nhiều m&agrave;u sắc như bạc, v&agrave;ng, đen gi&uacute;p bạn dễ d&agrave;ng lựa chọn m&agrave;u ph&ugrave; hợp.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 11590000, NULL, 1000, 1, 
+    11, 8, NULL, NULL, '2022-08-28 06:39:01', 
+    'haipv'
+  ), 
+  (
+    157, 1.27, 'Apple Watch Series 6 44mm (4G) Viền Thép Dây Cao Su', 
+    'apple-watch-series-6-44mm-4g-vien-thep-day-cao-su', 
+    'apple-watch-series-6-44mm-4g-vien-thep-day-cao-su.jpg', 
+    '', '<h2><strong>Apple Watch Series 6 44mm (4G) viền th&eacute;p, d&acirc;y cao su ch&iacute;nh h&atilde;ng</strong><strong>&nbsp;nhiều m&agrave;u sắc</strong></h2>\n\n<p>Bạn đang sử dụng chiếc Apple Watch Series 6 nhưng đ&atilde; ch&aacute;n với vẻ ngo&agrave;i của n&oacute; hoặc kh&ocirc;ng may v&igrave; một tai nạn n&agrave;o đ&oacute;, bạn v&ocirc; t&igrave;nh l&agrave;m đứt mất d&acirc;y đeo. Vậy th&igrave; bạn n&ecirc;n tham khảo qua Apple Watch Series 6 44mm (4G) viền th&eacute;p d&acirc;y cao su.</p>\n\n<h3><strong>Apple Watch Series 6 &ndash; Phi&ecirc;n bản k&iacute;ch thước 44mm, khung viền th&eacute;p</strong></h3>\n\n<p>Trong sự kiện Apple Event vừa qua th&igrave; Apple cũng giới thiệu th&ecirc;m đồng hồ th&ocirc;ng minh nổi tiếng của h&atilde;ng với thế hệ thứ 6 mang t&ecirc;n Apple Watch 6. Sản phẩm được n&acirc;ng cấp về phần cứng lẫn hệ sinh th&aacute;i phần mềm gi&uacute;p cho đ&acirc;y l&agrave; thiết bị đeo tay đ&aacute;ng sở hữu nhất tr&ecirc;n thế giới.</p>\n\n<p><img alt=\"Apple Watch Series 6 – Hai phiên bản kích thước 40,44mm, viền thép hoặc nhôm\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/Apple-watch-44mm-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/Apple-watch-44mm-1.jpg\" /></p>\n\n<p>Apple Watch Series 6 kh&ocirc;ng c&oacute; qu&aacute; nhiều thay đổi về thiết kế từ thế hệ trước. Điểm kh&aacute;c biệt hiếm hoi l&agrave; Apple bổ sung hai phi&ecirc;n bản m&agrave;u sắc mới l&agrave; đỏ xanh cơ bản. Thiết bị sẽ c&oacute; hai t&ugrave;y chọn k&iacute;ch thước l&agrave; 40, 44 mm đi k&egrave;m l&agrave; hai chất liệu quen thuộc l&agrave; nh&ocirc;m v&agrave; th&eacute;p. D&acirc;y đeo th&igrave; vẫn được l&agrave;m từ cao su chắc chắn.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 13590000, NULL, 1000, 1, 
+    11, 8, NULL, NULL, '2022-08-28 06:39:30', 
+    'haipv'
+  ), 
+  (
+    158, 1.27, ' Apple Watch SE 40mm (4G) Viền Nhôm - Dây Cao Su', 
+    'apple-watch-se-40mm-4g-vien-nhom-day-cao-su', 
+    'apple-watch-se-40mm-4g-vien-nhom-day-cao-su.jpg', 
+    '', '<h2><strong>Apple Watch SE 40mm (4G)</strong><strong>&nbsp;&ndash; Đồng hồ sang trọng, t&iacute;nh năng th&ocirc;ng minh</strong></h2>\n\n<p>Năm 2020, b&ecirc;n cạnh Apple Watch Series 6 th&igrave; Apple c&ograve;n cho ra mắt phi&ecirc;n bản đồng hồ th&ocirc;ng minh mới với t&ecirc;n gọi Apple Watch SE. Phi&ecirc;n bản đồng hồ Apple gi&aacute; rẻ, thiết kế sang trọng c&ugrave;ng nhiều t&iacute;nh năng hấp dẫn.</p>\n\n<h3><strong>Phi&ecirc;n bản 40mm, hỗ trợ 4G tiện lợi</strong></h3>\n\n<p>Apple Watch SE&nbsp;sẽ c&oacute; hai phi&ecirc;n bản k&iacute;ch thước l&agrave; 44mm v&agrave; 40mm. Ở phi&ecirc;n bản Apple Watch SE 40 mm, m&agrave;n h&igrave;nh sẽ nhỏ gọn hơn, th&iacute;ch hợp cho c&aacute;c bạn nữ sử dụng.</p>\n\n<p><img alt=\"Phiên bản 40mm, hỗ trợ 4G tiện lợi\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/Apple-watch-se-40-mm-4g-1_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/Apple-watch-se-40-mm-4g-1_1.jpg\" /></p>\n\n<p>Hơn nữa,&nbsp;<a href=\"https://cellphones.com.vn/apple-watch-se-40mm.html\" target=\"_blank\">Apple Watch SE</a>&nbsp;4G c&ograve;n hỗ trợ kết nối 4G nhanh ch&oacute;ng, người d&ugrave;ng c&oacute; thể dễ d&agrave;ng nhận th&ocirc;ng b&aacute;o, tin nhắn kể cả khi kh&ocirc;ng ở nh&agrave;.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 7790000, NULL, 1000, 1, 
+    11, 8, NULL, NULL, '2022-08-28 06:43:17', 
+    'haipv'
+  ), 
+  (
+    159, 1.27, 'Apple Watch SE 44mm (4G) Viền Nhôm - Dây Cao Su', 
+    'apple-watch-se-44mm-4g-vien-nhom-day-cao-su', 
+    'apple-watch-se-44mm-4g-vien-nhom-day-cao-su.jpg', 
+    '', '<h2 align=\"center\"><strong>Apple Watch SE 44mm 4G viền nh&ocirc;m d&acirc;y cao su - sang trọng, bền bỉ với thời gian</strong></h2>\n\n<p>Apple Watch SE 44mm 4G viền nh&ocirc;m, d&acirc;y cao su với nhiều t&iacute;nh năng phổ biến, diện t&iacute;ch hiển thị hữu dụng mang lại trải nghiệm giao tiếp rất độc đ&aacute;o cho người d&ugrave;ng. B&ecirc;n cạnh đ&oacute; với gi&aacute; th&agrave;nh phải chăng đ&acirc;y sẽ l&agrave; mẫu Smart Watch m&agrave; c&aacute;c t&iacute;n đồ nh&agrave; &ldquo;T&aacute;o khuyết&rdquo; kh&ocirc;ng thể bỏ qua.</p>\n\n<h3><strong>Viền nh&ocirc;m cao cấp, d&acirc;y cao su bền bỉ</strong></h3>\n\n<p><a href=\"https://cellphones.com.vn/apple-watch-se-44mm.html\" target=\"_blank\">Apple Watch SE 44mm</a>&nbsp;được chế tạo từ chất liệu nh&ocirc;m cao cấp. C&aacute;c đường n&eacute;t tr&ecirc;n khung viền được thiết kế một c&aacute;ch tỉ mỉ v&agrave; v&ocirc; c&ugrave;ng tinh xảo. B&ecirc;n cạnh đ&oacute;, n&uacute;t Crown đặc trưng gi&uacute;p người d&ugrave;ng c&oacute; thể điều chỉnh một c&aacute;ch dễ d&agrave;ng.</p>\n\n<p align=\"center\"><img alt=\"Viền nhôm cao cấp, dây cao su bền bỉ\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/Apple-Watch-SE-44mm-4G-vien-nhom-day-cao-su-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/watch_band/Apple-Watch-SE-44mm-4G-vien-nhom-day-cao-su-1.jpg\" /></p>\n\n<p>Đồng hồ được trang bị cho sản phẩm d&acirc;y đeo cao su độ đ&agrave;n hồi cao v&agrave; mang đến sự &ecirc;m &aacute;i trong qu&aacute; tr&igrave;nh sử dụng. Đồng thời chất liệu mang đến độ bền vượt trội với thời gian.</p>\n\n<h3><strong>M&agrave;n h&igrave;nh Retina vu&ocirc;ng vức, k&iacute;nh cường lực cao cấp</strong></h3>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 8290000, NULL, 1000, 1, 
+    11, 8, NULL, NULL, '2022-08-28 06:43:54', 
+    'haipv'
+  ), 
+  (
+    160, 1.27, 'Bàn phím Apple Magic Keyboard + Touch ID/Phím số 2021 MK2C', 
+    'ban-phim-apple-magic-keyboard-touch-idphim-so-2021-mk2c', 
+    'ban-phim-apple-magic-keyboard-touch-idphim-so-2021-mk2c.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế hiện đại v&agrave; c&oacute; t&iacute;nh di động cực cao nhờ v&agrave;o độ mỏng v&agrave; trọng lượng nhẹ, c&oacute; thể dễ d&agrave;ng để n&oacute; v&agrave;o trong balo hay t&uacute;i x&aacute;ch v&agrave; mang đi khắp nơi</li>\n  <li>Bổ sung b&agrave;n ph&iacute;m số t&iacute;ch hợp hỗ trợ nhập dữ liệu, t&iacute;nh to&aacute;n v&agrave; điều hướng diễn ra nhanh ch&oacute;ng</li>\n  <li>Ho&agrave;n thiện từ chất liệu nh&ocirc;m cao cấpmang đến cho sản phẩm diện mạo cao cấp, sang trọng v&agrave; khả năng chống va đập tốt</li>\n  <li>Cơ chế cắt k&eacute;o b&ecirc;n dưới mỗi ph&iacute;m cũng như h&agrave;nh tr&igrave;nh ph&iacute;m được tối ưu ho&aacute; v&agrave; cấu h&igrave;nh thấp mang đến trải nghiệm đ&aacute;nh m&aacute;y ch&iacute;nh x&aacute;c v&agrave; &ecirc;m &aacute;i</li>\n  <li>T&iacute;ch hợp ph&iacute;m cảm biến v&acirc;n tay Touch ID tương th&iacute;ch với đa số thiết bị Apple, gi&uacute;p tăng cường bảo mật đến mức tối ưu</li>\n  <li>Trang bị kết nối kh&ocirc;ng d&acirc;y Bluetooth hoặc th&ocirc;ng qua c&aacute;p sạc Lightning hỗ trợ vừa sạc vừa kết nối</li>\n  <li>Sử dụng pin sạc Li-ion cho khả năng sử dụng l&ecirc;n tới 30 ng&agrave;y cho mỗi lần sạc</li>\n</ul>\n\n<h2><strong>B&agrave;n ph&iacute;m Apple Magic Keyboard Touch ID ph&iacute;m số 2021&ndash; Đầy đủ c&aacute;c chức năng</strong></h2>\n\n<p>Được ra mắt c&ugrave;ng l&uacute;c với iMac 24 inch,&nbsp;<strong><a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/ban-phim.html\" title=\"Bàn phím\">b&agrave;n ph&iacute;m</a>&nbsp;Apple Magic Keyboard Touch ID ph&iacute;m số 2021</strong>&nbsp;l&agrave; một trong những phụ kiện với đầy đủ c&aacute;c chức năng. Đ&acirc;y l&agrave; chiếc b&agrave;n ph&iacute;m đầu ti&ecirc;n m&agrave; người d&ugrave;ng c&oacute; thể đăng bằng bằng Touch ID ngay tr&ecirc;n b&agrave;n ph&iacute;m.</p>\n\n<h3><strong>Đăng nhập v&agrave;o m&aacute;y Mac dễ d&agrave;ng với Touch ID</strong></h3>\n\n<p>B&agrave;n ph&iacute;m Apple Magic Keyboard Touch ID gi&uacute;p m&aacute;y Mac của người d&ugrave;ng c&oacute; thể đăng nhập dễ d&agrave;ng hơn nhờ v&agrave;o chức năng nhập v&acirc;n tay ngay tr&ecirc;n b&agrave;n ph&iacute;m. Cạnh đ&oacute;, nhờ v&agrave;o chức năng bảo mật của chip M1 m&agrave; bạn c&oacute; thể x&aacute;c nhận mua h&agrave;ng một c&aacute;ch dễ d&agrave;ng v&agrave; an to&agrave;n.</p>\n\n<p><img alt=\"bàn phím Apple Magic Keyboard Touch ID phím số 2021\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Ban-phim-Apple-Magic-Keyboard-Touch-ID-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Ban-phim-Apple-Magic-Keyboard-Touch-ID-1.jpg\" /></p>\n\n<p>K&iacute;ch thước ph&ugrave; hợp chỉ với 0.41-1.09H x 41.87W x 11.49 D (cm) v&agrave; c&oacute; trọng lượng 0.369 kg.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 4100000, NULL, 1000, 1, 
+    13, 8, NULL, NULL, '2022-08-28 06:52:24', 
+    'haipv'
+  ), 
+  (
+    161, 1.27, 'Bàn phím Apple Magic Keyboard + Touch ID 2021 MK293', 
+    'ban-phim-apple-magic-keyboard-touch-id-2021-mk293', 
+    'ban-phim-apple-magic-keyboard-touch-id-2021-mk293.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<p>Thiết kế hiện đại v&agrave; c&oacute; t&iacute;nh di động cực cao nhờ v&agrave;o độ mỏng v&agrave; trọng lượng nhẹ, c&oacute; thể dễ d&agrave;ng để n&oacute; v&agrave;o trong balo hay t&uacute;i x&aacute;ch v&agrave; mang đi khắp nơi<br />\nHo&agrave;n thiện từ chất liệu nh&ocirc;m cao cấpmang đến cho sản phẩm diện mạo cao cấp, sang trọng v&agrave; khả năng chống va đập tốt<br />\nCơ chế cắt k&eacute;o b&ecirc;n dưới mỗi ph&iacute;m cũng như h&agrave;nh tr&igrave;nh ph&iacute;m được tối ưu ho&aacute; v&agrave; cấu h&igrave;nh thấp mang đến trải nghiệm đ&aacute;nh m&aacute;y ch&iacute;nh x&aacute;c v&agrave; &ecirc;m &aacute;i<br />\nT&iacute;ch hợp ph&iacute;m cảm biến v&acirc;n tay Touch ID tương th&iacute;ch với đa số thiết bị Apple, gi&uacute;p tăng cường bảo mật đến mức tối ưu<br />\nTrang bị kết nối kh&ocirc;ng d&acirc;y Bluetooth hoặc th&ocirc;ng qua c&aacute;p sạc Lightning hỗ trợ vừa sạc vừa kết nối<br />\nSử dụng pin sạc Li-ion cho khả năng sử dụng l&ecirc;n tới 30 ng&agrave;y cho mỗi lần sạc</p>\n\n<h2><strong>B&agrave;n ph&iacute;m Apple Magic Keyboard + Touch ID 2021- N&acirc;ng tầm trải nghiệm</strong></h2>\n\n<p>Một chiếc b&agrave;n ph&iacute;m mới được giới thiệu c&ugrave;ng với sự ra mắt của iMac 24 inch. Sản phẩm sở hữu đầy đủ c&aacute;c t&iacute;nh năng bạn cần ở một chiếc b&agrave;n ph&iacute;m Apple Magic Keyboard v&agrave; một Touch ID hỗ trợ cho khả năng bảo mật gi&uacute;p đăng nhập v&agrave;o c&aacute;c ứng dụng c&aacute; nh&acirc;n. Bạn c&oacute; t&ograve; m&ograve; t&ecirc;n sản phẩm? M&ocirc; tả về&nbsp;<strong><a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/ban-phim.html\" title=\"Bàn phím\">b&agrave;n ph&iacute;m</a>&nbsp;Apple Magic Keyboard + Touch ID 2021</strong>&nbsp;sẽ hiển thị đầy đủ b&ecirc;n dưới.</p>\n\n<h3><strong>B&agrave;n ph&iacute;m ma thuật t&iacute;ch hợp Touch ID</strong></h3>\n\n<p>T&ecirc;n gọi l&agrave; b&agrave;n ph&iacute;m ma thuật, phi&ecirc;n bản b&agrave;n ph&iacute;m Apple Magic Keyboard + Touch ID 2021 sở hữu c&aacute;c m&agrave;u sắc cực kỳ ấn tượng, tinh tế, kh&ocirc;ng k&eacute;m phần sang trọng v&agrave; ph&ugrave; hợp với ph&aacute;i nữ.</p>\n\n<p><img alt=\"Bàn phím Apple Magic Keyboard + Touch ID 2021\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-apple-magic-keyboard-touch-id-2021-1-min.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-apple-magic-keyboard-touch-id-2021-1-min.jpg\" /></p>\n\n<p>Với việc tăng cường th&ecirc;m một n&uacute;t Touch ID, độ gi&atilde;n c&aacute;ch của c&aacute;c ph&iacute;m v&agrave; độ rộng của ph&iacute;m phần n&agrave;o được thay đổi. K&iacute;ch thước tổng th&igrave; kh&ocirc;ng c&oacute; sự ch&ecirc;nh lệch v&agrave; h&agrave;nh tr&igrave;nh ph&iacute;m giờ đ&acirc;y đ&atilde; tốt hơn. Tất nhi&ecirc;n, tăng cường cho c&aacute;c thao t&aacute;c g&otilde; ph&iacute;m.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 3450000, NULL, 1000, 1, 
+    13, 8, NULL, NULL, '2022-08-28 06:54:30', 
+    'haipv'
+  ), 
+  (
+    162, 1.27, 'Bàn phím Apple Magic Keyboard 2021 MK2A3', 
+    'ban-phim-apple-magic-keyboard-2021-mk2a3', 
+    'ban-phim-apple-magic-keyboard-2021-mk2a3.jpg', 
+    '', '', '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 2300000, NULL, 100, 1, 
+    13, 8, NULL, NULL, '2022-08-28 07:17:42', 
+    'haipv'
+  ), 
+  (
+    163, 1.27, 'Chuột Apple Magic Mouse 2021 MK2E3', 
+    'chuot-apple-magic-mouse-2021-mk2e3', 
+    'chuot-apple-magic-mouse-2021-mk2e3.png', 
+    '', '<h2>ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Thiết kế bằng khung kim loại hiện đại, mỏng nhẹ đem lại cảm gi&aacute;c sang trọng v&agrave; cao cấp</li>\n  <li>To&agrave;n bộ th&acirc;n chuột sử dụng cảm ứng ho&agrave;n to&agrave;n hỗ trợ thao t&aacute;c nhỏ như cuộn trang, đa nhiệm m&agrave;n h&igrave;nh,&hellip;</li>\n  <li>Sử dụng pin sạc th&ocirc;ng qua cổng Lightning với khả năng sạc 2 tiếng c&oacute; thể sử dụng được trong 1 th&aacute;ng</li>\n  <li>Khả năng kết nối kh&ocirc;ng d&acirc;y th&ocirc;ng qua Bluetooth khoảng c&aacute;ch l&ecirc;n tới 10m m&agrave; kh&ocirc;ng cần đến đầu thu USB</li>\n  <li>Độ ph&acirc;n giải của cảm biến l&agrave; 1300 DPI, gi&uacute;p thao t&aacute;c r&ecirc; chuột mượt m&agrave; hơn</li>\n</ul>\n\n<h2><strong>Chuột Apple Magic Mouse 2021 MK2E3 cảm ứng đa điểm si&ecirc;u nhạy</strong></h2>\n\n<p>IPad, Macbook, iMac của bạn đang cần đến một con chuột nhanh nhạy tối ưu điểm chạm hơn? Tất cả những g&igrave; bạn cần l&agrave;m l&agrave; đổi qua sử dụng&nbsp;<strong>chuột Apple Magic Mouse 2021 MK2E3</strong>. C&ugrave;ng xem những điểm nổi bật nhất của&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/apple/macbook.html\" title=\"Phụ kiện Macbook\"><strong>phụ kiện Macbook</strong></a>&nbsp;dưới đ&acirc;y!</p>\n\n<h3><strong>Thiết kế tinh tế với m&agrave;u bạc hiện đại</strong></h3>\n\n<p>Magic Mouse 2021 MK2E3 c&oacute; thiết kế hiện đại với đường cong uyển chuyển tinh tế, kh&ocirc;ng c&oacute; d&acirc;y, mặt tr&ecirc;n c&oacute; logo Apple ẩn hiện sang trọng. Thiết kế phần ch&acirc;n tối ưu, trọng lượng si&ecirc;u nhẹ chỉ 0.099kg gi&uacute;p di chuyển dễ d&agrave;ng nhanh ch&oacute;ng.&nbsp;</p>\n\n<p><img alt=\"Chuột Apple Magic Mouse 2021 MK2E3 \" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Chuot-apple-magic-mouse-2021-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Chuot-apple-magic-mouse-2021-1.jpg\" /></p>\n\n<p>Bề mặt c&ocirc;ng nghệ mới Multi-Touch gi&uacute;p bạn vuốt chạm chuyển qua lại giữa c&aacute;c trang hay cuộn t&agrave;i liệu nhanh ch&oacute;ng. Th&uacute;c đẩy hiệu suất l&agrave;m việc tăng l&ecirc;n nhanh ch&oacute;ng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1790000, NULL, 100, 1, 
+    13, 8, NULL, NULL, '2022-08-28 07:20:44', 
+    'haipv'
+  ), 
+  (
+    164, 1.27, 'Chuột Apple Magic Mouse 2', 
+    'chuot-apple-magic-mouse-2', 'chuot-apple-magic-mouse-2.png', 
+    '', '', '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 2500000, NULL, 100, 1, 
+    13, 8, NULL, NULL, '2022-08-28 07:21:46', 
+    'haipv'
+  ), 
+  (
+    165, 1.27, 'Bàn phím cơ Asus Rog Strix Flare II Animate RGB', 
+    'ban-phim-co-asus-rog-strix-flare-ii-animate-rgb', 
+    'ban-phim-co-asus-rog-strix-flare-ii-animate-rgb.jpg', 
+    '', '<h2><strong>B&agrave;n ph&iacute;m cơ Asus ROG Strix Flare II Animate RGB - Đ&egrave;n LED hiện đại, bắt mắt</strong></h2>\n\n<p>B&agrave;n ph&iacute;m cơ Asus ROG STRIX FLARE II ANIMATE RGB được n&acirc;ng cấp to&agrave;n diện so với thế hệ trước, mang đến trải nghiệm nhấn v&agrave; g&otilde; ph&iacute;m khi chơi game thỏa m&atilde;n hơn hẳn. Nếu bạn quan t&acirc;m tới sản phẩm, th&igrave; h&atilde;y tham khảo th&ecirc;m m&ocirc; tả ph&iacute;a dưới đ&acirc;y để biết th&ecirc;m chi tiết về&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/ban-phim/ban-phim-co.html\" target=\"_blank\" title=\"Bàn phím cơ chính hãng\"><strong>b&agrave;n ph&iacute;m cơ</strong></a>&nbsp;chất lượng n&agrave;y nh&eacute;.</p>\n\n<h3><strong>C&ocirc;ng nghệ m&agrave;n h&igrave;nh LED Anime Matrix</strong></h3>\n\n<p>B&agrave;n ph&iacute;m cơ Asus ROG STRIX FLARE II ANIMATE RGB được thiết kế m&agrave;n h&igrave;nh LED b&ecirc;n trong, để hiển thị logo theo kiểu ma trận. C&aacute;ch l&agrave;m n&agrave;y của nh&agrave; sản xuất kh&aacute; s&aacute;ng tạo, mang đến sự kh&aacute;c biệt ho&agrave;n to&agrave;n so với những sản phẩm tr&ecirc;n thị trường.</p>\n\n<p><img alt=\"Đánh giá thiết kế bàn phím cơ Asus ROG Strix Flare II Animate RGB\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-asus-rog-strix-flare-ii-animate-rgb-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-asus-rog-strix-flare-ii-animate-rgb-2.jpg\" /></p>\n\n<p>Chưa hết, thiết bị c&ograve;n l&agrave;m hệ thống đ&egrave;n LED RGB ph&iacute;a dưới mỗi ph&iacute;m, khi bấm v&agrave;o sẽ tỏa ra nhiều m&agrave;u sắc đ&egrave;n kh&aacute;c nhau, rất bắt mắt.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 4490000, NULL, 100, 1, 
+    13, 1, NULL, NULL, '2022-08-28 07:24:14', 
+    'haipv'
+  ), 
+  (
+    166, 1.27, 'Bàn phím cơ không dây Asus Rog Falchion NX', 
+    'ban-phim-co-khong-day-asus-rog-falchion-nx', 
+    'ban-phim-co-khong-day-asus-rog-falchion-nx.jpg', 
+    '', '<h2><strong>B&agrave;n ph&iacute;m cơ kh&ocirc;ng d&acirc;y Asus Rog Falchion NX &ndash; Nhỏ gọn, bền bỉ</strong></h2>\n\n<p><strong>B&agrave;n ph&iacute;m cơ kh&ocirc;ng d&acirc;y Asus Rog Falchion NX</strong>&nbsp;c&oacute; thiết kế tối ưu cho trải nghiệm g&otilde; tuyệt vời với tuổi thọ cao c&ugrave;ng thời lượng sử dụng ấn tượng đ&atilde; chiếm được cảm t&igrave;nh nhiều kh&aacute;ch h&agrave;ng. Sản phẩm&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/ban-phim/ban-phim-co.html\" title=\"Bàn phím cơ\"><strong>b&agrave;n ph&iacute;m cơ</strong></a>&nbsp;n&agrave;y sẽ l&agrave; c&ocirc;ng cụ tuyệt vời kh&ocirc;ng chỉ hỗ trợ c&aacute;c t&aacute;c vụ văn ph&ograve;ng m&agrave; c&ograve;n n&acirc;ng cao khả năng chiến thắng trong những trận game.</p>\n\n<h3><strong>H&agrave;nh tr&igrave;nh g&otilde; ph&iacute;m mượt m&agrave; với đ&egrave;n nền rực rỡ</strong></h3>\n\n<p>Sản phẩm c&oacute; k&iacute;ch thước tổng thể nhỏ gọn với sự kết hợp ho&agrave;n hảo giữa c&aacute;c ph&iacute;m sẽ kh&ocirc;ng chiếm qu&aacute; nhiều kh&ocirc;ng gian của bạn, cũng như tăng tốc độ g&otilde; khi sử dụng. B&ecirc;n cạnh Switch cơ ROG NX cũng được trang bị trong b&agrave;n ph&iacute;m với độ nảy cao v&agrave; tốc độ phản hồi ấn tượng mang đến cho người d&ugrave;ng những trải nghiệm sử dụng tuyệt vời.</p>\n\n<p><img alt=\"Bàn phím cơ không dây Asus Rog Falchion NX\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-khong-day-asus-rog-falchion-nx-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-khong-day-asus-rog-falchion-nx-1.jpg\" /></p>\n\n<h3><strong>Thời lượng pin ấn tượng c&ugrave;ng tuổi thọ cao</strong></h3>\n\n<p>Keycaps của b&agrave;n ph&iacute;m được chế t&aacute;c từ chất liệu nhựa PBT cao cấp mang đến độ bền ổn định theo thời gian v&agrave; kh&ocirc;ng bị bạc m&agrave;u sau một thời gian. Đi c&ugrave;ng với đ&oacute; l&agrave; thời lượng sử dụng pin ấn tượng c&oacute; thể l&ecirc;n đến 450 giờ, nghĩa l&agrave; chỉ với một lần sạc bạn c&oacute; thể sử dụng b&agrave;n ph&iacute;m đến 2 th&aacute;ng.</p>\n\n<p><img alt=\"Bàn phím cơ không dây Asus Rog Falchion NX\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-khong-day-asus-rog-falchion-nx-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-khong-day-asus-rog-falchion-nx-2.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 3209000, NULL, 100, 1, 
+    13, 1, NULL, NULL, '2022-08-28 07:28:07', 
+    'haipv'
+  ), 
+  (
+    167, 1.27, 'Bàn phím cơ Gaming Asus TUF K3', 
+    'ban-phim-co-gaming-asus-tuf-k3', 
+    'ban-phim-co-gaming-asus-tuf-k3.jpg', 
+    '', '<h2><strong>B&agrave;n ph&iacute;m cơ Gaming Asus TUF K3 &ndash; Thiết kế ấn tượng</strong></h2>\n\n<p><strong>B&agrave;n ph&iacute;m cơ Gaming Asus TUF K3</strong>&nbsp;l&agrave; bộ b&agrave;n ph&iacute;m với nhiều t&iacute;nh năng ấn tượng c&ugrave;ng thiết kế chắc chắn, chất lượng cao, đ&egrave;n Led nhiều m&agrave;u sắc ấn tượng. Nếu l&agrave; một game thủ hay những ai muốn sở hữu một bộ b&agrave;n ph&iacute;m th&igrave;&nbsp;<a href=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-gaming-asus-tuf-f3-1.jpg\" title=\"Bàn phím cơ Gaming Asus TUF K3\"><strong>b&agrave;n ph&iacute;m cơ</strong></a>&nbsp;l&agrave; một lựa chọn tốt.</p>\n\n<h3><strong>Trang bị dải đ&egrave;n LED nhiều sắc m&agrave;u ấn tượng</strong></h3>\n\n<p>Được hỗ trợ c&ocirc;ng nghệ đ&egrave;n LED Aura Sync, bộ b&agrave;n ph&iacute;m Gaming Asus TUF K3 mang lại cho người d&ugrave;ng nhiều hiệu ứng LED kh&aacute;c nhau c&oacute; thể thay đổi theo &yacute; muốn v&agrave; sở th&iacute;ch của bạn bất cứ khi n&agrave;o. Điểm cộng nữa l&agrave; bạn c&oacute; thể đồng bộ h&oacute;a c&aacute;c hiệu ứng với bất kỳ thiết bị kh&aacute;c c&oacute; hỗ trợ Aura Sync.</p>\n\n<p><img alt=\"Bàn phím cơ Gaming Asus TUF K3\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-gaming-asus-tuf-f3-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-gaming-asus-tuf-f3-1.jpg\" /></p>\n\n<p>Ngo&agrave;i ra b&agrave;n ph&iacute;m c&ograve;n trang bị th&ecirc;m một đệm cổ tay từ t&iacute;nh tiện lợi, gi&uacute;p cho bạn tr&aacute;nh bị mỏi tay khi sử dụng b&agrave;n ph&iacute;m trong khoảng thời gian d&agrave;i.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1790000, NULL, 100, 1, 
+    13, 1, NULL, NULL, '2022-08-28 07:29:39', 
+    'haipv'
+  ), 
+  (
+    168, 1.27, 'Chuột có dây Gaming Asus ROG Strix Impact II Gundam', 
+    'chuot-co-day-gaming-asus-rog-strix-impact-ii-gundam', 
+    'chuot-co-day-gaming-asus-rog-strix-impact-ii-gundam.jpg', 
+    '', '<h2><strong>Chuột gaming c&oacute; d&acirc;y Asus ROG Strix Impact II Gundam - Lấy cảm hứng từ manga Nhật Bản độc đ&aacute;o</strong></h2>\n\n<p>Chuột ASUS ROG Strix Impact II Gundam l&agrave; sự hợp t&aacute;c với c&aacute;c game thủ chuy&ecirc;n nghiệp, nhằm mang đến một sản phẩm c&oacute; t&iacute;nh năng thuận cả hai tay được tối ưu h&oacute;a cho hiệu suất v&agrave; cảm gi&aacute;c chơi. Con&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/chuot/gaming.html\" target=\"_blank\" title=\"Chuột chơi game chính hãng\"><strong>chuột chơi game</strong></a>&nbsp;được thiết kế với sự trợ gi&uacute;p của một số người chơi StarCraft II t&agrave;i năng nhất thế giới, những người đ&atilde; tham gia v&agrave;o qu&aacute; tr&igrave;nh ph&aacute;t triển.</p>\n\n<h3><strong>Thiết kế switch độc quyền, hỗ trợ thay thế</strong></h3>\n\n<p>&nbsp;Chuột gaming c&oacute; d&acirc;y Asus ROG Strix Impact II Gundam c&oacute; thiết kế c&ocirc;ng tắc c&oacute; thể thay thế nhờ đ&oacute; người d&ugrave;ng c&oacute; thể t&ugrave;y chỉnh c&aacute;c c&ocirc;ng tắc theo sở th&iacute;ch c&aacute; nh&acirc;n hay tiến h&agrave;nh thay mới khi c&ocirc;ng tắc bị hư hỏng, m&agrave;i m&ograve;n.</p>\n\n<p><img alt=\"Chuột gaming có dây Asus ROG Strix Impact II Gundam - Lấy cảm hứng từ manga Nhật Bản độc đáo\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-asus-rog-strix-impact-ii-gundam-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-asus-rog-strix-impact-ii-gundam-2.jpg\" /></p>\n\n<p>Asus ROG Strix Impact II Gundam với thiết kế bằng c&aacute;p cao su mềm nhờ đ&oacute; giảm thiểu c&aacute;c hậu quả để lại trong c&aacute;c va chạm. Chuột c&ograve;n được trang bị hệ thống đ&egrave;n Aura RGB c&oacute; thể thay đổi m&agrave;u sắc.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 990000, NULL, 100, 1, 13, 
+    1, NULL, NULL, '2022-08-28 07:31:17', 
+    'haipv'
+  ), 
+  (
+    169, 1.27, 'Chuột có dây Gaming Asus TUF M3', 
+    'chuot-co-day-gaming-asus-tuf-m3', 
+    'chuot-co-day-gaming-asus-tuf-m3.jpg', 
+    '', '<h2><strong>Chuột Gaming c&oacute; d&acirc;y Asus TUF M3 &ndash; Chất liệu bền bỉ, độ nhạy cao</strong></h2>\n\n<p><strong>Chuột Gaming c&oacute; d&acirc;y Asus TUF M3</strong>&nbsp;l&agrave; thiết bị được sản xuất bởi nh&agrave; Asus, với chất lượng đảm bảo độ bền khi sử dụng. Thiết kế&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/chuot/gaming.html\" title=\"Chuột chơi game\"><strong>chuột chơi game</strong></a>&nbsp;nhỏ gọn v&agrave; nhẹ gi&uacute;p trải nghiệm chơi game nhanh nhạy m&agrave; kh&ocirc;ng bị gi&aacute;n đoạn.</p>\n\n<h3><strong>Thiết kế nhỏ gọn, bền bỉ</strong></h3>\n\n<p>L&agrave; thiết kế của nh&agrave; Asus, chuột Gaming c&oacute; d&acirc;y Asus TUF M3 l&agrave; một chuột chơi game nhỏ gọn đem lại độ nhạy cần thiết cho c&aacute;c game thủ bằng kiểu cầm chuột fingertip grip hay cầm chuột claw.</p>\n\n<p><img alt=\"Chuột Gaming có dây Asus TUF M3\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-asus-tuf-m3-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-asus-tuf-m3-1.jpg\" /></p>\n\n<p>Thiết kế từ b&ecirc;n ngo&agrave;i đến b&ecirc;n trong của chuột Gaming c&oacute; d&acirc;y Asus TUF M3 đảm bảo độ bền gi&uacute;p chuột c&oacute; tuổi thọ nhiều năm. Với vỏ ngo&agrave;i được mạ lớp chuy&ecirc;n dụng chống m&agrave;i m&ograve;n, mồ h&ocirc;i v&agrave; ma s&aacute;t. Thiết kế b&ecirc;n trong với c&aacute;c n&uacute;t với độ bền nhạy đạt nhiều hơn 20 triệu lần.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 395000, NULL, 1000, 1, 
+    13, 1, NULL, NULL, '2022-08-28 07:32:41', 
+    'haipv'
+  ), 
+  (
+    170, 1.27, 'Chuột Gaming ASUS CERBERUS', 
+    'chuot-gaming-asus-cerberus', 'chuot-gaming-asus-cerberus.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<p>Thiết kế m&agrave;u đỏ đen sẽ l&agrave; chủ đạo v&agrave; nhỏ gọn, đối xứng mang lại cảm gi&aacute;c thoải m&aacute;i khi sử dụng<br />\nTrang bị cảm biến 2500DPI hoạt động hiệu quả v&agrave; di chuyển mượt m&agrave;<br />\nD&acirc;y USB kết nối d&agrave;i 1.8m dễ d&agrave;ng kết nối với thiết bị v&agrave; sử dụng ổn định<br />\nTrang bị một đ&egrave;n LED hiển thị m&agrave;u sắc thể hiện cấp độ nhạy v&agrave; hỗ trợ sử dụng trong điều kiện thiếu s&aacute;ng</p>\n\n<h2>Chuột Gaming ASUS CERBERUS &ndash; Chuy&ecirc;n hỗ trợ chơi game</h2>\n\n<p>Những chiếc chuột từ thời xưa đến nay đ&atilde; lu&ocirc;n l&agrave; một phụ kiện kh&ocirc;ng thể thiếu đối với những ai thường xuy&ecirc;n sử dụng laptop, m&aacute;y t&iacute;nh nhằm phục vụ cho c&ocirc;ng việc. Hơn nữa với người sử dụng cho mục đ&iacute;ch chơi game th&igrave; chuột c&oacute; d&acirc;y đ&oacute;ng vai tr&ograve; c&ograve;n quan trọng hơn.&nbsp;<strong><a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/chuot/gaming.html\">Chuột Gaming</a>&nbsp;ASUS CERBERUS</strong>&nbsp;được ra đời nhằm phục vụ cho game thủ.</p>\n\n<h3>Thiết kế nhỏ gọn, thiết kế đối xứng</h3>\n\n<p>C&aacute;c d&ograve;ng chuột của Asus đều được mang t&ecirc;n c&aacute;c nh&acirc;n vật trong thần thoại v&agrave; t&ecirc;n những nh&acirc;n vật n&agrave;y đều được thể hiện r&otilde; trong thiết kế của sản phẩm. Đối với chuột m&aacute;y t&iacute;nh Asus CERBERUS th&igrave; m&agrave;u đỏ đen sẽ l&agrave; chủ đạo tạo n&ecirc;n vẻ ngo&agrave;i huyền b&iacute; nhưng cũng kh&ocirc;ng k&eacute;m phần mạnh mẽ. Ngo&agrave;i ra, k&iacute;ch thước chỉ 124.86x 68.72 x 40.11mm gi&uacute;p cho bạn dễ d&agrave;ng cầm nắm, di chuyển đến khắp mọi nơi.</p>\n\n<p><img alt=\"Thiết kế nhỏ gọn\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-asus-cerberus-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-asus-cerberus-1.jpg\" /></p>\n\n<p>Được thiết kế nhằm đ&aacute;p ứng nhu cầu của cả c&aacute;c game thủ thuận tay phải v&agrave; thuận tay tr&aacute;i cũng như d&agrave;nh cho mọi kiểu cầm chuột. Qua đ&oacute;, chuột m&aacute;y t&iacute;nh Asus CERBERUS cho trải nghiệm chơi game thoải m&aacute;i với mức độ kiểm so&aacute;t tuyệt đối. Hai m&uacute;i cao su ở hai b&ecirc;n đ&atilde; được cải thiện bằng c&aacute;ch đục th&ecirc;m lỗ tho&aacute;ng kh&iacute;. C&aacute;ch thiết kế n&agrave;y để gi&uacute;p cho tay của bạn lu&ocirc;n được m&aacute;t v&agrave; giảm thiểu trượt tay do mồ h&ocirc;i, gi&uacute;p bạn lu&ocirc;n b&aacute;m chắc trong c&aacute;c pha h&agrave;nh động căng thẳng trong game.</p>\n\n<p>Xem th&ecirc;m :&nbsp;<a href=\"https://cellphones.com.vn/chuot-choi-game-xiaomi-mi-gaming-mouse.html\">Chuột chơi Game kh&ocirc;ng d&acirc;y Xiaomi Mi Gaming Mouse</a></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 315000, NULL, 1000, 1, 
+    13, 1, NULL, NULL, '2022-08-28 07:34:14', 
+    'haipv'
+  ), 
+  (
+    171, 1.27, 'Bàn phím cơ có dây Gaming MSI Vigor GK50 ELITE', 
+    'ban-phim-co-co-day-gaming-msi-vigor-gk50-elite', 
+    'ban-phim-co-co-day-gaming-msi-vigor-gk50-elite.jpg', 
+    '', '<h2><strong>B&agrave;n ph&iacute;m cơ c&oacute; d&acirc;y Gaming MSI Vigor GK50 Elite - Ch&iacute;nh x&aacute;c, bền bỉ</strong></h2>\n\n<p><strong>B&agrave;n ph&iacute;m cơ c&oacute; d&acirc;y Gaming MSI Vigor GK50 Elite</strong>&nbsp;cung cấp đến bạn một độ nảy tốt, ch&iacute;nh x&aacute;c cao v&agrave; sự bền bỉ theo thời gian. Kết hợp c&ugrave;ng đ&oacute; l&agrave; một &aacute;nh s&aacute;ng RGB với những hiệu ứng kh&aacute;c nhau của&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/ban-phim/gaming.html\" title=\"Bàn phím Gaming\"><strong>b&agrave;n ph&iacute;m Gaming</strong></a>&nbsp;khiến c&aacute;c game thủ kh&ocirc;ng thể n&agrave;o bỏ lỡ.</p>\n\n<h3><strong>Keycap thiết kế cao cấp, hiệu ứng &aacute;nh s&aacute;ng tuyệt đẹp</strong></h3>\n\n<p>B&agrave;n ph&iacute;m cơ c&oacute; d&acirc;y Gaming MSI Vigor GK50 Elite gi&uacute;p bạn hạn chế được t&igrave;nh trạng đau mỏi cổ tay, g&otilde; thoải m&aacute;i v&agrave; nhanh hơn nhiều so với b&agrave;n ph&iacute;m th&ocirc;ng thường nhờ thiết kế c&ocirc;ng th&aacute;i học, keycap từ cao đến thấp. Do đ&oacute;, nếu bạn đang bị căng v&agrave; đau cổ tay do g&otilde; ph&iacute;m nhiều th&igrave; kh&ocirc;ng n&ecirc;n bỏ qua sản phẩm n&agrave;y.</p>\n\n<p><img alt=\"Bàn phím cơ có dây Gaming MSI Vigor GK50 Elite \" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-co-day-vigor-gk50-elite-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/ban-phim-co-co-day-vigor-gk50-elite-1.jpg\" /></p>\n\n<p>Một điểm đặc biệt nổi bật kh&aacute;c tr&ecirc;n b&agrave;n ph&iacute;m cơ c&oacute; d&acirc;y Gaming MSI Vigor GK50 Elite n&agrave;y nữa ch&iacute;nh l&agrave; hiệu ứng chiếu s&aacute;ng RGB kh&aacute;c nhau tr&ecirc;n mỗi ph&iacute;m. V&agrave; đương nhi&ecirc;n, bạn cũng c&oacute; thể t&ugrave;y chỉnh sao cho hiệu ứng đ&uacute;ng với sở th&iacute;ch c&aacute; nh&acirc;n của mỗi người nhờ v&agrave;o phần mềm MSI Dragon Center.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 2390000, NULL, 1000, 1, 
+    13, 4, NULL, NULL, '2022-08-28 07:36:02', 
+    'haipv'
+  ), 
+  (
+    172, 1.27, 'Chuột Gaming không dây MSI Clutch GM41 Lightweight', 
+    'chuot-gaming-khong-day-msi-clutch-gm41-lightweight', 
+    'chuot-gaming-khong-day-msi-clutch-gm41-lightweight.jpg', 
+    '', '<h2><strong>Chuột Gaming kh&ocirc;ng d&acirc;y MSI Clutch GM41 Lightweight - Hiện đại, sang trọng</strong></h2>\n\n<p><strong>Chuột Gaming kh&ocirc;ng d&acirc;y MSI Clutch GM41 Lightweight</strong>&nbsp;l&agrave; sản phẩm m&agrave; m&agrave; c&aacute;c game thủ cực kỳ ưa chuộng, v&igrave; tốc độ xử l&yacute; của n&oacute; rất nhạy. B&agrave;i viết dưới đ&acirc;y sẽ gi&uacute;p c&aacute;c bạn biết r&otilde; hơn về những th&ocirc;ng số v&agrave; hiệu năng của&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/chuot/gaming.html\" title=\"Chuột chơi game\"><strong>chuột chơi game</strong></a>&nbsp;nh&eacute;.</p>\n\n<h3><strong>Thiết kế nhỏ gọn v&agrave; sang trọng, tốc độ di chuyển chuột nhanh</strong></h3>\n\n<p>Chuột Gaming kh&ocirc;ng d&acirc;y MSI Clutch GM41 Lightweight được thiết kế với kiểu d&aacute;ng gọn nhẹ, sang trọng, Tay cầm được thiết kế chống trơn trượt c&oacute; độ nh&aacute;m gi&uacute;p cho người cầm c&oacute; cảm gi&aacute;c được thỏa m&aacute;i khi cầm được chắc chắn hơn.</p>\n\n<p><img alt=\"Chuột Gaming kh&amp;ocirc;ng d&amp;acirc;y MSI Clutch GM41 Lightweight\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-khong-day-msi-clutch-g41-lightweight-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-khong-day-msi-clutch-g41-lightweight-1.jpg\" /></p>\n\n<p>MSI Clutch GM41 Lightweight n&agrave;y được trang bị cho cảm biến quang học gi&uacute;p cho theo d&otilde;i v&agrave; quan s&aacute;t được r&otilde; hơn. Ngo&agrave;i ra, n&oacute; c&ograve;n mang lại tốc độ di chuyển chuột cực nhạy với tốc độ 400 IPS.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1790000, NULL, 1000, 1, 
+    13, 4, NULL, NULL, '2022-08-28 07:38:43', 
+    'haipv'
+  ), 
+  (
+    173, 1.27, 'Chuột có dây Gaming MSI Clutch GM41 Lightweight V2', 
+    'chuot-co-day-gaming-msi-clutch-gm41-lightweight-v2', 
+    'chuot-co-day-gaming-msi-clutch-gm41-lightweight-v2.jpg', 
+    '', '<h2><strong>Chuột gaming c&oacute; d&acirc;y MSI Clutch GM41 LIGHTWEIGHT V2 &ndash; M&agrave;u sắc RGB sống động</strong></h2>\n\n<p><strong>Chuột gaming c&oacute; d&acirc;y MSI Clutch GM41 Lightweight V2&nbsp;</strong>l&agrave; một phụ kiện hỗ trợ chơi game hiệu quả, được đ&aacute;nh gi&aacute; cao trong thời gian gần đ&acirc;y. Sản phẩm&nbsp;<strong><a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/chuot/gaming.html\" title=\"Chuột chơi game\">chuột chơi game</a></strong>&nbsp;n&agrave;y với thiết kế tiện dụng c&ugrave;ng dải m&agrave;u sống động mang lại những trải nghiệm d&ugrave;ng ấn tượng.</p>\n\n<h3><strong>Thiết kế si&ecirc;u nhẹ, &aacute;nh s&aacute;ng RGB sống động</strong></h3>\n\n<p>Chuột gaming c&oacute; d&acirc;y MSI Clutch GM41 Lightweight V2 sở hữu một thiết kế si&ecirc;u nhẹ với trọng lượng chỉ khoảng 65g. Trọng n&agrave;y gi&uacute;p người d&ugrave;ng c&oacute; thể dễ d&agrave;ng di chuyển, chọn mục ti&ecirc;u nhanh ch&oacute;ng v&agrave; ch&iacute;nh x&aacute;c.</p>\n\n<p><img alt=\"Chuột gaming có dây MSI Clutch GM41 LIGHTWEIGHT V2\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-co-day-msi-clutch-g41-lightweight-v2-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-co-day-msi-clutch-g41-lightweight-v2-1.jpg\" /></p>\n\n<p>Chuột MSI Clutch GM41 Lightweight V2 với thiết kế kỹ lưỡng đến từng chi tiết. Chuột với c&aacute;c th&agrave;nh phần được thiết kế v&ocirc; c&ugrave;ng nhẹ, tay cầm với hoa văn kim cương chống trượt mang lại khả năng cầm nắm chắc chắn.</p>\n\n<p><img alt=\"Chuột gaming có dây MSI Clutch GM41 LIGHTWEIGHT V2\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-co-day-msi-clutch-g41-lightweight-v2-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-co-day-msi-clutch-g41-lightweight-v2-2.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1115000, NULL, 1000, 1, 
+    13, 4, NULL, NULL, '2022-08-28 07:39:59', 
+    'haipv'
+  ), 
+  (
+    174, 1.27, 'Chuột có dây Gaming MSI Clutch GM11', 
+    'chuot-co-day-gaming-msi-clutch-gm11', 
+    'chuot-co-day-gaming-msi-clutch-gm11.jpg', 
+    '', '<h2><strong>Chuột gaming c&oacute; d&acirc;y MSI Clutch GM11 - Cao cấp, nhanh nhạy</strong></h2>\n\n<p><strong>Chuột gaming c&oacute; d&acirc;y MSI Clutch GM11</strong>&nbsp;l&agrave; d&ograve;ng sản phẩm cao cấp. Với thiết kế mạnh mẽ c&ugrave;ng thao t&aacute;c cực nhạy, sản phẩm&nbsp;<strong><a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/chuot/gaming.html\" title=\"Chuột chơi game\">chuột chơi game</a></strong>&nbsp;mang tới cho người d&ugrave;ng trải nghiệm sử dụng cực độc đ&aacute;o v&agrave; ấn tượng tr&ecirc;n từng c&uacute; nhấp.</p>\n\n<h3><strong>Thiết kế đối xứng, phong c&aacute;ch mạnh mẽ</strong></h3>\n\n<p>Chuột gaming c&oacute; d&acirc;y MSI Clutch GM11 sở hữu thiết kế đối xứng mang tới sự thuận tiện vượt trội cho người sử dụng một c&aacute;ch dễ d&agrave;ng v&agrave; mượt m&agrave;.</p>\n\n<p><img alt=\"Chuột gaming có dây MSI Clutch GM11 \" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Chuot-gaming-co-day-MSI-GM11-1-1649829162.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Chuot-gaming-co-day-MSI-GM11-1-1649829162.jpg\" /></p>\n\n<p>Ngo&agrave;i ra, chuột được l&agrave;m bằng chất liệu cao cấp với m&agrave;u đen than ch&igrave; kh&ocirc;ng chỉ bền bỉ vượt trội m&agrave; c&ograve;n mang đến vẻ ngo&agrave;i sang trọng, hợp l&yacute;. Đặc biệt mọi chi tiết đều được ho&agrave;n thiện một c&aacute;ch tỉ mỉ v&agrave; chi tiết gi&uacute;p to&aacute;t l&ecirc;n sự mạnh mẽ, độc đ&aacute;o ph&ugrave; hợp với c&aacute;c game thủ.</p>\n\n<p>B&ecirc;n cạnh đ&oacute;, sản phẩm được sử dụng kỹ thuật &eacute;p phun k&eacute;p đảm bảo cho người d&ugrave;ng c&oacute; cảm gi&aacute;c cầm nắm thoải m&aacute;i.</p>\n\n<h3><strong>Cảm biến quang độc đ&aacute;o, dễ d&agrave;ng điều chỉnh</strong></h3>\n\n<p>Chuột gaming c&oacute; d&acirc;y MSI Clutch GM11 được trang bị cảm biến DPI 5 cấp ph&ugrave; hợp với 5 m&agrave;u kh&aacute;c nhau mang đến sự độc đ&aacute;o. Ngo&agrave;i ra, sự kết hợp c&aacute;c c&ocirc;ng tắc OMRON c&oacute; khả năng k&eacute;o d&agrave;i hơn 10 triệu lần nhấp v&agrave; cảm biến Quang học Pixart gi&uacute;p cung cấp tới 5000 DPI. Tất cả sẽ mang tới sự ch&iacute;nh x&aacute;c v&agrave; đ&aacute;ng tin cậy cho mọi trận chiến.</p>\n\n<p><img alt=\"Chuột gaming có dây MSI Clutch GM11 \" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Chuot-gaming-co-day-MSI-GM11-2-1649829162.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Chuot-gaming-co-day-MSI-GM11-2-1649829162.jpg\" /></p>\n\n<p>Tr&ecirc;n GM11 c&ograve;n sở hữu một b&aacute;nh xe cuộn khắc tuyến t&iacute;nh v&agrave; kẹp b&ecirc;n gi&uacute;p đảm bảo độ b&aacute;m chắc chắn trong tr&ograve; chơi.</p>\n\n<p>Với chuột GM11 người d&ugrave;ng c&ograve;n c&oacute; khả năng dễ d&agrave;ng điều chỉnh v&agrave; thiết lập nhờ Dragon Center. Do đ&oacute;, bạn c&oacute; thể tinh chỉnh c&agrave;i đặt để thuận tiện hơn trong việc sử dụng.</p>\n\n<h2><strong>Mua ngay chuột gaming c&oacute; d&acirc;y MSI Clutch GM11 chất lượng tại CellphoneS</strong></h2>\n\n<p>Chuột gaming c&oacute; d&acirc;y MSI Clutch GM11 l&agrave; sản phẩm chất lượng gi&uacute;p mang lại trải nghiệm ấn tượng cho c&aacute;c game thủ. Hiện tại bạn c&oacute; thể li&ecirc;n hệ với CellphoneS để mua sản phẩm ch&iacute;nh h&atilde;ng, chất lượng với gi&aacute; th&agrave;nh tốt nhất nh&eacute;.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 690000, NULL, 1000, 1, 
+    13, 4, NULL, NULL, '2022-08-28 07:41:45', 
+    'haipv'
+  ), 
+  (
+    175, 1.27, 'Chuột có dây Gaming MSI M99', 
+    'chuot-co-day-gaming-msi-m99', 
+    'chuot-co-day-gaming-msi-m99.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<p>Sử dụng bền bỉ với 10 triệu lần nhấn<br />\nTrang bị cảm biến độ ph&acirc;n giải c&oacute; thể t&ugrave;y chỉnh tối đa 4000 DPI di chuyển mượt m&agrave;<br />\nTrang bị chức năng đ&egrave;n RGB với 16.8 triệu m&agrave;u<br />\n8 chế độ t&ugrave;y chỉnh m&agrave;u đ&egrave;n LED với phần mềm<br />\nThiết kế n&uacute;t cuộn 3D trống trượt</p>\n\n<h2 align=\"left\"><strong>&nbsp;Chuột Gaming MSI M99 - Chuyển Động Tốc Độ Cao</strong></h2>\n\n<p>Ở ph&acirc;n kh&uacute;c tầm trung,&nbsp;<strong><a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/chuot/gaming.html\">chuột Gaming c&oacute; d&acirc;y</a>&nbsp;MSI M99 l</strong>&agrave; một trong số sản phẩm MSI đ&igrave;nh đ&aacute;m m&agrave; bất kỳ người d&ugrave;ng c&ocirc;ng nghệ n&agrave;o cũng n&ecirc;n sở.&nbsp;<strong>Chuột c&oacute; d&acirc;y</strong>&nbsp;n&agrave;y cho tốc độ chuyển động cao với thao t&aacute;c d&ugrave;ng v&ocirc; c&ugrave;ng thoải m&aacute;i, thu h&uacute;t bởi kiểu d&aacute;ng v&agrave; đầy đủ 16.8 triệu m&agrave;u sắc thời thượng.</p>\n\n<h3 align=\"left\"><strong>Thiết kế gọn nhẹ với tốc độ lướt chuột&nbsp;</strong><strong>60 IPS</strong></h3>\n\n<p>Chuột Gaming MSI M99 l&agrave; một sản phẩm chuột chơi game RGB c&oacute; d&acirc;y. Với k&iacute;ch thước 129 x 66 x 41 mm, chuột được thiết kế v&ocirc; c&ugrave;ng gọn nhẹ chỉ 110 g.&nbsp;</p>\n\n<p><img alt=\"Chuột Gaming MSI M99\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-msi-m99-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/chuot-gaming-msi-m99-1.jpg\" /></p>\n\n<p>Tốc độ Polling Rate 500hz gi&uacute;p cho bạn thao t&aacute;c chuột tr&ecirc;n m&agrave;n h&igrave;nh một c&aacute;ch nhanh hơn. Đồng thời, độ bền của MSI M99 l&ecirc;n đến 10 triệu lượt nhấn. Đ&acirc;y xứng đ&aacute;ng l&agrave; một ch&uacute; chuột d&agrave;nh cho gaming bởi độ bề v&agrave; nhạy được đặt l&ecirc;n h&agrave;ng đầu.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 500000, NULL, 1000, 1, 
+    13, 4, NULL, NULL, '2022-08-28 07:43:10', 
+    'haipv'
+  ), 
+  (
+    176, 1.27, ' Chuột Gaming Lenovo Legion M500', 
+    'chuot-gaming-lenovo-legion-m500', 
+    'chuot-gaming-lenovo-legion-m500.png', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<p>Thiết kế c&ocirc;ng th&aacute;i học d&agrave;nh cho người thuận tay phải, mang lại cảm gi&aacute;c thoải m&aacute;i khi sử dụng l&acirc;u<br />\nTrang bị cảm biến PMW 3389 độ ph&acirc;n giải l&ecirc;n tới 16000DPI hoạt động hiệu quả v&agrave; di chuyển mượt m&agrave;<br />\nD&acirc;y USB kết nối d&agrave;i 1.8m dễ d&agrave;ng kết nối với thiết bị v&agrave; sử dụng ổn định<br />\nTrang bị đ&egrave;n LED RGB 4 khu vực hiển thị 16.8 triệu m&agrave;u</p>\n\n<h2><strong>Chuột Gaming Lenovo Legion M500 &ndash; Chiến hữu vượt trội</strong></h2>\n\n<p>Chuột Gaming Lenovo Legion M500 l&agrave; một sản phẩm chuột đẳng cấp thế giới. Đ&acirc;y l&agrave; một thiết kế xuất sắc v&agrave; l&agrave; một sản phẩm chuột kh&ocirc;ng thể thiếu cho những tựa game h&agrave;ng đầu.&nbsp;<strong>Chuột Gaming Lenovo Legion M500</strong>&nbsp;xứng đ&aacute;ng l&agrave; một chiến hữu ph&ugrave; hợp d&agrave;nh cho bạn.</p>\n\n<h3><strong>Thiết kế đặc biệt d&agrave;nh ri&ecirc;ng cho người thuận tay phải</strong></h3>\n\n<p>Lenovo Legion M500 l&agrave; một sản phẩm&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/chuot-ban-phim-may-tinh/chuot/gaming.html\" title=\"Chuột chơi game\">chuột chơi game</a>&nbsp;được thiết kế c&ocirc;ng th&aacute;i học d&agrave;nh ri&ecirc;ng cho người thuận tay phải. Trợ thủ n&agrave;y đ&atilde; gi&uacute;p cho người chơi c&oacute; thể k&eacute;o d&agrave;i thời gian sử dụng, trải nghiệm game trong t&acirc;m thế v&ocirc; c&ugrave;ng thoải m&aacute;i hay cả trong điều kiện cạnh tranh khốc liệt.</p>\n\n<p><img alt=\"Chuột Gaming Lenovo Legion M500\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Chuot-Gaming-Lenovo-Legion-M500-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Chuot-Gaming-Lenovo-Legion-M500-1.jpg\" /></p>\n\n<p>Ch&iacute;nh thiết kế tay cầm vừa vặn, Lenovo Legion M500 được đ&aacute;nh gi&aacute; l&agrave; sản phẩm tốt nhất, mang đến cảm gi&aacute;c thoải m&aacute;i nhất trong ph&acirc;n kh&uacute;c. Cạnh đ&oacute;, chuột chơi game c&ograve;n được t&iacute;ch hợp một c&ocirc;ng tắc vi m&ocirc; v&agrave; một cảm biến đẳng cấp n&acirc;ng cao hiệu suất đ&aacute;ng để bạn phải kinh ngạc.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 990000, NULL, 1000, 1, 
+    13, 5, NULL, NULL, '2022-08-28 07:44:35', 
     'haipv'
   );
+INSERT INTO `product` 
+VALUES 
+  (
+    177, 1.27, 'Sạc đôi Apple MagSafe Duo', 
+    'sac-doi-apple-magsafe-duo', 'sac-doi-apple-magsafe-duo.jpg', 
+    '', '<h2><strong>Sạc&nbsp;</strong><strong>đ</strong><strong>&ocirc;i Apple Magsafe - Thiết kế đa dụng, tiện lợi</strong></h2>\n\n<p>Bộ sạc MagSafe Duo được thiết kế đặc biệt ph&ugrave; hợp với hầu hết với tất cả c&aacute;c d&ograve;ng m&aacute;y của Apple như iPhone, Apple Watch đến c&aacute;c phụ kiện Apple MagSafe v&agrave; với c&aacute;c thiết bị đạt chuẩn Qi. Với&nbsp;<strong>sạc đ&ocirc;i Apple Magsafe</strong>, thiết bị của bạn sẽ được nạp năng lượng chỉ bằng một thao t&aacute;c đặt. Hơn thế, ch&uacute;ng c&ograve;n c&oacute; thể gập đ&ocirc;i dễ d&agrave;ng.</p>\n\n<h3><strong>D&acirc;y sạc USB-C to Lightning mạnh mẽ, ổn định</strong></h3>\n\n<p>Bộ sạc đ&ocirc;i MagSafe Duo sử dụng c&aacute;p USB-C to Lightning v&ocirc; c&ugrave;ng mạnh mẽ v&agrave; ổn định để kết nối với bộ sạc đ&ocirc;i MagSafe v&agrave;&nbsp;bộ chuyển đổi nguồn Apple USB-C&nbsp;20W. Nhờ đ&oacute; m&agrave; bạn c&oacute; thể kết nối với cổng USB-C tr&ecirc;n chiếc m&aacute;y Mac hoặc PC một c&aacute;ch dễ d&agrave;ng.</p>\n\n<p><img alt=\"Dây sạc USB-C to Lightning mạnh mẽ, ổn định\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/charger/Sac-doi-apple-magsafe-trang-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/charger/Sac-doi-apple-magsafe-trang-1.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 2990000, NULL, 1000, 1, 
+    14, 8, NULL, NULL, '2022-08-28 07:47:00', 
+    'haipv'
+  ), 
+  (
+    178, 1.27, 'Cáp chuyển USB-C to SD Card Reader Apple MUFG2ZA/A', 
+    'cap-chuyen-usb-c-to-sd-card-reader-apple-mufg2zaa', 
+    'cap-chuyen-usb-c-to-sd-card-reader-apple-mufg2zaa.jpg', 
+    '', '<h2><strong>C&aacute;p chuyển đổi USB-C to SD CARD READER (MUFG2ZA/A) &ndash; Thiết kế gọn nhẹ</strong></h2>\n\n<p><strong>C&aacute;p chuyển đổi USB-C to SD CARD READER (MUFG2ZA/A)&nbsp;</strong>sở hữu thiết kế được gia c&ocirc;ng nhỏ gọn, hỗ trợ nhiều định dạng đầu ra gi&uacute;p bạn giảm thiểu dung lượng lưu trữ tối ưu. H&atilde;y c&ugrave;ng CellphoneS t&igrave;m hiểu r&otilde; hơn về c&aacute;p chuyển đổi n&agrave;y nh&eacute;!</p>\n\n<h3><strong>Thiết kế nhỏ gọn, hỗ trợ nhiều chuẩn h&igrave;nh ảnh, video th&ocirc;ng dụng, tiện &iacute;ch</strong></h3>\n\n<p><a href=\"https://cellphones.com.vn/phu-kien/sac-dien-thoai/cap-dien-thoai.html\" title=\"Cáp\">C&aacute;p</a>&nbsp;sở hữu thiết kế đơn giản với m&agrave;u trắng tinh khiết thanh lịch, đồng thời c&aacute;c chi tiết cũng được gia c&ocirc;ng một c&aacute;ch tỉ mỉ để tạo n&ecirc;n một k&iacute;ch thước kh&aacute; nhỏ gọn, gi&uacute;p bạn dễ d&agrave;ng mang theo b&ecirc;n m&igrave;nh trong bất kỳ cuộc h&agrave;nh tr&igrave;nh n&agrave;o.</p>\n\n<p><img alt=\"Cáp chuyển đổi USB-C TO SD Card Reader (MUFG2ZA/A)\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/cable/cap-chuyen-doi-type--c-to-sd-card-reader-mufg2za-a-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/cable/cap-chuyen-doi-type--c-to-sd-card-reader-mufg2za-a-1.jpg\" /></p>\n\n<p>Ngo&agrave;i ra, khi sử dụng d&acirc;y c&aacute;p để chuyển đổi từ USB-C sang thẻ SD Card Reader, bạn sẽ được hỗ trợ nhiều chuẩn định dạng h&igrave;nh ảnh th&ocirc;ng dụng l&agrave; JPEG v&agrave; RAW v&agrave; định dạng video r&otilde; n&eacute;t.</p>\n\n<p>Điều n&agrave;y đồng nghĩa với việc bạn sẽ c&oacute; thể truy xuất to&agrave;n bộ h&igrave;nh ảnh video từ thẻ SD sang một thiết bị kh&aacute;c vẫn cho ra chất lượng tuyệt vời.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1490000, NULL, 1000, 1, 
+    14, 8, NULL, NULL, '2022-08-28 07:50:02', 
+    'haipv'
+  ), 
+  (
+    179, 1.27, ' Củ sạc nhanh Apple MNWP3ZA-A 35W 2 cổng Type C', 
+    'cu-sac-nhanh-apple-mnwp3za-a-35w-2-cong-type-c', 
+    'cu-sac-nhanh-apple-mnwp3za-a-35w-2-cong-type-c.jpg', 
+    '', '<h2><strong>Củ sạc nhanh Apple MNWP3ZA-A 35W 2 cổng Type C &ndash; Nhỏ gọn</strong></h2>\n\n<p><strong>Củ sạc nhanh Apple MNWP3ZA-A 35W 2 cổng Type C</strong>&nbsp;c&oacute; thiết kế mới với c&ocirc;ng suất sạc l&ecirc;n đến 35W. H&atilde;y c&ugrave;ng CellphoneS t&igrave;m hiểu r&otilde; hơn về t&iacute;nh năng v&agrave; điểm nổi bật của&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/sac-dien-thoai/sac/sac-nhanh-power-delivery.html\" title=\"Củ sạc\"><strong>củ sạc</strong></a>&nbsp;n&agrave;y nh&eacute;!</p>\n\n<h3><strong>Thiết kế nhỏ gọn, khả năng tương th&iacute;ch cao</strong></h3>\n\n<p>Củ sạc nhanh Apple MNWP3ZA-A 35W 2 cổng Type C sở hữu thiết kế nhỏ gọn nhẹ với 2 cổng Type C đặt cạnh nhau. Đặc biệt hơn, phần cắm với ổ điện của củ sạc được l&agrave;m chắc chắn c&ugrave;ng khả năng gấp lại gọn g&agrave;ng khi kh&ocirc;ng d&ugrave;ng dễ d&agrave;ng v&agrave; si&ecirc;u tiện lợi.</p>\n\n<p>Kết hợp với đ&oacute; l&agrave; kiểu d&aacute;ng được l&agrave;m tinh tế để tạo n&ecirc;n những vết l&otilde;m bo tr&ograve;n nhằm tăng th&ecirc;m độ b&aacute;m để dễ hơn trong thao t&aacute;c th&aacute;o bộ sạc ra khỏi ổ cắm điện.</p>\n\n<p><img alt=\"Củ sạc nhanh Apple MNWP3ZA-A 35W 2 cổng Type C\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/cu-sac-nhanh-apple-mnwp3za-a-35w-2-cong-type-c-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/cu-sac-nhanh-apple-mnwp3za-a-35w-2-cong-type-c-1.jpg\" /></p>\n\n<p>Đặc biệt với c&ocirc;ng suất sạc 35W n&agrave;y, củ sạc nhanh MNWP3ZA-A 35W 2 cổng Type C ho&agrave;n to&agrave;n ph&ugrave; hợp với nhiều loại thiết bị của Apple, chẳng hạn như iPhone, iPad, MacBook, Apple Watch, AirPods.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1490000, NULL, 1000, 1, 
+    14, 8, NULL, NULL, '2022-08-28 07:51:48', 
+    'haipv'
+  ), 
+  (
+    180, 1.27, 'Cáp Apple MagSafe MHXH3', 
+    'cap-apple-magsafe-mhxh3', 'cap-apple-magsafe-mhxh3.jpg', 
+    '', '<h2><strong>Sạc kh&ocirc;ng d&acirc;y Apple Magsafe</strong><strong>&nbsp;&ndash; Bộ sạc nam ch&acirc;m, sạc nhanh 15W</strong></h2>\n\n<p>iPhone 12 mới ra mắt đ&atilde; tạo n&ecirc;n cơn sốt trong cộng đồng iFan trong năm nay. Nếu sở hữu d&ograve;ng smartphone h&agrave;ng đầu n&agrave;y bạn cần th&ecirc;m phụ kiện hỗ trợ như&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/sac-dien-thoai/sac/dock.html\" target=\"_self\" title=\"Sạc không dây chính hãng\">sạc kh&ocirc;ng d&acirc;y</a>&nbsp;Apple Magsafe 15W.</p>\n\n<h3><strong>Bộ sạc Magsafe gi&uacute;p sạc kh&ocirc;ng d&acirc;y nhanh ch&oacute;ng</strong></h3>\n\n<p>Bộ sạc Magsafe gi&uacute;p việc sạc điện thoại kh&ocirc;ng c&ograve;n phải kh&oacute; khăn nữa. Sản phẩm chứa c&aacute;c nam ch&acirc;m v&agrave; những linh kiện từ t&iacute;nh kh&aacute;c. Khi c&oacute; nhu cầu sử dụng, bạn chỉ việc gắn bộ sạc n&agrave;y v&agrave;o mặt sau của điện thoại. Nam ch&acirc;m sẽ c&oacute; nhiệm vụ tự căn chỉnh, nhằm tăng hiệu quả sạc.</p>\n\n<p><img alt=\"Bộ sạc Magsafe giúp sạc không dây nhanh chóng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/charger/Magsafe_1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/charger/Magsafe_1.jpg\" /></p>\n\n<p>&gt;&gt;&gt; Xem th&ecirc;m:&nbsp;<a href=\"https://cellphones.com.vn/de-sac-khong-day-apple-magsafe-mhxh3.html\" target=\"_blank\">C&aacute;p sạc Apple Magsafe | Ch&iacute;nh h&atilde;ng Apple Việt Nam (MHXH3)</a></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1090000, NULL, 1000, 1, 
+    14, 8, NULL, NULL, '2022-08-28 07:53:01', 
+    'haipv'
+  ), 
+  (
+    181, 1.27, 'Sạc nhanh 20W Apple MHJE3ZA', 
+    'sac-nhanh-20w-apple-mhje3za', 
+    'sac-nhanh-20w-apple-mhje3za.jpg', 
+    '', '<h2 style=\"text-align: center;\">ĐẶC ĐIỂM NỔI BẬT</h2>\n\n<ul>\n  <li>Tương th&iacute;ch với c&ocirc;ng nghệ Power Delivery (PD) c&oacute; thể sạc cho c&aacute;c sản phẩm Apple nhanh ch&oacute;ng</li>\n  <li>Trang bị cổng sạc type C c&oacute; c&ocirc;ng suất l&ecirc;n đến 20W gi&uacute;p tiết kiệm nhiều thời gian d&agrave;nh cho việc chờ đợi pin đầy</li>\n  <li>Thiết kế chuẩn thương hiệu Apple ch&iacute;nh h&atilde;ng có khả năng điều chỉnh dòng đi&ecirc;̣n &ocirc;̉n định tr&ecirc;n nhi&ecirc;̀u thi&ecirc;́t bị</li>\n  <li>Bảo vệ qu&aacute; d&ograve;ng, qu&aacute; điện &aacute;p, hiện tượng mạch điện bị chập v&agrave; qu&aacute; nhiệt</li>\n  <li>Adapter sạc với thiết kế si&ecirc;u nhỏ gọn, tinh tế, kh&ocirc;ng chiếm nhiều diện t&iacute;ch khi để trong balo, t&uacute;i x&aacute;ch...</li>\n</ul>\n\n<h2>Sạc nhanh Apple iPhone 20W Type-C PD MHJE3ZA ch&iacute;nh h&atilde;ng tiết kiệm tối đa thời gian sạc điện thoại</h2>\n\n<p>Nhanh ch&oacute;ng, tiết kiệm tối đa thời gian l&agrave; những g&igrave; m&agrave; người d&ugrave;ng iPhone mong đợi ở chiếc sạc pin của m&igrave;nh. Để c&oacute; thể l&agrave;m được điều đ&oacute; th&igrave; việc sử dụng củ sạc nhanh Apple iPhone 20W Type-C PD MHJE3ZA ch&iacute;nh h&atilde;ng l&agrave; điều cần thiết m&agrave; bạn kh&ocirc;ng n&ecirc;n bỏ qua.</p>\n\n<h3>Thiết kế nhỏ gọn, an to&agrave;n d&ograve;ng điện</h3>\n\n<p><a href=\"https://cellphones.com.vn/phu-kien/sac-dien-thoai/sac/sac-nhanh-power-delivery.html\" target=\"_blank\" title=\"Củ sạc nhanh\">Củ sạc nhanh</a>&nbsp;Apple iPhone 20W Type-C PD MHJE3ZA ch&iacute;nh h&atilde;ng được thiết kế si&ecirc;u nhỏ gọn, tinh tế gi&uacute;p bạn c&oacute; thể mang đến bất cứ nơi đ&acirc;u. Chất liệu cao cấp c&ugrave;ng m&agrave;u trắng nổi bật mang đến sự sang trọng v&agrave; độ bền bỉ c&ugrave;ng với thời gian.</p>\n\n<p>Củ sạc c&ograve;n c&oacute; khả năng bảo vệ sản phẩm tr&aacute;nh qu&aacute; d&ograve;ng, qu&aacute; điện &aacute;p hay hiện tượng mạch điện bị chập v&agrave; qu&aacute; nhiệt trong qu&aacute; tr&igrave;nh sạc. Sản phẩm được kiểm định khắt khe v&agrave; được cấp chứng chỉ an to&agrave;n ch&aacute;y nổ: ROSH, CE, FCC gi&uacute;p đảm đảm an to&agrave;n cho người sử dụng.</p>\n\n<p><em>&gt;&gt;&gt;&nbsp;<strong>Xem th&ecirc;m</strong>:&nbsp;<a href=\"https://cellphones.com.vn/de-sac-doi-apple-magsafe-mhxf3.html\" target=\"_blank\">Sạc đ&ocirc;i Apple MagSafe Duo</a>&nbsp;| Ch&iacute;nh h&atilde;ng Apple Việt Nam mang đến một thiết kế sang trọng, vượt trội</em></p>\n\n<p><img alt=\"Sạc nhanh Apple iPhone 20W Type-C PD MHJE3ZA Chính hãng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/charger/iphone-20w-pd-type-c-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/charger/iphone-20w-pd-type-c-1.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 690000, NULL, 1000, 1, 
+    14, 8, NULL, NULL, '2022-08-28 07:54:14', 
+    'haipv'
+  ), 
+  (
+    182, 1.27, 'Sạc không dây Samsung Wireless Charger Duo 15W', 
+    'sac-khong-day-samsung-wireless-charger-duo-15w', 
+    'sac-khong-day-samsung-wireless-charger-duo-15w.jpg', 
+    '', '', '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 1290000, NULL, 1000, 1, 
+    14, 10, NULL, NULL, '2022-08-28 07:55:27', 
+    'haipv'
+  ), 
+  (
+    183, 1.27, 'Củ sạc Type C Samsung T4510 45W đen (Kèm cáp C-C 5A, 1.8m)', 
+    'cu-sac-type-c-samsung-t4510-45w-den-kem-cap-c-c-5a-18m', 
+    'cu-sac-type-c-samsung-t4510-45w-den-kem-cap-c-c-5a-18m.jpg', 
+    '', '<h2><strong>Củ sạc Type C Samsung T4510 45W&nbsp;</strong><strong>-</strong><strong>Hiệu suất sạc cao</strong></h2>\n\n<p>Củ sạc Type C Samsung T4510 45W c&oacute; k&egrave;m c&aacute;p l&agrave; củ sạc được mong đợi nhất trong thời điểm hiện tại. Bởi đ&acirc;y ch&iacute;nh l&agrave; phi&ecirc;n bản sạc d&agrave;nh cho mẫu điện thoại Samsung Galaxy S22 Ultra cực hot gần đ&acirc;y. H&atilde;y xem điểm đặc biệt của củ sạc n&agrave;y l&agrave; g&igrave; nh&eacute;!</p>\n\n<h3><strong>M&agrave;u đen sang trọng,</strong><strong>&nbsp;độ d&agrave;i hợp l&yacute;</strong></h3>\n\n<p>Củ sạc nhanh Type C Samsung T4510 sở hữu thiết kế khoa học, chỉ chu v&agrave; được chế tạo tỉ mỉ xứng tầm đẳng cấp. M&agrave;u sắc trang bị l&agrave; một m&agrave;u đen huyền b&iacute;, tạo cảm gi&aacute;c sạch sẽ trang trọng v&agrave; b&iacute; ẩn.</p>\n\n<p>Củ sạc c&oacute; d&acirc;y kh&aacute; chuẩn, độ d&agrave;i hợp l&yacute; 1.8m để tiện lợi hơn khi cắm sạc thiết bị với khu vực nguồn xa. Đồng thời kh&ocirc;ng qu&aacute; d&agrave;i, chống rối khi cuộn sạc lại cất.</p>\n\n<p><img alt=\"Màu đen sang trọng, độ dài hợp lý\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/charger/cu-sac-nhanh-type-c-samssung-t4510-45w-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/charger/cu-sac-nhanh-type-c-samssung-t4510-45w-1.jpg\" /></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 990000, NULL, 1000, 1, 
+    14, 10, NULL, NULL, '2022-08-28 07:57:04', 
+    'haipv'
+  ), 
+  (
+    184, 1.27, 'Dock sạc đôi không dây Note 9', 
+    'dock-sac-doi-khong-day-note-9', 
+    'dock-sac-doi-khong-day-note-9.png', 
+    '', '', '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 900000, NULL, 1, 1, 14, 
+    10, NULL, NULL, '2022-08-28 07:58:37', 
+    'haipv'
+  ), 
+  (
+    185, 1.27, 'Giá đỡ Laptop Wiwu Alunium Alloy Adjustable Angle Portable', 
+    'gia-do-laptop-wiwu-alunium-alloy-adjustable-angle-portable', 
+    'gia-do-laptop-wiwu-alunium-alloy-adjustable-angle-portable.jpg', 
+    '', '<h2 align=\"center\"><strong>Gi&aacute; đỡ&nbsp;</strong><strong>laptop Wiwu Alunium Alloy Adjustable Angle Portable</strong><strong>&nbsp;chuẩn tư thế, tản nhiệt cực tốt</strong></h2>\n\n<p><strong>Gi&aacute; đỡ laptop Wiwu Alunium Alloy Adjustable Angle Portable</strong>&nbsp;l&agrave; sản phẩm cao cấp v&ocirc; c&ugrave;ng chắc chắn. Sở hữu thiết kế gọn nhẹ, di động, cho ph&eacute;p người d&ugrave;ng c&oacute; thể thoải m&aacute;i điều chỉnh. Đồng thời gi&uacute;p m&aacute;y lu&ocirc;n m&aacute;t mẻ khi sử dụng. Đ&acirc;y l&agrave; lựa chọn ho&agrave;n hảo cho người d&ugrave;ng laptop hiện nay.</p>\n\n<h3><strong>Thiết kế hiện đại, 5 chế độ điều chỉnh linh hoạt</strong></h3>\n\n<p><a href=\"https://cellphones.com.vn/phu-kien/may-tinh-laptop/de-tan-nhiet.html\" target=\"_self\" title=\"Giá đỡ laptop\">Gi&aacute; đỡ</a>&nbsp;laptop Wiwu Alunium Alloy Adjustable Angle Portable được thiết kế hiện đại v&agrave; v&ocirc; c&ugrave;ng gọn nhẹ. Bạn c&oacute; thể dễ d&agrave;ng thu gọn lại v&agrave; mang theo b&ecirc;n m&igrave;nh mọi l&uacute;c mọi nơi.</p>\n\n<p align=\"center\"><img alt=\"Thiết kế hiện đại, 5 chế độ điều chỉnh linh hoạt\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Gia-do-laptop-macbook-Wiwu-Aluminum-Alloy-Adjustable-Angle-Portable-S100-1_.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Gia-do-laptop-macbook-Wiwu-Aluminum-Alloy-Adjustable-Angle-Portable-S100-1_.jpg\" /></p>\n\n<p>Sản phẩm được chế tạo bằng chất liệu nh&ocirc;m nguy&ecirc;n khối. Với 5 cấp độ điều chỉnh với c&aacute;c g&oacute;c c&aacute;c g&oacute;c 16 độ, 20 độ, 23 độ, 25 độ v&agrave; 27,5 độ l&ecirc;n xuống linh hoạt, bạn ho&agrave;n to&agrave;n dễ d&agrave;ng thao t&aacute;c v&agrave; đặt m&aacute;y với m&igrave;nh. Từ đ&oacute; đảm bảo ngồi đ&uacute;ng tư thế v&agrave; gi&uacute;p hạn chế tối đa c&aacute;c bệnh li&ecirc;n quan tới lưng v&agrave; cột sống.</p>\n\n<h3><strong>Chống sốc hiệu quả, tản nhiệt tốt</strong></h3>\n\n<p>Gi&aacute; đỡ laptop Wiwu Alunium Alloy Adjustable Angle Portable chắc chắn với đệm bởi n&uacute;t cao su chắc chắn v&agrave; độ ma s&aacute;t cao. Macbook hay laptop của bạn ho&agrave;n to&agrave;n kh&ocirc;ng bị x&ecirc; dịch hoặc trầy xước khi sử dụng.</p>\n\n<p align=\"center\"><img alt=\"Chống sốc hiệu quả, tản nhiệt tốt\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Gia-do-laptop-macbook-Wiwu-Aluminum-Alloy-Adjustable-Angle-Portable-S100-2_.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/Gia-do-laptop-macbook-Wiwu-Aluminum-Alloy-Adjustable-Angle-Portable-S100-2_.jpg\" /></p>\n\n<p>Ngo&agrave;i ra, phần đế được thiết kế l&ecirc;n cao so với mặt b&agrave;n sẽ gi&uacute;p thiết bị của bạn tản nhiệt tốt hơn, đặc biệt đối với c&aacute;c d&ograve;ng laptop gaming. Từ đ&oacute; mang lại tuổi thọ cao hơn cho c&aacute;c thiết bị b&ecirc;n trong.</p>\n\n<h2><strong>Mua ngay gi&aacute; đỡ laptop Wiwu Alunium Alloy Adjustable Angle Portable chất lượng tại CellphoneS</strong></h2>\n\n<p>Nếu bạn đang sử dụng laptop cho c&ocirc;ng việc hoặc nhu cầu giải tr&iacute; h&agrave;ng ng&agrave;y th&igrave; một chiếc gi&aacute; đỡ laptop Wiwu Alunium Alloy Adjustable Angle Portable sẽ l&agrave; phụ kiện rất th&iacute;ch hợp d&agrave;nh cho bạn. H&atilde;y đến ngay với CellphoneS để trang bị cho m&igrave;nh chiếc gi&aacute; đỡ chất lượng n&agrave;y nh&eacute;.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 800000, NULL, 1000, 1, 
+    16, 11, NULL, NULL, '2022-08-28 08:04:07', 
+    'haipv'
+  ), 
+  (
+    186, 1.27, 'Giá đỡ Laptop/Macbook S-Case High Stand hợp kim nhôm nguyên khối', 
+    'gia-do-laptopmacbook-s-case-high-stand-hop-kim-nhom-nguyen-khoi', 
+    'gia-do-laptopmacbook-s-case-high-stand-hop-kim-nhom-nguyen-khoi.jpg', 
+    '', '<h2><strong>Gi&aacute; đỡ laptop/Macbook S-Case High Stand nh&ocirc;m nguy&ecirc;n khối - Cứng c&aacute;p, đứng vững</strong></h2>\n\n<p><strong>Gi&aacute; đỡ Laptop/Macbook S-Case High Stand nh&ocirc;m nguy&ecirc;n khối</strong>&nbsp;được d&acirc;n văn ph&ograve;ng chủ yếu tin d&ugrave;ng với nhiều t&iacute;nh năng hỗ trợ người d&ugrave;ng trong qu&aacute; tr&igrave;nh l&agrave;m việc. Thế n&ecirc;n bạn n&ecirc;n sở hữu một chiếc&nbsp;<a href=\"https://cellphones.com.vn/phu-kien/may-tinh-laptop/de-tan-nhiet.html\" title=\"Giá đỡ laptop\"><strong>gi&aacute; đỡ laptop</strong></a>&nbsp;để tăng hiệu quả l&agrave;m việc</p>\n\n<h3><strong>Thiết kế độc lạ v&agrave; t&iacute;nh năng nổi trội của gi&aacute; đỡ</strong></h3>\n\n<p>Gi&aacute; đỡ Laptop/Macbook S-Case High Stand hợp kim nh&ocirc;m nguy&ecirc;n khối đ&atilde; được thiết kế với kiểu d&aacute;ng gấp gọn lại nhưng rất chắc chắn. Được đ&uacute;c từ hợp kim nh&ocirc;m cao cấp c&oacute; t&iacute;nh tản nhiệt cao n&ecirc;n c&oacute; độ bền rất cao. Ph&iacute;a dưới đế c&ograve;n được trang bị miếng cao su chống trượt ở 4 g&oacute;c gi&uacute;p chống trượt bảo vệ an to&agrave;n cho m&aacute;y t&iacute;nh đem lại sự ổn định khi l&agrave;m việc.</p>\n\n<p><img alt=\"Giá đỡ laptop/Macbook S-Case High Stand nhôm nguyên khối \" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/gia-do-laptop-macbook-s-case-high-stand-nhom-nguyen-khoi-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/gia-do-laptop-macbook-s-case-high-stand-nhom-nguyen-khoi-1.jpg\" /></p>\n\n<p>Ngo&agrave;i ra gi&aacute; đỡ c&ograve;n được biết đến với t&iacute;nh năng điều chỉnh độ cao để ph&ugrave; hợp với vị tr&iacute; ngồi. Với tr&uacute;c xoay hiện đại c&oacute; thể dễ d&agrave;ng điều chỉnh một c&aacute;ch trơn tru m&agrave; lu&ocirc;n bảo đảm sự an to&agrave;n cho m&aacute;y t&iacute;nh. Nhờ khả năng linh hoạt cao m&agrave; gi&uacute;p cho người d&ugrave;ng hạn chế đau lưng, g&ugrave; lưng khi sử dụng thời gian d&agrave;i.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 790000, NULL, 1000, 1, 
+    16, 8, NULL, NULL, '2022-08-28 08:05:12', 
+    'haipv'
+  ), 
+  (
+    187, 1.27, 'Giá đỡ Laptop Hyper Stand Folding Alunium HTU6', 
+    'gia-do-laptop-hyper-stand-folding-alunium-htu6', 
+    'gia-do-laptop-hyper-stand-folding-alunium-htu6.jpg', 
+    '', '<h2><strong>Gi&aacute; đỡ laptop Hyper Stand Folding Alunium HTU6 &ndash; Chất liệu cao cấp, tiện dụng</strong></h2>\n\n<p>Bạn đang t&igrave;m kiếm cho chiếc m&aacute;y t&iacute;nh của m&igrave;nh một chiếc gi&aacute; đỡ gi&uacute;p bạn dễ d&agrave;ng thao t&aacute;c trong c&ocirc;ng việc của m&igrave;nh m&agrave; vẫn c&ograve;n đang băn khoăn kh&ocirc;ng biết n&ecirc;n chọn mua gi&aacute; đỡ n&agrave;o. H&atilde;y chọn mua ngay gi&aacute; đỡ laptop Hyper Stand Folding Alunium HTU6, thiết kế cao cấp cứng c&aacute;p c&ugrave;ng khả năng chịu lực tốt sẽ l&agrave; trợ thủ đắc lực cho bạn khi l&agrave;m việc.</p>\n\n<h3><strong>Chất liệu Alumium cao cấp, k&iacute;ch thước nhỏ gọn</strong></h3>\n\n<p>Thiết kế của chiếc gi&aacute; đỡ n&agrave;y kh&ocirc;ng kh&aacute;c biệt m&aacute;y so với c&aacute;c loại gi&aacute; đỡ kh&aacute;c tr&ecirc;n thị trường hiện nay.&nbsp;<a href=\"https://cellphones.com.vn/gia-do-laptop-macbook-s-case-hop-kim-nhom.html\" target=\"_self\" title=\"Giá đỡ laptop chính hãng\">Gi&aacute; đỡ laptop</a>&nbsp;Hyper Stand Folding Alunium HTU6 được ho&agrave;n thiện từ chất liệu Alumium cao cấp từ đ&oacute; cho chiếc gi&aacute; đỡ n&agrave;y c&oacute; khả năng hấp thụ hơi n&oacute;ng từ laptop v&agrave; tản nhiệt ra b&ecirc;n ngo&agrave;i&nbsp;<img alt=\"Chất liệu Alumium cao cấp, kích thước nhỏ gọn\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/Gia-do-laptop-Hyper-Stand-Folding-Alunium-HT06.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/Gia-do-laptop-Hyper-Stand-Folding-Alunium-HT06.jpg\" /></p>\n\n<p>Gi&aacute; đỡ c&oacute; trọng lượng v&ocirc; c&ugrave;ng nhẹ l&agrave; 182g k&iacute;ch thước 60 x 255mm gi&uacute;p sản phẩm c&oacute; t&iacute;nh di động v&ocirc; c&ugrave;ng tốt bạn c&oacute; thể dễ d&agrave;ng mang theo bất cứ nơi n&agrave;o m&agrave; kh&ocirc;ng sợ vướng v&iacute;u chiếm diện t&iacute;ch như trước kia nữa. Tay cầm ki&ecirc;n cố, sở hữu đệm chống trượt bằng Silicon, ch&acirc;n đế cũng được bọc bằng silicon tạo sử ổn định khi thao t&aacute;c</p>\n\n<p>Ngo&agrave;i ra, c&aacute;c sản phẩm c&ugrave;ng loại kh&aacute;c hiện cũng đang c&oacute; tại CellphoneS, v&iacute; dụ như:&nbsp;<a href=\"https://cellphones.com.vn/de-tan-nhiet-jcpal-folding-aluminum-laptop-stand.html\" target=\"_blank\">Gi&aacute; đỡ Laptop/Macbook JCPal Folding Aluminum Laptop Stand</a></p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 700000, NULL, 1000, 1, 
+    16, 11, NULL, NULL, '2022-08-28 08:06:49', 
+    'haipv'
+  ), 
+  (
+    188, 1.27, 'Giá đỡ laptop Macbook Wiwu Folding adjustable alunium S400', 
+    'gia-do-laptop-macbook-wiwu-folding-adjustable-alunium-s400', 
+    'gia-do-laptop-macbook-wiwu-folding-adjustable-alunium-s400.jpg', 
+    '', '<h2><strong>Gi&aacute; đỡ laptop/ Macbook Wiwu Folding Adjustable Aluminum S400 - Tăng cường trải nghiệm người d&ugrave;ng</strong></h2>\n\n<p>Nếu bạn l&agrave; một nh&acirc;n vi&ecirc;n văn ph&ograve;ng thường xuy&ecirc;n sử dụng thiết bị laptop/ Macbook cho c&ocirc;ng việc, bạn muốn điều chỉnh g&oacute;c độ l&agrave;m việc ph&ugrave; hợp với bản th&acirc;n để n&acirc;ng cao hiệu suất.<strong>&nbsp;Gi&aacute; đỡ laptop/ Macbook Wiwu Folding Adjustable Aluminum S400</strong>&nbsp;sẽ l&agrave; sự lựa chọn ph&ugrave; hợp nhất d&agrave;nh cho bạn.</p>\n\n<h3><strong>Thiết kế gọn nhẹ, hiện đại</strong></h3>\n\n<p><a href=\"https://cellphones.com.vn/phu-kien/may-tinh-laptop/de-tan-nhiet.html\" title=\"Giá đỡ laptop\">Gi&aacute; đỡ laptop</a>&nbsp;được chế tạo bằng hợp kim nh&ocirc;m nguy&ecirc;n khối cao cấp, chống ăn m&ograve;n, rỉ s&eacute;t. Với c&aacute;c lớp đệm cao su được trang bị tr&ecirc;n bề mặt với chức năng giữ vững, độ b&aacute;m d&iacute;nh chống trơn trượt, trầy xước cho thiết bị của bạn.</p>\n\n<p><img alt=\"Giá đỡ laptop/ Macbook Wiwu Folding Adjustable Aluminum S400\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/gia-do-laptop-macbook-wiwu-folding-adjustable-aluminum-s400_-2.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/gia-do-laptop-macbook-wiwu-folding-adjustable-aluminum-s400_-2.jpg\" /></p>\n\n<p>Thiết kế c&oacute; phần gọn nhẹ, dễ d&agrave;ng th&aacute;o lắp với một bước c&agrave;i đặt đơn giản gi&uacute;p bạn c&oacute; thể tự tin mang theo mọi l&uacute;c, mọi nơi m&agrave; kh&ocirc;ng sợ rườm r&agrave;, vướng v&iacute;u.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 675000, NULL, 1000, 1, 
+    16, 11, NULL, NULL, '2022-08-28 08:07:52', 
+    'haipv'
+  ), 
+  (
+    189, 1.27, 'Giá đỡ Laptop/Macbook hộp kim nhôm đa năng cao cấp', 
+    'gia-do-laptopmacbook-hop-kim-nhom-da-nang-cao-cap', 
+    'gia-do-laptopmacbook-hop-kim-nhom-da-nang-cao-cap.jpg', 
+    '', '', '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 450000, NULL, 1000, 1, 
+    16, 11, NULL, NULL, '2022-08-28 08:08:52', 
+    'haipv'
+  ), 
+  (
+    190, 1.27, 'Giá đỡ Laptop/Macbook S-Case hợp kim nhôm', 
+    'gia-do-laptopmacbook-s-case-hop-kim-nhom', 
+    'gia-do-laptopmacbook-s-case-hop-kim-nhom.png', 
+    '', '<h2><strong>Giá đỡ MacBook / laptop S-Case hợp kim nh&ocirc;m bạc - Làm vi&ecirc;̣c thoải mái hơn</strong></h2>\n\n<p>Sản ph&acirc;̉m giá đỡ MacBook / laptop S-Case hợp kim nh&ocirc;m bạc vừa h&ocirc;̃ trợ dựng laptop phù hợp với t&acirc;̀m nhìn của mắt, vừa tạo khoảng tr&ocirc;́ng ở đáy giúp máy tản nhi&ecirc;̣t hi&ecirc;̣u quả, và sẽ là món phụ ki&ecirc;̣n kh&ocirc;ng th&ecirc;̉ thi&ecirc;́u trong nhu c&acirc;̀u làm vi&ecirc;̣c thoải mái hằng ngày của bạn.</p>\n\n<h3><strong>Dựng đứng máy góc 18&deg; giúp quan sát d&ecirc;̃ dàng</strong></h3>\n\n<p>Đặc trưng của sản ph&acirc;̉m giá đỡ laptop S-Case hợp kim nh&ocirc;m bạc đó là khả năng dựng laptop hoặc MacBook của bạn l&ecirc;n góc thẳng đứng đ&ecirc;́n 18 đ&ocirc;̣. Đ&acirc;y là góc đ&ocirc;̣ được chứng minh là vừa phải với t&acirc;̀m quan sát của đ&ocirc;i mắt, n&ecirc;n giá đỡ laptop S-Case hợp kim nh&ocirc;m bạc sẽ giúp bạn quan sát màn hình laptop thu&acirc;̣n lợi hơn.</p>\n\n<p><img alt=\"Dựng đứng máy góc 18° giúp quan sát dễ dàng\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/gia-do-laptop-macbook-s-case-hop-kim-nhom-bac-1.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/gia-do-laptop-macbook-s-case-hop-kim-nhom-bac-1.jpg\" /></p>\n\n<p>Ph&acirc;̀n ch&acirc;n đ&ecirc;́ của giá đỡ laptop S-Case được làm từ ch&acirc;́t li&ecirc;̣u hợp kim nh&ocirc;m cứng cáp với màu bạc tinh t&ecirc;́. Ch&acirc;n đ&ecirc;́ còn được tích hợp đ&ecirc;̣m c&ocirc;́ định giúp giữ vững góc dựng đứng laptop / MacBook cho bạn có trải nghi&ecirc;̣m theo dõi n&ocirc;̣i dung màn hình vừa t&acirc;̀m mắt. Ngoài ra bạn cũng có th&ecirc;̉ dựng đứng cả máy tính bảng, iPad và quy&ecirc;̉n sách y&ecirc;u thích của mình và thoải mái đọc ngay với giá đỡ laptop S-Case.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 400000, NULL, 1000, 1, 
+    16, 11, NULL, NULL, '2022-08-28 08:10:10', 
+    'haipv'
+  ), 
+  (
+    191, 1.27, 'Móc dán đỡ điện thoại Adidas Or Univeral Phone Ring SS20 Bluebird/White', 
+    'moc-dan-do-dien-thoai-adidas-or-univeral-phone-ring-ss20-bluebirdwhite', 
+    'moc-dan-do-dien-thoai-adidas-or-univeral-phone-ring-ss20-bluebirdwhite.jpg', 
+    '', '<h2><strong>M&oacute;c d&aacute;n đỡ điện thoại Adidas Or Univeral Phone Ring SS20 Bluebird/White - Phụ kiện tiện lợi</strong></h2>\n\n<p>Với k&iacute;ch thước m&agrave;n h&igrave;nh kh&aacute; to của chiếc điện thoại th&ocirc;ng minh, việc cầm nắm sử dụng điện thoại sẽ hơi kh&oacute; khăn. B&ecirc;n cạnh c&aacute;c sản phẩm&nbsp;<a href=\"https://cellphones.com.vn/gia-do-dien-thoai-thoi-trang-popsockets.html\">gi&aacute; đỡ điện thoại</a>&nbsp;th&ocirc;ng thường, sự ra đời của m&oacute;c d&aacute;n đỡ điện thoại Adidas Or Univeral Phone Ring SS20 Bluebird/White mang đến sự tiện lợi hơn, an to&agrave;n hơn cho người d&ugrave;ng khi sử dụng hằng ng&agrave;y.</p>\n\n<h3><strong>Thiết kế năng động, m&agrave;u sắc c&aacute; t&iacute;nh v&agrave; thời trang</strong></h3>\n\n<p>Nhắc đến Adidas chắc hẳn ai cũng biết đến thương hiệu nổi tiếng n&agrave;y. M&oacute;c d&aacute;n đỡ điện thoại Adidas Or Univeral Phone Ring SS20 Bluebird/White được h&atilde;ng thiết kế năng động. Tạo được điểm nổi bật cho chiếc điện thoại.</p>\n\n<p><img alt=\"Thiết kế năng động, màu sắc cá tính và thời trang\" data-src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/moc-dan-do-dien-thoai-adidas.jpg\" lazy=\"loaded\" src=\"https://cdn.cellphones.com.vn/media/wysiwyg/accessories/case/moc-dan-do-dien-thoai-adidas.jpg\" /></p>\n\n<p>Adidas đ&atilde; thiết kế m&oacute;c d&aacute;n Phone Ring SS20 hai m&agrave;u sắc: xanh, đen kết hợp với logo TREFOIL tạo được sự kh&aacute;c biệt về t&iacute;nh thời trang cho sản phẩm v&agrave; cũng thể hiện được c&aacute; t&iacute;nh của người d&ugrave;ng.</p>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">CPU: </span><span>Apple M2</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">RAM: </span><span>8GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Card đồ họa: </span><span>8 nh&acirc;n GPU, 16 nh&acirc;n Neural Engine</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Ổ cứng</span><span>SSD - 256GB</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">M&agrave;n h&igrave;nh</span><span>2560 x 1664 Liquid Retina Display - IPS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Pin</span><span>52,6 Wh</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Cổng giao tiếp: </span><span>Cổng HDMI v&agrave; đầu đọc thẻ SD, USB Type-C</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Wifi: </span><span>802.11ax Wi-Fi 6</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Webcam: </span><span>1080p FaceTime HD camera</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Hệ điều h&agrave;nh: </span><span>MacOS</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">&Acirc;m thanh: </span><span>Yes</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Bluetooth: </span><span>5.0</span></li>\n</ul>\n', 
+    '<ul class=\"list-unstyled fs-sm pb-2\">\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">K&iacute;ch thước: </span><span>30,41 cm - 21,5 cm - 1,13 cm</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Trọng lượng: </span><span>1.27 kg</span></li>\n  <li class=\"d-flex justify-content-between pb-2 border-bottom\"><span class=\"text-muted\">Chất liệu: </span><span>Vỏ kim loại</span></li>\n</ul>\n', 
+    '', 350000, NULL, 1000, 1, 
+    16, 11, NULL, NULL, '2022-08-28 08:11:06', 
+    'haipv'
+  );
+
 
 -- product-thumbnail
 INSERT INTO `product_thumbnail` 
 VALUES 
   (
     1, 1, 'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-1.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     2, 1, 'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-2.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     3, 1, 'laptop-asus-vivobook-a415ea-eb1750w-thumbnail-3.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     4, 2, 'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-1.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     5, 2, 'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-2.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     6, 2, 'laptop-asus-vivobook-flip-tp470ea-ec346w-thumbnail-3.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     7, 3, 'laptop-asus-vivobook-a515ea-l12033w-thumbnail-1.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     8, 3, 'laptop-asus-vivobook-a515ea-l12033w-thumbnail-2.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     9, 3, 'laptop-asus-vivobook-a515ea-l12033w-thumbnail-3.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     10, 4, 'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-1.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     11, 4, 'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-2.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     12, 4, 'laptop-asus-vivobook-pro-16x-oled-m7600qc-l2077w-thumbnail-3.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     13, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-1.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     14, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-2.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     15, 5, 'laptop-asus-zenbook-13-ux325ea-kg599w-thumbnail-3.png', 
-    '2022-08-08 00:30:53', 'haipv'
+    '2022-08-07 17:30:53', 'haipv'
   ), 
   (
     16, 42, 'iphone-13-pro-max-1tb-thumbnail-1.png', 
-    '2022-08-08 00:42:06', 'haipv'
+    '2022-08-07 17:42:06', 'haipv'
   ), 
   (
     17, 42, 'iphone-13-pro-max-1tb-thumbnail-3.png', 
-    '2022-08-08 00:42:06', 'haipv'
+    '2022-08-07 17:42:06', 'haipv'
   ), 
   (
     18, 42, 'iphone-13-pro-max-1tb-thumbnail-4.png', 
-    '2022-08-08 00:42:06', 'haipv'
+    '2022-08-07 17:42:06', 'haipv'
   ), 
   (
     19, 43, 'iphone-13-pro-max-512gb-thumbnail-1.png', 
-    '2022-08-08 06:37:33', 'haipv'
+    '2022-08-07 23:37:33', 'haipv'
   ), 
   (
     20, 43, 'iphone-13-pro-max-512gb-thumbnail-2.png', 
-    '2022-08-08 06:37:33', 'haipv'
+    '2022-08-07 23:37:33', 'haipv'
   ), 
   (
     21, 43, 'iphone-13-pro-max-512gb-thumbnail-3.png', 
-    '2022-08-08 06:37:33', 'haipv'
+    '2022-08-07 23:37:33', 'haipv'
   ), 
   (
     22, 44, 'iphone-13-pro-max-256gb-thumbnail-1.png', 
-    '2022-08-08 06:40:06', 'haipv'
+    '2022-08-07 23:40:06', 'haipv'
   ), 
   (
     23, 44, 'iphone-13-pro-max-256gb-thumbnail-3.png', 
-    '2022-08-08 06:40:06', 'haipv'
+    '2022-08-07 23:40:06', 'haipv'
   ), 
   (
     24, 44, 'iphone-13-pro-max-256gb-thumbnail-4.png', 
-    '2022-08-08 06:40:06', 'haipv'
+    '2022-08-07 23:40:06', 'haipv'
   ), 
   (
     25, 45, 'iphone-13-pro-max-128gb-thumbnail-2.png', 
-    '2022-08-08 06:41:27', 'haipv'
+    '2022-08-07 23:41:27', 'haipv'
   ), 
   (
     26, 45, 'iphone-13-pro-max-128gb-thumbnail-3.png', 
-    '2022-08-08 06:41:27', 'haipv'
+    '2022-08-07 23:41:27', 'haipv'
   ), 
   (
     27, 45, 'iphone-13-pro-max-128gb-thumbnail-4.png', 
-    '2022-08-08 06:41:27', 'haipv'
+    '2022-08-07 23:41:27', 'haipv'
   ), 
   (
     28, 46, 'iphone-12-pro-max-128gb-thumbnail-1.png', 
-    '2022-08-08 06:49:25', 'haipv'
+    '2022-08-07 23:49:25', 'haipv'
   ), 
   (
     29, 46, 'iphone-12-pro-max-128gb-thumbnail-2.png', 
-    '2022-08-08 06:49:26', 'haipv'
+    '2022-08-07 23:49:26', 'haipv'
   ), 
   (
     30, 46, 'iphone-12-pro-max-128gb-thumbnail-4.png', 
-    '2022-08-08 06:49:26', 'haipv'
+    '2022-08-07 23:49:26', 'haipv'
   ), 
   (
     31, 47, 'iphone-12-pro-max-256gb-thumbnail-1.png', 
-    '2022-08-08 06:53:17', 'haipv'
+    '2022-08-07 23:53:17', 'haipv'
   ), 
   (
     32, 47, 'iphone-12-pro-max-256gb-thumbnail-2.png', 
-    '2022-08-08 06:53:17', 'haipv'
+    '2022-08-07 23:53:17', 'haipv'
   ), 
   (
     33, 47, 'iphone-12-pro-max-256gb-thumbnail-3.png', 
-    '2022-08-08 06:53:17', 'haipv'
+    '2022-08-07 23:53:17', 'haipv'
   ), 
   (
     34, 48, 'iphone-12-pro-max-512gb-thumbnail-1.png', 
-    '2022-08-08 06:53:41', 'haipv'
+    '2022-08-07 23:53:41', 'haipv'
   ), 
   (
     35, 48, 'iphone-12-pro-max-512gb-thumbnail-2.png', 
-    '2022-08-08 06:53:41', 'haipv'
+    '2022-08-07 23:53:41', 'haipv'
   ), 
   (
     36, 48, 'iphone-12-pro-max-512gb-thumbnail-4.png', 
-    '2022-08-08 06:53:41', 'haipv'
+    '2022-08-07 23:53:41', 'haipv'
   ), 
   (
     37, 49, 'iphone-12-64gb-thumbnail-1.png', 
-    '2022-08-08 07:00:13', 'haipv'
+    '2022-08-08 00:00:13', 'haipv'
   ), 
   (
     38, 49, 'iphone-12-64gb-thumbnail-2.png', 
-    '2022-08-08 07:00:13', 'haipv'
+    '2022-08-08 00:00:13', 'haipv'
   ), 
   (
     39, 49, 'iphone-12-64gb-thumbnail-3.png', 
-    '2022-08-08 07:00:13', 'haipv'
+    '2022-08-08 00:00:13', 'haipv'
   ), 
   (
     40, 49, 'iphone-12-64gb-thumbnail-4.png', 
-    '2022-08-08 07:00:13', 'haipv'
+    '2022-08-08 00:00:13', 'haipv'
   ), 
   (
     41, 50, 'iphone-12-128gb-thumbnail-1.png', 
-    '2022-08-08 07:00:50', 'haipv'
+    '2022-08-08 00:00:50', 'haipv'
   ), 
   (
     42, 50, 'iphone-12-128gb-thumbnail-2.png', 
-    '2022-08-08 07:00:50', 'haipv'
+    '2022-08-08 00:00:50', 'haipv'
   ), 
   (
     43, 50, 'iphone-12-128gb-thumbnail-3.png', 
-    '2022-08-08 07:00:50', 'haipv'
+    '2022-08-08 00:00:50', 'haipv'
   ), 
   (
     44, 50, 'iphone-12-128gb-thumbnail-4.png', 
-    '2022-08-08 07:00:50', 'haipv'
+    '2022-08-08 00:00:50', 'haipv'
   ), 
   (
     45, 51, 'iphone-12-256gb-thumbnail-1.png', 
-    '2022-08-08 07:01:37', 'haipv'
+    '2022-08-08 00:01:37', 'haipv'
   ), 
   (
     46, 51, 'iphone-12-256gb-thumbnail-2.png', 
-    '2022-08-08 07:01:37', 'haipv'
+    '2022-08-08 00:01:37', 'haipv'
   ), 
   (
     47, 51, 'iphone-12-256gb-thumbnail-3.png', 
-    '2022-08-08 07:01:37', 'haipv'
+    '2022-08-08 00:01:37', 'haipv'
   ), 
   (
     48, 51, 'iphone-12-256gb-thumbnail-4.png', 
-    '2022-08-08 07:01:37', 'haipv'
+    '2022-08-08 00:01:37', 'haipv'
   ), 
   (
     49, 52, 'iphone-12-mini-64gb-thumbnail-1.png', 
-    '2022-08-08 07:08:01', 'haipv'
+    '2022-08-08 00:08:01', 'haipv'
   ), 
   (
     50, 52, 'iphone-12-mini-64gb-thumbnail-2.png', 
-    '2022-08-08 07:08:01', 'haipv'
+    '2022-08-08 00:08:01', 'haipv'
   ), 
   (
     51, 52, 'iphone-12-mini-64gb-thumbnail-3.png', 
-    '2022-08-08 07:08:01', 'haipv'
+    '2022-08-08 00:08:01', 'haipv'
   ), 
   (
     52, 52, 'iphone-12-mini-64gb-thumbnail-4.png', 
-    '2022-08-08 07:08:01', 'haipv'
+    '2022-08-08 00:08:01', 'haipv'
   ), 
   (
     53, 53, 'iphone-12-mini-128gb-thumbnail-1.png', 
-    '2022-08-08 07:08:56', 'haipv'
+    '2022-08-08 00:08:56', 'haipv'
   ), 
   (
     54, 53, 'iphone-12-mini-128gb-thumbnail-2.png', 
-    '2022-08-08 07:08:56', 'haipv'
+    '2022-08-08 00:08:56', 'haipv'
   ), 
   (
     55, 53, 'iphone-12-mini-128gb-thumbnail-3.png', 
-    '2022-08-08 07:08:56', 'haipv'
+    '2022-08-08 00:08:56', 'haipv'
   ), 
   (
     56, 53, 'iphone-12-mini-128gb-thumbnail-4.png', 
-    '2022-08-08 07:08:56', 'haipv'
+    '2022-08-08 00:08:56', 'haipv'
   ), 
   (
     57, 54, 'iphone-12-mini-256gb-thumbnail-1.png', 
-    '2022-08-08 07:09:26', 'haipv'
+    '2022-08-08 00:09:26', 'haipv'
   ), 
   (
     58, 54, 'iphone-12-mini-256gb-thumbnail-2.png', 
-    '2022-08-08 07:09:26', 'haipv'
+    '2022-08-08 00:09:26', 'haipv'
   ), 
   (
     59, 54, 'iphone-12-mini-256gb-thumbnail-3.png', 
-    '2022-08-08 07:09:26', 'haipv'
+    '2022-08-08 00:09:26', 'haipv'
   ), 
   (
     60, 54, 'iphone-12-mini-256gb-thumbnail-4.png', 
-    '2022-08-08 07:09:26', 'haipv'
+    '2022-08-08 00:09:26', 'haipv'
   ), 
   (
     61, 55, 'iphone-11-64gb-thumbnail-1.png', 
-    '2022-08-08 07:15:19', 'haipv'
+    '2022-08-08 00:15:19', 'haipv'
   ), 
   (
     62, 55, 'iphone-11-64gb-thumbnail-2.png', 
-    '2022-08-08 07:15:19', 'haipv'
+    '2022-08-08 00:15:19', 'haipv'
   ), 
   (
     63, 55, 'iphone-11-64gb-thumbnail-3.png', 
-    '2022-08-08 07:15:19', 'haipv'
+    '2022-08-08 00:15:19', 'haipv'
   ), 
   (
     64, 55, 'iphone-11-64gb-thumbnail-4.png', 
-    '2022-08-08 07:15:19', 'haipv'
+    '2022-08-08 00:15:19', 'haipv'
   ), 
   (
     65, 56, 'iphone-11-128gb-thumbnail-1.png', 
-    '2022-08-08 07:15:56', 'haipv'
+    '2022-08-08 00:15:56', 'haipv'
   ), 
   (
     66, 56, 'iphone-11-128gb-thumbnail-2.png', 
-    '2022-08-08 07:15:56', 'haipv'
+    '2022-08-08 00:15:56', 'haipv'
   ), 
   (
     67, 56, 'iphone-11-128gb-thumbnail-3.png', 
-    '2022-08-08 07:15:56', 'haipv'
+    '2022-08-08 00:15:56', 'haipv'
   ), 
   (
     68, 56, 'iphone-11-128gb-thumbnail-4.png', 
-    '2022-08-08 07:15:56', 'haipv'
+    '2022-08-08 00:15:56', 'haipv'
   ), 
   (
     69, 57, 'iphone-11-256gb-thumbnail-1.png', 
-    '2022-08-08 07:16:28', 'haipv'
+    '2022-08-08 00:16:28', 'haipv'
   ), 
   (
     70, 57, 'iphone-11-256gb-thumbnail-2.png', 
-    '2022-08-08 07:16:28', 'haipv'
+    '2022-08-08 00:16:28', 'haipv'
   ), 
   (
     71, 57, 'iphone-11-256gb-thumbnail-3.png', 
-    '2022-08-08 07:16:28', 'haipv'
+    '2022-08-08 00:16:28', 'haipv'
   ), 
   (
     72, 57, 'iphone-11-256gb-thumbnail-4.png', 
-    '2022-08-08 07:16:28', 'haipv'
+    '2022-08-08 00:16:28', 'haipv'
   ), 
   (
     73, 58, 'apple-ipad-mini-6-4gb-256gb-thumbnail-1.png', 
-    '2022-08-10 00:48:26', 'haipv'
+    '2022-08-09 17:48:26', 'haipv'
   ), 
   (
     74, 58, 'apple-ipad-mini-6-4gb-256gb-thumbnail-2.png', 
-    '2022-08-10 00:48:26', 'haipv'
+    '2022-08-09 17:48:26', 'haipv'
   ), 
   (
     75, 58, 'apple-ipad-mini-6-4gb-256gb-thumbnail-3.png', 
-    '2022-08-10 00:48:26', 'haipv'
+    '2022-08-09 17:48:26', 'haipv'
   ), 
   (
     76, 58, 'apple-ipad-mini-6-4gb-256gb-thumbnail-4.png', 
-    '2022-08-10 00:48:26', 'haipv'
+    '2022-08-09 17:48:26', 'haipv'
   ), 
   (
     77, 59, 'samsung-galaxy-z-fold3-5g-512gb-thumbnail-1.png', 
-    '2022-08-10 00:54:40', 'haipv'
+    '2022-08-09 17:54:40', 'haipv'
   ), 
   (
     78, 59, 'samsung-galaxy-z-fold3-5g-512gb-thumbnail-2.png', 
-    '2022-08-10 00:54:40', 'haipv'
+    '2022-08-09 17:54:40', 'haipv'
   ), 
   (
     79, 59, 'samsung-galaxy-z-fold3-5g-512gb-thumbnail-3.png', 
-    '2022-08-10 00:54:40', 'haipv'
+    '2022-08-09 17:54:40', 'haipv'
   ), 
   (
     80, 59, 'samsung-galaxy-z-fold3-5g-512gb-thumbnail-4.png', 
-    '2022-08-10 00:54:40', 'haipv'
+    '2022-08-09 17:54:40', 'haipv'
   ), 
   (
     81, 60, 'samsung-galaxy-z-fold3-5g-256gb-thumbnail-1.png', 
-    '2022-08-10 01:00:10', 'haipv'
+    '2022-08-09 18:00:10', 'haipv'
   ), 
   (
     82, 60, 'samsung-galaxy-z-fold3-5g-256gb-thumbnail-2.png', 
-    '2022-08-10 01:00:10', 'haipv'
+    '2022-08-09 18:00:10', 'haipv'
   ), 
   (
     83, 60, 'samsung-galaxy-z-fold3-5g-256gb-thumbnail-3.png', 
-    '2022-08-10 01:00:10', 'haipv'
+    '2022-08-09 18:00:10', 'haipv'
   ), 
   (
     84, 60, 'samsung-galaxy-z-fold3-5g-256gb-thumbnail-4.png', 
-    '2022-08-10 01:00:10', 'haipv'
+    '2022-08-09 18:00:10', 'haipv'
   ), 
   (
     105, 61, 'samsung-galaxy-s22-ultra-12gb-512gb-thumbnail-1.png', 
-    '2022-08-10 01:13:38', 'haipv'
+    '2022-08-09 18:13:38', 'haipv'
   ), 
   (
     106, 61, 'samsung-galaxy-s22-ultra-12gb-512gb-thumbnail-2.png', 
-    '2022-08-10 01:13:38', 'haipv'
+    '2022-08-09 18:13:38', 'haipv'
   ), 
   (
     107, 61, 'samsung-galaxy-s22-ultra-12gb-512gb-thumbnail-3.png', 
-    '2022-08-10 01:13:38', 'haipv'
+    '2022-08-09 18:13:38', 'haipv'
   ), 
   (
     108, 61, 'samsung-galaxy-s22-ultra-12gb-512gb-thumbnail-4.png', 
-    '2022-08-10 01:13:38', 'haipv'
+    '2022-08-09 18:13:38', 'haipv'
   ), 
   (
     109, 62, 'samsung-galaxy-s22-ultra-12gb-256gb-thumbnail-1.png', 
-    '2022-08-10 01:17:35', 'haipv'
+    '2022-08-09 18:17:35', 'haipv'
   ), 
   (
     110, 62, 'samsung-galaxy-s22-ultra-12gb-256gb-thumbnail-2.png', 
-    '2022-08-10 01:17:35', 'haipv'
+    '2022-08-09 18:17:35', 'haipv'
   ), 
   (
     111, 62, 'samsung-galaxy-s22-ultra-12gb-256gb-thumbnail-3.png', 
-    '2022-08-10 01:17:35', 'haipv'
+    '2022-08-09 18:17:35', 'haipv'
   ), 
   (
     112, 62, 'samsung-galaxy-s22-ultra-12gb-256gb-thumbnail-4.png', 
-    '2022-08-10 01:17:35', 'haipv'
+    '2022-08-09 18:17:35', 'haipv'
   ), 
   (
     113, 63, 'samsung-galaxy-s22-ultra-8gb-128gb-thumbnail-1.png', 
-    '2022-08-10 01:17:21', 'haipv'
+    '2022-08-09 18:17:21', 'haipv'
   ), 
   (
     114, 63, 'samsung-galaxy-s22-ultra-8gb-128gb-thumbnail-2.png', 
-    '2022-08-10 01:17:21', 'haipv'
+    '2022-08-09 18:17:21', 'haipv'
   ), 
   (
     115, 63, 'samsung-galaxy-s22-ultra-8gb-128gb-thumbnail-3.png', 
-    '2022-08-10 01:17:21', 'haipv'
+    '2022-08-09 18:17:21', 'haipv'
   ), 
   (
     116, 63, 'samsung-galaxy-s22-ultra-8gb-128gb-thumbnail-4.png', 
-    '2022-08-10 01:17:21', 'haipv'
+    '2022-08-09 18:17:21', 'haipv'
   ), 
   (
     117, 64, 'samsung-galaxy-s22-plus-8gb-128gb-thumbnail-1.png', 
-    '2022-08-10 01:24:53', 'haipv'
+    '2022-08-09 18:24:53', 'haipv'
   ), 
   (
     118, 64, 'samsung-galaxy-s22-plus-8gb-128gb-thumbnail-2.png', 
-    '2022-08-10 01:24:53', 'haipv'
+    '2022-08-09 18:24:53', 'haipv'
   ), 
   (
     119, 64, 'samsung-galaxy-s22-plus-8gb-128gb-thumbnail-3.png', 
-    '2022-08-10 01:24:53', 'haipv'
+    '2022-08-09 18:24:53', 'haipv'
   ), 
   (
     120, 64, 'samsung-galaxy-s22-plus-8gb-128gb-thumbnail-4.png', 
-    '2022-08-10 01:24:53', 'haipv'
+    '2022-08-09 18:24:53', 'haipv'
   ), 
   (
     121, 65, 'samsung-galaxy-s22-plus-8gb-256gb-thumbnail-1.png', 
-    '2022-08-10 01:48:08', 'haipv'
+    '2022-08-09 18:48:08', 'haipv'
   ), 
   (
     122, 65, 'samsung-galaxy-s22-plus-8gb-256gb-thumbnail-2.png', 
-    '2022-08-10 01:48:08', 'haipv'
+    '2022-08-09 18:48:08', 'haipv'
   ), 
   (
     123, 65, 'samsung-galaxy-s22-plus-8gb-256gb-thumbnail-3.png', 
-    '2022-08-10 01:48:08', 'haipv'
+    '2022-08-09 18:48:08', 'haipv'
   ), 
   (
     124, 65, 'samsung-galaxy-s22-plus-8gb-256gb-thumbnail-4.png', 
-    '2022-08-10 01:48:08', 'haipv'
+    '2022-08-09 18:48:08', 'haipv'
   ), 
   (
     189, 66, 'samsung-galaxy-s22-8gb-256gb-thumbnail-1.png', 
-    '2022-08-10 01:51:52', 'haipv'
+    '2022-08-09 18:51:52', 'haipv'
   ), 
   (
     190, 66, 'samsung-galaxy-s22-8gb-256gb-thumbnail-2.png', 
-    '2022-08-10 01:51:52', 'haipv'
+    '2022-08-09 18:51:52', 'haipv'
   ), 
   (
     191, 66, 'samsung-galaxy-s22-8gb-256gb-thumbnail-3.png', 
-    '2022-08-10 01:51:52', 'haipv'
+    '2022-08-09 18:51:52', 'haipv'
   ), 
   (
     192, 66, 'samsung-galaxy-s22-8gb-256gb-thumbnail-4.png', 
-    '2022-08-10 01:51:52', 'haipv'
+    '2022-08-09 18:51:52', 'haipv'
   ), 
   (
     193, 67, 'samsung-galaxy-s22-8gb-128gb-thumbnail-1.png', 
-    '2022-08-10 01:51:42', 'haipv'
+    '2022-08-09 18:51:42', 'haipv'
   ), 
   (
     194, 67, 'samsung-galaxy-s22-8gb-128gb-thumbnail-2.png', 
-    '2022-08-10 01:51:42', 'haipv'
+    '2022-08-09 18:51:42', 'haipv'
   ), 
   (
     195, 67, 'samsung-galaxy-s22-8gb-128gb-thumbnail-3.png', 
-    '2022-08-10 01:51:42', 'haipv'
+    '2022-08-09 18:51:42', 'haipv'
   ), 
   (
     196, 67, 'samsung-galaxy-s22-8gb-128gb-thumbnail-4.png', 
-    '2022-08-10 01:51:42', 'haipv'
+    '2022-08-09 18:51:42', 'haipv'
   ), 
   (
     201, 68, 'samsung-galaxy-s20-thumbnail-1.png', 
-    '2022-08-10 02:10:09', 'haipv'
+    '2022-08-09 19:10:09', 'haipv'
   ), 
   (
     202, 68, 'samsung-galaxy-s20-thumbnail-2.png', 
-    '2022-08-10 02:10:09', 'haipv'
+    '2022-08-09 19:10:09', 'haipv'
   ), 
   (
     203, 68, 'samsung-galaxy-s20-thumbnail-3.png', 
-    '2022-08-10 02:10:09', 'haipv'
+    '2022-08-09 19:10:09', 'haipv'
   ), 
   (
     204, 68, 'samsung-galaxy-s20-thumbnail-4.png', 
-    '2022-08-10 02:10:09', 'haipv'
+    '2022-08-09 19:10:09', 'haipv'
   ), 
   (
     205, 69, 'samsung-galaxy-s20-ultra-thumbnail-1.png', 
-    '2022-08-12 09:45:09', 'haipv'
+    '2022-08-12 02:45:09', 'haipv'
   ), 
   (
     206, 69, 'samsung-galaxy-s20-ultra-thumbnail-2.jpg', 
-    '2022-08-12 09:45:09', 'haipv'
+    '2022-08-12 02:45:09', 'haipv'
   ), 
   (
     207, 69, 'samsung-galaxy-s20-ultra-thumbnail-3.png', 
-    '2022-08-12 09:45:09', 'haipv'
+    '2022-08-12 02:45:09', 'haipv'
   ), 
   (
     208, 69, 'samsung-galaxy-s20-ultra-thumbnail-4.png', 
-    '2022-08-12 09:45:09', 'haipv'
+    '2022-08-12 02:45:09', 'haipv'
   ), 
   (
     209, 70, 'samsung-galaxy-note-20-thumbnail-1.png', 
-    '2022-08-12 11:32:20', 'haipv'
+    '2022-08-12 04:32:20', 'haipv'
   ), 
   (
     210, 70, 'samsung-galaxy-note-20-thumbnail-2.png', 
-    '2022-08-12 11:32:20', 'haipv'
+    '2022-08-12 04:32:20', 'haipv'
   ), 
   (
     211, 70, 'samsung-galaxy-note-20-thumbnail-3.png', 
-    '2022-08-12 11:32:20', 'haipv'
+    '2022-08-12 04:32:20', 'haipv'
   ), 
   (
     212, 70, 'samsung-galaxy-note-20-thumbnail-4.png', 
-    '2022-08-12 11:32:20', 'haipv'
+    '2022-08-12 04:32:20', 'haipv'
   ), 
   (
     221, 71, 'samsung-galaxy-note-20-ultra-thumbnail-1.png', 
-    '2022-08-12 11:41:22', 'haipv'
+    '2022-08-12 04:41:22', 'haipv'
   ), 
   (
     222, 71, 'samsung-galaxy-note-20-ultra-thumbnail-2.png', 
-    '2022-08-12 11:41:22', 'haipv'
+    '2022-08-12 04:41:22', 'haipv'
   ), 
   (
     223, 71, 'samsung-galaxy-note-20-ultra-thumbnail-3.png', 
-    '2022-08-12 11:41:22', 'haipv'
+    '2022-08-12 04:41:22', 'haipv'
   ), 
   (
     224, 71, 'samsung-galaxy-note-20-ultra-thumbnail-4.png', 
-    '2022-08-12 11:41:22', 'haipv'
+    '2022-08-12 04:41:22', 'haipv'
   ), 
   (
     225, 72, 'samsung-galaxy-note-20-ultra-5g-thumbnail-1.png', 
-    '2022-08-12 11:50:20', 'haipv'
+    '2022-08-12 04:50:20', 'haipv'
   ), 
   (
     226, 72, 'samsung-galaxy-note-20-ultra-5g-thumbnail-2.png', 
-    '2022-08-12 11:50:20', 'haipv'
+    '2022-08-12 04:50:20', 'haipv'
   ), 
   (
     227, 72, 'samsung-galaxy-note-20-ultra-5g-thumbnail-3.png', 
-    '2022-08-12 11:50:20', 'haipv'
+    '2022-08-12 04:50:20', 'haipv'
   ), 
   (
     228, 72, 'samsung-galaxy-note-20-ultra-5g-thumbnail-4.png', 
-    '2022-08-12 11:50:20', 'haipv'
+    '2022-08-12 04:50:20', 'haipv'
   ), 
   (
     229, 73, 'samsung-galaxy-z-flip3-5g-thumbnail-1.png', 
-    '2022-08-12 11:54:56', 'haipv'
+    '2022-08-12 04:54:56', 'haipv'
   ), 
   (
     230, 73, 'samsung-galaxy-z-flip3-5g-thumbnail-2.png', 
-    '2022-08-12 11:54:56', 'haipv'
+    '2022-08-12 04:54:56', 'haipv'
   ), 
   (
     231, 73, 'samsung-galaxy-z-flip3-5g-thumbnail-3.png', 
-    '2022-08-12 11:54:56', 'haipv'
+    '2022-08-12 04:54:56', 'haipv'
   ), 
   (
     232, 73, 'samsung-galaxy-z-flip3-5g-thumbnail-4.png', 
-    '2022-08-12 11:54:56', 'haipv'
+    '2022-08-12 04:54:56', 'haipv'
   ), 
   (
     233, 74, 'samsung-galaxy-z-flip3-5g-256gb-thumbnail-1.png', 
-    '2022-08-12 11:56:05', 'haipv'
+    '2022-08-12 04:56:05', 'haipv'
   ), 
   (
     234, 74, 'samsung-galaxy-z-flip3-5g-256gb-thumbnail-2.png', 
-    '2022-08-12 11:56:05', 'haipv'
+    '2022-08-12 04:56:05', 'haipv'
   ), 
   (
     235, 74, 'samsung-galaxy-z-flip3-5g-256gb-thumbnail-3.png', 
-    '2022-08-12 11:56:05', 'haipv'
+    '2022-08-12 04:56:05', 'haipv'
   ), 
   (
     236, 74, 'samsung-galaxy-z-flip3-5g-256gb-thumbnail-4.png', 
-    '2022-08-12 11:56:05', 'haipv'
+    '2022-08-12 04:56:05', 'haipv'
   ), 
   (
     237, 75, 'samsung-galaxy-s21-fe-5g-6gb-128gb-thumbnail-1.png', 
-    '2022-08-12 11:59:26', 'haipv'
+    '2022-08-12 04:59:26', 'haipv'
   ), 
   (
     238, 75, 'samsung-galaxy-s21-fe-5g-6gb-128gb-thumbnail-2.png', 
-    '2022-08-12 11:59:26', 'haipv'
+    '2022-08-12 04:59:26', 'haipv'
   ), 
   (
     239, 75, 'samsung-galaxy-s21-fe-5g-6gb-128gb-thumbnail-4.png', 
-    '2022-08-12 11:59:26', 'haipv'
+    '2022-08-12 04:59:26', 'haipv'
   ), 
   (
     240, 76, 'samsung-galaxy-s21-fe-5g-8gb-128gb-thumbnail-1.png', 
-    '2022-08-12 12:00:11', 'haipv'
+    '2022-08-12 05:00:11', 'haipv'
   ), 
   (
     241, 76, 'samsung-galaxy-s21-fe-5g-8gb-128gb-thumbnail-2.png', 
-    '2022-08-12 12:00:11', 'haipv'
+    '2022-08-12 05:00:11', 'haipv'
   ), 
   (
     242, 76, 'samsung-galaxy-s21-fe-5g-8gb-128gb-thumbnail-3.png', 
-    '2022-08-12 12:00:11', 'haipv'
+    '2022-08-12 05:00:11', 'haipv'
   ), 
   (
     243, 77, 'samsung-galaxy-s21-fe-5g-8gb-256gb-thumbnail-1.png', 
-    '2022-08-12 12:00:44', 'haipv'
+    '2022-08-12 05:00:44', 'haipv'
   ), 
   (
     244, 77, 'samsung-galaxy-s21-fe-5g-8gb-256gb-thumbnail-2.png', 
-    '2022-08-12 12:00:44', 'haipv'
+    '2022-08-12 05:00:44', 'haipv'
   ), 
   (
     245, 77, 'samsung-galaxy-s21-fe-5g-8gb-256gb-thumbnail-3.png', 
-    '2022-08-12 12:00:44', 'haipv'
+    '2022-08-12 05:00:44', 'haipv'
   ), 
   (
     246, 78, 'samsung-galaxy-s20-fe-256gb-thumbnail-1.png', 
-    '2022-08-13 07:18:09', 'haipv'
+    '2022-08-13 00:18:09', 'haipv'
   ), 
   (
     247, 78, 'samsung-galaxy-s20-fe-256gb-thumbnail-2.png', 
-    '2022-08-13 07:18:09', 'haipv'
+    '2022-08-13 00:18:09', 'haipv'
   ), 
   (
     248, 78, 'samsung-galaxy-s20-fe-256gb-thumbnail-3.png', 
-    '2022-08-13 07:18:09', 'haipv'
+    '2022-08-13 00:18:09', 'haipv'
   ), 
   (
     249, 78, 'samsung-galaxy-s20-fe-256gb-thumbnail-4.png', 
-    '2022-08-13 07:18:09', 'haipv'
+    '2022-08-13 00:18:09', 'haipv'
   ), 
   (
     250, 79, 'samsung-galaxy-a73-5g-256gb-thumbnail-1.png', 
-    '2022-08-13 07:22:38', 'haipv'
+    '2022-08-13 00:22:38', 'haipv'
   ), 
   (
     251, 79, 'samsung-galaxy-a73-5g-256gb-thumbnail-2.png', 
-    '2022-08-13 07:22:38', 'haipv'
+    '2022-08-13 00:22:38', 'haipv'
   ), 
   (
     252, 79, 'samsung-galaxy-a73-5g-256gb-thumbnail-3.png', 
-    '2022-08-13 07:22:38', 'haipv'
+    '2022-08-13 00:22:38', 'haipv'
   ), 
   (
     253, 79, 'samsung-galaxy-a73-5g-256gb-thumbnail-4.png', 
-    '2022-08-13 07:22:38', 'haipv'
+    '2022-08-13 00:22:38', 'haipv'
   ), 
   (
     254, 80, 'samsung-galaxy-a73-5g-128gb-thumbnail-1.png', 
-    '2022-08-13 07:24:02', 'haipv'
+    '2022-08-13 00:24:02', 'haipv'
   ), 
   (
     255, 80, 'samsung-galaxy-a73-5g-128gb-thumbnail-2.png', 
-    '2022-08-13 07:24:02', 'haipv'
+    '2022-08-13 00:24:02', 'haipv'
   ), 
   (
     256, 80, 'samsung-galaxy-a73-5g-128gb-thumbnail-3.png', 
-    '2022-08-13 07:24:02', 'haipv'
+    '2022-08-13 00:24:02', 'haipv'
   ), 
   (
     257, 80, 'samsung-galaxy-a73-5g-128gb-thumbnail-4.png', 
-    '2022-08-13 07:24:02', 'haipv'
+    '2022-08-13 00:24:02', 'haipv'
   ), 
   (
     258, 81, 'samsung-galaxy-a53-5g-thumbnail-1.png', 
-    '2022-08-13 07:28:04', 'haipv'
+    '2022-08-13 00:28:04', 'haipv'
   ), 
   (
     259, 81, 'samsung-galaxy-a53-5g-thumbnail-2.png', 
-    '2022-08-13 07:28:04', 'haipv'
+    '2022-08-13 00:28:04', 'haipv'
   ), 
   (
     260, 81, 'samsung-galaxy-a53-5g-thumbnail-3.png', 
-    '2022-08-13 07:28:04', 'haipv'
+    '2022-08-13 00:28:04', 'haipv'
   ), 
   (
     261, 81, 'samsung-galaxy-a53-5g-thumbnail-4.png', 
-    '2022-08-13 07:28:04', 'haipv'
+    '2022-08-13 00:28:04', 'haipv'
   ), 
   (
     262, 82, 'samsung-galaxy-a33-5g-thumbnail-1.png', 
-    '2022-08-13 07:31:20', 'haipv'
+    '2022-08-13 00:31:20', 'haipv'
   ), 
   (
     263, 82, 'samsung-galaxy-a33-5g-thumbnail-2.png', 
-    '2022-08-13 07:31:20', 'haipv'
+    '2022-08-13 00:31:20', 'haipv'
   ), 
   (
     264, 82, 'samsung-galaxy-a33-5g-thumbnail-3.png', 
-    '2022-08-13 07:31:20', 'haipv'
+    '2022-08-13 00:31:20', 'haipv'
   ), 
   (
     265, 82, 'samsung-galaxy-a33-5g-thumbnail-4.png', 
-    '2022-08-13 07:31:20', 'haipv'
+    '2022-08-13 00:31:20', 'haipv'
   ), 
   (
     266, 83, 'samsung-galaxy-a23-thumbnail-1.png', 
-    '2022-08-13 07:34:43', 'haipv'
+    '2022-08-13 00:34:43', 'haipv'
   ), 
   (
     267, 83, 'samsung-galaxy-a23-thumbnail-2.png', 
-    '2022-08-13 07:34:43', 'haipv'
+    '2022-08-13 00:34:43', 'haipv'
   ), 
   (
     268, 83, 'samsung-galaxy-a23-thumbnail-3.png', 
-    '2022-08-13 07:34:43', 'haipv'
+    '2022-08-13 00:34:43', 'haipv'
   ), 
   (
     269, 83, 'samsung-galaxy-a23-thumbnail-4.png', 
-    '2022-08-13 07:34:43', 'haipv'
+    '2022-08-13 00:34:43', 'haipv'
   ), 
   (
     270, 84, 'iphone-se-2022-thumbnail-1.png', 
-    '2022-08-13 07:40:30', 'haipv'
+    '2022-08-13 00:40:30', 'haipv'
   ), 
   (
     271, 84, 'iphone-se-2022-thumbnail-3.png', 
-    '2022-08-13 07:40:30', 'haipv'
+    '2022-08-13 00:40:30', 'haipv'
   ), 
   (
     272, 84, 'iphone-se-2022-thumbnail-4.png', 
-    '2022-08-13 07:40:30', 'haipv'
+    '2022-08-13 00:40:30', 'haipv'
   ), 
   (
     273, 85, 'iphone-se-2022-256gb-thumbnail-1.png', 
-    '2022-08-13 07:41:14', 'haipv'
+    '2022-08-13 00:41:14', 'haipv'
   ), 
   (
     274, 85, 'iphone-se-2022-256gb-thumbnail-2.png', 
-    '2022-08-13 07:41:14', 'haipv'
+    '2022-08-13 00:41:14', 'haipv'
   ), 
   (
     275, 85, 'iphone-se-2022-256gb-thumbnail-4.png', 
-    '2022-08-13 07:41:14', 'haipv'
+    '2022-08-13 00:41:14', 'haipv'
   ), 
   (
     276, 86, 'iphone-se-2022-thumbnail-1.png', 
-    '2022-08-13 07:43:07', 'haipv'
+    '2022-08-13 00:43:07', 'haipv'
   ), 
   (
     277, 86, 'iphone-se-2022-thumbnail-2.png', 
-    '2022-08-13 07:43:07', 'haipv'
+    '2022-08-13 00:43:07', 'haipv'
   ), 
   (
     278, 86, 'iphone-se-2022-thumbnail-4.png', 
-    '2022-08-13 07:43:07', 'haipv'
+    '2022-08-13 00:43:07', 'haipv'
   ), 
   (
     279, 87, 'oppo-reno7-5g-thumbnail-1.png', 
-    '2022-08-13 07:47:53', 'haipv'
+    '2022-08-13 00:47:53', 'haipv'
   ), 
   (
     280, 87, 'oppo-reno7-5g-thumbnail-2.png', 
-    '2022-08-13 07:47:53', 'haipv'
+    '2022-08-13 00:47:53', 'haipv'
   ), 
   (
     281, 87, 'oppo-reno7-5g-thumbnail-3.png', 
-    '2022-08-13 07:47:53', 'haipv'
+    '2022-08-13 00:47:53', 'haipv'
   ), 
   (
     282, 87, 'oppo-reno7-5g-thumbnail-4.png', 
-    '2022-08-13 07:47:53', 'haipv'
+    '2022-08-13 00:47:53', 'haipv'
   ), 
   (
     283, 88, 'oppo-reno7-z-5g-thumbnail-1.png', 
-    '2022-08-13 08:03:19', 'haipv'
+    '2022-08-13 01:03:19', 'haipv'
   ), 
   (
     284, 88, 'oppo-reno7-z-5g-thumbnail-2.png', 
-    '2022-08-13 08:03:19', 'haipv'
+    '2022-08-13 01:03:19', 'haipv'
   ), 
   (
     285, 88, 'oppo-reno7-z-5g-thumbnail-3.png', 
-    '2022-08-13 08:03:19', 'haipv'
+    '2022-08-13 01:03:19', 'haipv'
   ), 
   (
     286, 88, 'oppo-reno7-z-5g-thumbnail-4.png', 
-    '2022-08-13 08:03:19', 'haipv'
+    '2022-08-13 01:03:19', 'haipv'
   ), 
   (
     287, 89, 'oppo-reno7-4g-8gb-128gb-thumbnail-1.png', 
-    '2022-08-13 08:06:40', 'haipv'
+    '2022-08-13 01:06:40', 'haipv'
   ), 
   (
     288, 89, 'oppo-reno7-4g-8gb-128gb-thumbnail-2.png', 
-    '2022-08-13 08:06:40', 'haipv'
+    '2022-08-13 01:06:40', 'haipv'
   ), 
   (
     289, 89, 'oppo-reno7-4g-8gb-128gb-thumbnail-3.png', 
-    '2022-08-13 08:06:40', 'haipv'
+    '2022-08-13 01:06:40', 'haipv'
   ), 
   (
     290, 89, 'oppo-reno7-4g-8gb-128gb-thumbnail-4.png', 
-    '2022-08-13 08:06:40', 'haipv'
+    '2022-08-13 01:06:40', 'haipv'
   ), 
   (
     291, 90, 'oppo-reno6-5g-thumbnail-1.png', 
-    '2022-08-13 08:10:35', 'haipv'
+    '2022-08-13 01:10:35', 'haipv'
   ), 
   (
     292, 90, 'oppo-reno6-5g-thumbnail-2.png', 
-    '2022-08-13 08:10:35', 'haipv'
+    '2022-08-13 01:10:35', 'haipv'
   ), 
   (
     293, 90, 'oppo-reno6-5g-thumbnail-3.png', 
-    '2022-08-13 08:10:35', 'haipv'
+    '2022-08-13 01:10:35', 'haipv'
   ), 
   (
     294, 90, 'oppo-reno6-5g-thumbnail-4.png', 
-    '2022-08-13 08:10:35', 'haipv'
+    '2022-08-13 01:10:35', 'haipv'
   ), 
   (
     295, 91, 'oppo-reno6-z-5g-thumbnail-1.png', 
-    '2022-08-13 08:14:15', 'haipv'
+    '2022-08-13 01:14:15', 'haipv'
   ), 
   (
     296, 91, 'oppo-reno6-z-5g-thumbnail-2.png', 
-    '2022-08-13 08:14:15', 'haipv'
+    '2022-08-13 01:14:15', 'haipv'
   ), 
   (
     297, 91, 'oppo-reno6-z-5g-thumbnail-3.png', 
-    '2022-08-13 08:14:15', 'haipv'
+    '2022-08-13 01:14:15', 'haipv'
   ), 
   (
     298, 91, 'oppo-reno6-z-5g-thumbnail-4.png', 
-    '2022-08-13 08:14:15', 'haipv'
+    '2022-08-13 01:14:15', 'haipv'
   ), 
   (
     299, 92, 'oppo-reno5-thumbnail-1.png', 
-    '2022-08-13 08:17:11', 'haipv'
+    '2022-08-13 01:17:11', 'haipv'
   ), 
   (
     300, 92, 'oppo-reno5-thumbnail-2.png', 
-    '2022-08-13 08:17:11', 'haipv'
+    '2022-08-13 01:17:11', 'haipv'
   ), 
   (
     301, 92, 'oppo-reno5-thumbnail-3.png', 
-    '2022-08-13 08:17:11', 'haipv'
+    '2022-08-13 01:17:11', 'haipv'
   ), 
   (
     302, 92, 'oppo-reno5-thumbnail-4.png', 
-    '2022-08-13 08:17:11', 'haipv'
+    '2022-08-13 01:17:11', 'haipv'
   ), 
   (
     303, 93, 'oppo-reno5-5g-thumbnail-1.png', 
-    '2022-08-13 08:18:06', 'haipv'
+    '2022-08-13 01:18:06', 'haipv'
   ), 
   (
     304, 93, 'oppo-reno5-5g-thumbnail-2.png', 
-    '2022-08-13 08:18:06', 'haipv'
+    '2022-08-13 01:18:06', 'haipv'
   ), 
   (
     305, 93, 'oppo-reno5-5g-thumbnail-3.png', 
-    '2022-08-13 08:18:06', 'haipv'
+    '2022-08-13 01:18:06', 'haipv'
   ), 
   (
     306, 93, 'oppo-reno5-5g-thumbnail-4.png', 
-    '2022-08-13 08:18:06', 'haipv'
+    '2022-08-13 01:18:06', 'haipv'
   ), 
   (
     307, 94, 'oppo-a96-thumbnail-1.png', 
-    '2022-08-13 08:22:52', 'haipv'
+    '2022-08-13 01:22:52', 'haipv'
   ), 
   (
     308, 94, 'oppo-a96-thumbnail-2.png', 
-    '2022-08-13 08:22:52', 'haipv'
+    '2022-08-13 01:22:52', 'haipv'
   ), 
   (
     309, 94, 'oppo-a96-thumbnail-3.png', 
-    '2022-08-13 08:22:52', 'haipv'
+    '2022-08-13 01:22:52', 'haipv'
   ), 
   (
     310, 94, 'oppo-a96-thumbnail-4.png', 
-    '2022-08-13 08:22:52', 'haipv'
+    '2022-08-13 01:22:52', 'haipv'
   ), 
   (
     311, 95, 'oppo-a95-thumbnail-1.png', 
-    '2022-08-13 08:26:45', 'haipv'
+    '2022-08-13 01:26:45', 'haipv'
   ), 
   (
     312, 95, 'oppo-a95-thumbnail-2.png', 
-    '2022-08-13 08:26:45', 'haipv'
+    '2022-08-13 01:26:45', 'haipv'
   ), 
   (
     313, 95, 'oppo-a95-thumbnail-3.png', 
-    '2022-08-13 08:26:45', 'haipv'
+    '2022-08-13 01:26:45', 'haipv'
   ), 
   (
     314, 95, 'oppo-a95-thumbnail-4.png', 
-    '2022-08-13 08:26:45', 'haipv'
+    '2022-08-13 01:26:45', 'haipv'
   ), 
   (
     315, 96, 'oppo-a94-thumbnail-1.png', 
-    '2022-08-13 08:32:06', 'haipv'
+    '2022-08-13 01:32:06', 'haipv'
   ), 
   (
     316, 96, 'oppo-a94-thumbnail-2.png', 
-    '2022-08-13 08:32:06', 'haipv'
+    '2022-08-13 01:32:06', 'haipv'
   ), 
   (
     317, 96, 'oppo-a94-thumbnail-3.png', 
-    '2022-08-13 08:32:06', 'haipv'
+    '2022-08-13 01:32:06', 'haipv'
   ), 
   (
     318, 96, 'oppo-a94-thumbnail-4.png', 
-    '2022-08-13 08:32:06', 'haipv'
+    '2022-08-13 01:32:06', 'haipv'
   ), 
   (
     319, 97, 'oppo-a76-thumbnail-1.png', 
-    '2022-08-13 08:34:12', 'haipv'
+    '2022-08-13 01:34:12', 'haipv'
   ), 
   (
     320, 97, 'oppo-a76-thumbnail-2.png', 
-    '2022-08-13 08:34:12', 'haipv'
+    '2022-08-13 01:34:12', 'haipv'
   ), 
   (
     321, 97, 'oppo-a76-thumbnail-3.png', 
-    '2022-08-13 08:34:12', 'haipv'
+    '2022-08-13 01:34:12', 'haipv'
   ), 
   (
     322, 98, 'oppo-a57-thumbnail-1.png', 
-    '2022-08-13 08:43:10', 'haipv'
+    '2022-08-13 01:43:10', 'haipv'
   ), 
   (
     323, 98, 'oppo-a57-thumbnail-2.png', 
-    '2022-08-13 08:43:10', 'haipv'
+    '2022-08-13 01:43:10', 'haipv'
   ), 
   (
     324, 98, 'oppo-a57-thumbnail-3.png', 
-    '2022-08-13 08:43:10', 'haipv'
+    '2022-08-13 01:43:10', 'haipv'
   ), 
   (
     325, 98, 'oppo-a57-thumbnail-4.png', 
-    '2022-08-13 08:43:10', 'haipv'
+    '2022-08-13 01:43:10', 'haipv'
   ), 
   (
     326, 99, 'oppo-a57-4gb-128gb-thumbnail-1.png', 
-    '2022-08-13 08:44:46', 'haipv'
+    '2022-08-13 01:44:46', 'haipv'
   ), 
   (
     327, 99, 'oppo-a57-4gb-128gb-thumbnail-2.png', 
-    '2022-08-13 08:44:46', 'haipv'
+    '2022-08-13 01:44:46', 'haipv'
   ), 
   (
     328, 99, 'oppo-a57-4gb-128gb-thumbnail-3.png', 
-    '2022-08-13 08:44:46', 'haipv'
+    '2022-08-13 01:44:46', 'haipv'
   ), 
   (
     329, 99, 'oppo-a57-4gb-128gb-thumbnail-4.png', 
-    '2022-08-13 08:44:46', 'haipv'
+    '2022-08-13 01:44:46', 'haipv'
   ), 
   (
     330, 100, 'oppo-a55-thumbnail-1.png', 
-    '2022-08-13 08:50:07', 'haipv'
+    '2022-08-13 01:50:07', 'haipv'
   ), 
   (
     331, 100, 'oppo-a55-thumbnail-2.png', 
-    '2022-08-13 08:50:07', 'haipv'
+    '2022-08-13 01:50:07', 'haipv'
   ), 
   (
     332, 100, 'oppo-a55-thumbnail-3.png', 
-    '2022-08-13 08:50:07', 'haipv'
+    '2022-08-13 01:50:07', 'haipv'
   ), 
   (
     333, 100, 'oppo-a55-thumbnail-4.png', 
-    '2022-08-13 08:50:07', 'haipv'
+    '2022-08-13 01:50:07', 'haipv'
+  ), 
+  (
+    334, 101, 'apple-ipad-mini-6-wifi-64gb-thumbnail-1.png', 
+    '2022-08-28 04:53:47', 'haipv'
+  ), 
+  (
+    335, 101, 'apple-ipad-mini-6-wifi-64gb-thumbnail-2.png', 
+    '2022-08-28 04:53:47', 'haipv'
+  ), 
+  (
+    336, 101, 'apple-ipad-mini-6-wifi-64gb-thumbnail-3.png', 
+    '2022-08-28 04:53:47', 'haipv'
+  ), 
+  (
+    337, 101, 'apple-ipad-mini-6-wifi-64gb-thumbnail-4.png', 
+    '2022-08-28 04:53:47', 'haipv'
+  ), 
+  (
+    338, 102, 'apple-ipad-mini-6-4gb-64gb-thumbnail-1.png', 
+    '2022-08-28 04:54:42', 'haipv'
+  ), 
+  (
+    339, 102, 'apple-ipad-mini-6-4gb-64gb-thumbnail-2.png', 
+    '2022-08-28 04:54:42', 'haipv'
+  ), 
+  (
+    340, 102, 'apple-ipad-mini-6-4gb-64gb-thumbnail-3.png', 
+    '2022-08-28 04:54:42', 'haipv'
+  ), 
+  (
+    341, 102, 'apple-ipad-mini-6-4gb-64gb-thumbnail-4.png', 
+    '2022-08-28 04:54:42', 'haipv'
+  ), 
+  (
+    342, 103, 'Apple iPad mini 6 WiFi 256GB-thumbnail-2.png', 
+    '2022-08-28 04:59:52', 'haipv'
+  ), 
+  (
+    343, 103, 'Apple iPad mini 6 WiFi 256GB-thumbnail-1.png', 
+    '2022-08-28 04:59:52', 'haipv'
+  ), 
+  (
+    344, 103, 'Apple iPad mini 6 WiFi 256GB-thumbnail-4.png', 
+    '2022-08-28 04:59:52', 'haipv'
+  ), 
+  (
+    345, 103, 'Apple iPad mini 6 WiFi 256GB-thumbnail-3.png', 
+    '2022-08-28 04:59:52', 'haipv'
+  ), 
+  (
+    346, 104, 'apple-ipad-mini-5-wifi-256gb-thumbnail-3.jpg', 
+    '2022-08-28 05:02:38', 'haipv'
+  ), 
+  (
+    347, 104, 'apple-ipad-mini-5-wifi-256gb-thumbnail-4.jpg', 
+    '2022-08-28 05:02:38', 'haipv'
+  ), 
+  (
+    348, 105, 'apple-ipad-mini-5-wifi-64gb-thumbnail-1.jpg', 
+    '2022-08-28 05:03:20', 'haipv'
+  ), 
+  (
+    349, 105, 'apple-ipad-mini-5-wifi-64gb-thumbnail-3.jpg', 
+    '2022-08-28 05:03:20', 'haipv'
+  ), 
+  (
+    350, 106, 'samsung-galaxy-tab-a7-lite-thumbnail-1.png', 
+    '2022-08-28 05:05:48', 'haipv'
+  ), 
+  (
+    351, 106, 'samsung-galaxy-tab-a7-lite-thumbnail-2.png', 
+    '2022-08-28 05:05:48', 'haipv'
+  ), 
+  (
+    352, 106, 'samsung-galaxy-tab-a7-lite-thumbnail-3.png', 
+    '2022-08-28 05:05:48', 'haipv'
+  ), 
+  (
+    353, 106, 'samsung-galaxy-tab-a7-lite-thumbnail-4.png', 
+    '2022-08-28 05:05:48', 'haipv'
+  ), 
+  (
+    354, 107, 'oppo-pad-air-thumbnail-1.png', 
+    '2022-08-28 05:08:24', 'haipv'
+  ), 
+  (
+    355, 107, 'oppo-pad-air-thumbnail-2.png', 
+    '2022-08-28 05:08:24', 'haipv'
+  ), 
+  (
+    356, 107, 'oppo-pad-air-thumbnail-3.png', 
+    '2022-08-28 05:08:24', 'haipv'
+  ), 
+  (
+    357, 107, 'oppo-pad-air-thumbnail-4.png', 
+    '2022-08-28 05:08:24', 'haipv'
+  ), 
+  (
+    358, 108, 'ipad-102-2021-wifi-64gb-thumbnail-1.jpg', 
+    '2022-08-28 05:14:11', 'haipv'
+  ), 
+  (
+    359, 108, 'ipad-102-2021-wifi-64gb-thumbnail-2.jpg', 
+    '2022-08-28 05:14:11', 'haipv'
+  ), 
+  (
+    360, 108, 'ipad-102-2021-wifi-64gb-thumbnail-3.jpg', 
+    '2022-08-28 05:14:11', 'haipv'
+  ), 
+  (
+    361, 108, 'ipad-102-2021-wifi-64gb-thumbnail-4.jpg', 
+    '2022-08-28 05:14:11', 'haipv'
+  ), 
+  (
+    362, 109, 'ipad-102-2021-4g-64gb-thumbnail-1.jpg', 
+    '2022-08-28 05:14:54', 'haipv'
+  ), 
+  (
+    363, 109, 'ipad-102-2021-4g-64gb-thumbnail-2.jpg', 
+    '2022-08-28 05:14:54', 'haipv'
+  ), 
+  (
+    364, 109, 'ipad-102-2021-4g-64gb-thumbnail-3.jpg', 
+    '2022-08-28 05:14:54', 'haipv'
+  ), 
+  (
+    365, 109, 'ipad-102-2021-4g-64gb-thumbnail-4.jpg', 
+    '2022-08-28 05:14:54', 'haipv'
+  ), 
+  (
+    366, 110, 'ipad-102-2021-wifi-256gb-thumbnail-1.jpg', 
+    '2022-08-28 05:15:40', 'haipv'
+  ), 
+  (
+    367, 110, 'ipad-102-2021-wifi-256gb-thumbnail-2.jpg', 
+    '2022-08-28 05:15:40', 'haipv'
+  ), 
+  (
+    368, 110, 'ipad-102-2021-wifi-256gb-thumbnail-3.jpg', 
+    '2022-08-28 05:15:40', 'haipv'
+  ), 
+  (
+    369, 110, 'ipad-102-2021-wifi-256gb-thumbnail-4.jpg', 
+    '2022-08-28 05:15:40', 'haipv'
+  ), 
+  (
+    370, 111, 'ipad-102-2021-4g-256gb-thumbnail-1.jpg', 
+    '2022-08-28 05:16:16', 'haipv'
+  ), 
+  (
+    371, 111, 'ipad-102-2021-4g-256gb-thumbnail-2.jpg', 
+    '2022-08-28 05:16:16', 'haipv'
+  ), 
+  (
+    372, 111, 'ipad-102-2021-4g-256gb-thumbnail-3.jpg', 
+    '2022-08-28 05:16:16', 'haipv'
+  ), 
+  (
+    373, 111, 'ipad-102-2021-4g-256gb-thumbnail-4.jpg', 
+    '2022-08-28 05:16:16', 'haipv'
+  ), 
+  (
+    374, 112, 'ipad-air-109-2020-wifi-64gb-thumbnail-1.jpg', 
+    '2022-08-28 05:19:54', 'haipv'
+  ), 
+  (
+    375, 112, 'ipad-air-109-2020-wifi-64gb-thumbnail-2.jpg', 
+    '2022-08-28 05:19:54', 'haipv'
+  ), 
+  (
+    376, 112, 'ipad-air-109-2020-wifi-64gb-thumbnail-3.jpg', 
+    '2022-08-28 05:19:54', 'haipv'
+  ), 
+  (
+    377, 112, 'ipad-air-109-2020-wifi-64gb-thumbnail-4.jpg', 
+    '2022-08-28 05:19:54', 'haipv'
+  ), 
+  (
+    378, 113, 'ipad-air-109-2020-wifi-256gb-thumbnail-1.jpg', 
+    '2022-08-28 05:20:19', 'haipv'
+  ), 
+  (
+    379, 113, 'ipad-air-109-2020-wifi-256gb-thumbnail-2.jpg', 
+    '2022-08-28 05:20:19', 'haipv'
+  ), 
+  (
+    380, 113, 'ipad-air-109-2020-wifi-256gb-thumbnail-3.jpg', 
+    '2022-08-28 05:20:19', 'haipv'
+  ), 
+  (
+    381, 113, 'ipad-air-109-2020-wifi-256gb-thumbnail-4.jpg', 
+    '2022-08-28 05:20:19', 'haipv'
+  ), 
+  (
+    382, 114, 'apple-ipad-pro-11-2021-m1-wifi-128gb-thumbnail-1.jpg', 
+    '2022-08-28 05:22:39', 'haipv'
+  ), 
+  (
+    383, 114, 'apple-ipad-pro-11-2021-m1-wifi-128gb-thumbnail-2.jpg', 
+    '2022-08-28 05:22:39', 'haipv'
+  ), 
+  (
+    384, 114, 'apple-ipad-pro-11-2021-m1-wifi-128gb-thumbnail-3.jpg', 
+    '2022-08-28 05:22:39', 'haipv'
+  ), 
+  (
+    385, 114, 'apple-ipad-pro-11-2021-m1-wifi-128gb-thumbnail-4.jpg', 
+    '2022-08-28 05:22:39', 'haipv'
+  ), 
+  (
+    386, 115, 'apple-ipad-pro-11-2021-m1-wifi-256gb-thumbnail-1.jpg', 
+    '2022-08-28 05:23:04', 'haipv'
+  ), 
+  (
+    387, 115, 'apple-ipad-pro-11-2021-m1-wifi-256gb-thumbnail-2.jpg', 
+    '2022-08-28 05:23:04', 'haipv'
+  ), 
+  (
+    388, 115, 'apple-ipad-pro-11-2021-m1-wifi-256gb-thumbnail-3.jpg', 
+    '2022-08-28 05:23:04', 'haipv'
+  ), 
+  (
+    389, 115, 'apple-ipad-pro-11-2021-m1-wifi-256gb-thumbnail-4.jpg', 
+    '2022-08-28 05:23:04', 'haipv'
+  ), 
+  (
+    390, 116, 'apple-ipad-pro-11-2021-m1-wifi-512gb-thumbnail-1.jpg', 
+    '2022-08-28 05:24:06', 'haipv'
+  ), 
+  (
+    391, 116, 'apple-ipad-pro-11-2021-m1-wifi-512gb-thumbnail-2.jpg', 
+    '2022-08-28 05:24:06', 'haipv'
+  ), 
+  (
+    392, 116, 'apple-ipad-pro-11-2021-m1-wifi-512gb-thumbnail-3.jpg', 
+    '2022-08-28 05:24:06', 'haipv'
+  ), 
+  (
+    393, 116, 'apple-ipad-pro-11-2021-m1-wifi-512gb-thumbnail-4.jpg', 
+    '2022-08-28 05:24:06', 'haipv'
+  ), 
+  (
+    394, 117, 'apple-ipad-pro-11-2021-m1-wifi-1tb-thumbnail-1.jpg', 
+    '2022-08-28 05:24:41', 'haipv'
+  ), 
+  (
+    395, 117, 'apple-ipad-pro-11-2021-m1-wifi-1tb-thumbnail-2.jpg', 
+    '2022-08-28 05:24:41', 'haipv'
+  ), 
+  (
+    396, 117, 'apple-ipad-pro-11-2021-m1-wifi-1tb-thumbnail-3.jpg', 
+    '2022-08-28 05:24:41', 'haipv'
+  ), 
+  (
+    397, 117, 'apple-ipad-pro-11-2021-m1-wifi-1tb-thumbnail-4.jpg', 
+    '2022-08-28 05:24:41', 'haipv'
+  ), 
+  (
+    398, 118, 'apple-ipad-pro-11-2021-m1-wifi-2tb-thumbnail-1.jpg', 
+    '2022-08-28 05:25:11', 'haipv'
+  ), 
+  (
+    399, 118, 'apple-ipad-pro-11-2021-m1-wifi-2tb-thumbnail-2.jpg', 
+    '2022-08-28 05:25:11', 'haipv'
+  ), 
+  (
+    400, 118, 'apple-ipad-pro-11-2021-m1-wifi-2tb-thumbnail-3.jpg', 
+    '2022-08-28 05:25:11', 'haipv'
+  ), 
+  (
+    401, 118, 'apple-ipad-pro-11-2021-m1-wifi-2tb-thumbnail-4.jpg', 
+    '2022-08-28 05:25:11', 'haipv'
+  ), 
+  (
+    402, 119, 'samsung-galaxy-tab-s7-thumbnail-1.jpg', 
+    '2022-08-28 05:39:42', 'haipv'
+  ), 
+  (
+    403, 119, 'samsung-galaxy-tab-s7-thumbnail-2.jpg', 
+    '2022-08-28 05:39:42', 'haipv'
+  ), 
+  (
+    404, 119, 'samsung-galaxy-tab-s7-thumbnail-3.jpg', 
+    '2022-08-28 05:39:42', 'haipv'
+  ), 
+  (
+    405, 119, 'samsung-galaxy-tab-s7-thumbnail-4.jpg', 
+    '2022-08-28 05:39:42', 'haipv'
+  ), 
+  (
+    406, 120, 'samsung-galaxy-tab-s7-plus-thumbnail-3.jpg', 
+    '2022-08-28 05:39:05', 'haipv'
+  ), 
+  (
+    407, 120, 'samsung-galaxy-tab-s7-plus-thumbnail-2.jpg', 
+    '2022-08-28 05:39:05', 'haipv'
+  ), 
+  (
+    408, 120, 'samsung-galaxy-tab-s7-plus-thumbnail-1.jpg', 
+    '2022-08-28 05:39:05', 'haipv'
+  ), 
+  (
+    409, 120, 'samsung-galaxy-tab-s7-plus-thumbnail-4.jpg', 
+    '2022-08-28 05:39:05', 'haipv'
+  ), 
+  (
+    410, 121, 'samsung-galaxy-tab-s8-ultra-thumbnail-1.jpg', 
+    '2022-08-28 05:34:53', 'haipv'
+  ), 
+  (
+    411, 121, 'samsung-galaxy-tab-s8-ultra-thumbnail-2.jpg', 
+    '2022-08-28 05:34:53', 'haipv'
+  ), 
+  (
+    412, 121, 'samsung-galaxy-tab-s8-ultra-thumbnail-3.jpg', 
+    '2022-08-28 05:34:53', 'haipv'
+  ), 
+  (
+    413, 121, 'samsung-galaxy-tab-s8-ultra-thumbnail-4.jpg', 
+    '2022-08-28 05:34:53', 'haipv'
+  ), 
+  (
+    414, 122, 'samsung-galaxy-tab-s8-plus-256gb-thumbnail-1.jpg', 
+    '2022-08-28 05:35:38', 'haipv'
+  ), 
+  (
+    415, 122, 'samsung-galaxy-tab-s8-plus-256gb-thumbnail-2.jpg', 
+    '2022-08-28 05:35:38', 'haipv'
+  ), 
+  (
+    416, 122, 'samsung-galaxy-tab-s8-plus-256gb-thumbnail-3.jpg', 
+    '2022-08-28 05:35:38', 'haipv'
+  ), 
+  (
+    417, 122, 'samsung-galaxy-tab-s8-plus-256gb-thumbnail-4.jpg', 
+    '2022-08-28 05:35:38', 'haipv'
+  ), 
+  (
+    418, 123, 'samsung-galaxy-tab-s8-plus-thumbnail-1.jpg', 
+    '2022-08-28 05:36:22', 'haipv'
+  ), 
+  (
+    419, 123, 'samsung-galaxy-tab-s8-plus-thumbnail-2.jpg', 
+    '2022-08-28 05:36:22', 'haipv'
+  ), 
+  (
+    420, 123, 'samsung-galaxy-tab-s8-plus-thumbnail-3.jpg', 
+    '2022-08-28 05:36:22', 'haipv'
+  ), 
+  (
+    421, 123, 'samsung-galaxy-tab-s8-plus-thumbnail-4.jpg', 
+    '2022-08-28 05:36:22', 'haipv'
+  ), 
+  (
+    422, 124, 'samsung-galaxy-tab-s8-thumbnail-1.jpg', 
+    '2022-08-28 05:37:01', 'haipv'
+  ), 
+  (
+    423, 124, 'samsung-galaxy-tab-s8-thumbnail-2.jpg', 
+    '2022-08-28 05:37:01', 'haipv'
+  ), 
+  (
+    424, 124, 'samsung-galaxy-tab-s8-thumbnail-3.jpg', 
+    '2022-08-28 05:37:01', 'haipv'
+  ), 
+  (
+    425, 124, 'samsung-galaxy-tab-s8-thumbnail-4.jpg', 
+    '2022-08-28 05:37:01', 'haipv'
+  ), 
+  (
+    426, 125, 'apple-ipad-pro-129-2021-m1-wifi-128gb-thumbnail-2.jpg', 
+    '2022-08-28 05:42:04', 'haipv'
+  ), 
+  (
+    427, 125, 'apple-ipad-pro-129-2021-m1-wifi-128gb-thumbnail-3.jpg', 
+    '2022-08-28 05:42:04', 'haipv'
+  ), 
+  (
+    428, 125, 'apple-ipad-pro-129-2021-m1-wifi-128gb-thumbnail-4.jpg', 
+    '2022-08-28 05:42:04', 'haipv'
+  ), 
+  (
+    429, 125, 'apple-ipad-pro-129-2021-m1-wifi-128gb-thumbnail-1.jpg', 
+    '2022-08-28 05:42:04', 'haipv'
+  ), 
+  (
+    430, 126, 'apple-ipad-pro-129-2021-m1-wifi-256gb-thumbnail-1.jpg', 
+    '2022-08-28 05:42:45', 'haipv'
+  ), 
+  (
+    431, 126, 'apple-ipad-pro-129-2021-m1-wifi-256gb-thumbnail-2.jpg', 
+    '2022-08-28 05:42:45', 'haipv'
+  ), 
+  (
+    432, 126, 'apple-ipad-pro-129-2021-m1-wifi-256gb-thumbnail-3.jpg', 
+    '2022-08-28 05:42:45', 'haipv'
+  ), 
+  (
+    433, 126, 'apple-ipad-pro-129-2021-m1-wifi-256gb-thumbnail-4.jpg', 
+    '2022-08-28 05:42:45', 'haipv'
+  ), 
+  (
+    434, 127, 'apple-ipad-pro-129-2021-m1-wifi-512gb-thumbnail-1.jpg', 
+    '2022-08-28 05:43:40', 'haipv'
+  ), 
+  (
+    435, 127, 'apple-ipad-pro-129-2021-m1-wifi-512gb-thumbnail-2.jpg', 
+    '2022-08-28 05:43:40', 'haipv'
+  ), 
+  (
+    436, 127, 'apple-ipad-pro-129-2021-m1-wifi-512gb-thumbnail-3.jpg', 
+    '2022-08-28 05:43:40', 'haipv'
+  ), 
+  (
+    437, 127, 'apple-ipad-pro-129-2021-m1-wifi-512gb-thumbnail-4.jpg', 
+    '2022-08-28 05:43:40', 'haipv'
+  ), 
+  (
+    438, 128, 'apple-ipad-pro-129-2021-m1-wifi-1tb-thumbnail-1.jpg', 
+    '2022-08-28 05:44:22', 'haipv'
+  ), 
+  (
+    439, 128, 'apple-ipad-pro-129-2021-m1-wifi-1tb-thumbnail-2.jpg', 
+    '2022-08-28 05:44:22', 'haipv'
+  ), 
+  (
+    440, 128, 'apple-ipad-pro-129-2021-m1-wifi-1tb-thumbnail-3.jpg', 
+    '2022-08-28 05:44:22', 'haipv'
+  ), 
+  (
+    441, 128, 'apple-ipad-pro-129-2021-m1-wifi-1tb-thumbnail-4.jpg', 
+    '2022-08-28 05:44:22', 'haipv'
+  ), 
+  (
+    442, 129, 'apple-ipad-pro-129-2021-m1-wifi-2tb-thumbnail-1.jpg', 
+    '2022-08-28 05:44:47', 'haipv'
+  ), 
+  (
+    443, 129, 'apple-ipad-pro-129-2021-m1-wifi-2tb-thumbnail-2.jpg', 
+    '2022-08-28 05:44:47', 'haipv'
+  ), 
+  (
+    444, 129, 'apple-ipad-pro-129-2021-m1-wifi-2tb-thumbnail-3.jpg', 
+    '2022-08-28 05:44:47', 'haipv'
+  ), 
+  (
+    445, 129, 'apple-ipad-pro-129-2021-m1-wifi-2tb-thumbnail-4.jpg', 
+    '2022-08-28 05:44:47', 'haipv'
+  ), 
+  (
+    446, 130, 'day-deo-apple-watch-sport-band-414038mm-thumbnail-1.jpg', 
+    '2022-08-28 05:50:52', 'haipv'
+  ), 
+  (
+    447, 130, 'day-deo-apple-watch-sport-band-414038mm-thumbnail-4.jpg', 
+    '2022-08-28 05:50:52', 'haipv'
+  ), 
+  (
+    449, 133, 'day-deo-apple-watch-sport-band-454442mm-thumbnail-3.jpg', 
+    '2022-08-28 05:52:13', 'haipv'
+  ), 
+  (
+    450, 133, 'day-deo-apple-watch-sport-band-454442mm-thumbnail-1.jpg', 
+    '2022-08-28 05:52:13', 'haipv'
+  ), 
+  (
+    451, 134, 'day-deo-coteetci-silicone-cho-apple-watch-4244mm-thumbnail-1.jpg', 
+    '2022-08-28 05:53:33', 'haipv'
+  ), 
+  (
+    452, 134, 'day-deo-coteetci-silicone-cho-apple-watch-4244mm-thumbnail-2.jpg', 
+    '2022-08-28 05:53:33', 'haipv'
+  ), 
+  (
+    453, 134, 'day-deo-coteetci-silicone-cho-apple-watch-4244mm-thumbnail-3.jpg', 
+    '2022-08-28 05:53:33', 'haipv'
+  ), 
+  (
+    454, 134, 'day-deo-coteetci-silicone-cho-apple-watch-4244mm-thumbnail-4.jpg', 
+    '2022-08-28 05:53:33', 'haipv'
+  ), 
+  (
+    455, 135, 'day-deo-coteetci-silicone-cho-apple-watch-414038mm-thumbnail-1.jpg', 
+    '2022-08-28 05:53:55', 'haipv'
+  ), 
+  (
+    456, 135, 'day-deo-coteetci-silicone-cho-apple-watch-414038mm-thumbnail-2.jpg', 
+    '2022-08-28 05:53:55', 'haipv'
+  ), 
+  (
+    457, 135, 'day-deo-coteetci-silicone-cho-apple-watch-414038mm-thumbnail-3.jpg', 
+    '2022-08-28 05:53:55', 'haipv'
+  ), 
+  (
+    458, 135, 'day-deo-coteetci-silicone-cho-apple-watch-414038mm-thumbnail-4.jpg', 
+    '2022-08-28 05:53:55', 'haipv'
+  ), 
+  (
+    459, 136, 'day-deo-apple-watch-uniq-revix-reversible-magnetic-454442mm-thumbnail-1.jpg', 
+    '2022-08-28 05:56:26', 'haipv'
+  ), 
+  (
+    460, 136, 'day-deo-apple-watch-uniq-revix-reversible-magnetic-454442mm-thumbnail-2.jpg', 
+    '2022-08-28 05:56:26', 'haipv'
+  ), 
+  (
+    461, 136, 'day-deo-apple-watch-uniq-revix-reversible-magnetic-454442mm-thumbnail-3.jpg', 
+    '2022-08-28 05:56:26', 'haipv'
+  ), 
+  (
+    462, 136, 'day-deo-apple-watch-uniq-revix-reversible-magnetic-454442mm-thumbnail-4.jpg', 
+    '2022-08-28 05:56:26', 'haipv'
+  ), 
+  (
+    463, 137, 'day-deo-apple-watch-raptic-mesh-band-454442mm-thumbnail-1.jpeg', 
+    '2022-08-28 05:58:01', 'haipv'
+  ), 
+  (
+    464, 137, 'day-deo-apple-watch-raptic-mesh-band-454442mm-thumbnail-2.jpeg', 
+    '2022-08-28 05:58:01', 'haipv'
+  ), 
+  (
+    465, 138, 'day-deo-apple-watch-nike-sport-band-414038mm-thumbnail-1.jpg', 
+    '2022-08-28 05:59:39', 'haipv'
+  ), 
+  (
+    466, 138, 'day-deo-apple-watch-nike-sport-band-414038mm-thumbnail-3.jpg', 
+    '2022-08-28 05:59:39', 'haipv'
+  ), 
+  (
+    467, 138, 'day-deo-apple-watch-nike-sport-band-414038mm-thumbnail-4.jpg', 
+    '2022-08-28 05:59:39', 'haipv'
+  ), 
+  (
+    468, 139, 'day-deo-apple-watch-nike-sport-band-454442mm-thumbnail-1.jpg', 
+    '2022-08-28 06:00:36', 'haipv'
+  ), 
+  (
+    469, 139, 'day-deo-apple-watch-nike-sport-band-454442mm-thumbnail-3.jpg', 
+    '2022-08-28 06:00:36', 'haipv'
+  ), 
+  (
+    470, 139, 'day-deo-apple-watch-nike-sport-band-454442mm-thumbnail-4.jpg', 
+    '2022-08-28 06:00:36', 'haipv'
+  ), 
+  (
+    471, 140, 'day-deo-dong-ho-samsung-galaxy-watch-42mm-thumbnail-2.jpg', 
+    '2022-08-28 06:03:00', 'haipv'
+  ), 
+  (
+    472, 140, 'day-deo-dong-ho-samsung-galaxy-watch-42mm-thumbnail-3.jpg', 
+    '2022-08-28 06:03:00', 'haipv'
+  ), 
+  (
+    473, 140, 'day-deo-dong-ho-samsung-galaxy-watch-42mm-thumbnail-4.jpg', 
+    '2022-08-28 06:03:00', 'haipv'
+  ), 
+  (
+    474, 141, 'samsung-galaxy-watch5-thumbnail-1.png', 
+    '2022-08-28 06:08:12', 'haipv'
+  ), 
+  (
+    475, 141, 'samsung-galaxy-watch5-thumbnail-3.png', 
+    '2022-08-28 06:08:12', 'haipv'
+  ), 
+  (
+    476, 141, 'samsung-galaxy-watch5-thumbnail-4.png', 
+    '2022-08-28 06:08:12', 'haipv'
+  ), 
+  (
+    477, 142, 'samsung-galaxy-watch5-44mm-thumbnail-1.png', 
+    '2022-08-28 06:08:52', 'haipv'
+  ), 
+  (
+    478, 142, 'samsung-galaxy-watch5-44mm-thumbnail-2.png', 
+    '2022-08-28 06:08:52', 'haipv'
+  ), 
+  (
+    479, 142, 'samsung-galaxy-watch5-44mm-thumbnail-3.png', 
+    '2022-08-28 06:08:52', 'haipv'
+  ), 
+  (
+    480, 143, 'samsung-galaxy-watch5-40mm-lte-thumbnail-1.png', 
+    '2022-08-28 06:09:27', 'haipv'
+  ), 
+  (
+    481, 143, 'samsung-galaxy-watch5-40mm-lte-thumbnail-2.png', 
+    '2022-08-28 06:09:27', 'haipv'
+  ), 
+  (
+    482, 143, 'samsung-galaxy-watch5-40mm-lte-thumbnail-3.png', 
+    '2022-08-28 06:09:27', 'haipv'
+  ), 
+  (
+    483, 144, 'samsung-galaxy-watch5-44mm-lte-thumbnail-1.png', 
+    '2022-08-28 06:09:59', 'haipv'
+  ), 
+  (
+    484, 144, 'samsung-galaxy-watch5-44mm-lte-thumbnail-3.png', 
+    '2022-08-28 06:09:59', 'haipv'
+  ), 
+  (
+    485, 144, 'samsung-galaxy-watch5-44mm-lte-thumbnail-4.png', 
+    '2022-08-28 06:09:59', 'haipv'
+  ), 
+  (
+    486, 145, 'samsung-galaxy-watch5-pro-thumbnail-4.png', 
+    '2022-08-28 06:12:18', 'haipv'
+  ), 
+  (
+    487, 145, 'samsung-galaxy-watch5-pro-thumbnail-1.png', 
+    '2022-08-28 06:12:18', 'haipv'
+  ), 
+  (
+    488, 145, 'samsung-galaxy-watch5-pro-thumbnail-2.png', 
+    '2022-08-28 06:12:18', 'haipv'
+  ), 
+  (
+    489, 145, 'samsung-galaxy-watch5-pro-thumbnail-3.png', 
+    '2022-08-28 06:12:18', 'haipv'
+  ), 
+  (
+    490, 146, 'samsung-galaxy-watch4-40mm-thumbnail-1.png', 
+    '2022-08-28 06:15:19', 'haipv'
+  ), 
+  (
+    491, 146, 'samsung-galaxy-watch4-40mm-thumbnail-2.png', 
+    '2022-08-28 06:15:19', 'haipv'
+  ), 
+  (
+    492, 146, 'samsung-galaxy-watch4-40mm-thumbnail-3.png', 
+    '2022-08-28 06:15:19', 'haipv'
+  ), 
+  (
+    493, 146, 'samsung-galaxy-watch4-40mm-thumbnail-4.png', 
+    '2022-08-28 06:15:19', 'haipv'
+  ), 
+  (
+    494, 147, 'samsung-galaxy-watch4-44mm-thumbnail-1.png', 
+    '2022-08-28 06:17:45', 'haipv'
+  ), 
+  (
+    495, 147, 'samsung-galaxy-watch4-44mm-thumbnail-2.png', 
+    '2022-08-28 06:17:45', 'haipv'
+  ), 
+  (
+    496, 147, 'samsung-galaxy-watch4-44mm-thumbnail-3.png', 
+    '2022-08-28 06:17:45', 'haipv'
+  ), 
+  (
+    497, 147, 'samsung-galaxy-watch4-44mm-thumbnail-4.png', 
+    '2022-08-28 06:17:45', 'haipv'
+  ), 
+  (
+    498, 148, 'samsung-galaxy-watch4-40mm-lte-thumbnail-1.png', 
+    '2022-08-28 06:18:00', 'haipv'
+  ), 
+  (
+    499, 148, 'samsung-galaxy-watch4-40mm-lte-thumbnail-2.png', 
+    '2022-08-28 06:18:00', 'haipv'
+  ), 
+  (
+    500, 148, 'samsung-galaxy-watch4-40mm-lte-thumbnail-3.png', 
+    '2022-08-28 06:18:00', 'haipv'
+  ), 
+  (
+    501, 148, 'samsung-galaxy-watch4-40mm-lte-thumbnail-4.png', 
+    '2022-08-28 06:18:00', 'haipv'
+  ), 
+  (
+    502, 149, 'samsung-galaxy-watch4-classic-42mm-thumbnail-1.jpg', 
+    '2022-08-28 06:21:31', 'haipv'
+  ), 
+  (
+    503, 149, 'samsung-galaxy-watch4-classic-42mm-thumbnail-2.jpg', 
+    '2022-08-28 06:21:31', 'haipv'
+  ), 
+  (
+    504, 149, 'samsung-galaxy-watch4-classic-42mm-thumbnail-3.jpg', 
+    '2022-08-28 06:21:31', 'haipv'
+  ), 
+  (
+    505, 149, 'samsung-galaxy-watch4-classic-42mm-thumbnail-4.jpg', 
+    '2022-08-28 06:21:31', 'haipv'
+  ), 
+  (
+    506, 150, 'samsung-galaxy-watch4-classic-46mm-thumbnail-1.jpg', 
+    '2022-08-28 06:21:26', 'haipv'
+  ), 
+  (
+    507, 150, 'samsung-galaxy-watch4-classic-46mm-thumbnail-2.jpg', 
+    '2022-08-28 06:21:26', 'haipv'
+  ), 
+  (
+    508, 150, 'samsung-galaxy-watch4-classic-46mm-thumbnail-3.jpg', 
+    '2022-08-28 06:21:26', 'haipv'
+  ), 
+  (
+    509, 150, 'samsung-galaxy-watch4-classic-46mm-thumbnail-4.jpg', 
+    '2022-08-28 06:21:26', 'haipv'
+  ), 
+  (
+    510, 151, 'samsung-galaxy-watch4-classic-42mm-lte-thumbnail-1.jpg', 
+    '2022-08-28 06:22:00', 'haipv'
+  ), 
+  (
+    511, 151, 'samsung-galaxy-watch4-classic-42mm-lte-thumbnail-2.jpg', 
+    '2022-08-28 06:22:00', 'haipv'
+  ), 
+  (
+    512, 151, 'samsung-galaxy-watch4-classic-42mm-lte-thumbnail-3.jpg', 
+    '2022-08-28 06:22:00', 'haipv'
+  ), 
+  (
+    513, 151, 'samsung-galaxy-watch4-classic-42mm-lte-thumbnail-4.jpg', 
+    '2022-08-28 06:22:00', 'haipv'
+  ), 
+  (
+    514, 152, 'apple-watch-series-7-45mm-4g-vien-thep-day-thep-thumbnail-1.jpg', 
+    '2022-08-28 06:24:57', 'haipv'
+  ), 
+  (
+    515, 152, 'apple-watch-series-7-45mm-4g-vien-thep-day-thep-thumbnail-4.jpg', 
+    '2022-08-28 06:24:57', 'haipv'
+  ), 
+  (
+    516, 153, 'apple-watch-series-7-41mm-4g-vien-thep-day-thep-thumbnail-2.jpg', 
+    '2022-08-28 06:30:11', 'haipv'
+  ), 
+  (
+    517, 153, 'apple-watch-series-7-41mm-4g-vien-thep-day-thep-thumbnail-3.jpg', 
+    '2022-08-28 06:30:11', 'haipv'
+  ), 
+  (
+    518, 154, 'apple-watch-series-7-45mm-4g-vien-thep-day-cao-su-thumbnail-4.jpg', 
+    '2022-08-28 06:35:09', 'haipv'
+  ), 
+  (
+    519, 154, 'apple-watch-series-7-45mm-4g-vien-thep-day-cao-su-thumbnail-3.jpg', 
+    '2022-08-28 06:35:09', 'haipv'
+  ), 
+  (
+    520, 154, 'apple-watch-series-7-45mm-4g-vien-thep-day-cao-su-thumbnail-2.jpg', 
+    '2022-08-28 06:35:09', 'haipv'
+  ), 
+  (
+    521, 155, 'apple-watch-series-7-41mm-4g-vien-thep-day-cao-su-thumbnail-1.jpg', 
+    '2022-08-28 06:36:50', 'haipv'
+  ), 
+  (
+    522, 155, 'apple-watch-series-7-41mm-4g-vien-thep-day-cao-su-thumbnail-3.jpg', 
+    '2022-08-28 06:36:50', 'haipv'
+  ), 
+  (
+    523, 155, 'apple-watch-series-7-41mm-4g-vien-thep-day-cao-su-thumbnail-4.jpg', 
+    '2022-08-28 06:36:50', 'haipv'
+  ), 
+  (
+    524, 156, 'apple-watch-series-6-40mm-4g-vien-thep-day-cao-su-thumbnail-2.jpg', 
+    '2022-08-28 06:39:01', 'haipv'
+  ), 
+  (
+    525, 156, 'apple-watch-series-6-40mm-4g-vien-thep-day-cao-su-thumbnail-1.jpg', 
+    '2022-08-28 06:39:01', 'haipv'
+  ), 
+  (
+    526, 156, 'apple-watch-series-6-40mm-4g-vien-thep-day-cao-su-thumbnail-3.jpg', 
+    '2022-08-28 06:39:01', 'haipv'
+  ), 
+  (
+    527, 157, 'apple-watch-series-6-44mm-4g-vien-thep-day-cao-su-thumbnail-1.jpg', 
+    '2022-08-28 06:39:30', 'haipv'
+  ), 
+  (
+    528, 157, 'apple-watch-series-6-44mm-4g-vien-thep-day-cao-su-thumbnail-3.jpg', 
+    '2022-08-28 06:39:30', 'haipv'
+  ), 
+  (
+    529, 157, 'apple-watch-series-6-44mm-4g-vien-thep-day-cao-su-thumbnail-4.jpg', 
+    '2022-08-28 06:39:30', 'haipv'
+  ), 
+  (
+    530, 158, 'apple-watch-se-40mm-4g-vien-nhom-day-cao-su-thumbnail-2.jpg', 
+    '2022-08-28 06:43:17', 'haipv'
+  ), 
+  (
+    531, 158, 'apple-watch-se-40mm-4g-vien-nhom-day-cao-su-thumbnail-3.jpg', 
+    '2022-08-28 06:43:17', 'haipv'
+  ), 
+  (
+    532, 159, 'apple-watch-se-44mm-4g-vien-nhom-day-cao-su-thumbnail-1.jpg', 
+    '2022-08-28 06:43:54', 'haipv'
+  ), 
+  (
+    533, 159, 'apple-watch-se-44mm-4g-vien-nhom-day-cao-su-thumbnail-4.jpg', 
+    '2022-08-28 06:43:54', 'haipv'
+  ), 
+  (
+    534, 160, 'ban-phim-apple-magic-keyboard-touch-idphim-so-2021-mk2c-thumbnail-1.png', 
+    '2022-08-28 06:52:24', 'haipv'
+  ), 
+  (
+    535, 160, 'ban-phim-apple-magic-keyboard-touch-idphim-so-2021-mk2c-thumbnail-3.jpg', 
+    '2022-08-28 06:52:24', 'haipv'
+  ), 
+  (
+    536, 160, 'ban-phim-apple-magic-keyboard-touch-idphim-so-2021-mk2c-thumbnail-4.jpg', 
+    '2022-08-28 06:52:24', 'haipv'
+  ), 
+  (
+    537, 161, 'ban-phim-apple-magic-keyboard-touch-id-2021-mk293-thumbnail-1.jpg', 
+    '2022-08-28 06:54:30', 'haipv'
+  ), 
+  (
+    538, 161, 'ban-phim-apple-magic-keyboard-touch-id-2021-mk293-thumbnail-2.jpg', 
+    '2022-08-28 06:54:30', 'haipv'
+  ), 
+  (
+    539, 161, 'ban-phim-apple-magic-keyboard-touch-id-2021-mk293-thumbnail-3.jpg', 
+    '2022-08-28 06:54:30', 'haipv'
+  ), 
+  (
+    540, 162, 'ban-phim-apple-magic-keyboard-2021-mk2a3-thumbnail-2.jpg', 
+    '2022-08-28 07:17:42', 'haipv'
+  ), 
+  (
+    541, 162, 'ban-phim-apple-magic-keyboard-2021-mk2a3-thumbnail-3.jpg', 
+    '2022-08-28 07:17:42', 'haipv'
+  ), 
+  (
+    542, 162, 'ban-phim-apple-magic-keyboard-2021-mk2a3-thumbnail-4.jpg', 
+    '2022-08-28 07:17:42', 'haipv'
+  ), 
+  (
+    543, 163, 'chuot-apple-magic-mouse-2021-mk2e3-thumbnail-1.jpg', 
+    '2022-08-28 07:20:44', 'haipv'
+  ), 
+  (
+    544, 163, 'chuot-apple-magic-mouse-2021-mk2e3-thumbnail-2.jpg', 
+    '2022-08-28 07:20:44', 'haipv'
+  ), 
+  (
+    545, 163, 'chuot-apple-magic-mouse-2021-mk2e3-thumbnail-3.jpg', 
+    '2022-08-28 07:20:44', 'haipv'
+  ), 
+  (
+    546, 164, 'chuot-apple-magic-mouse-2-thumbnail-1.jpg', 
+    '2022-08-28 07:21:46', 'haipv'
+  ), 
+  (
+    547, 164, 'chuot-apple-magic-mouse-2-thumbnail-3.jpg', 
+    '2022-08-28 07:21:46', 'haipv'
+  ), 
+  (
+    548, 165, 'ban-phim-co-asus-rog-strix-flare-ii-animate-rgb-thumbnail-2.jpg', 
+    '2022-08-28 07:24:14', 'haipv'
+  ), 
+  (
+    549, 165, 'ban-phim-co-asus-rog-strix-flare-ii-animate-rgb-thumbnail-3.jpg', 
+    '2022-08-28 07:24:14', 'haipv'
+  ), 
+  (
+    550, 166, 'ban-phim-co-khong-day-asus-rog-falchion-nx-thumbnail-1.jpg', 
+    '2022-08-28 07:28:07', 'haipv'
+  ), 
+  (
+    551, 166, 'ban-phim-co-khong-day-asus-rog-falchion-nx-thumbnail-2.jpg', 
+    '2022-08-28 07:28:07', 'haipv'
+  ), 
+  (
+    552, 166, 'ban-phim-co-khong-day-asus-rog-falchion-nx-thumbnail-4.jpg', 
+    '2022-08-28 07:28:08', 'haipv'
+  ), 
+  (
+    553, 167, 'ban-phim-co-gaming-asus-tuf-k3-thumbnail-2.jpg', 
+    '2022-08-28 07:29:39', 'haipv'
+  ), 
+  (
+    554, 167, 'ban-phim-co-gaming-asus-tuf-k3-thumbnail-4.jpg', 
+    '2022-08-28 07:29:39', 'haipv'
+  ), 
+  (
+    555, 168, 'chuot-co-day-gaming-asus-rog-strix-impact-ii-gundam-thumbnail-2.jpg', 
+    '2022-08-28 07:31:17', 'haipv'
+  ), 
+  (
+    556, 168, 'chuot-co-day-gaming-asus-rog-strix-impact-ii-gundam-thumbnail-3.jpg', 
+    '2022-08-28 07:31:17', 'haipv'
+  ), 
+  (
+    557, 168, 'chuot-co-day-gaming-asus-rog-strix-impact-ii-gundam-thumbnail-4.jpg', 
+    '2022-08-28 07:31:17', 'haipv'
+  ), 
+  (
+    558, 169, 'chuot-co-day-gaming-asus-tuf-m3-thumbnail-1.jpg', 
+    '2022-08-28 07:32:41', 'haipv'
+  ), 
+  (
+    559, 169, 'chuot-co-day-gaming-asus-tuf-m3-thumbnail-3.jpg', 
+    '2022-08-28 07:32:41', 'haipv'
+  ), 
+  (
+    560, 169, 'chuot-co-day-gaming-asus-tuf-m3-thumbnail-4.jpg', 
+    '2022-08-28 07:32:41', 'haipv'
+  ), 
+  (
+    561, 170, 'chuot-gaming-asus-cerberus-thumbnail-1.jpg', 
+    '2022-08-28 07:34:14', 'haipv'
+  ), 
+  (
+    562, 170, 'chuot-gaming-asus-cerberus-thumbnail-3.png', 
+    '2022-08-28 07:34:14', 'haipv'
+  ), 
+  (
+    563, 171, 'ban-phim-co-co-day-gaming-msi-vigor-gk50-elite-thumbnail-2.jpg', 
+    '2022-08-28 07:36:02', 'haipv'
+  ), 
+  (
+    564, 171, 'ban-phim-co-co-day-gaming-msi-vigor-gk50-elite-thumbnail-4.jpg', 
+    '2022-08-28 07:36:02', 'haipv'
+  ), 
+  (
+    565, 172, 'chuot-gaming-khong-day-msi-clutch-gm41-lightweight-thumbnail-1.jpg', 
+    '2022-08-28 07:38:43', 'haipv'
+  ), 
+  (
+    566, 172, 'chuot-gaming-khong-day-msi-clutch-gm41-lightweight-thumbnail-2.jpg', 
+    '2022-08-28 07:38:43', 'haipv'
+  ), 
+  (
+    567, 173, 'chuot-co-day-gaming-msi-clutch-gm41-lightweight-v2-thumbnail-2.jpg', 
+    '2022-08-28 07:39:59', 'haipv'
+  ), 
+  (
+    568, 173, 'chuot-co-day-gaming-msi-clutch-gm41-lightweight-v2-thumbnail-4.jpg', 
+    '2022-08-28 07:39:59', 'haipv'
+  ), 
+  (
+    569, 174, 'chuot-co-day-gaming-msi-clutch-gm11-thumbnail-1.jpg', 
+    '2022-08-28 07:41:45', 'haipv'
+  ), 
+  (
+    570, 174, 'chuot-co-day-gaming-msi-clutch-gm11-thumbnail-3.jpg', 
+    '2022-08-28 07:41:45', 'haipv'
+  ), 
+  (
+    571, 174, 'chuot-co-day-gaming-msi-clutch-gm11-thumbnail-4.jpg', 
+    '2022-08-28 07:41:45', 'haipv'
+  ), 
+  (
+    572, 175, 'chuot-co-day-gaming-msi-m99-thumbnail-2.jpg', 
+    '2022-08-28 07:43:10', 'haipv'
+  ), 
+  (
+    573, 175, 'chuot-co-day-gaming-msi-m99-thumbnail-3.jpg', 
+    '2022-08-28 07:43:10', 'haipv'
+  ), 
+  (
+    574, 175, 'chuot-co-day-gaming-msi-m99-thumbnail-4.jpg', 
+    '2022-08-28 07:43:10', 'haipv'
+  ), 
+  (
+    575, 176, 'chuot-gaming-lenovo-legion-m500-thumbnail-1.jpg', 
+    '2022-08-28 07:44:36', 'haipv'
+  ), 
+  (
+    576, 176, 'chuot-gaming-lenovo-legion-m500-thumbnail-2.jpg', 
+    '2022-08-28 07:44:36', 'haipv'
+  ), 
+  (
+    577, 177, 'sac-doi-apple-magsafe-duo-thumbnail-2.jpg', 
+    '2022-08-28 07:47:00', 'haipv'
+  ), 
+  (
+    578, 177, 'sac-doi-apple-magsafe-duo-thumbnail-4.jpg', 
+    '2022-08-28 07:47:00', 'haipv'
+  ), 
+  (
+    579, 178, 'cap-chuyen-usb-c-to-sd-card-reader-apple-mufg2zaa-thumbnail-1.jpg', 
+    '2022-08-28 07:50:02', 'haipv'
+  ), 
+  (
+    580, 178, 'cap-chuyen-usb-c-to-sd-card-reader-apple-mufg2zaa-thumbnail-2.jpg', 
+    '2022-08-28 07:50:02', 'haipv'
+  ), 
+  (
+    581, 178, 'cap-chuyen-usb-c-to-sd-card-reader-apple-mufg2zaa-thumbnail-3.jpg', 
+    '2022-08-28 07:50:02', 'haipv'
+  ), 
+  (
+    582, 179, 'cu-sac-nhanh-apple-mnwp3za-a-35w-2-cong-type-c-thumbnail-2.jpg', 
+    '2022-08-28 07:51:48', 'haipv'
+  ), 
+  (
+    583, 179, 'cu-sac-nhanh-apple-mnwp3za-a-35w-2-cong-type-c-thumbnail-3.jpg', 
+    '2022-08-28 07:51:48', 'haipv'
+  ), 
+  (
+    584, 180, 'cap-apple-magsafe-mhxh3-thumbnail-1.jpg', 
+    '2022-08-28 07:53:01', 'haipv'
+  ), 
+  (
+    585, 180, 'cap-apple-magsafe-mhxh3-thumbnail-2.jpg', 
+    '2022-08-28 07:53:01', 'haipv'
+  ), 
+  (
+    586, 180, 'cap-apple-magsafe-mhxh3-thumbnail-4.jpg', 
+    '2022-08-28 07:53:01', 'haipv'
+  ), 
+  (
+    587, 181, 'sac-nhanh-20w-apple-mhje3za-thumbnail-1.jpg', 
+    '2022-08-28 07:54:14', 'haipv'
+  ), 
+  (
+    588, 181, 'sac-nhanh-20w-apple-mhje3za-thumbnail-2.jpg', 
+    '2022-08-28 07:54:14', 'haipv'
+  ), 
+  (
+    589, 181, 'sac-nhanh-20w-apple-mhje3za-thumbnail-3.jpg', 
+    '2022-08-28 07:54:14', 'haipv'
+  ), 
+  (
+    590, 182, 'sac-khong-day-samsung-wireless-charger-duo-15w-thumbnail-1.jpg', 
+    '2022-08-28 07:55:27', 'haipv'
+  ), 
+  (
+    591, 182, 'sac-khong-day-samsung-wireless-charger-duo-15w-thumbnail-2.jpg', 
+    '2022-08-28 07:55:27', 'haipv'
+  ), 
+  (
+    592, 182, 'sac-khong-day-samsung-wireless-charger-duo-15w-thumbnail-4.jpg', 
+    '2022-08-28 07:55:27', 'haipv'
+  ), 
+  (
+    593, 183, 'cu-sac-type-c-samsung-t4510-45w-den-kem-cap-c-c-5a-18m-thumbnail-2.jpg', 
+    '2022-08-28 07:57:04', 'haipv'
+  ), 
+  (
+    594, 183, 'cu-sac-type-c-samsung-t4510-45w-den-kem-cap-c-c-5a-18m-thumbnail-3.jpg', 
+    '2022-08-28 07:57:04', 'haipv'
+  ), 
+  (
+    595, 183, 'cu-sac-type-c-samsung-t4510-45w-den-kem-cap-c-c-5a-18m-thumbnail-4.jpg', 
+    '2022-08-28 07:57:04', 'haipv'
+  ), 
+  (
+    596, 184, 'dock-sac-doi-khong-day-note-9-thumbnail-3.png', 
+    '2022-08-28 07:58:37', 'haipv'
+  ), 
+  (
+    597, 184, 'dock-sac-doi-khong-day-note-9-thumbnail-4.jpg', 
+    '2022-08-28 07:58:37', 'haipv'
+  ), 
+  (
+    598, 185, 'gia-do-laptop-wiwu-alunium-alloy-adjustable-angle-portable-thumbnail-2.jpg', 
+    '2022-08-28 08:04:07', 'haipv'
+  ), 
+  (
+    599, 185, 'gia-do-laptop-wiwu-alunium-alloy-adjustable-angle-portable-thumbnail-3.jpg', 
+    '2022-08-28 08:04:07', 'haipv'
+  ), 
+  (
+    600, 185, 'gia-do-laptop-wiwu-alunium-alloy-adjustable-angle-portable-thumbnail-4.jpg', 
+    '2022-08-28 08:04:07', 'haipv'
+  ), 
+  (
+    601, 187, 'gia-do-laptop-hyper-stand-folding-alunium-htu6-thumbnail-3.jpg', 
+    '2022-08-28 08:06:49', 'haipv'
+  ), 
+  (
+    602, 187, 'gia-do-laptop-hyper-stand-folding-alunium-htu6-thumbnail-4.jpg', 
+    '2022-08-28 08:06:49', 'haipv'
+  ), 
+  (
+    603, 189, 'gia-do-laptopmacbook-hop-kim-nhom-da-nang-cao-cap-thumbnail-3.png', 
+    '2022-08-28 08:08:52', 'haipv'
+  ), 
+  (
+    604, 190, 'gia-do-laptopmacbook-s-case-hop-kim-nhom-thumbnail-2.jpg', 
+    '2022-08-28 08:10:10', 'haipv'
+  ), 
+  (
+    605, 191, 'moc-dan-do-dien-thoai-adidas-or-univeral-phone-ring-ss20-bluebirdwhite-thumbnail-1.jpg', 
+    '2022-08-28 08:11:06', 'haipv'
+  ), 
+  (
+    606, 191, 'moc-dan-do-dien-thoai-adidas-or-univeral-phone-ring-ss20-bluebirdwhite-thumbnail-2.jpg', 
+    '2022-08-28 08:11:06', 'haipv'
   );
+
 
   -- rating
 insert into rating(id,product_id,fullname,email,point,content)
@@ -3193,286 +5324,467 @@ INSERT status_order(`id`, `code`, `status`)
     (9, 'HUY', 'Đơn đã huỷ');
     
 -- orders
-insert orders
-values 
+INSERT INTO `orders` 
+VALUES 
   (
-    1, 'HD-11062022', NULL, 1, 1, 2, 1, 6, 
+    1, 'HD-11062022', NULL, 1, 1, 2, 2, 6, 
     'Nguyễn Quang Huy', 'vanb@gmail.co.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, NULL, '2022-01-07 08:13:38', 
     NULL, 14990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    2, 'HD-12062022', NULL, 1, 2, 1, 2, 6, 
-    'Nguyễn Quang Huy', 'gmail@gmail.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
-    NULL, 30880000, NULL, NULL, NULL, NULL, 
-    2
+    2, 'HD-12062022', 'HD-12062022.png', 
+    1, 2, 1, 2, 6, 'Nguyễn Quang Huy', 
+    'gmail@gmail.com', NULL, NULL, '2022-01-07 08:13:38', 
+    'haipv', 30880000, NULL, NULL, NULL, 
+    NULL, 2
   ), 
   (
-    3, 'HD-13062022', NULL, 1, 1, 2, 1, 6, 
+    3, 'HD-13062022', NULL, 1, 1, 2, 2, 6, 
     'Nguyễn Quang Huy', 'leanhtuab@gmail.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, NULL, '2022-01-07 08:13:38', 
     NULL, 50870000, NULL, NULL, NULL, NULL, 
     3
   ), 
   (
     4, 'HD-14062022', NULL, 1, 1, 2, 2, 6, 
     'Nguyễn Quang Huy', 'hongnnt@gmail.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, NULL, '2022-01-07 08:13:38', 
     NULL, 32990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    5, 'HD-15062022', NULL, 1, 1, 2, 1, 6, 
+    5, 'HD-15062022', NULL, 1, 1, 2, 2, 6, 
     'Nguyễn Quang Huy', 'minhdb@gmail.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, NULL, '2022-01-07 08:13:38', 
     NULL, 30890000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
     6, 'HD-16062022', NULL, 2, 1, 2, 2, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, NULL, '2022-02-07 08:13:38', 
     NULL, 29990000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    7, 'HD-17062022', NULL, 2, 1, 2, 1, 6, 
+    7, 'HD-17062022', NULL, 2, 1, 2, 2, 6, 
     'Bùi Đức Minh', 'minhdb@gmail.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
+    NULL, NULL, '2022-02-07 08:13:38', 
     NULL, 24490000, NULL, NULL, NULL, NULL, 
     1
   ), 
   (
-    8, 'HD-18062022', NULL, 2, 2, 1, 2, 6, 
-    'Bùi Đức Minh', 'minhdb@gmail.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
-    NULL, 20990000, NULL, NULL, NULL, NULL, 
+    8, 'HD-18062022', 'HD-18062022.png', 
+    2, 2, 1, 2, 6, 'Bùi Đức Minh', 'minhdb@gmail.com', 
+    NULL, NULL, '2022-02-07 08:13:38', 
+    'haipv', 20990000, NULL, NULL, NULL, 
+    NULL, 1
+  ), 
+  (
+    9, 'HD-19062022', 'HD-19062022.png', 
+    2, 2, 1, 2, 6, 'Bùi Đức Minh', 'minhdb@gmail.com', 
+    NULL, NULL, '2022-02-07 08:13:38', 
+    'haipv', 33480000, NULL, NULL, NULL, 
+    NULL, 2
+  ), 
+  (
+    10, 'HD-20062022', 'HD-20062022.png', 
+    2, 2, 1, 2, 6, 'Bùi Đức Minh', 'minhdb@gmail.com', 
+    NULL, NULL, '2022-02-07 08:13:38', 
+    'haipv', 52430000, NULL, NULL, NULL, 
+    NULL, 3
+  ), 
+  (
+    11, 'HD-74289518', 'HD-74289518.png', 
+    2, 2, 1, 2, 6, 'Bùi Đức Minh', 'minhdb@gmail.com', 
+    '', NULL, '2022-02-07 08:13:58', 
+    'haipv', 29990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    9, 'HD-19062022', NULL, 2, 2, 1, 1, 6, 
-    'Bùi Đức Minh', 'minhdb@gmail.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
-    NULL, 33480000, NULL, NULL, NULL, NULL, 
-    2
-  ), 
-  (
-    10, 'HD-20062022', NULL, 2, 2, 1, 2, 6, 
-    'Bùi Đức Minh', 'minhdb@gmail.com', 
-    NULL, NULL, '2022-08-08 05:13:38', 
-    NULL, 52430000, NULL, NULL, NULL, NULL, 
-    3
-  ), 
-  (
-    11, 'HD-74289518', NULL, 2, 2, 1, 1, 6, 
-    'Bùi Đức Minh', 'minhdb@gmail.com', 
-    '', NULL, '2022-08-08 05:13:58', 
-    NULL, 29990000, NULL, 0, NULL, NULL, 
-    1
-  ), 
-  (
-    12, 'HD-29387428', NULL, 5, 2, 1, 1, 6, 
-    'Lê Thị Thu Hà', 'quangdat@gmail.com', 
-    '', NULL, '2022-08-08 06:16:01', 
-    NULL, 87960000, NULL, 0, NULL, NULL, 
+    12, 'HD-29387428', 'HD-29387428.png', 
+    5, 2, 1, 2, 6, 'Lê Thị Thu Hà', 
+    'quangdat@gmail.com', '', NULL, '2022-02-07 09:16:01', 
+    'haipv', 87960000, NULL, 0, NULL, NULL, 
     4
   ), 
   (
     13, 'HD-28796165', 'HD-28796165.png', 
-    5, 2, 1, 1, 6, 'Lê Thị Thu Hà', 
-    'quangdat@gmail.com', '', NULL, '2022-08-08 06:17:36', 
-    'minhnh', 99000000, NULL, 0, NULL, 
-    NULL, 1
+    5, 2, 1, 2, 6, 'Lê Thị Thu Hà', 
+    'quangdat@gmail.com', '', NULL, '2022-02-07 09:17:36', 
+    'haipv', 99000000, NULL, 0, NULL, NULL, 
+    1
   ), 
   (
-    14, 'HD-86090362', NULL, 5, 1, 1, 1, 6, 
+    14, 'HD-86090362', NULL, 5, 1, 1, 2, 6, 
     'Lê thị thu hồng', 'hongnnt@gmail.com', 
-    '', NULL, '2022-08-08 06:19:26', 
+    '', NULL, '2022-02-07 09:19:26', 
     NULL, 50990000, NULL, 295000, NULL, 
     NULL, 1
   ), 
   (
-    15, 'HD-78426833', NULL, 5, 1, 1, 1, 6, 
+    15, 'HD-78426833', NULL, 5, 1, 1, 2, 6,
     'Lê thị thu hồng', 'hongnnt@gmail.com', 
-    '', NULL, '2022-08-08 06:22:14', 
+    '', NULL, '2022-02-07 09:22:14', 
     NULL, 30890000, NULL, 168560, NULL, 
     NULL, 1
   ), 
   (
-    16, 'HD-71533818', NULL, 5, 2, 1, 1, 6, 
-    'trần anh đạt', NULL, '', NULL, 
-    '2021-08-08 06:25:45', NULL, 50980000, 
-    NULL, 0, NULL, NULL, 2
+    16, 'HD-71533818', 'HD-71533818.png', 
+    5, 2, 1, 2, 6, 'trần anh đạt', 
+    NULL, '', NULL, '2021-03-07 09:25:45', 
+    'haipv', 50980000, NULL, 0, NULL, NULL, 
+    2
   ), 
   (
-    17, 'HD-37208349', NULL, 3, 1, 1, 1, 6, 
+    17, 'HD-37208349', NULL, 3, 1, 1, 2, 6, 
     'Tấn Tài', 'hungnq@gmail.com', 
-    'giao thu 2', NULL, '2021-08-08 06:31:44', 
+    'giao thu 2', NULL, '2021-03-07 09:31:44', 
     NULL, 12490000, NULL, 40000, NULL, 
     NULL, 1
   ), 
   (
-    18, 'HD-51070929', NULL, 3, 1, 1, 1, 6, 
+    18, 'HD-51070929', NULL, 3, 1, 1, 2, 6, 
     'Thu Hằng', 'thuhanggg@gmail.com', 
-    'giao thu 2', NULL, '2021-08-08 06:34:38', 
+    'giao thu 2', NULL, '2021-03-07 09:34:38', 
     NULL, 33990000, NULL, 224950, NULL, 
     NULL, 1
   ), 
   (
     19, 'HD-94371462', 'HD-94371462.png', 
-    4, 2, 1, 1, 6, 'Nguyễn Quang Vinh', 
-    'vinhnq@gmail.com', '', NULL, '2021-08-08 06:35:00', 
-    'minhnh', 54480000, NULL, 0, NULL, 
-    NULL, 2
+    4, 2, 1, 2, 6, 'Nguyễn Quang Vinh', 
+    'vinhnq@gmail.com', '', NULL, '2021-03-07 09:35:00', 
+    'haipv', 54480000, NULL, 0, NULL, NULL, 
+    2
   ), 
   (
-    20, 'HD-92562610', NULL, 3, 1, 1, 1, 6, 
+    20, 'HD-92562610', NULL, 3, 1, 1, 2, 6, 
     'Nguyễn Văn B', 'vanb@gmail.co.com', 
-    'giao thu 2', NULL, '2021-08-08 06:36:17', 
+    'giao thu 2', NULL, '2021-03-07 09:36:17', 
     NULL, 14490000, NULL, 117450, NULL, 
     NULL, 1
   ), 
   (
-    21, 'HD-26836246', NULL, 4, 1, 1, 1, 6, 
+    21, 'HD-26836246', NULL, 4, 1, 1, 2, 6, 
     'Nguyễn Quang Hùng', 'hungnq@gmail.com', 
-    '', NULL, '2021-08-08 06:37:36', 
+    '', NULL, '2021-04-07 09:37:36', 
     NULL, 41990000, NULL, 249950, NULL, 
     NULL, 1
   ), 
   (
-    25, 'HD-37154178', NULL, 7, 1, 1, 1, 6, 
+    25, 'HD-37154178', NULL, 7, 1, 1, 2, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    'giao thu 2', NULL, '2021-08-08 06:40:26', 
+    'giao thu 2', NULL, '2021-04-07 09:40:26', 
     NULL, 29990000, NULL, 184950, NULL, 
     NULL, 1
   ), 
   (
-    26, 'HD-14280547', NULL, 7, 1, 1, 1, 6, 
+    26, 'HD-14280547', NULL, 7, 1, 1, 2, 6, 
     'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    'giao thu 2', NULL, '2020-08-08 06:40:40', 
+    'giao thu 2', NULL, '2021-04-07 09:40:40', 
     NULL, 12490000, NULL, 97450, NULL, 
     NULL, 1
   ), 
   (
-    27, 'HD-62169753', NULL, 6, 2, 1, 1, 6, 
-    'Nguyễn Ngọc Thiên Hồng', 
-    'hongnnt@gmail.com', '', NULL, '2020-08-08 06:40:59', 
-    NULL, 38990000, NULL, 0, NULL, NULL, 
+    27, 'HD-62169753', 'HD-62169753.png', 
+    6, 2, 1, 2, 6, 'Nguyễn Ngọc Thiên Hồng', 
+    'hongnnt@gmail.com', '', NULL, '2021-04-07 09:40:59', 
+    'haipv', 38990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    28, 'HD-40867355', NULL, 6, 1, 1, 1, 6, 
+    28, 'HD-40867355', NULL, 6, 1, 1, 2, 6, 
     'Nguyễn Ngọc Thiên Hồng', 
-    'hongnnt@gmail.com', '', NULL, '2020-08-08 06:41:18', 
+    'hongnnt@gmail.com', '', NULL, '2021-04-07 09:41:18', 
     NULL, 15990000, NULL, 109950, NULL, 
     NULL, 1
   ), 
   (
-    29, 'HD-95581896', NULL, 7, 2, 1, 1, 6, 
-    'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2020-08-08 06:42:00', 
-    NULL, 29990000, NULL, 0, NULL, NULL, 
-    1
+    29, 'HD-95581896', 'HD-95581896.png', 
+    7, 2, 1, 2, 6, 'Phạm Quang Đạt', 
+    'quangdat@gmail.com', 'giao thu 2', 
+    NULL, '2021-04-07 09:42:00', 'haipv', 
+    29990000, NULL, 0, NULL, NULL, 1
   ), 
   (
-    30, 'HD-73766888', NULL, 7, 2, 1, 1, 6, 
-    'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2020-08-08 06:42:56', 
-    NULL, 33990000, NULL, 0, NULL, NULL, 
-    1
+    30, 'HD-73766888', 'HD-73766888.png', 
+    7, 2, 1, 2, 6, 'Phạm Quang Đạt', 
+    'quangdat@gmail.com', 'giao thu 2', 
+    NULL, '2021-04-07 09:42:56', 'haipv', 
+    33990000, NULL, 0, NULL, NULL, 1
   ), 
   (
-    31, 'HD-23126624', NULL, 7, 1, 1, 1, 6, 
+    31, 'HD-23126624', NULL, 7, 1, 1, 2, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2020-08-08 06:43:53', 
+    'giao thu 2', NULL, '2021-05-07 09:43:53', 
     NULL, 20990000, NULL, 159950, NULL, 
     NULL, 1
   ), 
   (
-    32, 'HD-16865661', NULL, 6, 2, 1, 1, 6, 
+    32, 'HD-16865661', NULL, 6, 2, 1, 2, 6, 
     'Nguyễn Ngọc Thiên Hồng', 
-    'hongnnt@gmail.com', '', NULL, '2020-08-08 06:44:19', 
+    'hongnnt@gmail.com', '', NULL, '2021-05-07 09:44:19', 
     NULL, 20990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    33, 'HD-12310126', NULL, 7, 2, 1, 1, 6, 
-    'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    'giao thu 2', NULL, '2020-08-08 06:44:38', 
-    NULL, 29990000, NULL, 0, NULL, NULL, 
+    33, 'HD-12310126', 'HD-12310126.png', 
+    7, 2, 1, 2, 6, 'Lê Anh Tuân', 'leanhtuab@gmail.com', 
+    'giao thu 2', NULL, '2021-05-07 09:44:38', 
+    'haipv', 29990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    34, 'HD-69444323', NULL, 7, 1, 1, 1, 6, 
+    34, 'HD-69444323', NULL, 7, 1, 1, 2, 6, 
     'Phạm Quang Đạt', 'quangdat@gmail.com', 
-    'giao thu 2', NULL, '2020-08-08 06:46:13', 
+    'giao thu 2', NULL, '2021-05-07 09:46:13', 
     NULL, 29990000, NULL, 55000, NULL, 
     NULL, 1
   ), 
   (
-    35, 'HD-12697433', NULL, 7, 2, 1, 1, 6, 
-    'Lê Anh Tuând', 'leanhtuab@gmail.com', 
-    '', NULL, '2020-08-08 06:47:08', 
-    NULL, 38480000, NULL, 0, NULL, NULL, 
+    35, 'HD-12697433', 'HD-12697433.png', 
+    7, 2, 1, 2, 6, 'Lê Anh Tuând', 'leanhtuab@gmail.com', 
+    '', NULL, '2021-05-07 09:47:08', 
+    'haipv', 38480000, NULL, 0, NULL, NULL, 
     2
   ), 
   (
-    36, 'HD-76426419', NULL, 7, 2, 1, 1, 6, 
-    'Ngọc Bùi', 'gmail@gmail.com', 
-    '', NULL, '2020-08-08 06:48:16', 
-    NULL, 20990000, NULL, 0, NULL, NULL, 
+    36, 'HD-76426419', 'HD-76426419.png', 
+    7, 2, 1, 2, 6, 'Ngọc Bùi', 'gmail@gmail.com', 
+    '', NULL, '2021-06-07 09:48:16', 
+    'haipv', 20990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    37, 'HD-92999876', NULL, 8, 1, 1, 1, 6, 
-    'Ngô trúc nhi', 'nhint@gmail.com', 
-    '', NULL, '2020-08-08 06:50:21', 
-    NULL, 34990000, NULL, 196950, NULL, 
-    NULL, 1
+    37, 'HD-92999876', 'HD-92999876.png', 
+    8, 1, 1, 2, 6, 'Ngô trúc nhi', 'nhint@gmail.com', 
+    '', NULL, '2021-06-07 09:50:21', 
+    'haipv', 34990000, 'S21587114.SG02-G17.1622133632', 
+    119500, 'Chiều 2022-08-27', 'Sáng 2022-08-28', 
+    1
   ), 
   (
-    38, 'HD-86689656', NULL, 2, 2, 1, 1, 1, 
-    'Bùi Đức Minh', 'minhbd2021@gmail.com', 
-    '', NULL, '2022-08-08 06:51:28', 
-    NULL, 84470000, NULL, 0, NULL, NULL, 
+    38, 'HD-86689656', 'HD-86689656.png', 
+    2, 2, 1, 2, 6, 'Bùi Đức Minh', 'minhbd2021@gmail.com', 
+    '', NULL, '2021-06-07 09:51:28', 
+    'haipv', 84470000, NULL, 0, NULL, NULL, 
     3
   ), 
   (
-    39, 'HD-65313880', NULL, 2, 2, 1, 1, 1, 
-    'Bùi Đức Minh', 'minhbd2021@gmail.com', 
-    '', NULL, '2022-08-08 06:51:37', 
-    NULL, 29990000, NULL, 0, NULL, NULL, 
+    39, 'HD-65313880', 'HD-65313880.png', 
+    2, 2, 1, 2, 6, 'Bùi Đức Minh', 'minhbd2021@gmail.com', 
+    '', NULL, '2021-06-07 09:51:37', 
+    'haipv', 29990000, NULL, 0, NULL, NULL, 
     1
   ), 
   (
-    40, 'HD-50615402', NULL, 2, 1, 1, 1, 1, 
+    40, 'HD-50615402', NULL, 2, 1, 1, 2, 6, 
     'Nguyen Hoai Minh', 'email3.email@gmail.com', 
-    '', NULL, '2022-08-08 06:52:01', 
+    '', NULL, '2021-07-07 09:52:01', 
     NULL, 99000000, NULL, 285000, NULL, 
     NULL, 1
   ), 
   (
-    41, 'HD-89371818', NULL, 2, 1, 1, 1, 1, 
+    41, 'HD-89371818', NULL, 2, 1, 1, 2, 6, 
     'Pham Van Hai', 'email2.email@gmail.com', 
-    '', NULL, '2022-08-08 06:52:20', 
+    '', NULL, '2022-01-07 09:52:20', 
     NULL, 17490000, NULL, 35000, NULL, 
     NULL, 1
   ), 
   (
-    42, 'HD-21846451', NULL, 2, 1, 1, 1, 1, 
+    42, 'HD-21846451', NULL, 2, 1, 1, 2, 6, 
     'Pham Van Hai', 'email2.email@gmail.com', 
-    '', NULL, '2022-08-08 06:53:31', 
+    '', NULL, '2022-01-07 09:53:31', 
     NULL, 18950000, NULL, 129750, NULL, 
     NULL, 1
   ), 
   (
-    43, 'HD-37010994', NULL, 2, 1, 1, 1, 1, 
+    43, 'HD-37010994', NULL, 2, 1, 1, 2, 6, 
     'Pham Van Hai', 'email2.email@gmail.com', 
-    '', NULL, '2022-08-08 06:54:02', 
+    '', NULL, '2022-01-07 09:54:02', 
     NULL, 31440000, NULL, 192200, NULL, 
     NULL, 2
+  ), 
+  (
+    44, 'HD-88535099', NULL, 2, 1, 1, 2, 6, 
+    'Nguyen Hoai Minh', 'email3.email@gmail.com', 
+    '', NULL, '2022-01-25 23:14:35', 
+    NULL, 4190000, NULL, 55950, NULL, NULL, 
+    1
+  ), 
+  (
+    45, 'HD-33769859', NULL, 2, 1, 1, 2, 6, 
+    'Nguyen Hoai Minh', 'email3.email@gmail.com', 
+    '', NULL, '2022-01-25 23:15:13', 
+    NULL, 8440000, NULL, 77200, NULL, NULL, 
+    2
+  ), 
+  (
+    46, 'HD-89007842', NULL, 2, 1, 1, 2, 6, 
+    'Nguyen Hoai Minh', 'email3.email@gmail.com', 
+    '', NULL, '2022-02-25 23:15:36', 
+    NULL, 32850000, NULL, 199250, NULL, 
+    NULL, 1
+  ), 
+  (
+    47, 'HD-74164832', 'HD-74164832.png', 
+    2, 1, 1, 2, 6, 'Nguyễn Anh Quang', 
+    'quangna@gmail.com', '', NULL, '2022-02-25 23:17:05', 
+    'haipv', 17990000, 'S21587114.SG07-F22.1551660139', 
+    111950, 'Chiều 2022-08-27', 'Sáng 2022-08-29', 
+    1
+  ), 
+  (
+    48, 'HD-51856938', 'HD-51856938.png', 
+    2, 2, 1, 2, 6, 'Nguyễn Anh Quang', 
+    'quangna@gmail.com', '', NULL, '2022-02-25 23:17:33', 
+    'haipv', 47990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    49, 'HD-84914271', 'HD-84914271.png', 
+    2, 2, 1, 2, 6, 'Nguyễn Anh Quang', 
+    'quangna@gmail.com', '', NULL, '2022-02-25 23:18:06', 
+    'haipv', 107980000, NULL, 0, NULL, 
+    NULL, 2
+  ), 
+  (
+    50, 'HD-14069630', 'HD-14069630.png', 
+    2, 2, 1, 2, 6, 'Nguyễn Anh Quang', 
+    'quangna@gmail.com', 'Giao hàng nhanh nhé shop ', 
+    NULL, '2022-02-25 23:19:01', 'haipv', 
+    29950000, NULL, 0, NULL, NULL, 1
+  ), 
+  (
+    51, 'HD-88347247', NULL, 2, 1, 1, 2, 6, 
+    'Đặng Minh Anh', 'anhmd@gmail.com', 
+    'Giao hàng nhanh nhé shop ', 
+    NULL, '2022-03-25 23:20:15', NULL, 
+    50990000, NULL, 295000, NULL, NULL, 
+    1
+  ), 
+  (
+    52, 'HD-79047576', NULL, 2, 1, 1, 2, 6, 
+    'Đặng Minh Anh', 'anhmd@gmail.com', 
+    'Giao hàng nhanh nhé shop ', 
+    NULL, '2022-03-25 23:20:42', NULL, 
+    32990000, NULL, 209950, NULL, NULL, 
+    1
+  ), 
+  (
+    53, 'HD-69585446', NULL, 2, 1, 1, 2, 6, 
+    'Đặng Minh Anh', 'anhmd@gmail.com', 
+    '', NULL, '2022-03-25 23:21:28', 
+    NULL, 20990000, NULL, 149950, NULL, 
+    NULL, 1
+  ), 
+  (
+    54, 'HD-31786452', NULL, 2, 1, 1, 2, 6, 
+    'Nguyễn Trung Thành', 'thanhnt@gmail.com', 
+    '', NULL, '2022-03-25 23:22:52', 
+    NULL, 34980000, NULL, 209900, NULL, 
+    NULL, 2
+  ), 
+  (
+    55, 'HD-95437522', NULL, 2, 1, 1, 2, 6, 
+    'Nguyễn Trung Thành', 'thanhnt@gmail.com', 
+    '', NULL, '2022-03-25 23:23:12', 
+    NULL, 69980000, NULL, 285000, NULL, 
+    NULL, 2
+  ), 
+  (
+    56, 'HD-69467114', NULL, 2, 1, 1, 2, 6, 
+    'Nguyễn Trung Thành', 'thanhnt@gmail.com', 
+    '', NULL, '2022-04-25 23:23:42', 
+    NULL, 43180000, NULL, 250900, NULL, 
+    NULL, 2
+  ), 
+  (
+    57, 'HD-87501403', NULL, 2, 1, 1, 2, 6, 
+    'Lê Như Phúc', 'phucln@gmail.com', 
+    '', NULL, '2022-04-25 23:25:20', 
+    NULL, 62800000, NULL, 285000, NULL, 
+    NULL, 2
+  ), 
+  (
+    58, 'HD-25877442', NULL, 2, 1, 1, 2, 6, 
+    'Lê Như Phúc', 'phucln@gmail.com', 
+    '', NULL, '2022-04-25 23:25:44', 
+    NULL, 64590000, NULL, 285000, NULL, 
+    NULL, 2
+  ), 
+  (
+    59, 'HD-15127104', NULL, 2, 1, 1, 2, 6, 
+    'Trần Đức Lương', 'luongdt@gmail.com', 
+    '', NULL, '2022-04-25 23:27:04', 
+    NULL, 31000000, NULL, 185000, NULL, 
+    NULL, 1
+  ), 
+  (
+    60, 'HD-38740258', 'HD-38740258.png', 
+    2, 1, 1, 2, 6, 'Trần Đức Lương', 
+    'luongdt@gmail.com', '', NULL, '2022-04-25 23:27:21', 
+    'haipv', 75000000, 'S21587114.MN3-03-C33.1713216194', 
+    132500, 'Chiều 2022-08-27', 'Sáng 2022-08-28', 
+    1
+  ), 
+  (
+    61, 'HD-29998654', 'HD-29998654.png', 
+    2, 2, 1, 2, 6, 'Bùi Đức Minh', 'minhbd2021@gmail.com', 
+    '', NULL, '2022-08-27 01:05:03', 
+    'haipv', 39990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    62, 'HD-25011439', 'HD-25011439.png', 
+    2, 2, 1, 2, 6, 'Bùi Đức Minh', 'minhbd2021@gmail.com', 
+    '', NULL, '2022-08-27 01:05:57', 
+    'haipv', 39990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    63, 'HD-42324999', 'HD-42324999.png', 
+    2, 2, 1, 2, 6, 'Bùi Đức Minh', 'minhbd2021@gmail.com', 
+    '', NULL, '2022-08-27 01:07:34', 
+    'haipv', 79980000, NULL, 0, NULL, NULL, 
+    2
+  ), 
+  (
+    64, 'HD-41587569', 'HD-41587569.png', 
+    4, 2, 1, 2, 6, 'Nguyễn Quang Vinh', 
+    'vinhnq@gmail.com', '', NULL, '2022-08-27 01:10:38', 
+    'haipv', 39990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    65, 'HD-31474816', 'HD-31474816.png', 
+    4, 2, 1, 2, 6, 'Nguyễn Quang Vinh', 
+    'vinhnq@gmail.com', '', NULL, '2022-08-27 01:11:41', 
+    'haipv', 33590000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    66, 'HD-55594002', 'HD-55594002.png', 
+    4, 2, 1, 2, 6, 'Nguyễn Quang Vinh', 
+    'vinhnq@gmail.com', '', NULL, '2022-08-27 01:13:12', 
+    'haipv', 9990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    67, 'HD-66759865', 'HD-66759865.png', 
+    4, 2, 1, 2, 6, 'Nguyễn Quang Vinh', 
+    'vinhnq@gmail.com', '', NULL, '2022-08-27 01:13:50', 
+    'haipv', 17990000, NULL, 0, NULL, NULL, 
+    1
+  ), 
+  (
+    68, 'HD-73600561', 'HD-73600561.png', 
+    4, 2, 1, 2, 6, 'Nguyễn Quang Vinh', 
+    'vinhnq@gmail.com', '', NULL, '2022-08-27 01:14:10', 
+    'haipv', 99000000, NULL, 0, NULL, NULL, 
+    1
   );
 
 -- order_item
@@ -3531,50 +5843,80 @@ VALUES
   (54, 41, 12, 1, 17490000), 
   (55, 42, 10, 1, 18950000), 
   (56, 43, 9, 1, 12490000), 
-  (57, 43, 10, 1, 18950000);
+  (57, 43, 10, 1, 18950000), 
+  (58, 44, 100, 1, 4190000), 
+  (59, 45, 99, 1, 4250000), 
+  (60, 45, 100, 1, 4190000), 
+  (61, 46, 61, 1, 32850000), 
+  (62, 47, 58, 1, 17990000), 
+  (63, 48, 31, 1, 47990000), 
+  (64, 49, 32, 1, 42990000), 
+  (65, 49, 35, 1, 64990000), 
+  (66, 50, 62, 1, 29950000), 
+  (67, 51, 39, 1, 50990000), 
+  (68, 52, 24, 1, 32990000), 
+  (69, 53, 8, 1, 20990000), 
+  (70, 54, 12, 2, 17490000), 
+  (71, 55, 41, 2, 34990000), 
+  (72, 56, 38, 1, 38990000), 
+  (73, 56, 100, 1, 4190000), 
+  (74, 57, 61, 1, 32850000), 
+  (75, 57, 62, 1, 29950000), 
+  (76, 58, 48, 1, 31000000), 
+  (77, 58, 59, 1, 33590000), 
+  (78, 59, 48, 1, 31000000), 
+  (79, 60, 15, 1, 75000000), 
+  (80, 61, 42, 1, 39990000), 
+  (81, 62, 42, 1, 39990000), 
+  (82, 63, 42, 2, 39990000), 
+  (83, 64, 42, 1, 39990000), 
+  (84, 65, 59, 1, 33590000), 
+  (85, 66, 90, 1, 9990000), 
+  (86, 67, 58, 1, 17990000), 
+  (87, 68, 36, 1, 99000000);
 
 
 -- order_detail
 INSERT INTO `order_detail` 
 VALUES 
   (
-    1, 1, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    1, 1, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    2, 2, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    2, 2, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    3, 3, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    3, 3, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    4, 4, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    4, 4, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    5, 5, '1', '13', '170', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    5, 5, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '121 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0987654321'
   ), 
   (
-    6, 6, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    6, 6, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
-    7, 7, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    7, 7, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
-    8, 8, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    8, 8, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
-    9, 9, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    9, 9, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
-    10, 10, '1', '13', '170', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
+    10, 10, 'Hồ Chí Minh', 'Quận 12', 'An Phú Đông', '200 An Phú Đông, Quận 12, Hồ Chí Minh', 
     '0345678921'
   ), 
   (
@@ -3726,6 +6068,135 @@ VALUES
     40, 43, 'Bình Phước', 'Huyện Lộc Ninh', 
     'Xã Lộc An', '12312, Xã Lộc An, Huyện Lộc Ninh, Bình Phước', 
     '0335956325'
+  ), 
+  (
+    41, 44, 'Lâm Đồng', 'Huyện Đạ Huoai', 
+    'Thị trấn Đạ MRi', '123, Thị trấn Đạ MRi, Huyện Đạ Huoai, Lâm Đồng', 
+    '0323555545'
+  ), 
+  (
+    42, 45, 'Lâm Đồng', 'Huyện Đạ Huoai', 
+    'Thị trấn Đạ MRi', '123, Thị trấn Đạ MRi, Huyện Đạ Huoai, Lâm Đồng', 
+    '0323555545'
+  ), 
+  (
+    43, 46, 'Lâm Đồng', 'Huyện Đạ Huoai', 
+    'Thị trấn Đạ MRi', '123, Thị trấn Đạ MRi, Huyện Đạ Huoai, Lâm Đồng', 
+    '0323555545'
+  ), 
+  (
+    44, 47, 'Hồ Chí Minh', ' Quận 1', 
+    'Phường Nguyễn Cư Trinh', 
+    'Số 2, Phường Nguyễn Cư Trinh,  Quận 1, Hồ Chí Minh', 
+    '0914675854'
+  ), 
+  (
+    45, 48, 'Hồ Chí Minh', ' Quận 1', 
+    'Phường Nguyễn Cư Trinh', 
+    'Số 2, Phường Nguyễn Cư Trinh,  Quận 1, Hồ Chí Minh', 
+    '0914675854'
+  ), 
+  (
+    46, 49, 'Hồ Chí Minh', ' Quận 1', 
+    'Phường Nguyễn Cư Trinh', 
+    'Số 2, Phường Nguyễn Cư Trinh,  Quận 1, Hồ Chí Minh', 
+    '0914675854'
+  ), 
+  (
+    47, 50, 'Hồ Chí Minh', ' Quận 1', 
+    'Phường Nguyễn Cư Trinh', 
+    'Số 2, Phường Nguyễn Cư Trinh,  Quận 1, Hồ Chí Minh', 
+    '0914675854'
+  ), 
+  (
+    48, 51, 'Hải Phòng', 'Quận Kiến An', 
+    'Phường Nam Sơn', 'Số 9, Phường Nam Sơn, Quận Kiến An, Hải Phòng', 
+    '0946758456'
+  ), 
+  (
+    49, 52, 'Hải Phòng', 'Quận Kiến An', 
+    'Phường Nam Sơn', 'Số 9, Phường Nam Sơn, Quận Kiến An, Hải Phòng', 
+    '0946758456'
+  ), 
+  (
+    50, 53, 'Hải Phòng', 'Quận Kiến An', 
+    'Phường Nam Sơn', 'Số 9, Phường Nam Sơn, Quận Kiến An, Hải Phòng', 
+    '0946758456'
+  ), 
+  (
+    51, 54, 'Long An', 'Huyện Tân Hưng', 
+    'Xã Vĩnh Châu B', 'Số 6, Xã Vĩnh Châu B, Huyện Tân Hưng, Long An', 
+    '0975469288'
+  ), 
+  (
+    52, 55, 'Long An', 'Huyện Tân Hưng', 
+    'Xã Vĩnh Châu B', 'Số 6, Xã Vĩnh Châu B, Huyện Tân Hưng, Long An', 
+    '0975469288'
+  ), 
+  (
+    53, 56, 'Long An', 'Huyện Tân Hưng', 
+    'Xã Vĩnh Châu B', 'Số 6, Xã Vĩnh Châu B, Huyện Tân Hưng, Long An', 
+    '0975469288'
+  ), 
+  (
+    54, 57, 'Cần Thơ', 'Huyện  Thới Lai', 
+    'Xã Trường Thắng', 'Số 7, Xã Trường Thắng, Huyện  Thới Lai, Cần Thơ', 
+    '0944552365'
+  ), 
+  (
+    55, 58, 'Cần Thơ', 'Huyện  Thới Lai', 
+    'Xã Trường Thắng', 'Số 7, Xã Trường Thắng, Huyện  Thới Lai, Cần Thơ', 
+    '0944552365'
+  ), 
+  (
+    56, 59, 'Bà Rịa Vũng Tàu', 'Thị xã Bà Rịa', 
+    'Phường Phước Hiệp', 'Số 4, Phường Phước Hiệp, Thị xã Bà Rịa, Bà Rịa Vũng Tàu', 
+    '0944658796'
+  ), 
+  (
+    57, 60, 'Bà Rịa Vũng Tàu', 'Thị xã Bà Rịa', 
+    'Phường Phước Hiệp', 'Số 4, Phường Phước Hiệp, Thị xã Bà Rịa, Bà Rịa Vũng Tàu', 
+    '0944658796'
+  ), 
+  (
+    58, 61, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã An Phú Tây', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0338953980'
+  ), 
+  (
+    59, 62, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã An Phú Tây', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0338953980'
+  ), 
+  (
+    60, 63, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã An Phú Tây', 'D1, Xã An Phú Tây, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0338953980'
+  ), 
+  (
+    61, 64, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã Phạm Văn Hai', '12, Xã Phạm Văn Hai, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0349299864'
+  ), 
+  (
+    62, 65, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã Phạm Văn Hai', '12, Xã Phạm Văn Hai, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0349299864'
+  ), 
+  (
+    63, 66, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã Phạm Văn Hai', '12, Xã Phạm Văn Hai, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0349299864'
+  ), 
+  (
+    64, 67, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã Phạm Văn Hai', '12, Xã Phạm Văn Hai, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0349299864'
+  ), 
+  (
+    65, 68, 'Hồ Chí Minh', 'Huyện Bình Chánh', 
+    'Xã Phạm Văn Hai', '12, Xã Phạm Văn Hai, Huyện Bình Chánh, Hồ Chí Minh', 
+    '0349299864'
   );
 
 

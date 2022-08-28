@@ -175,7 +175,7 @@ public class OrderApi {
 		}
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN','SHIPPER')")
 	@PostMapping("/orders/change-status-code/{orderCode}")
 	public ResponseEntity<?> changeOrderStatusCode(@PathVariable("orderCode") String orderCode){
 		try {
@@ -206,6 +206,16 @@ public class OrderApi {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+		}
+	}
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/orders/count-by-status/{orderStatusCode}")
+	public ResponseEntity<?> countByStatus(@PathVariable String orderStatusCode){
+		try {
+			return ResponseEntity.ok(orderService.countByStatus(orderStatusCode));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
 		}
 	}
 }
