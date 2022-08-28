@@ -950,8 +950,8 @@ values
 insert flash_sale (id,`name`,start_date, end_date, actived, modified_by)
 values 
   (
-    1, 'Flash Sale Of', '2022-08-05 23:59:59',
-    '2022-08-06 23:59:59',1, 'haipv'
+    1, 'Flash Sale Of', '2022-08-27 23:59:59',
+    '2022-08-30 23:59:59',1, 'haipv'
   );
   
 -- products
