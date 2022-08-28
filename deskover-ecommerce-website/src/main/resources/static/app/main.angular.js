@@ -443,7 +443,6 @@ angular
 	$scope.cancel = function(code){
 		var url = `/api/test/order/cancel/${code}?statusOrder=C-HUY`;
 		var item = [];
-		console.log(url);
 		$http.post(url,item).then( resp => {
 			$window.location.reload();
 			$scope.msg = resp.data; 
@@ -452,8 +451,8 @@ angular
 	$scope.cancel2 = function(code){
 		var url = `/api/test/order/cancel2/${code}?statusOrder=C-HUY`;
 		var item = [];
-		console.log(url);
 		$http.post(url,item).then( resp => {
+			$window.location.reload();
 			$scope.msg = resp.data; 
 		}).catch(error => { })
 	}
@@ -540,6 +539,9 @@ angular
       },
       detail(f){
         window.location.href = "/account/order/detail?id=" + f;
+      },
+      details(f){
+        window.location.href = "/order/details?id=" + f;
       },
       changePage(p) {
         console.log(p)

@@ -73,7 +73,7 @@
                                     <td class="py-3" ng-click="order.detail(o.id)"><span class="badge m-0" ng-class="o.osCode === 'GH-TB' || o.osCode === 'C-HUY' || o.osCode === 'HUY' || o.osCode === 'GH-TB' ?'bg-danger':(o.osCode === 'GH-TC'?'bg-success':(o.osCode === 'LH-TB'?'bg-warning':'bg-info'))">{{o.orderStatus}}</span></td>
                                     <td class="py-3" ng-click="order.detail(o.id)"><span class="badge m-0" ng-class="o.psCode === 'C-TT'?'bg-danger':(o.psCode === 'D-TT'?'bg-success':(o.psCode === 'C-HT'?'bg-warning':'bg-info'))">{{o.paymentStatus}}</span></td>
                                     <td class="py-3" ng-click="order.detail(o.id)">{{o.total|number}} <small>VND</small></td>
-                                    <td> <button type="button" class="btn btn-info"  ng-click="cancel2(o.id)">Hủy đơn hàng</button> </td>
+                                    <td><button ng-show="o.psCode === 'D-TT'" type="button" class="btn btn-danger" readonly>Không thể hủy</button> <button type="button" class="btn btn-info" ng-hide="o.psCode === 'D-TT'" ng-click="cancel2(o.id)">Hủy đơn hàng</button> </td>
                                 </tr>
                           
                             </tbody>

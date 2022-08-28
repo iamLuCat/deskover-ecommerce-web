@@ -4,17 +4,25 @@ import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.dto.SmsPojoDto;
 import com.deskover.model.entity.dto.StoreOTPDto;
 import com.deskover.model.entity.dto.TempOTPDto;
+import com.deskover.model.entity.dto.ecommerce.OrderDetailDTO;
 import com.deskover.service.SessionService;
 import com.deskover.service.SmsService;
 import com.deskover.service.impl.OrderServiceImpl;
+import com.deskover.service.impl.ShopServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,6 +41,9 @@ public class FindOrdersController {
 	@Autowired 
 	private SessionService sessionService;
 	
+	@Autowired
+	private ShopServiceImpl shopService;
+	
 	private final String TOPIC_DESTINATION = "/lesson/sms";
 	
 	@GetMapping("find")
@@ -46,23 +57,24 @@ public class FindOrdersController {
 	}
 	
 	@GetMapping("ordered")
-	public String ordered() {
+	public String ordered(Model model) {
+		String phone = sessionService.get("phone");
+		List<Order> order =  orderService.getByPhone(phone);
+		model.addAttribute("orders",order);
+		model.addAttribute("phone",phone);
 		return "ordered";
 	}
 	
 
-	@PostMapping("/orders")
+	@RequestMapping("/orders")
 	public String otpvalid(@ModelAttribute("otp") String otp, Model model) {
 		try {
 			TempOTPDto sms = new TempOTPDto();
 			sms.setOtp(Integer.parseInt(otp));
 			if(sms.getOtp() == StoreOTPDto.getOtp()) {
 				System.out.println("Correct OTP");
-				String phone = sessionService.get("phone");
-				List<Order> order =  orderService.getByPhone(phone);
-				model.addAttribute("orders",order);
-				model.addAttribute("phone",phone);
-				return "ordered";
+
+				return "redirect:/ordered";
 			}
 			else {
 				model.addAttribute("msg","OTP không đúng vui lòng nhập lại");
@@ -111,4 +123,18 @@ public class FindOrdersController {
 	private String getTimeStamp() {
 		return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
 	} 
+	
+
+	@GetMapping("order/details")
+	public String orderDetail(@RequestParam(name = "id") String id, Model model) {
+		try {
+			OrderDetailDTO od = shopService.getOrderDetail( id);
+			model.addAttribute("od", od);
+			return "account_order_detail";
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(
+			           HttpStatus.FORBIDDEN);
+		}
+	}
 }

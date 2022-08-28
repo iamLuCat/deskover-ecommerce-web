@@ -261,4 +261,10 @@ public class ShopServiceImpl implements ShopService {
 		Order order = orderRepo.findOrderByUsernameAndID(username,id);
 		return new OrderDetailDTO(order);
 	}
+	
+	@Override
+	public OrderDetailDTO getOrderDetail(String id) {
+		Order order = orderRepo.findOrderByID(id);
+		return new OrderDetailDTO(order);
+	}
 }

@@ -34,4 +34,5 @@ public interface ShopService {
 	
 	OrderPage getOrder(String username, Integer page, String filter);
 	OrderDetailDTO getOrderDetail(String username, String id);
+	OrderDetailDTO getOrderDetail(String id);
 }
