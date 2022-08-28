@@ -45,18 +45,18 @@ public class UserAddress implements Serializable {
     private String address;
 
     @NotBlank(message = "Không bỏ trống Tỉnh/TP")
-    @Column(name = "province", length = 128)
+    @Column(name = "province")
     private String province;
 
     @NotBlank(message = "Không bỏ trống Quận/Huyện")
-    @Column(name = "district", length = 128)
+    @Column(name = "district")
     private String district;
     
     @Column(name = "district_id", nullable = false)
     private Long districtId;
     
     @NotBlank(message = "Không bỏ trống Phường/Xã")
-    @Column(name = "ward", length = 128)
+    @Column(name = "ward")
     private String ward;
     
     @Column(name = "ward_id", nullable = false)

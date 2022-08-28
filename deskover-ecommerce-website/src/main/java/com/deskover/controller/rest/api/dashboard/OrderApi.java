@@ -175,7 +175,7 @@ public class OrderApi {
 		}
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN','SHIPPER')")
 	@PostMapping("/orders/change-status-code/{orderCode}")
 	public ResponseEntity<?> changeOrderStatusCode(@PathVariable("orderCode") String orderCode){
 		try {

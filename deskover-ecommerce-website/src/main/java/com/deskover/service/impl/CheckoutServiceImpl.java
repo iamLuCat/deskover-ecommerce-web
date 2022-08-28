@@ -76,10 +76,11 @@ public class CheckoutServiceImpl implements CheckoutService {
 		// 2 -  Save Address
 		Order lastOrder = orderRepo.getLastOrder();
 		orderAddress.setOrder(lastOrder);
+		System.out.println(entity.getProvince());
 		orderAddress.setAddress(entity.getAddress());
-		orderAddress.setProvince("1");
-		orderAddress.setDistrict("1");
-		orderAddress.setWard("1");
+		orderAddress.setProvince(entity.getProvince());
+		orderAddress.setDistrict(entity.getDistrict());
+		orderAddress.setWard(entity.getWard());
 		orderAddress.setTel(entity.getTel());
 		addressRepo.save(orderAddress);  
 		
