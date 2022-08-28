@@ -142,6 +142,10 @@ public class OrderServiceImpl implements OrderService {
 			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
 
 		}
+//		if (order.getShipping().getShippingId().equals("GHTK")) {
+//			throw new IllegalArgumentException("Không tìm thấy sản phẩm");
+//
+//		}
 		OrderDto orderDto = mapper.map(order, OrderDto.class);
 		OrderDetail orderDetail = orderDetailRepo.findByOrder(order);
 

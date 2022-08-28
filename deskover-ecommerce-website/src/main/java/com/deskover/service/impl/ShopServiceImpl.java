@@ -1,5 +1,7 @@
 package com.deskover.service.impl;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import com.deskover.model.entity.database.Brand;
 import com.deskover.model.entity.database.Cart;
-import com.deskover.model.entity.database.FlashSale;
 import com.deskover.model.entity.database.Order;
 import com.deskover.model.entity.database.Product;
 import com.deskover.model.entity.database.Rating;
@@ -29,13 +30,14 @@ import com.deskover.model.entity.database.repository.UserRepository;
 import com.deskover.model.entity.dto.ecommerce.BrandDTO;
 import com.deskover.model.entity.dto.ecommerce.CartLocal;
 import com.deskover.model.entity.dto.ecommerce.Filter;
-import com.deskover.model.entity.dto.ecommerce.FlashSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Item;
 import com.deskover.model.entity.dto.ecommerce.OrderDetailDTO;
 import com.deskover.model.entity.dto.ecommerce.OrderPage;
 import com.deskover.model.entity.dto.ecommerce.ProductDTO;
+import com.deskover.model.entity.dto.ecommerce.ProductSaleDTO;
 import com.deskover.model.entity.dto.ecommerce.Reviewer;
 import com.deskover.model.entity.dto.ecommerce.Shop;
+import com.deskover.service.ProductService;
 import com.deskover.service.ShopService;
 
 @Service
@@ -61,6 +63,9 @@ public class ShopServiceImpl implements ShopService {
 	
 	@Autowired
 	private OrderRepository orderRepo;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@Override
 	public Shop search(Filter filter) {
@@ -131,15 +136,24 @@ public class ShopServiceImpl implements ShopService {
 		
 		return items.toList().stream().map(product -> new Item(product)).collect(Collectors.toList());
 	}
+	
+	@Override
+	public List<Item> getProductNew() {
+	    List<Product> products = productRepo.findByActivedAndQuantityGreaterThanOrderByModifiedAtDesc(true, (long) 0);
+		return products.stream().map(product -> new Item(product)).collect(Collectors.toList());
+	}
 
 	@Override
-	public FlashSaleDTO getFlashSale() {
-		FlashSale fs = flashSaleRepo.findFirstByActived(true);
-		List<Product> products = productRepo.findByFlashSale(fs);
-		FlashSaleDTO flashsale = new FlashSaleDTO(fs);
-		flashsale.setItems(products.stream().map(product -> new Item(product)).collect(Collectors.toList()));
+	public List<ProductSaleDTO> getFlashSale() {
+		List<Product> products = productRepo.findByFlashSaleActivedAndDiscountActived(Boolean.TRUE,Boolean.TRUE);
 		
-		return new FlashSaleDTO(fs);
+//		if(products == null) {
+//			List<Product> products1 = new ArrayList<Product>();
+//			Product newPr = new Product();
+//			products1.add(newPr);
+//			return null;
+//		}
+		return products.stream().map(product -> new ProductSaleDTO(product)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -261,4 +275,5 @@ public class ShopServiceImpl implements ShopService {
 		Order order = orderRepo.findOrderByUsernameAndID(username,id);
 		return new OrderDetailDTO(order);
 	}
+
 }

@@ -81,6 +81,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     //app custumer
     Page<Product> findByActivedAndAndDiscountAndQuantityGreaterThanOrderByModifiedAtDesc(Boolean active, Discount discount, Long quantity, Pageable Page);
+    
+    List<Product> findByActivedAndQuantityGreaterThanOrderByModifiedAtDesc(Boolean active, Long quantity);
 
     Page<Product> findByActivedAndSubCategoryCategoryId(Boolean active, Long categoryId, Pageable Page);
 
@@ -92,6 +94,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product getAllByName(String name);
 
     Page<Product> findByFlashSaleActivedAndDiscountActived(Boolean activeFlashSale, Boolean activeDiscount, Pageable Page);
+    
+    List<Product> findByFlashSaleActivedAndDiscountActived(Boolean activeFlashSale, Boolean activeDiscount);
 
     Page<Product> findByNameContainingOrSubCategoryNameContainingOrSubCategoryCategoryNameContainingOrBrandNameContaining(String name, String sub, String cate, String brand, Pageable Page);
 
