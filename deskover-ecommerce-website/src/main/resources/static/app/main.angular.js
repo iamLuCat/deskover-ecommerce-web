@@ -343,6 +343,7 @@ angular
           });
       },
       removeAlll() {
+		console.log("hi");
         $localStorage.items = []
       },
       valid: {
