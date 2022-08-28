@@ -198,6 +198,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public DataTablesOutput<Administrator> getByActiveForDatatables(DataTablesInput input, Boolean isActive, Long roleId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         DataTablesOutput<Administrator> administrator = repoForDatatables.findAll(input, (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -206,6 +207,9 @@ public class AdminServiceImpl implements AdminService {
             }
             if (roleId != null) {
                 predicates.add(cb.equal(root.get("authority").get("role").get("id"), roleId));
+            }
+            if (username != null) {
+                predicates.add(cb.notEqual(root.get("username"), username));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
