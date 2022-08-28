@@ -33,4 +33,8 @@ export class UserService {
   changeActive(id: number) {
     return this.restApi.delete(this.url, id);
   }
+
+  changePassword(oldPassword: string, newPassword: string) {
+    return this.restApi.put(this.url + "/change-password", {oldPassword, newPassword});
+  }
 }

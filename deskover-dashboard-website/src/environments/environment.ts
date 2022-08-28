@@ -1,5 +1,6 @@
 export const BASE_URL = 'http://localhost:8080';
 // export const BASE_URL = 'https://deskover-deloy.herokuapp.com';
+// export const BASE_URL = 'http://10.82.156.205:8080';
 export const BASE_API = BASE_URL + '/v1/api';
 export const ADMIN_API = BASE_URL + '/v1/api/admin';
 
@@ -24,6 +25,7 @@ export const environment = {
     ghtkApi: BASE_API + '/ghtk',
 
     login: ADMIN_API + '/auth/login',
+    logout: ADMIN_API + '/auth/logout',
     getPrincipal: ADMIN_API + '/auth/get-principal',
 
     dashboardApi: ADMIN_API + '/dashboard',

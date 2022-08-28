@@ -20,7 +20,11 @@ export class UsersComponent implements OnInit {
   @ViewChild('userForm') userForm: FormControlDirective;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
+  defaultAvatar: string = 'assets/images/avatar/default-profile.png';
+
   currentUser: User;
+
+  confirmPassword: string = "";
 
   users: User[] = [];
   user: User;
@@ -120,13 +124,13 @@ export class UsersComponent implements OnInit {
         role: null
       }
     };
-    this.avatarPreview = 'assets/images/no-image.png';
+    this.avatarPreview = this.defaultAvatar;
     this.openModal();
   }
 
   editUser(user: User) {
     this.user = Object.assign({}, user);
-    this.avatarPreview = this.user.avatar ? this.getSrc(this.user.avatar) : 'assets/images/no-image.png';
+    this.avatarPreview = this.user.avatar ? this.getSrc(this.user.avatar) : this.defaultAvatar;
     this.openModal();
   }
 
@@ -138,6 +142,10 @@ export class UsersComponent implements OnInit {
         this.rerender();
       });
     } else {
+      if (user.password !== this.confirmPassword) {
+        NotiflixUtils.warningNotify('Mật khẩu xác nhận không đúng');
+        return;
+      }
       this.userService.create(user).subscribe(data => {
         this.closeModal();
         NotiflixUtils.successNotify('Thêm mới thành công');
@@ -165,7 +173,7 @@ export class UsersComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return image ? `${environment.globalUrl.userImg}/${image}` : 'assets/images/no-image.png';
+    return image ? `${environment.globalUrl.userImg}/${image}` : this.defaultAvatar;
   }
 
   selectedImageChanged($event: Event) {

@@ -90,6 +90,6 @@ export class CustomersComponent implements OnInit {
   }
 
   getSrc(image: string) {
-    return image ? `${environment.globalUrl.customerImg}/${image}` : 'assets/images/no-image.png';
+    return image ? `${environment.globalUrl.customerImg}/${image}` : 'assets/images/avatar/default-profile.png';
   }
 }

@@ -59,7 +59,7 @@
               <th class="align-middle">Ảnh</th>
               <th class="align-middle">Tên</th>
               <th class="align-middle">Slug</th>
-              <th class="align-middle">Mô tả</th>
+              <!--<th class="align-middle">Mô tả</th>-->
               <th class="align-middle">Danh mục cha</th>
               <th class="align-middle text-center">Ngày cập nhật</th>
               <th class="align-middle text-center">Cập nhật bởi</th>
@@ -70,7 +70,7 @@
             <tr *ngFor="let subcategory of subcategories; let i = index">
               <td class="align-middle">
                 <div class="frame frame-50 img-thumbnail">
-                  <img [src]="getSrc(subcategory.img)" alt=" " class="img-fluid ">
+                  <img [src]="getSrc(subcategory.img)" class="img-fluid" alt=" ">
                 </div>
               </td>
               <td class="align-middle">
@@ -79,9 +79,9 @@
               <td class="align-middle">
                 {{ subcategory.slug }}
               </td>
-              <td class="align-middle">
+              <!--<td class="align-middle">
                 {{ subcategory.description }}
-              </td>
+              </td>-->
               <td class="align-middle">
                 {{ subcategory.category?.name }}
               </td>
@@ -124,7 +124,6 @@
 <!-- Modal - Start -->
 <div bsModal [config]="{backdrop: 'static'}" #subcategoryModal="bs-modal" class="modal fade" tabindex="-1"
      data-bs-focus="false">
-  role="dialog" aria-labelledby="subcategory-dialog-sizes">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content">
       <div class="modal-header">

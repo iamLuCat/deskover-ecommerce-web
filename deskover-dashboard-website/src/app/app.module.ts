@@ -13,6 +13,8 @@ import {TimepickerModule} from "ngx-bootstrap/timepicker";
 import {BsModalService, ModalModule} from "ngx-bootstrap/modal";
 import {NgxMaskModule} from "ngx-mask";
 import {CKEditorModule} from "ckeditor4-angular";
+import {NgChartsModule} from "ng2-charts";
+import {TabsModule} from "ngx-bootstrap/tabs";
 
 import {AppComponent} from './app.component';
 import {ButtonComponent} from '@components/shared/button/button.component';
@@ -27,7 +29,7 @@ import {MenuSidebarComponent} from "@components/layouts/menu-sidebar/menu-sideba
 import {LoginComponent} from "@components/pages/login/login.component";
 import {FooterComponent} from "@components/layouts/footer/footer.component";
 import {PrivacyPolicyComponent} from "@components/pages/privacy-policy/privacy-policy.component";
-import {SubcategoriesComponent} from "@components/home/manage/categories/subcategories/subcategories.component";
+import {SubcategoriesComponent} from "@components/home/manage/subcategories/subcategories.component";
 import {LanguageComponent} from "@components/layouts/header/language/language.component";
 import {ProductsComponent} from "@components/home/manage/products/products.component";
 import {ProfileComponent} from "@components/home/profile/profile.component";
@@ -41,7 +43,12 @@ import {PromotionsComponent} from "@components/home/manage/promotions/promotions
 import {NotificationsComponent} from "@components/layouts/header/notifications/notifications.component";
 import {MessagesComponent} from "@components/layouts/header/messages/messages.component";
 import {DashboardComponent} from "@components/home/dashboard/dashboard.component";
+import {CustomersComponent} from "@components/home/manage/customers/customers.component";
+import {OrdersComponent} from '@components/home/manage/orders/orders.component';
+import {FlashSalesComponent} from '@components/home/manage/flash-sales/flash-sales.component';
+import {UsersComponent} from '@components/home/manage/users/users.component';
 
+import {SortByIdPipe} from './pipe/sort-by-id.pipe';
 import {AuthInterceptor} from "@/interceptors/auth-interceptor";
 
 import {authReducer} from './store/auth/reducer';
@@ -50,13 +57,6 @@ import {registerLocaleData} from '@angular/common';
 import {defineLocale} from 'ngx-bootstrap/chronos';
 import localeEn from '@angular/common/locales/en';
 import {viLocale} from 'ngx-bootstrap/locale';
-import {TabsModule} from "ngx-bootstrap/tabs";
-import {CustomersComponent} from "@components/home/manage/customers/customers.component";
-import {OrdersComponent} from '@components/home/manage/orders/orders.component';
-import {SortByIdPipe} from './pipe/sort-by-id.pipe';
-import {FlashSalesComponent} from '@components/home/manage/flash-sales/flash-sales.component';
-import {UsersComponent} from '@components/home/manage/users/users.component';
-import {NgChartsModule} from "ng2-charts";
 
 registerLocaleData(localeEn, 'vi-VN');
 defineLocale('vi', viLocale);

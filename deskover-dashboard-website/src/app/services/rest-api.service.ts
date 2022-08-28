@@ -43,12 +43,16 @@ export class RestApiService{
     if (error instanceof HttpErrorResponse) {
       errorMessage = error.error.message;
       if (error.status === 0) {
-        errorMessage = 'Máy chủ không phản hồi!';
+        errorMessage = 'Máy chủ không phản hồi';
       } else if (error.status === 403) {
-        errorMessage = 'Bạn không có quyền truy cập!';
+        errorMessage = 'Bạn không có quyền truy cập';
         this.router.navigate(['/dashboard']);
       } else if (error.status === 401) {
-        errorMessage = 'Token đã hết hạn!';
+        if (localStorage.getItem('token')) {
+          errorMessage = 'Token đã hết hạn';
+        } else {
+          errorMessage = 'Vui lòng đăng nhập';
+        }
         this.router.navigate(['/login']);
       }
     } else {
