@@ -19,7 +19,7 @@
 <section class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-3 col-6">
+      <div class="col">
         <div class="small-box bg-light">
           <div class="inner">
             <h4 class="fw-bolder">{{totalStatistic?.totalOrders ?? 0 | number}}</h4>
@@ -33,7 +33,7 @@
           ></a>
         </div>
       </div>
-      <div class="col-lg-3 col-6">
+      <div class="col">
         <div class="small-box bg-light">
           <div class="inner">
             <!--<h4 class=fw-bolder">0<sup style="font-size: 20px">%</sup></h3>-->
@@ -43,12 +43,12 @@
           <div class="icon">
             <i class="ion ion-cube"></i>
           </div>
-          <a href="javascript:void(0)" [routerLink]="'/products'" class="small-box-footer"
-          >Chi tiết <i class="fas fa-arrow-circle-right"></i
-          ></a>
+          <a href="javascript:void(0)" [routerLink]="'/products'" class="small-box-footer">
+            Chi tiết <i class="fas fa-arrow-circle-right"></i>
+          </a>
         </div>
       </div>
-      <div class="col-lg-3 col-6">
+      <div class="col" *ngIf="hasRoleAdmin()">
         <div class="small-box bg-light">
           <div class="inner">
             <h4 class="fw-bolder">{{totalStatistic?.totalCustomers ?? 0 | number}}</h4>
@@ -57,12 +57,12 @@
           <div class="icon">
             <i class="ion ion-person-add"></i>
           </div>
-          <a href="javascript:void(0)" [routerLink]="'/customers'" class="small-box-footer"
-          >Chi tiết <i class="fas fa-arrow-circle-right"></i
-          ></a>
+          <a href="javascript:void(0)" [routerLink]="'/customers'" class="small-box-footer">
+            Chi tiết <i class="fas fa-arrow-circle-right"></i>
+          </a>
         </div>
       </div>
-      <div class="col-lg-3 col-6">
+      <div class="col" *ngIf="hasRoleAdmin()">
         <div class="small-box bg-light">
           <div class="inner">
             <!--<h4 class=fw-bolder">{{totalPosts ? totalPosts : 0}}</h3>
@@ -73,9 +73,9 @@
           <div class="icon">
             <i class="ion ion-cash"></i>
           </div>
-          <a href="javascript:void(0)" [routerLink]="'/orders/' + orderDelivered" class="small-box-footer"
-          >Chi tiết <i class="fas fa-arrow-circle-right"></i
-          ></a>
+          <a href="javascript:void(0)" [routerLink]="'/orders/' + orderDelivered" class="small-box-footer">
+            Chi tiết <i class="fas fa-arrow-circle-right"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -116,7 +116,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-6" *ngIf="hasRoleAdmin()">
         <div class="card">
           <div class="card-header">
             <div class="row g-2 align-items-center">
@@ -143,7 +143,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-6" *ngIf="hasRoleAdmin()">
         <div class="card ">
           <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
