@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,11 +70,9 @@ public class SendInvoiceController {
 		UserAddress entity = new UserAddress();
 		entity = sessionService.get("address");
 		String status = sessionService.get("status");
-		
 		model.addAttribute("status",status);
 		model.addAttribute("address",entity);
 		model.addAttribute("time", DateUtil.FormatDate());
-		
 		return "invoice";
 	}
 }

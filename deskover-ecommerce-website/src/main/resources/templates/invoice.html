@@ -111,8 +111,9 @@
             </div>
         </div>
     </div>
-    <a href="/send" class = "send" id="button" type="button"  ng-click="cart.removeAlll()" style="visibility: hidden; display:inline;">sendmail</a> 
-
+    <a href="#"  id="button" type="button"  ng-click="cart.removeAlll()" style="visibility: hidden; display:inline;">sendmail</a> 
+	<a href="/send" class="send"  style="visibility: hidden; display:inline;">sendmail</a> 
+	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
     <script>
@@ -123,13 +124,14 @@
                     return  saveAs(canvas.toDataURL(), 'invoice.png');
                 }
 	        });
-	    },10);
+	    },50);
 	    setTimeout(function(){
         	$(function(){
-        	    window.location.href = $('.send').attr('href');
         	    document.getElementById("button").click();
+        	    window.location.href = $('.send').attr('href');
+
         	});
-	    },300);  
+	    },100);  
         
 	    function saveAs(uri, filename) {
 	        var link = document.createElement('a');

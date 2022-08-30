@@ -343,6 +343,7 @@ angular
           });
       },
       removeAlll() {
+		console.log("hi");
         $localStorage.items = []
       },
       valid: {
@@ -456,10 +457,8 @@ angular
 			$scope.msg = resp.data; 
 		}).catch(error => { })
 	}
-
 	$scope.checkout = function (){
 	  	for(i = 0; i < $localStorage.items.length; i++){
-			console.log($scope.amounts[i])
 			$localStorage.items[i].quantity = $scope.amounts[i];
 		}
 		var url = "http://localhost:8080/api/test/vnpaycheckout";

@@ -27,6 +27,6 @@ public class ProductDto implements Serializable{
     private Timestamp modifiedAt;
     private String modifiedBy;
     private Boolean actived;
-    private SubcategoryDto subcategory;
-    private BrandDto brand;
+
+
 }

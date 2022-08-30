@@ -33,7 +33,7 @@ public class RegistrationListener implements   ApplicationListener<OnRegistratio
 		SimpleMailMessage email = new SimpleMailMessage();
 		email.setTo(receiveEmail);
 		email.setSubject(subject);
-		email.setText(message + "\r\n" + "" + confirmationUrl);
+		email.setText(message + "\r\n" + "http://localhost:8080" + confirmationUrl);
 		mailSender.send(email);
 	
 	}
