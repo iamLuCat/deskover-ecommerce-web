@@ -5,6 +5,8 @@ import {GeneralReport, OrderReport, ProductReport} from "@/entites/statistical";
 import {ChartConfiguration} from "chart.js";
 import {BaseChartDirective} from "ng2-charts";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {PermissionContants} from "@/constants/permission-contants";
+import {AuthService} from "@services/auth.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -33,7 +35,7 @@ export class DashboardComponent {
 
   @ViewChildren(BaseChartDirective) charts: QueryList<BaseChartDirective>;
 
-  constructor(private dashboardService: DashboardService) {
+  constructor(private dashboardService: DashboardService, private authService: AuthService) {
     this.years = Array.from(Array((new Date().getFullYear() + 1) - 2020).keys()).map(i => i + 2020);
     this.year = new Date().getFullYear();
     this.month = new Date().getMonth() + 1;
@@ -159,5 +161,11 @@ export class DashboardComponent {
     this.charts.forEach((child) => {
       child.chart?.update()
     });
+  }
+
+  hasRoleAdmin() {
+    return this.authService.hasPermissions([
+      PermissionContants.ADMIN,
+    ]);
   }
 }

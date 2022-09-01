@@ -38,7 +38,7 @@ export class UsersComponent implements OnInit {
 
   dtOptions: any = {};
 
-  constructor(private userService: UserService, private uploadServive: UploadService, private authService: AuthService) {
+  constructor(private userService: UserService, private uploadService: UploadService, private authService: AuthService) {
     this.currentUser = this.authService.user;
     this.user = <User>{
       authority: <UserAuthority>{
@@ -178,7 +178,7 @@ export class UsersComponent implements OnInit {
 
   selectedImageChanged($event: Event) {
     const file = $event.target['files'][0];
-    this.uploadServive.uploadImage(file).subscribe(data => {
+    this.uploadService.uploadImage(file).subscribe(data => {
       this.user.avatar = data.filename;
       this.avatarPreview = `${environment.globalUrl.tempFolder}/${data.filename}`;
       $event.target['value'] = '';
