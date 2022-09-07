@@ -1,21 +1,22 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.AdminAuthority;
-import com.deskover.model.entity.database.AdminRole;
-import com.deskover.model.entity.database.Administrator;
-import com.deskover.model.entity.database.repository.AdminAuthorityReponsitory;
-import com.deskover.model.entity.database.repository.AdminRoleRepository;
-import com.deskover.model.entity.database.repository.AdministratorRepository;
-import com.deskover.model.entity.database.repository.datatable.AdminRepoForDatatables;
-import com.deskover.model.entity.dto.AdminCreateDto;
-import com.deskover.model.entity.dto.AdministratorDto;
-import com.deskover.model.entity.dto.ChangePasswordDto;
-import com.deskover.other.constant.PathConstant;
-import com.deskover.other.util.FileUtil;
-import com.deskover.other.util.MapperUtil;
+import com.deskover.constant.PathConstant;
+import com.deskover.dto.AdminCreateDto;
+import com.deskover.dto.AdministratorDto;
+import com.deskover.dto.ChangePasswordDto;
+import com.deskover.entity.AdminAuthority;
+import com.deskover.entity.AdminRole;
+import com.deskover.entity.Administrator;
+import com.deskover.reponsitory.AdminAuthorityReponsitory;
+import com.deskover.reponsitory.AdminRoleRepository;
+import com.deskover.reponsitory.AdministratorRepository;
+import com.deskover.reponsitory.datatable.AdminRepoForDatatables;
 import com.deskover.service.AdminAuthorityService;
 import com.deskover.service.AdminRoleService;
 import com.deskover.service.AdminService;
+import com.deskover.utils.FileUtil;
+import com.deskover.utils.MapperUtil;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

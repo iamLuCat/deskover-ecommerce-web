@@ -1,18 +1,19 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.FlashSale;
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.repository.FlashSaleRepository;
-import com.deskover.model.entity.database.repository.ProductRepository;
-import com.deskover.model.entity.database.repository.ProductThumbnailRepository;
-import com.deskover.model.entity.database.repository.datatable.ProductRepoForDatatables;
-import com.deskover.model.entity.dto.dashboard.OrderReport;
-import com.deskover.other.constant.PathConstant;
-import com.deskover.other.util.FileUtil;
+import com.deskover.constant.PathConstant;
+import com.deskover.dto.dashboard.OrderReport;
+import com.deskover.entity.FlashSale;
+import com.deskover.entity.Product;
+import com.deskover.reponsitory.FlashSaleRepository;
+import com.deskover.reponsitory.ProductRepository;
+import com.deskover.reponsitory.ProductThumbnailRepository;
+import com.deskover.reponsitory.datatable.ProductRepoForDatatables;
 import com.deskover.service.CategoryService;
 import com.deskover.service.FlashSaleService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
+import com.deskover.utils.FileUtil;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

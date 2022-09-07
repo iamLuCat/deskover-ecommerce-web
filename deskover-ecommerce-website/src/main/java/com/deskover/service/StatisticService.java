@@ -1,8 +1,8 @@
 package com.deskover.service;
 
-import com.deskover.model.entity.dto.TotalPrice;
-import com.deskover.model.entity.dto.dashboard.OrderReport;
-import com.deskover.model.entity.dto.dashboard.ProductReport;
+import com.deskover.dto.TotalPrice;
+import com.deskover.dto.dashboard.OrderReport;
+import com.deskover.dto.dashboard.ProductReport;
 
 import java.util.List;
 import java.util.Map;

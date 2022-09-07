@@ -2,10 +2,10 @@ package com.deskover.service;
 
 import org.springframework.http.ResponseEntity;
 
-import com.deskover.model.entity.database.UserPassword;
-import com.deskover.model.entity.database.Users;
-import com.deskover.model.entity.dto.ChangePasswordDto;
-import com.deskover.model.entity.dto.ecommerce.PasswordDTO;
+import com.deskover.dto.ChangePasswordDto;
+import com.deskover.dto.ecommerce.PasswordDTO;
+import com.deskover.entity.UserPassword;
+import com.deskover.entity.Users;
 
 public interface UserPasswordService {
 	UserPassword create(Users user,String password);

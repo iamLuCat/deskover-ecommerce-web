@@ -1,9 +1,9 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.Discount;
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.repository.DiscountRepository;
-import com.deskover.model.entity.database.repository.datatable.DiscountRepoForDatatables;
+import com.deskover.entity.Discount;
+import com.deskover.entity.Product;
+import com.deskover.reponsitory.DiscountRepository;
+import com.deskover.reponsitory.datatable.DiscountRepoForDatatables;
 import com.deskover.service.DiscountService;
 import com.deskover.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

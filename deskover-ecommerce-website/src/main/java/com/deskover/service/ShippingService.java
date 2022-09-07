@@ -2,7 +2,7 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.model.entity.database.ShippingMethods;
+import com.deskover.entity.ShippingMethods;
 
 public interface ShippingService {
 	List<ShippingMethods> getAll();

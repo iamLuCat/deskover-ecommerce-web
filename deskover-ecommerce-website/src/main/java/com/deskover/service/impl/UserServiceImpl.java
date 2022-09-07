@@ -20,20 +20,20 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.deskover.model.entity.database.UserPassword;
-import com.deskover.model.entity.database.Users;
-import com.deskover.model.entity.database.repository.UserRepository;
-import com.deskover.model.entity.database.repository.datatable.UserRepoForDatatables;
-import com.deskover.model.entity.dto.ChangePasswordDto;
-import com.deskover.model.entity.dto.UploadFile;
-import com.deskover.model.entity.dto.UserCreateDto;
-import com.deskover.model.entity.dto.ecommerce.AccountDTO;
-import com.deskover.model.entity.dto.ecommerce.AccountFormDTO;
-import com.deskover.other.constant.PathConstant;
-import com.deskover.other.util.OrderNumberUtil;
+import com.deskover.constant.PathConstant;
+import com.deskover.dto.ChangePasswordDto;
+import com.deskover.dto.UploadFile;
+import com.deskover.dto.UserCreateDto;
+import com.deskover.dto.ecommerce.AccountDTO;
+import com.deskover.dto.ecommerce.AccountFormDTO;
+import com.deskover.entity.UserPassword;
+import com.deskover.entity.Users;
+import com.deskover.reponsitory.UserRepository;
+import com.deskover.reponsitory.datatable.UserRepoForDatatables;
 import com.deskover.service.UploadFileService;
 import com.deskover.service.UserPasswordService;
 import com.deskover.service.UserService;
+import com.deskover.utils.OrderNumberUtil;
 
 @Service
 public class UserServiceImpl implements UserService {

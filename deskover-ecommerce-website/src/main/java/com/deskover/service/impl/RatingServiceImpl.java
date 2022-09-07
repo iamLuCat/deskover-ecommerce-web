@@ -1,9 +1,9 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.Rating;
-import com.deskover.model.entity.database.repository.ProductRepository;
-import com.deskover.model.entity.database.repository.RatingRepository;
-import com.deskover.model.entity.dto.ecommerce.FormReview;
+import com.deskover.dto.ecommerce.FormReview;
+import com.deskover.entity.Rating;
+import com.deskover.reponsitory.ProductRepository;
+import com.deskover.reponsitory.RatingRepository;
 import com.deskover.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

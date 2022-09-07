@@ -2,7 +2,7 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.model.entity.dto.ecommerce.WishlistDTO;
+import com.deskover.dto.ecommerce.WishlistDTO;
 
 public interface WishlistService {
 	List<String> setWishlist(String slug, String name);

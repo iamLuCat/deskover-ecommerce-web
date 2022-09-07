@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.model.entity.database.PaymentMethods;
-import com.deskover.model.entity.database.repository.PaymentRepository;
+import com.deskover.entity.PaymentMethods;
+import com.deskover.reponsitory.PaymentRepository;
 import com.deskover.service.PaymentService;
 
 @Service

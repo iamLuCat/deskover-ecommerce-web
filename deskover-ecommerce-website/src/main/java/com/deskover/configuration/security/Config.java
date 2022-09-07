@@ -1,11 +1,12 @@
 package com.deskover.configuration.security;
 
 import com.deskover.configuration.security.entrypoint.ApiAuthenticationEntryPoint;
-import com.deskover.other.util.JwtTokenUtil;
-import com.deskover.service.filter.jwt.JwtApplicationFilter;
-import com.deskover.service.filter.jwt.JwtDashboardFilter;
-import com.deskover.service.jwt.AdminDetailsService;
-import com.deskover.service.jwt.UsersDetailsService;
+import com.deskover.configuration.userdetail.AdminDetailsService;
+import com.deskover.configuration.userdetail.UsersDetailsService;
+import com.deskover.filter.JwtApplicationFilter;
+import com.deskover.filter.JwtDashboardFilter;
+import com.deskover.utils.JwtTokenUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

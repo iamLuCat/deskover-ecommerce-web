@@ -7,12 +7,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.deskover.model.entity.database.Cart;
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.Users;
-import com.deskover.model.entity.database.repository.CartRepository;
-import com.deskover.model.entity.database.repository.UserRepository;
-
+import com.deskover.entity.Cart;
+import com.deskover.entity.Product;
+import com.deskover.entity.Users;
+import com.deskover.reponsitory.CartRepository;
+import com.deskover.reponsitory.UserRepository;
 import com.deskover.service.CartService;
 import com.deskover.service.ProductService;
 

@@ -1,6 +1,6 @@
 package com.deskover.service;
 
-import com.deskover.model.entity.database.StatusPayment;
+import com.deskover.entity.StatusPayment;
 
 public interface StatusPaymentService {
 	StatusPayment findByCode(String code);

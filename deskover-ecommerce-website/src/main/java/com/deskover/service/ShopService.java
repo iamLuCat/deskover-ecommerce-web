@@ -2,17 +2,17 @@ package com.deskover.service;
 
 import java.util.List;
 
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.dto.ecommerce.BrandDTO;
-import com.deskover.model.entity.dto.ecommerce.CartLocal;
-import com.deskover.model.entity.dto.ecommerce.Filter;
-import com.deskover.model.entity.dto.ecommerce.Item;
-import com.deskover.model.entity.dto.ecommerce.OrderDetailDTO;
-import com.deskover.model.entity.dto.ecommerce.OrderPage;
-import com.deskover.model.entity.dto.ecommerce.ProductDTO;
-import com.deskover.model.entity.dto.ecommerce.ProductSaleDTO;
-import com.deskover.model.entity.dto.ecommerce.Reviewer;
-import com.deskover.model.entity.dto.ecommerce.Shop;
+import com.deskover.dto.ecommerce.BrandDTO;
+import com.deskover.dto.ecommerce.CartLocal;
+import com.deskover.dto.ecommerce.Filter;
+import com.deskover.dto.ecommerce.Item;
+import com.deskover.dto.ecommerce.OrderDetailDTO;
+import com.deskover.dto.ecommerce.OrderPage;
+import com.deskover.dto.ecommerce.ProductDTO;
+import com.deskover.dto.ecommerce.ProductSaleDTO;
+import com.deskover.dto.ecommerce.Reviewer;
+import com.deskover.dto.ecommerce.Shop;
+import com.deskover.entity.Product;
 import com.deskover.service.impl.CartDTO;
 
 public interface ShopService {

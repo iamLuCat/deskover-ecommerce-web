@@ -1,7 +1,8 @@
 package com.deskover.service;
 
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.dto.dashboard.OrderReport;
+import com.deskover.dto.dashboard.OrderReport;
+import com.deskover.entity.Product;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;

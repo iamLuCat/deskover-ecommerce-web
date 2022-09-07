@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.deskover.model.entity.database.Notification;
-import com.deskover.model.entity.database.repository.NotificationRepository;
+import com.deskover.entity.Notification;
+import com.deskover.reponsitory.NotificationRepository;
 import com.deskover.service.NotificationService;
 
 @Service

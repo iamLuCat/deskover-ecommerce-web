@@ -1,18 +1,19 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.Order;
-import com.deskover.model.entity.database.repository.OrderRepository;
-import com.deskover.model.entity.extend.ghtk.FeeGhtk;
-import com.deskover.model.entity.extend.ghtk.OrderGhtk;
-import com.deskover.model.entity.extend.ghtk.ProductsGhtk;
-import com.deskover.model.entity.extend.ghtk.response.AddressResponseData;
-import com.deskover.model.entity.extend.ghtk.response.FeeResponseData;
-import com.deskover.model.entity.extend.ghtk.response.OrderResponseData;
-import com.deskover.model.entity.extend.ghtk.resquest.OrderShippingRequest;
-import com.deskover.other.constant.UrlConstant;
-import com.deskover.other.util.MapperUtil;
+import com.deskover.constant.UrlConstant;
+import com.deskover.dto.ghtk.FeeGhtk;
+import com.deskover.dto.ghtk.OrderGhtk;
+import com.deskover.dto.ghtk.ProductsGhtk;
+import com.deskover.dto.ghtk.request.OrderShippingRequest;
+import com.deskover.dto.ghtk.response.AddressResponseData;
+import com.deskover.dto.ghtk.response.FeeResponseData;
+import com.deskover.dto.ghtk.response.OrderResponseData;
+import com.deskover.entity.Order;
+import com.deskover.reponsitory.OrderRepository;
 import com.deskover.service.GHTKService;
 import com.deskover.service.OrderStatusService;
+import com.deskover.utils.MapperUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

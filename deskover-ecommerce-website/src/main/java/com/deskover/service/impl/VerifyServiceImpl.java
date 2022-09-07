@@ -9,9 +9,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.model.entity.database.Users;
-import com.deskover.model.entity.database.Verify;
-import com.deskover.model.entity.database.repository.VerifyRepository;
+import com.deskover.entity.Users;
+import com.deskover.entity.Verify;
+import com.deskover.reponsitory.VerifyRepository;
 import com.deskover.service.VerifyService;
 
 @Service

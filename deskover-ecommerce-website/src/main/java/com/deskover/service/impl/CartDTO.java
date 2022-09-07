@@ -1,6 +1,6 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.dto.ecommerce.Item;
+import com.deskover.dto.ecommerce.Item;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,10 +1,11 @@
 package com.deskover.service;
 
-import com.deskover.model.entity.database.AdminRole;
-import com.deskover.model.entity.database.Administrator;
-import com.deskover.model.entity.dto.AdminCreateDto;
-import com.deskover.model.entity.dto.AdministratorDto;
-import com.deskover.model.entity.dto.ChangePasswordDto;
+import com.deskover.dto.AdminCreateDto;
+import com.deskover.dto.AdministratorDto;
+import com.deskover.dto.ChangePasswordDto;
+import com.deskover.entity.AdminRole;
+import com.deskover.entity.Administrator;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;

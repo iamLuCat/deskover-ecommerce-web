@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.model.entity.database.District;
-import com.deskover.model.entity.database.repository.DistrictReponsitory;
+import com.deskover.entity.District;
+import com.deskover.reponsitory.DistrictReponsitory;
 import com.deskover.service.DistrictService;
 
 @Service

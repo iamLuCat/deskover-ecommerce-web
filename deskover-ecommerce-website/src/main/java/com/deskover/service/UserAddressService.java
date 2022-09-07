@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.deskover.model.entity.database.UserAddress;
+import com.deskover.entity.UserAddress;
 
 public interface UserAddressService {
 	List<UserAddress> findByUsername();

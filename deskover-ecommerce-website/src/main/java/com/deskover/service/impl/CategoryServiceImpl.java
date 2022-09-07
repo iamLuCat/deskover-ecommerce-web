@@ -1,14 +1,15 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.Category;
-import com.deskover.model.entity.database.Subcategory;
-import com.deskover.model.entity.database.repository.CategoryRepository;
-import com.deskover.model.entity.database.repository.datatable.CategoryRepoForDatatables;
-import com.deskover.other.constant.PathConstant;
-import com.deskover.other.util.FileUtil;
+import com.deskover.constant.PathConstant;
+import com.deskover.entity.Category;
+import com.deskover.entity.Subcategory;
+import com.deskover.reponsitory.CategoryRepository;
+import com.deskover.reponsitory.datatable.CategoryRepoForDatatables;
 import com.deskover.service.CategoryService;
 import com.deskover.service.ProductService;
 import com.deskover.service.SubcategoryService;
+import com.deskover.utils.FileUtil;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

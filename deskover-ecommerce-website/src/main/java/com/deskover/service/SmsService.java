@@ -1,7 +1,7 @@
 package com.deskover.service;
 
-import com.deskover.model.entity.dto.SmsPojoDto;
-import com.deskover.model.entity.dto.StoreOTPDto;
+import com.deskover.dto.SmsPojoDto;
+import com.deskover.dto.StoreOTPDto;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;

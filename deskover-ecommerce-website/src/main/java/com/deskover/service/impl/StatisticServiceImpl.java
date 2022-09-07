@@ -1,10 +1,10 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.repository.OrderItemRepository;
-import com.deskover.model.entity.database.repository.UserRepository;
-import com.deskover.model.entity.dto.TotalPrice;
-import com.deskover.model.entity.dto.dashboard.OrderReport;
-import com.deskover.model.entity.dto.dashboard.ProductReport;
+import com.deskover.dto.TotalPrice;
+import com.deskover.dto.dashboard.OrderReport;
+import com.deskover.dto.dashboard.ProductReport;
+import com.deskover.reponsitory.OrderItemRepository;
+import com.deskover.reponsitory.UserRepository;
 import com.deskover.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.model.entity.database.Ward;
-import com.deskover.model.entity.database.repository.WardReponsitory;
+import com.deskover.entity.Ward;
+import com.deskover.reponsitory.WardReponsitory;
 import com.deskover.service.WardService;
 
 @Service

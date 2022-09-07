@@ -5,11 +5,11 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.deskover.model.entity.database.Users;
-import com.deskover.model.entity.dto.ChangePasswordDto;
-import com.deskover.model.entity.dto.UserCreateDto;
-import com.deskover.model.entity.dto.ecommerce.AccountDTO;
-import com.deskover.model.entity.dto.ecommerce.AccountFormDTO;
+import com.deskover.dto.ChangePasswordDto;
+import com.deskover.dto.UserCreateDto;
+import com.deskover.dto.ecommerce.AccountDTO;
+import com.deskover.dto.ecommerce.AccountFormDTO;
+import com.deskover.entity.Users;
 
 public interface UserService {
 	 Users findById(Long id);

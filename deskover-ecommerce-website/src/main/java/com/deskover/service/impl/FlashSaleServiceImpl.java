@@ -1,9 +1,9 @@
 package com.deskover.service.impl;
 
-import com.deskover.model.entity.database.FlashSale;
-import com.deskover.model.entity.database.Product;
-import com.deskover.model.entity.database.repository.FlashSaleRepository;
-import com.deskover.model.entity.database.repository.datatable.FlashSaleRepoForDatatables;
+import com.deskover.entity.FlashSale;
+import com.deskover.entity.Product;
+import com.deskover.reponsitory.FlashSaleRepository;
+import com.deskover.reponsitory.datatable.FlashSaleRepoForDatatables;
 import com.deskover.service.FlashSaleService;
 import com.deskover.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

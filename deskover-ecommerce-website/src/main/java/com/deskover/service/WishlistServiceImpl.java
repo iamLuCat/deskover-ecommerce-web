@@ -10,11 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import com.deskover.model.entity.database.Wishlist;
-import com.deskover.model.entity.database.repository.ProductRepository;
-import com.deskover.model.entity.database.repository.UserRepository;
-import com.deskover.model.entity.database.repository.WishlistRepository;
-import com.deskover.model.entity.dto.ecommerce.WishlistDTO;
+import com.deskover.dto.ecommerce.WishlistDTO;
+import com.deskover.entity.Wishlist;
+import com.deskover.reponsitory.ProductRepository;
+import com.deskover.reponsitory.UserRepository;
+import com.deskover.reponsitory.WishlistRepository;
 
 @Component
 public class WishlistServiceImpl implements WishlistService {

@@ -1,6 +1,6 @@
 package com.deskover.service;
 
-import com.deskover.model.entity.dto.ecommerce.FormReview;
+import com.deskover.dto.ecommerce.FormReview;
 
 public interface RatingService {
 	public void postReview(FormReview formReview);

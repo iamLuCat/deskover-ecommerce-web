@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.deskover.model.entity.database.ShippingMethods;
-import com.deskover.model.entity.database.repository.ShippingRepository;
+import com.deskover.entity.ShippingMethods;
+import com.deskover.reponsitory.ShippingRepository;
 import com.deskover.service.ShippingService;
 
 @Service

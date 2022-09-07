@@ -2,7 +2,7 @@ package com.deskover.service;
 
 import java.util.Set;
 
-import com.deskover.model.entity.database.AdminAuthority;
+import com.deskover.entity.AdminAuthority;
 
 public interface AdminAuthorityService {
 	Set<AdminAuthority> getByAdminId(Long id);

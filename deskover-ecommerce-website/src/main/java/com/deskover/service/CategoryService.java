@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
-import com.deskover.model.entity.database.Category;
+import com.deskover.entity.Category;
 
 public interface CategoryService {
 	// Check if the slug is already in use by another category
