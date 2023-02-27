@@ -19,7 +19,8 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 	// Tổng số lượng hàng đã bán theo danh mục
 	@Query(value = "select new OrderReport(oi.product.subCategory, sum(oi.quantity)) " +
 			"from OrderItem oi " +
-			"where oi.order.orderStatus.code = 'GH-TC'")
+			"where oi.order.orderStatus.code = 'GH-TC' " +
+			"group by oi.product.subCategory")
 	List<OrderReport> getQuantityProductSoldBySubcategory();
 
 	// Top 5 sản phẩm bán chạy nhất
